@@ -153,9 +153,6 @@ inline fun vkDestroySemaphores(device: VkDevice, semaphores: VkSemaphoreBuffer) 
 inline fun vkDestroyBuffer(device: VkDevice, buffer: VkBuffer) = VK10.nvkDestroyBuffer(device, buffer, NULL)
 
 
-val FloatBuffer.adr get() = MemoryUtil.memAddress(this)
-val IntBuffer.adr get() = MemoryUtil.memAddress(this)
-
 inline val Pointer.adr get() = address()
 
 
