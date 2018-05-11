@@ -486,3 +486,5 @@ fun main(args: Array<String>) {
         list += annotated[i] ?: plain[plainIdx++]
     println(list)
 }
+
+typealias VkDebugReportCallbackFunc = (VkDebugReportFlagsEXT, VkDebugReportObjectType, Long, Long, Int, String, String, Any?) -> Boolean

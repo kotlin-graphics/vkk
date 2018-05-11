@@ -8,7 +8,6 @@ import org.lwjgl.PointerBuffer
 import org.lwjgl.system.MemoryUtil.*
 import org.lwjgl.system.Pointer
 import org.lwjgl.vulkan.*
-import vkn.*
 import java.nio.ByteBuffer
 import java.nio.FloatBuffer
 import kotlin.reflect.KMutableProperty0

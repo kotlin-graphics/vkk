@@ -10,7 +10,6 @@ import org.lwjgl.vulkan.*
 import org.lwjgl.vulkan.VK10.VK_QUEUE_FAMILY_IGNORED
 import vkk.VkPhysicalDeviceArrayList.resize
 import vkk.appBuffer.ptr
-import vkn.*
 import java.nio.ByteBuffer
 import java.nio.LongBuffer
 import kotlin.reflect.KMutableProperty0

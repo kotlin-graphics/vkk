@@ -41,7 +41,6 @@
     <orderEntry type="library" name="Gradle: com.github.kotlin-graphics:kotlin-unsigned:1a060d87adc12a53ad1e16f08489bb4924b9c036" level="project" />
     <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib:1.2.41" level="project" />
     <orderEntry type="library" name="Gradle: org.lwjgl:lwjgl-jemalloc:3.1.7-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Gradle: org.lwjgl:lwjgl-jemalloc:3.1.7-SNAPSHOT:natives-windows" level="project" />
     <orderEntry type="library" name="Gradle: org.lwjgl:lwjgl-jemalloc:3.1.7-SNAPSHOT:natives-linux" level="project" />
     <orderEntry type="library" name="Gradle: org.lwjgl:lwjgl-vulkan:3.1.7-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Gradle: org.lwjgl:lwjgl-glfw:3.1.7-SNAPSHOT" level="project" />
@@ -53,11 +52,14 @@
     <orderEntry type="library" name="Gradle: org.lwjgl:lwjgl-stb:3.1.7-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Gradle: org.lwjgl:lwjgl-stb:3.1.7-SNAPSHOT:natives-linux" level="project" />
     <orderEntry type="library" name="Gradle: org.lwjgl:lwjgl:3.1.7-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Gradle: org.lwjgl:lwjgl:3.1.7-SNAPSHOT:natives-windows" level="project" />
     <orderEntry type="library" name="Gradle: org.lwjgl:lwjgl:3.1.7-SNAPSHOT:natives-linux" level="project" />
     <orderEntry type="library" name="Gradle: graphics.scenery:spirvcrossj:0.4.0" level="project" />
     <orderEntry type="library" name="Gradle: org.jetbrains:annotations:13.0" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.lwjgl:lwjgl-jemalloc:3.1.7-SNAPSHOT:natives-windows" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.lwjgl:lwjgl:3.1.7-SNAPSHOT:natives-windows" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: graphics.scenery:spirvcrossj:0.4.0:natives-windows" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.lwjgl:lwjgl-jemalloc:3.1.7-SNAPSHOT:natives-windows" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.lwjgl:lwjgl:3.1.7-SNAPSHOT:natives-windows" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: graphics.scenery:spirvcrossj:0.4.0:natives-windows" level="project" />
   </component>
 </module>

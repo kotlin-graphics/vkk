@@ -11,7 +11,6 @@ import glm_.vec4.Vec4
 import org.lwjgl.PointerBuffer
 import org.lwjgl.system.MemoryUtil.*
 import org.lwjgl.vulkan.*
-import vkn.*
 import java.nio.ByteBuffer
 import java.nio.FloatBuffer
 import java.nio.IntBuffer
