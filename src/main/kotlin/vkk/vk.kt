@@ -225,10 +225,11 @@ object vk {
 
     inline fun MappedMemoryRange(capacity: Int): VkMappedMemoryRange.Buffer {
         return VkMappedMemoryRange.create(ptr.advance(VkMappedMemoryRange.SIZEOF * capacity), capacity).apply {
-            for(range in this)
+            for (range in this)
                 range.type = VkStructureType.MAPPED_MEMORY_RANGE
         }
     }
+
     inline fun MappedMemoryRange(block: VkMappedMemoryRange.() -> Unit): VkMappedMemoryRange {
         return MappedMemoryRange().also(block)
     }
@@ -365,6 +366,7 @@ object vk {
             type = VkStructureType.RENDER_PASS_CREATE_INFO
         }
     }
+
     inline fun RenderPassCreateInfo(block: VkRenderPassCreateInfo.() -> Unit): VkRenderPassCreateInfo {
         return RenderPassCreateInfo().also(block)
     }
@@ -442,7 +444,8 @@ object vk {
     inline fun AttachmentDescription(capacity: Int): VkAttachmentDescription.Buffer = VkAttachmentDescription.create(ptr.advance(VkAttachmentDescription.SIZEOF * capacity), capacity)
     inline fun AttachmentDescription(block: VkAttachmentDescription.() -> Unit): VkAttachmentDescription = AttachmentDescription().also(block)
 
-    inline fun AttachmentReference(block: VkAttachmentReference.() -> Unit): VkAttachmentReference = VkAttachmentReference.create(ptr.advance(VkAttachmentReference.SIZEOF)).also(block)
+    inline fun AttachmentReference(): VkAttachmentReference = VkAttachmentReference.create(ptr.advance(VkAttachmentReference.SIZEOF))
+    inline fun AttachmentReference(block: VkAttachmentReference.() -> Unit): VkAttachmentReference = AttachmentReference().also(block)
     inline fun AttachmentReference(capacity: Int): VkAttachmentReference.Buffer = VkAttachmentReference.create(ptr.advance(VkAttachmentReference.SIZEOF * capacity), capacity)
     inline fun AttachmentReference(capacity: Int, block: VkAttachmentReference.() -> Unit): VkAttachmentReference.Buffer = AttachmentReference(capacity).also { it[0].block() }
 
@@ -529,6 +532,58 @@ object vk {
     /*
         Function Constructors
      */
+
+    inline fun AttachmentReference(attachment: Int, layout: VkImageLayout): VkAttachmentReference {
+        return AttachmentReference().attachment(attachment).layout(layout.i)
+    }
+
+    inline fun AttachmentReference(
+            attachment0: Int, layout0: VkImageLayout,
+            attachment1: Int, layout1: VkImageLayout): VkAttachmentReference.Buffer {
+        return AttachmentReference(2).also {
+            it[0].attachment(attachment0).layout(layout0.i)
+            it[1].attachment(attachment1).layout(layout1.i)
+        }
+    }
+
+    inline fun AttachmentReference(
+            attachment0: Int, layout0: VkImageLayout,
+            attachment1: Int, layout1: VkImageLayout,
+            attachment2: Int, layout2: VkImageLayout): VkAttachmentReference.Buffer {
+        return AttachmentReference(3).also {
+            it[0].attachment(attachment0).layout(layout0.i)
+            it[1].attachment(attachment1).layout(layout1.i)
+            it[2].attachment(attachment2).layout(layout2.i)
+        }
+    }
+
+    inline fun AttachmentReference(
+            attachment0: Int, layout0: VkImageLayout,
+            attachment1: Int, layout1: VkImageLayout,
+            attachment2: Int, layout2: VkImageLayout,
+            attachment3: Int, layout3: VkImageLayout): VkAttachmentReference.Buffer {
+        return AttachmentReference(4).also {
+            it[0].attachment(attachment0).layout(layout0.i)
+            it[1].attachment(attachment1).layout(layout1.i)
+            it[2].attachment(attachment2).layout(layout2.i)
+            it[3].attachment(attachment3).layout(layout3.i)
+        }
+    }
+
+    inline fun AttachmentReference(
+            attachment0: Int, layout0: VkImageLayout,
+            attachment1: Int, layout1: VkImageLayout,
+            attachment2: Int, layout2: VkImageLayout,
+            attachment3: Int, layout3: VkImageLayout,
+            attachment4: Int, layout4: VkImageLayout): VkAttachmentReference.Buffer {
+        return AttachmentReference(5).also {
+            it[0].attachment(attachment0).layout(layout0.i)
+            it[1].attachment(attachment1).layout(layout1.i)
+            it[2].attachment(attachment2).layout(layout2.i)
+            it[3].attachment(attachment3).layout(layout3.i)
+            it[4].attachment(attachment4).layout(layout4.i)
+        }
+    }
 
     inline fun ComputePipelineCreateInfo(layout: VkPipelineLayout, flags: VkPipelineCreateFlags = 0): VkComputePipelineCreateInfo {
         return ComputePipelineCreateInfo {
