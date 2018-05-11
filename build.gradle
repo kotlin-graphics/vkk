@@ -54,7 +54,8 @@ dependencies {
     }
     ["", "-glfw", "-jemalloc", "-openal", "-opengl", "-stb", "-vulkan"].each {
         implementation "org.lwjgl:lwjgl$it:$lwjglVersion"
-        runtime "org.lwjgl:lwjgl$it:$lwjglVersion:$lwjglNatives"
+        if (it != "-vulkan")
+            runtime "org.lwjgl:lwjgl$it:$lwjglVersion:$lwjglNatives"
     }
 
     ext.spirvCross = "graphics.scenery:spirvcrossj:0.4.0"
