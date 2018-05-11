@@ -52,7 +52,7 @@ dependencies {
             ext.lwjglNatives = "natives-macos"
             break
     }
-    ["", "-jemalloc", "-vulkan"].each {
+    ["", "-glfw", "-jemalloc", "-openal", "-opengl", "-stb", "-vulkan"].each {
         implementation "org.lwjgl:lwjgl$it:$lwjglVersion"
         runtime "org.lwjgl:lwjgl$it:$lwjglVersion:$lwjglNatives"
     }
