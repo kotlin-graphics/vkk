@@ -1,0 +1,85 @@
+import org.gradle.internal.os.OperatingSystem
+
+apply plugin: 'java'
+apply plugin: 'kotlin'
+
+// jitpack
+apply plugin: 'maven'
+group = 'com.github.kotlin-graphics'
+
+apply plugin: 'com.github.johnrengelman.shadow'
+
+buildscript {
+
+    ext.kotlinVersion = '1.2.41'
+
+    repositories {
+        jcenter()   // shadow
+        mavenCentral()
+        maven { setUrl("https://dl.bintray.com/kotlin/kotlin-eap") }
+        maven { setUrl("https://oss.sonatype.org/content/repositories/snapshots/") }
+    }
+
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+        classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.3'
+        classpath "org.junit.platform:junit-platform-gradle-plugin:1.1.0"
+    }
+}
+
+
+dependencies {
+
+    ext.kotlin = "org.jetbrains.kotlin:kotlin"
+    implementation "$kotlin-stdlib:$kotlinVersion"
+    implementation "$kotlin-reflect:$kotlinVersion"
+
+    ext.kx = "com.github.kotlin-graphics"
+    implementation "$kx:gli:e486e385dfea7707b682a43f9ce8810b1be73506"
+    implementation "$kx:glm:738c60621c18939ad6093a13cddfe158344edbbe"
+
+    //testCompile 'io.kotlintest:kotlintest-runner-junit5:3.0.6'
+
+    ext.lwjglVersion = "3.1.7-SNAPSHOT"
+    switch (OperatingSystem.current()) {
+        case OperatingSystem.WINDOWS:
+            ext.lwjglNatives = "natives-windows"
+            break
+        case OperatingSystem.LINUX:
+            ext.lwjglNatives = "natives-linux"
+            break
+        case OperatingSystem.MAC_OS:
+            ext.lwjglNatives = "natives-macos"
+            break
+    }
+    ["", "-jemalloc", "-vulkan"].each {
+        implementation "org.lwjgl:lwjgl$it:$lwjglVersion"
+        implementation "org.lwjgl:lwjgl$it:$lwjglVersion:$lwjglNatives"
+    }
+
+    ext.spirvCross = "graphics.scenery:spirvcrossj:0.4.0"
+    implementation spirvCross
+    runtime "$spirvCross:$lwjglNatives"
+}
+
+repositories {
+    mavenCentral()
+    maven { setUrl("https://dl.bintray.com/kotlin/kotlin-eap") }
+    maven { setUrl("https://oss.sonatype.org/content/repositories/snapshots/") }
+    maven { setUrl('https://jitpack.io') }
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}
