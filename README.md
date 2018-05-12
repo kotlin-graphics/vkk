@@ -12,9 +12,9 @@ VK² can be obtained by adding the following lines in your `build.gradle`:
 
       allprojects {
           repositories {
-	      ...
-	      maven { url 'https://jitpack.io' }
-	  }
+              ...
+              maven { url 'https://jitpack.io' }
+          }
       }
 
 - Step 2. Add the dependency:
