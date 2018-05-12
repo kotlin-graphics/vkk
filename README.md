@@ -50,33 +50,44 @@ This is one case where Kotlin really shines: VK² declares a class for all handl
 All flags masks have been `typealias`ed accordingly. For example a field of type `VkBufferUsageFlags` means that it represents a mask from the `VkBufferUsage.` enum.
 The postfix `Flag` has been eliminated from the enum name for conciseness matter. However, it has been kept for some special cases, such as `VkQueueFlag`, to avoid clashes with existing other structures, in this case the `VkQueue` class for example.
 
-### CreateInfo structs
+### CreateInfo structs and appBuffer
 
-When constructing a handle in Vulkan one usually has to create some `CreateInfo` struct which describes the new handle. This can result in quite lengthy code as can be seen in the following Vulkan C example:
+When constructing a handle in Vulkan one usually has to create some `CreateInfo` struct which describes the new handle. Moreover, allocation has to be handled manually and everywhere C code uses pointers, we have to use buffers on the JVM. 
+This can result in quite lengthy code as can be seen in the following Vulkan example:
 
 ```kotlin
-val info = vk.ImageCreateInfo {
-    type = Vk.StructureType.IMAGE_CREATE_INFO
-    next = null
-    flags = ...some flags...
-    imageType = VkImageType.`2D`
-    format = VkFormat.R8G8B8A8_UNORM
-    extent(size, 1)
-    mipLevels = 1
-    arrayLayers = 1
-    samples = VkSampleCount.`1_BIT`
-    tiling = VkImageTiling.OPTIMAL
-    usage = VkImageUsage.COLOR_ATTACHMENT_BIT.i
-    sharingMode = VkSharingMode.EXCLUSIVE
-    queueFamilyIndices = null
-    initialLayout = VkImageLayout.UNDEFINED
-}
-image = device createImage info
+val info = VkImageCreateInfo.calloc()
+    .sType(VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO)
+    .pNext(null)
+    .flags(...some flags...)
+    .imageType(VK_IMAGE_TYPE_2D)
+    .format(VK_FORMAT_R8G8B8A8_UNORM)
+info.extent
+    .width(size.x)
+    .height(size.y)
+    .depth(1)
+info
+    .mipLevels(1)
+    .arrayLayers(1)
+    .samples(VK_SAMPLE_COUNT_1_BIT)
+    .tiling(VK_IMAGE_TILING_OPTIMAL)
+    .usage(VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT)
+    .sharingMode(VK_SHARING_MODE_EXCLUSIVE)
+    .pQueueFamilyIndices(null)
+    .initialLayout(VK_IMAGE_LAYOUT_UNDEFINED)
+val pImage = MemoryUtil.memAllocLong(1)
+vkCreateImage(device, info, allocator, pImage)
+image = pImage.get(0)
+info.free()
+memFree(pImage)
 ```
 
 One typical issue Vulkan developers encounter when filling out a CreateInfo struct field by field is that `sType` is incorrect.
 
-VK² provides constructors for all CreateInfo objects (and others) where `sType` is automatically filled with the correct value and `pNext` set to a `nullptr` by default. Here's how the same code looks with a constructor:
+VK² provides constructors for all CreateInfo objects (and others) where `sType` is automatically filled with the correct value and `pNext` set to a `nullptr` by default. All other field are also initialized to zero. There are exceptions though.
+Moreover, all the allocations takes place in a special buffer that is cleared every refresh and resize.
+VK² provides also special method accepting glm classes, like `extent` accepting a `(Vec3i)` or `(Vec2i, Int)`.
+Here's how the same code looks with a constructor:
 
 ```kotlin
 val info = vk.ImageCreateInfo {
@@ -91,6 +102,7 @@ val info = vk.ImageCreateInfo {
     usage = VkImageUsage.COLOR_ATTACHMENT_BIT.i
     sharingMode = VkSharingMode.EXCLUSIVE
 }
+image = device createImage info
 ```
 
 TODO
