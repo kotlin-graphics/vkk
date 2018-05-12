@@ -10,12 +10,12 @@ VK² can be obtained by adding the following lines in your `build.gradle`:
 
 - Step 1. Add the JitPack repository to your build file at the end of repositories:
 
-  	allprojects {
-	  	repositories {
-		  	...
-			  maven { url 'https://jitpack.io' }
-		  }
+      allprojects {
+          repositories {
+	      ...
+	      maven { url 'https://jitpack.io' }
 	  }
+      }
 
 - Step 2. Add the dependency:
 
