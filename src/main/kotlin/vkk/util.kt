@@ -20,10 +20,7 @@ import org.lwjgl.system.MemoryUtil.*
 import org.lwjgl.system.Pointer
 import org.lwjgl.system.Struct
 import org.lwjgl.system.StructBuffer
-import org.lwjgl.vulkan.VK10
-import org.lwjgl.vulkan.VkDevice
-import org.lwjgl.vulkan.VkExtent2D
-import org.lwjgl.vulkan.VkPhysicalDevice
+import org.lwjgl.vulkan.*
 import vkk.appBuffer.ptr
 import java.nio.ByteBuffer
 import java.nio.FloatBuffer
@@ -485,3 +482,7 @@ fun main(args: Array<String>) {
 }
 
 typealias VkDebugReportCallbackFunc = (VkDebugReportFlagsEXT, VkDebugReportObjectType, Long, Long, Int, String, String, Any?) -> Boolean
+
+inline operator fun VkAttachmentReference.invoke(attachment: Int, layout: VkImageLayout): VkAttachmentReference {
+    return attachment(attachment).layout(layout.i)
+}
