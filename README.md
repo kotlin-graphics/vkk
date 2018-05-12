@@ -62,11 +62,11 @@ val info = VkImageCreateInfo.calloc()
     .flags(...some flags...)
     .imageType(VK_IMAGE_TYPE_2D)
     .format(VK_FORMAT_R8G8B8A8_UNORM)
-info.extent
-    .width(size.x)
-    .height(size.y)
-    .depth(1)
-info
+    .extent().apply {
+        .width(size.x)
+        .height(size.y)
+        .depth(1)
+    }
     .mipLevels(1)
     .arrayLayers(1)
     .samples(VK_SAMPLE_COUNT_1_BIT)
