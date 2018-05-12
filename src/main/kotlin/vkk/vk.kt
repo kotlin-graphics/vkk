@@ -8,6 +8,7 @@ import org.lwjgl.system.Pointer
 import org.lwjgl.system.Struct
 import org.lwjgl.vulkan.*
 import org.lwjgl.vulkan.VK10.VK_QUEUE_FAMILY_IGNORED
+import org.lwjgl.vulkan.VK10.vkCreateImage
 import vkk.VkPhysicalDeviceArrayList.resize
 import vkk.appBuffer.ptr
 import java.nio.ByteBuffer
@@ -509,7 +510,7 @@ object vk {
     inline fun SubpassDependency(block: VkSubpassDependency.() -> Unit): VkSubpassDependency = SubpassDependency().also(block)
 
     inline fun SubpassDescription(block: VkSubpassDescription.() -> Unit): VkSubpassDescription = VkSubpassDescription.create(ptr.advance(VkSubpassDescription.SIZEOF)).also(block)
-    inline fun SubpassDescription(capacity: Int, block: VkSubpassDescription.() -> Unit): VkSubpassDescription.Buffer = VkSubpassDescription.create(ptr.advance(VkSubpassDescription.SIZEOF * capacity), capacity).also { it[0].block() }
+    inline fun SubpassDescription(capacity: Int): VkSubpassDescription.Buffer = VkSubpassDescription.create(ptr.advance(VkSubpassDescription.SIZEOF * capacity), capacity)
 
     inline fun SubresourceLayout(): VkSubresourceLayout = VkSubresourceLayout.create(ptr.advance(VkSubresourceLayout.SIZEOF))
     inline fun SubresourceLayout(capacity: Int, block: VkSubresourceLayout.() -> Unit): VkSubresourceLayout.Buffer = VkSubresourceLayout.create(ptr.advance(VkSubresourceLayout.SIZEOF * capacity), capacity).also { it[0].block() }

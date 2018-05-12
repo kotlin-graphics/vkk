@@ -1140,6 +1140,7 @@ enum class VkImageUsage(val i: Int) {
 }
 
 inline infix fun Int.or(b: VkImageUsage): VkImageUsageFlags = or(b.i)
+inline infix fun Int.has(b: VkImageUsage): Boolean = and(b.i) != 0
 inline infix fun Int.hasnt(b: VkImageUsage): Boolean = and(b.i) == 0
 
 typealias VkImageUsageFlags = VkFlags
