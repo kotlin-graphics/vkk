@@ -534,6 +534,10 @@ object vk {
         Function Constructors
      */
 
+    inline operator fun VkAttachmentReference.invoke(attachment: Int, layout: VkImageLayout): VkAttachmentReference {
+        return attachment(attachment).layout(layout.i)
+    }
+
     inline fun AttachmentReference(attachment: Int, layout: VkImageLayout): VkAttachmentReference {
         return AttachmentReference().attachment(attachment).layout(layout.i)
     }
