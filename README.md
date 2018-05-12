@@ -20,5 +20,5 @@ VK² can be obtained by adding the following lines in your `build.gradle`:
 - Step 2. Add the dependency:
 
 	  dependencies {
-	          implementation 'com.github.kotlin-graphics:vkk:-SNAPSHOT'
+	      implementation 'com.github.kotlin-graphics:vkk:-SNAPSHOT'
 	  }
