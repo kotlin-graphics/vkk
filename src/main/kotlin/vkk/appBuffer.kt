@@ -48,8 +48,12 @@ object appBuffer {
         return MemoryUtil.memPointerBuffer(ptr.advance(size), capacity)
     }
 
+    inline val byte get() = ptr.advance(Byte.BYTES)
+    inline val short get() = ptr.advance(Short.BYTES)
     inline val int get() = ptr.advance(Int.BYTES)
     inline val long get() = ptr.advance(Long.BYTES)
+    inline val float get() = ptr.advance(Float.BYTES)
+    inline val double get() = ptr.advance(Double.BYTES)
     inline val pointer get() = ptr.advance(Pointer.POINTER_SIZE)
 //    inline val int get() = pointer.getAndAdd(Int.BYTES)
 
@@ -182,7 +186,7 @@ object appBuffer {
     // TODO decide if keep
     inline fun dynamicStatesOf(vararg dynamicStates: VkDynamicState): IntBuffer {
         val res = intBuffer(dynamicStates.size)
-        for(i in dynamicStates.indices)
+        for (i in dynamicStates.indices)
             res[i] = dynamicStates[i].i
         return res
     }
