@@ -80,6 +80,18 @@ inline fun VkCommandBuffer.copyImage(srcImage: VkImage, srcImageLayout: VkImageL
     VK10.nvkCmdCopyImage(this, srcImage, srcImageLayout.i, dstImage, dstImageLayout.i, 1, region.adr)
 }
 
+inline infix fun VkCommandBuffer.debugMarkerBegin(markerInfo: VkDebugMarkerMarkerInfoEXT) {
+    EXTDebugMarker.nvkCmdDebugMarkerBeginEXT(this, markerInfo.adr)
+}
+
+inline fun VkCommandBuffer.debugMarkerEnd() {
+    EXTDebugMarker.vkCmdDebugMarkerEndEXT(this)
+}
+
+inline infix fun VkCommandBuffer.debugMarkerInsert(markerInfo: VkDebugMarkerMarkerInfoEXT) {
+    EXTDebugMarker.nvkCmdDebugMarkerInsertEXT(this, markerInfo.adr)
+}
+
 inline fun VkCommandBuffer.dispatch(groupCountXY: Vec2i, groupCountZ: Int) {
     dispatch(groupCountXY.x, groupCountXY.y, groupCountZ)
 }
@@ -371,6 +383,14 @@ inline infix fun VkDevice.createSwapchainKHR(createInfo: VkSwapchainCreateInfoKH
     val pSwapchain = appBuffer.long
     KHRSwapchain.nvkCreateSwapchainKHR(this, createInfo.adr, NULL, pSwapchain)
     return memGetLong(pSwapchain)
+}
+
+inline infix fun VkDevice.debugMarkerSetObjectName(nameInfo: VkDebugMarkerObjectNameInfoEXT) {
+    EXTDebugMarker.nvkDebugMarkerSetObjectNameEXT(this, nameInfo.adr)
+}
+
+inline infix fun VkDevice.debugMarkerSetObjectTag(tagInfo: VkDebugMarkerObjectTagInfoEXT) {
+    EXTDebugMarker.nvkDebugMarkerSetObjectTagEXT(this, tagInfo.adr)
 }
 
 inline infix fun VkDevice.destroyBuffer(buffer: VkBuffer) {

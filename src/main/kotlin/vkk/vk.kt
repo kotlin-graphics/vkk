@@ -84,9 +84,23 @@ object vk {
         return res
     }
 
+    inline fun DebugMarkerMarkerInfoEXT(block: VkDebugMarkerMarkerInfoEXT.() -> Unit): VkDebugMarkerMarkerInfoEXT {
+        val res = VkDebugMarkerMarkerInfoEXT.create(ptr.advance(VkDebugMarkerMarkerInfoEXT.SIZEOF))
+        res.type = VkStructureType.DEBUG_MARKER_OBJECT_NAME_INFO_EXT
+        res.block()
+        return res
+    }
+
     inline fun DebugMarkerObjectNameInfoEXT(block: VkDebugMarkerObjectNameInfoEXT.() -> Unit): VkDebugMarkerObjectNameInfoEXT {
         val res = VkDebugMarkerObjectNameInfoEXT.create(ptr.advance(VkDebugMarkerObjectNameInfoEXT.SIZEOF))
         res.type = VkStructureType.DEBUG_MARKER_OBJECT_NAME_INFO_EXT
+        res.block()
+        return res
+    }
+
+    inline fun DebugMarkerObjectTagInfoEXT(block: VkDebugMarkerObjectTagInfoEXT .() -> Unit): VkDebugMarkerObjectTagInfoEXT  {
+        val res = VkDebugMarkerObjectTagInfoEXT .create(ptr.advance(VkDebugMarkerObjectTagInfoEXT .SIZEOF))
+        res.type = VkStructureType.DEBUG_MARKER_OBJECT_TAG_INFO_EXT
         res.block()
         return res
     }

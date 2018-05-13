@@ -1,9 +1,7 @@
 package vkk
 
-import glm_.BYTES
-import glm_.bool
-import glm_.f
-import glm_.i
+import glm_.*
+import glm_.buffer.adr
 import glm_.vec2.Vec2
 import glm_.vec2.Vec2i
 import glm_.vec3.Vec3i
@@ -3639,12 +3637,12 @@ inline var VkPresentInfoKHR.waitSemaphores: VkSemaphoreBuffer?
 inline var VkPresentInfoKHR.waitSemaphore: VkSemaphore?
     get() = VkPresentInfoKHR.npWaitSemaphores(adr)?.get(0)
     set(value) {
-        if(value != null) {
+        if (value != null) {
             val pLong = appBuffer.long
             memPutLong(pLong, value)
             memPutAddress(adr + VkPresentInfoKHR.PWAITSEMAPHORES, pLong)
             VkPresentInfoKHR.nwaitSemaphoreCount(adr, 1)
-        }else {
+        } else {
             memPutAddress(adr + VkPresentInfoKHR.PWAITSEMAPHORES, NULL)
             VkPresentInfoKHR.nwaitSemaphoreCount(adr, 0)
         }
@@ -5354,6 +5352,30 @@ inline var VkDebugMarkerObjectNameInfoEXT.objectName: String
     set(value) = VkDebugMarkerObjectNameInfoEXT.npObjectName(adr, value.utf8)
 
 
+inline var VkDebugMarkerObjectTagInfoEXT.type: VkStructureType
+    get() = VkStructureType of VkDebugMarkerObjectTagInfoEXT.nsType(adr)
+    set(value) = VkDebugMarkerObjectTagInfoEXT.nsType(adr, value.i)
+inline var VkDebugMarkerObjectTagInfoEXT.next: Long
+    get() = VkDebugMarkerObjectTagInfoEXT.npNext(adr)
+    set(value) = VkDebugMarkerObjectTagInfoEXT.npNext(adr, value)
+inline var VkDebugMarkerObjectTagInfoEXT.objectType: VkDebugReportObjectType
+    get() = VkDebugReportObjectType of VkDebugMarkerObjectTagInfoEXT.nobjectType(adr)
+    set(value) = VkDebugMarkerObjectTagInfoEXT.nobjectType(adr, value.i)
+inline var VkDebugMarkerObjectTagInfoEXT.`object`: Long
+    get() = VkDebugMarkerObjectTagInfoEXT.nobject(adr)
+    set(value) = VkDebugMarkerObjectTagInfoEXT.nobject(adr, value)
+inline var VkDebugMarkerObjectTagInfoEXT.tagName: String
+    get() = memUTF8(VkDebugMarkerObjectTagInfoEXT.ntagName(adr))
+    set(value) = VkDebugMarkerObjectTagInfoEXT.ntagName(adr, value.utf8.adr)
+//inline val VkDebugMarkerObjectTagInfoEXT.tagSize: Long get() = VkDebugMarkerObjectTagInfoEXT.ntagSize(adr)
+inline var VkDebugMarkerObjectTagInfoEXT.tag: ByteBuffer
+    get() = VkDebugMarkerObjectTagInfoEXT.npTag(adr)
+    set(value) {
+        VkDebugMarkerObjectTagInfoEXT.npTag(adr, value)
+        VkDebugMarkerObjectTagInfoEXT.ntagSize(adr, value.remaining().L)
+    }
+
+
 //typedef struct VkDebugMarkerObjectTagInfoEXT {
 //    VkStructureType               sType;
 //    const void*                   pNext;
@@ -5363,7 +5385,27 @@ inline var VkDebugMarkerObjectNameInfoEXT.objectName: String
 //    size_t                        tagSize;
 //    const void*                   pTag;
 //} VkDebugMarkerObjectTagInfoEXT;
-//
+
+
+
+inline var VkDebugMarkerMarkerInfoEXT.type: VkStructureType
+    get() = VkStructureType of VkDebugMarkerMarkerInfoEXT.nsType(adr)
+    set(value) = VkDebugMarkerMarkerInfoEXT.nsType(adr, value.i)
+inline var VkDebugMarkerMarkerInfoEXT.next: Long
+    get() = VkDebugMarkerMarkerInfoEXT.npNext(adr)
+    set(value) = VkDebugMarkerMarkerInfoEXT.npNext(adr, value)
+inline var VkDebugMarkerMarkerInfoEXT.markerName: String
+    get() = VkDebugMarkerMarkerInfoEXT.npMarkerNameString(adr)
+    set(value) = VkDebugMarkerMarkerInfoEXT.npMarkerName(adr, value.utf8)
+inline var VkDebugMarkerMarkerInfoEXT.color: Vec4
+    get() = Vec4(VkDebugMarkerMarkerInfoEXT.ncolor(adr))
+    set(value) {
+        memPutFloat(adr + VkDebugMarkerMarkerInfoEXT.COLOR, value.r)
+        memPutFloat(adr + VkDebugMarkerMarkerInfoEXT.COLOR + Float.BYTES, value.g)
+        memPutFloat(adr + VkDebugMarkerMarkerInfoEXT.COLOR + Float.BYTES * 2, value.b)
+        memPutFloat(adr + VkDebugMarkerMarkerInfoEXT.COLOR + Float.BYTES * 3, value.a)
+    }
+
 //typedef struct VkDebugMarkerMarkerInfoEXT {
 //    VkStructureType    sType;
 //    const void*        pNext;
