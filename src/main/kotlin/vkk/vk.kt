@@ -521,6 +521,7 @@ object vk {
     inline fun Rect2D(capacity: Int, block: VkRect2D.() -> Unit): VkRect2D.Buffer = VkRect2D.create(ptr.advance(VkRect2D.SIZEOF * capacity), capacity).also { it[0].block() }
 
     inline fun SpecializationMapEntry(): VkSpecializationMapEntry = VkSpecializationMapEntry.create(ptr.advance(VkSpecializationMapEntry.SIZEOF))
+    inline fun SpecializationMapEntry(block: VkSpecializationMapEntry.() -> Unit): VkSpecializationMapEntry.Buffer = SpecializationMapEntry().also(block)
     inline fun SpecializationMapEntry(capacity: Int): VkSpecializationMapEntry.Buffer = VkSpecializationMapEntry.create(ptr.advance(VkSpecializationMapEntry.SIZEOF * capacity), capacity)
 
     inline fun SpecializationInfo(): VkSpecializationInfo = VkSpecializationInfo.create(ptr.advance(VkSpecializationInfo.SIZEOF))
