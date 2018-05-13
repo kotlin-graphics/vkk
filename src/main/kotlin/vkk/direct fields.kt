@@ -5336,15 +5336,24 @@ inline var VkDebugReportCallbackCreateInfoEXT.userData
 //#define VK_EXT_debug_marker 1
 //#define VK_EXT_DEBUG_MARKER_SPEC_VERSION  4
 //#define VK_EXT_DEBUG_MARKER_EXTENSION_NAME "VK_EXT_debug_marker"
-//
-//typedef struct VkDebugMarkerObjectNameInfoEXT {
-//    VkStructureType               sType;
-//    const void*                   pNext;
-//    VkDebugReportObjectTypeEXT    objectType;
-//    uint64_t                      object;
-//    const char*                   pObjectName;
-//} VkDebugMarkerObjectNameInfoEXT;
-//
+
+inline var VkDebugMarkerObjectNameInfoEXT.type: VkStructureType
+    get() = VkStructureType of VkDebugMarkerObjectNameInfoEXT.nsType(adr)
+    set(value) = VkDebugMarkerObjectNameInfoEXT.nsType(adr, value.i)
+inline var VkDebugMarkerObjectNameInfoEXT.next: Long
+    get() = VkDebugMarkerObjectNameInfoEXT.npNext(adr)
+    set(value) = VkDebugMarkerObjectNameInfoEXT.npNext(adr, value)
+inline var VkDebugMarkerObjectNameInfoEXT.objectType: VkDebugReportObjectType
+    get() = VkDebugReportObjectType of VkDebugMarkerObjectNameInfoEXT.nobjectType(adr)
+    set(value) = VkDebugMarkerObjectNameInfoEXT.nobjectType(adr, value.i)
+inline var VkDebugMarkerObjectNameInfoEXT.`object`: Long
+    get() = VkDebugMarkerObjectNameInfoEXT.nobject(adr)
+    set(value) = VkDebugMarkerObjectNameInfoEXT.nobject(adr, value)
+inline var VkDebugMarkerObjectNameInfoEXT.objectName: String
+    get() = VkDebugMarkerObjectNameInfoEXT.npObjectNameString(adr)
+    set(value) = VkDebugMarkerObjectNameInfoEXT.npObjectName(adr, value.utf8)
+
+
 //typedef struct VkDebugMarkerObjectTagInfoEXT {
 //    VkStructureType               sType;
 //    const void*                   pNext;
