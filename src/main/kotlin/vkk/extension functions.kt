@@ -116,6 +116,10 @@ inline fun VkCommandBuffer.endRenderPass() {
     VK10.vkCmdEndRenderPass(this)
 }
 
+inline infix fun VkCommandBuffer.nextSubpass(contents: VkSubpassContents) {
+    VK10.vkCmdNextSubpass(this, contents.i)
+}
+
 inline fun VkCommandBuffer.pipelineBarrier(srcStageMask: VkPipelineStageFlags, dstStageMask: VkPipelineStageFlags,
                                            dependencyFlags: VkDependencyFlags,
                                            memoryBarrier: VkMemoryBarrier? = null,
