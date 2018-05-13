@@ -98,8 +98,8 @@ object vk {
         return res
     }
 
-    inline fun DebugMarkerObjectTagInfoEXT(block: VkDebugMarkerObjectTagInfoEXT .() -> Unit): VkDebugMarkerObjectTagInfoEXT  {
-        val res = VkDebugMarkerObjectTagInfoEXT .create(ptr.advance(VkDebugMarkerObjectTagInfoEXT .SIZEOF))
+    inline fun DebugMarkerObjectTagInfoEXT(block: VkDebugMarkerObjectTagInfoEXT .() -> Unit): VkDebugMarkerObjectTagInfoEXT {
+        val res = VkDebugMarkerObjectTagInfoEXT.create(ptr.advance(VkDebugMarkerObjectTagInfoEXT.SIZEOF))
         res.type = VkStructureType.DEBUG_MARKER_OBJECT_TAG_INFO_EXT
         res.block()
         return res
@@ -343,11 +343,14 @@ object vk {
         return res
     }
 
+    inline fun PipelineVertexInputStateCreateInfo(): VkPipelineVertexInputStateCreateInfo {
+        return VkPipelineVertexInputStateCreateInfo.create(ptr.advance(VkPipelineVertexInputStateCreateInfo.SIZEOF)).apply {
+            type = VkStructureType.PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO
+        }
+    }
+
     inline fun PipelineVertexInputStateCreateInfo(block: VkPipelineVertexInputStateCreateInfo.() -> Unit): VkPipelineVertexInputStateCreateInfo {
-        val res = VkPipelineVertexInputStateCreateInfo.create(ptr.advance(VkPipelineVertexInputStateCreateInfo.SIZEOF))
-        res.type = VkStructureType.PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO
-        res.block()
-        return res
+        return PipelineVertexInputStateCreateInfo().also(block)
     }
 
     inline fun PipelineViewportStateCreateInfo(block: VkPipelineViewportStateCreateInfo.() -> Unit): VkPipelineViewportStateCreateInfo {
@@ -521,7 +524,7 @@ object vk {
     inline fun Rect2D(capacity: Int, block: VkRect2D.() -> Unit): VkRect2D.Buffer = VkRect2D.create(ptr.advance(VkRect2D.SIZEOF * capacity), capacity).also { it[0].block() }
 
     inline fun SpecializationMapEntry(): VkSpecializationMapEntry = VkSpecializationMapEntry.create(ptr.advance(VkSpecializationMapEntry.SIZEOF))
-    inline fun SpecializationMapEntry(block: VkSpecializationMapEntry.() -> Unit): VkSpecializationMapEntry.Buffer = SpecializationMapEntry().also(block)
+    inline fun SpecializationMapEntry(block: VkSpecializationMapEntry.() -> Unit): VkSpecializationMapEntry = SpecializationMapEntry().also(block)
     inline fun SpecializationMapEntry(capacity: Int): VkSpecializationMapEntry.Buffer = VkSpecializationMapEntry.create(ptr.advance(VkSpecializationMapEntry.SIZEOF * capacity), capacity)
 
     inline fun SpecializationInfo(): VkSpecializationInfo = VkSpecializationInfo.create(ptr.advance(VkSpecializationInfo.SIZEOF))
