@@ -513,8 +513,9 @@ object vk {
 
     inline fun MemoryRequirements(block: VkMemoryRequirements.() -> Unit): VkMemoryRequirements = VkMemoryRequirements.create(ptr.advance(VkMemoryRequirements.SIZEOF)).also(block)
 
-    inline fun PipelineColorBlendAttachmentState(block: VkPipelineColorBlendAttachmentState.() -> Unit): VkPipelineColorBlendAttachmentState = VkPipelineColorBlendAttachmentState.create(ptr.advance(VkPipelineColorBlendAttachmentState.SIZEOF)).also(block)
-    inline fun PipelineColorBlendAttachmentState(capacity: Int, block: VkPipelineColorBlendAttachmentState.() -> Unit): VkPipelineColorBlendAttachmentState.Buffer = VkPipelineColorBlendAttachmentState.create(ptr.advance(VkPipelineColorBlendAttachmentState.SIZEOF * capacity), capacity).also { it[0].block() }
+    inline fun PipelineColorBlendAttachmentState(): VkPipelineColorBlendAttachmentState = VkPipelineColorBlendAttachmentState.create(ptr.advance(VkPipelineColorBlendAttachmentState.SIZEOF))
+    inline fun PipelineColorBlendAttachmentState(block: VkPipelineColorBlendAttachmentState.() -> Unit): VkPipelineColorBlendAttachmentState = PipelineColorBlendAttachmentState().also(block)
+    inline fun PipelineColorBlendAttachmentState(capacity: Int): VkPipelineColorBlendAttachmentState.Buffer = VkPipelineColorBlendAttachmentState.create(ptr.advance(VkPipelineColorBlendAttachmentState.SIZEOF * capacity), capacity)
 
     inline fun Rect2D(block: VkRect2D.() -> Unit): VkRect2D = VkRect2D.create(ptr.advance(VkRect2D.SIZEOF)).also(block)
     inline fun Rect2D(capacity: Int, block: VkRect2D.() -> Unit): VkRect2D.Buffer = VkRect2D.create(ptr.advance(VkRect2D.SIZEOF * capacity), capacity).also { it[0].block() }
@@ -983,9 +984,54 @@ object vk {
     }
 
     inline fun PipelineColorBlendAttachmentState(colorWriteMask: VkColorComponentFlags, blendEnable: Boolean): VkPipelineColorBlendAttachmentState {
-        return PipelineColorBlendAttachmentState {
-            this.colorWriteMask = colorWriteMask
-            this.blendEnable = blendEnable
+        return PipelineColorBlendAttachmentState().colorWriteMask(colorWriteMask).blendEnable(blendEnable)
+    }
+
+    inline fun PipelineColorBlendAttachmentState(
+            colorWriteMask0: VkColorComponentFlags, blendEnable0: Boolean,
+            colorWriteMask1: VkColorComponentFlags, blendEnable1: Boolean): VkPipelineColorBlendAttachmentState.Buffer {
+        return PipelineColorBlendAttachmentState(2).also {
+            it[0].colorWriteMask(colorWriteMask0).blendEnable(blendEnable0)
+            it[1].colorWriteMask(colorWriteMask1).blendEnable(blendEnable1)
+        }
+    }
+
+    inline fun PipelineColorBlendAttachmentState(
+            colorWriteMask0: VkColorComponentFlags, blendEnable0: Boolean,
+            colorWriteMask1: VkColorComponentFlags, blendEnable1: Boolean,
+            colorWriteMask2: VkColorComponentFlags, blendEnable2: Boolean): VkPipelineColorBlendAttachmentState.Buffer {
+        return PipelineColorBlendAttachmentState(3).also {
+            it[0].colorWriteMask(colorWriteMask0).blendEnable(blendEnable0)
+            it[1].colorWriteMask(colorWriteMask1).blendEnable(blendEnable1)
+            it[2].colorWriteMask(colorWriteMask2).blendEnable(blendEnable2)
+        }
+    }
+
+    inline fun PipelineColorBlendAttachmentState(
+            colorWriteMask0: VkColorComponentFlags, blendEnable0: Boolean,
+            colorWriteMask1: VkColorComponentFlags, blendEnable1: Boolean,
+            colorWriteMask2: VkColorComponentFlags, blendEnable2: Boolean,
+            colorWriteMask3: VkColorComponentFlags, blendEnable3: Boolean): VkPipelineColorBlendAttachmentState.Buffer {
+        return PipelineColorBlendAttachmentState(4).also {
+            it[0].colorWriteMask(colorWriteMask0).blendEnable(blendEnable0)
+            it[1].colorWriteMask(colorWriteMask1).blendEnable(blendEnable1)
+            it[2].colorWriteMask(colorWriteMask2).blendEnable(blendEnable2)
+            it[3].colorWriteMask(colorWriteMask3).blendEnable(blendEnable3)
+        }
+    }
+
+    inline fun PipelineColorBlendAttachmentState(
+            colorWriteMask0: VkColorComponentFlags, blendEnable0: Boolean,
+            colorWriteMask1: VkColorComponentFlags, blendEnable1: Boolean,
+            colorWriteMask2: VkColorComponentFlags, blendEnable2: Boolean,
+            colorWriteMask3: VkColorComponentFlags, blendEnable3: Boolean,
+            colorWriteMask4: VkColorComponentFlags, blendEnable4: Boolean): VkPipelineColorBlendAttachmentState.Buffer {
+        return PipelineColorBlendAttachmentState(5).also {
+            it[0].colorWriteMask(colorWriteMask0).blendEnable(blendEnable0)
+            it[1].colorWriteMask(colorWriteMask1).blendEnable(blendEnable1)
+            it[2].colorWriteMask(colorWriteMask2).blendEnable(blendEnable2)
+            it[3].colorWriteMask(colorWriteMask3).blendEnable(blendEnable3)
+            it[4].colorWriteMask(colorWriteMask4).blendEnable(blendEnable4)
         }
     }
 
