@@ -333,7 +333,7 @@ abstract class Bufferizable {
         get() = if (field.isEmpty()) fieldOrderDefault else field
 
     open val size: Int by lazy {
-        fieldOrder.sumBy { field -> this::class.declaredMemberProperties.find { it.name == field }!!.returnType.size }
+        fieldOrder.sumBy { field -> this::class.declaredMemberProperties.find { it.name == field }!!.size }
     }
 
     open infix fun to(address: Long) {
@@ -351,7 +351,7 @@ abstract class Bufferizable {
         Array(fieldOrder.size) {
             val field = fieldOrder[it]
             val member = this::class.declaredMemberProperties.find { it.name == field }!!
-            val func = member.returnType.func
+            val func = member.func
             func to member
         }
     }
@@ -360,15 +360,16 @@ abstract class Bufferizable {
         var offset = 0
         MutableList(fieldOrder.size) { i ->
             fieldOrder[i] to offset.also {
-                offset += data[i].second.returnType.size
+                offset += data[i].second.size
             }
         }.toMap()
     }
 
     fun offsetOf(field: String) = offsets[field]!!
 
-    private val KType.size: Int
-        get() = when (this) {
+
+    private val <R> KProperty1<out Bufferizable, R>.size: Int
+        get() = when (returnType) {
             Mat4::class.defaultType -> Mat4.size
             Mat3::class.defaultType -> Mat3.size
             Vec4::class.defaultType -> Vec4.size
@@ -376,10 +377,32 @@ abstract class Bufferizable {
             Vec2::class.defaultType -> Vec2.size
             Float::class.defaultType -> Float.BYTES
             Int::class.defaultType -> Int.BYTES
+            Array<Bufferizable>::class.defaultType -> {
+                val array = getter.call(this) as Array<Bufferizable>
+                val size = array.size
+                when(size) {
+                    0 -> 0
+                    else -> size * array[0].size
+                }
+            }
             else -> throw Error(toString())
         }
-    private val KType.func: BufferizableAddFunctionType
-        get() = when (this) {
+
+//    private val KType.size: Int
+//        get() = when (this) {
+//            Mat4::class.defaultType -> Mat4.size
+//            Mat3::class.defaultType -> Mat3.size
+//            Vec4::class.defaultType -> Vec4.size
+//            Vec3::class.defaultType -> Vec3.size
+//            Vec2::class.defaultType -> Vec2.size
+//            Float::class.defaultType -> Float.BYTES
+//            Int::class.defaultType -> Int.BYTES
+//            Array<Bufferizable>::class.defaultType ->
+//            else -> throw Error(toString())
+//        }
+
+    private val <R> KProperty1<out Bufferizable, R>.func: BufferizableAddFunctionType
+        get() = when (returnType) {
             Mat4::class.defaultType -> WithAddress::addMat4
             Mat3::class.defaultType -> WithAddress::addMat3
             Vec4::class.defaultType -> WithAddress::addVec4
@@ -448,7 +471,13 @@ fun intArrayOf(ints: Collection<Int>): IntBuffer {
 //    println(member.returnType == Mat4::class.defaultType)
 //}
 
-class FiledOrder {
+private class Light : Bufferizable() {
+    lateinit var position: Vec4
+    lateinit var color: Vec3
+    var radius = 0f
+}
+
+private class FiledOrder {
     @Retention(AnnotationRetention.RUNTIME)
     annotation class Order(val value: Int)
 
@@ -467,6 +496,8 @@ class FiledOrder {
     @Order(2)
     fun end() {
     }
+
+    val lights = Array(5) { Light() }
 }
 
 fun main(args: Array<String>) {
@@ -478,7 +509,7 @@ fun main(args: Array<String>) {
     var plainIdx = 0
     for (i in properties.indices)
         list += annotated[i] ?: plain[plainIdx++]
-    println(list)
+    list.forEach { println(it.returnType) }
 }
 
 typealias VkDebugReportCallbackFunc = (VkDebugReportFlagsEXT, VkDebugReportObjectType, Long, Long, Int, String, String, Any?) -> Boolean
