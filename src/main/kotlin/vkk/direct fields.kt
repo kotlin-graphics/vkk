@@ -2345,6 +2345,8 @@ inline var VkClearValue.depthStencil: VkClearDepthStencilValue
     get() = VkClearValue.ndepthStencil(adr)
     set(value) = VkClearValue.ndepthStencil(adr, value)
 
+inline fun VkClearValue.color(float: Float) = color(float, float, float, float)
+inline fun VkClearValue.color(color: Vec4) = color(color.r, color.g, color.b, color.a)
 inline fun VkClearValue.color(r: Float, g: Float, b: Float, a: Float) {
     memPutFloat(adr, r)
     memPutFloat(adr + Float.BYTES, g)
@@ -2352,12 +2354,6 @@ inline fun VkClearValue.color(r: Float, g: Float, b: Float, a: Float) {
     memPutFloat(adr + Float.BYTES * 3, a)
 }
 
-inline fun VkClearValue.color(color: Vec4) {
-    memPutFloat(adr, color.r)
-    memPutFloat(adr + Float.BYTES, color.g)
-    memPutFloat(adr + Float.BYTES * 2, color.b)
-    memPutFloat(adr + Float.BYTES * 3, color.a)
-}
 
 inline fun VkClearValue.depthStencil(depth: Float, stencil: Int) {
     memPutFloat(adr, depth)
