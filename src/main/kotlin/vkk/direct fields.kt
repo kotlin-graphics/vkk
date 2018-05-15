@@ -1073,7 +1073,7 @@ inline var VkSpecializationInfo.mapEntry: VkSpecializationMapEntry?
     get() = VkSpecializationInfo.npMapEntries(adr)?.get(0)
     set(value) {
         memPutAddress(adr + VkSpecializationInfo.PMAPENTRIES, memAddressSafe(value))
-        VkSpecializationInfo.nmapEntryCount(adr, if(value == null) 0 else 1)
+        VkSpecializationInfo.nmapEntryCount(adr, if (value == null) 0 else 1)
     }
 //inline val VkSpecializationInfo.dataSize: Long get() = VkSpecializationInfo.ndataSize(adr)
 inline var VkSpecializationInfo.data: ByteBuffer?
@@ -2017,13 +2017,12 @@ inline var VkFramebufferCreateInfo.height
 inline var VkFramebufferCreateInfo.layers
     get() = VkFramebufferCreateInfo.nlayers(adr)
     set(value) = VkFramebufferCreateInfo.nlayers(adr, value)
-//inline var VkFramebufferCreateInfo.size TODO BUG
-//    get() = Vec3i(width, height, layers)
-//    set(value) {
-//        width = value.x
-//        height = value.y
-//        layers = value.z
-//    }
+
+inline fun VkFramebufferCreateInfo.extent(extent: Vec2i, layers: Int) {
+    width = extent.x
+    height = extent.y
+    this.layers = layers
+}
 
 
 inline var VkAttachmentDescription.flags: VkAttachmentDescriptionFlags
@@ -5392,7 +5391,6 @@ inline var VkDebugMarkerObjectTagInfoEXT.tag: ByteBuffer
 //    size_t                        tagSize;
 //    const void*                   pTag;
 //} VkDebugMarkerObjectTagInfoEXT;
-
 
 
 inline var VkDebugMarkerMarkerInfoEXT.type: VkStructureType
