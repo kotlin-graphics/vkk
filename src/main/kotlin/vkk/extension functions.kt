@@ -563,12 +563,14 @@ inline fun VkDevice.mappingMemory(memory: Long, offset: Long, size: Long, flags:
     VK10.vkUnmapMemory(this, memory)
 }
 
-inline fun VkDevice.mapMemory(memory: Long, offset: Long, size: Long, flags: VkMemoryMapFlags, data: Long) {
-    VK_CHECK_RESULT(VK10.nvkMapMemory(this, memory, offset, size, flags, data))
+inline fun VkDevice.mapMemory(memory: Long, offset: Long, size: Long, flags: VkMemoryMapFlags = 0): Long {
+    val pData = appBuffer.pointer
+    VK_CHECK_RESULT(VK10.nvkMapMemory(this, memory, offset, size, flags, pData))
+    return memGetAddress(pData)
 }
 
 inline fun VkDevice.mapMemory(memory: Long, offset: Long, size: Long, flags: VkMemoryMapFlags, data: PointerBuffer) {
-    VK_CHECK_RESULT(VK10.nvkMapMemory(this, memory, offset, size, flags, memAddress(data)))
+    VK_CHECK_RESULT(VK10.nvkMapMemory(this, memory, offset, size, flags, data.adr))
 }
 
 inline infix fun VkDevice.getQueue(queueFamilyIndex: Int): VkQueue {
