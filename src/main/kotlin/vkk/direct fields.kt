@@ -1068,6 +1068,13 @@ inline var VkSpecializationMapEntry.size: Long
 inline var VkSpecializationInfo.mapEntries: VkSpecializationMapEntry.Buffer?
     get() = VkSpecializationInfo.npMapEntries(adr)
     set(value) = VkSpecializationInfo.npMapEntries(adr, value)
+/** JVM custom */
+inline var VkSpecializationInfo.mapEntry: VkSpecializationMapEntry?
+    get() = VkSpecializationInfo.npMapEntries(adr)?.get(0)
+    set(value) {
+        memPutAddress(adr + VkSpecializationInfo.PMAPENTRIES, memAddressSafe(value))
+        VkSpecializationInfo.nmapEntryCount(adr, if(value == null) 0 else 1)
+    }
 //inline val VkSpecializationInfo.dataSize: Long get() = VkSpecializationInfo.ndataSize(adr)
 inline var VkSpecializationInfo.data: ByteBuffer?
     get() = VkSpecializationInfo.npData(adr)
