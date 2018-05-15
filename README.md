@@ -4,6 +4,8 @@
 The goal of the VK² is to provide a library for the Vulkan C API to improve the developers Vulkan experience without introducing 
 any considerable CPU runtime cost. It adds features like type safety for enums and bitfields, collection support, exceptions and simple enumerations.
 
+Strongly inspired by [Vulkan hpp](https://github.com/KhronosGroup/Vulkan-Hpp), it's shaped on the Sasha examples [port](https://github.com/java-opengl-labs/Vulkan). It's the Vulkan counterpart of the OpenGL [gln](https://github.com/kotlin-graphics/gln/).
+
 ## Getting Started
 
 VK² can be obtained by adding the following lines in your `build.gradle`:
