@@ -8,7 +8,6 @@ import org.lwjgl.system.Pointer
 import org.lwjgl.system.Struct
 import org.lwjgl.vulkan.*
 import org.lwjgl.vulkan.VK10.VK_QUEUE_FAMILY_IGNORED
-import org.lwjgl.vulkan.VK10.vkCreateImage
 import vkk.VkPhysicalDeviceArrayList.resize
 import vkk.appBuffer.ptr
 import java.nio.ByteBuffer
@@ -881,18 +880,8 @@ object vk {
             type0: VkDescriptorType, stageFlags0: VkShaderStageFlags, binding0: Int, descriptorCount0: Int,
             type1: VkDescriptorType, stageFlags1: VkShaderStageFlags, binding1: Int, descriptorCount1: Int): VkDescriptorSetLayoutBinding.Buffer {
         return DescriptorSetLayoutBinding(2) {
-            this[0].apply {
-                descriptorType = type0
-                stageFlags = stageFlags0
-                binding = binding0
-                descriptorCount = descriptorCount0
-            }
-            this[1].apply {
-                descriptorType = type1
-                stageFlags = stageFlags1
-                binding = binding1
-                descriptorCount = descriptorCount1
-            }
+            this[0].descriptorType(type0.i).stageFlags(stageFlags0).binding(binding0).descriptorCount(descriptorCount0)
+            this[1].descriptorType(type1.i).stageFlags(stageFlags1).binding(binding1).descriptorCount(descriptorCount1)
         }
     }
 
@@ -901,24 +890,9 @@ object vk {
             type1: VkDescriptorType, stageFlags1: VkShaderStageFlags, binding1: Int, descriptorCount1: Int,
             type2: VkDescriptorType, stageFlags2: VkShaderStageFlags, binding2: Int, descriptorCount2: Int): VkDescriptorSetLayoutBinding.Buffer {
         return DescriptorSetLayoutBinding(3) {
-            this[0].apply {
-                descriptorType = type0
-                stageFlags = stageFlags0
-                binding = binding0
-                descriptorCount = descriptorCount0
-            }
-            this[1].apply {
-                descriptorType = type1
-                stageFlags = stageFlags1
-                binding = binding1
-                descriptorCount = descriptorCount1
-            }
-            this[2].apply {
-                descriptorType = type2
-                stageFlags = stageFlags2
-                binding = binding2
-                descriptorCount = descriptorCount2
-            }
+            this[0].descriptorType(type0.i).stageFlags(stageFlags0).binding(binding0).descriptorCount(descriptorCount0)
+            this[1].descriptorType(type1.i).stageFlags(stageFlags1).binding(binding1).descriptorCount(descriptorCount1)
+            this[2].descriptorType(type2.i).stageFlags(stageFlags2).binding(binding2).descriptorCount(descriptorCount2)
         }
     }
 
@@ -928,30 +902,10 @@ object vk {
             type2: VkDescriptorType, stageFlags2: VkShaderStageFlags, binding2: Int, descriptorCount2: Int,
             type3: VkDescriptorType, stageFlags3: VkShaderStageFlags, binding3: Int, descriptorCount3: Int): VkDescriptorSetLayoutBinding.Buffer {
         return DescriptorSetLayoutBinding(4) {
-            this[0].apply {
-                descriptorType = type0
-                stageFlags = stageFlags0
-                binding = binding0
-                descriptorCount = descriptorCount0
-            }
-            this[1].apply {
-                descriptorType = type1
-                stageFlags = stageFlags1
-                binding = binding1
-                descriptorCount = descriptorCount1
-            }
-            this[2].apply {
-                descriptorType = type2
-                stageFlags = stageFlags2
-                binding = binding2
-                descriptorCount = descriptorCount2
-            }
-            this[3].apply {
-                descriptorType = type3
-                stageFlags = stageFlags3
-                binding = binding3
-                descriptorCount = descriptorCount3
-            }
+            this[0].descriptorType(type0.i).stageFlags(stageFlags0).binding(binding0).descriptorCount(descriptorCount0)
+            this[1].descriptorType(type1.i).stageFlags(stageFlags1).binding(binding1).descriptorCount(descriptorCount1)
+            this[2].descriptorType(type2.i).stageFlags(stageFlags2).binding(binding2).descriptorCount(descriptorCount2)
+            this[3].descriptorType(type3.i).stageFlags(stageFlags3).binding(binding3).descriptorCount(descriptorCount3)
         }
     }
 
@@ -1168,16 +1122,8 @@ object vk {
             constantId0: Int, offset0: Int, size0: Int,
             constantId1: Int, offset1: Int, size1: Int): VkSpecializationMapEntry.Buffer {
         return SpecializationMapEntry(2).also {
-            it[0].also {
-                it.constantId = constantId0
-                it.offset = offset0
-                it.size = size0.L
-            }
-            it[1].also {
-                it.constantId = constantId1
-                it.offset = offset1
-                it.size = size1.L
-            }
+            it[0].constantID(constantId0).offset(offset0).size(size0.L)
+            it[1].constantID(constantId1).offset(offset1).size(size1.L)
         }
     }
 
@@ -1186,21 +1132,9 @@ object vk {
             constantId1: Int, offset1: Int, size1: Int,
             constantId2: Int, offset2: Int, size2: Int): VkSpecializationMapEntry.Buffer {
         return SpecializationMapEntry(3).also {
-            it[0].also {
-                it.constantId = constantId0
-                it.offset = offset0
-                it.size = size0.L
-            }
-            it[1].also {
-                it.constantId = constantId1
-                it.offset = offset1
-                it.size = size1.L
-            }
-            it[2].also {
-                it.constantId = constantId2
-                it.offset = offset2
-                it.size = size2.L
-            }
+            it[0].constantID(constantId0).offset(offset0).size(size0.L)
+            it[1].constantID(constantId1).offset(offset1).size(size1.L)
+            it[2].constantID(constantId2).offset(offset2).size(size2.L)
         }
     }
 
@@ -1210,26 +1144,10 @@ object vk {
             constantId2: Int, offset2: Int, size2: Int,
             constantId3: Int, offset3: Int, size3: Int): VkSpecializationMapEntry.Buffer {
         return SpecializationMapEntry(4).also {
-            it[0].also {
-                it.constantId = constantId0
-                it.offset = offset0
-                it.size = size0.L
-            }
-            it[1].also {
-                it.constantId = constantId1
-                it.offset = offset1
-                it.size = size1.L
-            }
-            it[2].also {
-                it.constantId = constantId2
-                it.offset = offset2
-                it.size = size2.L
-            }
-            it[3].also {
-                it.constantId = constantId3
-                it.offset = offset3
-                it.size = size3.L
-            }
+            it[0].constantID(constantId0).offset(offset0).size(size0.L)
+            it[1].constantID(constantId1).offset(offset1).size(size1.L)
+            it[2].constantID(constantId2).offset(offset2).size(size2.L)
+            it[3].constantID(constantId3).offset(offset3).size(size3.L)
         }
     }
 
@@ -1276,24 +1194,10 @@ object vk {
             dstSet0: VkDescriptorSet, type0: VkDescriptorType, binding0: Int, info0: Struct,
             dstSet1: VkDescriptorSet, type1: VkDescriptorType, binding1: Int, info1: Struct): VkWriteDescriptorSet.Buffer {
         return WriteDescriptorSet(2) {
-            this[0].apply {
-                dstSet = dstSet0
-                descriptorType = type0
-                dstBinding = binding0
-                if (info0 is VkDescriptorBufferInfo)
-                    bufferInfo_ = info0
-                else
-                    imageInfo_ = info0 as VkDescriptorImageInfo
-            }
-            this[1].apply {
-                dstSet = dstSet1
-                descriptorType = type1
-                dstBinding = binding1
-                if (info1 is VkDescriptorBufferInfo)
-                    bufferInfo_ = info1
-                else
-                    imageInfo_ = info1 as VkDescriptorImageInfo
-            }
+            this[0].dstSet(dstSet0).descriptorType(type0.i).dstBinding(binding0)
+            if (info0 is VkDescriptorBufferInfo) this[0].bufferInfo_ = info0 else this[0].imageInfo_ = info0 as VkDescriptorImageInfo
+            this[1].dstSet(dstSet1).descriptorType(type1.i).dstBinding(binding1)
+            if (info1 is VkDescriptorBufferInfo) this[1].bufferInfo_ = info1 else this[1].imageInfo_ = info1 as VkDescriptorImageInfo
         }
     }
 
@@ -1302,33 +1206,12 @@ object vk {
             dstSet1: VkDescriptorSet, type1: VkDescriptorType, binding1: Int, info1: Struct,
             dstSet2: VkDescriptorSet, type2: VkDescriptorType, binding2: Int, info2: Struct): VkWriteDescriptorSet.Buffer {
         return WriteDescriptorSet(3) {
-            this[0].apply {
-                dstSet = dstSet0
-                descriptorType = type0
-                dstBinding = binding0
-                if (info0 is VkDescriptorBufferInfo)
-                    bufferInfo_ = info0
-                else
-                    imageInfo_ = info0 as VkDescriptorImageInfo
-            }
-            this[1].apply {
-                dstSet = dstSet1
-                descriptorType = type1
-                dstBinding = binding1
-                if (info1 is VkDescriptorBufferInfo)
-                    bufferInfo_ = info1
-                else
-                    imageInfo_ = info1 as VkDescriptorImageInfo
-            }
-            this[2].apply {
-                dstSet = dstSet2
-                descriptorType = type2
-                dstBinding = binding2
-                if (info2 is VkDescriptorBufferInfo)
-                    bufferInfo_ = info2
-                else
-                    imageInfo_ = info2 as VkDescriptorImageInfo
-            }
+            this[0].dstSet(dstSet0).descriptorType(type0.i).dstBinding(binding0)
+            if (info0 is VkDescriptorBufferInfo) this[0].bufferInfo_ = info0 else this[0].imageInfo_ = info0 as VkDescriptorImageInfo
+            this[1].dstSet(dstSet1).descriptorType(type1.i).dstBinding(binding1)
+            if (info1 is VkDescriptorBufferInfo) this[1].bufferInfo_ = info1 else this[1].imageInfo_ = info1 as VkDescriptorImageInfo
+            this[2].dstSet(dstSet2).descriptorType(type2.i).dstBinding(binding2)
+            if (info2 is VkDescriptorBufferInfo) this[2].bufferInfo_ = info2 else this[2].imageInfo_ = info2 as VkDescriptorImageInfo
         }
     }
 
@@ -1338,42 +1221,13 @@ object vk {
             dstSet2: VkDescriptorSet, type2: VkDescriptorType, binding2: Int, info2: Struct,
             dstSet3: VkDescriptorSet, type3: VkDescriptorType, binding3: Int, info3: Struct): VkWriteDescriptorSet.Buffer {
         return WriteDescriptorSet(4) {
-            this[0].apply {
-                dstSet = dstSet0
-                descriptorType = type0
-                dstBinding = binding0
-                if (info0 is VkDescriptorBufferInfo)
-                    bufferInfo_ = info0
-                else
-                    imageInfo_ = info0 as VkDescriptorImageInfo
-            }
-            this[1].apply {
-                dstSet = dstSet1
-                descriptorType = type1
-                dstBinding = binding1
-                if (info1 is VkDescriptorBufferInfo)
-                    bufferInfo_ = info1
-                else
-                    imageInfo_ = info1 as VkDescriptorImageInfo
-            }
-            this[2].apply {
-                dstSet = dstSet2
-                descriptorType = type2
-                dstBinding = binding2
-                if (info2 is VkDescriptorBufferInfo)
-                    bufferInfo_ = info2
-                else
-                    imageInfo_ = info2 as VkDescriptorImageInfo
-            }
-            this[3].apply {
-                dstSet = dstSet3
-                descriptorType = type3
-                dstBinding = binding3
-                if (info3 is VkDescriptorBufferInfo)
-                    bufferInfo_ = info3
-                else
-                    imageInfo_ = info3 as VkDescriptorImageInfo
-            }
+            if (info0 is VkDescriptorBufferInfo) this[0].bufferInfo_ = info0 else this[0].imageInfo_ = info0 as VkDescriptorImageInfo
+            this[1].dstSet(dstSet1).descriptorType(type1.i).dstBinding(binding1)
+            if (info1 is VkDescriptorBufferInfo) this[1].bufferInfo_ = info1 else this[1].imageInfo_ = info1 as VkDescriptorImageInfo
+            this[2].dstSet(dstSet2).descriptorType(type2.i).dstBinding(binding2)
+            if (info2 is VkDescriptorBufferInfo) this[2].bufferInfo_ = info2 else this[2].imageInfo_ = info2 as VkDescriptorImageInfo
+            this[3].dstSet(dstSet3).descriptorType(type3.i).dstBinding(binding3)
+            if (info3 is VkDescriptorBufferInfo) this[3].bufferInfo_ = info3 else this[3].imageInfo_ = info3 as VkDescriptorImageInfo
         }
     }
 
@@ -1412,18 +1266,8 @@ object vk {
             binding1: Int, location1: Int, format1: VkFormat, offset1: Int): VkVertexInputAttributeDescription.Buffer {
 
         return VertexInputAttributeDescription(2) {
-            this[0].apply {
-                location = location0
-                binding = binding0
-                format = format0
-                offset = offset0
-            }
-            this[1].apply {
-                location = location1
-                binding = binding1
-                format = format1
-                offset = offset1
-            }
+            this[0].location(location0).binding(binding0).format(format0.i).offset(offset0)
+            this[1].location(location1).binding(binding1).format(format1.i).offset(offset1)
         }
     }
 
@@ -1433,24 +1277,9 @@ object vk {
             binding2: Int, location2: Int, format2: VkFormat, offset2: Int): VkVertexInputAttributeDescription.Buffer {
 
         return VertexInputAttributeDescription(3) {
-            this[0].apply {
-                location = location0
-                binding = binding0
-                format = format0
-                offset = offset0
-            }
-            this[1].apply {
-                location = location1
-                binding = binding1
-                format = format1
-                offset = offset1
-            }
-            this[2].apply {
-                location = location2
-                binding = binding2
-                format = format2
-                offset = offset2
-            }
+            this[0].location(location0).binding(binding0).format(format0.i).offset(offset0)
+            this[1].location(location1).binding(binding1).format(format1.i).offset(offset1)
+            this[2].location(location2).binding(binding2).format(format2.i).offset(offset2)
         }
     }
 
@@ -1461,30 +1290,10 @@ object vk {
             binding3: Int, location3: Int, format3: VkFormat, offset3: Int): VkVertexInputAttributeDescription.Buffer {
 
         return VertexInputAttributeDescription(4) {
-            this[0].apply {
-                location = location0
-                binding = binding0
-                format = format0
-                offset = offset0
-            }
-            this[1].apply {
-                location = location1
-                binding = binding1
-                format = format1
-                offset = offset1
-            }
-            this[2].apply {
-                location = location2
-                binding = binding2
-                format = format2
-                offset = offset2
-            }
-            this[3].apply {
-                location = location3
-                binding = binding3
-                format = format3
-                offset = offset3
-            }
+            this[0].location(location0).binding(binding0).format(format0.i).offset(offset0)
+            this[1].location(location1).binding(binding1).format(format1.i).offset(offset1)
+            this[2].location(location2).binding(binding2).format(format2.i).offset(offset2)
+            this[3].location(location3).binding(binding3).format(format3.i).offset(offset3)
         }
     }
 
@@ -1496,36 +1305,49 @@ object vk {
             binding4: Int, location4: Int, format4: VkFormat, offset4: Int): VkVertexInputAttributeDescription.Buffer {
 
         return VertexInputAttributeDescription(4) {
-            this[0].apply {
-                location = location0
-                binding = binding0
-                format = format0
-                offset = offset0
-            }
-            this[1].apply {
-                location = location1
-                binding = binding1
-                format = format1
-                offset = offset1
-            }
-            this[2].apply {
-                location = location2
-                binding = binding2
-                format = format2
-                offset = offset2
-            }
-            this[3].apply {
-                location = location3
-                binding = binding3
-                format = format3
-                offset = offset3
-            }
-            this[4].apply {
-                location = location4
-                binding = binding4
-                format = format4
-                offset = offset4
-            }
+            this[0].location(location0).binding(binding0).format(format0.i).offset(offset0)
+            this[1].location(location1).binding(binding1).format(format1.i).offset(offset1)
+            this[2].location(location2).binding(binding2).format(format2.i).offset(offset2)
+            this[3].location(location3).binding(binding3).format(format3.i).offset(offset3)
+            this[4].location(location4).binding(binding4).format(format4.i).offset(offset4)
+        }
+    }
+
+    inline fun VertexInputAttributeDescription(
+            binding0: Int, location0: Int, format0: VkFormat, offset0: Int,
+            binding1: Int, location1: Int, format1: VkFormat, offset1: Int,
+            binding2: Int, location2: Int, format2: VkFormat, offset2: Int,
+            binding3: Int, location3: Int, format3: VkFormat, offset3: Int,
+            binding4: Int, location4: Int, format4: VkFormat, offset4: Int,
+            binding5: Int, location5: Int, format5: VkFormat, offset5: Int): VkVertexInputAttributeDescription.Buffer {
+
+        return VertexInputAttributeDescription(4) {
+            this[0].location(location0).binding(binding0).format(format0.i).offset(offset0)
+            this[1].location(location1).binding(binding1).format(format1.i).offset(offset1)
+            this[2].location(location2).binding(binding2).format(format2.i).offset(offset2)
+            this[3].location(location3).binding(binding3).format(format3.i).offset(offset3)
+            this[4].location(location4).binding(binding4).format(format4.i).offset(offset4)
+            this[5].location(location5).binding(binding5).format(format5.i).offset(offset5)
+        }
+    }
+
+    inline fun VertexInputAttributeDescription(
+            binding0: Int, location0: Int, format0: VkFormat, offset0: Int,
+            binding1: Int, location1: Int, format1: VkFormat, offset1: Int,
+            binding2: Int, location2: Int, format2: VkFormat, offset2: Int,
+            binding3: Int, location3: Int, format3: VkFormat, offset3: Int,
+            binding4: Int, location4: Int, format4: VkFormat, offset4: Int,
+            binding5: Int, location5: Int, format5: VkFormat, offset5: Int,
+            binding6: Int, location6: Int, format6: VkFormat, offset6: Int): VkVertexInputAttributeDescription.Buffer {
+
+        return VertexInputAttributeDescription(4) {
+            this[0].location(location0).binding(binding0).format(format0.i).offset(offset0)
+            this[1].location(location1).binding(binding1).format(format1.i).offset(offset1)
+            this[2].location(location2).binding(binding2).format(format2.i).offset(offset2)
+            this[3].location(location3).binding(binding3).format(format3.i).offset(offset3)
+            this[4].location(location4).binding(binding4).format(format4.i).offset(offset4)
+            this[5].location(location5).binding(binding5).format(format5.i).offset(offset5)
+            this[6].location(location6).binding(binding6).format(format6.i).offset(offset6)
         }
     }
 
