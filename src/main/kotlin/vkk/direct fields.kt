@@ -1764,6 +1764,14 @@ inline var VkSamplerCreateInfo.addressModeV: VkSamplerAddressMode
 inline var VkSamplerCreateInfo.addressModeW: VkSamplerAddressMode
     get() = VkSamplerAddressMode of VkSamplerCreateInfo.naddressModeW(adr)
     set(value) = VkSamplerCreateInfo.naddressModeW(adr, value.i)
+/** JVM custom */
+inline var VkSamplerCreateInfo.addressMode: VkSamplerAddressMode
+    get() = throw Error()
+    set(value) {
+        addressModeU = value
+        addressModeV = value
+        addressModeW = value
+    }
 inline var VkSamplerCreateInfo.mipLodBias: Float
     get() = VkSamplerCreateInfo.nmipLodBias(adr)
     set(value) = VkSamplerCreateInfo.nmipLodBias(adr, value)
