@@ -2,9 +2,7 @@ package vkk
 
 import gli_.extension
 import glm_.BYTES
-import glm_.buffer.bufferBig
 import glm_.buffer.cap
-import glm_.buffer.intBufferBig
 import glm_.i
 import glm_.mat3x3.Mat3
 import glm_.mat4x4.Mat4
@@ -15,7 +13,6 @@ import glm_.vec3.Vec3
 import glm_.vec4.Vec4
 import graphics.scenery.spirvcrossj.*
 import org.lwjgl.PointerBuffer
-import org.lwjgl.system.MemoryUtil
 import org.lwjgl.system.MemoryUtil.*
 import org.lwjgl.system.Pointer
 import org.lwjgl.system.Struct
@@ -23,13 +20,11 @@ import org.lwjgl.system.StructBuffer
 import org.lwjgl.vulkan.*
 import vkk.appBuffer.ptr
 import java.nio.ByteBuffer
-import java.nio.FloatBuffer
 import java.nio.IntBuffer
 import java.nio.LongBuffer
 import java.nio.file.Files
 import java.nio.file.Path
 import kotlin.reflect.KProperty1
-import kotlin.reflect.KType
 import kotlin.reflect.full.declaredMemberProperties
 import kotlin.reflect.full.defaultType
 import kotlin.reflect.full.findAnnotation
@@ -334,7 +329,11 @@ abstract class Bufferizable {
         get() = if (field.isEmpty()) fieldOrderDefault else field
 
     open val size: Int by lazy {
-        fieldOrder.sumBy { field -> this::class.declaredMemberProperties.find { it.name == field }!!.size }
+        fieldOrder.sumBy { field ->
+            val array = this::class.declaredMemberProperties.find { it.name == field }!!
+            val a = array.getter.call(this)
+            this::class.declaredMemberProperties.find { it.name == field }!!.size
+        }
     }
 
     open infix fun to(address: Long) {
@@ -370,7 +369,7 @@ abstract class Bufferizable {
 
 
     private val <R> KProperty1<out Bufferizable, R>.size: Int
-        get() = when  {
+        get() = when {
             returnType == Mat4::class.defaultType -> Mat4.size
             returnType == Mat3::class.defaultType -> Mat3.size
             returnType == Vec4::class.defaultType -> Vec4.size
