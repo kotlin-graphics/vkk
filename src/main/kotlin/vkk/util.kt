@@ -33,6 +33,7 @@ import kotlin.reflect.KType
 import kotlin.reflect.full.declaredMemberProperties
 import kotlin.reflect.full.defaultType
 import kotlin.reflect.full.findAnnotation
+import kotlin.reflect.jvm.jvmErasure
 
 
 //fun pointerBufferOf(vararg strings: String): PointerBuffer {
@@ -369,37 +370,29 @@ abstract class Bufferizable {
 
 
     private val <R> KProperty1<out Bufferizable, R>.size: Int
-        get() = when (returnType) {
-            Mat4::class.defaultType -> Mat4.size
-            Mat3::class.defaultType -> Mat3.size
-            Vec4::class.defaultType -> Vec4.size
-            Vec3::class.defaultType -> Vec3.size
-            Vec2::class.defaultType -> Vec2.size
-            Float::class.defaultType -> Float.BYTES
-            Int::class.defaultType -> Int.BYTES
-            Array<Bufferizable>::class.defaultType -> {
-                val array = getter.call(this) as Array<Bufferizable>
-                val size = array.size
-                when(size) {
-                    0 -> 0
-                    else -> size * array[0].size
-                }
+        get() = when  {
+            returnType == Mat4::class.defaultType -> Mat4.size
+            returnType == Mat3::class.defaultType -> Mat3.size
+            returnType == Vec4::class.defaultType -> Vec4.size
+            returnType == Vec3::class.defaultType -> Vec3.size
+            returnType == Vec2::class.defaultType -> Vec2.size
+            returnType == Float::class.defaultType -> Float.BYTES
+            returnType == Int::class.defaultType -> Int.BYTES
+            returnType.jvmErasure.java.isArray -> {
+                val array = getter.call(this@Bufferizable)
+                java.lang.reflect.Array.getLength(returnType.jvmErasure.java)
+//                4
+//            }
+//            Array<out Any?>::class.defaultType -> {
+//                val array = getter.call(this) as Array<Bufferizable>
+//                val size = array.size
+//                when(size) {
+//                    0 -> 0
+//                    else -> size * array[0].size
+//                }
             }
             else -> throw Error(toString())
         }
-
-//    private val KType.size: Int
-//        get() = when (this) {
-//            Mat4::class.defaultType -> Mat4.size
-//            Mat3::class.defaultType -> Mat3.size
-//            Vec4::class.defaultType -> Vec4.size
-//            Vec3::class.defaultType -> Vec3.size
-//            Vec2::class.defaultType -> Vec2.size
-//            Float::class.defaultType -> Float.BYTES
-//            Int::class.defaultType -> Int.BYTES
-//            Array<Bufferizable>::class.defaultType ->
-//            else -> throw Error(toString())
-//        }
 
     private val <R> KProperty1<out Bufferizable, R>.func: BufferizableAddFunctionType
         get() = when (returnType) {
@@ -417,59 +410,28 @@ abstract class Bufferizable {
 typealias BufferizableAddFunctionType = (Any) -> Unit
 typealias BufferizableData = Pair<BufferizableAddFunctionType, KProperty1<out Bufferizable, Any?>>
 
-fun bufferOf(vararg data: Bufferizable): ByteBuffer {
-    val size = data.sumBy { it.size }
-    val res = bufferBig(size)
-    val address = memAddress(res)
-    var offset = 0
-    for (i in data.indices) {
-        data[i] to address + offset
-        offset += data[i].size
+/*object uboVS : Bufferizable() {
+
+    var projectionMatrix = Mat4()
+    var modelMatrix = Mat4()
+    var viewMatrix = Mat4()
+
+    override val fieldOrder = arrayOf("projectionMatrix", "modelMatrix", "viewMatrix")
+
+    override infix fun to(address: Long) {
+        withAddress(address) {
+            //            add(projectionMatrix); add(modelMatrix); add(viewMatrix)
+        }
     }
-    return res
 }
 
-fun bufferOf(data: Collection<Bufferizable>): ByteBuffer {
-    val size = data.sumBy { it.size }
-    val res = bufferBig(size)
-    val address = memAddress(res)
-    var offset = 0
-    for (i in data.indices) {
-        data.elementAt(i) to address + offset
-        offset += data.elementAt(i).size
-    }
-    return res
-}
-
-fun intArrayOf(ints: Collection<Int>): IntBuffer {
-    val buffer = intBufferBig(ints.size)
-    for (i in ints.indices)
-        buffer[i] = ints.elementAt(i)
-    return buffer
-}
-
-//object uboVS : Bufferizable() {
-//
-//    var projectionMatrix = Mat4()
-//    var modelMatrix = Mat4()
-//    var viewMatrix = Mat4()
-//
-//    override val fieldOrder = arrayOf("projectionMatrix", "modelMatrix", "viewMatrix")
-//
-//    override infix fun to(address: Long) {
-//        withAddress(address) {
-//            //            add(projectionMatrix); add(modelMatrix); add(viewMatrix)
-//        }
-//    }
-//}
-//
-//fun main(args: Array<String>) {
-//    println(uboVS::class.declaredMemberProperties)
-//    val member = uboVS::class.declaredMemberProperties.find { it.name == "projectionMatrix" }!!
-//    println(member.returnType)
-//    println(member.get(uboVS) as Mat4)
-//    println(member.returnType == Mat4::class.defaultType)
-//}
+fun main(args: Array<String>) {
+    println(uboVS::class.declaredMemberProperties)
+    val member = uboVS::class.declaredMemberProperties.find { it.name == "projectionMatrix" }!!
+    println(member.returnType)
+    println(member.get(uboVS) as Mat4)
+    println(member.returnType == Mat4::class.defaultType)
+}*/
 
 private class Light : Bufferizable() {
     lateinit var position: Vec4
@@ -477,7 +439,7 @@ private class Light : Bufferizable() {
     var radius = 0f
 }
 
-private class FiledOrder {
+private class FiledOrder : Bufferizable() {
     @Retention(AnnotationRetention.RUNTIME)
     annotation class Order(val value: Int)
 
@@ -496,20 +458,23 @@ private class FiledOrder {
     @Order(2)
     fun end() {
     }
+}
 
-    val lights = Array(5) { Light() }
+private class Test : Bufferizable() {
+    var lights = Array(5) { Light() }
 }
 
 fun main(args: Array<String>) {
-    val properties = FiledOrder::class.declaredMemberProperties
-    val parts = properties.partition { it.findAnnotation<FiledOrder.Order>() == null }
-    val plain = parts.first.sortedBy { it.name }
-    val annotated = parts.second.associateBy { it.findAnnotation<FiledOrder.Order>()!!.value }
-    val list = ArrayList<KProperty1<*, *>>()
-    var plainIdx = 0
-    for (i in properties.indices)
-        list += annotated[i] ?: plain[plainIdx++]
-    list.forEach { println(it.returnType) }
+//    val properties = FiledOrder::class.declaredMemberProperties
+//    val parts = properties.partition { it.findAnnotation<FiledOrder.Order>() == null }
+//    val plain = parts.first.sortedBy { it.name }
+//    val annotated = parts.second.associateBy { it.findAnnotation<FiledOrder.Order>()!!.value }
+//    val list = ArrayList<KProperty1<*, *>>()
+//    var plainIdx = 0
+//    for (i in properties.indices)
+//        list += annotated[i] ?: plain[plainIdx++]
+//    list.forEach { println(it.returnType) }
+    println(Test().size)
 }
 
 typealias VkDebugReportCallbackFunc = (VkDebugReportFlagsEXT, VkDebugReportObjectType, Long, Long, Int, String, String, Any?) -> Boolean

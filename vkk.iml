@@ -36,8 +36,8 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-reflect:1.2.41" level="project" />
-    <orderEntry type="library" name="Gradle: com.github.kotlin-graphics:gli:e486e385dfea7707b682a43f9ce8810b1be73506" level="project" />
-    <orderEntry type="library" name="Gradle: com.github.kotlin-graphics:glm:738c60621c18939ad6093a13cddfe158344edbbe" level="project" />
+    <orderEntry type="library" name="Gradle: com.github.kotlin-graphics:gli:650780d8720653edd1e7c07a23f88aee5d9861f5" level="project" />
+    <orderEntry type="library" name="Gradle: com.github.kotlin-graphics:glm:e8b8d21fd5da3753eb426a021dd8a88771ee0468" level="project" />
     <orderEntry type="library" name="Gradle: com.github.kotlin-graphics:kotlin-unsigned:1a060d87adc12a53ad1e16f08489bb4924b9c036" level="project" />
     <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib:1.2.41" level="project" />
     <orderEntry type="library" name="Gradle: org.lwjgl:lwjgl-glfw:3.1.7-SNAPSHOT" level="project" />
