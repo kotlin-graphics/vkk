@@ -314,11 +314,14 @@ object vk {
         return res
     }
 
+    inline fun PipelineLayoutCreateInfo(): VkPipelineLayoutCreateInfo {
+        return VkPipelineLayoutCreateInfo.create(ptr.advance(VkPipelineLayoutCreateInfo.SIZEOF)).apply {
+            type = VkStructureType.PIPELINE_LAYOUT_CREATE_INFO
+        }
+    }
+
     inline fun PipelineLayoutCreateInfo(block: VkPipelineLayoutCreateInfo.() -> Unit): VkPipelineLayoutCreateInfo {
-        val res = VkPipelineLayoutCreateInfo.create(ptr.advance(VkPipelineLayoutCreateInfo.SIZEOF))
-        res.type = VkStructureType.PIPELINE_LAYOUT_CREATE_INFO
-        res.block()
-        return res
+        return PipelineLayoutCreateInfo().also(block)
     }
 
     inline fun PipelineMultisampleStateCreateInfo(block: VkPipelineMultisampleStateCreateInfo.() -> Unit): VkPipelineMultisampleStateCreateInfo {
