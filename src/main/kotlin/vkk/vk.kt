@@ -183,11 +183,14 @@ object vk {
         return res
     }
 
+    inline fun GraphicsPipelineCreateInfo(): VkGraphicsPipelineCreateInfo {
+        return VkGraphicsPipelineCreateInfo.create(ptr.advance(VkGraphicsPipelineCreateInfo.SIZEOF)).apply {
+            type = VkStructureType.GRAPHICS_PIPELINE_CREATE_INFO
+        }
+    }
+
     inline fun GraphicsPipelineCreateInfo(block: VkGraphicsPipelineCreateInfo.() -> Unit): VkGraphicsPipelineCreateInfo {
-        val res = VkGraphicsPipelineCreateInfo.create(ptr.advance(VkGraphicsPipelineCreateInfo.SIZEOF))
-        res.type = VkStructureType.GRAPHICS_PIPELINE_CREATE_INFO
-        res.block()
-        return res
+        return GraphicsPipelineCreateInfo().also(block)
     }
 
     inline fun GraphicsPipelineCreateInfo(capacity: Int, block: VkGraphicsPipelineCreateInfo.() -> Unit): VkGraphicsPipelineCreateInfo.Buffer {
