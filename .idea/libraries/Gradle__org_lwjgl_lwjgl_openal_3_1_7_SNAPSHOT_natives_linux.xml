@@ -2,10 +2,12 @@
   <library name="Gradle: org.lwjgl:lwjgl-openal:3.1.7-SNAPSHOT:natives-linux">
     <CLASSES>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-openal/3.1.7-SNAPSHOT/2003668cddc7a842645e3a859546bcd0cc8a7/lwjgl-openal-3.1.7-SNAPSHOT-natives-linux.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-openal/3.1.7-SNAPSHOT/530005243e5303da484e6fa8b71ce9a6b7ca0a45/lwjgl-openal-3.1.7-SNAPSHOT-natives-linux.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-openal/3.1.7-SNAPSHOT/6f8abd4c974e35f6b65766d131c0461ab939ca3f/lwjgl-openal-3.1.7-SNAPSHOT-sources.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-openal/3.1.7-SNAPSHOT/4b607cd466506af8f461c7391b475c056355a27/lwjgl-openal-3.1.7-SNAPSHOT-sources.jar!/" />
     </SOURCES>
   </library>
 </component>
