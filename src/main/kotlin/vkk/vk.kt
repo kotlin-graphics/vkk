@@ -183,11 +183,14 @@ object vk {
         return res
     }
 
+    inline fun GraphicsPipelineCreateInfo(): VkGraphicsPipelineCreateInfo {
+        return VkGraphicsPipelineCreateInfo.create(ptr.advance(VkGraphicsPipelineCreateInfo.SIZEOF)).apply {
+            type = VkStructureType.GRAPHICS_PIPELINE_CREATE_INFO
+        }
+    }
+
     inline fun GraphicsPipelineCreateInfo(block: VkGraphicsPipelineCreateInfo.() -> Unit): VkGraphicsPipelineCreateInfo {
-        val res = VkGraphicsPipelineCreateInfo.create(ptr.advance(VkGraphicsPipelineCreateInfo.SIZEOF))
-        res.type = VkStructureType.GRAPHICS_PIPELINE_CREATE_INFO
-        res.block()
-        return res
+        return GraphicsPipelineCreateInfo().also(block)
     }
 
     inline fun GraphicsPipelineCreateInfo(capacity: Int, block: VkGraphicsPipelineCreateInfo.() -> Unit): VkGraphicsPipelineCreateInfo.Buffer {
@@ -314,11 +317,14 @@ object vk {
         return res
     }
 
+    inline fun PipelineLayoutCreateInfo(): VkPipelineLayoutCreateInfo {
+        return VkPipelineLayoutCreateInfo.create(ptr.advance(VkPipelineLayoutCreateInfo.SIZEOF)).apply {
+            type = VkStructureType.PIPELINE_LAYOUT_CREATE_INFO
+        }
+    }
+
     inline fun PipelineLayoutCreateInfo(block: VkPipelineLayoutCreateInfo.() -> Unit): VkPipelineLayoutCreateInfo {
-        val res = VkPipelineLayoutCreateInfo.create(ptr.advance(VkPipelineLayoutCreateInfo.SIZEOF))
-        res.type = VkStructureType.PIPELINE_LAYOUT_CREATE_INFO
-        res.block()
-        return res
+        return PipelineLayoutCreateInfo().also(block)
     }
 
     inline fun PipelineMultisampleStateCreateInfo(block: VkPipelineMultisampleStateCreateInfo.() -> Unit): VkPipelineMultisampleStateCreateInfo {
@@ -495,7 +501,8 @@ object vk {
     inline fun Extent3D(block: VkExtent3D.() -> Unit): VkExtent3D = VkExtent3D.create(ptr.advance(VkExtent3D.SIZEOF)).also(block)
     inline fun Extent2D(block: VkExtent2D.() -> Unit): VkExtent2D = VkExtent2D.create(ptr.advance(VkExtent2D.SIZEOF)).also(block)
 
-    inline fun FormatProperties(block: VkFormatProperties.() -> Unit): VkFormatProperties = VkFormatProperties.create(ptr.advance(VkFormatProperties.SIZEOF)).also(block)
+    inline fun FormatProperties(): VkFormatProperties = VkFormatProperties.create(ptr.advance(VkFormatProperties.SIZEOF))
+    inline fun FormatProperties(block: VkFormatProperties.() -> Unit): VkFormatProperties = FormatProperties().also(block)
 
     inline fun ImageBlit(block: VkImageBlit.() -> Unit): VkImageBlit = VkImageBlit.create(ptr.advance(VkImageBlit.SIZEOF)).also(block)
 

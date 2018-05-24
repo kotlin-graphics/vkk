@@ -42,10 +42,24 @@ object appBuffer {
             return MemoryUtil.memPointerBuffer(ptr.advance(size), 1)
         }
 
-    infix inline fun pointerBufferOf(pointer: Pointer) = pointerBuffer(1).apply { put(0, pointer) }
-    infix inline fun pointerBuffer(capacity: Int): PointerBuffer {
+    inline infix fun pointerBuffer(capacity: Int): PointerBuffer {
         val size = Pointer.POINTER_SIZE * capacity
         return MemoryUtil.memPointerBuffer(ptr.advance(size), capacity)
+    }
+
+    inline infix fun pointerBufferOf(pointer: Pointer) = pointerBuffer(1).apply { put(0, pointer) }
+    inline infix fun pointerBufferOf(long: Long) = pointerBuffer(1).apply { put(0, long) }
+    inline fun pointerBufferOf(long0: Long, long1: Long) = pointerBuffer(1).apply {
+        put(0, long0).put(1, long1)
+    }
+    inline fun pointerBufferOf(long0: Long, long1: Long, long2: Long) = pointerBuffer(1).apply {
+        put(0, long0).put(1, long1).put(2, long2)
+    }
+    inline fun pointerBufferOf(long0: Long, long1: Long, long2: Long, long3: Long) = pointerBuffer(1).apply {
+        put(0, long0).put(1, long1).put(2, long2).put(3, long3)
+    }
+    inline fun pointerBufferOf(long0: Long, long1: Long, long2: Long, long3: Long, long4: Long) = pointerBuffer(1).apply {
+        put(0, long0).put(1, long1).put(2, long2).put(3, long3).put(4, long4)
     }
 
     inline val byte get() = ptr.advance(Byte.BYTES)
