@@ -1,5 +1,8 @@
 package vkk
 
+import appBuffer.advance
+import appBuffer.appBuffer
+import appBuffer.appBuffer.ptr
 import glm_.L
 import glm_.i
 import glm_.set
@@ -9,7 +12,6 @@ import org.lwjgl.system.MemoryUtil.*
 import org.lwjgl.vulkan.*
 import unsigned.Uint
 import unsigned.Ulong
-import vkk.appBuffer.ptr
 import java.nio.ByteBuffer
 import java.nio.LongBuffer
 import kotlin.reflect.KMutableProperty0

@@ -35,6 +35,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Gradle: com.github.kotlin-graphics:appBuffer:c4b083b7b4a38760c9bde824ef8cbe0883d6e094" level="project" />
     <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-reflect:1.2.41" level="project" />
     <orderEntry type="library" name="Gradle: com.github.kotlin-graphics:gli:f3303ecbfc77b7a64c0d9e99f02870a75417184d" level="project" />
     <orderEntry type="library" name="Gradle: com.github.kotlin-graphics:glm:86ecfc812ba39da9dd62ec4e69c658b2111567bb" level="project" />
@@ -54,6 +55,7 @@
     <orderEntry type="library" name="Gradle: org.lwjgl:lwjgl:3.1.7-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Gradle: org.lwjgl:lwjgl:3.1.7-SNAPSHOT:natives-linux" level="project" />
     <orderEntry type="library" name="Gradle: graphics.scenery:spirvcrossj:0.4.0" level="project" />
+    <orderEntry type="library" name="Gradle: graphics.scenery:spirvcrossj:0.4.0:natives-linux" level="project" />
     <orderEntry type="library" name="Gradle: org.jetbrains:annotations:13.0" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: org.lwjgl:lwjgl-glfw:3.1.7-SNAPSHOT:natives-windows" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: org.lwjgl:lwjgl-jemalloc:3.1.7-SNAPSHOT:natives-windows" level="project" />
