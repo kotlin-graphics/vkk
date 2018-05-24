@@ -160,10 +160,24 @@ object appBuffer {
         return res
     }
 
+    inline fun shortBufferOf(vararg ints: Int): ShortBuffer {
+        val res = shortBuffer(ints.size)
+        for (i in ints.indices)
+            res[i] = ints[i]
+        return res
+    }
+
     inline fun buffer(size: Int): ByteBuffer = MemoryUtil.memByteBuffer(ptr.advance(Byte.BYTES * size), size)
     inline fun intBuffer(size: Int): IntBuffer = MemoryUtil.memIntBuffer(ptr.advance(Int.BYTES * size), size)
     inline fun intBuffer(size: Int, block: (Int) -> Int): IntBuffer {
         val res = intBuffer(size)
+        for (i in 0 until res.remaining())
+            res[i] = block(i)
+        return res
+    }
+    inline fun shortBuffer(size: Int): ShortBuffer = MemoryUtil.memShortBuffer(ptr.advance(Short.BYTES * size), size)
+    inline fun shortBuffer(size: Int, block: (Int) -> Int): ShortBuffer {
+        val res = shortBuffer(size)
         for (i in 0 until res.remaining())
             res[i] = block(i)
         return res
