@@ -6,6 +6,7 @@ import org.lwjgl.vulkan.*
 //fun VmDescriptorBufferInfo(): VkDescriptorBufferInfo = VkDescriptorBufferInfo.malloc()
 //fun VmDescriptorBufferInfo(capacity: Int): VkDescriptorBufferInfo.Buffer = VkDescriptorBufferInfo.malloc(capacity)
 fun cVkDescriptorBufferInfo(): VkDescriptorBufferInfo = VkDescriptorBufferInfo.calloc()
+
 fun cVkDescriptorBufferInfo(capacity: Int): VkDescriptorBufferInfo.Buffer = VkDescriptorBufferInfo.calloc(capacity)
 
 
@@ -33,32 +34,41 @@ inline fun cVkImageSubresourceRange(aspectMask: VkImageAspectFlags,
     }
 }
 
+inline fun cVkPipelineColorBlendAttachmentState(block: VkPipelineColorBlendAttachmentState.() -> Unit): VkPipelineColorBlendAttachmentState {
+    return VkPipelineColorBlendAttachmentState.calloc().also(block)
+}
+
 inline fun cVkPipelineColorBlendAttachmentState(capacity: Int): VkPipelineColorBlendAttachmentState.Buffer {
     return VkPipelineColorBlendAttachmentState.calloc(capacity)
 }
+
 inline fun cVkPipelineColorBlendAttachmentState(capacity: Int, block: VkPipelineColorBlendAttachmentState.() -> Unit): VkPipelineColorBlendAttachmentState.Buffer {
     val res = cVkPipelineColorBlendAttachmentState(capacity)
     res[0].block()
     return res
 }
+
 inline fun cVkPipelineColorBlendStateCreateInfo(block: VkPipelineColorBlendStateCreateInfo.() -> Unit): VkPipelineColorBlendStateCreateInfo {
     val res = VkPipelineColorBlendStateCreateInfo.calloc()
     res.type = VkStructureType.PIPELINE_COLOR_BLEND_STATE_CREATE_INFO
     res.block()
     return res
 }
+
 inline fun cVkPipelineDepthStencilStateCreateInfo(block: VkPipelineDepthStencilStateCreateInfo.() -> Unit): VkPipelineDepthStencilStateCreateInfo {
     val res = VkPipelineDepthStencilStateCreateInfo.calloc()
     res.type = VkStructureType.PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO
     res.block()
     return res
 }
+
 inline fun cVkPipelineDynamicStateCreateInfo(block: VkPipelineDynamicStateCreateInfo.() -> Unit): VkPipelineDynamicStateCreateInfo {
     val res = VkPipelineDynamicStateCreateInfo.calloc()
     res.type = VkStructureType.PIPELINE_DYNAMIC_STATE_CREATE_INFO
     res.block()
     return res
 }
+
 inline fun cVkPipelineInputAssemblyStateCreateInfo(block: VkPipelineInputAssemblyStateCreateInfo.() -> Unit): VkPipelineInputAssemblyStateCreateInfo {
     val res = VkPipelineInputAssemblyStateCreateInfo.calloc()
     res.type = VkStructureType.PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO
@@ -79,6 +89,7 @@ inline fun cVkPipelineRasterizationStateCreateInfo(block: VkPipelineRasterizatio
     res.block()
     return res
 }
+
 inline fun cVkPipelineShaderStageCreateInfo(block: VkPipelineShaderStageCreateInfo.() -> Unit): VkPipelineShaderStageCreateInfo {
     val res = VkPipelineShaderStageCreateInfo.calloc()
     res.type = VkStructureType.PIPELINE_SHADER_STAGE_CREATE_INFO
@@ -91,9 +102,11 @@ inline fun cVkPipelineVertexInputStateCreateInfo(): VkPipelineVertexInputStateCr
         type = VkStructureType.PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO
     }
 }
+
 inline fun cVkPipelineVertexInputStateCreateInfo(block: VkPipelineVertexInputStateCreateInfo.() -> Unit): VkPipelineVertexInputStateCreateInfo {
     return cVkPipelineVertexInputStateCreateInfo().also(block)
 }
+
 inline fun cVkPipelineViewportStateCreateInfo(block: VkPipelineViewportStateCreateInfo.() -> Unit): VkPipelineViewportStateCreateInfo {
     val res = VkPipelineViewportStateCreateInfo.calloc()
     res.type = VkStructureType.PIPELINE_VIEWPORT_STATE_CREATE_INFO
@@ -107,6 +120,7 @@ inline fun cVkSemaphoreCreateInfo(block: VkSemaphoreCreateInfo.() -> Unit): VkSe
     res.block()
     return res
 }
+
 inline fun cVkSubmitInfo(block: VkSubmitInfo.() -> Unit): VkSubmitInfo {
     val res = VkSubmitInfo.calloc()
     res.type = VkStructureType.SUBMIT_INFO
@@ -114,7 +128,7 @@ inline fun cVkSubmitInfo(block: VkSubmitInfo.() -> Unit): VkSubmitInfo {
     return res
 }
 
-fun cVkVertexInputBindingDescription(capacity: Int, block:VkVertexInputBindingDescription.() -> Unit): VkVertexInputBindingDescription.Buffer {
+fun cVkVertexInputBindingDescription(capacity: Int, block: VkVertexInputBindingDescription.() -> Unit): VkVertexInputBindingDescription.Buffer {
     val res = VkVertexInputBindingDescription.calloc(capacity)
     res[0].block()
     return res
