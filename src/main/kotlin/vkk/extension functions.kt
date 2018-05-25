@@ -11,9 +11,9 @@ import org.lwjgl.vulkan.*
 import java.nio.ByteBuffer
 import java.nio.FloatBuffer
 import kotlin.reflect.KMutableProperty0
-import appBuffer.advance
-import appBuffer.appBuffer
-import appBuffer.appBuffer.ptr
+import ab.advance
+import ab.appBuffer
+import ab.appBuffer.ptr
 
 
 /*

@@ -35,7 +35,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Gradle: com.github.kotlin-graphics:appBuffer:c4b083b7b4a38760c9bde824ef8cbe0883d6e094" level="project" />
+    <orderEntry type="library" name="Gradle: com.github.kotlin-graphics:appBuffer:8e7c97d4bb6651ce7d9446cd4ac619b7cc8c72ed" level="project" />
     <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-reflect:1.2.41" level="project" />
     <orderEntry type="library" name="Gradle: com.github.kotlin-graphics:gli:f3303ecbfc77b7a64c0d9e99f02870a75417184d" level="project" />
     <orderEntry type="library" name="Gradle: com.github.kotlin-graphics:glm:86ecfc812ba39da9dd62ec4e69c658b2111567bb" level="project" />

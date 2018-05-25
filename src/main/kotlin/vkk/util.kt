@@ -21,9 +21,9 @@ import org.lwjgl.system.Pointer
 import org.lwjgl.system.Struct
 import org.lwjgl.system.StructBuffer
 import org.lwjgl.vulkan.*
-import appBuffer.advance
-import appBuffer.appBuffer
-import appBuffer.appBuffer.ptr
+import ab.advance
+import ab.appBuffer
+import ab.appBuffer.ptr
 import java.nio.ByteBuffer
 import java.nio.FloatBuffer
 import java.nio.IntBuffer
