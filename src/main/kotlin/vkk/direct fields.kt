@@ -5268,7 +5268,7 @@ inline var VkDebugReportCallbackCreateInfoEXT.next
 inline var VkDebugReportCallbackCreateInfoEXT.flags: VkDebugReportFlagsEXT
     get() = VkDebugReportCallbackCreateInfoEXT.nflags(adr)
     set(value) = VkDebugReportCallbackCreateInfoEXT.nflags(adr, value)
-inline var VkDebugReportCallbackCreateInfoEXT.callback: VkDebugReportCallbackFunc
+inline var VkDebugReportCallbackCreateInfoEXT.callback: VkDebugReportCallbackType
     get() = TODO() //VkDebugReportCallbackCreateInfoEXT.npfnCallback(adr)
     set(crossinline value) = VkDebugReportCallbackCreateInfoEXT.npfnCallback(adr,
             { flags, objectType, `object`, location, messageCode, pLayerPrefix, pMessage, pUserData ->

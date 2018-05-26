@@ -483,7 +483,15 @@ fun main(args: Array<String>) {
     println(list)
 }
 
-typealias VkDebugReportCallbackFunc = (VkDebugReportFlagsEXT, VkDebugReportObjectType, Long, Long, Int, String, String, Any?) -> Boolean
+typealias VkDebugReportCallbackType = (
+        flag: VkDebugReportFlagsEXT,
+        objType: VkDebugReportObjectType,
+        scrType: Long,
+        location: Long,
+        msgCode: Int,
+        layerPrefix: String,
+        msg: String,
+        userData: Any?) -> Boolean
 
 inline operator fun VkAttachmentReference.invoke(attachment: Int, layout: VkImageLayout): VkAttachmentReference {
     return attachment(attachment).layout(layout.i)
