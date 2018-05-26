@@ -128,6 +128,14 @@ inline fun cVkSubmitInfo(block: VkSubmitInfo.() -> Unit): VkSubmitInfo {
     return res
 }
 
+fun cVkVertexInputAttributeDescription(): VkVertexInputAttributeDescription {
+    return VkVertexInputAttributeDescription.calloc()
+}
+
+fun cVkVertexInputAttributeDescription(capacity: Int): VkVertexInputAttributeDescription.Buffer {
+    return VkVertexInputAttributeDescription.calloc(capacity)
+}
+
 fun cVkVertexInputBindingDescription(capacity: Int, block: VkVertexInputBindingDescription.() -> Unit): VkVertexInputBindingDescription.Buffer {
     val res = VkVertexInputBindingDescription.calloc(capacity)
     res[0].block()
