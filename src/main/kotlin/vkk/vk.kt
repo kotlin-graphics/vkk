@@ -281,11 +281,14 @@ object vk {
         return VkPhysicalDeviceProperties.create(ptr.advance(VkPhysicalDeviceProperties.SIZEOF))
     }
 
+    inline fun PipelineCacheCreateInfo(): VkPipelineCacheCreateInfo {
+        return VkPipelineCacheCreateInfo.create(ptr.advance(VkPipelineCacheCreateInfo.SIZEOF)).apply {
+            type = VkStructureType.PIPELINE_CACHE_CREATE_INFO
+        }
+    }
+
     inline fun PipelineCacheCreateInfo(block: VkPipelineCacheCreateInfo.() -> Unit): VkPipelineCacheCreateInfo {
-        val res = VkPipelineCacheCreateInfo.create(ptr.advance(VkPipelineCacheCreateInfo.SIZEOF))
-        res.type = VkStructureType.PIPELINE_CACHE_CREATE_INFO
-        res.block()
-        return res
+        return PipelineCacheCreateInfo().also(block)
     }
 
     inline fun PipelineColorBlendStateCreateInfo(block: VkPipelineColorBlendStateCreateInfo.() -> Unit): VkPipelineColorBlendStateCreateInfo {
