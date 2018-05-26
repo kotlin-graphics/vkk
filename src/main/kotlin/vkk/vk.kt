@@ -389,6 +389,16 @@ object vk {
         return res
     }
 
+    inline fun QueryPoolCreateInfo(): VkQueryPoolCreateInfo {
+        return VkQueryPoolCreateInfo.create(ptr.advance(VkQueryPoolCreateInfo.SIZEOF)).apply {
+            type = VkStructureType.QUERY_POOL_CREATE_INFO
+        }
+    }
+
+    inline fun QueryPoolCreateInfo(block: VkQueryPoolCreateInfo.() -> Unit): VkQueryPoolCreateInfo {
+        return QueryPoolCreateInfo().also(block)
+    }
+
     inline fun RenderPassBeginInfo(block: VkRenderPassBeginInfo.() -> Unit): VkRenderPassBeginInfo {
         val res = VkRenderPassBeginInfo.create(ptr.advance(VkRenderPassBeginInfo.SIZEOF))
         res.type = VkStructureType.RENDER_PASS_BEGIN_INFO
