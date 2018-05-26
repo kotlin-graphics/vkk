@@ -380,6 +380,12 @@ inline infix fun VkDevice.createPipelineLayout(createInfo: VkPipelineLayoutCreat
     return memGetLong(pPipelineLayout)
 }
 
+inline fun VkDevice.createQueryPool(createInfo: VkQueryPoolCreateInfo, queryPool: VkQueryPool): VkPipelineLayout {
+    val pQueryPool = appBuffer.long
+    VK_CHECK_RESULT(VK10.nvkCreateQueryPool(this, createInfo.adr, NULL, pQueryPool))
+    return memGetLong(pQueryPool)
+}
+
 inline infix fun VkDevice.createRenderPass(createInfo: VkRenderPassCreateInfo): VkRenderPass {
     val pRenderPass = appBuffer.long
     VK_CHECK_RESULT(VK10.nvkCreateRenderPass(this, createInfo.adr, NULL, pRenderPass))
