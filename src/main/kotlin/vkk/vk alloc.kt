@@ -136,8 +136,11 @@ fun cVkVertexInputAttributeDescription(capacity: Int): VkVertexInputAttributeDes
     return VkVertexInputAttributeDescription.calloc(capacity)
 }
 
+fun cVkVertexInputBindingDescription(): VkVertexInputBindingDescription = VkVertexInputBindingDescription.calloc()
+fun cVkVertexInputBindingDescription(block: VkVertexInputBindingDescription.() -> Unit): VkVertexInputBindingDescription {
+    return cVkVertexInputBindingDescription().also(block)
+}
+fun cVkVertexInputBindingDescription(capacity: Int): VkVertexInputBindingDescription.Buffer = VkVertexInputBindingDescription.calloc(capacity)
 fun cVkVertexInputBindingDescription(capacity: Int, block: VkVertexInputBindingDescription.() -> Unit): VkVertexInputBindingDescription.Buffer {
-    val res = VkVertexInputBindingDescription.calloc(capacity)
-    res[0].block()
-    return res
+    return cVkVertexInputBindingDescription(capacity).also { it[0].block() }
 }
