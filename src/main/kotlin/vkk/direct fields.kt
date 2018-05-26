@@ -489,20 +489,27 @@ inline val VkPhysicalDeviceProperties.limits: VkPhysicalDeviceLimits
 inline val VkPhysicalDeviceProperties.sparseProperties: VkPhysicalDeviceSparseProperties
     get() = VkPhysicalDeviceProperties.nsparseProperties(adr)
 
-/** JVM custom */
+/* ---------------------------------------------------------------------------------------------------------------------
+ * JVM custom */
 inline val VkPhysicalDeviceProperties.apiVersionString: String
     get() = _decode(apiVersion)
 inline val VkPhysicalDeviceProperties.driverVersionString: String
     get() = _decode(driverVersion)
-inline val VkPhysicalDeviceProperties.vendorName: String
+
+enum class VkVendor { AMD, Nvidia, Intel, Unknown }
+
+inline val VkPhysicalDeviceProperties.vendor: VkVendor
     get() = when (vendorID) {
-        0x1002 -> "AMD"
-        0x10DE -> "Nvidia"
-        0x8086 -> "Intel"
-        else -> "Unknown Vendor"
+        0x1002 -> VkVendor.AMD
+        0x10DE -> VkVendor.Nvidia
+        0x8086 -> VkVendor.Intel
+        else -> VkVendor.Unknown
     }
 
 fun _decode(int: Int) = "${int and 0xFFC00000.i shr 22}.${int and 0x003FF000 shr 12}.${int and 0x00000FFF}"
+/* JVM custom
+*  -------------------------------------------------------------------------------------------------------------------*/
+
 
 //typedef struct VkPhysicalDeviceProperties {
 //    uint32_t                            apiVersion;
