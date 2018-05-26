@@ -5268,13 +5268,18 @@ inline var VkDebugReportCallbackCreateInfoEXT.next
 inline var VkDebugReportCallbackCreateInfoEXT.flags: VkDebugReportFlagsEXT
     get() = VkDebugReportCallbackCreateInfoEXT.nflags(adr)
     set(value) = VkDebugReportCallbackCreateInfoEXT.nflags(adr, value)
-inline var VkDebugReportCallbackCreateInfoEXT.callback: VkDebugReportCallbackType
+private var callback: VkDebugReportCallbackEXT? = null
+var VkDebugReportCallbackCreateInfoEXT.callback: VkDebugReportCallbackType
     get() = TODO() //VkDebugReportCallbackCreateInfoEXT.npfnCallback(adr)
-    set(crossinline value) = VkDebugReportCallbackCreateInfoEXT.npfnCallback(adr,
-            { flags, objectType, `object`, location, messageCode, pLayerPrefix, pMessage, pUserData ->
-                val type = VkDebugReportObjectType of objectType
-                value(flags, type, `object`, location, messageCode, pLayerPrefix.utf8, pMessage.utf8, pUserData as Any).i
-            })
+    set(crossinline value) {
+        vkk.callback?.free()
+        vkk.callback = VkDebugReportCallbackEXT.create { flags, objectType, `object`, location, messageCode, pLayerPrefix, pMessage, pUserData ->
+            val type = VkDebugReportObjectType of objectType
+            value(flags, type, `object`, location, messageCode, pLayerPrefix.utf8, pMessage.utf8, pUserData as Any).i
+        }.also {
+            VkDebugReportCallbackCreateInfoEXT.npfnCallback(adr, it)
+        }
+    }
 inline var VkDebugReportCallbackCreateInfoEXT.userData
     get() = VkDebugReportCallbackCreateInfoEXT.npUserData(adr)
     set(value) = VkDebugReportCallbackCreateInfoEXT.npUserData(adr, value)
