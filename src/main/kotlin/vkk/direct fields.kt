@@ -831,15 +831,27 @@ inline var VkSemaphoreCreateInfo.flags: VkSemaphoreCreateFlags
 //    const void*           pNext;
 //    VkEventCreateFlags    flags;
 //} VkEventCreateInfo;
-//
-//typedef struct VkQueryPoolCreateInfo {
-//    VkStructureType                  sType;
-//    const void*                      pNext;
-//    VkQueryPoolCreateFlags           flags;
-//    VkQueryType                      queryType;
-//    uint32_t                         queryCount;
-//    VkQueryPipelineStatisticFlags    pipelineStatistics;
-//} VkQueryPoolCreateInfo;
+
+
+inline var VkQueryPoolCreateInfo.type: VkStructureType
+    get() = VkStructureType of VkQueryPoolCreateInfo.nsType(adr)
+    set(value) = VkQueryPoolCreateInfo.nsType(adr, value.i)
+inline var VkQueryPoolCreateInfo.next
+    get() = VkQueryPoolCreateInfo.npNext(adr)
+    set(value) = VkQueryPoolCreateInfo.npNext(adr, value)
+inline var VkQueryPoolCreateInfo.flags: VkQueryPoolCreateFlags
+    get() = VkQueryPoolCreateInfo.nflags(adr)
+    set(value) = VkQueryPoolCreateInfo.nflags(adr, value)
+inline var VkQueryPoolCreateInfo.queryType: VkQueryType
+    get() = VkQueryType of VkQueryPoolCreateInfo.nqueryType(adr)
+    set(value) = VkQueryPoolCreateInfo.nqueryType(adr, value.i)
+inline var VkQueryPoolCreateInfo.queryCount: Int
+    get() = VkQueryPoolCreateInfo.nqueryCount(adr)
+    set(value) = VkQueryPoolCreateInfo.nqueryCount(adr, value)
+inline var VkQueryPoolCreateInfo.pipelineStatistics: VkQueryPipelineStatisticFlags
+    get() = VkQueryPoolCreateInfo.npipelineStatistics(adr)
+    set(value) = VkQueryPoolCreateInfo.npipelineStatistics(adr, value)
+
 
 inline var VkBufferCreateInfo.type: VkStructureType
     get() = VkStructureType of VkBufferCreateInfo.nsType(adr)
