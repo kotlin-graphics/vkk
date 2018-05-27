@@ -5,6 +5,9 @@ import org.lwjgl.vulkan.*
 
 //fun VmDescriptorBufferInfo(): VkDescriptorBufferInfo = VkDescriptorBufferInfo.malloc()
 //fun VmDescriptorBufferInfo(capacity: Int): VkDescriptorBufferInfo.Buffer = VkDescriptorBufferInfo.malloc(capacity)
+fun cVkClearValue(): VkClearValue = VkClearValue.calloc()
+fun cVkClearValue(capacity: Int): VkClearValue.Buffer = VkClearValue.calloc(capacity)
+
 fun cVkDescriptorBufferInfo(): VkDescriptorBufferInfo = VkDescriptorBufferInfo.calloc()
 
 fun cVkDescriptorBufferInfo(capacity: Int): VkDescriptorBufferInfo.Buffer = VkDescriptorBufferInfo.calloc(capacity)
