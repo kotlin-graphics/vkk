@@ -1382,6 +1382,8 @@ inline fun VkRect2D.extent(width: Int, height: Int) {
 
 /** JVM custom */
 inline fun VkRect2D.extent(width: Number, height: Number) = extent(width.i, height.i)
+/** JVM custom */
+inline fun VkRect2D.offset(width: Number, height: Number) = offset(width.i, height.i)
 
 
 inline var VkPipelineViewportStateCreateInfo.type: VkStructureType
