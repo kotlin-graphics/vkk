@@ -1,6 +1,6 @@
 package vkk
 
-import appBuffer.appBuffer
+import ab.appBuffer
 import glm_.*
 import glm_.buffer.adr
 import glm_.vec2.Vec2
@@ -489,20 +489,27 @@ inline val VkPhysicalDeviceProperties.limits: VkPhysicalDeviceLimits
 inline val VkPhysicalDeviceProperties.sparseProperties: VkPhysicalDeviceSparseProperties
     get() = VkPhysicalDeviceProperties.nsparseProperties(adr)
 
-/** JVM custom */
+/* ---------------------------------------------------------------------------------------------------------------------
+ * JVM custom */
 inline val VkPhysicalDeviceProperties.apiVersionString: String
     get() = _decode(apiVersion)
 inline val VkPhysicalDeviceProperties.driverVersionString: String
     get() = _decode(driverVersion)
-inline val VkPhysicalDeviceProperties.vendorName: String
+
+enum class VkVendor { AMD, Nvidia, Intel, Unknown }
+
+inline val VkPhysicalDeviceProperties.vendor: VkVendor
     get() = when (vendorID) {
-        0x1002 -> "AMD"
-        0x10DE -> "Nvidia"
-        0x8086 -> "Intel"
-        else -> "Unknown Vendor"
+        0x1002 -> VkVendor.AMD
+        0x10DE -> VkVendor.Nvidia
+        0x8086 -> VkVendor.Intel
+        else -> VkVendor.Unknown
     }
 
 fun _decode(int: Int) = "${int and 0xFFC00000.i shr 22}.${int and 0x003FF000 shr 12}.${int and 0x00000FFF}"
+/* JVM custom
+*  -------------------------------------------------------------------------------------------------------------------*/
+
 
 //typedef struct VkPhysicalDeviceProperties {
 //    uint32_t                            apiVersion;
@@ -831,15 +838,27 @@ inline var VkSemaphoreCreateInfo.flags: VkSemaphoreCreateFlags
 //    const void*           pNext;
 //    VkEventCreateFlags    flags;
 //} VkEventCreateInfo;
-//
-//typedef struct VkQueryPoolCreateInfo {
-//    VkStructureType                  sType;
-//    const void*                      pNext;
-//    VkQueryPoolCreateFlags           flags;
-//    VkQueryType                      queryType;
-//    uint32_t                         queryCount;
-//    VkQueryPipelineStatisticFlags    pipelineStatistics;
-//} VkQueryPoolCreateInfo;
+
+
+inline var VkQueryPoolCreateInfo.type: VkStructureType
+    get() = VkStructureType of VkQueryPoolCreateInfo.nsType(adr)
+    set(value) = VkQueryPoolCreateInfo.nsType(adr, value.i)
+inline var VkQueryPoolCreateInfo.next
+    get() = VkQueryPoolCreateInfo.npNext(adr)
+    set(value) = VkQueryPoolCreateInfo.npNext(adr, value)
+inline var VkQueryPoolCreateInfo.flags: VkQueryPoolCreateFlags
+    get() = VkQueryPoolCreateInfo.nflags(adr)
+    set(value) = VkQueryPoolCreateInfo.nflags(adr, value)
+inline var VkQueryPoolCreateInfo.queryType: VkQueryType
+    get() = VkQueryType of VkQueryPoolCreateInfo.nqueryType(adr)
+    set(value) = VkQueryPoolCreateInfo.nqueryType(adr, value.i)
+inline var VkQueryPoolCreateInfo.queryCount: Int
+    get() = VkQueryPoolCreateInfo.nqueryCount(adr)
+    set(value) = VkQueryPoolCreateInfo.nqueryCount(adr, value)
+inline var VkQueryPoolCreateInfo.pipelineStatistics: VkQueryPipelineStatisticFlags
+    get() = VkQueryPoolCreateInfo.npipelineStatistics(adr)
+    set(value) = VkQueryPoolCreateInfo.npipelineStatistics(adr, value)
+
 
 inline var VkBufferCreateInfo.type: VkStructureType
     get() = VkStructureType of VkBufferCreateInfo.nsType(adr)
@@ -1363,6 +1382,8 @@ inline fun VkRect2D.extent(width: Int, height: Int) {
 
 /** JVM custom */
 inline fun VkRect2D.extent(width: Number, height: Number) = extent(width.i, height.i)
+/** JVM custom */
+inline fun VkRect2D.offset(width: Number, height: Number) = offset(width.i, height.i)
 
 
 inline var VkPipelineViewportStateCreateInfo.type: VkStructureType
@@ -5256,13 +5277,18 @@ inline var VkDebugReportCallbackCreateInfoEXT.next
 inline var VkDebugReportCallbackCreateInfoEXT.flags: VkDebugReportFlagsEXT
     get() = VkDebugReportCallbackCreateInfoEXT.nflags(adr)
     set(value) = VkDebugReportCallbackCreateInfoEXT.nflags(adr, value)
-inline var VkDebugReportCallbackCreateInfoEXT.callback: VkDebugReportCallbackFunc
+var debugCallback: VkDebugReportCallbackEXT? = null
+var VkDebugReportCallbackCreateInfoEXT.callback: VkDebugReportCallbackType
     get() = TODO() //VkDebugReportCallbackCreateInfoEXT.npfnCallback(adr)
-    set(crossinline value) = VkDebugReportCallbackCreateInfoEXT.npfnCallback(adr,
-            { flags, objectType, `object`, location, messageCode, pLayerPrefix, pMessage, pUserData ->
-                val type = VkDebugReportObjectType of objectType
-                value(flags, type, `object`, location, messageCode, pLayerPrefix.utf8, pMessage.utf8, pUserData as Any).i
-            })
+    set(crossinline value) {
+        debugCallback?.free()
+        debugCallback = VkDebugReportCallbackEXT.create { flags, objectType, `object`, location, messageCode, pLayerPrefix, pMessage, pUserData ->
+            val type = VkDebugReportObjectType of objectType
+            value(flags, type, `object`, location, messageCode, pLayerPrefix.utf8, pMessage.utf8, pUserData as Any).i
+        }.also {
+            VkDebugReportCallbackCreateInfoEXT.npfnCallback(adr, it)
+        }
+    }
 inline var VkDebugReportCallbackCreateInfoEXT.userData
     get() = VkDebugReportCallbackCreateInfoEXT.npUserData(adr)
     set(value) = VkDebugReportCallbackCreateInfoEXT.npUserData(adr, value)

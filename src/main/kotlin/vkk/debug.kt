@@ -1,8 +1,8 @@
 package vkk
 
-import appBuffer.advance
-import appBuffer.appBuffer
-import appBuffer.appBuffer.ptr
+import ab.advance
+import ab.appBuffer
+import ab.appBuffer.ptr
 import glm_.L
 import glm_.i
 import glm_.set

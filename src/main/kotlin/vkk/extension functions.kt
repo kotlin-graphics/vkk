@@ -11,9 +11,9 @@ import org.lwjgl.vulkan.*
 import java.nio.ByteBuffer
 import java.nio.FloatBuffer
 import kotlin.reflect.KMutableProperty0
-import appBuffer.advance
-import appBuffer.appBuffer
-import appBuffer.appBuffer.ptr
+import ab.advance
+import ab.appBuffer
+import ab.appBuffer.ptr
 
 
 /*
@@ -115,6 +115,16 @@ inline fun VkCommandBuffer.end() {
     VK_CHECK_RESULT(VK10.vkEndCommandBuffer(this))
 }
 
+inline fun VkCommandBuffer.end(queue: VkQueue, submitInfoPNext: Pointer? = null) {
+    end()
+    submit(queue, submitInfoPNext)
+}
+
+inline fun VkCommandBuffer.end(device: VkDevice, commandPool: VkCommandPool, queue: VkQueue, submitInfoPNext: Pointer? = null) {
+    end(queue, submitInfoPNext)
+    device.freeCommandBuffer(commandPool, this)
+}
+
 inline fun VkCommandBuffer.endRenderPass() {
     VK10.vkCmdEndRenderPass(this)
 }
@@ -197,6 +207,14 @@ inline infix fun VkCommandBuffer.setViewport(viewport: VkViewport) {
 
 inline fun VkCommandBuffer.setViewport(firstViewport: Int, viewports: VkViewport.Buffer) {
     VK10.nvkCmdSetViewport(this, firstViewport, viewports.remaining(), viewports.adr)
+}
+
+inline fun VkCommandBuffer.submit(queue: VkQueue, submitInfoPNext: Pointer? = null) {
+    queue submit vk.SubmitInfo {
+        commandBuffer = this@submit
+        submitInfoPNext?.let { next = it.adr }
+    }
+    queue.waitIdle()
 }
 
 //inline fun VkCommandBuffer.use(block: ()) {
@@ -362,6 +380,12 @@ inline infix fun VkDevice.createPipelineLayout(createInfo: VkPipelineLayoutCreat
     return memGetLong(pPipelineLayout)
 }
 
+inline fun VkDevice.createQueryPool(createInfo: VkQueryPoolCreateInfo): VkQueryPool {
+    val pQueryPool = appBuffer.long
+    VK_CHECK_RESULT(VK10.nvkCreateQueryPool(this, createInfo.adr, NULL, pQueryPool))
+    return memGetLong(pQueryPool)
+}
+
 inline infix fun VkDevice.createRenderPass(createInfo: VkRenderPassCreateInfo): VkRenderPass {
     val pRenderPass = appBuffer.long
     VK_CHECK_RESULT(VK10.nvkCreateRenderPass(this, createInfo.adr, NULL, pRenderPass))
@@ -454,6 +478,10 @@ inline infix fun VkDevice.destroyPipelineLayout(pipelineLayout: VkPipelineLayout
     VK10.nvkDestroyPipelineLayout(this, pipelineLayout, NULL)
 }
 
+inline fun VkDevice.destroyQueryPool(queryPool: VkQueryPool) {
+    VK10.nvkDestroyQueryPool(this, queryPool, NULL)
+}
+
 inline infix fun VkDevice.destroyRenderPass(renderPass: VkRenderPass) {
     VK10.nvkDestroyRenderPass(this, renderPass, NULL)
 }
@@ -528,15 +556,9 @@ inline infix fun VkDevice.getCommandBuffer(commandPool: VkCommandPool): VkComman
     return getCommandBuffer(commandPool, VkCommandBufferLevel.PRIMARY)
 }
 
-inline fun VkDevice.getCommandBuffer(commandPool: VkCommandPool, level: VkCommandBufferLevel): VkCommandBuffer {
-
-    val cmdBufAllocateInfo = vk.CommandBufferAllocateInfo {
-        this.commandPool = commandPool
-        this.level = level
-        commandBufferCount = 1
-    }
-
-    return allocateCommandBuffer(cmdBufAllocateInfo)
+inline fun VkDevice.getCommandBuffer(commandPool: VkCommandPool, level: VkCommandBufferLevel = VkCommandBufferLevel.PRIMARY, autostart: Boolean = false): VkCommandBuffer {
+    val cmdBufAllocateInfo = vk.CommandBufferAllocateInfo(commandPool, level, 1)
+    return allocateCommandBuffer(cmdBufAllocateInfo).apply { if (autostart) begin() }
 }
 
 inline infix fun VkDevice.getImageMemoryRequirements(buffer: VkBuffer): VkMemoryRequirements {

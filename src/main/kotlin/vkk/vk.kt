@@ -9,9 +9,9 @@ import org.lwjgl.system.Struct
 import org.lwjgl.vulkan.*
 import org.lwjgl.vulkan.VK10.VK_QUEUE_FAMILY_IGNORED
 import vkk.VkPhysicalDeviceArrayList.resize
-import appBuffer.advance
-import appBuffer.appBuffer
-import appBuffer.appBuffer.ptr
+import ab.advance
+import ab.appBuffer
+import ab.appBuffer.ptr
 import java.nio.ByteBuffer
 import java.nio.LongBuffer
 import kotlin.reflect.KMutableProperty0
@@ -281,11 +281,14 @@ object vk {
         return VkPhysicalDeviceProperties.create(ptr.advance(VkPhysicalDeviceProperties.SIZEOF))
     }
 
+    inline fun PipelineCacheCreateInfo(): VkPipelineCacheCreateInfo {
+        return VkPipelineCacheCreateInfo.create(ptr.advance(VkPipelineCacheCreateInfo.SIZEOF)).apply {
+            type = VkStructureType.PIPELINE_CACHE_CREATE_INFO
+        }
+    }
+
     inline fun PipelineCacheCreateInfo(block: VkPipelineCacheCreateInfo.() -> Unit): VkPipelineCacheCreateInfo {
-        val res = VkPipelineCacheCreateInfo.create(ptr.advance(VkPipelineCacheCreateInfo.SIZEOF))
-        res.type = VkStructureType.PIPELINE_CACHE_CREATE_INFO
-        res.block()
-        return res
+        return PipelineCacheCreateInfo().also(block)
     }
 
     inline fun PipelineColorBlendStateCreateInfo(block: VkPipelineColorBlendStateCreateInfo.() -> Unit): VkPipelineColorBlendStateCreateInfo {
@@ -384,6 +387,16 @@ object vk {
         res.type = VkStructureType.PRESENT_INFO_KHR
         res.block()
         return res
+    }
+
+    inline fun QueryPoolCreateInfo(): VkQueryPoolCreateInfo {
+        return VkQueryPoolCreateInfo.create(ptr.advance(VkQueryPoolCreateInfo.SIZEOF)).apply {
+            type = VkStructureType.QUERY_POOL_CREATE_INFO
+        }
+    }
+
+    inline fun QueryPoolCreateInfo(block: VkQueryPoolCreateInfo.() -> Unit): VkQueryPoolCreateInfo {
+        return QueryPoolCreateInfo().also(block)
     }
 
     inline fun RenderPassBeginInfo(block: VkRenderPassBeginInfo.() -> Unit): VkRenderPassBeginInfo {
@@ -557,7 +570,8 @@ object vk {
     inline fun VertexInputAttributeDescription(capacity: Int): VkVertexInputAttributeDescription.Buffer = VkVertexInputAttributeDescription.create(ptr.advance(VkVertexInputAttributeDescription.SIZEOF * capacity), capacity)
     inline fun VertexInputAttributeDescription(capacity: Int, block: VkVertexInputAttributeDescription.Buffer.() -> Unit): VkVertexInputAttributeDescription.Buffer = VertexInputAttributeDescription(capacity).also(block)
 
-    inline fun VertexInputBindingDescription(block: VkVertexInputBindingDescription.() -> Unit): VkVertexInputBindingDescription = VkVertexInputBindingDescription.create(ptr.advance(VkVertexInputBindingDescription.SIZEOF)).also { it.block() }
+    inline fun VertexInputBindingDescription(): VkVertexInputBindingDescription = VkVertexInputBindingDescription.create(ptr.advance(VkVertexInputBindingDescription.SIZEOF))
+    inline fun VertexInputBindingDescription(block: VkVertexInputBindingDescription.() -> Unit): VkVertexInputBindingDescription = VertexInputBindingDescription().also(block)
     inline fun VertexInputBindingDescription(capacity: Int, block: VkVertexInputBindingDescription.() -> Unit): VkVertexInputBindingDescription.Buffer = VkVertexInputBindingDescription.create(ptr.advance(VkVertexInputBindingDescription.SIZEOF * capacity), capacity).also { it[0].block() }
 
     inline fun Viewport(block: VkViewport.() -> Unit): VkViewport = VkViewport.create(ptr.advance(VkViewport.SIZEOF)).also(block)
