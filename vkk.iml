@@ -37,8 +37,8 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Gradle: com.github.kotlin-graphics:appBuffer:c4b083b7b4a38760c9bde824ef8cbe0883d6e094" level="project" />
     <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-reflect:1.2.41" level="project" />
-    <orderEntry type="library" name="Gradle: com.github.kotlin-graphics:gli:f3303ecbfc77b7a64c0d9e99f02870a75417184d" level="project" />
-    <orderEntry type="library" name="Gradle: com.github.kotlin-graphics:glm:86ecfc812ba39da9dd62ec4e69c658b2111567bb" level="project" />
+    <orderEntry type="library" name="Gradle: com.github.kotlin-graphics:gli:8e2117a54c77b3aba4943a42d49e26113f924540" level="project" />
+    <orderEntry type="library" name="Gradle: com.github.kotlin-graphics:glm:5150843f5d5c95a73a72785525ef0bc9eaa57772" level="project" />
     <orderEntry type="library" name="Gradle: com.github.kotlin-graphics:kotlin-unsigned:1a060d87adc12a53ad1e16f08489bb4924b9c036" level="project" />
     <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib:1.2.41" level="project" />
     <orderEntry type="library" name="Gradle: org.lwjgl:lwjgl-glfw:3.1.7-SNAPSHOT" level="project" />
