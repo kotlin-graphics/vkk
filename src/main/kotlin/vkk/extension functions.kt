@@ -134,7 +134,7 @@ inline infix fun VkCommandBuffer.nextSubpass(contents: VkSubpassContents) {
 }
 
 inline fun VkCommandBuffer.pipelineBarrier(srcStageMask: VkPipelineStageFlags, dstStageMask: VkPipelineStageFlags,
-                                           dependencyFlags: VkDependencyFlags,
+                                           dependencyFlags: VkDependencyFlags = 0,
                                            memoryBarrier: VkMemoryBarrier? = null,
                                            bufferMemoryBarrier: VkBufferMemoryBarrier? = null,
                                            imageMemoryBarrier: VkImageMemoryBarrier? = null) {
