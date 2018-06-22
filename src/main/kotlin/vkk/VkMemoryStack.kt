@@ -1,3 +1,6 @@
+import vkk.VkDebugReportFlagsEXT
+import vkk.VkDebugReportObjectType
+
 //package vkn
 //
 //import glm_.i
@@ -709,7 +712,7 @@
 //    val ByteBuffer.utf8: String get() = MemoryUtil.memUTF8(this)
 //}
 //
-//typealias VkDebugReportCallbackFunc = (VkDebugReportFlagsEXT, VkDebugReportObjectType, Long, Long, Int, String, String, Any?) -> Boolean
+typealias VkDebugReportCallbackFunc = (VkDebugReportFlagsEXT, VkDebugReportObjectType, Long, Long, Int, String, String, Any?) -> Boolean
 //
 ////var vkDebugReportCallback: VkDebugReportCallback? = null
 ////
