@@ -441,11 +441,14 @@ object vk {
         return res
     }
 
+    inline fun SubmitInfo(): VkSubmitInfo {
+        return VkSubmitInfo.create(ptr.advance(VkSubmitInfo.SIZEOF)).apply {
+            type = VkStructureType.SUBMIT_INFO
+        }
+    }
+
     inline fun SubmitInfo(block: VkSubmitInfo.() -> Unit): VkSubmitInfo {
-        val res = VkSubmitInfo.create(ptr.advance(VkSubmitInfo.SIZEOF))
-        res.type = VkStructureType.SUBMIT_INFO
-        res.block()
-        return res
+        return SubmitInfo().also(block)
     }
 
     inline fun SwapchainCreateInfoKHR(block: VkSwapchainCreateInfoKHR.() -> Unit): VkSwapchainCreateInfoKHR {
