@@ -1,5 +1,6 @@
 package vkk
 
+const val VK_HEADER_VERSION = 74
 
 var DEBUG = java.lang.management.ManagementFactory.getRuntimeMXBean().inputArguments.toString().indexOf("jdwp") >= 0
 
