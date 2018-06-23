@@ -2544,6 +2544,16 @@ inline fun VkRenderPassBeginInfo.clearValue(vec4: Vec4) {
 //} VkDrawIndirectCommand;
 //
 //
+//typedef struct VkBaseOutStructure {
+//    VkStructureType               sType;
+//    struct VkBaseOutStructure*    pNext;
+//} VkBaseOutStructure;
+//
+//typedef struct VkBaseInStructure {
+//    VkStructureType                    sType;
+//    const struct VkBaseInStructure*    pNext;
+//} VkBaseInStructure;
+//
 //typedef VkResult (VKAPI_PTR *PFN_vkCreateInstance)(const VkInstanceCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkInstance* pInstance);
 //typedef void (VKAPI_PTR *PFN_vkDestroyInstance)(VkInstance instance, const VkAllocationCallbacks* pAllocator);
 //typedef VkResult (VKAPI_PTR *PFN_vkEnumeratePhysicalDevices)(VkInstance instance, uint32_t* pPhysicalDeviceCount, VkPhysicalDevice* pPhysicalDevices);
@@ -5015,6 +5025,69 @@ inline var VkPresentInfoKHR.results: VkResultBuffer?
 //} VkPhysicalDeviceVariablePointerFeaturesKHR;
 //
 //
+//#define VK_KHR_get_display_properties2 1
+//#define VK_KHR_GET_DISPLAY_PROPERTIES_2_SPEC_VERSION 1
+//#define VK_KHR_GET_DISPLAY_PROPERTIES_2_EXTENSION_NAME "VK_KHR_get_display_properties2"
+//
+//typedef struct VkDisplayProperties2KHR {
+//    VkStructureType           sType;
+//    void*                     pNext;
+//    VkDisplayPropertiesKHR    displayProperties;
+//} VkDisplayProperties2KHR;
+//
+//typedef struct VkDisplayPlaneProperties2KHR {
+//    VkStructureType                sType;
+//    void*                          pNext;
+//    VkDisplayPlanePropertiesKHR    displayPlaneProperties;
+//} VkDisplayPlaneProperties2KHR;
+//
+//typedef struct VkDisplayModeProperties2KHR {
+//    VkStructureType               sType;
+//    void*                         pNext;
+//    VkDisplayModePropertiesKHR    displayModeProperties;
+//} VkDisplayModeProperties2KHR;
+//
+//typedef struct VkDisplayPlaneInfo2KHR {
+//    VkStructureType     sType;
+//    const void*         pNext;
+//    VkDisplayModeKHR    mode;
+//    uint32_t            planeIndex;
+//} VkDisplayPlaneInfo2KHR;
+//
+//typedef struct VkDisplayPlaneCapabilities2KHR {
+//    VkStructureType                  sType;
+//    void*                            pNext;
+//    VkDisplayPlaneCapabilitiesKHR    capabilities;
+//} VkDisplayPlaneCapabilities2KHR;
+//
+//
+//typedef VkResult (VKAPI_PTR *PFN_vkGetPhysicalDeviceDisplayProperties2KHR)(VkPhysicalDevice physicalDevice, uint32_t* pPropertyCount, VkDisplayProperties2KHR* pProperties);
+//typedef VkResult (VKAPI_PTR *PFN_vkGetPhysicalDeviceDisplayPlaneProperties2KHR)(VkPhysicalDevice physicalDevice, uint32_t* pPropertyCount, VkDisplayPlaneProperties2KHR* pProperties);
+//typedef VkResult (VKAPI_PTR *PFN_vkGetDisplayModeProperties2KHR)(VkPhysicalDevice physicalDevice, VkDisplayKHR display, uint32_t* pPropertyCount, VkDisplayModeProperties2KHR* pProperties);
+//typedef VkResult (VKAPI_PTR *PFN_vkGetDisplayPlaneCapabilities2KHR)(VkPhysicalDevice physicalDevice, const VkDisplayPlaneInfo2KHR* pDisplayPlaneInfo, VkDisplayPlaneCapabilities2KHR* pCapabilities);
+//
+//#ifndef VK_NO_PROTOTYPES
+//VKAPI_ATTR VkResult VKAPI_CALL vkGetPhysicalDeviceDisplayProperties2KHR(
+//VkPhysicalDevice                            physicalDevice,
+//uint32_t*                                   pPropertyCount,
+//VkDisplayProperties2KHR*                    pProperties);
+//
+//VKAPI_ATTR VkResult VKAPI_CALL vkGetPhysicalDeviceDisplayPlaneProperties2KHR(
+//VkPhysicalDevice                            physicalDevice,
+//uint32_t*                                   pPropertyCount,
+//VkDisplayPlaneProperties2KHR*               pProperties);
+//
+//VKAPI_ATTR VkResult VKAPI_CALL vkGetDisplayModeProperties2KHR(
+//VkPhysicalDevice                            physicalDevice,
+//VkDisplayKHR                                display,
+//uint32_t*                                   pPropertyCount,
+//VkDisplayModeProperties2KHR*                pProperties);
+//
+//VKAPI_ATTR VkResult VKAPI_CALL vkGetDisplayPlaneCapabilities2KHR(
+//VkPhysicalDevice                            physicalDevice,
+//const VkDisplayPlaneInfo2KHR*               pDisplayPlaneInfo,
+//VkDisplayPlaneCapabilities2KHR*             pCapabilities);
+//#endif
 //
 //#define VK_KHR_dedicated_allocation 1
 //#define VK_KHR_DEDICATED_ALLOCATION_SPEC_VERSION 3
@@ -5247,6 +5320,33 @@ inline var VkPresentInfoKHR.results: VkResultBuffer?
 //VkDevice                                    device,
 //uint32_t                                    bindInfoCount,
 //const VkBindImageMemoryInfoKHR*             pBindInfos);
+//#endif
+//
+//#define VK_KHR_draw_indirect_count 1
+//#define VK_KHR_DRAW_INDIRECT_COUNT_SPEC_VERSION 1
+//#define VK_KHR_DRAW_INDIRECT_COUNT_EXTENSION_NAME "VK_KHR_draw_indirect_count"
+//
+//typedef void (VKAPI_PTR *PFN_vkCmdDrawIndirectCountKHR)(VkCommandBuffer commandBuffer, VkBuffer buffer, VkDeviceSize offset, VkBuffer countBuffer, VkDeviceSize countBufferOffset, uint32_t maxDrawCount, uint32_t stride);
+//typedef void (VKAPI_PTR *PFN_vkCmdDrawIndexedIndirectCountKHR)(VkCommandBuffer commandBuffer, VkBuffer buffer, VkDeviceSize offset, VkBuffer countBuffer, VkDeviceSize countBufferOffset, uint32_t maxDrawCount, uint32_t stride);
+//
+//#ifndef VK_NO_PROTOTYPES
+//VKAPI_ATTR void VKAPI_CALL vkCmdDrawIndirectCountKHR(
+//VkCommandBuffer                             commandBuffer,
+//VkBuffer                                    buffer,
+//VkDeviceSize                                offset,
+//VkBuffer                                    countBuffer,
+//VkDeviceSize                                countBufferOffset,
+//uint32_t                                    maxDrawCount,
+//uint32_t                                    stride);
+//
+//VKAPI_ATTR void VKAPI_CALL vkCmdDrawIndexedIndirectCountKHR(
+//VkCommandBuffer                             commandBuffer,
+//VkBuffer                                    buffer,
+//VkDeviceSize                                offset,
+//VkBuffer                                    countBuffer,
+//VkDeviceSize                                countBufferOffset,
+//uint32_t                                    maxDrawCount,
+//uint32_t                                    stride);
 //#endif
 //
 //#define VK_EXT_debug_report 1
