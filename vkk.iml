@@ -35,10 +35,10 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Gradle: com.github.kotlin-graphics:appBuffer:4f7f0223516041f691a6428b1a9d511a4e093c25" level="project" />
+    <orderEntry type="library" name="Gradle: com.github.kotlin-graphics:appBuffer:aff415e3566ab5a9da28efcd569fd55b92a16070" level="project" />
     <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-reflect:1.2.50" level="project" />
-    <orderEntry type="library" name="Gradle: com.github.kotlin-graphics:gli:99a9ad38e699d3b7e0c7795b03896e090cf59ab2" level="project" />
-    <orderEntry type="library" name="Gradle: com.github.kotlin-graphics:glm:679bc23756a58fe94109bccda183c3ea3c2b735f" level="project" />
+    <orderEntry type="library" name="Gradle: com.github.kotlin-graphics:gli:e885226c97b78946e4a31677399b0014ac732a4d" level="project" />
+    <orderEntry type="library" name="Gradle: com.github.kotlin-graphics:glm:1b99fb5661dd9fc224178b80835fc8edec7b835a" level="project" />
     <orderEntry type="library" name="Gradle: com.github.kotlin-graphics:kotlin-unsigned:0f6b48ccb2adb3a0c30e811cd75b4f2e66e1660b" level="project" />
     <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib:1.2.50" level="project" />
     <orderEntry type="library" name="Gradle: org.lwjgl:lwjgl-glfw:3.1.7-SNAPSHOT" level="project" />
