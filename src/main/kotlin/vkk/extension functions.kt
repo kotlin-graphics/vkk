@@ -449,6 +449,11 @@ inline infix fun VkDevice.destroyFences(fences: ArrayList<VkFence>) {
         VK10.nvkDestroyFence(this, fence, NULL)
 }
 
+inline infix fun VkDevice.destroyFences(fences: VkFenceArray) {
+    for (fence in fences)
+        VK10.nvkDestroyFence(this, fence, NULL)
+}
+
 inline infix fun VkDevice.destroyFramebuffer(framebuffer: VkFramebuffer) {
     VK10.nvkDestroyFramebuffer(this, framebuffer, NULL)
 }
