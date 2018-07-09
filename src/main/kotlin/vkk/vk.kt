@@ -567,6 +567,7 @@ object vk {
 
     inline fun SurfaceCapabilitiesKHR(block: VkSurfaceCapabilitiesKHR.() -> Unit): VkSurfaceCapabilitiesKHR = VkSurfaceCapabilitiesKHR.create(ptr.advance(VkSurfaceCapabilitiesKHR.SIZEOF)).also(block)
 
+    inline fun SurfaceFormatKHR(): VkSurfaceFormatKHR = VkSurfaceFormatKHR.create(ptr.advance(VkSurfaceFormatKHR.SIZEOF))
     inline fun SurfaceFormatKHR(capacity: Int): VkSurfaceFormatKHR.Buffer = VkSurfaceFormatKHR.create(ptr.advance(VkSurfaceFormatKHR.SIZEOF * capacity), capacity)
 
     inline fun VertexInputAttributeDescription(block: VkVertexInputAttributeDescription.() -> Unit): VkVertexInputAttributeDescription = VkVertexInputAttributeDescription.create(ptr.advance(VkVertexInputAttributeDescription.SIZEOF)).also(block)
@@ -1177,6 +1178,11 @@ object vk {
         }
     }
 
+    inline fun SurfaceFormatKHR(format: VkFormat, colorSpace: VkColorSpace): VkSurfaceFormatKHR = SurfaceFormatKHR().also {
+        it.format = format
+        it.colorSpace = colorSpace
+    }
+
     inline fun VertexInputBindingDescription(binding: Int, stride: Int, inputRate: VkVertexInputRate): VkVertexInputBindingDescription {
         return VertexInputBindingDescription {
             this.binding = binding
@@ -1785,7 +1791,7 @@ object vk {
                                                   surface: VkSurfaceKHR): Boolean {
         val supported = appBuffer.int
         KHRSurface.nvkGetPhysicalDeviceSurfaceSupportKHR(physicalDevice, queueFamily, surface, supported)
-        return memGetBoolean(supported)
+        return memGetInt(supported).bool
     }
 
     inline fun getPhysicalDeviceSurfaceSupportKHR(physicalDevice: VkPhysicalDevice,

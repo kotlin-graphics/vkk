@@ -14,6 +14,7 @@ import kotlin.reflect.KMutableProperty0
 import ab.advance
 import ab.appBuffer
 import ab.appBuffer.ptr
+import glm_.bool
 
 
 /*
@@ -620,6 +621,7 @@ inline infix fun VkDevice.getSwapchainImagesKHR(swapchain: VkSwapchainKHR): VkIm
 inline infix fun VkDevice.resetCommandPool(commandPool: VkCommandPool) {
     resetCommandPool(commandPool, 0)
 }
+
 inline fun VkDevice.resetCommandPool(commandPool: VkCommandPool, flags: VkCommandPoolResetFlags) {
     VK_CHECK_RESULT(VK10.vkResetCommandPool(this, commandPool, flags))
 }
@@ -708,6 +710,10 @@ inline fun VkPhysicalDevice.getFormatProperties(format: VkFormat, formatProperti
     return formatProperties
 }
 
+inline infix fun VkPhysicalDevice.getSurfaceFormatsKHR(surface: VkSurfaceKHR): ArrayList<VkSurfaceFormatKHR> {
+    return vk.getPhysicalDeviceSurfaceFormatsKHR(this, surface)
+}
+
 inline val VkPhysicalDevice.memoryProperties: VkPhysicalDeviceMemoryProperties
     get() = vk.PhysicalDeviceMemoryProperties().also(::getMemoryProperties)
 
@@ -737,12 +743,10 @@ inline infix fun VkPhysicalDevice.getSurfaceCapabilitiesKHR(surface: VkSurfaceKH
     }
 }
 
-inline infix fun VkPhysicalDevice.getSurfaceFormatsKHR(surface: VkSurfaceKHR): ArrayList<VkSurfaceFormatKHR> {
-    return vk.getPhysicalDeviceSurfaceFormatsKHR(this, surface)
-}
 inline fun VkPhysicalDevice.getSurfaceSupportKHR(queueFamily: Int, surface: VkSurfaceKHR): Boolean {
     return vk.getPhysicalDeviceSurfaceSupportKHR(this, queueFamily, surface)
 }
+
 inline fun VkPhysicalDevice.getSurfaceSupportKHR(queueFamilyProperties: ArrayList<VkQueueFamilyProperties>,
                                                  surface: VkSurfaceKHR): BooleanArray {
     return vk.getPhysicalDeviceSurfaceSupportKHR(this, queueFamilyProperties, surface)
