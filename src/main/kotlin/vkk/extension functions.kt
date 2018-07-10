@@ -321,6 +321,10 @@ inline infix fun VkDevice.createDescriptorSetLayout(createInfo: VkDescriptorSetL
     return memGetLong(pSetLayout)
 }
 
+inline infix fun VkDevice.createFence(flag: VkFenceCreate): VkFence {
+    return createFence(vk.FenceCreateInfo { this.flags = flag.i })
+}
+
 inline infix fun VkDevice.createFence(flags: VkFenceCreateFlags): VkFence {
     return createFence(vk.FenceCreateInfo { this.flags = flags })
 }
