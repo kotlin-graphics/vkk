@@ -952,6 +952,12 @@ object vk {
 //
 //    }
 
+    inline fun FenceCreateInfo(flag: VkFenceCreate): VkFenceCreateInfo {
+        return FenceCreateInfo {
+            flags = flag.i
+        }
+    }
+
     inline fun FenceCreateInfo(flags: VkFenceCreateFlags = 0): VkFenceCreateInfo {
         return FenceCreateInfo {
             this.flags = flags
