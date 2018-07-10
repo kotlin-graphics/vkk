@@ -1276,6 +1276,21 @@ object vk {
 
 
     inline fun ImageSubresourceRange(
+            aspectMask: VkImageAspect,
+            baseMipLevel: Int,
+            levelCount: Int,
+            baseArrayLayer: Int,
+            layerCount: Int): VkImageSubresourceRange {
+        return ImageSubresourceRange {
+            this.aspectMask = aspectMask.i
+            this.baseMipLevel = baseMipLevel
+            this.levelCount = levelCount
+            this.baseArrayLayer = baseArrayLayer
+            this.layerCount = layerCount
+        }
+    }
+
+    inline fun ImageSubresourceRange(
             aspectMask: VkImageAspectFlags,
             baseMipLevel: Int,
             levelCount: Int,

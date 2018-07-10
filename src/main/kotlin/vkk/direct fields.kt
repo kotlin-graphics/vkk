@@ -1397,6 +1397,7 @@ inline fun VkRect2D.extent(width: Int, height: Int) {
 
 /** JVM custom */
 inline fun VkRect2D.extent(width: Number, height: Number) = extent(width.i, height.i)
+
 /** JVM custom */
 inline fun VkRect2D.offset(width: Number, height: Number) = offset(width.i, height.i)
 
@@ -2190,7 +2191,9 @@ inline var VkRenderPassCreateInfo.next
 inline var VkRenderPassCreateInfo.flags: VkRenderPassCreateFlags
     get() = VkRenderPassCreateInfo.nflags(adr)
     set(value) = VkRenderPassCreateInfo.nflags(adr, value)
-inline val VkRenderPassCreateInfo.attachmentCount get() = VkRenderPassCreateInfo.nattachmentCount(adr)
+inline var VkRenderPassCreateInfo.attachmentCount: Int
+    get() = VkRenderPassCreateInfo.nattachmentCount(adr)
+    set(value) = VkRenderPassCreateInfo.nattachmentCount(adr, value)
 inline var VkRenderPassCreateInfo.attachments: VkAttachmentDescription.Buffer?
     get() = VkRenderPassCreateInfo.npAttachments(adr)
     set(value) = VkRenderPassCreateInfo.npAttachments(adr, value)
@@ -2201,7 +2204,9 @@ inline var VkRenderPassCreateInfo.attachment: VkAttachmentDescription?
         memPutAddress(adr + VkRenderPassCreateInfo.PATTACHMENTS, memAddressSafe(value))
         VkRenderPassCreateInfo.nattachmentCount(adr, if (value == null) 0 else 1)
     }
-inline val VkRenderPassCreateInfo.subpassCount get() = VkRenderPassCreateInfo.nsubpassCount(adr)
+inline var VkRenderPassCreateInfo.subpassCount: Int
+    get() = VkRenderPassCreateInfo.nsubpassCount(adr)
+    set(value) = VkRenderPassCreateInfo.nsubpassCount(adr, value)
 inline var VkRenderPassCreateInfo.subpasses: VkSubpassDescription.Buffer
     get() = VkRenderPassCreateInfo.npSubpasses(adr)
     set(value) = VkRenderPassCreateInfo.npSubpasses(adr, value)
@@ -2212,7 +2217,9 @@ inline var VkRenderPassCreateInfo.subpass: VkSubpassDescription
         memPutAddress(adr + VkRenderPassCreateInfo.PSUBPASSES, value.address())
         VkRenderPassCreateInfo.nsubpassCount(adr, 1)
     }
-inline val VkRenderPassCreateInfo.dependencyCount get() = VkRenderPassCreateInfo.ndependencyCount(adr)
+inline var VkRenderPassCreateInfo.dependencyCount: Int
+    get() = VkRenderPassCreateInfo.ndependencyCount(adr)
+    set(value) = VkRenderPassCreateInfo.ndependencyCount(adr, value)
 inline var VkRenderPassCreateInfo.dependencies: VkSubpassDependency.Buffer?
     get() = VkRenderPassCreateInfo.npDependencies(adr)
     set(value) = VkRenderPassCreateInfo.npDependencies(adr, value)
