@@ -1852,6 +1852,10 @@ inline var VkDescriptorSetLayoutBinding.descriptorType: VkDescriptorType
 inline var VkDescriptorSetLayoutBinding.descriptorCount
     get() = VkDescriptorSetLayoutBinding.ndescriptorCount(adr)
     set(value) = VkDescriptorSetLayoutBinding.ndescriptorCount(adr, value)
+/** JVM custom */
+inline var VkDescriptorSetLayoutBinding.stageFlag: VkShaderStage
+    get() = TODO()
+    set(value) = VkDescriptorSetLayoutBinding.nstageFlags(adr, value.i)
 inline var VkDescriptorSetLayoutBinding.stageFlags: VkShaderStageFlags
     get() = VkDescriptorSetLayoutBinding.nstageFlags(adr)
     set(value) = VkDescriptorSetLayoutBinding.nstageFlags(adr, value)
