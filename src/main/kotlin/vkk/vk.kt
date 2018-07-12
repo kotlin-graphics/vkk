@@ -1102,6 +1102,8 @@ object vk {
         }
     }
 
+    inline fun PushConstantRange(stageFlag: VkShaderStage, size: Int, offset: Int): VkPushConstantRange = PushConstantRange(stageFlag.i, size, offset)
+
     inline fun PushConstantRange(stageFlags: VkShaderStageFlags, size: Int, offset: Int): VkPushConstantRange {
         return PushConstantRange {
             this.stageFlags = stageFlags
