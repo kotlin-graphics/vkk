@@ -700,6 +700,10 @@ inline fun VkInstance.enumeratePhysicalDevices(): ArrayList<VkPhysicalDevice> {
     return vk.enumeratePhysicalDevices(this)
 }
 
+inline infix fun VkInstance.destroySurfaceKHR(surface: VkSurfaceKHR) {
+    KHRSurface.nvkDestroySurfaceKHR(this, surface, NULL)
+}
+
 
 /*
     VkPhysicalDevice
