@@ -2555,6 +2555,13 @@ inline val VkRenderPassBeginInfo.clearValueCount get() = clearValueCount()
 inline var VkRenderPassBeginInfo.clearValues: VkClearValue.Buffer?
     get() = VkRenderPassBeginInfo.npClearValues(adr)
     set(value) = VkRenderPassBeginInfo.npClearValues(adr, value)
+/** JVM custom  */
+inline var VkRenderPassBeginInfo.clearValue: VkClearValue?
+    get() = VkRenderPassBeginInfo.npClearValues(adr)?.get(0)
+    set(value) {
+        memPutAddress(adr + VkRenderPassBeginInfo.PCLEARVALUES, value?.adr ?: NULL)
+        VkRenderPassBeginInfo.nclearValueCount(adr, if (value == null) 0 else 1)
+    }
 
 /** JVM custom */
 inline fun VkRenderPassBeginInfo.clearValue(vec4: Vec4) {
