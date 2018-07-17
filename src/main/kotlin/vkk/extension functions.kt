@@ -237,7 +237,7 @@ inline fun VkCommandBuffer.submit(queue: VkQueue, submitInfoPNext: Pointer? = nu
     VkDevice
  */
 
-inline fun VkDevice.acquireNextImageKHR(swapchain: VkSwapchainKHR, timeout: Long, semaphore: VkSemaphore, fence: VkFence): Int {
+inline fun VkDevice.acquireNextImageKHR(swapchain: VkSwapchainKHR, timeout: Long, semaphore: VkSemaphore, fence: VkFence = NULL): Int {
     val pImageIndex = appBuffer.int
     VK_CHECK_RESULT(KHRSwapchain.nvkAcquireNextImageKHR(this, swapchain, timeout, semaphore, fence, pImageIndex))
     return memGetInt(pImageIndex)
