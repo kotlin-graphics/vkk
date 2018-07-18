@@ -109,4 +109,7 @@ val info = vk.ImageCreateInfo {
 image = device createImage info
 ```
 
+Errors will be checked automatically in debug mode, but you can set `DEBUG` explicitely as you wish.
+In case `VULKAN_NO_EXCEPTIONS` is `true`, errors will be reported in the `System.err` stream, otherwise the exception to the corresponding error will be thrown.
+
 TODO
