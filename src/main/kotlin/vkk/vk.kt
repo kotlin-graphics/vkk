@@ -1,5 +1,8 @@
 package vkk
 
+import ab.advance
+import ab.appBuffer
+import ab.appBuffer.ptr
 import glm_.*
 import glm_.vec2.Vec2i
 import org.lwjgl.system.MemoryUtil
@@ -9,9 +12,6 @@ import org.lwjgl.system.Struct
 import org.lwjgl.vulkan.*
 import org.lwjgl.vulkan.VK10.VK_QUEUE_FAMILY_IGNORED
 import vkk.VkPhysicalDeviceArrayList.resize
-import ab.advance
-import ab.appBuffer
-import ab.appBuffer.ptr
 import java.nio.ByteBuffer
 import java.nio.LongBuffer
 import kotlin.reflect.KMutableProperty0
@@ -19,9 +19,7 @@ import kotlin.reflect.KMutableProperty0
 
 object vk {
 
-    /*
-        *Info constructor functions
-     */
+    /*  Info constructor functions     */
 
     inline fun ApplicationInfo(block: VkApplicationInfo.() -> Unit): VkApplicationInfo {
         val res = VkApplicationInfo.create(ptr.advance(VkApplicationInfo.SIZEOF))
@@ -1848,4 +1846,6 @@ object vk {
         return VK10.nvkUpdateDescriptorSets(device, descriptorWrites.remaining(), descriptorWrites.adr,
                 descriptorCopies?.remaining() ?: 0, descriptorCopies?.adr ?: NULL)
     }
+
+    val VERSION = "0.2.0"
 }
