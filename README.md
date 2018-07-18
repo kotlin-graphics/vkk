@@ -87,7 +87,9 @@ memFree(pImage)
 One typical issue Vulkan developers encounter when filling out a CreateInfo struct field by field is that `sType` is incorrect.
 
 VK² provides constructors for all CreateInfo objects (and others) where `sType` is automatically filled with the correct value and `pNext` set to a `nullptr` by default. All other field are also initialized to zero. There are exceptions though.
-Moreover, all the allocations takes place in a special buffer that is cleared every refresh and resize.
+
+Moreover, all the allocations takes place in a special buffer, called [appBuffer](https://github.com/kotlin-graphics/appBuffer) that is cleared every refresh, or at least it should be from time to time.
+
 VK² provides also special method accepting glm classes, like `extent` accepting a `(Vec3i)` or `(Vec2i, Int)`.
 Here's how the same code looks with a constructor:
 
@@ -106,5 +108,8 @@ val info = vk.ImageCreateInfo {
 }
 image = device createImage info
 ```
+
+Errors will be checked automatically in debug mode, but you can set `DEBUG` explicitely as you wish.
+In case `VULKAN_NO_EXCEPTIONS` is `true`, errors will be reported in the `System.err` stream, otherwise the exception to the corresponding error will be thrown.
 
 TODO

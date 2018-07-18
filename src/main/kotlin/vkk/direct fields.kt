@@ -42,6 +42,10 @@ inline var VkInstanceCreateInfo.type
 inline var VkInstanceCreateInfo.next
     get() = VkInstanceCreateInfo.npNext(adr)
     set(value) = VkInstanceCreateInfo.npNext(adr, value)
+// flags is reserved for future usage, till now must be 0
+//inline var VkInstanceCreateInfo.flag: VkInstanceCreateFlags
+//    get() = VkInstanceCreateInfo.nflags(adr)
+//    set(value) = VkInstanceCreateInfo.nflags(adr, value)
 inline var VkInstanceCreateInfo.flags: VkInstanceCreateFlags
     get() = VkInstanceCreateInfo.nflags(adr)
     set(value) = VkInstanceCreateInfo.nflags(adr, value)
@@ -556,6 +560,9 @@ inline var VkDeviceQueueCreateInfo.type: VkStructureType
 inline var VkDeviceQueueCreateInfo.next
     get() = VkDeviceQueueCreateInfo.npNext(adr)
     set(value) = VkDeviceQueueCreateInfo.npNext(adr, value)
+inline var VkDeviceQueueCreateInfo.flag: VkDeviceQueueCreate
+    get() = TODO()
+    set(value) = VkDeviceQueueCreateInfo.nflags(adr, value.i)
 inline var VkDeviceQueueCreateInfo.flags: VkDeviceQueueCreateFlags
     get() = VkDeviceQueueCreateInfo.nflags(adr)
     set(value) = VkDeviceQueueCreateInfo.nflags(adr, value)
@@ -589,7 +596,7 @@ inline var VkDeviceCreateInfo.type: VkStructureType
 inline var VkDeviceCreateInfo.next
     get() = VkDeviceCreateInfo.npNext(adr)
     set(value) = VkDeviceCreateInfo.npNext(adr, value)
-inline var VkDeviceCreateInfo.flags: VkDeviceQueueCreateFlags
+inline var VkDeviceCreateInfo.flags: VkDeviceCreateFlags
     get() = VkDeviceCreateInfo.nflags(adr)
     set(value) = VkDeviceCreateInfo.nflags(adr, value)
 //inline val VkDeviceCreateInfo.queueCreateInfoCount get() = queueCreateInfoCount()
@@ -811,7 +818,7 @@ inline var VkFenceCreateInfo.type: VkStructureType
 inline var VkFenceCreateInfo.next
     get() = VkFenceCreateInfo.npNext(adr)
     set(value) = VkFenceCreateInfo.npNext(adr, value)
-inline var VkFenceCreateInfo.flags: VkSemaphoreCreateFlags
+inline var VkFenceCreateInfo.flags: VkFenceCreateFlags
     get() = VkFenceCreateInfo.nflags(adr)
     set(value) = VkFenceCreateInfo.nflags(adr, value)
 
@@ -866,6 +873,10 @@ inline var VkBufferCreateInfo.type: VkStructureType
 inline var VkBufferCreateInfo.next
     get() = VkBufferCreateInfo.npNext(adr)
     set(value) = VkBufferCreateInfo.npNext(adr, value)
+/** JVM custom */
+inline var VkBufferCreateInfo.flag: VkBufferCreate
+    get() = TODO()
+    set(value) = VkBufferCreateInfo.nflags(adr, value.i)
 inline var VkBufferCreateInfo.flags: VkBufferCreateFlags
     get() = VkBufferCreateInfo.nflags(adr)
     set(value) = VkBufferCreateInfo.nflags(adr, value)
@@ -938,6 +949,10 @@ inline var VkImageCreateInfo.type: VkStructureType
 inline var VkImageCreateInfo.next
     get() = VkImageCreateInfo.npNext(adr)
     set(value) = VkImageCreateInfo.npNext(adr, value)
+/** JVM custom */
+inline var VkImageCreateInfo.flag: VkImageCreate
+    get() = TODO()
+    set(value) = VkImageCreateInfo.nflags(adr, value.i)
 inline var VkImageCreateInfo.flags: VkImageCreateFlags
     get() = VkImageCreateInfo.nflags(adr)
     set(value) = VkImageCreateInfo.nflags(adr, value)
@@ -1382,6 +1397,7 @@ inline fun VkRect2D.extent(width: Int, height: Int) {
 
 /** JVM custom */
 inline fun VkRect2D.extent(width: Number, height: Number) = extent(width.i, height.i)
+
 /** JVM custom */
 inline fun VkRect2D.offset(width: Number, height: Number) = offset(width.i, height.i)
 
@@ -1633,6 +1649,10 @@ inline var VkGraphicsPipelineCreateInfo.type: VkStructureType
 inline var VkGraphicsPipelineCreateInfo.next
     get() = VkGraphicsPipelineCreateInfo.npNext(adr)
     set(value) = VkGraphicsPipelineCreateInfo.npNext(adr, value)
+/** JVM custom */
+inline var VkGraphicsPipelineCreateInfo.flag: VkPipelineCreate
+    get() = TODO()
+    set(value) = VkGraphicsPipelineCreateInfo.nflags(adr, value.i)
 inline var VkGraphicsPipelineCreateInfo.flags: VkPipelineCreateFlags
     get() = VkGraphicsPipelineCreateInfo.nflags(adr)
     set(value) = VkGraphicsPipelineCreateInfo.nflags(adr, value)
@@ -1832,6 +1852,10 @@ inline var VkDescriptorSetLayoutBinding.descriptorType: VkDescriptorType
 inline var VkDescriptorSetLayoutBinding.descriptorCount
     get() = VkDescriptorSetLayoutBinding.ndescriptorCount(adr)
     set(value) = VkDescriptorSetLayoutBinding.ndescriptorCount(adr, value)
+/** JVM custom */
+inline var VkDescriptorSetLayoutBinding.stageFlag: VkShaderStage
+    get() = TODO()
+    set(value) = VkDescriptorSetLayoutBinding.nstageFlags(adr, value.i)
 inline var VkDescriptorSetLayoutBinding.stageFlags: VkShaderStageFlags
     get() = VkDescriptorSetLayoutBinding.nstageFlags(adr)
     set(value) = VkDescriptorSetLayoutBinding.nstageFlags(adr, value)
@@ -1859,6 +1883,10 @@ inline var VkDescriptorSetLayoutCreateInfo.type: VkStructureType
 inline var VkDescriptorSetLayoutCreateInfo.next
     get() = VkDescriptorSetLayoutCreateInfo.npNext(adr)
     set(value) = VkDescriptorSetLayoutCreateInfo.npNext(adr, value)
+/** JVM custom */
+inline var VkDescriptorSetLayoutCreateInfo.flag: VkDescriptorSetLayoutCreate
+    get() = TODO()
+    set(value) = VkDescriptorSetLayoutCreateInfo.nflags(adr, value.i)
 inline var VkDescriptorSetLayoutCreateInfo.flags: VkDescriptorSetLayoutCreateFlags
     get() = VkDescriptorSetLayoutCreateInfo.nflags(adr)
     set(value) = VkDescriptorSetLayoutCreateInfo.nflags(adr, value)
@@ -1889,6 +1917,10 @@ inline var VkDescriptorPoolCreateInfo.type: VkStructureType
 inline var VkDescriptorPoolCreateInfo.next
     get() = VkDescriptorPoolCreateInfo.npNext(adr)
     set(value) = VkDescriptorPoolCreateInfo.npNext(adr, value)
+/** JVM custom */
+inline var VkDescriptorPoolCreateInfo.flag: VkDescriptorPoolCreate
+    get() = TODO()
+    set(value) = VkDescriptorPoolCreateInfo.nflags(adr, value.i)
 inline var VkDescriptorPoolCreateInfo.flags: VkDescriptorPoolCreateFlags
     get() = VkDescriptorPoolCreateInfo.nflags(adr)
     set(value) = VkDescriptorPoolCreateInfo.nflags(adr, value)
@@ -2054,7 +2086,10 @@ inline fun VkFramebufferCreateInfo.extent(extent: Vec2i, layers: Int) {
     this.layers = layers
 }
 
-
+/** JVM custom */
+inline var VkAttachmentDescription.flag: VkAttachmentDescriptionFlag
+    get() = TODO()
+    set(value) = VkAttachmentDescription.nflags(adr, value.i)
 inline var VkAttachmentDescription.flags: VkAttachmentDescriptionFlags
     get() = VkAttachmentDescription.nflags(adr)
     set(value) = VkAttachmentDescription.nflags(adr, value)
@@ -2092,6 +2127,10 @@ inline var VkAttachmentReference.layout: VkImageLayout
     set(value) = VkAttachmentReference.nlayout(adr, value.i)
 
 
+/** JVM custom */
+inline var VkSubpassDescription.flag: VkSubpassDescriptionFlag
+    get() = TODO()
+    set(value) = VkSubpassDescription.nflags(adr, value.i)
 inline var VkSubpassDescription.flags: VkSubpassDescriptionFlags
     get() = VkSubpassDescription.nflags(adr)
     set(value) = VkSubpassDescription.nflags(adr, value)
@@ -2156,7 +2195,9 @@ inline var VkRenderPassCreateInfo.next
 inline var VkRenderPassCreateInfo.flags: VkRenderPassCreateFlags
     get() = VkRenderPassCreateInfo.nflags(adr)
     set(value) = VkRenderPassCreateInfo.nflags(adr, value)
-inline val VkRenderPassCreateInfo.attachmentCount get() = VkRenderPassCreateInfo.nattachmentCount(adr)
+inline var VkRenderPassCreateInfo.attachmentCount: Int
+    get() = VkRenderPassCreateInfo.nattachmentCount(adr)
+    set(value) = VkRenderPassCreateInfo.nattachmentCount(adr, value)
 inline var VkRenderPassCreateInfo.attachments: VkAttachmentDescription.Buffer?
     get() = VkRenderPassCreateInfo.npAttachments(adr)
     set(value) = VkRenderPassCreateInfo.npAttachments(adr, value)
@@ -2167,7 +2208,9 @@ inline var VkRenderPassCreateInfo.attachment: VkAttachmentDescription?
         memPutAddress(adr + VkRenderPassCreateInfo.PATTACHMENTS, memAddressSafe(value))
         VkRenderPassCreateInfo.nattachmentCount(adr, if (value == null) 0 else 1)
     }
-inline val VkRenderPassCreateInfo.subpassCount get() = VkRenderPassCreateInfo.nsubpassCount(adr)
+inline var VkRenderPassCreateInfo.subpassCount: Int
+    get() = VkRenderPassCreateInfo.nsubpassCount(adr)
+    set(value) = VkRenderPassCreateInfo.nsubpassCount(adr, value)
 inline var VkRenderPassCreateInfo.subpasses: VkSubpassDescription.Buffer
     get() = VkRenderPassCreateInfo.npSubpasses(adr)
     set(value) = VkRenderPassCreateInfo.npSubpasses(adr, value)
@@ -2178,7 +2221,9 @@ inline var VkRenderPassCreateInfo.subpass: VkSubpassDescription
         memPutAddress(adr + VkRenderPassCreateInfo.PSUBPASSES, value.address())
         VkRenderPassCreateInfo.nsubpassCount(adr, 1)
     }
-inline val VkRenderPassCreateInfo.dependencyCount get() = VkRenderPassCreateInfo.ndependencyCount(adr)
+inline var VkRenderPassCreateInfo.dependencyCount: Int
+    get() = VkRenderPassCreateInfo.ndependencyCount(adr)
+    set(value) = VkRenderPassCreateInfo.ndependencyCount(adr, value)
 inline var VkRenderPassCreateInfo.dependencies: VkSubpassDependency.Buffer?
     get() = VkRenderPassCreateInfo.npDependencies(adr)
     set(value) = VkRenderPassCreateInfo.npDependencies(adr, value)
@@ -2197,6 +2242,10 @@ inline var VkCommandPoolCreateInfo.type: VkStructureType
 inline var VkCommandPoolCreateInfo.next
     get() = VkCommandPoolCreateInfo.npNext(adr)
     set(value) = VkCommandPoolCreateInfo.npNext(adr, value)
+/** JVM custom */
+inline var VkCommandPoolCreateInfo.flag: VkCommandPoolCreate
+    get() = TODO()
+    set(value) = VkCommandPoolCreateInfo.nflags(adr, value.i)
 inline var VkCommandPoolCreateInfo.flags: VkCommandPoolCreateFlags
     get() = VkCommandPoolCreateInfo.nflags(adr)
     set(value) = VkCommandPoolCreateInfo.nflags(adr, value)
@@ -2254,6 +2303,10 @@ inline var VkCommandBufferBeginInfo.type: VkStructureType
 inline var VkCommandBufferBeginInfo.next
     get() = VkCommandBufferBeginInfo.npNext(adr)
     set(value) = VkCommandBufferBeginInfo.npNext(adr, value)
+/** JVM custom */
+inline var VkCommandBufferBeginInfo.flag: VkCommandBufferUsage
+    get() = TODO()
+    set(value) = VkCommandBufferBeginInfo.nflags(adr, value.i)
 inline var VkCommandBufferBeginInfo.flags: VkCommandBufferUsageFlags
     get() = VkCommandBufferBeginInfo.nflags(adr)
     set(value) = VkCommandBufferBeginInfo.nflags(adr, value)
@@ -2502,6 +2555,13 @@ inline val VkRenderPassBeginInfo.clearValueCount get() = clearValueCount()
 inline var VkRenderPassBeginInfo.clearValues: VkClearValue.Buffer?
     get() = VkRenderPassBeginInfo.npClearValues(adr)
     set(value) = VkRenderPassBeginInfo.npClearValues(adr, value)
+/** JVM custom  */
+inline var VkRenderPassBeginInfo.clearValue: VkClearValue?
+    get() = VkRenderPassBeginInfo.npClearValues(adr)?.get(0)
+    set(value) {
+        memPutAddress(adr + VkRenderPassBeginInfo.PCLEARVALUES, value?.adr ?: NULL)
+        VkRenderPassBeginInfo.nclearValueCount(adr, if (value == null) 0 else 1)
+    }
 
 /** JVM custom */
 inline fun VkRenderPassBeginInfo.clearValue(vec4: Vec4) {
@@ -5374,6 +5434,10 @@ inline var VkDebugReportCallbackCreateInfoEXT.type
 inline var VkDebugReportCallbackCreateInfoEXT.next
     get() = VkDebugReportCallbackCreateInfoEXT.npNext(adr)
     set(value) = VkDebugReportCallbackCreateInfoEXT.npNext(adr, value)
+/** JVM custom */
+inline var VkDebugReportCallbackCreateInfoEXT.flag: VkDebugReport
+    get() = TODO()
+    set(value) = VkDebugReportCallbackCreateInfoEXT.nflags(adr, value.i)
 inline var VkDebugReportCallbackCreateInfoEXT.flags: VkDebugReportFlagsEXT
     get() = VkDebugReportCallbackCreateInfoEXT.nflags(adr)
     set(value) = VkDebugReportCallbackCreateInfoEXT.nflags(adr, value)

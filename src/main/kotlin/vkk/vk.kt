@@ -565,6 +565,7 @@ object vk {
 
     inline fun SurfaceCapabilitiesKHR(block: VkSurfaceCapabilitiesKHR.() -> Unit): VkSurfaceCapabilitiesKHR = VkSurfaceCapabilitiesKHR.create(ptr.advance(VkSurfaceCapabilitiesKHR.SIZEOF)).also(block)
 
+    inline fun SurfaceFormatKHR(): VkSurfaceFormatKHR = VkSurfaceFormatKHR.create(ptr.advance(VkSurfaceFormatKHR.SIZEOF))
     inline fun SurfaceFormatKHR(capacity: Int): VkSurfaceFormatKHR.Buffer = VkSurfaceFormatKHR.create(ptr.advance(VkSurfaceFormatKHR.SIZEOF * capacity), capacity)
 
     inline fun VertexInputAttributeDescription(block: VkVertexInputAttributeDescription.() -> Unit): VkVertexInputAttributeDescription = VkVertexInputAttributeDescription.create(ptr.advance(VkVertexInputAttributeDescription.SIZEOF)).also(block)
@@ -949,6 +950,12 @@ object vk {
 //
 //    }
 
+    inline fun FenceCreateInfo(flag: VkFenceCreate): VkFenceCreateInfo {
+        return FenceCreateInfo {
+            flags = flag.i
+        }
+    }
+
     inline fun FenceCreateInfo(flags: VkFenceCreateFlags = 0): VkFenceCreateInfo {
         return FenceCreateInfo {
             this.flags = flags
@@ -1093,7 +1100,9 @@ object vk {
         }
     }
 
-    inline fun PushConstantRange(stageFlags: VkShaderStageFlags, size: Int, offset: Int): VkPushConstantRange {
+    inline fun PushConstantRange(stageFlag: VkShaderStage, size: Int, offset: Int = 0): VkPushConstantRange = PushConstantRange(stageFlag.i, size, offset)
+
+    inline fun PushConstantRange(stageFlags: VkShaderStageFlags, size: Int, offset: Int = 0): VkPushConstantRange {
         return PushConstantRange {
             this.stageFlags = stageFlags
             this.size = size
@@ -1173,6 +1182,11 @@ object vk {
             it[2].constantID(constantId2).offset(offset2).size(size2.L)
             it[3].constantID(constantId3).offset(offset3).size(size3.L)
         }
+    }
+
+    inline fun SurfaceFormatKHR(format: VkFormat, colorSpace: VkColorSpace): VkSurfaceFormatKHR = SurfaceFormatKHR().also {
+        it.format = format
+        it.colorSpace = colorSpace
     }
 
     inline fun VertexInputBindingDescription(binding: Int, stride: Int, inputRate: VkVertexInputRate): VkVertexInputBindingDescription {
@@ -1260,6 +1274,21 @@ object vk {
         Full Constructors
      */
 
+
+    inline fun ImageSubresourceRange(
+            aspectMask: VkImageAspect,
+            baseMipLevel: Int,
+            levelCount: Int,
+            baseArrayLayer: Int,
+            layerCount: Int): VkImageSubresourceRange {
+        return ImageSubresourceRange {
+            this.aspectMask = aspectMask.i
+            this.baseMipLevel = baseMipLevel
+            this.levelCount = levelCount
+            this.baseArrayLayer = baseArrayLayer
+            this.layerCount = layerCount
+        }
+    }
 
     inline fun ImageSubresourceRange(
             aspectMask: VkImageAspectFlags,
@@ -1783,7 +1812,7 @@ object vk {
                                                   surface: VkSurfaceKHR): Boolean {
         val supported = appBuffer.int
         KHRSurface.nvkGetPhysicalDeviceSurfaceSupportKHR(physicalDevice, queueFamily, surface, supported)
-        return memGetBoolean(supported)
+        return memGetInt(supported).bool
     }
 
     inline fun getPhysicalDeviceSurfaceSupportKHR(physicalDevice: VkPhysicalDevice,

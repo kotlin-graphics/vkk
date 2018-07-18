@@ -14,6 +14,7 @@ import kotlin.reflect.KMutableProperty0
 import ab.advance
 import ab.appBuffer
 import ab.appBuffer.ptr
+import glm_.bool
 
 
 /*
@@ -133,6 +134,13 @@ inline infix fun VkCommandBuffer.nextSubpass(contents: VkSubpassContents) {
     VK10.vkCmdNextSubpass(this, contents.i)
 }
 
+inline fun VkCommandBuffer.pipelineBarrier(srcStageMask: VkPipelineStage, dstStageMask: VkPipelineStage,
+                                           dependencyFlags: VkDependencyFlags = 0,
+                                           memoryBarrier: VkMemoryBarrier? = null,
+                                           bufferMemoryBarrier: VkBufferMemoryBarrier? = null,
+                                           imageMemoryBarrier: VkImageMemoryBarrier? = null) =
+        pipelineBarrier(srcStageMask.i, dstStageMask.i, dependencyFlags, memoryBarrier, bufferMemoryBarrier, imageMemoryBarrier)
+
 inline fun VkCommandBuffer.pipelineBarrier(srcStageMask: VkPipelineStageFlags, dstStageMask: VkPipelineStageFlags,
                                            dependencyFlags: VkDependencyFlags = 0,
                                            memoryBarrier: VkMemoryBarrier? = null,
@@ -229,7 +237,7 @@ inline fun VkCommandBuffer.submit(queue: VkQueue, submitInfoPNext: Pointer? = nu
     VkDevice
  */
 
-inline fun VkDevice.acquireNextImageKHR(swapchain: VkSwapchainKHR, timeout: Long, semaphore: VkSemaphore, fence: VkFence): Int {
+inline fun VkDevice.acquireNextImageKHR(swapchain: VkSwapchainKHR, timeout: Long, semaphore: VkSemaphore, fence: VkFence = NULL): Int {
     val pImageIndex = appBuffer.int
     VK_CHECK_RESULT(KHRSwapchain.nvkAcquireNextImageKHR(this, swapchain, timeout, semaphore, fence, pImageIndex))
     return memGetInt(pImageIndex)
@@ -318,6 +326,10 @@ inline infix fun VkDevice.createDescriptorSetLayout(createInfo: VkDescriptorSetL
     val pSetLayout = appBuffer.long
     VK10.nvkCreateDescriptorSetLayout(this, createInfo.adr, NULL, pSetLayout)
     return memGetLong(pSetLayout)
+}
+
+inline infix fun VkDevice.createFence(flag: VkFenceCreate): VkFence {
+    return createFence(vk.FenceCreateInfo { this.flags = flag.i })
 }
 
 inline infix fun VkDevice.createFence(flags: VkFenceCreateFlags): VkFence {
@@ -445,6 +457,11 @@ inline infix fun VkDevice.destroyFence(fence: VkFence) {
 }
 
 inline infix fun VkDevice.destroyFences(fences: ArrayList<VkFence>) {
+    for (fence in fences)
+        VK10.nvkDestroyFence(this, fence, NULL)
+}
+
+inline infix fun VkDevice.destroyFences(fences: VkFenceArray) {
     for (fence in fences)
         VK10.nvkDestroyFence(this, fence, NULL)
 }
@@ -615,6 +632,7 @@ inline infix fun VkDevice.getSwapchainImagesKHR(swapchain: VkSwapchainKHR): VkIm
 inline infix fun VkDevice.resetCommandPool(commandPool: VkCommandPool) {
     resetCommandPool(commandPool, 0)
 }
+
 inline fun VkDevice.resetCommandPool(commandPool: VkCommandPool, flags: VkCommandPoolResetFlags) {
     VK_CHECK_RESULT(VK10.vkResetCommandPool(this, commandPool, flags))
 }
@@ -682,6 +700,10 @@ inline fun VkInstance.enumeratePhysicalDevices(): ArrayList<VkPhysicalDevice> {
     return vk.enumeratePhysicalDevices(this)
 }
 
+inline infix fun VkInstance.destroySurfaceKHR(surface: VkSurfaceKHR) {
+    KHRSurface.nvkDestroySurfaceKHR(this, surface, NULL)
+}
+
 
 /*
     VkPhysicalDevice
@@ -701,6 +723,10 @@ inline infix fun VkPhysicalDevice.getFormatProperties(format: VkFormat): VkForma
 inline fun VkPhysicalDevice.getFormatProperties(format: VkFormat, formatProperties: VkFormatProperties): VkFormatProperties {
     VK10.nvkGetPhysicalDeviceFormatProperties(this, format.i, formatProperties.adr)
     return formatProperties
+}
+
+inline infix fun VkPhysicalDevice.getSurfaceFormatsKHR(surface: VkSurfaceKHR): ArrayList<VkSurfaceFormatKHR> {
+    return vk.getPhysicalDeviceSurfaceFormatsKHR(this, surface)
 }
 
 inline val VkPhysicalDevice.memoryProperties: VkPhysicalDeviceMemoryProperties
@@ -732,12 +758,10 @@ inline infix fun VkPhysicalDevice.getSurfaceCapabilitiesKHR(surface: VkSurfaceKH
     }
 }
 
-inline infix fun VkPhysicalDevice.getSurfaceFormatsKHR(surface: VkSurfaceKHR): ArrayList<VkSurfaceFormatKHR> {
-    return vk.getPhysicalDeviceSurfaceFormatsKHR(this, surface)
-}
 inline fun VkPhysicalDevice.getSurfaceSupportKHR(queueFamily: Int, surface: VkSurfaceKHR): Boolean {
     return vk.getPhysicalDeviceSurfaceSupportKHR(this, queueFamily, surface)
 }
+
 inline fun VkPhysicalDevice.getSurfaceSupportKHR(queueFamilyProperties: ArrayList<VkQueueFamilyProperties>,
                                                  surface: VkSurfaceKHR): BooleanArray {
     return vk.getPhysicalDeviceSurfaceSupportKHR(this, queueFamilyProperties, surface)
