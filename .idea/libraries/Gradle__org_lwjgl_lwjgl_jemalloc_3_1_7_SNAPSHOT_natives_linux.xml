@@ -1,11 +1,11 @@
 <component name="libraryTable">
   <library name="Gradle: org.lwjgl:lwjgl-jemalloc:3.1.7-SNAPSHOT:natives-linux">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-jemalloc/3.1.7-SNAPSHOT/6e9514deda322315f558ac0a406e562fc508d09/lwjgl-jemalloc-3.1.7-SNAPSHOT-natives-linux.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-jemalloc/3.1.7-SNAPSHOT/efeb1479fe83a1e3996e58b31e52af193a93036/lwjgl-jemalloc-3.1.7-SNAPSHOT-natives-linux.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-jemalloc/3.1.7-SNAPSHOT/3f16eb0d103faa7b45d70b42a28403b1d1b01f59/lwjgl-jemalloc-3.1.7-SNAPSHOT-sources.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-jemalloc/3.1.7-SNAPSHOT/179e42c2a501ed4489b849b6867181ae9d943555/lwjgl-jemalloc-3.1.7-SNAPSHOT-sources.jar!/" />
     </SOURCES>
   </library>
 </component>
