@@ -1876,5 +1876,5 @@ object vk {
                 descriptorCopies?.remaining() ?: 0, descriptorCopies?.adr ?: NULL)
     }
 
-    val VERSION = "0.2.0"
+    val VERSION = "0.2.1"
 }
