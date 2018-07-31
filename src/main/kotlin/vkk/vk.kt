@@ -542,7 +542,8 @@ object vk {
     inline fun PipelineColorBlendAttachmentState(block: VkPipelineColorBlendAttachmentState.() -> Unit): VkPipelineColorBlendAttachmentState = PipelineColorBlendAttachmentState().also(block)
     inline fun PipelineColorBlendAttachmentState(capacity: Int): VkPipelineColorBlendAttachmentState.Buffer = VkPipelineColorBlendAttachmentState.create(ptr.advance(VkPipelineColorBlendAttachmentState.SIZEOF * capacity), capacity)
 
-    inline fun Rect2D(block: VkRect2D.() -> Unit): VkRect2D = VkRect2D.create(ptr.advance(VkRect2D.SIZEOF)).also(block)
+    inline fun Rect2D(): VkRect2D = VkRect2D.create(ptr.advance(VkRect2D.SIZEOF))
+    inline fun Rect2D(block: VkRect2D.() -> Unit): VkRect2D = Rect2D().also(block)
     inline fun Rect2D(capacity: Int, block: VkRect2D.() -> Unit): VkRect2D.Buffer = VkRect2D.create(ptr.advance(VkRect2D.SIZEOF * capacity), capacity).also { it[0].block() }
 
     inline fun SpecializationMapEntry(): VkSpecializationMapEntry = VkSpecializationMapEntry.create(ptr.advance(VkSpecializationMapEntry.SIZEOF))
@@ -1112,12 +1113,12 @@ object vk {
 
     inline fun Rect2D(size: Vec2i, offset: Vec2i = Vec2i()) = Rect2D(size.x, size.y, offset.x, offset.y)
 
-    inline fun Rect2D(width: Int, height: Int, offsetX: Int, offsetY: Int): VkRect2D.Buffer {
-        return Rect2D(1) {
-            extent.width = width
-            extent.height = height
+    inline fun Rect2D(offsetX: Int, offsetY: Int, width: Int, height: Int): VkRect2D {
+        return Rect2D {
             offset.x = offsetX
             offset.y = offsetY
+            extent.width = width
+            extent.height = height
         }
     }
 
