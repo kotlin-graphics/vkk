@@ -36,12 +36,12 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Gradle: com.github.kotlin-graphics:appBuffer:23e9166" level="project" />
-    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-reflect:1.2.51" level="project" />
-    <orderEntry type="library" name="Gradle: com.github.kotlin-graphics:gli:62e94a11cc" level="project" />
-    <orderEntry type="library" name="Gradle: com.github.kotlin-graphics:glm:7b4aba3" level="project" />
-    <orderEntry type="library" name="Gradle: com.github.kotlin-graphics:kotlin-unsigned:a455438" level="project" />
-    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib:1.2.51" level="project" />
+    <orderEntry type="library" name="Gradle: com.github.kotlin-graphics:appBuffer:39d8216" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-reflect:1.2.60" level="project" />
+    <orderEntry type="library" name="Gradle: com.github.kotlin-graphics:gli:7f4fbde" level="project" />
+    <orderEntry type="library" name="Gradle: com.github.kotlin-graphics:glm:a8b5810" level="project" />
+    <orderEntry type="library" name="Gradle: com.github.kotlin-graphics:kotlin-unsigned:6942748" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib:1.2.60" level="project" />
     <orderEntry type="library" name="Gradle: org.lwjgl:lwjgl-glfw:3.2.0" level="project" />
     <orderEntry type="library" name="Gradle: org.lwjgl:lwjgl-glfw:3.2.0:natives-linux" level="project" />
     <orderEntry type="library" name="Gradle: org.lwjgl:lwjgl-jemalloc:3.2.0" level="project" />
@@ -57,7 +57,7 @@
     <orderEntry type="library" name="Gradle: org.lwjgl:lwjgl:3.2.0:natives-linux" level="project" />
     <orderEntry type="library" name="Gradle: graphics.scenery:spirvcrossj:0.4.0" level="project" />
     <orderEntry type="library" name="Gradle: graphics.scenery:spirvcrossj:0.4.0:natives-linux" level="project" />
-    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-common:1.2.51" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-common:1.2.60" level="project" />
     <orderEntry type="library" name="Gradle: org.jetbrains:annotations:13.0" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: org.lwjgl:lwjgl-glfw:3.2.0:natives-windows" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: org.lwjgl:lwjgl-jemalloc:3.2.0:natives-windows" level="project" />
