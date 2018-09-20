@@ -1,0 +1,7 @@
+.idea/
+out
+build
+.gradle
+
+# Avoid ignoring Gradle wrapper jar file
+!gradle-wrapper.jar
