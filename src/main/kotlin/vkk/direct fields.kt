@@ -1,8 +1,7 @@
 package vkk
 
-import ab.appBuffer
 import glm_.*
-import glm_.buffer.adr
+import kool.adr
 import glm_.vec2.Vec2
 import glm_.vec2.Vec2i
 import glm_.vec3.Vec3i

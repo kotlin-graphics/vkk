@@ -1,9 +1,8 @@
 package vkk
 
-import glm_.f
-import glm_.i
-import glm_.size
+import glm_.*
 import glm_.vec2.Vec2i
+import kool.stak
 import org.lwjgl.PointerBuffer
 import org.lwjgl.system.MemoryUtil.*
 import org.lwjgl.system.Pointer
@@ -11,10 +10,6 @@ import org.lwjgl.vulkan.*
 import java.nio.ByteBuffer
 import java.nio.FloatBuffer
 import kotlin.reflect.KMutableProperty0
-import ab.advance
-import ab.appBuffer
-import ab.appBuffer.ptr
-import glm_.bool
 
 
 /*
@@ -50,11 +45,10 @@ inline infix fun VkCommandBuffer.bindVertexBuffers(buffer: VkBuffer) {
     bindVertexBuffers(0, buffer)
 }
 
-inline fun VkCommandBuffer.bindVertexBuffers(firstBinding: Int, buffer: VkBuffer) {
-    val pBuffer = appBuffer.long
+inline fun VkCommandBuffer.bindVertexBuffers(firstBinding: Int, buffer: VkBuffer) = stak {
+    val pBuffer = nmemAlloc(Long.BYTES.L)
     memPutLong(pBuffer, buffer)
-    val pOffset = appBuffer.long
-//    memPutLong(pOffset, 0L) // TODO remove since calloc?
+    val pOffset = nmemCalloc(Long.BYTES.L, 1)
     VK10.nvkCmdBindVertexBuffers(this, firstBinding, 1, pBuffer, pOffset)
 }
 
