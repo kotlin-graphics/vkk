@@ -7,7 +7,7 @@ var DEBUG = java.lang.management.ManagementFactory.getRuntimeMXBean().inputArgum
 
 typealias VkFlags = Int
 
-inline class VkPipelineCacheHeaderversion(val i: Int)
+class VkPipelineCacheHeaderversion(val i: Int)
 
 val ONE = VkPipelineCacheHeaderversion(1)
 
@@ -36,76 +36,74 @@ class OutOfPoolMemoryError(message: String) : Error(message)
 class InvalidExternalHandleError(message: String) : Error(message)
 class NotPermittedError(message: String) : Error(message)
 
-enum class VkResult(val i: Int) {
-    SUCCESS(0),
-    NOT_READY(1),
-    TIMEOUT(2),
-    EVENT_SET(3),
-    EVENT_RESET(4),
-    INCOMPLETE(5),
-    ERROR_OUT_OF_HOST_MEMORY(-1),
-    ERROR_OUT_OF_DEVICE_MEMORY(-2),
-    ERROR_INITIALIZATION_FAILED(-3),
-    ERROR_DEVICE_LOST(-4),
-    ERROR_MEMORY_MAP_FAILED(-5),
-    ERROR_LAYER_NOT_PRESENT(-6),
-    ERROR_EXTENSION_NOT_PRESENT(-7),
-    ERROR_FEATURE_NOT_PRESENT(-8),
-    ERROR_INCOMPATIBLE_DRIVER(-9),
-    ERROR_TOO_MANY_OBJECTS(-10),
-    ERROR_FORMAT_NOT_SUPPORTED(-11),
-    ERROR_FRAGMENTED_POOL(-12),
-    ERROR_OUT_OF_POOL_MEMORY(-1000069000),
-    ERROR_INVALID_EXTERNAL_HANDLE(-1000072003),
-    ERROR_SURFACE_LOST_KHR(-1000000000),
-    ERROR_NATIVE_WINDOW_IN_USE_KHR(-1000000001),
-    SUBOPTIMAL_KHR(1000001003),
-    ERROR_OUT_OF_DATE_KHR(-1000001004),
-    ERROR_INCOMPATIBLE_DISPLAY_KHR(-1000003001),
-    ERROR_VALIDATION_FAILED_EXT(-1000011001),
-    ERROR_INVALID_SHADER_NV(-1000012000),
-    ERROR_FRAGMENTATION_EXT(-1000161000),
-    ERROR_NOT_PERMITTED_EXT(-1000174001);
+fun VK_CHECK_RESULT(i: Int) = VkResult(i)()
 
-    inline operator fun invoke() = this != SUCCESS
+inline class VkResult(val i: Int) {
 
-    companion object {
-        inline infix fun of(i: Int) = values().first { it.i == i }
-    }
+    operator fun invoke() = this != SUCCESS
+
+//    fun check(message: String = "Fatal : VkResult is $this") {
+//        if (DEBUG && invoke())
+//            if (VULKAN_NO_EXCEPTIONS)
+//                System.err.println(message)
+//            else
+//                when (this) {
+//                    ERROR_OUT_OF_HOST_MEMORY -> throw OutOfHostMemoryError(message)
+//                    ERROR_OUT_OF_DEVICE_MEMORY -> throw OutOfDeviceMemoryError(message)
+//                    ERROR_INITIALIZATION_FAILED -> throw InitializationFailedError(message)
+//                    ERROR_DEVICE_LOST -> throw DeviceLostError(message)
+//                    ERROR_MEMORY_MAP_FAILED -> throw MemoryMapFailedError(message)
+//                    ERROR_LAYER_NOT_PRESENT -> throw LayerNotPresentError(message)
+//                    ERROR_EXTENSION_NOT_PRESENT -> throw ExtensionNotPresentError(message)
+//                    ERROR_FEATURE_NOT_PRESENT -> throw FeatureNotPresentError(message)
+//                    ERROR_INCOMPATIBLE_DRIVER -> throw IncompatibleDriverError(message)
+//                    ERROR_TOO_MANY_OBJECTS -> throw TooManyObjectsError(message)
+//                    ERROR_FORMAT_NOT_SUPPORTED -> throw FormatNotSupportedError(message)
+//                    ERROR_FRAGMENTED_POOL -> throw FragmentedPoolError(message)
+//                    ERROR_SURFACE_LOST_KHR -> throw SurfaceLostKhrError(message)
+//                    ERROR_NATIVE_WINDOW_IN_USE_KHR -> throw NativeWindowInUseKhrError(message)
+//                    ERROR_OUT_OF_DATE_KHR -> throw OutOfDateKhrError(message)
+//                    ERROR_INCOMPATIBLE_DISPLAY_KHR -> throw IncompatibleDisplayKhrError(message)
+//                    ERROR_VALIDATION_FAILED_EXT -> throw ValidationFailedExtError(message)
+//                    ERROR_INVALID_SHADER_NV -> throw InvalidShaderNvError(message)
+//                    ERROR_OUT_OF_POOL_MEMORY -> throw OutOfPoolMemoryError(message)
+//                    ERROR_INVALID_EXTERNAL_HANDLE -> throw InvalidExternalHandleError(message)
+//                    ERROR_NOT_PERMITTED_EXT -> throw NotPermittedError(message)
+//                    else -> throw Error(message)
+//                }
+//    }
 }
 
-inline fun VK_CHECK_RESULT(i: Int) = VkResult.of(i).check()
+val SUCCESS = VkResult(0)
+val NOT_READY = VkResult(1)
+val TIMEOUT = VkResult(2)
+val EVENT_SET = VkResult(3)
+val EVENT_RESET = VkResult(4)
+val INCOMPLETE = VkResult(5)
+val ERROR_OUT_OF_HOST_MEMORY = VkResult(-1)
+val ERROR_OUT_OF_DEVICE_MEMORY = VkResult(-2)
+val ERROR_INITIALIZATION_FAILED = VkResult(-3)
+val ERROR_DEVICE_LOST = VkResult(-4)
+val ERROR_MEMORY_MAP_FAILED = VkResult(-5)
+val ERROR_LAYER_NOT_PRESENT = VkResult(-6)
+val ERROR_EXTENSION_NOT_PRESENT = VkResult(-7)
+val ERROR_FEATURE_NOT_PRESENT = VkResult(-8)
+val ERROR_INCOMPATIBLE_DRIVER = VkResult(-9)
+val ERROR_TOO_MANY_OBJECTS = VkResult(-10)
+val ERROR_FORMAT_NOT_SUPPORTED = VkResult(-11)
+val ERROR_FRAGMENTED_POOL = VkResult(-12)
+val ERROR_OUT_OF_POOL_MEMORY = VkResult(-1000069000)
+val ERROR_INVALID_EXTERNAL_HANDLE = VkResult(-1000072003)
+val ERROR_SURFACE_LOST_KHR = VkResult(-1000000000)
+val ERROR_NATIVE_WINDOW_IN_USE_KHR = VkResult(-1000000001)
+val SUBOPTIMAL_KHR = VkResult(1000001003)
+val ERROR_OUT_OF_DATE_KHR = VkResult(-1000001004)
+val ERROR_INCOMPATIBLE_DISPLAY_KHR = VkResult(-1000003001)
+val ERROR_VALIDATION_FAILED_EXT = VkResult(-1000011001)
+val ERROR_INVALID_SHADER_NV = VkResult(-1000012000)
+val ERROR_FRAGMENTATION_EXT = VkResult(-1000161000)
+val ERROR_NOT_PERMITTED_EXT = VkResult(-1000174001)
 
-fun VkResult.check(message: String = "Fatal : VkResult is $this") {
-    if (DEBUG && this())
-        if (VULKAN_NO_EXCEPTIONS)
-            System.err.println(message)
-        else
-            when (this) {
-                VkResult.ERROR_OUT_OF_HOST_MEMORY -> throw OutOfHostMemoryError(message)
-                VkResult.ERROR_OUT_OF_DEVICE_MEMORY -> throw OutOfDeviceMemoryError(message)
-                VkResult.ERROR_INITIALIZATION_FAILED -> throw InitializationFailedError(message)
-                VkResult.ERROR_DEVICE_LOST -> throw DeviceLostError(message)
-                VkResult.ERROR_MEMORY_MAP_FAILED -> throw MemoryMapFailedError(message)
-                VkResult.ERROR_LAYER_NOT_PRESENT -> throw LayerNotPresentError(message)
-                VkResult.ERROR_EXTENSION_NOT_PRESENT -> throw ExtensionNotPresentError(message)
-                VkResult.ERROR_FEATURE_NOT_PRESENT -> throw FeatureNotPresentError(message)
-                VkResult.ERROR_INCOMPATIBLE_DRIVER -> throw IncompatibleDriverError(message)
-                VkResult.ERROR_TOO_MANY_OBJECTS -> throw TooManyObjectsError(message)
-                VkResult.ERROR_FORMAT_NOT_SUPPORTED -> throw FormatNotSupportedError(message)
-                VkResult.ERROR_FRAGMENTED_POOL -> throw FragmentedPoolError(message)
-                VkResult.ERROR_SURFACE_LOST_KHR -> throw SurfaceLostKhrError(message)
-                VkResult.ERROR_NATIVE_WINDOW_IN_USE_KHR -> throw NativeWindowInUseKhrError(message)
-                VkResult.ERROR_OUT_OF_DATE_KHR -> throw OutOfDateKhrError(message)
-                VkResult.ERROR_INCOMPATIBLE_DISPLAY_KHR -> throw IncompatibleDisplayKhrError(message)
-                VkResult.ERROR_VALIDATION_FAILED_EXT -> throw ValidationFailedExtError(message)
-                VkResult.ERROR_INVALID_SHADER_NV -> throw InvalidShaderNvError(message)
-                VkResult.ERROR_OUT_OF_POOL_MEMORY -> throw OutOfPoolMemoryError(message)
-                VkResult.ERROR_INVALID_EXTERNAL_HANDLE -> throw InvalidExternalHandleError(message)
-                VkResult.ERROR_NOT_PERMITTED_EXT -> throw NotPermittedError(message)
-                else -> throw Error(message)
-            }
-}
 
 enum class VkStructureType(val i: Int) {
     APPLICATION_INFO(0),
@@ -255,6 +253,8 @@ enum class VkStructureType(val i: Int) {
     WIN32_KEYED_MUTEX_ACQUIRE_RELEASE_INFO_NV(1000058000),
     VALIDATION_FLAGS_EXT(1000061000),
     VI_SURFACE_CREATE_INFO_NN(1000062000),
+    IMAGE_VIEW_ASTC_DECODE_MODE_EXT(1000067000),
+    PHYSICAL_DEVICE_ASTC_DECODE_FEATURES_EXT(1000067001),
     IMPORT_MEMORY_WIN32_HANDLE_INFO_KHR(1000073000),
     EXPORT_MEMORY_WIN32_HANDLE_INFO_KHR(1000073001),
     MEMORY_WIN32_HANDLE_PROPERTIES_KHR(1000073002),
@@ -270,6 +270,9 @@ enum class VkStructureType(val i: Int) {
     IMPORT_SEMAPHORE_FD_INFO_KHR(1000079000),
     SEMAPHORE_GET_FD_INFO_KHR(1000079001),
     PHYSICAL_DEVICE_PUSH_DESCRIPTOR_PROPERTIES_KHR(1000080000),
+    COMMAND_BUFFER_INHERITANCE_CONDITIONAL_RENDERING_INFO_EXT(1000081000),
+    PHYSICAL_DEVICE_CONDITIONAL_RENDERING_FEATURES_EXT(1000081001),
+    VK_STRUCTURE_TYPE_CONDITIONAL_RENDERING_BEGIN_INFO_EXT(1000081002),
     PRESENT_REGIONS_KHR(1000084000),
     OBJECT_TABLE_CREATE_INFO_NVX(1000086000),
     INDIRECT_COMMANDS_LAYOUT_CREATE_INFO_NVX(1000086001),
@@ -291,6 +294,13 @@ enum class VkStructureType(val i: Int) {
     PHYSICAL_DEVICE_CONSERVATIVE_RASTERIZATION_PROPERTIES_EXT(1000101000),
     PIPELINE_RASTERIZATION_CONSERVATIVE_STATE_CREATE_INFO_EXT(1000101001),
     HDR_METADATA_EXT(1000105000),
+    ATTACHMENT_DESCRIPTION_2_KHR(1000109000),
+    ATTACHMENT_REFERENCE_2_KHR(1000109001),
+    SUBPASS_DESCRIPTION_2_KHR(1000109002),
+    SUBPASS_DEPENDENCY_2_KHR(1000109003),
+    RENDER_PASS_CREATE_INFO_2_KHR(1000109004),
+    SUBPASS_BEGIN_INFO_KHR(1000109005),
+    SUBPASS_END_INFO_KHR(1000109006),
     SHARED_PRESENT_SURFACE_CAPABILITIES_KHR(1000111000),
     IMPORT_FENCE_WIN32_HANDLE_INFO_KHR(1000114000),
     EXPORT_FENCE_WIN32_HANDLE_INFO_KHR(1000114001),
@@ -320,6 +330,10 @@ enum class VkStructureType(val i: Int) {
     EXTERNAL_FORMAT_ANDROID(1000129005),
     PHYSICAL_DEVICE_SAMPLER_FILTER_MINMAX_PROPERTIES_EXT(1000130000),
     SAMPLER_REDUCTION_MODE_CREATE_INFO_EXT(1000130001),
+    PHYSICAL_DEVICE_INLINE_UNIFORM_BLOCK_FEATURES_EXT(1000138000),
+    PHYSICAL_DEVICE_INLINE_UNIFORM_BLOCK_PROPERTIES_EXT(1000138001),
+    WRITE_DESCRIPTOR_SET_INLINE_UNIFORM_BLOCK_EXT(1000138002),
+    DESCRIPTOR_POOL_INLINE_UNIFORM_BLOCK_CREATE_INFO_EXT(1000138003),
     SAMPLE_LOCATIONS_INFO_EXT(1000143000),
     RENDER_PASS_SAMPLE_LOCATIONS_BEGIN_INFO_EXT(1000143001),
     PIPELINE_SAMPLE_LOCATIONS_STATE_CREATE_INFO_EXT(1000143002),
@@ -339,15 +353,20 @@ enum class VkStructureType(val i: Int) {
     DESCRIPTOR_SET_VARIABLE_DESCRIPTOR_COUNT_ALLOCATE_INFO_EXT(1000161003),
     DESCRIPTOR_SET_VARIABLE_DESCRIPTOR_COUNT_LAYOUT_SUPPORT_EXT(1000161004),
     DEVICE_QUEUE_GLOBAL_PRIORITY_CREATE_INFO_EXT(1000174000),
+    PHYSICAL_DEVICE_8BIT_STORAGE_FEATURES_KHR(1000177000),
     IMPORT_MEMORY_HOST_POINTER_INFO_EXT(1000178000),
     MEMORY_HOST_POINTER_PROPERTIES_EXT(1000178001),
     PHYSICAL_DEVICE_EXTERNAL_MEMORY_HOST_PROPERTIES_EXT(1000178002),
     PHYSICAL_DEVICE_SHADER_CORE_PROPERTIES_AMD(1000185000),
     PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_DIVISOR_PROPERTIES_EXT(1000190000),
-    PIPELINE_VERTEX_INPUT_DIVISOR_STATE_CREATE_INFO_EXT(1000190001);
+    PIPELINE_VERTEX_INPUT_DIVISOR_STATE_CREATE_INFO_EXT(1000190001),
+    PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_DIVISOR_FEATURES_EXT(1000190002),
+    CHECKPOINT_DATA_NV(1000206000),
+    QUEUE_FAMILY_CHECKPOINT_PROPERTIES_NV(1000206001),
+    PHYSICAL_DEVICE_VULKAN_MEMORY_MODEL_FEATURES_KHR(1000211000);
 
     companion object {
-        inline infix fun of(i: Int) = values().first { it.i == i }
+        infix fun of(i: Int) = values().first { it.i == i }
     }
 }
 
@@ -360,7 +379,7 @@ enum class VkSystemAllocationScope(val i: Int) {
     INSTANCE(4);
 
     companion object {
-        inline infix fun of(i: Int) = values().first { it.i == i }
+        infix fun of(i: Int) = values().first { it.i == i }
     }
 }
 
@@ -368,7 +387,7 @@ enum class VkInternalAllocationType(val i: Int) {
     EXECUTABLE(0);
 
     companion object {
-        inline infix fun of(i: Int) = values().first { it.i == i }
+        infix fun of(i: Int) = values().first { it.i == i }
     }
 }
 
@@ -605,7 +624,7 @@ enum class VkFormat(val i: Int) {
     infix operator fun plus(i: Int) = of(this.i + i)
 
     companion object {
-        inline infix fun of(i: Int) = values().first { it.i == i }
+        infix fun of(i: Int) = values().first { it.i == i }
     }
 }
 
@@ -616,7 +635,7 @@ enum class VkImageType(val i: Int) {
     `3D`(2);
 
     companion object {
-        inline infix fun of(i: Int) = values().first { it.i == i }
+        infix fun of(i: Int) = values().first { it.i == i }
     }
 }
 
@@ -625,7 +644,7 @@ enum class VkImageTiling(val i: Int) {
     LINEAR(1);
 
     companion object {
-        inline infix fun of(i: Int) = values().first { it.i == i }
+        infix fun of(i: Int) = values().first { it.i == i }
     }
 }
 
@@ -637,7 +656,7 @@ enum class VkPhysicalDeviceType(val i: Int) {
     CPU(4);
 
     companion object {
-        inline infix fun of(i: Int) = values().first { it.i == i }
+        infix fun of(i: Int) = values().first { it.i == i }
     }
 }
 
@@ -647,7 +666,7 @@ enum class VkQueryType(val i: Int) {
     TIMESTAMP(2);
 
     companion object {
-        inline infix fun of(i: Int) = values().first { it.i == i }
+        infix fun of(i: Int) = values().first { it.i == i }
     }
 }
 
@@ -656,7 +675,7 @@ enum class VkSharingMode(val i: Int) {
     CONCURRENT(1);
 
     companion object {
-        inline infix fun of(i: Int) = values().first { it.i == i }
+        infix fun of(i: Int) = values().first { it.i == i }
     }
 }
 
@@ -687,7 +706,7 @@ enum class VkImageLayout(val i: Int) {
         }
 
     companion object {
-        inline infix fun of(i: Int) = values().first { it.i == i }
+        infix fun of(i: Int) = values().first { it.i == i }
     }
 }
 
@@ -702,7 +721,7 @@ enum class VkImageViewType(val i: Int) {
     CUBE_ARRAY(6);
 
     companion object {
-        inline infix fun of(i: Int) = values().first { it.i == i }
+        infix fun of(i: Int) = values().first { it.i == i }
     }
 }
 
@@ -717,7 +736,7 @@ enum class VkComponentSwizzle(val i: Int) {
     A(6);
 
     companion object {
-        inline infix fun of(i: Int) = values().first { it.i == i }
+        infix fun of(i: Int) = values().first { it.i == i }
     }
 }
 
@@ -727,7 +746,7 @@ enum class VkVertexInputRate(val i: Int) {
     INSTANCE(1);
 
     companion object {
-        inline infix fun of(i: Int) = values().first { it.i == i }
+        infix fun of(i: Int) = values().first { it.i == i }
     }
 }
 
@@ -745,7 +764,7 @@ enum class VkPrimitiveTopology(val i: Int) {
     PATCH_LIST(10);
 
     companion object {
-        inline infix fun of(i: Int) = values().first { it.i == i }
+        infix fun of(i: Int) = values().first { it.i == i }
     }
 }
 
@@ -757,7 +776,7 @@ enum class VkPolygonMode(val i: Int) {
     FILL_RECTANGLE_NV(1000153000);
 
     companion object {
-        inline infix fun of(i: Int) = values().first { it.i == i }
+        infix fun of(i: Int) = values().first { it.i == i }
     }
 }
 
@@ -766,7 +785,7 @@ enum class VkFrontFace(val i: Int) {
     CLOCKWISE(1);
 
     companion object {
-        inline infix fun of(i: Int) = values().first { it.i == i }
+        infix fun of(i: Int) = values().first { it.i == i }
     }
 }
 
@@ -782,7 +801,7 @@ enum class VkCompareOp(val i: Int) {
     ALWAYS(7);
 
     companion object {
-        inline infix fun of(i: Int) = values().first { it.i == i }
+        infix fun of(i: Int) = values().first { it.i == i }
     }
 }
 
@@ -797,7 +816,7 @@ enum class VkStencilOp(val i: Int) {
     DECREMENT_AND_WRAP(7);
 
     companion object {
-        inline infix fun of(i: Int) = values().first { it.i == i }
+        infix fun of(i: Int) = values().first { it.i == i }
     }
 }
 
@@ -821,7 +840,7 @@ enum class VkLogicOp(val i: Int) {
     SET(15);
 
     companion object {
-        inline infix fun of(i: Int) = values().first { it.i == i }
+        infix fun of(i: Int) = values().first { it.i == i }
     }
 }
 
@@ -847,7 +866,7 @@ enum class VkBlendFactor(val i: Int) {
     ONE_MINUS_SRC1_ALPHA(18);
 
     companion object {
-        inline infix fun of(i: Int) = values().first { it.i == i }
+        infix fun of(i: Int) = values().first { it.i == i }
     }
 }
 
@@ -906,7 +925,7 @@ enum class VkBlendOp(val i: Int) {
     BLUE_EXT(1000148045);
 
     companion object {
-        inline infix fun of(i: Int) = values().first { it.i == i }
+        infix fun of(i: Int) = values().first { it.i == i }
     }
 }
 
@@ -926,7 +945,7 @@ enum class VkDynamicState(val i: Int) {
     SAMPLE_LOCATIONS_EXT(1000143000);
 
     companion object {
-        inline infix fun of(i: Int) = values().first { it.i == i }
+        infix fun of(i: Int) = values().first { it.i == i }
     }
 }
 
@@ -937,7 +956,7 @@ enum class VkFilter(val i: Int) {
     CUBIC_IMG(1000015000);
 
     companion object {
-        inline infix fun of(i: Int) = values().first { it.i == i }
+        infix fun of(i: Int) = values().first { it.i == i }
     }
 }
 
@@ -946,7 +965,7 @@ enum class VkSamplerMipmapMode(val i: Int) {
     LINEAR(1);
 
     companion object {
-        inline infix fun of(i: Int) = values().first { it.i == i }
+        infix fun of(i: Int) = values().first { it.i == i }
     }
 }
 
@@ -958,7 +977,7 @@ enum class VkSamplerAddressMode(val i: Int) {
     MIRROR_CLAMP_TO_EDGE(4);
 
     companion object {
-        inline infix fun of(i: Int) = values().first { it.i == i }
+        infix fun of(i: Int) = values().first { it.i == i }
     }
 }
 
@@ -971,7 +990,7 @@ enum class VkBorderColor(val i: Int) {
     INT_OPAQUE_WHITE(5);
 
     companion object {
-        inline infix fun of(i: Int) = values().first { it.i == i }
+        infix fun of(i: Int) = values().first { it.i == i }
     }
 }
 
@@ -986,7 +1005,8 @@ enum class VkDescriptorType(val i: Int) {
     STORAGE_BUFFER(7),
     UNIFORM_BUFFER_DYNAMIC(8),
     STORAGE_BUFFER_DYNAMIC(9),
-    INPUT_ATTACHMENT(10);
+    INPUT_ATTACHMENT(10),
+    INLINE_UNIFORM_BLOCK_EXT(1000138000);
 
     companion object {
         infix fun of(i: Int) = values().first { it.i == i }
@@ -1095,6 +1115,16 @@ enum class VkObjectType(val i: Int) {
     }
 }
 
+enum class VkVendorId(val i: Int) {
+    VIV(0x10001),
+    VSI(0x10002),
+    KAZAN(0x10003);
+
+    companion object {
+        infix fun of(i: Int) = values().first { it.i == i }
+    }
+}
+
 typealias VkInstanceCreateFlags = VkFlags
 
 enum class VkFormatFeature(val i: Int) {
@@ -1124,8 +1154,8 @@ enum class VkFormatFeature(val i: Int) {
     SAMPLED_IMAGE_FILTER_MINMAX_BIT_EXT(0x00010000);
 }
 
-inline infix fun Int.has(f: VkFormatFeature) = and(f.i) != 0
-inline infix fun Int.hasnt(f: VkFormatFeature) = and(f.i) == 0
+infix fun Int.has(f: VkFormatFeature) = and(f.i) != 0
+infix fun Int.hasnt(f: VkFormatFeature) = and(f.i) == 0
 
 typealias VkFormatFeatureFlags = VkFlags
 
@@ -1139,16 +1169,16 @@ enum class VkImageUsage(val i: Int) {
     TRANSIENT_ATTACHMENT_BIT(0x00000040),
     INPUT_ATTACHMENT_BIT(0x00000080);
 
-    inline infix fun or(b: VkImageUsage): VkImageUsageFlags = i or b.i
+    infix fun or(b: VkImageUsage): VkImageUsageFlags = i or b.i
 
     companion object {
-        inline infix fun of(i: Int) = values().first { it.i == i }
+        infix fun of(i: Int) = values().first { it.i == i }
     }
 }
 
-inline infix fun Int.or(b: VkImageUsage): VkImageUsageFlags = or(b.i)
-inline infix fun Int.has(b: VkImageUsage): Boolean = and(b.i) != 0
-inline infix fun Int.hasnt(b: VkImageUsage): Boolean = and(b.i) == 0
+infix fun Int.or(b: VkImageUsage): VkImageUsageFlags = or(b.i)
+infix fun Int.has(b: VkImageUsage): Boolean = and(b.i) != 0
+infix fun Int.hasnt(b: VkImageUsage): Boolean = and(b.i) == 0
 
 typealias VkImageUsageFlags = VkFlags
 
@@ -1168,7 +1198,7 @@ enum class VkImageCreate(val i: Int) {
     SAMPLE_LOCATIONS_COMPATIBLE_DEPTH_BIT_EXT(0x00001000);
 
     companion object {
-        inline infix fun of(i: Int) = values().first { it.i == i }
+        infix fun of(i: Int) = values().first { it.i == i }
     }
 }
 
@@ -1185,7 +1215,7 @@ enum class VkSampleCount(val i: Int) {
     `64_BIT`(0x00000040);
 
     companion object {
-        inline infix fun of(i: Int) = values().first { it.i == i }
+        infix fun of(i: Int) = values().first { it.i == i }
     }
 }
 
@@ -1198,11 +1228,11 @@ enum class VkQueueFlag(val i: Int) {
     SPARSE_BINDING_BIT(0x00000008),
     PROTECTED_BIT(0x00000010);
 
-    inline infix fun or(b: VkQueueFlag): VkQueueFlags = i or b.i
+    infix fun or(b: VkQueueFlag): VkQueueFlags = i or b.i
 }
 
-inline infix fun Int.has(b: VkQueueFlag) = and(b.i) != 0
-inline infix fun Int.hasnt(b: VkQueueFlag) = and(b.i) == 0
+infix fun Int.has(b: VkQueueFlag) = and(b.i) != 0
+infix fun Int.hasnt(b: VkQueueFlag) = and(b.i) == 0
 
 typealias VkQueueFlags = VkFlags
 
@@ -1214,11 +1244,11 @@ enum class VkMemoryProperty(val i: Int) {
     LAZILY_ALLOCATED_BIT(0x00000010),
     PROTECTED_BIT(0x00000020);
 
-    inline infix fun or(b: VkMemoryProperty): VkMemoryPropertyFlags = i or b.i
+    infix fun or(b: VkMemoryProperty): VkMemoryPropertyFlags = i or b.i
 }
 
-inline infix fun Int.has(b: VkMemoryProperty) = and(b.i) != 0
-inline infix fun Int.hasnt(b: VkMemoryProperty) = and(b.i) == 0
+infix fun Int.has(b: VkMemoryProperty) = and(b.i) != 0
+infix fun Int.hasnt(b: VkMemoryProperty) = and(b.i) == 0
 
 typealias VkMemoryPropertyFlags = VkFlags
 
@@ -1227,7 +1257,7 @@ enum class VkMemoryHeapFlag(val i: Int) {
     MULTI_INSTANCE_BIT(0x00000002);
 
     companion object {
-        inline infix fun of(i: Int) = values().first { it.i == i }
+        infix fun of(i: Int) = values().first { it.i == i }
     }
 }
 typealias VkMemoryHeapFlags = VkFlags
@@ -1257,10 +1287,11 @@ enum class VkPipelineStage(val i: Int) {
     HOST_BIT(0x00004000),
     ALL_GRAPHICS_BIT(0x00008000),
     ALL_COMMANDS_BIT(0x00010000),
+    CONDITIONAL_RENDERING_BIT_EXT(0x00040000),
     COMMAND_PROCESS_BIT_NVX(0x00020000);
 
     companion object {
-        inline infix fun of(i: Int) = values().first { it.i == i }
+        infix fun of(i: Int) = values().first { it.i == i }
     }
 }
 
@@ -1281,7 +1312,7 @@ enum class VkImageAspect(val i: Int) {
     infix fun or(f: VkImageAspect) = i or f.i
 
     companion object {
-        inline infix fun of(i: Int) = values().first { it.i == i }
+        infix fun of(i: Int) = values().first { it.i == i }
     }
 }
 
@@ -1293,7 +1324,7 @@ enum class VkSparseImageFormat(val i: Int) {
     NONSTANDARD_BLOCK_SIZE_BIT(0x00000004);
 
     companion object {
-        inline infix fun of(i: Int) = values().first { it.i == i }
+        infix fun of(i: Int) = values().first { it.i == i }
     }
 }
 typealias VkSparseImageFormatFlags = VkFlags
@@ -1302,7 +1333,7 @@ enum class VkSparseMemoryBind(val i: Int) {
     METADATA_BIT(0x00000001);
 
     companion object {
-        inline infix fun of(i: Int) = values().first { it.i == i }
+        infix fun of(i: Int) = values().first { it.i == i }
     }
 }
 typealias VkSparseMemoryBindFlags = VkFlags
@@ -1311,7 +1342,7 @@ enum class VkFenceCreate(val i: Int) {
     SIGNALED_BIT(0x00000001);
 
     companion object {
-        inline infix fun of(i: Int) = values().first { it.i == i }
+        infix fun of(i: Int) = values().first { it.i == i }
     }
 }
 
@@ -1334,7 +1365,7 @@ enum class VkQueryPipelineStatistic(val i: Int) {
     COMPUTE_SHADER_INVOCATIONS_BIT(0x00000400);
 
     companion object {
-        inline infix fun of(i: Int) = values().first { it.i == i }
+        infix fun of(i: Int) = values().first { it.i == i }
     }
 }
 typealias VkQueryPipelineStatisticFlags = VkFlags
@@ -1346,7 +1377,7 @@ enum class VkQueryResult(val i: Int) {
     PARTIAL_BIT(0x00000008);
 
     companion object {
-        inline infix fun of(i: Int) = values().first { it.i == i }
+        infix fun of(i: Int) = values().first { it.i == i }
     }
 }
 typealias VkQueryResultFlags = VkFlags
@@ -1358,7 +1389,7 @@ enum class VkBufferCreate(val i: Int) {
     PROTECTED_BIT(0x00000008);
 
     companion object {
-        inline infix fun of(i: Int) = values().first { it.i == i }
+        infix fun of(i: Int) = values().first { it.i == i }
     }
 }
 
@@ -1373,12 +1404,13 @@ enum class VkBufferUsage(val i: Int) {
     STORAGE_BUFFER_BIT(0x00000020),
     INDEX_BUFFER_BIT(0x00000040),
     VERTEX_BUFFER_BIT(0x00000080),
-    INDIRECT_BUFFER_BIT(0x00000100);
+    INDIRECT_BUFFER_BIT(0x00000100),
+    CONDITIONAL_RENDERING_BIT_EXT(0x00000200);
 
     infix fun or(f: VkBufferUsage): VkBufferCreateFlags = i or f.i
 
     companion object {
-        inline infix fun of(i: Int) = values().first { it.i == i }
+        infix fun of(i: Int) = values().first { it.i == i }
     }
 }
 
@@ -1400,7 +1432,7 @@ enum class VkPipelineCreate(val i: Int) {
     DISPATCH_BASE(0x00000010);
 
     companion object {
-        inline infix fun of(i: Int) = values().first { it.i == i }
+        infix fun of(i: Int) = values().first { it.i == i }
     }
 }
 typealias VkPipelineCreateFlags = VkFlags
@@ -1418,7 +1450,7 @@ enum class VkShaderStage(val i: Int) {
     ALL(0x7FFFFFFF);
 
     companion object {
-        inline infix fun of(i: Int) = values().first { it.i == i }
+        infix fun of(i: Int) = values().first { it.i == i }
     }
 }
 
@@ -1439,7 +1471,7 @@ enum class VkCullMode(val i: Int) {
     FRONT_AND_BACK(0x00000003);
 
     companion object {
-        inline infix fun of(i: Int) = values().first { it.i == i }
+        infix fun of(i: Int) = values().first { it.i == i }
     }
 }
 
@@ -1456,7 +1488,7 @@ enum class VkColorComponent(val i: Int) {
     A_BIT(0x00000008);
 
     companion object {
-        inline infix fun of(i: Int) = values().first { it.i == i }
+        infix fun of(i: Int) = values().first { it.i == i }
     }
 }
 
@@ -1476,7 +1508,7 @@ enum class VkDescriptorSetLayoutCreate(val i: Int) {
     UPDATE_AFTER_BIND_POOL_BIT_EXT(0x00000002);
 
     companion object {
-        inline infix fun of(i: Int) = values().first { it.i == i }
+        infix fun of(i: Int) = values().first { it.i == i }
     }
 }
 
@@ -1487,7 +1519,7 @@ enum class VkDescriptorPoolCreate(val i: Int) {
     UPDATE_AFTER_BIND_BIT_EXT(0x00000002);
 
     companion object {
-        inline infix fun of(i: Int) = values().first { it.i == i }
+        infix fun of(i: Int) = values().first { it.i == i }
     }
 }
 
@@ -1501,7 +1533,7 @@ enum class VkAttachmentDescriptionFlag(val i: Int) {
     MAY_ALIAS_BIT(0x00000001);
 
     companion object {
-        inline infix fun of(i: Int) = values().first { it.i == i }
+        infix fun of(i: Int) = values().first { it.i == i }
     }
 }
 
@@ -1513,7 +1545,7 @@ enum class VkSubpassDescriptionFlag(val i: Int) {
     PER_VIEW_POSITION_X_ONLY_BIT_NVX(0x00000002);
 
     companion object {
-        inline infix fun of(i: Int) = values().first { it.i == i }
+        infix fun of(i: Int) = values().first { it.i == i }
     }
 }
 
@@ -1537,6 +1569,7 @@ enum class VkAccess(val i: Int) {
     HOST_WRITE_BIT(0x00004000),
     MEMORY_READ_BIT(0x00008000),
     MEMORY_WRITE_BIT(0x00010000),
+    CONDITIONAL_RENDERING_READ_BIT_EXT(0x00100000),
     COMMAND_PROCESS_READ_BIT_NVX(0x00020000),
     COMMAND_PROCESS_WRITE_BIT_NVX(0x00040000),
     COLOR_ATTACHMENT_READ_NONCOHERENT_BIT_EXT(0x00080000);
@@ -1548,7 +1581,7 @@ enum class VkAccess(val i: Int) {
     }
 }
 
-inline infix fun Int.or(f: VkAccess) = or(f.i)
+infix fun Int.or(f: VkAccess) = or(f.i)
 
 typealias VkAccessFlags = VkFlags
 
@@ -1580,7 +1613,7 @@ enum class VkCommandPoolReset(val i: Int) {
     RELEASE_RESOURCES_BIT(0x00000001);
 
     companion object {
-        inline infix fun of(i: Int) = values().first { it.i == i }
+        infix fun of(i: Int) = values().first { it.i == i }
     }
 }
 typealias VkCommandPoolResetFlags = VkFlags
@@ -1591,7 +1624,7 @@ enum class VkCommandBufferUsage(val i: Int) {
     SIMULTANEOUS_USE_BIT(0x00000004);
 
     companion object {
-        inline infix fun of(i: Int) = values().first { it.i == i }
+        infix fun of(i: Int) = values().first { it.i == i }
     }
 }
 
@@ -1604,7 +1637,7 @@ enum class VkQueryControl(val i: Int) {
     PRECISE_BIT(0x00000001);
 
     companion object {
-        inline infix fun of(i: Int) = values().first { it.i == i }
+        infix fun of(i: Int) = values().first { it.i == i }
     }
 }
 typealias VkQueryControlFlags = VkFlags
@@ -1624,7 +1657,7 @@ enum class VkStencilFace(val i: Int) {
     FRONT_AND_BACK(0x00000003);
 
     companion object {
-        inline infix fun of(i: Int) = values().first { it.i == i }
+        infix fun of(i: Int) = values().first { it.i == i }
     }
 }
 typealias VkStencilFaceFlags = VkFlags
@@ -1638,7 +1671,7 @@ enum class VkPointClippingBehavior(val i: Int) {
     USER_CLIP_PLANES_ONLY(1);
 
     companion object {
-        inline infix fun of(i: Int) = values().first { it.i == i }
+        infix fun of(i: Int) = values().first { it.i == i }
     }
 }
 
@@ -1647,7 +1680,7 @@ enum class VkTessellationDomainOrigin(val i: Int) {
     LOWER_LEFT(1);
 
     companion object {
-        inline infix fun of(i: Int) = values().first { it.i == i }
+        infix fun of(i: Int) = values().first { it.i == i }
     }
 }
 
@@ -1659,7 +1692,7 @@ enum class VkSamplerYcbcrModelConversion(val i: Int) {
     YCBCR_2020(4);
 
     companion object {
-        inline infix fun of(i: Int) = values().first { it.i == i }
+        infix fun of(i: Int) = values().first { it.i == i }
     }
 }
 
@@ -1673,7 +1706,7 @@ enum class VkChromaLocation(val i: Int) {
     MIDPOINT(1);
 
     companion object {
-        inline infix fun of(i: Int) = values().first { it.i == i }
+        infix fun of(i: Int) = values().first { it.i == i }
     }
 }
 
@@ -1682,7 +1715,7 @@ enum class VkDescriptorUpdateTemplateType(val i: Int) {
     PUSH_DESCRIPTORS_KHR(1);
 
     companion object {
-        inline infix fun of(i: Int) = values().first { it.i == i }
+        infix fun of(i: Int) = values().first { it.i == i }
     }
 }
 
@@ -1699,7 +1732,7 @@ enum class VkSubgroupFeature(val i: Int) {
     PARTITIONED_BIT_NV(0x00000100);
 
     companion object {
-        inline infix fun of(i: Int) = values().first { it.i == i }
+        infix fun of(i: Int) = values().first { it.i == i }
     }
 }
 
@@ -1712,7 +1745,7 @@ enum class VkPeerMemoryFeature(val i: Int) {
     GENERIC_DST_BIT(0x00000008);
 
     companion object {
-        inline infix fun of(i: Int) = values().first { it.i == i }
+        infix fun of(i: Int) = values().first { it.i == i }
     }
 }
 
@@ -1722,7 +1755,7 @@ enum class VkMemoryAllocateFlagBits(val i: Int) {
     DEVICE_MASK_BIT(0x00000001);
 
     companion object {
-        inline infix fun of(i: Int) = values().first { it.i == i }
+        infix fun of(i: Int) = values().first { it.i == i }
     }
 }
 
@@ -1842,7 +1875,7 @@ enum class VkColorSpace(val i: Int) {
     EXTENDED_SRGB_NONLINEAR_EXT(1000104014);
 
     companion object {
-        inline infix fun of(i: Int) = values().first { it.i == i }
+        infix fun of(i: Int) = values().first { it.i == i }
     }
 }
 
@@ -1856,7 +1889,7 @@ enum class VkPresentMode(val i: Int) {
     SHARED_CONTINUOUS_REFRESH_KHR(1000111001);
 
     companion object {
-        inline infix fun of(i: Int) = values().first { it.i == i }
+        infix fun of(i: Int) = values().first { it.i == i }
     }
 }
 
@@ -1873,7 +1906,7 @@ enum class VkSurfaceTransform(val i: Int) {
     INHERIT_BIT_KHR(0x00000100);
 
     companion object {
-        inline infix fun of(i: Int) = values().first { it.i == i }
+        infix fun of(i: Int) = values().first { it.i == i }
     }
 }
 
@@ -1886,11 +1919,11 @@ enum class VkCompositeAlpha(val i: Int) {
     INHERIT_BIT_KHR(0x00000008);
 
     companion object {
-        inline infix fun of(i: Int) = values().first { it.i == i }
+        infix fun of(i: Int) = values().first { it.i == i }
     }
 }
 
-inline infix fun Int.has(f: VkCompositeAlpha) = and(f.i) != 0
+infix fun Int.has(f: VkCompositeAlpha) = and(f.i) != 0
 
 typealias VkCompositeAlphaFlagsKHR = VkFlags
 
@@ -1899,7 +1932,7 @@ enum class VkSwapchainCreateKHR(val i: Int) {
     BIND_SFR_BIT_KHX(0x00000001);
 
     companion object {
-        inline infix fun of(i: Int) = values().first { it.i == i }
+        infix fun of(i: Int) = values().first { it.i == i }
     }
 }
 
@@ -1939,11 +1972,11 @@ enum class VkDebugReportObjectType(val i: Int) {
     OBJECT_TABLE_NVX_EXT(31),
     INDIRECT_COMMANDS_LAYOUT_NVX_EXT(32),
     VALIDATION_CACHE_EXT(33),
-    DESCRIPTOR_UPDATE_TEMPLATE_KHR_EXT(1000085000),
+    DESCRIPTOR_UPDATE_TEMPLATE_EXT(1000085000),
     SAMPLER_YCBCR_CONVERSION_KHR_EXT(1000156000);
 
     companion object {
-        inline infix fun of(i: Int) = values().first { it.i == i }
+        infix fun of(i: Int) = values().first { it.i == i }
     }
 }
 
@@ -1957,11 +1990,11 @@ enum class VkDebugReport(val i: Int) {
     ERROR_BIT_EXT(0x00000008),
     DEBUG_BIT_EXT(0x00000010);
 
-    inline infix fun or(b: VkDebugReport): VkDebugReportFlagsEXT = i or b.i
+    infix fun or(b: VkDebugReport): VkDebugReportFlagsEXT = i or b.i
 }
 
-inline infix fun Int.has(f: VkDebugReport) = and(f.i) != 0
-inline infix fun Int.or(f: VkDebugReport): VkDebugReportFlagsEXT = or(f.i)
+infix fun Int.has(f: VkDebugReport) = and(f.i) != 0
+infix fun Int.or(f: VkDebugReport): VkDebugReportFlagsEXT = or(f.i)
 
 typealias VkDebugReportFlagsEXT = VkFlags
 

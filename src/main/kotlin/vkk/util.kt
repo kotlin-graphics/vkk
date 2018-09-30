@@ -2,9 +2,6 @@ package vkk
 
 import gli_.extension
 import glm_.BYTES
-import glm_.buffer.bufferBig
-import glm_.buffer.cap
-import glm_.buffer.intBufferBig
 import glm_.i
 import glm_.mat3x3.Mat3
 import glm_.mat4x4.Mat4
@@ -14,18 +11,17 @@ import glm_.vec2.Vec2i
 import glm_.vec3.Vec3
 import glm_.vec4.Vec4
 import graphics.scenery.spirvcrossj.*
+import kool.bufferBig
+import kool.cap
+import kool.intBufferBig
+import kool.stak
 import org.lwjgl.PointerBuffer
-import org.lwjgl.system.MemoryUtil
 import org.lwjgl.system.MemoryUtil.*
 import org.lwjgl.system.Pointer
 import org.lwjgl.system.Struct
 import org.lwjgl.system.StructBuffer
 import org.lwjgl.vulkan.*
-import ab.advance
-import ab.appBuffer
-import ab.appBuffer.ptr
 import java.nio.ByteBuffer
-import java.nio.FloatBuffer
 import java.nio.IntBuffer
 import java.nio.LongBuffer
 import java.nio.file.Files
@@ -47,11 +43,11 @@ import kotlin.reflect.full.findAnnotation
 //operator fun PointerBuffer.set(index: Int, string: String) {
 //    put(index, string.memUTF16)
 //}
-inline operator fun PointerBuffer.set(index: Int, long: Long) {
+ operator fun PointerBuffer.set(index: Int, long: Long) {
     put(index, long)
 }
 
-inline operator fun PointerBuffer.set(index: Int, pointer: Pointer) {
+ operator fun PointerBuffer.set(index: Int, pointer: Pointer) {
     put(index, pointer)
 }
 
@@ -69,30 +65,30 @@ inline operator fun PointerBuffer.set(index: Int, pointer: Pointer) {
 //
 //fun PointerBuffer.isNotEmpty() = position() > 0
 
-typealias VkBuffer = Long
-typealias VkBufferView = Long
-typealias VkCommandPool = Long
-typealias VkDebugReportCallback = Long
-typealias VkDescriptorPool = Long
-typealias VkDescriptorSet = Long
-typealias VkDescriptorSetLayout = Long
-typealias VkDeviceMemory = Long
-typealias VkDeviceSize = Long
-typealias VkEvent = Long
-typealias VkFence = Long
-typealias VkFramebuffer = Long
-typealias VkImage = Long
-typealias VkImageView = Long
-typealias VkPipeline = Long
-typealias VkPipelineCache = Long
-typealias VkPipelineLayout = Long
-typealias VkQueryPool = Long
-typealias VkRenderPass = Long
-typealias VkSampler = Long
-typealias VkSemaphore = Long
-typealias VkShaderModule = Long
-typealias VkSurfaceKHR = Long
-typealias VkSwapchainKHR = Long
+inline class VkBuffer(val L: Long)
+inline class VkBufferView(val L: Long)
+inline class VkCommandPool(val L: Long)
+inline class VkDebugReportCallback(val L: Long)
+inline class VkDescriptorPool(val L: Long)
+inline class VkDescriptorSet(val L: Long)
+inline class VkDescriptorSetLayout(val L: Long)
+inline class VkDeviceMemory(val L: Long)
+inline class VkDeviceSize(val L: Long)
+inline class VkEvent(val L: Long)
+inline class VkFence(val L: Long)
+inline class VkFramebuffer(val L: Long)
+inline class VkImage(val L: Long)
+inline class VkImageView(val L: Long)
+inline class VkPipeline(val L: Long)
+inline class VkPipelineCache(val L: Long)
+inline class VkPipelineLayout(val L: Long)
+inline class VkQueryPool(val L: Long)
+inline class VkRenderPass(val L: Long)
+inline class VkSampler(val L: Long)
+inline class VkSemaphore(val L: Long)
+inline class VkShaderModule(val L: Long)
+inline class VkSurface(val L: Long)
+inline class VkSwapchainKHR(val L: Long)
 
 typealias VkBufferBuffer = LongBuffer
 typealias VkDescriptorSetBuffer = LongBuffer
@@ -143,13 +139,13 @@ object VkPhysicalDeviceArrayList {
 }
 
 
-inline fun vkDestroySemaphores(device: VkDevice, semaphores: VkSemaphoreBuffer) {
+ fun vkDestroySemaphores(device: VkDevice, semaphores: VkSemaphoreBuffer) {
     for (i in 0 until semaphores.remaining())
         VK10.nvkDestroySemaphore(device, semaphores[i], NULL)
 }
 
 
-inline fun vkDestroyBuffer(device: VkDevice, buffer: VkBuffer) = VK10.nvkDestroyBuffer(device, buffer, NULL)
+ fun vkDestroyBuffer(device: VkDevice, buffer: VkBuffer) = VK10.nvkDestroyBuffer(device, buffer.L, NULL)
 
 
 inline val Pointer.adr get() = address()
@@ -164,12 +160,13 @@ fun PointerBuffer?.toArrayList(): ArrayList<String> {
     return res
 }
 
-fun Collection<String>.toPointerBuffer(): PointerBuffer {
-    val pointers = PointerBuffer.create(ptr.advance(Pointer.POINTER_SIZE * size), size)
-    for (i in indices)
-        pointers.put(i, elementAt(i).utf8)
-    return pointers
-}
+fun Collection<String>.toPointerBuffer(): PointerBuffer =
+        stak {
+            val pointers = it.mallocPointer(size)
+            for (i in indices)
+                pointers.put(i, elementAt(i).utf8)
+            return pointers
+        }
 
 
 infix fun Vec2i.put(extent: VkExtent2D) {
@@ -240,14 +237,14 @@ fun glslToSpirv(path: Path): ByteBuffer {
     return spirv.toByteBuffer()
 }
 
-private fun IntVec.toByteBuffer(): ByteBuffer {
-    val bytes = appBuffer.buffer(size().i * Int.BYTES)
-    val ints = bytes.asIntBuffer()
-    for (i in 0 until ints.cap)
-        ints[i] = get(i).i
-    withLong { }
-    return bytes
-}
+private fun IntVec.toByteBuffer(): ByteBuffer =
+        stak {
+            val bytes = it.malloc(size().i * Int.BYTES)
+            val ints = bytes.asIntBuffer()
+            for (i in 0 until ints.cap)
+                ints[i] = get(i).i
+            return bytes
+        }
 
 
 operator fun <T : Struct, SELF : StructBuffer<T, SELF>> StructBuffer<T, SELF>.set(index: Int, value: T) {
@@ -493,6 +490,6 @@ typealias VkDebugReportCallbackType = (
         msg: String,
         userData: Any?) -> Boolean
 
-inline operator fun VkAttachmentReference.invoke(attachment: Int, layout: VkImageLayout): VkAttachmentReference {
+ operator fun VkAttachmentReference.invoke(attachment: Int, layout: VkImageLayout): VkAttachmentReference {
     return attachment(attachment).layout(layout.i)
 }

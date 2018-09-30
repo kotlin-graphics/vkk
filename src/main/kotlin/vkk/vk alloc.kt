@@ -6,6 +6,7 @@ import org.lwjgl.vulkan.*
 //fun VmDescriptorBufferInfo(): VkDescriptorBufferInfo = VkDescriptorBufferInfo.malloc()
 //fun VmDescriptorBufferInfo(capacity: Int): VkDescriptorBufferInfo.Buffer = VkDescriptorBufferInfo.malloc(capacity)
 fun cVkClearValue(): VkClearValue = VkClearValue.calloc()
+
 fun cVkClearValue(capacity: Int): VkClearValue.Buffer = VkClearValue.calloc(capacity)
 
 fun cVkDescriptorBufferInfo(): VkDescriptorBufferInfo = VkDescriptorBufferInfo.calloc()
@@ -23,11 +24,11 @@ inline fun cVkDescriptorSetLayoutCreateInfo(block: VkDescriptorSetLayoutCreateIn
     return res
 }
 
-inline fun cVkImageSubresourceRange(aspectMask: VkImageAspectFlags,
-                                    baseMipLevel: Int,
-                                    levelCount: Int,
-                                    baseArrayLayer: Int,
-                                    layerCount: Int): VkImageSubresourceRange {
+fun cVkImageSubresourceRange(aspectMask: VkImageAspectFlags,
+                             baseMipLevel: Int,
+                             levelCount: Int,
+                             baseArrayLayer: Int,
+                             layerCount: Int): VkImageSubresourceRange {
     return VkImageSubresourceRange.calloc().also {
         it.aspectMask = aspectMask
         it.baseMipLevel = baseMipLevel
@@ -41,7 +42,7 @@ inline fun cVkPipelineColorBlendAttachmentState(block: VkPipelineColorBlendAttac
     return VkPipelineColorBlendAttachmentState.calloc().also(block)
 }
 
-inline fun cVkPipelineColorBlendAttachmentState(capacity: Int): VkPipelineColorBlendAttachmentState.Buffer {
+fun cVkPipelineColorBlendAttachmentState(capacity: Int): VkPipelineColorBlendAttachmentState.Buffer {
     return VkPipelineColorBlendAttachmentState.calloc(capacity)
 }
 
@@ -100,7 +101,7 @@ inline fun cVkPipelineShaderStageCreateInfo(block: VkPipelineShaderStageCreateIn
     return res
 }
 
-inline fun cVkPipelineVertexInputStateCreateInfo(): VkPipelineVertexInputStateCreateInfo {
+fun cVkPipelineVertexInputStateCreateInfo(): VkPipelineVertexInputStateCreateInfo {
     return VkPipelineVertexInputStateCreateInfo.calloc().apply {
         type = VkStructureType.PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO
     }
@@ -143,6 +144,7 @@ fun cVkVertexInputBindingDescription(): VkVertexInputBindingDescription = VkVert
 fun cVkVertexInputBindingDescription(block: VkVertexInputBindingDescription.() -> Unit): VkVertexInputBindingDescription {
     return cVkVertexInputBindingDescription().also(block)
 }
+
 fun cVkVertexInputBindingDescription(capacity: Int): VkVertexInputBindingDescription.Buffer = VkVertexInputBindingDescription.calloc(capacity)
 fun cVkVertexInputBindingDescription(capacity: Int, block: VkVertexInputBindingDescription.() -> Unit): VkVertexInputBindingDescription.Buffer {
     return cVkVertexInputBindingDescription(capacity).also { it[0].block() }
