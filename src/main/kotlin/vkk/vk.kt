@@ -1099,6 +1099,7 @@ object vk {
             dstSet2: VkDescriptorSet, type2: VkDescriptorType, binding2: Int, info2: Struct,
             dstSet3: VkDescriptorSet, type3: VkDescriptorType, binding3: Int, info3: Struct): VkWriteDescriptorSet.Buffer =
             WriteDescriptorSet(4) {
+                this[0].dstSet(dstSet0.L).descriptorType(type0.i).dstBinding(binding0)
                 if (info0 is VkDescriptorBufferInfo) this[0].bufferInfo_ = info0 else this[0].imageInfo_ = info0 as VkDescriptorImageInfo
                 this[1].dstSet(dstSet1.L).descriptorType(type1.i).dstBinding(binding1)
                 if (info1 is VkDescriptorBufferInfo) this[1].bufferInfo_ = info1 else this[1].imageInfo_ = info1 as VkDescriptorImageInfo
