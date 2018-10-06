@@ -11,7 +11,6 @@ import org.lwjgl.system.Pointer.POINTER_SIZE
 import org.lwjgl.vulkan.*
 import java.nio.ByteBuffer
 import java.nio.FloatBuffer
-import kotlin.reflect.KMutableProperty0
 
 
 /*
@@ -462,11 +461,11 @@ fun VkDevice.getCommandBuffer(commandPool: VkCommandPool, level: VkCommandBuffer
     return allocateCommandBuffer(cmdBufAllocateInfo).apply { if (autostart) begin() }
 }
 
-infix fun VkDevice.getImageMemoryRequirements(buffer: VkBuffer): VkMemoryRequirements =
-        getImageMemoryRequirements(buffer, vk.MemoryRequirements())
+infix fun VkDevice.getImageMemoryRequirements(image: VkImage): VkMemoryRequirements =
+        getImageMemoryRequirements(image, vk.MemoryRequirements())
 
-fun VkDevice.getImageMemoryRequirements(buffer: VkBuffer, memoryRequirements: VkMemoryRequirements): VkMemoryRequirements {
-    VK10.nvkGetImageMemoryRequirements(this, buffer.L, memoryRequirements.adr)
+fun VkDevice.getImageMemoryRequirements(image: VkImage, memoryRequirements: VkMemoryRequirements): VkMemoryRequirements {
+    VK10.nvkGetImageMemoryRequirements(this, image.L, memoryRequirements.adr)
     return memoryRequirements
 }
 
@@ -478,21 +477,21 @@ fun VkDevice.getImageSubresourceLayout(image: VkImage, subresource: VkImageSubre
     return layout
 }
 
-inline fun VkDevice.mappingMemory(memory: Long, offset: Long, size: Long, flags: VkMemoryMapFlags = 0, block: (Long) -> Unit) =
+inline fun VkDevice.mappingMemory(memory: VkDeviceMemory, offset: VkDeviceSize, size: VkDeviceSize, flags: VkMemoryMapFlags = 0, block: (Long) -> Unit) =
         stak.pointerAddress { data ->
-            VK_CHECK_RESULT(VK10.nvkMapMemory(this, memory, offset, size, flags, data))
+            VK_CHECK_RESULT(VK10.nvkMapMemory(this, memory.L, offset.L, size.L, flags, data))
             block(memGetAddress(data))
-            VK10.vkUnmapMemory(this, memory)
+            VK10.vkUnmapMemory(this, memory.L)
         }
 
-fun VkDevice.mapMemory(memory: Long, offset: Long, size: Long, flags: VkMemoryMapFlags = 0): Ptr =
+fun VkDevice.mapMemory(memory: VkDeviceMemory, offset: VkDeviceSize, size: VkDeviceSize, flags: VkMemoryMapFlags = 0): Ptr =
         stak.pointerAddress { data ->
-            VK_CHECK_RESULT(VK10.nvkMapMemory(this, memory, offset, size, flags, data))
+            VK_CHECK_RESULT(VK10.nvkMapMemory(this, memory.L, offset.L, size.L, flags, data))
             memGetAddress(data)
         }
 
-fun VkDevice.mapMemory(memory: Long, offset: Long, size: Long, flags: VkMemoryMapFlags, data: PointerBuffer) =
-        VK_CHECK_RESULT(VK10.nvkMapMemory(this, memory, offset, size, flags, data.adr))
+fun VkDevice.mapMemory(memory: VkDeviceMemory, offset: VkDeviceSize, size: VkDeviceSize, flags: VkMemoryMapFlags, data: PointerBuffer) =
+        VK_CHECK_RESULT(VK10.nvkMapMemory(this, memory.L, offset.L, size.L, flags, data.adr))
 
 infix fun VkDevice.getQueue(queueFamilyIndex: Int): VkQueue =
         getQueue(queueFamilyIndex, 0)
@@ -517,7 +516,7 @@ infix fun VkDevice.resetFence(fence: VkFence) {
     }
 }
 
-fun VkDevice.unmapMemory(memory: VkDeviceMemory) = VK10.vkUnmapMemory(this, memory.L)
+infix fun VkDevice.unmapMemory(memory: VkDeviceMemory) = VK10.vkUnmapMemory(this, memory.L)
 
 infix fun VkDevice.updateDescriptorSets(descriptorWrites: VkWriteDescriptorSet) =
         VK10.nvkUpdateDescriptorSets(this, 1, descriptorWrites.adr, 0, NULL)

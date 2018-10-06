@@ -73,7 +73,10 @@ inline class VkDescriptorPool(val L: Long)
 inline class VkDescriptorSet(val L: Long)
 inline class VkDescriptorSetLayout(val L: Long)
 inline class VkDeviceMemory(val L: Long)
-inline class VkDeviceSize(val L: Long)
+inline class VkDeviceSize(val L: Long) {
+
+    operator fun plus(size: VkDeviceSize) = VkDeviceSize(L + size.L)
+}
 inline class VkEvent(val L: Long)
 inline class VkFence(val L: Long)
 inline class VkFramebuffer(val L: Long)
