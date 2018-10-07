@@ -1,20 +1,14 @@
 package vkk
 
-import glm_.*
-import kool.adr
-import glm_.vec2.Vec2
-import glm_.vec2.Vec2i
-import glm_.vec3.Vec3i
+import glm_.BYTES
+import glm_.L
+import glm_.i
 import glm_.vec4.Vec4
-import kool.stak
-import org.lwjgl.PointerBuffer
-import org.lwjgl.system.MemoryUtil.*
-import org.lwjgl.system.Pointer
+import kool.adr
+import org.lwjgl.system.MemoryUtil.memPutFloat
+import org.lwjgl.system.MemoryUtil.memUTF8
 import org.lwjgl.vulkan.*
 import java.nio.ByteBuffer
-import java.nio.FloatBuffer
-import java.nio.IntBuffer
-import java.nio.LongBuffer
 
 //typedef VkResult (VKAPI_PTR *PFN_vkCreateSharedSwapchainsKHR)(VkDevice device, uint32_t swapchainCount, const VkSwapchainCreateInfoKHR* pCreateInfos, const VkAllocationCallbacks* pAllocator, VkSwapchainKHR* pSwapchains);
 //

@@ -1,21 +1,16 @@
 package vkk
 
-import glm_.*
-import kool.adr
-import glm_.vec2.Vec2
+import glm_.BYTES
+import glm_.bool
+import glm_.i
 import glm_.vec2.Vec2i
 import glm_.vec3.Vec3i
 import glm_.vec4.Vec4
 import kool.Ptr
 import kool.stak
-import org.lwjgl.PointerBuffer
 import org.lwjgl.system.MemoryUtil.*
-import org.lwjgl.system.Pointer
 import org.lwjgl.vulkan.*
-import java.nio.ByteBuffer
-import java.nio.FloatBuffer
 import java.nio.IntBuffer
-import java.nio.LongBuffer
 
 
 inline var VkWriteDescriptorSet.type: VkStructureType
@@ -89,8 +84,8 @@ inline var VkFramebufferCreateInfo.renderPass: VkRenderPass
     set(value) = VkFramebufferCreateInfo.nrenderPass(adr, value.L)
 //inline val VkFramebufferCreateInfo.attachmentCount get() = attachmentCount()
 inline var VkFramebufferCreateInfo.attachments: VkImageViewBuffer?
-    get() = VkFramebufferCreateInfo.npAttachments(adr)
-    set(value) = VkFramebufferCreateInfo.npAttachments(adr, value)
+    get() = VkFramebufferCreateInfo.npAttachments(adr)?.let(::VkImageViewBuffer)
+    set(value) = VkFramebufferCreateInfo.npAttachments(adr, value?.buffer)
 /** JVM custom */
 inline var VkFramebufferCreateInfo.attachment: VkImageView?
     get() = VkFramebufferCreateInfo.npAttachments(adr)?.let { VkImageView(it[0]) }

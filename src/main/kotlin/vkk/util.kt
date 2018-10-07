@@ -43,11 +43,11 @@ import kotlin.reflect.full.findAnnotation
 //operator fun PointerBuffer.set(index: Int, string: String) {
 //    put(index, string.memUTF16)
 //}
- operator fun PointerBuffer.set(index: Int, long: Long) {
+operator fun PointerBuffer.set(index: Int, long: Long) {
     put(index, long)
 }
 
- operator fun PointerBuffer.set(index: Int, pointer: Pointer) {
+operator fun PointerBuffer.set(index: Int, pointer: Pointer) {
     put(index, pointer)
 }
 
@@ -65,50 +65,6 @@ import kotlin.reflect.full.findAnnotation
 //
 //fun PointerBuffer.isNotEmpty() = position() > 0
 
-inline class VkBuffer(val L: Long)
-inline class VkBufferView(val L: Long)
-inline class VkCommandPool(val L: Long)
-inline class VkDebugReportCallback(val L: Long)
-inline class VkDescriptorPool(val L: Long)
-inline class VkDescriptorSet(val L: Long)
-inline class VkDescriptorSetLayout(val L: Long)
-inline class VkDeviceMemory(val L: Long)
-inline class VkDeviceSize(val L: Long) {
-
-    operator fun plus(size: VkDeviceSize) = VkDeviceSize(L + size.L)
-}
-inline class VkEvent(val L: Long)
-inline class VkFence(val L: Long)
-inline class VkFramebuffer(val L: Long)
-inline class VkImage(val L: Long)
-inline class VkImageView(val L: Long)
-inline class VkPipeline(val L: Long)
-inline class VkPipelineCache(val L: Long)
-inline class VkPipelineLayout(val L: Long)
-inline class VkQueryPool(val L: Long)
-inline class VkRenderPass(val L: Long)
-inline class VkSampler(val L: Long)
-inline class VkSemaphore(val L: Long)
-inline class VkShaderModule(val L: Long)
-inline class VkSurface(val L: Long)
-inline class VkSwapchainKHR(val L: Long)
-
-typealias VkBufferBuffer = LongBuffer
-typealias VkDescriptorSetBuffer = LongBuffer
-typealias VkDeviceMemoryBuffer = LongBuffer
-typealias VkDeviceSizeBuffer = LongBuffer
-typealias VkSemaphoreBuffer = LongBuffer
-typealias VkSwapchainKhrBuffer = LongBuffer
-typealias VkResultBuffer = IntBuffer
-typealias VkSamplerBuffer = LongBuffer
-typealias VkImageViewBuffer = LongBuffer
-
-typealias VkCommandPoolArray = LongArray
-typealias VkFenceArray = LongArray
-typealias VkFramebufferArray = LongArray
-typealias VkImageArray = LongArray
-typealias VkImageViewArray = LongArray
-typealias VkSemaphoreArray = LongArray
 
 
 object LongArrayList {
@@ -142,13 +98,13 @@ object VkPhysicalDeviceArrayList {
 }
 
 
- fun vkDestroySemaphores(device: VkDevice, semaphores: VkSemaphoreBuffer) {
+fun vkDestroySemaphores(device: VkDevice, semaphores: VkSemaphoreBuffer) {
     for (i in 0 until semaphores.remaining())
         VK10.nvkDestroySemaphore(device, semaphores[i], NULL)
 }
 
 
- fun vkDestroyBuffer(device: VkDevice, buffer: VkBuffer) = VK10.nvkDestroyBuffer(device, buffer.L, NULL)
+fun vkDestroyBuffer(device: VkDevice, buffer: VkBuffer) = VK10.nvkDestroyBuffer(device, buffer.L, NULL)
 
 
 inline val Pointer.adr get() = address()
@@ -493,6 +449,13 @@ typealias VkDebugReportCallbackType = (
         msg: String,
         userData: Any?) -> Boolean
 
- operator fun VkAttachmentReference.invoke(attachment: Int, layout: VkImageLayout): VkAttachmentReference {
+operator fun VkAttachmentReference.invoke(attachment: Int, layout: VkImageLayout): VkAttachmentReference {
     return attachment(attachment).layout(layout.i)
+}
+
+fun ArrayList<VkDeviceQueueCreateInfo>.toBufferStack(): VkDeviceQueueCreateInfo.Buffer {
+    val buffer = VkDeviceQueueCreateInfo.callocStack(size)
+    for (i in indices)
+        buffer[i] = get(i)
+    return buffer
 }

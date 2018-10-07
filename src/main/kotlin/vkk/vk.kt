@@ -906,9 +906,9 @@ object vk {
     fun PipelineDynamicStateCreateInfo(dynamicStates: Collection<VkDynamicState>, flags: VkPipelineDynamicStateCreateFlags = 0): VkPipelineDynamicStateCreateInfo =
             PipelineDynamicStateCreateInfo {
                 stak {
-                    val buf = it.callocInt(dynamicStates.size)
+                    val buf = it.vkDynamicStateBufferBig(dynamicStates.size)
                     for (i in dynamicStates.indices)
-                        buf[i] = dynamicStates.elementAt(i).i
+                        buf[i] = dynamicStates.elementAt(i)
                     this.dynamicStates = buf
                     this.flags = flags
                 }
@@ -1609,7 +1609,7 @@ object vk {
                 val pCount = it.nmalloc(1, Int.BYTES)
                 VK10.nvkGetPhysicalDeviceQueueFamilyProperties(physicalDevice, pCount, NULL)
                 val count = memGetInt(pCount)
-                val pQueueFamilyProperties = VkQueueFamilyProperties.callocStack(count)
+                val pQueueFamilyProperties = VkQueueFamilyProperties.calloc(count)
                 VK10.nvkGetPhysicalDeviceQueueFamilyProperties(physicalDevice, pCount, pQueueFamilyProperties.adr)
                 pQueueFamilyProperties.toCollection(arrayListOf())
             }
@@ -1660,14 +1660,14 @@ object vk {
                 return res
             }
 
-    fun getSwapchainImagesKHR(device: VkDevice, swapchain: VkSwapchainKHR): VkImageViewArray =
+    fun getSwapchainImagesKHR(device: VkDevice, swapchain: VkSwapchainKHR): VkImageArray =
             stak {
                 val pCount = it.nmalloc(1, Int.BYTES)
                 VK_CHECK_RESULT(KHRSwapchain.nvkGetSwapchainImagesKHR(device, swapchain.L, pCount, NULL))
                 val count = memGetInt(pCount)
                 val images = it.nmalloc(Long.BYTES, count * Long.BYTES)
                 VK_CHECK_RESULT(KHRSwapchain.nvkGetSwapchainImagesKHR(device, swapchain.L, pCount, images))
-                VkImageViewArray(count) { memGetLong(images + Long.BYTES * it) }
+                initVkImageArray(count) { i -> VkImage(memGetLong(images + Long.BYTES * i)) }
             }
 
     fun invalidateMappedMemoryRanges(device: VkDevice, memoryRange: VkMappedMemoryRange): VkResult =

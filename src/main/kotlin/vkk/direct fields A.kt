@@ -1,11 +1,12 @@
 package vkk
 
-import glm_.*
-import kool.adr
+import glm_.BYTES
+import glm_.bool
+import glm_.f
+import glm_.i
 import glm_.vec2.Vec2
 import glm_.vec2.Vec2i
 import glm_.vec3.Vec3i
-import glm_.vec4.Vec4
 import kool.Ptr
 import kool.stak
 import org.lwjgl.PointerBuffer
@@ -678,9 +679,9 @@ inline var VkSubmitInfo.signalSemaphores: LongBuffer?
     get() = VkSubmitInfo.npSignalSemaphores(adr)
     set(value) = VkSubmitInfo.npSignalSemaphores(adr, value)
 /** JVM custom */
-inline var VkSubmitInfo.signalSemaphore: VkSemaphore
+var VkSubmitInfo.signalSemaphore: VkSemaphore // TODO BUG, inline
     get() = VkSemaphore(VkSubmitInfo.npSignalSemaphores(adr)?.get(0) ?: NULL)
-    set(value) = stak {
+        set(value) = stak {
         val pSemaphore = it.nmalloc(1, Long.BYTES)
         memPutLong(pSemaphore, value.L)
         memPutAddress(adr + VkSubmitInfo.PSIGNALSEMAPHORES, pSemaphore)
@@ -1637,9 +1638,9 @@ inline var VkPipelineDynamicStateCreateInfo.flags: VkPipelineDynamicStateCreateF
     get() = VkPipelineDynamicStateCreateInfo.nflags(adr)
     set(value) = VkPipelineDynamicStateCreateInfo.nflags(adr, value)
 //inline val VkPipelineDynamicStateCreateInfo.dynamicStateCount get() = VkPipelineDynamicStateCreateInfo.ndynamicStateCount(adr)
-inline var VkPipelineDynamicStateCreateInfo.dynamicStates: IntBuffer
-    get() = VkPipelineDynamicStateCreateInfo.npDynamicStates(adr)
-    set(value) = VkPipelineDynamicStateCreateInfo.npDynamicStates(adr, value)
+inline var VkPipelineDynamicStateCreateInfo.dynamicStates: VkDynamicStateBuffer
+    get() = VkDynamicStateBuffer(VkPipelineDynamicStateCreateInfo.npDynamicStates(adr))
+    set(value) = VkPipelineDynamicStateCreateInfo.npDynamicStates(adr, value.buffer)
 
 //typedef struct VkPipelineDynamicStateCreateInfo {
 //    VkStructureType                      sType;

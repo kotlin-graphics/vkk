@@ -40,7 +40,18 @@ fun VK_CHECK_RESULT(i: Int) = VkResult(i)()
 
 inline class VkResult(val i: Int) {
 
-    operator fun invoke() = this != SUCCESS
+    operator fun invoke() {
+        if(this != SUCCESS)
+            throw Error()
+    }
+
+    fun check(message: String) {
+
+    }
+
+    fun check() {
+
+    }
 
 //    fun check(message: String = "Fatal : VkResult is $this") {
 //        if (DEBUG && invoke())

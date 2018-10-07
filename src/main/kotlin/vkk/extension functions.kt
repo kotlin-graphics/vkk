@@ -194,15 +194,15 @@ infix fun VkDevice.allocateCommandBuffer(allocateInfo: VkCommandBufferAllocateIn
             VkCommandBuffer(memGetAddress(pCmdBuffer), this)
         }
 
-//inline infix fun VkDevice.allocateCommandBuffers(allocateInfo: VkCommandBufferAllocateInfo): ArrayList<VkCommandBuffer> {
-//    val count = allocateInfo.commandBufferCount
-//    val pCommandBuffer = appBuffer.pointerArray(count)
-//    val commandBuffers = ArrayList<VkCommandBuffer>(count)
-//    VK_CHECK_RESULT(VK10.nvkAllocateCommandBuffers(this, allocateInfo.adr, pCommandBuffer))
-//    for (i in 0 until count)
-//        commandBuffers += VkCommandBuffer(memGetAddress(pCommandBuffer + POINTER_SIZE * i), this)
-//    return commandBuffers
-//}
+infix fun VkDevice.allocateCommandBuffers(allocateInfo: VkCommandBufferAllocateInfo): ArrayList<VkCommandBuffer> = stak{
+    val count = allocateInfo.commandBufferCount
+    val pCommandBuffer = it.nmalloc(POINTER_SIZE, count)
+    val commandBuffers = ArrayList<VkCommandBuffer>(count)
+    VK_CHECK_RESULT(VK10.nvkAllocateCommandBuffers(this, allocateInfo.adr, pCommandBuffer))
+    for (i in 0 until count)
+        commandBuffers += VkCommandBuffer(memGetAddress(pCommandBuffer + POINTER_SIZE * i), this)
+    return commandBuffers
+}
 
 infix fun VkDevice.allocateDescriptorSets(allocateInfo: VkDescriptorSetAllocateInfo): VkDescriptorSet =
         VkDescriptorSet(stak.longAddress { descriptorSets ->
@@ -373,7 +373,7 @@ infix fun VkDevice.destroyFences(fences: ArrayList<VkFence>) {
 
 infix fun VkDevice.destroyFences(fences: VkFenceArray) {
     for (fence in fences)
-        VK10.nvkDestroyFence(this, fence, NULL)
+        VK10.nvkDestroyFence(this, fence.L, NULL)
 }
 
 infix fun VkDevice.destroyFramebuffer(framebuffer: VkFramebuffer) =
@@ -409,6 +409,17 @@ infix fun VkDevice.destroySemaphore(semaphore: VkSemaphore) = VK10.nvkDestroySem
 //    for (semaphore in semaphores)
 //        VK10.nvkDestroySemaphore(this, semaphore, NULL)
 //}
+
+fun VkDevice.destroySemaphores(semaphore0: VkSemaphore, semaphore1: VkSemaphore) {
+    VK10.nvkDestroySemaphore(this, semaphore0.L, NULL)
+    VK10.nvkDestroySemaphore(this, semaphore1.L, NULL)
+}
+
+fun VkDevice.destroySemaphores(semaphore0: VkSemaphore, semaphore1: VkSemaphore, semaphore2: VkSemaphore) {
+    VK10.nvkDestroySemaphore(this, semaphore0.L, NULL)
+    VK10.nvkDestroySemaphore(this, semaphore1.L, NULL)
+    VK10.nvkDestroySemaphore(this, semaphore2.L, NULL)
+}
 
 fun VkDevice.destroy() = VK10.nvkDestroyDevice(this, NULL)
 
@@ -477,7 +488,8 @@ fun VkDevice.getImageSubresourceLayout(image: VkImage, subresource: VkImageSubre
     return layout
 }
 
-inline fun VkDevice.mappingMemory(memory: VkDeviceMemory, offset: VkDeviceSize, size: VkDeviceSize, flags: VkMemoryMapFlags = 0, block: (Long) -> Unit) =
+// TODO mappedMemory?
+inline fun VkDevice.mappingMemory(memory: VkDeviceMemory, offset: VkDeviceSize, size: VkDeviceSize, flags: VkMemoryMapFlags = 0, block: (Ptr) -> Unit) =
         stak.pointerAddress { data ->
             VK_CHECK_RESULT(VK10.nvkMapMemory(this, memory.L, offset.L, size.L, flags, data))
             block(memGetAddress(data))
@@ -502,7 +514,7 @@ fun VkDevice.getQueue(queueFamilyIndex: Int, queueIndex: Int): VkQueue =
                     VK10.nvkGetDeviceQueue(this, queueFamilyIndex, queueIndex, queue)
                 }, this)
 
-infix fun VkDevice.getSwapchainImagesKHR(swapchain: VkSwapchainKHR): VkImageViewArray =
+infix fun VkDevice.getSwapchainImagesKHR(swapchain: VkSwapchainKHR): VkImageArray =
         vk.getSwapchainImagesKHR(this, swapchain)
 
 infix fun VkDevice.resetCommandPool(commandPool: VkCommandPool) = resetCommandPool(commandPool, 0)
