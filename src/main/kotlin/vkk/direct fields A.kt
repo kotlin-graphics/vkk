@@ -57,10 +57,10 @@ inline var VkInstanceCreateInfo.applicationInfo: VkApplicationInfo?
     set(value) = VkInstanceCreateInfo.npApplicationInfo(adr, value)
 inline var VkInstanceCreateInfo.enabledLayerNames: Collection<String>
     get() = VkInstanceCreateInfo.nppEnabledLayerNames(adr).toArrayList()
-    set(value) = VkInstanceCreateInfo.nppEnabledLayerNames(adr, value.toPointerBuffer())
+    set(value) = VkInstanceCreateInfo.nppEnabledLayerNames(adr, value.toPointerBufferStack())
 inline var VkInstanceCreateInfo.enabledExtensionNames: Collection<String>
     get() = VkInstanceCreateInfo.nppEnabledExtensionNames(adr).toArrayList()
-    set(value) = VkInstanceCreateInfo.nppEnabledExtensionNames(adr, value.toPointerBuffer())
+    set(value) = VkInstanceCreateInfo.nppEnabledExtensionNames(adr, value.toPointerBufferStack())
 
 //typedef struct VkAllocationCallbacks {
 //    void*                                   pUserData;
@@ -625,10 +625,10 @@ inline var VkDeviceCreateInfo.queueCreateInfo: VkDeviceQueueCreateInfo
     }
 inline var VkDeviceCreateInfo.enabledLayerNames: Collection<String>
     get() = VkDeviceCreateInfo.nppEnabledLayerNames(adr).toArrayList()
-    set(value) = VkDeviceCreateInfo.nppEnabledLayerNames(adr, value.toPointerBuffer())
+    set(value) = VkDeviceCreateInfo.nppEnabledLayerNames(adr, value.toPointerBufferStack())
 inline var VkDeviceCreateInfo.enabledExtensionNames: Collection<String>
     get() = VkDeviceCreateInfo.nppEnabledExtensionNames(adr).toArrayList()
-    set(value) = VkDeviceCreateInfo.nppEnabledExtensionNames(adr, value.toPointerBuffer())
+    set(value) = VkDeviceCreateInfo.nppEnabledExtensionNames(adr, value.toPointerBufferStack())
 inline var VkDeviceCreateInfo.enabledFeatures: VkPhysicalDeviceFeatures?
     get() = VkDeviceCreateInfo.npEnabledFeatures(adr)
     set(value) = VkDeviceCreateInfo.npEnabledFeatures(adr, value)

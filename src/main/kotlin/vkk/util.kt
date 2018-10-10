@@ -17,6 +17,7 @@ import kool.cap
 import kool.intBufferBig
 import org.lwjgl.PointerBuffer
 import org.lwjgl.system.MemoryStack
+import org.lwjgl.system.MemoryStack.stackGet
 import org.lwjgl.system.MemoryUtil.*
 import org.lwjgl.system.Pointer
 import org.lwjgl.system.Struct
@@ -123,6 +124,8 @@ fun PointerBuffer?.toArrayList(): ArrayList<String> {
         res += get(i).utf8
     return res
 }
+
+fun Collection<String>.toPointerBufferStack(): PointerBuffer = toPointerBuffer(stackGet())
 
 fun Collection<String>.toPointerBuffer(stack: MemoryStack): PointerBuffer {
     val pointers = stack.mallocPointer(size)
