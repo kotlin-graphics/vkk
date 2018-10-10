@@ -8,8 +8,8 @@ import glm_.vec2.Vec2
 import glm_.vec2.Vec2i
 import glm_.vec3.Vec3i
 import kool.Ptr
-import kool.stak
 import org.lwjgl.PointerBuffer
+import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.*
 import org.lwjgl.system.Pointer
 import org.lwjgl.vulkan.*
@@ -27,13 +27,13 @@ inline var VkApplicationInfo.next: Ptr
     set(value) = VkApplicationInfo.npNext(adr, value)
 inline var VkApplicationInfo.applicationName: String?
     get() = VkApplicationInfo.npApplicationNameString(adr)
-    set(value) = VkApplicationInfo.npApplicationName(adr, value?.utf8)
+    set(value) = VkApplicationInfo.npApplicationName(adr, value?.toUTF8stack())
 inline var VkApplicationInfo.applicationVersion: Int
     get() = VkApplicationInfo.napplicationVersion(adr)
     set(value) = VkApplicationInfo.napiVersion(adr, value)
 inline var VkApplicationInfo.engineName: String?
     get() = VkApplicationInfo.npEngineNameString(adr)
-    set(value) = VkApplicationInfo.npEngineName(adr, value?.utf8)
+    set(value) = VkApplicationInfo.npEngineName(adr, value?.toUTF8stack())
 inline var VkApplicationInfo.apiVersion: Int
     get() = VkApplicationInfo.napiVersion(adr)
     set(value) = VkApplicationInfo.napiVersion(adr, value)
@@ -52,13 +52,13 @@ inline var VkInstanceCreateInfo.next: Ptr
 inline var VkInstanceCreateInfo.flags: VkInstanceCreateFlags
     get() = VkInstanceCreateInfo.nflags(adr)
     set(value) = VkInstanceCreateInfo.nflags(adr, value)
-inline var VkInstanceCreateInfo.applicationInfo
+inline var VkInstanceCreateInfo.applicationInfo: VkApplicationInfo?
     get() = VkInstanceCreateInfo.npApplicationInfo(adr)
     set(value) = VkInstanceCreateInfo.npApplicationInfo(adr, value)
 inline var VkInstanceCreateInfo.enabledLayerNames: Collection<String>
     get() = VkInstanceCreateInfo.nppEnabledLayerNames(adr).toArrayList()
     set(value) = VkInstanceCreateInfo.nppEnabledLayerNames(adr, value.toPointerBuffer())
-inline var VkInstanceCreateInfo.enabledExtensionNames
+inline var VkInstanceCreateInfo.enabledExtensionNames: Collection<String>
     get() = VkInstanceCreateInfo.nppEnabledExtensionNames(adr).toArrayList()
     set(value) = VkInstanceCreateInfo.nppEnabledExtensionNames(adr, value.toPointerBuffer())
 
@@ -237,9 +237,12 @@ inline var VkPhysicalDeviceFeatures.inheritedQueries: Boolean
     get() = VkPhysicalDeviceFeatures.ninheritedQueries(adr).bool
     set(value) = VkPhysicalDeviceFeatures.ninheritedQueries(adr, value.i)
 
-inline val VkFormatProperties.linearTilingFeatures: VkFormatFeatureFlags get() = VkFormatProperties.nlinearTilingFeatures(adr)
-inline val VkFormatProperties.optimalTilingFeatures: VkFormatFeatureFlags get() = VkFormatProperties.noptimalTilingFeatures(adr)
-inline val VkFormatProperties.bufferFeatures: VkFormatFeatureFlags get() = VkFormatProperties.nbufferFeatures(adr)
+inline val VkFormatProperties.linearTilingFeatures: VkFormatFeatureFlags
+    get() = VkFormatProperties.nlinearTilingFeatures(adr)
+inline val VkFormatProperties.optimalTilingFeatures: VkFormatFeatureFlags
+    get() = VkFormatProperties.noptimalTilingFeatures(adr)
+inline val VkFormatProperties.bufferFeatures: VkFormatFeatureFlags
+    get() = VkFormatProperties.nbufferFeatures(adr)
 
 //typedef struct VkExtent3D {
 //    uint32_t    width;
@@ -255,139 +258,137 @@ inline val VkFormatProperties.bufferFeatures: VkFormatFeatureFlags get() = VkFor
 //    VkDeviceSize          maxResourceSize;
 //} VkImageFormatProperties;
 
-inline val VkPhysicalDeviceLimits.maxImageDimension1D
+inline val VkPhysicalDeviceLimits.maxImageDimension1D: Int
     get() = VkPhysicalDeviceLimits.nmaxImageDimension1D(adr)
-inline val VkPhysicalDeviceLimits.maxImageDimension2D
+inline val VkPhysicalDeviceLimits.maxImageDimension2D: Int
     get() = VkPhysicalDeviceLimits.nmaxImageDimension2D(adr)
-inline val VkPhysicalDeviceLimits.maxImageDimension3D
+inline val VkPhysicalDeviceLimits.maxImageDimension3D: Int
     get() = VkPhysicalDeviceLimits.nmaxImageDimension3D(adr)
-inline val VkPhysicalDeviceLimits.maxImageDimensionCube
-    get() = VkPhysicalDeviceLimits.nmaxImageDimensionCube(adr)
-inline val VkPhysicalDeviceLimits.maxImageArrayLayers
+inline val VkPhysicalDeviceLimits.maxImageDimensionCube: Int
     get() = VkPhysicalDeviceLimits.nmaxImageArrayLayers(adr)
-inline val VkPhysicalDeviceLimits.maxTexelBufferElements
+inline val VkPhysicalDeviceLimits.maxTexelBufferElements: Int
     get() = VkPhysicalDeviceLimits.nmaxTexelBufferElements(adr)
-inline val VkPhysicalDeviceLimits.maxUniformBufferRange
+inline val VkPhysicalDeviceLimits.maxUniformBufferRange: Int
     get() = VkPhysicalDeviceLimits.nmaxUniformBufferRange(adr)
-inline val VkPhysicalDeviceLimits.maxStorageBufferRange
+inline val VkPhysicalDeviceLimits.maxStorageBufferRange: Int
     get() = VkPhysicalDeviceLimits.nmaxStorageBufferRange(adr)
-inline val VkPhysicalDeviceLimits.maxPushConstantsSize
+inline val VkPhysicalDeviceLimits.maxPushConstantsSize: Int
     get() = VkPhysicalDeviceLimits.nmaxPushConstantsSize(adr)
-inline val VkPhysicalDeviceLimits.maxMemoryAllocationCount
+inline val VkPhysicalDeviceLimits.maxMemoryAllocationCount: Int
     get() = VkPhysicalDeviceLimits.nmaxMemoryAllocationCount(adr)
-inline val VkPhysicalDeviceLimits.maxSamplerAllocationCount
+inline val VkPhysicalDeviceLimits.maxSamplerAllocationCount: Int
     get() = VkPhysicalDeviceLimits.nmaxSamplerAllocationCount(adr)
 inline val VkPhysicalDeviceLimits.bufferImageGranularity: VkDeviceSize
     get() = VkDeviceSize(VkPhysicalDeviceLimits.nbufferImageGranularity(adr))
 inline val VkPhysicalDeviceLimits.sparseAddressSpaceSize: VkDeviceSize
     get() = VkDeviceSize(VkPhysicalDeviceLimits.nsparseAddressSpaceSize(adr))
-inline val VkPhysicalDeviceLimits.maxBoundDescriptorSets
+inline val VkPhysicalDeviceLimits.maxBoundDescriptorSets: Int
     get() = VkPhysicalDeviceLimits.nmaxBoundDescriptorSets(adr)
-inline val VkPhysicalDeviceLimits.maxPerStageDescriptorSamplers
+inline val VkPhysicalDeviceLimits.maxPerStageDescriptorSamplers: Int
     get() = VkPhysicalDeviceLimits.nmaxPerStageDescriptorSamplers(adr)
-inline val VkPhysicalDeviceLimits.maxPerStageDescriptorUniformBuffers
+inline val VkPhysicalDeviceLimits.maxPerStageDescriptorUniformBuffers: Int
     get() = VkPhysicalDeviceLimits.nmaxPerStageDescriptorUniformBuffers(adr)
-inline val VkPhysicalDeviceLimits.maxPerStageDescriptorStorageBuffers
+inline val VkPhysicalDeviceLimits.maxPerStageDescriptorStorageBuffers: Int
     get() = VkPhysicalDeviceLimits.nmaxPerStageDescriptorStorageBuffers(adr)
-inline val VkPhysicalDeviceLimits.maxPerStageDescriptorSampledImages
+inline val VkPhysicalDeviceLimits.maxPerStageDescriptorSampledImages: Int
     get() = VkPhysicalDeviceLimits.nmaxPerStageDescriptorSampledImages(adr)
-inline val VkPhysicalDeviceLimits.maxPerStageDescriptorStorageImages
+inline val VkPhysicalDeviceLimits.maxPerStageDescriptorStorageImages: Int
     get() = VkPhysicalDeviceLimits.nmaxPerStageDescriptorStorageImages(adr)
-inline val VkPhysicalDeviceLimits.maxPerStageDescriptorInputAttachments
+inline val VkPhysicalDeviceLimits.maxPerStageDescriptorInputAttachments: Int
     get() = VkPhysicalDeviceLimits.nmaxPerStageDescriptorInputAttachments(adr)
-inline val VkPhysicalDeviceLimits.maxPerStageResources
+inline val VkPhysicalDeviceLimits.maxPerStageResources: Int
     get() = VkPhysicalDeviceLimits.nmaxPerStageResources(adr)
-inline val VkPhysicalDeviceLimits.maxDescriptorSetSamplers
+inline val VkPhysicalDeviceLimits.maxDescriptorSetSamplers: Int
     get() = VkPhysicalDeviceLimits.nmaxDescriptorSetSamplers(adr)
-inline val VkPhysicalDeviceLimits.maxDescriptorSetUniformBuffers
+inline val VkPhysicalDeviceLimits.maxDescriptorSetUniformBuffers: Int
     get() = VkPhysicalDeviceLimits.nmaxDescriptorSetUniformBuffers(adr)
-inline val VkPhysicalDeviceLimits.maxDescriptorSetUniformBuffersDynamic
+inline val VkPhysicalDeviceLimits.maxDescriptorSetUniformBuffersDynamic: Int
     get() = VkPhysicalDeviceLimits.nmaxDescriptorSetUniformBuffersDynamic(adr)
-inline val VkPhysicalDeviceLimits.maxDescriptorSetStorageBuffers
+inline val VkPhysicalDeviceLimits.maxDescriptorSetStorageBuffers: Int
     get() = VkPhysicalDeviceLimits.nmaxDescriptorSetStorageBuffers(adr)
-inline val VkPhysicalDeviceLimits.maxDescriptorSetStorageBuffersDynamic
+inline val VkPhysicalDeviceLimits.maxDescriptorSetStorageBuffersDynamic: Int
     get() = VkPhysicalDeviceLimits.nmaxDescriptorSetStorageBuffersDynamic(adr)
-inline val VkPhysicalDeviceLimits.maxDescriptorSetSampledImages
+inline val VkPhysicalDeviceLimits.maxDescriptorSetSampledImages: Int
     get() = VkPhysicalDeviceLimits.nmaxDescriptorSetSampledImages(adr)
-inline val VkPhysicalDeviceLimits.maxDescriptorSetStorageImages
+inline val VkPhysicalDeviceLimits.maxDescriptorSetStorageImages: Int
     get() = VkPhysicalDeviceLimits.nmaxDescriptorSetStorageImages(adr)
-inline val VkPhysicalDeviceLimits.maxDescriptorSetInputAttachments
+inline val VkPhysicalDeviceLimits.maxDescriptorSetInputAttachments: Int
     get() = VkPhysicalDeviceLimits.nmaxDescriptorSetInputAttachments(adr)
-inline val VkPhysicalDeviceLimits.maxVertexInputAttributes
+inline val VkPhysicalDeviceLimits.maxVertexInputAttributes: Int
     get() = VkPhysicalDeviceLimits.nmaxVertexInputAttributes(adr)
-inline val VkPhysicalDeviceLimits.maxVertexInputBindings
+inline val VkPhysicalDeviceLimits.maxVertexInputBindings: Int
     get() = VkPhysicalDeviceLimits.nmaxVertexInputBindings(adr)
-inline val VkPhysicalDeviceLimits.maxVertexInputAttributeOffset
+inline val VkPhysicalDeviceLimits.maxVertexInputAttributeOffset: Int
     get() = VkPhysicalDeviceLimits.nmaxVertexInputAttributeOffset(adr)
-inline val VkPhysicalDeviceLimits.maxVertexInputBindingStride
+inline val VkPhysicalDeviceLimits.maxVertexInputBindingStride: Int
     get() = VkPhysicalDeviceLimits.nmaxVertexInputBindingStride(adr)
-inline val VkPhysicalDeviceLimits.maxVertexOutputComponents
+inline val VkPhysicalDeviceLimits.maxVertexOutputComponents: Int
     get() = VkPhysicalDeviceLimits.nmaxVertexOutputComponents(adr)
-inline val VkPhysicalDeviceLimits.maxTessellationGenerationLevel
+inline val VkPhysicalDeviceLimits.maxTessellationGenerationLevel: Int
     get() = VkPhysicalDeviceLimits.nmaxTessellationGenerationLevel(adr)
-inline val VkPhysicalDeviceLimits.maxTessellationPatchSize
+inline val VkPhysicalDeviceLimits.maxTessellationPatchSize: Int
     get() = VkPhysicalDeviceLimits.nmaxTessellationPatchSize(adr)
-inline val VkPhysicalDeviceLimits.maxTessellationControlPerVertexInputComponents
+inline val VkPhysicalDeviceLimits.maxTessellationControlPerVertexInputComponents: Int
     get() = VkPhysicalDeviceLimits.nmaxTessellationControlPerVertexInputComponents(adr)
-inline val VkPhysicalDeviceLimits.maxTessellationControlPerVertexOutputComponents
+inline val VkPhysicalDeviceLimits.maxTessellationControlPerVertexOutputComponents: Int
     get() = VkPhysicalDeviceLimits.nmaxTessellationControlPerVertexOutputComponents(adr)
-inline val VkPhysicalDeviceLimits.maxTessellationControlPerPatchOutputComponents
+inline val VkPhysicalDeviceLimits.maxTessellationControlPerPatchOutputComponents: Int
     get() = VkPhysicalDeviceLimits.nmaxTessellationControlPerPatchOutputComponents(adr)
-inline val VkPhysicalDeviceLimits.maxTessellationControlTotalOutputComponents
+inline val VkPhysicalDeviceLimits.maxTessellationControlTotalOutputComponents: Int
     get() = VkPhysicalDeviceLimits.nmaxTessellationControlTotalOutputComponents(adr)
-inline val VkPhysicalDeviceLimits.maxTessellationEvaluationInputComponents
+inline val VkPhysicalDeviceLimits.maxTessellationEvaluationInputComponents: Int
     get() = VkPhysicalDeviceLimits.nmaxTessellationEvaluationInputComponents(adr)
-inline val VkPhysicalDeviceLimits.maxTessellationEvaluationOutputComponents
+inline val VkPhysicalDeviceLimits.maxTessellationEvaluationOutputComponents: Int
     get() = VkPhysicalDeviceLimits.nmaxTessellationEvaluationOutputComponents(adr)
-inline val VkPhysicalDeviceLimits.maxGeometryShaderInvocations
+inline val VkPhysicalDeviceLimits.maxGeometryShaderInvocations: Int
     get() = VkPhysicalDeviceLimits.nmaxGeometryShaderInvocations(adr)
-inline val VkPhysicalDeviceLimits.maxGeometryInputComponents
+inline val VkPhysicalDeviceLimits.maxGeometryInputComponents: Int
     get() = VkPhysicalDeviceLimits.nmaxGeometryInputComponents(adr)
-inline val VkPhysicalDeviceLimits.maxGeometryOutputComponents
+inline val VkPhysicalDeviceLimits.maxGeometryOutputComponents: Int
     get() = VkPhysicalDeviceLimits.nmaxGeometryOutputComponents(adr)
-inline val VkPhysicalDeviceLimits.maxGeometryOutputVertices
+inline val VkPhysicalDeviceLimits.maxGeometryOutputVertices: Int
     get() = VkPhysicalDeviceLimits.nmaxGeometryOutputVertices(adr)
-inline val VkPhysicalDeviceLimits.maxGeometryTotalOutputComponents
+inline val VkPhysicalDeviceLimits.maxGeometryTotalOutputComponents: Int
     get() = VkPhysicalDeviceLimits.nmaxGeometryTotalOutputComponents(adr)
-inline val VkPhysicalDeviceLimits.maxFragmentInputComponents
+inline val VkPhysicalDeviceLimits.maxFragmentInputComponents: Int
     get() = VkPhysicalDeviceLimits.nmaxFragmentInputComponents(adr)
-inline val VkPhysicalDeviceLimits.maxFragmentOutputAttachments
+inline val VkPhysicalDeviceLimits.maxFragmentOutputAttachments: Int
     get() = VkPhysicalDeviceLimits.nmaxFragmentOutputAttachments(adr)
-inline val VkPhysicalDeviceLimits.maxFragmentDualSrcAttachments
+inline val VkPhysicalDeviceLimits.maxFragmentDualSrcAttachments: Int
     get() = VkPhysicalDeviceLimits.nmaxFragmentDualSrcAttachments(adr)
-inline val VkPhysicalDeviceLimits.maxFragmentCombinedOutputResources
+inline val VkPhysicalDeviceLimits.maxFragmentCombinedOutputResources: Int
     get() = VkPhysicalDeviceLimits.nmaxFragmentCombinedOutputResources(adr)
-inline val VkPhysicalDeviceLimits.maxComputeSharedMemorySize
+inline val VkPhysicalDeviceLimits.maxComputeSharedMemorySize: Int
     get() = VkPhysicalDeviceLimits.nmaxComputeSharedMemorySize(adr)
 inline val VkPhysicalDeviceLimits.maxComputeWorkGroupCount: Vec3i
     get() = Vec3i { VkPhysicalDeviceLimits.nmaxComputeWorkGroupCount(adr, it) }
-inline val VkPhysicalDeviceLimits.maxComputeWorkGroupInvocations
+inline val VkPhysicalDeviceLimits.maxComputeWorkGroupInvocations: Int
     get() = VkPhysicalDeviceLimits.nmaxComputeWorkGroupInvocations(adr)
 inline val VkPhysicalDeviceLimits.maxComputeWorkGroupSize: Vec3i
     get() = Vec3i { VkPhysicalDeviceLimits.nmaxComputeWorkGroupSize(adr, it) }
-inline val VkPhysicalDeviceLimits.subPixelPrecisionBits
+inline val VkPhysicalDeviceLimits.subPixelPrecisionBits: Int
     get() = VkPhysicalDeviceLimits.nsubPixelPrecisionBits(adr)
-inline val VkPhysicalDeviceLimits.subTexelPrecisionBits
+inline val VkPhysicalDeviceLimits.subTexelPrecisionBits: Int
     get() = VkPhysicalDeviceLimits.nsubTexelPrecisionBits(adr)
-inline val VkPhysicalDeviceLimits.mipmapPrecisionBits
+inline val VkPhysicalDeviceLimits.mipmapPrecisionBits: Int
     get() = VkPhysicalDeviceLimits.nmipmapPrecisionBits(adr)
-inline val VkPhysicalDeviceLimits.maxDrawIndexedIndexValue
+inline val VkPhysicalDeviceLimits.maxDrawIndexedIndexValue: Int
     get() = VkPhysicalDeviceLimits.nmaxDrawIndexedIndexValue(adr)
-inline val VkPhysicalDeviceLimits.maxDrawIndirectCount
+inline val VkPhysicalDeviceLimits.maxDrawIndirectCount: Int
     get() = VkPhysicalDeviceLimits.nmaxDrawIndirectCount(adr)
-inline val VkPhysicalDeviceLimits.maxSamplerLodBias
+inline val VkPhysicalDeviceLimits.maxSamplerLodBias: Float
     get() = VkPhysicalDeviceLimits.nmaxSamplerLodBias(adr)
-inline val VkPhysicalDeviceLimits.maxSamplerAnisotropy
+inline val VkPhysicalDeviceLimits.maxSamplerAnisotropy: Float
     get() = VkPhysicalDeviceLimits.nmaxSamplerAnisotropy(adr)
-inline val VkPhysicalDeviceLimits.maxViewports
+inline val VkPhysicalDeviceLimits.maxViewports: Int
     get() = VkPhysicalDeviceLimits.nmaxViewports(adr)
 inline val VkPhysicalDeviceLimits.maxViewportDimensions: Vec2i
     get() = Vec2i { VkPhysicalDeviceLimits.nmaxViewportDimensions(adr, it) }
 inline val VkPhysicalDeviceLimits.viewportBoundsRange: Vec2
     get() = Vec2 { VkPhysicalDeviceLimits.nviewportBoundsRange(adr, it) }
-inline val VkPhysicalDeviceLimits.viewportSubPixelBits
+inline val VkPhysicalDeviceLimits.viewportSubPixelBits: Int
     get() = VkPhysicalDeviceLimits.nviewportSubPixelBits(adr)
-inline val VkPhysicalDeviceLimits.minMemoryMapAlignment
+inline val VkPhysicalDeviceLimits.minMemoryMapAlignment: Long
     get() = VkPhysicalDeviceLimits.nminMemoryMapAlignment(adr)
 inline val VkPhysicalDeviceLimits.minTexelBufferOffsetAlignment: VkDeviceSize
     get() = VkDeviceSize(VkPhysicalDeviceLimits.nminTexelBufferOffsetAlignment(adr))
@@ -395,25 +396,25 @@ inline val VkPhysicalDeviceLimits.minUniformBufferOffsetAlignment: VkDeviceSize
     get() = VkDeviceSize(VkPhysicalDeviceLimits.nminUniformBufferOffsetAlignment(adr))
 inline val VkPhysicalDeviceLimits.minStorageBufferOffsetAlignment: VkDeviceSize
     get() = VkDeviceSize(VkPhysicalDeviceLimits.nminStorageBufferOffsetAlignment(adr))
-inline val VkPhysicalDeviceLimits.minTexelOffset
+inline val VkPhysicalDeviceLimits.minTexelOffset: Int
     get() = VkPhysicalDeviceLimits.nminTexelOffset(adr)
-inline val VkPhysicalDeviceLimits.maxTexelOffset
+inline val VkPhysicalDeviceLimits.maxTexelOffset: Int
     get() = VkPhysicalDeviceLimits.nmaxTexelOffset(adr)
-inline val VkPhysicalDeviceLimits.minTexelGatherOffset
+inline val VkPhysicalDeviceLimits.minTexelGatherOffset: Int
     get() = VkPhysicalDeviceLimits.nminTexelGatherOffset(adr)
-inline val VkPhysicalDeviceLimits.maxTexelGatherOffset
+inline val VkPhysicalDeviceLimits.maxTexelGatherOffsetminMemoryMapAlignment
     get() = VkPhysicalDeviceLimits.nmaxTexelGatherOffset(adr)
-inline val VkPhysicalDeviceLimits.minInterpolationOffset
+inline val VkPhysicalDeviceLimits.minInterpolationOffset: Float
     get() = VkPhysicalDeviceLimits.nminInterpolationOffset(adr)
-inline val VkPhysicalDeviceLimits.maxInterpolationOffset
+inline val VkPhysicalDeviceLimits.maxInterpolationOffset: Float
     get() = VkPhysicalDeviceLimits.nmaxInterpolationOffset(adr)
-inline val VkPhysicalDeviceLimits.subPixelInterpolationOffsetBits
+inline val VkPhysicalDeviceLimits.subPixelInterpolationOffsetBitsminMemoryMapAlignment
     get() = VkPhysicalDeviceLimits.nsubPixelInterpolationOffsetBits(adr)
-inline val VkPhysicalDeviceLimits.maxFramebufferWidth
+inline val VkPhysicalDeviceLimits.maxFramebufferWidthminMemoryMapAlignment
     get() = VkPhysicalDeviceLimits.nmaxFramebufferWidth(adr)
-inline val VkPhysicalDeviceLimits.maxFramebufferHeight
+inline val VkPhysicalDeviceLimits.maxFramebufferHeightminMemoryMapAlignment
     get() = VkPhysicalDeviceLimits.nmaxFramebufferHeight(adr)
-inline val VkPhysicalDeviceLimits.maxFramebufferLayers
+inline val VkPhysicalDeviceLimits.maxFramebufferLayersminMemoryMapAlignment
     get() = VkPhysicalDeviceLimits.nmaxFramebufferLayers(adr)
 inline val VkPhysicalDeviceLimits.framebufferColorSampleCounts: VkSampleCountFlags
     get() = VkPhysicalDeviceLimits.nframebufferColorSampleCounts(adr)
@@ -540,8 +541,10 @@ inline val VkQueueFamilyProperties.minImageTransferGranularity: VkExtent3D
     get() = VkQueueFamilyProperties.nminImageTransferGranularity(adr)
 
 
-inline val VkMemoryType.propertyFlags: VkMemoryPropertyFlags get() = VkMemoryType.npropertyFlags(adr)
-inline val VkMemoryType.heapIndex: Int get() = VkMemoryType.nheapIndex(adr)
+inline val VkMemoryType.propertyFlags: VkMemoryPropertyFlags
+    get() = VkMemoryType.npropertyFlags(adr)
+inline val VkMemoryType.heapIndex: Int
+    get() = VkMemoryType.nheapIndex(adr)
 
 
 //typedef struct VkMemoryHeap {
@@ -549,10 +552,14 @@ inline val VkMemoryType.heapIndex: Int get() = VkMemoryType.nheapIndex(adr)
 //    VkMemoryHeapFlags    flags;
 //} VkMemoryHeap;
 
-inline val VkPhysicalDeviceMemoryProperties.memoryTypeCount get() = VkPhysicalDeviceMemoryProperties.nmemoryTypeCount(adr)
-inline val VkPhysicalDeviceMemoryProperties.memoryTypes: VkMemoryType.Buffer get() = VkPhysicalDeviceMemoryProperties.nmemoryTypes(adr)
-inline val VkPhysicalDeviceMemoryProperties.memoryHeapCount get() = VkPhysicalDeviceMemoryProperties.nmemoryHeapCount(adr)
-inline val VkPhysicalDeviceMemoryProperties.memoryHeaps: VkMemoryHeap.Buffer get() = VkPhysicalDeviceMemoryProperties.nmemoryHeaps(adr)
+inline val VkPhysicalDeviceMemoryProperties.memoryTypeCount: Int
+    get() = VkPhysicalDeviceMemoryProperties.nmemoryTypeCount(adr)
+inline val VkPhysicalDeviceMemoryProperties.memoryTypes: VkMemoryType.Buffer
+    get() = VkPhysicalDeviceMemoryProperties.nmemoryTypes(adr)
+inline val VkPhysicalDeviceMemoryProperties.memoryHeapCount: Int
+    get() = VkPhysicalDeviceMemoryProperties.nmemoryHeapCount(adr)
+inline val VkPhysicalDeviceMemoryProperties.memoryHeaps: VkMemoryHeap.Buffer
+    get() = VkPhysicalDeviceMemoryProperties.nmemoryHeaps(adr)
 
 
 //typedef void (VKAPI_PTR *PFN_vkVoidFunction)(void);
@@ -560,7 +567,7 @@ inline val VkPhysicalDeviceMemoryProperties.memoryHeaps: VkMemoryHeap.Buffer get
 inline var VkDeviceQueueCreateInfo.type: VkStructureType
     get() = VkStructureType of VkDeviceQueueCreateInfo.nsType(adr)
     set(value) = VkDeviceQueueCreateInfo.nsType(adr, value.i)
-inline var VkDeviceQueueCreateInfo.next
+inline var VkDeviceQueueCreateInfo.next: Ptr
     get() = VkDeviceQueueCreateInfo.npNext(adr)
     set(value) = VkDeviceQueueCreateInfo.npNext(adr, value)
 inline var VkDeviceQueueCreateInfo.flag: VkDeviceQueueCreate
@@ -569,7 +576,7 @@ inline var VkDeviceQueueCreateInfo.flag: VkDeviceQueueCreate
 inline var VkDeviceQueueCreateInfo.flags: VkDeviceQueueCreateFlags
     get() = VkDeviceQueueCreateInfo.nflags(adr)
     set(value) = VkDeviceQueueCreateInfo.nflags(adr, value)
-inline var VkDeviceQueueCreateInfo.queueFamilyIndex
+inline var VkDeviceQueueCreateInfo.queueFamilyIndex: Int
     get() = VkDeviceQueueCreateInfo.nqueueFamilyIndex(adr)
     set(value) = VkDeviceQueueCreateInfo.nqueueFamilyIndex(adr, value)
 //inline val VkDeviceQueueCreateInfo.queueCount get() = VkDeviceQueueCreateInfo.nqueueCount(address)
@@ -579,8 +586,9 @@ inline var VkDeviceQueueCreateInfo.queuePriorities: FloatBuffer
 /** JVM custom */
 inline var VkDeviceQueueCreateInfo.queuePriority: Float
     get() = VkDeviceQueueCreateInfo.npQueuePriorities(adr)[0]
-    set(value) = stak {
-        val buf = it.nmalloc(1, Float.BYTES)
+    set(value) {
+        val stack = MemoryStack.stackGet()
+        val buf = stack.nmalloc(1, Float.BYTES)
         memPutFloat(buf, value)
         memPutAddress(adr + VkDeviceQueueCreateInfo.PQUEUEPRIORITIES, buf)
         VkDeviceQueueCreateInfo.nqueueCount(adr, 1)
@@ -598,7 +606,7 @@ inline var VkDeviceQueueCreateInfo.queuePriority: Float
 inline var VkDeviceCreateInfo.type: VkStructureType
     get() = VkStructureType of VkDeviceCreateInfo.nsType(adr)
     set(value) = VkDeviceCreateInfo.nsType(adr, value.i)
-inline var VkDeviceCreateInfo.next
+inline var VkDeviceCreateInfo.next: Ptr
     get() = VkDeviceCreateInfo.npNext(adr)
     set(value) = VkDeviceCreateInfo.npNext(adr, value)
 inline var VkDeviceCreateInfo.flags: VkDeviceCreateFlags
@@ -641,20 +649,21 @@ inline var VkDeviceCreateInfo.enabledFeatures: VkPhysicalDeviceFeatures?
 inline var VkSubmitInfo.type: VkStructureType
     get() = VkStructureType of VkSubmitInfo.nsType(adr)
     set(value) = VkSubmitInfo.nsType(adr, value.i)
-inline var VkSubmitInfo.next
+inline var VkSubmitInfo.next: Ptr
     get() = VkSubmitInfo.npNext(adr)
     set(value) = VkSubmitInfo.npNext(adr, value)
-inline var VkSubmitInfo.waitSemaphoreCount
+inline var VkSubmitInfo.waitSemaphoreCount: Int
     get() = VkSubmitInfo.nwaitSemaphoreCount(adr)
     set(value) = VkSubmitInfo.nwaitSemaphoreCount(adr, value)
-inline var VkSubmitInfo.waitSemaphores
+inline var VkSubmitInfo.waitSemaphores: LongBuffer?
     get() = VkSubmitInfo.npWaitSemaphores(adr)
     set(value) = VkSubmitInfo.npWaitSemaphores(adr, value)
 /** JVM custom */
 inline var VkSubmitInfo.waitSemaphore: VkSemaphore
     get() = VkSemaphore(VkSubmitInfo.npWaitSemaphores(adr)?.get(0) ?: NULL)
-    set(value) = stak {
-        val pSemaphore = it.nmalloc(1, Long.BYTES)
+    set(value) {
+        val stack = MemoryStack.stackGet()
+        val pSemaphore = stack.nmalloc(1, Long.BYTES)
         memPutLong(pSemaphore, value.L)
         memPutAddress(adr + VkSubmitInfo.PWAITSEMAPHORES, pSemaphore)
     }
@@ -668,8 +677,9 @@ inline var VkSubmitInfo.commandBuffers: PointerBuffer?
 /** JVM custom */
 inline var VkSubmitInfo.commandBuffer: VkCommandBuffer?
     get() = null
-    set(value) = stak {
-        val pCmdBuff = it.nmalloc(Pointer.POINTER_SIZE, Pointer.POINTER_SIZE)
+    set(value) {
+        val stack = MemoryStack.stackGet()
+        val pCmdBuff = stack.nmalloc(Pointer.POINTER_SIZE, Pointer.POINTER_SIZE)
         memPutAddress(pCmdBuff, value?.adr ?: NULL)
         memPutAddress(adr + VkSubmitInfo.PCOMMANDBUFFERS, pCmdBuff)
         VkSubmitInfo.ncommandBufferCount(adr, if (value == null) 0 else 1)
@@ -681,8 +691,9 @@ inline var VkSubmitInfo.signalSemaphores: LongBuffer?
 /** JVM custom */
 var VkSubmitInfo.signalSemaphore: VkSemaphore // TODO BUG, inline
     get() = VkSemaphore(VkSubmitInfo.npSignalSemaphores(adr)?.get(0) ?: NULL)
-        set(value) = stak {
-        val pSemaphore = it.nmalloc(1, Long.BYTES)
+    set(value) {
+        val stack = MemoryStack.stackGet()
+        val pSemaphore = stack.nmalloc(1, Long.BYTES)
         memPutLong(pSemaphore, value.L)
         memPutAddress(adr + VkSubmitInfo.PSIGNALSEMAPHORES, pSemaphore)
         VkSubmitInfo.nsignalSemaphoreCount(adr, if (value.L == NULL) 0 else 1)
@@ -704,13 +715,13 @@ var VkSubmitInfo.signalSemaphore: VkSemaphore // TODO BUG, inline
 inline var VkMemoryAllocateInfo.type: VkStructureType
     get() = VkStructureType of VkMemoryAllocateInfo.nsType(adr)
     set(value) = VkMemoryAllocateInfo.nsType(adr, value.i)
-inline var VkMemoryAllocateInfo.next
+inline var VkMemoryAllocateInfo.next: Ptr
     get() = VkMemoryAllocateInfo.npNext(adr)
     set(value) = VkMemoryAllocateInfo.npNext(adr, value)
 inline var VkMemoryAllocateInfo.allocationSize: VkDeviceSize
     get() = VkDeviceSize(VkMemoryAllocateInfo.nallocationSize(adr))
     set(value) = VkMemoryAllocateInfo.nallocationSize(adr, value.L)
-inline var VkMemoryAllocateInfo.memoryTypeIndex
+inline var VkMemoryAllocateInfo.memoryTypeIndex: Int
     get() = VkMemoryAllocateInfo.nmemoryTypeIndex(adr)
     set(value) = VkMemoryAllocateInfo.nmemoryTypeIndex(adr, value)
 
@@ -718,7 +729,7 @@ inline var VkMemoryAllocateInfo.memoryTypeIndex
 inline var VkMappedMemoryRange.type: VkStructureType
     get() = VkStructureType of VkMappedMemoryRange.nsType(adr)
     set(value) = VkMappedMemoryRange.nsType(adr, value.i)
-inline var VkMappedMemoryRange.next
+inline var VkMappedMemoryRange.next: Ptr
     get() = VkMappedMemoryRange.npNext(adr)
     set(value) = VkMappedMemoryRange.npNext(adr, value)
 inline var VkMappedMemoryRange.memory: VkDeviceMemory
@@ -823,7 +834,7 @@ inline var VkImageSubresource.arrayLayer: Int
 inline var VkFenceCreateInfo.type: VkStructureType
     get() = VkStructureType of VkFenceCreateInfo.nsType(adr)
     set(value) = VkFenceCreateInfo.nsType(adr, value.i)
-inline var VkFenceCreateInfo.next
+inline var VkFenceCreateInfo.next: Ptr
     get() = VkFenceCreateInfo.npNext(adr)
     set(value) = VkFenceCreateInfo.npNext(adr, value)
 inline var VkFenceCreateInfo.flags: VkFenceCreateFlags
@@ -834,7 +845,7 @@ inline var VkFenceCreateInfo.flags: VkFenceCreateFlags
 inline var VkSemaphoreCreateInfo.type: VkStructureType
     get() = VkStructureType of VkSemaphoreCreateInfo.nsType(adr)
     set(value) = VkSemaphoreCreateInfo.nsType(adr, value.i)
-inline var VkSemaphoreCreateInfo.next
+inline var VkSemaphoreCreateInfo.next: Ptr
     get() = VkSemaphoreCreateInfo.npNext(adr)
     set(value) = VkSemaphoreCreateInfo.npNext(adr, value)
 inline var VkSemaphoreCreateInfo.flags: VkSemaphoreCreateFlags
@@ -858,7 +869,7 @@ inline var VkSemaphoreCreateInfo.flags: VkSemaphoreCreateFlags
 inline var VkQueryPoolCreateInfo.type: VkStructureType
     get() = VkStructureType of VkQueryPoolCreateInfo.nsType(adr)
     set(value) = VkQueryPoolCreateInfo.nsType(adr, value.i)
-inline var VkQueryPoolCreateInfo.next
+inline var VkQueryPoolCreateInfo.next: Ptr
     get() = VkQueryPoolCreateInfo.npNext(adr)
     set(value) = VkQueryPoolCreateInfo.npNext(adr, value)
 inline var VkQueryPoolCreateInfo.flags: VkQueryPoolCreateFlags
@@ -878,7 +889,7 @@ inline var VkQueryPoolCreateInfo.pipelineStatistics: VkQueryPipelineStatisticFla
 inline var VkBufferCreateInfo.type: VkStructureType
     get() = VkStructureType of VkBufferCreateInfo.nsType(adr)
     set(value) = VkBufferCreateInfo.nsType(adr, value.i)
-inline var VkBufferCreateInfo.next
+inline var VkBufferCreateInfo.next: Ptr
     get() = VkBufferCreateInfo.npNext(adr)
     set(value) = VkBufferCreateInfo.npNext(adr, value)
 /** JVM custom */
@@ -897,10 +908,10 @@ inline var VkBufferCreateInfo.usage: VkBufferUsageFlags
 inline var VkBufferCreateInfo.sharingMode: VkSharingMode
     get() = VkSharingMode of VkBufferCreateInfo.nsharingMode(adr)
     set(value) = VkBufferCreateInfo.nsharingMode(adr, value.i)
-inline var VkBufferCreateInfo.queueFamilyIndexCount
+inline var VkBufferCreateInfo.queueFamilyIndexCount: Int
     get() = VkBufferCreateInfo.nqueueFamilyIndexCount(adr)
     set(value) = VkBufferCreateInfo.nqueueFamilyIndexCount(adr, value)
-inline var VkBufferCreateInfo.queueFamilyIndices
+inline var VkBufferCreateInfo.queueFamilyIndices: IntBuffer?
     get() = VkBufferCreateInfo.npQueueFamilyIndices(adr)
     set(value) = VkBufferCreateInfo.npQueueFamilyIndices(adr, value)
 
@@ -919,7 +930,7 @@ inline var VkBufferCreateInfo.queueFamilyIndices
 inline var VkImageViewCreateInfo.type: VkStructureType
     get() = VkStructureType of VkImageViewCreateInfo.nsType(adr)
     set(value) = VkImageViewCreateInfo.nsType(adr, value.i)
-inline var VkImageViewCreateInfo.next
+inline var VkImageViewCreateInfo.next: Ptr
     get() = VkImageViewCreateInfo.npNext(adr)
     set(value) = VkImageViewCreateInfo.npNext(adr, value)
 inline var VkImageViewCreateInfo.flags: VkImageViewCreateFlags
@@ -954,7 +965,7 @@ inline var VkImageViewCreateInfo.subresourceRange: VkImageSubresourceRange
 inline var VkImageCreateInfo.type: VkStructureType
     get() = VkStructureType of VkImageCreateInfo.nsType(adr)
     set(value) = VkImageCreateInfo.nsType(adr, value.i)
-inline var VkImageCreateInfo.next
+inline var VkImageCreateInfo.next: Ptr
     get() = VkImageCreateInfo.npNext(adr)
     set(value) = VkImageCreateInfo.npNext(adr, value)
 /** JVM custom */
@@ -984,10 +995,10 @@ fun VkImageCreateInfo.extent(extent: Vec2i, depth: Int) {
     this.extent.set(extent.x, extent.y, depth)
 }
 
-inline var VkImageCreateInfo.mipLevels
+inline var VkImageCreateInfo.mipLevels: Int
     get() = VkImageCreateInfo.nmipLevels(adr)
     set(value) = VkImageCreateInfo.nmipLevels(adr, value)
-inline var VkImageCreateInfo.arrayLayers
+inline var VkImageCreateInfo.arrayLayers: Int
     get() = VkImageCreateInfo.narrayLayers(adr)
     set(value) = VkImageCreateInfo.narrayLayers(adr, value)
 inline var VkImageCreateInfo.samples: VkSampleCount
@@ -1003,7 +1014,7 @@ inline var VkImageCreateInfo.sharingMode: VkSharingMode
     get() = VkSharingMode of VkImageCreateInfo.nsharingMode(adr)
     set(value) = VkImageCreateInfo.nsharingMode(adr, value.i)
 //inline val VkImageCreateInfo.queueFamilyIndexCount get() = queueFamilyIndexCount()
-inline var VkImageCreateInfo.queueFamilyIndices
+inline var VkImageCreateInfo.queueFamilyIndices: IntBuffer?
     get() = VkImageCreateInfo.npQueueFamilyIndices(adr)
     set(value) = VkImageCreateInfo.npQueueFamilyIndices(adr, value)
 inline var VkImageCreateInfo.initialLayout: VkImageLayout
@@ -1069,7 +1080,7 @@ inline var VkImageSubresourceRange.layerCount: Int
 inline var VkShaderModuleCreateInfo.type: VkStructureType
     get() = VkStructureType of VkShaderModuleCreateInfo.nsType(adr)
     set(value) = VkShaderModuleCreateInfo.nsType(adr, value.i)
-inline var VkShaderModuleCreateInfo.next
+inline var VkShaderModuleCreateInfo.next: Ptr
     get() = VkShaderModuleCreateInfo.npNext(adr)
     set(value) = VkShaderModuleCreateInfo.npNext(adr, value)
 inline var VkShaderModuleCreateInfo.flags: VkShaderModuleCreateFlags
@@ -1084,14 +1095,15 @@ inline var VkShaderModuleCreateInfo.code: ByteBuffer
 inline var VkPipelineCacheCreateInfo.type: VkStructureType
     get() = VkStructureType of VkPipelineCacheCreateInfo.nsType(adr)
     set(value) = VkPipelineCacheCreateInfo.nsType(adr, value.i)
-inline var VkPipelineCacheCreateInfo.next
+inline var VkPipelineCacheCreateInfo.next: Ptr
     get() = VkPipelineCacheCreateInfo.npNext(adr)
     set(value) = VkPipelineCacheCreateInfo.npNext(adr, value)
 inline var VkPipelineCacheCreateInfo.flags: VkPipelineCacheCreateFlags
     get() = VkPipelineCacheCreateInfo.nflags(adr)
     set(value) = VkPipelineCacheCreateInfo.nflags(adr, value)
-inline val VkPipelineCacheCreateInfo.initialDataSize get() = initialDataSize()
-inline var VkPipelineCacheCreateInfo.initialData
+inline val VkPipelineCacheCreateInfo.initialDataSize: Long
+    get() = initialDataSize()
+inline var VkPipelineCacheCreateInfo.initialData: ByteBuffer?
     get() = VkPipelineCacheCreateInfo.npInitialData(adr)
     set(value) = VkPipelineCacheCreateInfo.npInitialData(adr, value)
 
@@ -1135,7 +1147,7 @@ inline var VkSpecializationInfo.data: ByteBuffer?
 inline var VkPipelineShaderStageCreateInfo.type: VkStructureType
     get() = VkStructureType of VkPipelineShaderStageCreateInfo.nsType(adr)
     set(value) = VkPipelineShaderStageCreateInfo.nsType(adr, value.i)
-inline var VkPipelineShaderStageCreateInfo.next
+inline var VkPipelineShaderStageCreateInfo.next: Ptr
     get() = VkPipelineShaderStageCreateInfo.npNext(adr)
     set(value) = VkPipelineShaderStageCreateInfo.npNext(adr, value)
 inline var VkPipelineShaderStageCreateInfo.flags: VkPipelineShaderStageCreateFlags
@@ -1149,16 +1161,16 @@ inline var VkPipelineShaderStageCreateInfo.module: VkShaderModule
     set(value) = VkPipelineShaderStageCreateInfo.nmodule(adr, value.L)
 inline var VkPipelineShaderStageCreateInfo.name: String
     get() = VkPipelineShaderStageCreateInfo.npNameString(adr)
-    set(value) = VkPipelineShaderStageCreateInfo.npName(adr, value.utf8)
-inline var VkPipelineShaderStageCreateInfo.specializationInfo
+    set(value) = VkPipelineShaderStageCreateInfo.npName(adr, value.toUTF8stack())
+inline var VkPipelineShaderStageCreateInfo.specializationInfo: VkSpecializationInfo?
     get() = VkPipelineShaderStageCreateInfo.npSpecializationInfo(adr)
     set(value) = VkPipelineShaderStageCreateInfo.npSpecializationInfo(adr, value)
 
 
-inline var VkVertexInputBindingDescription.binding
+inline var VkVertexInputBindingDescription.binding: Int
     get() = VkVertexInputBindingDescription.nbinding(adr)
     set(value) = VkVertexInputBindingDescription.nbinding(adr, value)
-inline var VkVertexInputBindingDescription.stride
+inline var VkVertexInputBindingDescription.stride: Int
     get() = VkVertexInputBindingDescription.nstride(adr)
     set(value) = VkVertexInputBindingDescription.nstride(adr, value)
 inline var VkVertexInputBindingDescription.inputRate: VkVertexInputRate
@@ -1166,16 +1178,16 @@ inline var VkVertexInputBindingDescription.inputRate: VkVertexInputRate
     set(value) = VkVertexInputBindingDescription.ninputRate(adr, value.i)
 
 
-inline var VkVertexInputAttributeDescription.location
+inline var VkVertexInputAttributeDescription.location: Int
     get() = VkVertexInputAttributeDescription.nlocation(adr)
     set(value) = VkVertexInputAttributeDescription.nlocation(adr, value)
-inline var VkVertexInputAttributeDescription.binding
+inline var VkVertexInputAttributeDescription.binding: Int
     get() = VkVertexInputAttributeDescription.nbinding(adr)
     set(value) = VkVertexInputAttributeDescription.nbinding(adr, value)
 inline var VkVertexInputAttributeDescription.format: VkFormat
     get() = VkFormat of VkVertexInputAttributeDescription.nformat(adr)
     set(value) = VkVertexInputAttributeDescription.nformat(adr, value.i)
-inline var VkVertexInputAttributeDescription.offset
+inline var VkVertexInputAttributeDescription.offset: Int
     get() = VkVertexInputAttributeDescription.noffset(adr)
     set(value) = VkVertexInputAttributeDescription.noffset(adr, value)
 
@@ -1185,7 +1197,7 @@ inline var VkPipelineVertexInputStateCreateInfo.type: VkStructureType
     set(value) {
         sType(value.i)
     }
-inline var VkPipelineVertexInputStateCreateInfo.next
+inline var VkPipelineVertexInputStateCreateInfo.next: Ptr
     get() = VkPipelineVertexInputStateCreateInfo.npNext(adr)
     set(value) = VkPipelineVertexInputStateCreateInfo.npNext(adr, value)
 inline var VkPipelineVertexInputStateCreateInfo.flags: VkPipelineVertexInputStateCreateFlags
@@ -1211,7 +1223,7 @@ inline var VkPipelineVertexInputStateCreateInfo.vertexAttributeDescriptions: VkV
 inline var VkPipelineInputAssemblyStateCreateInfo.type: VkStructureType
     get() = VkStructureType of VkPipelineInputAssemblyStateCreateInfo.nsType(adr)
     set(value) = VkPipelineInputAssemblyStateCreateInfo.nsType(adr, value.i)
-inline var VkPipelineInputAssemblyStateCreateInfo.next
+inline var VkPipelineInputAssemblyStateCreateInfo.next: Ptr
     get() = VkPipelineInputAssemblyStateCreateInfo.npNext(adr)
     set(value) = VkPipelineInputAssemblyStateCreateInfo.npNext(adr, value)
 inline var VkPipelineInputAssemblyStateCreateInfo.flags: VkPipelineInputAssemblyStateCreateFlags
@@ -1308,10 +1320,10 @@ fun VkViewport.depth(minDepth: Float, maxDepth: Float) {
 //    }
 
 
-inline var VkOffset2D.x
+inline var VkOffset2D.x: Int
     get() = VkOffset2D.nx(adr)
     set(value) = VkOffset2D.nx(adr, value)
-inline var VkOffset2D.y
+inline var VkOffset2D.y: Int
     get() = VkOffset2D.ny(adr)
     set(value) = VkOffset2D.ny(adr, value)
 //inline operator fun VkOffset2D.invoke(size: Vec2i) {
@@ -1324,10 +1336,10 @@ inline var VkOffset2D.y
 //}
 
 
-inline var VkExtent2D.width
+inline var VkExtent2D.width: Int
     get() = VkExtent2D.nwidth(adr)
     set(value) = VkExtent2D.nwidth(adr, value)
-inline var VkExtent2D.height
+inline var VkExtent2D.height: Int
     get() = VkExtent2D.nheight(adr)
     set(value) = VkExtent2D.nheight(adr, value)
 
@@ -1348,17 +1360,17 @@ fun VkOffset2D.pos(x: Int, y: Int) {
 //        x = value.x
 //        y = value.y
 //    }
-inline var VkExtent3D.width
+inline var VkExtent3D.width: Int
     get() = width()
     set(value) {
         width(value)
     }
-inline var VkExtent3D.height
+inline var VkExtent3D.height: Int
     get() = height()
     set(value) {
         height(value)
     }
-inline var VkExtent3D.depth
+inline var VkExtent3D.depth: Int
     get() = depth()
     set(value) {
         depth(value)
@@ -1413,22 +1425,22 @@ fun VkRect2D.offset(width: Number, height: Number) = offset(width.i, height.i)
 inline var VkPipelineViewportStateCreateInfo.type: VkStructureType
     get() = VkStructureType of VkPipelineViewportStateCreateInfo.nsType(adr)
     set(value) = VkPipelineViewportStateCreateInfo.nsType(adr, value.i)
-inline var VkPipelineViewportStateCreateInfo.next
+inline var VkPipelineViewportStateCreateInfo.next: Ptr
     get() = VkPipelineViewportStateCreateInfo.npNext(adr)
     set(value) = VkPipelineViewportStateCreateInfo.npNext(adr, value)
 inline var VkPipelineViewportStateCreateInfo.flags: VkPipelineViewportStateCreateFlags
     get() = VkPipelineViewportStateCreateInfo.nflags(adr)
     set(value) = VkPipelineViewportStateCreateInfo.nflags(adr, value)
-inline var VkPipelineViewportStateCreateInfo.viewportCount
+inline var VkPipelineViewportStateCreateInfo.viewportCount: Int
     get() = VkPipelineViewportStateCreateInfo.nviewportCount(adr)
     set(value) = VkPipelineViewportStateCreateInfo.nviewportCount(adr, value)
-inline var VkPipelineViewportStateCreateInfo.viewports
+inline var VkPipelineViewportStateCreateInfo.viewports: VkViewport.Buffer?
     get() = VkPipelineViewportStateCreateInfo.npViewports(adr)
     set(value) = VkPipelineViewportStateCreateInfo.npViewports(adr, value)
-inline var VkPipelineViewportStateCreateInfo.scissorCount
+inline var VkPipelineViewportStateCreateInfo.scissorCount: Int
     get() = VkPipelineViewportStateCreateInfo.nscissorCount(adr)
     set(value) = VkPipelineViewportStateCreateInfo.nscissorCount(adr, value)
-inline var VkPipelineViewportStateCreateInfo.scissors
+inline var VkPipelineViewportStateCreateInfo.scissors: VkRect2D.Buffer?
     get() = VkPipelineViewportStateCreateInfo.npScissors(adr)
     set(value) = VkPipelineViewportStateCreateInfo.npScissors(adr, value)
 
@@ -1436,16 +1448,16 @@ inline var VkPipelineViewportStateCreateInfo.scissors
 inline var VkPipelineRasterizationStateCreateInfo.type: VkStructureType
     get() = VkStructureType of VkPipelineRasterizationStateCreateInfo.nsType(adr)
     set(value) = VkPipelineRasterizationStateCreateInfo.nsType(adr, value.i)
-inline var VkPipelineRasterizationStateCreateInfo.next
+inline var VkPipelineRasterizationStateCreateInfo.next: Ptr
     get() = VkPipelineRasterizationStateCreateInfo.npNext(adr)
     set(value) = VkPipelineRasterizationStateCreateInfo.npNext(adr, value)
 inline var VkPipelineRasterizationStateCreateInfo.flags: VkPipelineRasterizationStateCreateFlags
     get() = VkPipelineRasterizationStateCreateInfo.nflags(adr)
     set(value) = VkPipelineRasterizationStateCreateInfo.nflags(adr, value)
-inline var VkPipelineRasterizationStateCreateInfo.depthClampEnable
+inline var VkPipelineRasterizationStateCreateInfo.depthClampEnable: Boolean
     get() = VkPipelineRasterizationStateCreateInfo.ndepthClampEnable(adr).bool
     set(value) = VkPipelineRasterizationStateCreateInfo.ndepthClampEnable(adr, value.i)
-inline var VkPipelineRasterizationStateCreateInfo.rasterizerDiscardEnable
+inline var VkPipelineRasterizationStateCreateInfo.rasterizerDiscardEnable: Boolean
     get() = VkPipelineRasterizationStateCreateInfo.nrasterizerDiscardEnable(adr).bool
     set(value) = VkPipelineRasterizationStateCreateInfo.nrasterizerDiscardEnable(adr, value.i)
 inline var VkPipelineRasterizationStateCreateInfo.polygonMode: VkPolygonMode
@@ -1457,19 +1469,19 @@ inline var VkPipelineRasterizationStateCreateInfo.cullMode: VkCullModeFlags
 inline var VkPipelineRasterizationStateCreateInfo.frontFace: VkFrontFace
     get() = VkFrontFace of VkPipelineRasterizationStateCreateInfo.nfrontFace(adr)
     set(value) = VkPipelineRasterizationStateCreateInfo.nfrontFace(adr, value.i)
-inline var VkPipelineRasterizationStateCreateInfo.depthBiasEnable
+inline var VkPipelineRasterizationStateCreateInfo.depthBiasEnable: Boolean
     get() = VkPipelineRasterizationStateCreateInfo.ndepthBiasEnable(adr).bool
     set(value) = VkPipelineRasterizationStateCreateInfo.ndepthBiasEnable(adr, value.i)
-inline var VkPipelineRasterizationStateCreateInfo.depthBiasConstantFactor
+inline var VkPipelineRasterizationStateCreateInfo.depthBiasConstantFactor: Float
     get() = VkPipelineRasterizationStateCreateInfo.ndepthBiasConstantFactor(adr)
     set(value) = VkPipelineRasterizationStateCreateInfo.ndepthBiasConstantFactor(adr, value)
-inline var VkPipelineRasterizationStateCreateInfo.depthBiasClamp
+inline var VkPipelineRasterizationStateCreateInfo.depthBiasClamp: Float
     get() = VkPipelineRasterizationStateCreateInfo.ndepthBiasClamp(adr)
     set(value) = VkPipelineRasterizationStateCreateInfo.ndepthBiasClamp(adr, value)
-inline var VkPipelineRasterizationStateCreateInfo.depthBiasSlopeFactor
+inline var VkPipelineRasterizationStateCreateInfo.depthBiasSlopeFactor: Float
     get() = VkPipelineRasterizationStateCreateInfo.ndepthBiasSlopeFactor(adr)
     set(value) = VkPipelineRasterizationStateCreateInfo.ndepthBiasSlopeFactor(adr, value)
-inline var VkPipelineRasterizationStateCreateInfo.lineWidth
+inline var VkPipelineRasterizationStateCreateInfo.lineWidth: Float
     get() = VkPipelineRasterizationStateCreateInfo.nlineWidth(adr)
     set(value) = VkPipelineRasterizationStateCreateInfo.nlineWidth(adr, value)
 
@@ -1477,7 +1489,7 @@ inline var VkPipelineRasterizationStateCreateInfo.lineWidth
 inline var VkPipelineMultisampleStateCreateInfo.type: VkStructureType
     get() = VkStructureType of VkPipelineMultisampleStateCreateInfo.nsType(adr)
     set(value) = VkPipelineMultisampleStateCreateInfo.nsType(adr, value.i)
-inline var VkPipelineMultisampleStateCreateInfo.next
+inline var VkPipelineMultisampleStateCreateInfo.next: Ptr
     get() = VkPipelineMultisampleStateCreateInfo.npNext(adr)
     set(value) = VkPipelineMultisampleStateCreateInfo.npNext(adr, value)
 inline var VkPipelineMultisampleStateCreateInfo.flags: VkPipelineMultisampleStateCreateFlags
@@ -1486,26 +1498,27 @@ inline var VkPipelineMultisampleStateCreateInfo.flags: VkPipelineMultisampleStat
 inline var VkPipelineMultisampleStateCreateInfo.rasterizationSamples: VkSampleCount
     get() = VkSampleCount of VkPipelineMultisampleStateCreateInfo.nrasterizationSamples(adr)
     set(value) = VkPipelineMultisampleStateCreateInfo.nrasterizationSamples(adr, value.i)
-inline var VkPipelineMultisampleStateCreateInfo.sampleShadingEnable
+inline var VkPipelineMultisampleStateCreateInfo.sampleShadingEnable: Boolean
     get() = VkPipelineMultisampleStateCreateInfo.nsampleShadingEnable(adr).bool
     set(value) = VkPipelineMultisampleStateCreateInfo.nsampleShadingEnable(adr, value.i)
-inline var VkPipelineMultisampleStateCreateInfo.minSampleShading
+inline var VkPipelineMultisampleStateCreateInfo.minSampleShading: Float
     get() = VkPipelineMultisampleStateCreateInfo.nminSampleShading(adr)
     set(value) = VkPipelineMultisampleStateCreateInfo.nminSampleShading(adr, value)
 /** https://stackoverflow.com/a/38863042/1047713 */
 inline var VkPipelineMultisampleStateCreateInfo.sampleMask: Int?
     get() = memGetInt(memGetAddress(adr + VkPipelineMultisampleStateCreateInfo.PSAMPLEMASK))
-    set(value) = stak {
+    set(value) {
+        val stack = MemoryStack.stackGet()
         val pInt = when {
-            value != null -> it.nmalloc(1, Int.BYTES).also { memPutInt(it, value) }
+            value != null -> stack.nmalloc(1, Int.BYTES).also { memPutInt(it, value) }
             else -> NULL
         }
         memPutAddress(adr + VkPipelineMultisampleStateCreateInfo.PSAMPLEMASK, pInt)
     }
-inline var VkPipelineMultisampleStateCreateInfo.alphaToCoverageEnable
+inline var VkPipelineMultisampleStateCreateInfo.alphaToCoverageEnable: Boolean
     get() = VkPipelineMultisampleStateCreateInfo.nalphaToCoverageEnable(adr).bool
     set(value) = VkPipelineMultisampleStateCreateInfo.nalphaToCoverageEnable(adr, value.i)
-inline var VkPipelineMultisampleStateCreateInfo.alphaToOneEnable
+inline var VkPipelineMultisampleStateCreateInfo.alphaToOneEnable: Boolean
     get() = VkPipelineMultisampleStateCreateInfo.nalphaToOneEnable(adr).bool
     set(value) = VkPipelineMultisampleStateCreateInfo.nalphaToOneEnable(adr, value.i)
 
@@ -1522,13 +1535,13 @@ inline var VkStencilOpState.depthFailOp: VkStencilOp
 inline var VkStencilOpState.compareOp: VkCompareOp
     get() = VkCompareOp of VkStencilOpState.ncompareOp(adr)
     set(value) = VkStencilOpState.ncompareOp(adr, value.i)
-inline var VkStencilOpState.compareMask
+inline var VkStencilOpState.compareMask: Int
     get() = VkStencilOpState.ncompareMask(adr)
     set(value) = VkStencilOpState.ncompareMask(adr, value)
-inline var VkStencilOpState.writeMask
+inline var VkStencilOpState.writeMask: Int
     get() = VkStencilOpState.nwriteMask(adr)
     set(value) = VkStencilOpState.nwriteMask(adr, value)
-inline var VkStencilOpState.reference
+inline var VkStencilOpState.reference: Int
     get() = VkStencilOpState.nreference(adr)
     set(value) = VkStencilOpState.nreference(adr, value)
 
@@ -1536,25 +1549,25 @@ inline var VkStencilOpState.reference
 inline var VkPipelineDepthStencilStateCreateInfo.type: VkStructureType
     get() = VkStructureType of VkPipelineDepthStencilStateCreateInfo.nsType(adr)
     set(value) = VkPipelineDepthStencilStateCreateInfo.nsType(adr, value.i)
-inline var VkPipelineDepthStencilStateCreateInfo.next
+inline var VkPipelineDepthStencilStateCreateInfo.next: Ptr
     get() = VkPipelineDepthStencilStateCreateInfo.npNext(adr)
     set(value) = VkPipelineDepthStencilStateCreateInfo.npNext(adr, value)
 inline var VkPipelineDepthStencilStateCreateInfo.flags: VkPipelineDepthStencilStateCreateFlags
     get() = VkPipelineDepthStencilStateCreateInfo.nflags(adr)
     set(value) = VkPipelineDepthStencilStateCreateInfo.nflags(adr, value)
-inline var VkPipelineDepthStencilStateCreateInfo.depthTestEnable
+inline var VkPipelineDepthStencilStateCreateInfo.depthTestEnable: Boolean
     get() = VkPipelineDepthStencilStateCreateInfo.ndepthTestEnable(adr).bool
     set(value) = VkPipelineDepthStencilStateCreateInfo.ndepthTestEnable(adr, value.i)
-inline var VkPipelineDepthStencilStateCreateInfo.depthWriteEnable
+inline var VkPipelineDepthStencilStateCreateInfo.depthWriteEnable: Boolean
     get() = VkPipelineDepthStencilStateCreateInfo.ndepthWriteEnable(adr).bool
     set(value) = VkPipelineDepthStencilStateCreateInfo.ndepthWriteEnable(adr, value.i)
 inline var VkPipelineDepthStencilStateCreateInfo.depthCompareOp: VkCompareOp
     get() = VkCompareOp of VkPipelineDepthStencilStateCreateInfo.ndepthCompareOp(adr)
     set(value) = VkPipelineDepthStencilStateCreateInfo.ndepthCompareOp(adr, value.i)
-inline var VkPipelineDepthStencilStateCreateInfo.depthBoundsTestEnable
+inline var VkPipelineDepthStencilStateCreateInfo.depthBoundsTestEnable: Boolean
     get() = VkPipelineDepthStencilStateCreateInfo.ndepthBoundsTestEnable(adr).bool
     set(value) = VkPipelineDepthStencilStateCreateInfo.ndepthBoundsTestEnable(adr, value.i)
-inline var VkPipelineDepthStencilStateCreateInfo.stencilTestEnable
+inline var VkPipelineDepthStencilStateCreateInfo.stencilTestEnable: Boolean
     get() = VkPipelineDepthStencilStateCreateInfo.nstencilTestEnable(adr).bool
     set(value) = VkPipelineDepthStencilStateCreateInfo.nstencilTestEnable(adr, value.i)
 inline var VkPipelineDepthStencilStateCreateInfo.front: VkStencilOpState
@@ -1563,15 +1576,15 @@ inline var VkPipelineDepthStencilStateCreateInfo.front: VkStencilOpState
 inline var VkPipelineDepthStencilStateCreateInfo.back: VkStencilOpState
     get() = VkPipelineDepthStencilStateCreateInfo.nback(adr)
     set(value) = VkPipelineDepthStencilStateCreateInfo.nback(adr, value)
-inline var VkPipelineDepthStencilStateCreateInfo.minDepthBounds
+inline var VkPipelineDepthStencilStateCreateInfo.minDepthBounds: Float
     get() = VkPipelineDepthStencilStateCreateInfo.nminDepthBounds(adr)
     set(value) = VkPipelineDepthStencilStateCreateInfo.nminDepthBounds(adr, value)
-inline var VkPipelineDepthStencilStateCreateInfo.maxDepthBounds
+inline var VkPipelineDepthStencilStateCreateInfo.maxDepthBounds: Float
     get() = VkPipelineDepthStencilStateCreateInfo.nmaxDepthBounds(adr)
     set(value) = VkPipelineDepthStencilStateCreateInfo.nmaxDepthBounds(adr, value)
 
 
-inline var VkPipelineColorBlendAttachmentState.blendEnable
+inline var VkPipelineColorBlendAttachmentState.blendEnable: Boolean
     get() = VkPipelineColorBlendAttachmentState.nblendEnable(adr).bool
     set(value) = VkPipelineColorBlendAttachmentState.nblendEnable(adr, value.i)
 inline var VkPipelineColorBlendAttachmentState.srcColorBlendFactor: VkBlendFactor
@@ -1600,13 +1613,13 @@ inline var VkPipelineColorBlendAttachmentState.colorWriteMask: VkColorComponentF
 inline var VkPipelineColorBlendStateCreateInfo.type: VkStructureType
     get() = VkStructureType of VkPipelineColorBlendStateCreateInfo.nsType(adr)
     set(value) = VkPipelineColorBlendStateCreateInfo.nsType(adr, value.i)
-inline var VkPipelineColorBlendStateCreateInfo.next
+inline var VkPipelineColorBlendStateCreateInfo.next: Ptr
     get() = VkPipelineColorBlendStateCreateInfo.npNext(adr)
     set(value) = VkPipelineColorBlendStateCreateInfo.npNext(adr, value)
 inline var VkPipelineColorBlendStateCreateInfo.flags: VkPipelineColorBlendStateCreateFlags
     get() = VkPipelineColorBlendStateCreateInfo.nflags(adr)
     set(value) = VkPipelineColorBlendStateCreateInfo.nflags(adr, value)
-inline var VkPipelineColorBlendStateCreateInfo.logicOpEnable
+inline var VkPipelineColorBlendStateCreateInfo.logicOpEnable: Boolean
     get() = VkPipelineColorBlendStateCreateInfo.nlogicOpEnable(adr).bool
     set(value) = VkPipelineColorBlendStateCreateInfo.nlogicOpEnable(adr, value.i)
 inline var VkPipelineColorBlendStateCreateInfo.logicOp: VkLogicOp
@@ -1631,7 +1644,7 @@ inline var VkPipelineColorBlendStateCreateInfo.blendConstants: FloatBuffer
 inline var VkPipelineDynamicStateCreateInfo.type: VkStructureType
     get() = VkStructureType of VkPipelineDynamicStateCreateInfo.nsType(adr)
     set(value) = VkPipelineDynamicStateCreateInfo.nsType(adr, value.i)
-inline var VkPipelineDynamicStateCreateInfo.next
+inline var VkPipelineDynamicStateCreateInfo.next: Ptr
     get() = VkPipelineDynamicStateCreateInfo.npNext(adr)
     set(value) = VkPipelineDynamicStateCreateInfo.npNext(adr, value)
 inline var VkPipelineDynamicStateCreateInfo.flags: VkPipelineDynamicStateCreateFlags
@@ -1654,7 +1667,7 @@ inline var VkPipelineDynamicStateCreateInfo.dynamicStates: VkDynamicStateBuffer
 inline var VkGraphicsPipelineCreateInfo.type: VkStructureType
     get() = VkStructureType of VkGraphicsPipelineCreateInfo.nsType(adr)
     set(value) = VkGraphicsPipelineCreateInfo.nsType(adr, value.i)
-inline var VkGraphicsPipelineCreateInfo.next
+inline var VkGraphicsPipelineCreateInfo.next: Ptr
     get() = VkGraphicsPipelineCreateInfo.npNext(adr)
     set(value) = VkGraphicsPipelineCreateInfo.npNext(adr, value)
 /** JVM custom */
@@ -1707,7 +1720,7 @@ inline var VkGraphicsPipelineCreateInfo.subpass
 inline var VkGraphicsPipelineCreateInfo.basePipelineHandle: VkPipeline
     get() = VkPipeline(VkGraphicsPipelineCreateInfo.nbasePipelineHandle(adr))
     set(value) = VkGraphicsPipelineCreateInfo.nbasePipelineHandle(adr, value.L)
-inline var VkGraphicsPipelineCreateInfo.basePipelineIndex
+inline var VkGraphicsPipelineCreateInfo.basePipelineIndex: Int
     get() = VkGraphicsPipelineCreateInfo.nbasePipelineIndex(adr)
     set(value) = VkGraphicsPipelineCreateInfo.nbasePipelineIndex(adr, value)
 
@@ -1749,7 +1762,7 @@ inline var VkPushConstantRange.size: Int
 inline var VkPipelineLayoutCreateInfo.type: VkStructureType
     get() = VkStructureType of VkPipelineLayoutCreateInfo.nsType(adr)
     set(value) = VkPipelineLayoutCreateInfo.nsType(adr, value.i)
-inline var VkPipelineLayoutCreateInfo.next
+inline var VkPipelineLayoutCreateInfo.next: Ptr
     get() = VkPipelineLayoutCreateInfo.npNext(adr)
     set(value) = VkPipelineLayoutCreateInfo.npNext(adr, value)
 inline var VkPipelineLayoutCreateInfo.flags: VkPipelineLayoutCreateFlags
@@ -1765,10 +1778,13 @@ var VkPipelineLayoutCreateInfo.setLayout: VkDescriptorSetLayout?
     get() = VkPipelineLayoutCreateInfo.npSetLayouts(adr)?.let { VkDescriptorSetLayout(it[0]) }
     set(value) = when (value) {
         null -> VkPipelineLayoutCreateInfo.npSetLayouts(adr, null)
-        else -> stak.longBuffer(value.L) { VkPipelineLayoutCreateInfo.npSetLayouts(adr, it) }
+        else -> longAddressStack(value.L) {
+            memPutAddress(adr + VkPipelineLayoutCreateInfo.PSETLAYOUTS, it)
+            memPutInt(adr + VkPipelineLayoutCreateInfo.SETLAYOUTCOUNT, 1)
+        }
     }
 //inline val VkPipelineLayoutCreateInfo.pushConstantRangeCount get() = VkPipelineLayoutCreateInfo.npushConstantRangeCount(adr)
-inline var VkPipelineLayoutCreateInfo.pushConstantRanges
+inline var VkPipelineLayoutCreateInfo.pushConstantRanges: VkPushConstantRange.Buffer?
     get() = VkPipelineLayoutCreateInfo.npPushConstantRanges(adr)
     set(value) = VkPipelineLayoutCreateInfo.npPushConstantRanges(adr, value)
 /** JVM Custom */
@@ -1793,7 +1809,7 @@ inline var VkPipelineLayoutCreateInfo.pushConstantRange: VkPushConstantRange?
 inline var VkSamplerCreateInfo.type: VkStructureType
     get() = VkStructureType of VkSamplerCreateInfo.nsType(adr)
     set(value) = VkSamplerCreateInfo.nsType(adr, value.i)
-inline var VkSamplerCreateInfo.next
+inline var VkSamplerCreateInfo.next: Ptr
     get() = VkSamplerCreateInfo.npNext(adr)
     set(value) = VkSamplerCreateInfo.npNext(adr, value)
 inline var VkSamplerCreateInfo.flags: VkSamplerCreateFlags
@@ -1854,13 +1870,13 @@ inline var VkSamplerCreateInfo.unnormalizedCoordinates: Boolean
     set(value) = VkSamplerCreateInfo.nunnormalizedCoordinates(adr, value.i)
 
 
-inline var VkDescriptorSetLayoutBinding.binding
+inline var VkDescriptorSetLayoutBinding.binding: Int
     get() = VkDescriptorSetLayoutBinding.nbinding(adr)
     set(value) = VkDescriptorSetLayoutBinding.nbinding(adr, value)
 inline var VkDescriptorSetLayoutBinding.descriptorType: VkDescriptorType
     get() = VkDescriptorType of VkDescriptorSetLayoutBinding.ndescriptorType(adr)
     set(value) = VkDescriptorSetLayoutBinding.ndescriptorType(adr, value.i)
-inline var VkDescriptorSetLayoutBinding.descriptorCount
+inline var VkDescriptorSetLayoutBinding.descriptorCount: Int
     get() = VkDescriptorSetLayoutBinding.ndescriptorCount(adr)
     set(value) = VkDescriptorSetLayoutBinding.ndescriptorCount(adr, value)
 /** JVM custom */
@@ -1878,9 +1894,9 @@ inline var VkDescriptorSetLayoutBinding.immutableSampler: VkSampler?
     get() = VkDescriptorSetLayoutBinding.npImmutableSamplers(adr)?.let { VkSampler(it[0]) }
     set(value) = when (value) {
         null -> memPutAddress(adr + VkDescriptorSetLayoutBinding.PIMMUTABLESAMPLERS, NULL)
-        else -> stak.longAddress(value.L) { pSampler ->
+        else -> longAddressStack(value.L) { pSampler ->
             memPutAddress(adr + VkDescriptorSetLayoutBinding.PIMMUTABLESAMPLERS, pSampler)
-            VkDescriptorSetLayoutBinding.ndescriptorCount(adr, 1)
+            memPutInt(adr + VkDescriptorSetLayoutBinding.DESCRIPTORCOUNT, 1)
         }
     }
 
@@ -1966,7 +1982,10 @@ inline var VkDescriptorSetAllocateInfo.setLayouts: LongBuffer
 /** JVM custom */
 inline var VkDescriptorSetAllocateInfo.setLayout: VkDescriptorSetLayout
     get() = VkDescriptorSetLayout(VkDescriptorSetAllocateInfo.npSetLayouts(adr)[0])
-    set(value) = stak.longBuffer(value.L) { VkDescriptorSetAllocateInfo.npSetLayouts(adr, it) }
+    set(value) = longAddressStack(value.L) {
+        memPutAddress(adr + VkDescriptorSetAllocateInfo.PSETLAYOUTS, it)
+        memPutInt(adr + VkDescriptorSetAllocateInfo.DESCRIPTORSETCOUNT, 1)
+    }
 
 
 inline var VkDescriptorImageInfo.sampler: VkSampler

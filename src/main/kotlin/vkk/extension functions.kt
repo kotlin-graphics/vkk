@@ -188,21 +188,22 @@ fun VkDevice.acquireNextImageKHR(swapchain: VkSwapchainKHR, timeout: Long, semap
         }
 
 infix fun VkDevice.allocateCommandBuffer(allocateInfo: VkCommandBufferAllocateInfo): VkCommandBuffer =
-        stak {
-            val pCmdBuffer = it.nmalloc(POINTER_SIZE)
-            VK_CHECK_RESULT(VK10.nvkAllocateCommandBuffers(this, allocateInfo.adr, pCmdBuffer))
-            VkCommandBuffer(memGetAddress(pCmdBuffer), this)
-        }
+        VkCommandBuffer(
+                stak.pointerAddress { pCmdBuffer ->
+                    VK_CHECK_RESULT(VK10.nvkAllocateCommandBuffers(this, allocateInfo.adr, pCmdBuffer))
+                },
+                this)
 
-infix fun VkDevice.allocateCommandBuffers(allocateInfo: VkCommandBufferAllocateInfo): ArrayList<VkCommandBuffer> = stak{
-    val count = allocateInfo.commandBufferCount
-    val pCommandBuffer = it.nmalloc(POINTER_SIZE, count)
-    val commandBuffers = ArrayList<VkCommandBuffer>(count)
-    VK_CHECK_RESULT(VK10.nvkAllocateCommandBuffers(this, allocateInfo.adr, pCommandBuffer))
-    for (i in 0 until count)
-        commandBuffers += VkCommandBuffer(memGetAddress(pCommandBuffer + POINTER_SIZE * i), this)
-    return commandBuffers
-}
+infix fun VkDevice.allocateCommandBuffers(allocateInfo: VkCommandBufferAllocateInfo): ArrayList<VkCommandBuffer> =
+        stak {
+            val count = allocateInfo.commandBufferCount
+            val pCommandBuffer = it.nmalloc(POINTER_SIZE, count)
+            val commandBuffers = ArrayList<VkCommandBuffer>(count)
+            VK_CHECK_RESULT(VK10.nvkAllocateCommandBuffers(this, allocateInfo.adr, pCommandBuffer))
+            for (i in 0 until count)
+                commandBuffers += VkCommandBuffer(memGetAddress(pCommandBuffer + POINTER_SIZE * i), this)
+            return commandBuffers
+        }
 
 infix fun VkDevice.allocateDescriptorSets(allocateInfo: VkDescriptorSetAllocateInfo): VkDescriptorSet =
         VkDescriptorSet(stak.longAddress { descriptorSets ->
@@ -489,17 +490,17 @@ fun VkDevice.getImageSubresourceLayout(image: VkImage, subresource: VkImageSubre
 }
 
 // TODO mappedMemory?
-inline fun VkDevice.mappingMemory(memory: VkDeviceMemory, offset: VkDeviceSize, size: VkDeviceSize, flags: VkMemoryMapFlags = 0, block: (Ptr) -> Unit) =
-        stak.pointerAddress { data ->
-            VK_CHECK_RESULT(VK10.nvkMapMemory(this, memory.L, offset.L, size.L, flags, data))
-            block(memGetAddress(data))
-            VK10.vkUnmapMemory(this, memory.L)
-        }
+inline fun VkDevice.mappingMemory(memory: VkDeviceMemory, offset: VkDeviceSize, size: VkDeviceSize, flags: VkMemoryMapFlags = 0, block: (Ptr) -> Unit) {
+    stak.pointerAddress { data ->
+        VK_CHECK_RESULT(VK10.nvkMapMemory(this, memory.L, offset.L, size.L, flags, data))
+        block(memGetAddress(data))
+        VK10.vkUnmapMemory(this, memory.L)
+    }
+}
 
 fun VkDevice.mapMemory(memory: VkDeviceMemory, offset: VkDeviceSize, size: VkDeviceSize, flags: VkMemoryMapFlags = 0): Ptr =
         stak.pointerAddress { data ->
             VK_CHECK_RESULT(VK10.nvkMapMemory(this, memory.L, offset.L, size.L, flags, data))
-            memGetAddress(data)
         }
 
 fun VkDevice.mapMemory(memory: VkDeviceMemory, offset: VkDeviceSize, size: VkDeviceSize, flags: VkMemoryMapFlags, data: PointerBuffer) =
@@ -512,7 +513,8 @@ fun VkDevice.getQueue(queueFamilyIndex: Int, queueIndex: Int): VkQueue =
         VkQueue(
                 stak.pointerAddress { queue ->
                     VK10.nvkGetDeviceQueue(this, queueFamilyIndex, queueIndex, queue)
-                }, this)
+                },
+                this)
 
 infix fun VkDevice.getSwapchainImagesKHR(swapchain: VkSwapchainKHR): VkImageArray =
         vk.getSwapchainImagesKHR(this, swapchain)
@@ -564,7 +566,6 @@ inline fun VkDevice.withFence(flags: VkFenceCreateFlags = 0, block: (VkFence) ->
 infix fun VkInstance.createDebugReportCallbackEXT(createInfo: VkDebugReportCallbackCreateInfoEXT): VkDebugReportCallback =
         VkDebugReportCallback(stak.longAddress { callback ->
             VK_CHECK_RESULT(EXTDebugReport.nvkCreateDebugReportCallbackEXT(this, createInfo.adr, NULL, callback))
-            callback
         })
 
 fun VkInstance.destroy() = VK10.nvkDestroyInstance(this, NULL)
@@ -619,11 +620,11 @@ infix fun VkPhysicalDevice.getProperties(properties: VkPhysicalDeviceProperties)
         VK10.nvkGetPhysicalDeviceProperties(this, properties.adr)
 
 infix fun VkPhysicalDevice.createDevice(createInfo: VkDeviceCreateInfo): VkDevice =
-        stak {
-            val pDevice = it.nmalloc(POINTER_SIZE, POINTER_SIZE)
-            VK_CHECK_RESULT(VK10.nvkCreateDevice(this, createInfo.adr, NULL, pDevice))
-            VkDevice(memGetLong(pDevice), this, createInfo)
-        }
+        VkDevice(
+                stak.pointerAddress { pDevice ->
+                    VK_CHECK_RESULT(VK10.nvkCreateDevice(this, createInfo.adr, NULL, pDevice))
+                },
+                this, createInfo)
 
 infix fun VkPhysicalDevice.getSurfaceCapabilitiesKHR(surface: VkSurface): VkSurfaceCapabilitiesKHR =
         vk.SurfaceCapabilitiesKHR {

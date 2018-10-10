@@ -214,6 +214,12 @@ inline class VkDynamicStateBuffer(val buffer: IntBuffer) {
 }
 
 fun MemoryStack.vkDynamicStateBufferBig(size: Int) = VkDynamicStateBuffer(callocInt(size))
+fun MemoryStack.vkDynamicStateBufferOf(dynamicStates: Collection<VkDynamicState>): VkDynamicStateBuffer {
+    val buffer = vkDynamicStateBufferBig(dynamicStates.size)
+    for (i in dynamicStates.indices)
+        buffer[i] = dynamicStates.elementAt(i)
+    return buffer
+}
 fun MemoryStack.vkDynamicStateBufferOf(dynamicState: VkDynamicState): VkDynamicStateBuffer =
         VkDynamicStateBuffer(ints(dynamicState.i))
 

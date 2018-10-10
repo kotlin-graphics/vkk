@@ -1603,7 +1603,7 @@ inline var VkDebugMarkerObjectNameInfoEXT.`object`: Long
     set(value) = VkDebugMarkerObjectNameInfoEXT.nobject(adr, value)
 inline var VkDebugMarkerObjectNameInfoEXT.objectName: String
     get() = VkDebugMarkerObjectNameInfoEXT.npObjectNameString(adr)
-    set(value) = VkDebugMarkerObjectNameInfoEXT.npObjectName(adr, value.utf8)
+    set(value) = VkDebugMarkerObjectNameInfoEXT.npObjectName(adr, value.toUTF8stack())
 
 
 inline var VkDebugMarkerObjectTagInfoEXT.type: VkStructureType
@@ -1620,7 +1620,7 @@ inline var VkDebugMarkerObjectTagInfoEXT.`object`: Long
     set(value) = VkDebugMarkerObjectTagInfoEXT.nobject(adr, value)
 inline var VkDebugMarkerObjectTagInfoEXT.tagName: String
     get() = memUTF8(VkDebugMarkerObjectTagInfoEXT.ntagName(adr))
-    set(value) = VkDebugMarkerObjectTagInfoEXT.ntagName(adr, value.utf8.adr)
+    set(value) = VkDebugMarkerObjectTagInfoEXT.ntagName(adr, value.toUTF8stack().adr)
 //inline val VkDebugMarkerObjectTagInfoEXT.tagSize: Long get() = VkDebugMarkerObjectTagInfoEXT.ntagSize(adr)
 inline var VkDebugMarkerObjectTagInfoEXT.tag: ByteBuffer
     get() = VkDebugMarkerObjectTagInfoEXT.npTag(adr)
@@ -1649,7 +1649,7 @@ inline var VkDebugMarkerMarkerInfoEXT.next: Long
     set(value) = VkDebugMarkerMarkerInfoEXT.npNext(adr, value)
 inline var VkDebugMarkerMarkerInfoEXT.markerName: String
     get() = VkDebugMarkerMarkerInfoEXT.npMarkerNameString(adr)
-    set(value) = VkDebugMarkerMarkerInfoEXT.npMarkerName(adr, value.utf8)
+    set(value) = VkDebugMarkerMarkerInfoEXT.npMarkerName(adr, value.toUTF8stack())
 inline var VkDebugMarkerMarkerInfoEXT.color: Vec4
     get() = Vec4(VkDebugMarkerMarkerInfoEXT.ncolor(adr))
     set(value) {

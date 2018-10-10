@@ -11,16 +11,18 @@ import glm_.vec2.Vec2i
 import glm_.vec3.Vec3
 import glm_.vec4.Vec4
 import graphics.scenery.spirvcrossj.*
+import kool.adr
 import kool.bufferBig
 import kool.cap
 import kool.intBufferBig
-import kool.stak
 import org.lwjgl.PointerBuffer
+import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.*
 import org.lwjgl.system.Pointer
 import org.lwjgl.system.Struct
 import org.lwjgl.system.StructBuffer
 import org.lwjgl.vulkan.*
+import java.nio.Buffer
 import java.nio.ByteBuffer
 import java.nio.IntBuffer
 import java.nio.LongBuffer
@@ -51,6 +53,10 @@ operator fun PointerBuffer.set(index: Int, pointer: Pointer) {
     put(index, pointer)
 }
 
+operator fun PointerBuffer.set(index: Int, buffer: Buffer) {
+    put(index, buffer.adr)
+}
+
 //operator fun PointerBuffer.plusAssign(string: String) {
 //    put(string.stackUTF16)
 //}
@@ -64,7 +70,6 @@ operator fun PointerBuffer.set(index: Int, pointer: Pointer) {
 //}
 //
 //fun PointerBuffer.isNotEmpty() = position() > 0
-
 
 
 object LongArrayList {
@@ -119,13 +124,12 @@ fun PointerBuffer?.toArrayList(): ArrayList<String> {
     return res
 }
 
-fun Collection<String>.toPointerBuffer(): PointerBuffer =
-        stak {
-            val pointers = it.mallocPointer(size)
-            for (i in indices)
-                pointers.put(i, elementAt(i).utf8)
-            return pointers
-        }
+fun Collection<String>.toPointerBuffer(stack: MemoryStack): PointerBuffer {
+    val pointers = stack.mallocPointer(size)
+    for (i in indices)
+        pointers[i] = elementAt(i).toUTF8(stack)
+    return pointers
+}
 
 
 infix fun Vec2i.put(extent: VkExtent2D) {
@@ -196,14 +200,13 @@ fun glslToSpirv(path: Path): ByteBuffer {
     return spirv.toByteBuffer()
 }
 
-private fun IntVec.toByteBuffer(): ByteBuffer =
-        stak {
-            val bytes = it.malloc(size().i * Int.BYTES)
-            val ints = bytes.asIntBuffer()
-            for (i in 0 until ints.cap)
-                ints[i] = get(i).i
-            return bytes
-        }
+private fun IntVec.toByteBuffer(): ByteBuffer {
+    val bytes = MemoryStack.stackGet().malloc(size().i * Int.BYTES)
+    val ints = bytes.asIntBuffer()
+    for (i in 0 until ints.cap)
+        ints[i] = get(i).i
+    return bytes
+}
 
 
 operator fun <T : Struct, SELF : StructBuffer<T, SELF>> StructBuffer<T, SELF>.set(index: Int, value: T) {

@@ -7,7 +7,6 @@ import glm_.vec2.Vec2i
 import glm_.vec3.Vec3i
 import glm_.vec4.Vec4
 import kool.Ptr
-import kool.stak
 import org.lwjgl.system.MemoryUtil.*
 import org.lwjgl.vulkan.*
 import java.nio.IntBuffer
@@ -94,9 +93,9 @@ inline var VkFramebufferCreateInfo.attachment: VkImageView?
             memPutAddress(adr + VkFramebufferCreateInfo.PATTACHMENTS, NULL)
             VkFramebufferCreateInfo.nattachmentCount(adr, 0)
         }
-        else -> stak.longAddress(value.L) {
+        else -> longAddressStack(value.L) {
             memPutAddress(adr + VkFramebufferCreateInfo.PATTACHMENTS, it)
-            VkFramebufferCreateInfo.nattachmentCount(adr, 1)
+            memPutInt(adr + VkFramebufferCreateInfo.ATTACHMENTCOUNT, 1)
         }
     }
 inline var VkFramebufferCreateInfo.width
@@ -1772,9 +1771,9 @@ inline var VkPresentInfoKHR.waitSemaphore: VkSemaphore?
             memPutAddress(adr + VkPresentInfoKHR.PWAITSEMAPHORES, NULL)
             VkPresentInfoKHR.nwaitSemaphoreCount(adr, 0)
         }
-        else -> stak.longAddress(value.L) {
+        else -> longAddressStack(value.L) {
             memPutAddress(adr + VkPresentInfoKHR.PWAITSEMAPHORES, it)
-            VkPresentInfoKHR.nwaitSemaphoreCount(adr, 1)
+            memPutInt(adr + VkPresentInfoKHR.WAITSEMAPHORECOUNT, 1)
         }
     }
 inline var VkPresentInfoKHR.swapchainCount: Int
@@ -1786,14 +1785,14 @@ inline var VkPresentInfoKHR.swapchains: VkSwapchainKhrBuffer
 /** JVM custom */
 inline var VkPresentInfoKHR.swapchain: VkSwapchainKHR
     get() = VkSwapchainKHR(VkPresentInfoKHR.npSwapchains(adr)[0])
-    set(value) = stak.longAddress(value.L) { memPutAddress(adr + VkPresentInfoKHR.PSWAPCHAINS, it) }
+    set(value) = longAddressStack(value.L) { memPutAddress(adr + VkPresentInfoKHR.PSWAPCHAINS, it) }
 inline var VkPresentInfoKHR.imageIndices: IntBuffer
     get() = VkPresentInfoKHR.npImageIndices(adr)
     set(value) = VkPresentInfoKHR.npImageIndices(adr, value)
 /** JVM custom */
 inline var VkPresentInfoKHR.imageIndex: Int
     get() = VkPresentInfoKHR.npImageIndices(adr)[0]
-    set(value) = stak.intAddress(value) { memPutAddress(adr + VkPresentInfoKHR.PIMAGEINDICES, it) }
+    set(value) = intAddressStack(value) { memPutAddress(adr + VkPresentInfoKHR.PIMAGEINDICES, it) }
 inline var VkPresentInfoKHR.results: VkResultBuffer?
     get() = VkPresentInfoKHR.npResults(adr)
     set(value) = VkPresentInfoKHR.npResults(adr, value)

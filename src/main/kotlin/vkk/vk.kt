@@ -3,6 +3,8 @@ package vkk
 import glm_.*
 import glm_.vec2.Vec2i
 import kool.stak
+import org.lwjgl.system.MemoryStack
+import org.lwjgl.system.MemoryStack.stackGet
 import org.lwjgl.system.MemoryUtil
 import org.lwjgl.system.MemoryUtil.*
 import org.lwjgl.system.Pointer
@@ -16,8 +18,6 @@ import kotlin.reflect.KMutableProperty0
 
 
 object vk {
-
-    /*  Info constructor functions     */
 
     inline fun ApplicationInfo(block: VkApplicationInfo.() -> Unit): VkApplicationInfo =
             VkApplicationInfo.callocStack().apply {
@@ -51,7 +51,9 @@ object vk {
             }
 
     fun CommandBufferBeginInfo(): VkCommandBufferBeginInfo =
-            VkCommandBufferBeginInfo.callocStack().apply { type = VkStructureType.COMMAND_BUFFER_BEGIN_INFO }
+            VkCommandBufferBeginInfo.callocStack().apply {
+                type = VkStructureType.COMMAND_BUFFER_BEGIN_INFO
+            }
 
     inline fun CommandBufferBeginInfo(block: VkCommandBufferBeginInfo.() -> Unit): VkCommandBufferBeginInfo =
             CommandBufferBeginInfo().also(block)
@@ -494,9 +496,9 @@ object vk {
     inline fun Viewport(capacity: Int, block: VkViewport.() -> Unit): VkViewport.Buffer = VkViewport.callocStack(capacity).also { it[0].block() }
 
 
-/*
-    Function Constructors
- */
+    /*
+        Function Constructors
+     */
 
     fun AttachmentReference(attachment: Int, layout: VkImageLayout): VkAttachmentReference =
             AttachmentReference().attachment(attachment).layout(layout.i)
@@ -905,13 +907,8 @@ object vk {
 
     fun PipelineDynamicStateCreateInfo(dynamicStates: Collection<VkDynamicState>, flags: VkPipelineDynamicStateCreateFlags = 0): VkPipelineDynamicStateCreateInfo =
             PipelineDynamicStateCreateInfo {
-                stak {
-                    val buf = it.vkDynamicStateBufferBig(dynamicStates.size)
-                    for (i in dynamicStates.indices)
-                        buf[i] = dynamicStates.elementAt(i)
-                    this.dynamicStates = buf
-                    this.flags = flags
-                }
+                this.dynamicStates = stackGet().vkDynamicStateBufferOf(dynamicStates)
+                this.flags = flags
             }
 
     fun PipelineInputAssemblyStateCreateInfo(topology: VkPrimitiveTopology,
@@ -1546,7 +1543,7 @@ object vk {
     fun enumerateDeviceExtensionProperties(physicalDevice: VkPhysicalDevice, layerName: String? = null): ArrayList<String> =
             stak {
                 val pCount = it.nmalloc(1, Int.BYTES)
-                val pLayerName = layerName?.utf8?.let(::memAddress) ?: NULL
+                val pLayerName = layerName?.toUTF8(it)?.let(::memAddress) ?: NULL
                 VK_CHECK_RESULT(VK10.nvkEnumerateDeviceExtensionProperties(physicalDevice, pLayerName, pCount, NULL))
                 val count = memGetInt(pCount)
                 val res = ArrayList<String>(count)

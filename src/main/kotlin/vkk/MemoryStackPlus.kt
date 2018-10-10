@@ -1,4 +1,4 @@
-//package vkn
+//package vkk
 //
 //import glm_.L
 //import glm_.set
@@ -39,7 +39,7 @@
 //
 //    var pointer = size
 //
-//    private var frames = IntArray(DEFAULT_STACK_FRAMES)
+//    private var frames = IntArray(MemoryStackPlus.Companion.DEFAULT_STACK_FRAMES)
 //    /**
 //     * Returns the current frame index.
 //     *
@@ -429,10 +429,10 @@
 //
 //        private val DEBUG_STACK = Configuration.DEBUG_STACK.get(false)
 //
-//        private val TLS = ThreadLocal.withInitial<MemoryStackPlus>({ create() })
+//        private val TLS = ThreadLocal.withInitial<MemoryStackPlus>({ MemoryStackPlus.Companion.create() })
 //
 //        init {
-//            if (DEFAULT_STACK_SIZE < 0)
+//            if (MemoryStackPlus.Companion.DEFAULT_STACK_SIZE < 0)
 //                throw IllegalStateException("Invalid stack size.")
 //        }
 //
@@ -442,7 +442,7 @@
 //         * @param size the maximum number of bytes that may be allocated on the stack
 //         */
 //        @JvmOverloads
-//        fun create(size: Int = DEFAULT_STACK_SIZE) = MemoryStackPlus(size)
+//        fun create(size: Int = MemoryStackPlus.Companion.DEFAULT_STACK_SIZE) = vkk.MemoryStackPlus(size)
 //
 //        private fun checkAlignment(alignment: Int) {
 //            if (!mathIsPoT(alignment))
@@ -459,7 +459,7 @@
 //        // -----------------------------------------------------
 //
 //        /** Returns the stack of the current thread.  */
-//        fun stackGet(): MemoryStackPlus = TLS.get()
+//        fun stackGet(): MemoryStackPlus = MemoryStackPlus.Companion.TLS.get()
 //
 //        /**
 //         * Calls [.push] on the stack of the current thread.
@@ -467,7 +467,7 @@
 //         * @return the stack of the current thread.
 //         */
 ////        @Deprecated("", ReplaceWith("withStack{..}", "same import"))
-//        fun stackPush() = stackGet().push()
+//        fun stackPush() = MemoryStackPlus.Companion.stackGet().push()
 //
 ////        inline fun <R> withStack(block: MemoryStackPlus.() -> R): R {
 ////            var exception: Throwable? = null
@@ -515,282 +515,284 @@
 //         *
 //         * @return the stack of the current thread.
 //         */
-//        fun stackPop() = stackGet().pop()
+//        fun stackPop() = MemoryStackPlus.stackGet().pop()
 //
 //        /** Thread-local version of [.nmalloc].  */
-//        fun nstackMalloc(size: Int = 1) = stackGet().nmalloc(size)
+//        fun nstackMalloc(size: Int = 1) = MemoryStackPlus.Companion.stackGet().nmalloc(size)
 //
 //        /** Thread-local version of [.nmalloc].  */
-//        fun nstackMalloc(alignment: Int, size: Int) = stackGet().nmalloc(alignment, size)
+//        fun nstackMalloc(alignment: Int, size: Int) = MemoryStackPlus.Companion.stackGet().nmalloc(alignment, size)
 //
 //        /** Thread-local version of [.ncalloc].  */
-//        fun nstackCalloc(alignment: Int, num: Int, size: Int) = stackGet().ncalloc(alignment, num, size)
+//        fun nstackCalloc(alignment: Int, num: Int, size: Int) = MemoryStackPlus.Companion.stackGet().ncalloc(alignment, num, size)
 //
 //        // -------------------------------------------------
 //
 //        /** Thread-local version of [.malloc].  */
-//        fun stackMalloc(size: Int = 1) = stackGet().malloc(size)
+//        fun stackMalloc(size: Int = 1) = MemoryStackPlus.Companion.stackGet().malloc(size)
 //
-//        fun stackMalloc(size: IntBuffer) = stackGet().malloc(size[0])
+//        fun stackMalloc(size: IntBuffer) = MemoryStackPlus.Companion.stackGet().malloc(size[0])
 //
 //        /** Thread-local version of [.calloc].  */
-//        fun stackCalloc(size: Int = 1) = stackGet().calloc(size)
+//        fun stackCalloc(size: Int = 1) = MemoryStackPlus.Companion.stackGet().calloc(size)
 //
-//        fun stackCalloc(size: IntBuffer) = stackGet().calloc(size[0])
-//
-//        /** Thread-local version of [.bytes].  */
-//        fun stackBytes(x: Byte) = stackGet().bytes(x)
+//        fun stackCalloc(size: IntBuffer) = MemoryStackPlus.Companion.stackGet().calloc(size[0])
 //
 //        /** Thread-local version of [.bytes].  */
-//        fun stackBytes(x: Byte, y: Byte) = stackGet().bytes(x, y)
+//        fun stackBytes(x: Byte) = MemoryStackPlus.Companion.stackGet().bytes(x)
 //
 //        /** Thread-local version of [.bytes].  */
-//        fun stackBytes(x: Byte, y: Byte, z: Byte) = stackGet().bytes(x, y, z)
+//        fun stackBytes(x: Byte, y: Byte) = MemoryStackPlus.Companion.stackGet().bytes(x, y)
 //
 //        /** Thread-local version of [.bytes].  */
-//        fun stackBytes(x: Byte, y: Byte, z: Byte, w: Byte) = stackGet().bytes(x, y, z, w)
+//        fun stackBytes(x: Byte, y: Byte, z: Byte) = MemoryStackPlus.Companion.stackGet().bytes(x, y, z)
 //
 //        /** Thread-local version of [.bytes].  */
-//        fun stackBytes(vararg values: Byte) = stackGet().bytes(*values)
+//        fun stackBytes(x: Byte, y: Byte, z: Byte, w: Byte) = MemoryStackPlus.Companion.stackGet().bytes(x, y, z, w)
+//
+//        /** Thread-local version of [.bytes].  */
+//        fun stackBytes(vararg values: Byte) = MemoryStackPlus.Companion.stackGet().bytes(*values)
 //
 //        // -------------------------------------------------
 //
 //        /** Thread-local version of [.mallocShort].  */
-//        fun stackMallocShort(size: Int = 1) = stackGet().mallocShort(size)
+//        fun stackMallocShort(size: Int = 1) = MemoryStackPlus.Companion.stackGet().mallocShort(size)
 //
-//        fun stackMallocShort(size: IntBuffer) = stackGet().mallocShort(size[0])
+//        fun stackMallocShort(size: IntBuffer) = MemoryStackPlus.Companion.stackGet().mallocShort(size[0])
 //
 //        /** Thread-local version of [.callocShort].  */
-//        fun stackCallocShort(size: Int = 1) = stackGet().callocShort(size)
+//        fun stackCallocShort(size: Int = 1) = MemoryStackPlus.Companion.stackGet().callocShort(size)
 //
-//        fun stackCallocShort(size: IntBuffer) = stackGet().callocShort(size[0])
-//
-//        /** Thread-local version of [.shorts].  */
-//        fun stackShorts(x: Short) = stackGet().shorts(x)
+//        fun stackCallocShort(size: IntBuffer) = MemoryStackPlus.Companion.stackGet().callocShort(size[0])
 //
 //        /** Thread-local version of [.shorts].  */
-//        fun stackShorts(x: Short, y: Short) = stackGet().shorts(x, y)
+//        fun stackShorts(x: Short) = MemoryStackPlus.Companion.stackGet().shorts(x)
 //
 //        /** Thread-local version of [.shorts].  */
-//        fun stackShorts(x: Short, y: Short, z: Short) = stackGet().shorts(x, y, z)
+//        fun stackShorts(x: Short, y: Short) = MemoryStackPlus.Companion.stackGet().shorts(x, y)
 //
 //        /** Thread-local version of [.shorts].  */
-//        fun stackShorts(x: Short, y: Short, z: Short, w: Short) = stackGet().shorts(x, y, z, w)
+//        fun stackShorts(x: Short, y: Short, z: Short) = MemoryStackPlus.Companion.stackGet().shorts(x, y, z)
 //
 //        /** Thread-local version of [.shorts].  */
-//        fun stackShorts(vararg values: Short) = stackGet().shorts(*values)
+//        fun stackShorts(x: Short, y: Short, z: Short, w: Short) = MemoryStackPlus.Companion.stackGet().shorts(x, y, z, w)
+//
+//        /** Thread-local version of [.shorts].  */
+//        fun stackShorts(vararg values: Short) = MemoryStackPlus.Companion.stackGet().shorts(*values)
 //
 //        // -------------------------------------------------
 //
 //        /** Thread-local version of [.mallocInt].  */
-//        fun stackMallocInt(size: Int = 1) = stackGet().mallocInt(size)
+//        fun stackMallocInt(size: Int = 1) = MemoryStackPlus.Companion.stackGet().mallocInt(size)
 //
-//        fun stackMallocInt(size: IntBuffer) = stackGet().mallocInt(size[0])
+//        fun stackMallocInt(size: IntBuffer) = MemoryStackPlus.Companion.stackGet().mallocInt(size[0])
 //
 //        /** Thread-local version of [.callocInt].  */
-//        fun stackCallocInt(size: Int = 1) = stackGet().callocInt(size)
+//        fun stackCallocInt(size: Int = 1) = MemoryStackPlus.Companion.stackGet().callocInt(size)
 //
-//        fun stackCallocInt(size: IntBuffer) = stackGet().callocInt(size[0])
-//
-//        /** Thread-local version of [.ints].  */
-//        fun stackInts(x: Int) = stackGet().ints(x)
+//        fun stackCallocInt(size: IntBuffer) = MemoryStackPlus.Companion.stackGet().callocInt(size[0])
 //
 //        /** Thread-local version of [.ints].  */
-//        fun stackInts(x: Int, y: Int) = stackGet().ints(x, y)
+//        fun stackInts(x: Int) = MemoryStackPlus.Companion.stackGet().ints(x)
 //
 //        /** Thread-local version of [.ints].  */
-//        fun stackInts(x: Int, y: Int, z: Int) = stackGet().ints(x, y, z)
+//        fun stackInts(x: Int, y: Int) = MemoryStackPlus.Companion.stackGet().ints(x, y)
 //
 //        /** Thread-local version of [.ints].  */
-//        fun stackInts(x: Int, y: Int, z: Int, w: Int) = stackGet().ints(x, y, z, w)
+//        fun stackInts(x: Int, y: Int, z: Int) = MemoryStackPlus.Companion.stackGet().ints(x, y, z)
 //
 //        /** Thread-local version of [.ints].  */
-//        fun stackInts(vararg values: Int) = stackGet().ints(*values)
+//        fun stackInts(x: Int, y: Int, z: Int, w: Int) = MemoryStackPlus.Companion.stackGet().ints(x, y, z, w)
+//
+//        /** Thread-local version of [.ints].  */
+//        fun stackInts(vararg values: Int) = MemoryStackPlus.Companion.stackGet().ints(*values)
 //
 //        // -------------------------------------------------
 //
 //        /** Thread-local version of [.mallocLong].  */
-//        fun stackMallocLong(size: Int = 1) = stackGet().mallocLong(size)
+//        fun stackMallocLong(size: Int = 1) = MemoryStackPlus.Companion.stackGet().mallocLong(size)
 //
-//        fun stackMallocLong(size: IntBuffer) = stackGet().mallocLong(size[0])
+//        fun stackMallocLong(size: IntBuffer) = MemoryStackPlus.Companion.stackGet().mallocLong(size[0])
 //
 //        /** Thread-local version of [.callocLong].  */
-//        fun stackCallocLong(size: Int = 1) = stackGet().callocLong(size)
+//        fun stackCallocLong(size: Int = 1) = MemoryStackPlus.Companion.stackGet().callocLong(size)
 //
-//        fun stackCallocLong(size: IntBuffer) = stackGet().callocLong(size[0])
-//
-//        /** Thread-local version of [.longs].  */
-//        fun stackLongs(x: Long) = stackGet().longs(x)
+//        fun stackCallocLong(size: IntBuffer) = MemoryStackPlus.Companion.stackGet().callocLong(size[0])
 //
 //        /** Thread-local version of [.longs].  */
-//        fun stackLongs(x: Long, y: Long) = stackGet().longs(x, y)
+//        fun stackLongs(x: Long) = MemoryStackPlus.Companion.stackGet().longs(x)
 //
 //        /** Thread-local version of [.longs].  */
-//        fun stackLongs(x: Long, y: Long, z: Long) = stackGet().longs(x, y, z)
+//        fun stackLongs(x: Long, y: Long) = MemoryStackPlus.Companion.stackGet().longs(x, y)
 //
 //        /** Thread-local version of [.longs].  */
-//        fun stackLongs(x: Long, y: Long, z: Long, w: Long) = stackGet().longs(x, y, z, w)
+//        fun stackLongs(x: Long, y: Long, z: Long) = MemoryStackPlus.Companion.stackGet().longs(x, y, z)
 //
 //        /** Thread-local version of [.longs].  */
-//        fun stackLongs(vararg values: Long) = stackGet().longs(*values)
+//        fun stackLongs(x: Long, y: Long, z: Long, w: Long) = MemoryStackPlus.Companion.stackGet().longs(x, y, z, w)
+//
+//        /** Thread-local version of [.longs].  */
+//        fun stackLongs(vararg values: Long) = MemoryStackPlus.Companion.stackGet().longs(*values)
 //
 //        // -------------------------------------------------
 //
 //        /** Thread-local version of [.mallocFloat].  */
-//        fun stackMallocFloat(size: Int = 1) = stackGet().mallocFloat(size)
+//        fun stackMallocFloat(size: Int = 1) = MemoryStackPlus.Companion.stackGet().mallocFloat(size)
 //
-//        fun stackMallocFloat(size: IntBuffer) = stackGet().mallocFloat(size[0])
+//        fun stackMallocFloat(size: IntBuffer) = MemoryStackPlus.Companion.stackGet().mallocFloat(size[0])
 //
 //        /** Thread-local version of [.callocFloat].  */
-//        fun stackCallocFloat(size: Int = 1) = stackGet().callocFloat(size)
+//        fun stackCallocFloat(size: Int = 1) = MemoryStackPlus.Companion.stackGet().callocFloat(size)
 //
-//        fun stackCallocFloat(size: IntBuffer) = stackGet().callocFloat(size[0])
-//
-//        /** Thread-local version of [.floats].  */
-//        fun stackFloats(x: Float) = stackGet().floats(x)
+//        fun stackCallocFloat(size: IntBuffer) = MemoryStackPlus.Companion.stackGet().callocFloat(size[0])
 //
 //        /** Thread-local version of [.floats].  */
-//        fun stackFloats(x: Float, y: Float) = stackGet().floats(x, y)
+//        fun stackFloats(x: Float) = MemoryStackPlus.Companion.stackGet().floats(x)
 //
 //        /** Thread-local version of [.floats].  */
-//        fun stackFloats(x: Float, y: Float, z: Float) = stackGet().floats(x, y, z)
+//        fun stackFloats(x: Float, y: Float) = MemoryStackPlus.Companion.stackGet().floats(x, y)
 //
 //        /** Thread-local version of [.floats].  */
-//        fun stackFloats(x: Float, y: Float, z: Float, w: Float) = stackGet().floats(x, y, z, w)
+//        fun stackFloats(x: Float, y: Float, z: Float) = MemoryStackPlus.Companion.stackGet().floats(x, y, z)
 //
 //        /** Thread-local version of [.floats].  */
-//        fun stackFloats(vararg values: Float) = stackGet().floats(*values)
+//        fun stackFloats(x: Float, y: Float, z: Float, w: Float) = MemoryStackPlus.Companion.stackGet().floats(x, y, z, w)
+//
+//        /** Thread-local version of [.floats].  */
+//        fun stackFloats(vararg values: Float) = MemoryStackPlus.Companion.stackGet().floats(*values)
 //
 //        // -------------------------------------------------
 //
 //        /** Thread-local version of [.mallocDouble].  */
-//        fun stackMallocDouble(size: Int = 1) = stackGet().mallocDouble(size)
+//        fun stackMallocDouble(size: Int = 1) = MemoryStackPlus.Companion.stackGet().mallocDouble(size)
 //
-//        fun stackMallocDouble(size: IntBuffer) = stackGet().mallocDouble(size[0])
+//        fun stackMallocDouble(size: IntBuffer) = MemoryStackPlus.Companion.stackGet().mallocDouble(size[0])
 //
 //        /** Thread-local version of [.callocDouble].  */
-//        fun stackCallocDouble(size: Int = 1) = stackGet().callocDouble(size)
+//        fun stackCallocDouble(size: Int = 1) = MemoryStackPlus.Companion.stackGet().callocDouble(size)
 //
-//        fun stackCallocDouble(size: IntBuffer) = stackGet().callocDouble(size[0])
-//
-//        /** Thread-local version of [.doubles].  */
-//        fun stackDoubles(x: Double) = stackGet().doubles(x)
+//        fun stackCallocDouble(size: IntBuffer) = MemoryStackPlus.Companion.stackGet().callocDouble(size[0])
 //
 //        /** Thread-local version of [.doubles].  */
-//        fun stackDoubles(x: Double, y: Double) = stackGet().doubles(x, y)
+//        fun stackDoubles(x: Double) = MemoryStackPlus.Companion.stackGet().doubles(x)
 //
 //        /** Thread-local version of [.doubles].  */
-//        fun stackDoubles(x: Double, y: Double, z: Double) = stackGet().doubles(x, y, z)
+//        fun stackDoubles(x: Double, y: Double) = MemoryStackPlus.Companion.stackGet().doubles(x, y)
 //
 //        /** Thread-local version of [.doubles].  */
-//        fun stackDoubles(x: Double, y: Double, z: Double, w: Double) = stackGet().doubles(x, y, z, w)
+//        fun stackDoubles(x: Double, y: Double, z: Double) = MemoryStackPlus.Companion.stackGet().doubles(x, y, z)
 //
 //        /** Thread-local version of [.doubles].  */
-//        fun stackDoubles(vararg values: Double) = stackGet().doubles(*values)
+//        fun stackDoubles(x: Double, y: Double, z: Double, w: Double) = MemoryStackPlus.Companion.stackGet().doubles(x, y, z, w)
+//
+//        /** Thread-local version of [.doubles].  */
+//        fun stackDoubles(vararg values: Double) = MemoryStackPlus.Companion.stackGet().doubles(*values)
 //
 //        // -------------------------------------------------
 //
 //        /** Thread-local version of [.mallocPointer].  */
-//        fun stackMallocPointer(size: Int = 1) = stackGet().mallocPointer(size)
+//        fun stackMallocPointer(size: Int = 1) = MemoryStackPlus.Companion.stackGet().mallocPointer(size)
 //
-//        fun stackMallocPointer(size: IntBuffer) = stackGet().mallocPointer(size[0])
+//        fun stackMallocPointer(size: IntBuffer) = MemoryStackPlus.Companion.stackGet().mallocPointer(size[0])
 //
 //        /** Thread-local version of [.callocPointer].  */
-//        fun stackCallocPointer(size: Int = 1) = stackGet().callocPointer(size)
+//        fun stackCallocPointer(size: Int = 1) = MemoryStackPlus.Companion.stackGet().callocPointer(size)
 //
-//        fun stackCallocPointer(size: IntBuffer) = stackGet().callocPointer(size[0])
-//
-//        /** Thread-local version of [.pointers].  */
-//        fun stackPointers(x: Long) = stackGet().pointers(x)
+//        fun stackCallocPointer(size: IntBuffer) = MemoryStackPlus.Companion.stackGet().callocPointer(size[0])
 //
 //        /** Thread-local version of [.pointers].  */
-//        fun stackPointers(x: Long, y: Long) = stackGet().pointers(x, y)
+//        fun stackPointers(x: Long) = MemoryStackPlus.Companion.stackGet().pointers(x)
 //
 //        /** Thread-local version of [.pointers].  */
-//        fun stackPointers(x: Long, y: Long, z: Long) = stackGet().pointers(x, y, z)
+//        fun stackPointers(x: Long, y: Long) = MemoryStackPlus.Companion.stackGet().pointers(x, y)
 //
 //        /** Thread-local version of [.pointers].  */
-//        fun stackPointers(x: Long, y: Long, z: Long, w: Long) = stackGet().pointers(x, y, z, w)
+//        fun stackPointers(x: Long, y: Long, z: Long) = MemoryStackPlus.Companion.stackGet().pointers(x, y, z)
 //
 //        /** Thread-local version of [.pointers].  */
-//        fun stackPointers(vararg values: Long) = stackGet().pointers(*values)
+//        fun stackPointers(x: Long, y: Long, z: Long, w: Long) = MemoryStackPlus.Companion.stackGet().pointers(x, y, z, w)
 //
 //        /** Thread-local version of [.pointers].  */
-//        fun stackPointers(x: Pointer) = stackGet().pointers(x)
+//        fun stackPointers(vararg values: Long) = MemoryStackPlus.Companion.stackGet().pointers(*values)
 //
 //        /** Thread-local version of [.pointers].  */
-//        fun stackPointers(x: Pointer, y: Pointer) = stackGet().pointers(x, y)
+//        fun stackPointers(x: Pointer) = MemoryStackPlus.Companion.stackGet().pointers(x)
 //
 //        /** Thread-local version of [.pointers].  */
-//        fun stackPointers(x: Pointer, y: Pointer, z: Pointer) = stackGet().pointers(x, y, z)
+//        fun stackPointers(x: Pointer, y: Pointer) = MemoryStackPlus.Companion.stackGet().pointers(x, y)
 //
 //        /** Thread-local version of [.pointers].  */
-//        fun stackPointers(x: Pointer, y: Pointer, z: Pointer, w: Pointer) = stackGet().pointers(x, y, z, w)
+//        fun stackPointers(x: Pointer, y: Pointer, z: Pointer) = MemoryStackPlus.Companion.stackGet().pointers(x, y, z)
 //
 //        /** Thread-local version of [.pointers].  */
-//        fun stackPointers(vararg values: Pointer) = stackGet().pointers(*values)
+//        fun stackPointers(x: Pointer, y: Pointer, z: Pointer, w: Pointer) = MemoryStackPlus.Companion.stackGet().pointers(x, y, z, w)
+//
+//        /** Thread-local version of [.pointers].  */
+//        fun stackPointers(vararg values: Pointer) = MemoryStackPlus.Companion.stackGet().pointers(*values)
 //
 //        // -------------------------------------------------
 //
 //        /** Thread-local version of [.ascii].  */
-//        fun stackASCII(text: CharSequence) = stackGet().ascii(text)
+//        fun stackASCII(text: CharSequence) = MemoryStackPlus.Companion.stackGet().ascii(text)
 //
 //        /** Thread-local version of [.ascii].  */
-//        fun stackASCII(text: CharSequence, nullTerminated: Boolean) = stackGet().ascii(text, nullTerminated)
+//        fun stackASCII(text: CharSequence, nullTerminated: Boolean) = MemoryStackPlus.Companion.stackGet().ascii(text, nullTerminated)
 //
 //        /** Thread-local version of [.utf8].  */
-//        fun stackUTF8(text: CharSequence) = stackGet().utf8(text)
+//        fun stackUTF8(text: CharSequence) = MemoryStackPlus.Companion.stackGet().utf8(text)
 //
 //        /** Thread-local version of [.utf8].  */
-//        fun stackUTF8(text: CharSequence, nullTerminated: Boolean) = stackGet().utf8(text, nullTerminated)
+//        fun stackUTF8(text: CharSequence, nullTerminated: Boolean) = MemoryStackPlus.Companion.stackGet().utf8(text, nullTerminated)
 //
 //        /** Thread-local version of [.utf16].  */
-//        fun stackUTF16(text: CharSequence) = stackGet().utf16(text)
+//        fun stackUTF16(text: CharSequence) = MemoryStackPlus.Companion.stackGet().utf16(text)
 //
 //        /** Thread-local version of [.utf16].  */
-//        fun stackUTF16(text: CharSequence, nullTerminated: Boolean) = stackGet().utf16(text, nullTerminated)
+//        fun stackUTF16(text: CharSequence, nullTerminated: Boolean) = MemoryStackPlus.Companion.stackGet().utf16(text, nullTerminated)
 //
 //        /** Thread-local version of [.ascii].  */
-//        fun stackASCIISafe(text: CharSequence?) = stackGet().asciiSafe(text)
+//        fun stackASCIISafe(text: CharSequence?) = MemoryStackPlus.Companion.stackGet().asciiSafe(text)
 //
 //        /** Thread-local version of [.ascii].  */
-//        fun stackASCIISafe(text: CharSequence?, nullTerminated: Boolean) = stackGet().asciiSafe(text, nullTerminated)
+//        fun stackASCIISafe(text: CharSequence?, nullTerminated: Boolean) = MemoryStackPlus.Companion.stackGet().asciiSafe(text, nullTerminated)
 //
 //        /** Thread-local version of [.utf8].  */
-//        fun stackUTF8Safe(text: CharSequence?) = stackGet().utf8Safe(text)
+//        fun stackUTF8Safe(text: CharSequence?) = MemoryStackPlus.Companion.stackGet().utf8Safe(text)
 //
 //        /** Thread-local version of [.utf8].  */
-//        fun stackUTF8Safe(text: CharSequence?, nullTerminated: Boolean) = stackGet().utf8Safe(text, nullTerminated)
+//        fun stackUTF8Safe(text: CharSequence?, nullTerminated: Boolean) = MemoryStackPlus.Companion.stackGet().utf8Safe(text, nullTerminated)
 //
 //        /** Thread-local version of [.utf16].  */
-//        fun stackUTF16Safe(text: CharSequence?) = stackGet().utf16Safe(text)
+//        fun stackUTF16Safe(text: CharSequence?) = MemoryStackPlus.Companion.stackGet().utf16Safe(text)
 //
 //        /** Thread-local version of [.utf16].  */
-//        fun stackUTF16Safe(text: CharSequence, nullTerminated: Boolean) = stackGet().utf16Safe(text, nullTerminated)
+//        fun stackUTF16Safe(text: CharSequence, nullTerminated: Boolean) = MemoryStackPlus.Companion.stackGet().utf16Safe(text, nullTerminated)
 //    }
 //
-//    fun Collection<String>.toPointerBuffer(): PointerBuffer {
-//        val buf = mallocPointer(size)
-//        for (i in indices) buf[i] = elementAt(i)
-//        return buf
-//    }
+//    val vk = StackVK(this)
 //
-//    fun Collection<Int>.toIntBuffer(): IntBuffer {
-//        val buf = mallocInt(size)
-//        for (i in indices) buf[i] = elementAt(i)
-//        return buf
-//    }
-//
-//    inline fun PointerBuffer.toArrayListString(count: Int = remaining()): ArrayList<String> {
-//        val res = ArrayList<String>(count)
-//        for (i in 0 until count)
-//            res += getStringUTF8(i)
-//        return res
-//    }
-//
-//    inline operator fun PointerBuffer.set(index: Int, string: String) {
-//        put(index, string.utf8)
-//    }
+////    fun Collection<String>.toPointerBuffer(): PointerBuffer {
+////        val buf = mallocPointer(size)
+////        for (i in indices) buf[i] = elementAt(i)
+////        return buf
+////    }
+////
+////    fun Collection<Int>.toIntBuffer(): IntBuffer {
+////        val buf = mallocInt(size)
+////        for (i in indices) buf[i] = elementAt(i)
+////        return buf
+////    }
+////
+////    inline fun PointerBuffer.toArrayListString(count: Int = remaining()): ArrayList<String> {
+////        val res = ArrayList<String>(count)
+////        for (i in 0 until count)
+////            res += getStringUTF8(i)
+////        return res
+////    }
+////
+////    inline operator fun PointerBuffer.set(index: Int, string: String) {
+////        put(index, string.utf8)
+////    }
 //
 //    //    inline val String.memUTF16: ByteBuffer get() = memUTF16(this)
 //    inline val String.utf8: ByteBuffer get() = utf8(this)
