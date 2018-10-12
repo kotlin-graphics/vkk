@@ -960,8 +960,9 @@ object vk {
                 this.offset = offset
             }
 
-    fun Rect2D(size: Vec2i, offset: Vec2i = Vec2i()): VkRect2D =
-            Rect2D(size.x, size.y, offset.x, offset.y)
+    fun Rect2D(extend: Vec2i): VkRect2D = Rect2D(0, 0, extend.x, extend.y)
+
+    fun Rect2D(offset: Vec2i, extend: Vec2i): VkRect2D = Rect2D(offset.x, offset.y, extend.x, extend.y)
 
     fun Rect2D(offsetX: Int, offsetY: Int, width: Int, height: Int): VkRect2D = Rect2D {
         offset.x = offsetX

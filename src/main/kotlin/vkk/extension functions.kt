@@ -130,9 +130,9 @@ fun VkCommandBuffer.setDepthBias(depthBiasConstantFactor: Float, depthBiasClamp:
 
 infix fun VkCommandBuffer.setLineWidth(lineWidth: Float) = VK10.vkCmdSetLineWidth(this, lineWidth)
 
-infix fun VkCommandBuffer.setScissor(size: Vec2i) = setScissor(size, Vec2i())
+infix fun VkCommandBuffer.setScissor(extend: Vec2i) = setScissor(vk.Rect2D(0, 0, extend.x, extend.y))
 
-fun VkCommandBuffer.setScissor(size: Vec2i, offset: Vec2i) = setScissor(vk.Rect2D(size, offset))
+fun VkCommandBuffer.setScissor(offset: Vec2i, extend: Vec2i) = setScissor(vk.Rect2D(offset, extend))
 
 infix fun VkCommandBuffer.setScissor(scissor: VkRect2D) =
         VK10.nvkCmdSetScissor(this, 0, 1, scissor.adr)
