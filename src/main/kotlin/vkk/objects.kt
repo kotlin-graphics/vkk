@@ -220,6 +220,7 @@ fun MemoryStack.vkDynamicStateBufferOf(dynamicStates: Collection<VkDynamicState>
         buffer[i] = dynamicStates.elementAt(i)
     return buffer
 }
+
 fun MemoryStack.vkDynamicStateBufferOf(dynamicState: VkDynamicState): VkDynamicStateBuffer =
         VkDynamicStateBuffer(ints(dynamicState.i))
 

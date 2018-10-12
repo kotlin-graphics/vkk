@@ -41,7 +41,7 @@ fun VK_CHECK_RESULT(i: Int) = VkResult(i)()
 inline class VkResult(val i: Int) {
 
     operator fun invoke() {
-        if(this != SUCCESS)
+        if (this != SUCCESS)
             throw Error()
     }
 

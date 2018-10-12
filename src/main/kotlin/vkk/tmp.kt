@@ -37,13 +37,13 @@ operator fun PointerBuffer.set(index: Int, string: String): PointerBuffer = put(
 //    put(info)
 //}
 
-inline fun <R>longAddressStack(long: Long, block: (Adr) -> R): R {
+inline fun <R> longAddressStack(long: Long, block: (Adr) -> R): R {
     val pLong = MemoryStack.stackGet().nmalloc(1, Long.BYTES)
     memPutLong(pLong, long)
     return block(pLong)
 }
 
-inline fun <R>intAddressStack(int: Int, block: (Adr) -> R): R {
+inline fun <R> intAddressStack(int: Int, block: (Adr) -> R): R {
     val pInt = MemoryStack.stackGet().nmalloc(1, Int.BYTES)
     memPutInt(pInt, int)
     return block(pInt)
