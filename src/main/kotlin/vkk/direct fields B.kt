@@ -291,39 +291,45 @@ inline var VkCommandPoolCreateInfo.queueFamilyIndex
 inline var VkCommandBufferAllocateInfo.type: VkStructureType
     get() = VkStructureType of VkCommandBufferAllocateInfo.nsType(adr)
     set(value) = VkCommandBufferAllocateInfo.nsType(adr, value.i)
-var VkCommandBufferAllocateInfo.next
+inline var VkCommandBufferAllocateInfo.next: Ptr
     get() = VkCommandBufferAllocateInfo.npNext(adr)
     set(value) = VkCommandBufferAllocateInfo.npNext(adr, value)
-var VkCommandBufferAllocateInfo.commandPool: VkCommandPool
+inline var VkCommandBufferAllocateInfo.commandPool: VkCommandPool
     get() = VkCommandPool(VkCommandBufferAllocateInfo.ncommandPool(adr))
     set(value) = VkCommandBufferAllocateInfo.ncommandPool(adr, value.L)
-var VkCommandBufferAllocateInfo.level: VkCommandBufferLevel
+inline var VkCommandBufferAllocateInfo.level: VkCommandBufferLevel
     get() = VkCommandBufferLevel of VkCommandBufferAllocateInfo.nlevel(adr)
     set(value) = VkCommandBufferAllocateInfo.nlevel(adr, value.i)
-var VkCommandBufferAllocateInfo.commandBufferCount
+inline var VkCommandBufferAllocateInfo.commandBufferCount
     get() = VkCommandBufferAllocateInfo.ncommandBufferCount(adr)
     set(value) = VkCommandBufferAllocateInfo.ncommandBufferCount(adr, value)
 
 
-//typedef struct VkCommandBufferAllocateInfo {
-//    VkStructureType         sType;
-//    const void*             pNext;
-//    VkCommandPool           commandPool;
-//    VkCommandBufferLevel    level;
-//    uint32_t                commandBufferCount;
-//} VkCommandBufferAllocateInfo;
-//
-//typedef struct VkCommandBufferInheritanceInfo {
-//    VkStructureType                  sType;
-//    const void*                      pNext;
-//    VkRenderPass                     renderPass;
-//    uint32_t                         subpass;
-//    VkFramebuffer                    framebuffer;
-//    VkBool32                         occlusionQueryEnable;
-//    VkQueryControlFlags              queryFlags;
-//    VkQueryPipelineStatisticFlags    pipelineStatistics;
-//} VkCommandBufferInheritanceInfo;
-//
+inline var VkCommandBufferInheritanceInfo.type: VkStructureType
+    get() = VkStructureType of VkCommandBufferInheritanceInfo.nsType(adr)
+    set(value) = VkCommandBufferInheritanceInfo.nsType(adr, value.i)
+inline var VkCommandBufferInheritanceInfo.next: Ptr
+    get() = VkCommandBufferInheritanceInfo.npNext(adr)
+    set(value) = VkCommandBufferInheritanceInfo.npNext(adr, value)
+inline var VkCommandBufferInheritanceInfo.renderPass: VkRenderPass
+    get() = VkRenderPass(VkCommandBufferInheritanceInfo.nrenderPass(adr))
+    set(value) = VkCommandBufferInheritanceInfo.nrenderPass(adr, value.L)
+inline var VkCommandBufferInheritanceInfo.subpass: Int
+    get() = VkCommandBufferInheritanceInfo.nsubpass(adr)
+    set(value) = VkCommandBufferInheritanceInfo.nsubpass(adr, value)
+inline var VkCommandBufferInheritanceInfo.framebuffer: VkFramebuffer
+    get() = VkFramebuffer(VkCommandBufferInheritanceInfo.nframebuffer(adr))
+    set(value) = VkCommandBufferInheritanceInfo.nframebuffer(adr, value.L)
+inline var VkCommandBufferInheritanceInfo.occlusionQueryEnable: Boolean
+    get() = VkCommandBufferInheritanceInfo.nocclusionQueryEnable(adr).bool
+    set(value) = VkCommandBufferInheritanceInfo.nocclusionQueryEnable(adr, value.i)
+inline var VkCommandBufferInheritanceInfo.queryFlags: VkQueryControlFlags
+    get() = VkCommandBufferInheritanceInfo.nqueryFlags(adr)
+    set(value) = VkCommandBufferInheritanceInfo.nqueryFlags(adr, value)
+inline var VkCommandBufferInheritanceInfo.pipelineStatistics: VkQueryPipelineStatisticFlags
+    get() = VkCommandBufferInheritanceInfo.npipelineStatistics(adr)
+    set(value) = VkCommandBufferInheritanceInfo.npipelineStatistics(adr, value)
+
 
 inline var VkCommandBufferBeginInfo.type: VkStructureType
     get() = VkStructureType of VkCommandBufferBeginInfo.nsType(adr)

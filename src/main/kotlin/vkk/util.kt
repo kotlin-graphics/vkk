@@ -11,10 +11,7 @@ import glm_.vec2.Vec2i
 import glm_.vec3.Vec3
 import glm_.vec4.Vec4
 import graphics.scenery.spirvcrossj.*
-import kool.adr
-import kool.bufferBig
-import kool.cap
-import kool.intBufferBig
+import kool.*
 import org.lwjgl.PointerBuffer
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryStack.stackGet
@@ -300,7 +297,7 @@ abstract class Bufferizable {
         fieldOrder.sumBy { field -> this::class.declaredMemberProperties.find { it.name == field }!!.returnType.size }
     }
 
-    open infix fun to(address: Long) {
+    open infix fun to(address: Ptr) {
 
         WithAddress.address = address
         WithAddress.offset = 0
@@ -309,7 +306,7 @@ abstract class Bufferizable {
             data[i].first(data[i].second.getter.call(this)!!)
     }
 
-    infix fun from(address: Long): Unit = TODO()
+    infix fun from(address: Adr): Unit = TODO()
 
     val data: Array<BufferizableData> by lazy {
         Array(fieldOrder.size) {

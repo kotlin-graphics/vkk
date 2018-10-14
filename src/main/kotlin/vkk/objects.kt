@@ -49,6 +49,9 @@ inline class VkDeviceSize(override val L: Long) : VkObject {
 
     operator fun plus(size: VkDeviceSize) = VkDeviceSize(L + size.L)
     operator fun plus(size: Int) = VkDeviceSize(L + size)
+
+    val isEmpty get() = L == 0L
+    val isNotEmpty get() = L != 0L
 }
 
 inline class VkEvent(override val L: Long) : VkObject

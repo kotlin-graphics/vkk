@@ -1821,6 +1821,21 @@ inline var VkSamplerCreateInfo.magFilter: VkFilter
 inline var VkSamplerCreateInfo.minFilter: VkFilter
     get() = VkFilter of VkSamplerCreateInfo.nminFilter(adr)
     set(value) = VkSamplerCreateInfo.nminFilter(adr, value.i)
+
+/** JVM custom */
+inline var VkSamplerCreateInfo.minMagFilter: VkFilter
+    get() = throw Error()
+    set(value) {
+        minFilter = value
+        magFilter = value
+    }
+
+/** JVM custom */
+fun VkSamplerCreateInfo.minMagFilter(min: VkFilter, mag: VkFilter) {
+    minFilter = min
+    magFilter = mag
+}
+
 inline var VkSamplerCreateInfo.mipmapMode: VkSamplerMipmapMode
     get() = VkSamplerMipmapMode of VkSamplerCreateInfo.nmipmapMode(adr)
     set(value) = VkSamplerCreateInfo.nmipmapMode(adr, value.i)
@@ -1834,7 +1849,7 @@ inline var VkSamplerCreateInfo.addressModeW: VkSamplerAddressMode
     get() = VkSamplerAddressMode of VkSamplerCreateInfo.naddressModeW(adr)
     set(value) = VkSamplerCreateInfo.naddressModeW(adr, value.i)
 /** JVM custom */
-inline var VkSamplerCreateInfo.addressMode: VkSamplerAddressMode
+inline var VkSamplerCreateInfo.addressModeUVW: VkSamplerAddressMode
     get() = throw Error()
     set(value) {
         addressModeU = value

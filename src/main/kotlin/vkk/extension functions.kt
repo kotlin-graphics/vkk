@@ -5,6 +5,7 @@ import glm_.vec2.Vec2i
 import kool.Ptr
 import kool.stak
 import org.lwjgl.PointerBuffer
+import org.lwjgl.system.MemoryStack.stackGet
 import org.lwjgl.system.MemoryUtil.*
 import org.lwjgl.system.Pointer
 import org.lwjgl.system.Pointer.POINTER_SIZE
@@ -97,6 +98,19 @@ fun VkCommandBuffer.end(device: VkDevice, commandPool: VkCommandPool, queue: VkQ
 
 fun VkCommandBuffer.endRenderPass() = VK10.vkCmdEndRenderPass(this)
 
+infix fun VkCommandBuffer.executeCommand(commandBuffer: VkCommandBuffer) = VK10.vkCmdExecuteCommands(this, commandBuffer)
+
+infix fun VkCommandBuffer.executeCommands(commandBuffers: Collection<VkCommandBuffer>) {
+    val stack = stackGet()
+    val stackPointer = stack.pointer
+    val count = commandBuffers.size
+    val pCommandBuffers = stack.mallocPointer(count)
+    for (i in 0 until count)
+        pCommandBuffers[i] = commandBuffers.elementAt(i)
+    VK10.nvkCmdExecuteCommands(this, count, pCommandBuffers.adr)
+    stack.pointer = stackPointer
+}
+
 infix fun VkCommandBuffer.nextSubpass(contents: VkSubpassContents) = VK10.vkCmdNextSubpass(this, contents.i)
 
 fun VkCommandBuffer.pipelineBarrier(srcStageMask: VkPipelineStage, dstStageMask: VkPipelineStage,
@@ -121,6 +135,11 @@ fun VkCommandBuffer.pushConstants(layout: VkPipelineLayout, stageFlags: VkShader
 
 fun VkCommandBuffer.pushConstants(layout: VkPipelineLayout, stageFlags: VkShaderStageFlags, offset: Int, values: ByteBuffer) =
         VK10.nvkCmdPushConstants(this, layout.L, stageFlags, offset, values.size, memAddress(values))
+
+inline fun <R> VkCommandBuffer.record(beginInfo: VkCommandBufferBeginInfo, block: VkCommandBuffer.() -> R): R {
+    begin(beginInfo)
+    return block().also { end() }
+}
 
 fun VkCommandBuffer.reset(flags: VkCommandBufferResetFlags) =
         VK_CHECK_RESULT(VK10.vkResetCommandBuffer(this, flags))
@@ -194,15 +213,12 @@ infix fun VkDevice.allocateCommandBuffer(allocateInfo: VkCommandBufferAllocateIn
                 },
                 this)
 
-infix fun VkDevice.allocateCommandBuffers(allocateInfo: VkCommandBufferAllocateInfo): ArrayList<VkCommandBuffer> =
+infix fun VkDevice.allocateCommandBuffers(allocateInfo: VkCommandBufferAllocateInfo): Array<VkCommandBuffer> =
         stak {
             val count = allocateInfo.commandBufferCount
             val pCommandBuffer = it.nmalloc(POINTER_SIZE, count)
-            val commandBuffers = ArrayList<VkCommandBuffer>(count)
             VK_CHECK_RESULT(VK10.nvkAllocateCommandBuffers(this, allocateInfo.adr, pCommandBuffer))
-            for (i in 0 until count)
-                commandBuffers += VkCommandBuffer(memGetAddress(pCommandBuffer + POINTER_SIZE * i), this)
-            return commandBuffers
+            return Array(count) { VkCommandBuffer(memGetAddress(pCommandBuffer + POINTER_SIZE * it), this) }
         }
 
 infix fun VkDevice.allocateDescriptorSets(allocateInfo: VkDescriptorSetAllocateInfo): VkDescriptorSet =
@@ -440,7 +456,7 @@ infix fun VkDevice.destroyShaderModules(modules: Iterable<VkShaderModule>) {
 infix fun VkDevice.destroySwapchainKHR(swapchain: VkSwapchainKHR) =
         KHRSwapchain.nvkDestroySwapchainKHR(this, swapchain.L, NULL)
 
-fun VkDevice.freeCommandBuffers(commandPool: VkCommandPool, commandBuffers: ArrayList<VkCommandBuffer>) =
+fun VkDevice.freeCommandBuffers(commandPool: VkCommandPool, commandBuffers: Iterable<VkCommandBuffer>) =
         vk.freeCommandBuffers(this, commandPool, commandBuffers)
 
 infix fun VkDevice.flushMappedMemoryRanges(memoryRange: VkMappedMemoryRange) =

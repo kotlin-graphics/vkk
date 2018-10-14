@@ -57,6 +57,14 @@ object vk {
     inline fun CommandBufferBeginInfo(block: VkCommandBufferBeginInfo.() -> Unit): VkCommandBufferBeginInfo =
             CommandBufferBeginInfo().also(block)
 
+    fun CommandBufferInheritanceInfo(): VkCommandBufferInheritanceInfo =
+            VkCommandBufferInheritanceInfo.callocStack().apply {
+                type = VkStructureType.COMMAND_BUFFER_INHERITANCE_INFO
+            }
+
+    inline fun CommandBufferInheritanceInfo(block: VkCommandBufferInheritanceInfo.() -> Unit): VkCommandBufferInheritanceInfo =
+            CommandBufferInheritanceInfo().also(block)
+
     inline fun CommandPoolCreateInfo(block: VkCommandPoolCreateInfo.() -> Unit): VkCommandPoolCreateInfo =
             VkCommandPoolCreateInfo.callocStack().apply {
                 type = VkStructureType.COMMAND_POOL_CREATE_INFO
@@ -922,6 +930,7 @@ object vk {
     fun PipelineLayoutCreateInfo(setLayout: VkDescriptorSetLayout): VkPipelineLayoutCreateInfo =
             PipelineLayoutCreateInfo { this.setLayout = setLayout }
 
+    // TODO flag
     fun PipelineMultisampleStateCreateInfo(rasterizationSamples: VkSampleCount, flags: VkPipelineMultisampleStateCreateFlags = 0): VkPipelineMultisampleStateCreateInfo =
             PipelineMultisampleStateCreateInfo {
                 this.rasterizationSamples = rasterizationSamples
@@ -1579,12 +1588,13 @@ object vk {
     fun flushMappedMemoryRange(device: VkDevice, memoryRange: VkMappedMemoryRange): VkResult =
             VkResult(VK10.nvkFlushMappedMemoryRanges(device, 1, memoryRange.adr))
 
-    fun freeCommandBuffers(device: VkDevice, commandPool: VkCommandPool, commandBuffers: ArrayList<VkCommandBuffer>) =
+    fun freeCommandBuffers(device: VkDevice, commandPool: VkCommandPool, commandBuffers: Iterable<VkCommandBuffer>) =
             stak {
-                val pointers = it.nmalloc(Pointer.POINTER_SIZE, commandBuffers.size * Pointer.POINTER_SIZE)
-                for (i in commandBuffers.indices)
-                    memPutAddress(pointers + Pointer.POINTER_SIZE * i, commandBuffers[i].adr)
-                VK10.nvkFreeCommandBuffers(device, commandPool.L, commandBuffers.size, pointers)
+                val size = commandBuffers.count()
+                val pointers = it.nmalloc(Pointer.POINTER_SIZE, size * Pointer.POINTER_SIZE)
+                for (i in 0 until size)
+                    memPutAddress(pointers + Pointer.POINTER_SIZE * i, commandBuffers.elementAt(i).adr)
+                VK10.nvkFreeCommandBuffers(device, commandPool.L, size, pointers)
             }
 
     fun freeMemory(device: VkDevice, memory: VkDeviceMemory) = VK10.nvkFreeMemory(device, memory.L, NULL)

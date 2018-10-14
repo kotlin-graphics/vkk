@@ -36,53 +36,42 @@ class OutOfPoolMemoryError(message: String) : Error(message)
 class InvalidExternalHandleError(message: String) : Error(message)
 class NotPermittedError(message: String) : Error(message)
 
-fun VK_CHECK_RESULT(i: Int) = VkResult(i)()
+fun VK_CHECK_RESULT(i: Int) = VkResult(i).check()
 
 inline class VkResult(val i: Int) {
 
-    operator fun invoke() {
-        if (this != SUCCESS)
-            throw Error()
-    }
+    fun check() = check("Fatal : VkResult is $this")
 
     fun check(message: String) {
-
+        if (DEBUG && this != SUCCESS)
+            if (VULKAN_NO_EXCEPTIONS)
+                System.err.println(message)
+            else
+                when (this) {
+                    ERROR_OUT_OF_HOST_MEMORY -> throw OutOfHostMemoryError(message)
+                    ERROR_OUT_OF_DEVICE_MEMORY -> throw OutOfDeviceMemoryError(message)
+                    ERROR_INITIALIZATION_FAILED -> throw InitializationFailedError(message)
+                    ERROR_DEVICE_LOST -> throw DeviceLostError(message)
+                    ERROR_MEMORY_MAP_FAILED -> throw MemoryMapFailedError(message)
+                    ERROR_LAYER_NOT_PRESENT -> throw LayerNotPresentError(message)
+                    ERROR_EXTENSION_NOT_PRESENT -> throw ExtensionNotPresentError(message)
+                    ERROR_FEATURE_NOT_PRESENT -> throw FeatureNotPresentError(message)
+                    ERROR_INCOMPATIBLE_DRIVER -> throw IncompatibleDriverError(message)
+                    ERROR_TOO_MANY_OBJECTS -> throw TooManyObjectsError(message)
+                    ERROR_FORMAT_NOT_SUPPORTED -> throw FormatNotSupportedError(message)
+                    ERROR_FRAGMENTED_POOL -> throw FragmentedPoolError(message)
+                    ERROR_SURFACE_LOST_KHR -> throw SurfaceLostKhrError(message)
+                    ERROR_NATIVE_WINDOW_IN_USE_KHR -> throw NativeWindowInUseKhrError(message)
+                    ERROR_OUT_OF_DATE_KHR -> throw OutOfDateKhrError(message)
+                    ERROR_INCOMPATIBLE_DISPLAY_KHR -> throw IncompatibleDisplayKhrError(message)
+                    ERROR_VALIDATION_FAILED_EXT -> throw ValidationFailedExtError(message)
+                    ERROR_INVALID_SHADER_NV -> throw InvalidShaderNvError(message)
+                    ERROR_OUT_OF_POOL_MEMORY -> throw OutOfPoolMemoryError(message)
+                    ERROR_INVALID_EXTERNAL_HANDLE -> throw InvalidExternalHandleError(message)
+                    ERROR_NOT_PERMITTED_EXT -> throw NotPermittedError(message)
+                    else -> throw Error(message)
+                }
     }
-
-    fun check() {
-
-    }
-
-//    fun check(message: String = "Fatal : VkResult is $this") {
-//        if (DEBUG && invoke())
-//            if (VULKAN_NO_EXCEPTIONS)
-//                System.err.println(message)
-//            else
-//                when (this) {
-//                    ERROR_OUT_OF_HOST_MEMORY -> throw OutOfHostMemoryError(message)
-//                    ERROR_OUT_OF_DEVICE_MEMORY -> throw OutOfDeviceMemoryError(message)
-//                    ERROR_INITIALIZATION_FAILED -> throw InitializationFailedError(message)
-//                    ERROR_DEVICE_LOST -> throw DeviceLostError(message)
-//                    ERROR_MEMORY_MAP_FAILED -> throw MemoryMapFailedError(message)
-//                    ERROR_LAYER_NOT_PRESENT -> throw LayerNotPresentError(message)
-//                    ERROR_EXTENSION_NOT_PRESENT -> throw ExtensionNotPresentError(message)
-//                    ERROR_FEATURE_NOT_PRESENT -> throw FeatureNotPresentError(message)
-//                    ERROR_INCOMPATIBLE_DRIVER -> throw IncompatibleDriverError(message)
-//                    ERROR_TOO_MANY_OBJECTS -> throw TooManyObjectsError(message)
-//                    ERROR_FORMAT_NOT_SUPPORTED -> throw FormatNotSupportedError(message)
-//                    ERROR_FRAGMENTED_POOL -> throw FragmentedPoolError(message)
-//                    ERROR_SURFACE_LOST_KHR -> throw SurfaceLostKhrError(message)
-//                    ERROR_NATIVE_WINDOW_IN_USE_KHR -> throw NativeWindowInUseKhrError(message)
-//                    ERROR_OUT_OF_DATE_KHR -> throw OutOfDateKhrError(message)
-//                    ERROR_INCOMPATIBLE_DISPLAY_KHR -> throw IncompatibleDisplayKhrError(message)
-//                    ERROR_VALIDATION_FAILED_EXT -> throw ValidationFailedExtError(message)
-//                    ERROR_INVALID_SHADER_NV -> throw InvalidShaderNvError(message)
-//                    ERROR_OUT_OF_POOL_MEMORY -> throw OutOfPoolMemoryError(message)
-//                    ERROR_INVALID_EXTERNAL_HANDLE -> throw InvalidExternalHandleError(message)
-//                    ERROR_NOT_PERMITTED_EXT -> throw NotPermittedError(message)
-//                    else -> throw Error(message)
-//                }
-//    }
 }
 
 val SUCCESS = VkResult(0)
