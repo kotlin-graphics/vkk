@@ -4,6 +4,7 @@ import glm_.BYTES
 import glm_.L
 import glm_.i
 import glm_.vec4.Vec4
+import kool.Ptr
 import kool.adr
 import org.lwjgl.system.MemoryUtil.memPutFloat
 import org.lwjgl.system.MemoryUtil.memUTF8
@@ -1481,10 +1482,10 @@ import java.nio.ByteBuffer
 //const char*                                 pMessage,
 //void*                                       pUserData);
 
-inline var VkDebugReportCallbackCreateInfoEXT.type
+inline var VkDebugReportCallbackCreateInfoEXT.type: VkStructureType
     get() = VkStructureType of VkDebugReportCallbackCreateInfoEXT.nsType(adr)
     set(value) = VkDebugReportCallbackCreateInfoEXT.nsType(adr, value.i)
-inline var VkDebugReportCallbackCreateInfoEXT.next
+inline var VkDebugReportCallbackCreateInfoEXT.next: Ptr
     get() = VkDebugReportCallbackCreateInfoEXT.npNext(adr)
     set(value) = VkDebugReportCallbackCreateInfoEXT.npNext(adr, value)
 /** JVM custom */
@@ -1506,7 +1507,7 @@ var VkDebugReportCallbackCreateInfoEXT.callback: VkDebugReportCallbackType
             VkDebugReportCallbackCreateInfoEXT.npfnCallback(adr, it)
         }
     }
-inline var VkDebugReportCallbackCreateInfoEXT.userData
+inline var VkDebugReportCallbackCreateInfoEXT.userData: Ptr
     get() = VkDebugReportCallbackCreateInfoEXT.npUserData(adr)
     set(value) = VkDebugReportCallbackCreateInfoEXT.npUserData(adr, value)
 
@@ -1592,7 +1593,7 @@ inline var VkDebugReportCallbackCreateInfoEXT.userData
 inline var VkDebugMarkerObjectNameInfoEXT.type: VkStructureType
     get() = VkStructureType of VkDebugMarkerObjectNameInfoEXT.nsType(adr)
     set(value) = VkDebugMarkerObjectNameInfoEXT.nsType(adr, value.i)
-inline var VkDebugMarkerObjectNameInfoEXT.next: Long
+inline var VkDebugMarkerObjectNameInfoEXT.next: Ptr
     get() = VkDebugMarkerObjectNameInfoEXT.npNext(adr)
     set(value) = VkDebugMarkerObjectNameInfoEXT.npNext(adr, value)
 inline var VkDebugMarkerObjectNameInfoEXT.objectType: VkDebugReportObjectType
@@ -1609,7 +1610,7 @@ inline var VkDebugMarkerObjectNameInfoEXT.objectName: String
 inline var VkDebugMarkerObjectTagInfoEXT.type: VkStructureType
     get() = VkStructureType of VkDebugMarkerObjectTagInfoEXT.nsType(adr)
     set(value) = VkDebugMarkerObjectTagInfoEXT.nsType(adr, value.i)
-inline var VkDebugMarkerObjectTagInfoEXT.next: Long
+inline var VkDebugMarkerObjectTagInfoEXT.next: Ptr
     get() = VkDebugMarkerObjectTagInfoEXT.npNext(adr)
     set(value) = VkDebugMarkerObjectTagInfoEXT.npNext(adr, value)
 inline var VkDebugMarkerObjectTagInfoEXT.objectType: VkDebugReportObjectType
@@ -1644,7 +1645,7 @@ inline var VkDebugMarkerObjectTagInfoEXT.tag: ByteBuffer
 inline var VkDebugMarkerMarkerInfoEXT.type: VkStructureType
     get() = VkStructureType of VkDebugMarkerMarkerInfoEXT.nsType(adr)
     set(value) = VkDebugMarkerMarkerInfoEXT.nsType(adr, value.i)
-inline var VkDebugMarkerMarkerInfoEXT.next: Long
+inline var VkDebugMarkerMarkerInfoEXT.next: Ptr
     get() = VkDebugMarkerMarkerInfoEXT.npNext(adr)
     set(value) = VkDebugMarkerMarkerInfoEXT.npNext(adr, value)
 inline var VkDebugMarkerMarkerInfoEXT.markerName: String

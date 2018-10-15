@@ -456,7 +456,10 @@ infix fun VkDevice.destroyShaderModules(modules: Iterable<VkShaderModule>) {
 infix fun VkDevice.destroySwapchainKHR(swapchain: VkSwapchainKHR) =
         KHRSwapchain.nvkDestroySwapchainKHR(this, swapchain.L, NULL)
 
-fun VkDevice.freeCommandBuffers(commandPool: VkCommandPool, commandBuffers: Iterable<VkCommandBuffer>) =
+fun VkDevice.freeCommandBuffers(commandPool: VkCommandPool, commandBuffers: Array<VkCommandBuffer>) =
+        vk.freeCommandBuffers(this, commandPool, commandBuffers)
+
+fun VkDevice.freeCommandBuffers(commandPool: VkCommandPool, commandBuffers: Collection<VkCommandBuffer>) =
         vk.freeCommandBuffers(this, commandPool, commandBuffers)
 
 infix fun VkDevice.flushMappedMemoryRanges(memoryRange: VkMappedMemoryRange) =

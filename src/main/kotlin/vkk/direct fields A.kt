@@ -1728,7 +1728,7 @@ inline var VkGraphicsPipelineCreateInfo.basePipelineIndex: Int
 inline var VkComputePipelineCreateInfo.type: VkStructureType
     get() = VkStructureType of VkComputePipelineCreateInfo.nsType(adr)
     set(value) = VkComputePipelineCreateInfo.nsType(adr, value.i)
-inline var VkComputePipelineCreateInfo.next: Long
+inline var VkComputePipelineCreateInfo.next: Ptr
     get() = VkComputePipelineCreateInfo.npNext(adr)
     set(value) = VkComputePipelineCreateInfo.npNext(adr, value)
 inline var VkComputePipelineCreateInfo.flags: VkPipelineCreateFlags

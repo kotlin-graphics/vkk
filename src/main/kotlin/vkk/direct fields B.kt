@@ -10,6 +10,7 @@ import kool.Ptr
 import org.lwjgl.system.MemoryUtil.*
 import org.lwjgl.vulkan.*
 import java.nio.IntBuffer
+import java.nio.LongBuffer
 
 
 inline var VkWriteDescriptorSet.type: VkStructureType
@@ -21,10 +22,10 @@ inline var VkWriteDescriptorSet.next: Ptr
 inline var VkWriteDescriptorSet.dstSet: VkDescriptorSet
     get() = VkDescriptorSet(VkWriteDescriptorSet.ndstSet(adr))
     set(value) = VkWriteDescriptorSet.ndstSet(adr, value.L)
-inline var VkWriteDescriptorSet.dstBinding
+inline var VkWriteDescriptorSet.dstBinding: Int
     get() = VkWriteDescriptorSet.ndstBinding(adr)
     set(value) = VkWriteDescriptorSet.ndstBinding(adr, value)
-inline var VkWriteDescriptorSet.dstArrayElement
+inline var VkWriteDescriptorSet.dstArrayElement: Int
     get() = VkWriteDescriptorSet.ndstArrayElement(adr)
     set(value) = VkWriteDescriptorSet.ndstArrayElement(adr, value)
 //inline val VkWriteDescriptorSet.descriptorCount get() = VkWriteDescriptorSet.ndescriptorCount(adr)
@@ -51,7 +52,7 @@ inline var VkWriteDescriptorSet.bufferInfo_: VkDescriptorBufferInfo?
         memPutAddress(adr + VkWriteDescriptorSet.PBUFFERINFO, memAddressSafe(value))
         value?.let { VkWriteDescriptorSet.ndescriptorCount(adr, 1) }
     }
-inline var VkWriteDescriptorSet.texelBufferView
+inline var VkWriteDescriptorSet.texelBufferView: LongBuffer?
     get() = VkWriteDescriptorSet.npTexelBufferView(adr)
     set(value) = VkWriteDescriptorSet.npTexelBufferView(adr, value)
 
@@ -72,7 +73,7 @@ inline var VkWriteDescriptorSet.texelBufferView
 inline var VkFramebufferCreateInfo.type: VkStructureType
     get() = VkStructureType of VkFramebufferCreateInfo.nsType(adr)
     set(value) = VkFramebufferCreateInfo.nsType(adr, value.i)
-inline var VkFramebufferCreateInfo.next
+inline var VkFramebufferCreateInfo.next: Ptr
     get() = VkFramebufferCreateInfo.npNext(adr)
     set(value) = VkFramebufferCreateInfo.npNext(adr, value)
 inline var VkFramebufferCreateInfo.flags: VkFramebufferCreateFlags
@@ -98,13 +99,13 @@ inline var VkFramebufferCreateInfo.attachment: VkImageView?
             memPutInt(adr + VkFramebufferCreateInfo.ATTACHMENTCOUNT, 1)
         }
     }
-inline var VkFramebufferCreateInfo.width
+inline var VkFramebufferCreateInfo.width: Int
     get() = VkFramebufferCreateInfo.nwidth(adr)
     set(value) = VkFramebufferCreateInfo.nwidth(adr, value)
-inline var VkFramebufferCreateInfo.height
+inline var VkFramebufferCreateInfo.height: Int
     get() = VkFramebufferCreateInfo.nheight(adr)
     set(value) = VkFramebufferCreateInfo.nheight(adr, value)
-inline var VkFramebufferCreateInfo.layers
+inline var VkFramebufferCreateInfo.layers: Int
     get() = VkFramebufferCreateInfo.nlayers(adr)
     set(value) = VkFramebufferCreateInfo.nlayers(adr, value)
 
@@ -147,7 +148,7 @@ inline var VkAttachmentDescription.finalLayout: VkImageLayout
     set(value) = VkAttachmentDescription.nfinalLayout(adr, value.i)
 
 
-inline var VkAttachmentReference.attachment
+inline var VkAttachmentReference.attachment: Int
     get() = VkAttachmentReference.nattachment(adr)
     set(value) = VkAttachmentReference.nattachment(adr, value)
 inline var VkAttachmentReference.layout: VkImageLayout
@@ -169,7 +170,7 @@ inline var VkSubpassDescription.pipelineBindPoint: VkPipelineBindPoint
 inline var VkSubpassDescription.inputAttachments
     get() = VkSubpassDescription.npInputAttachments(adr)
     set(value) = VkSubpassDescription.npInputAttachments(adr, value)
-inline var VkSubpassDescription.colorAttachmentCount
+inline var VkSubpassDescription.colorAttachmentCount: Int
     get() = VkSubpassDescription.ncolorAttachmentCount(adr)
     set(value) = VkSubpassDescription.ncolorAttachmentCount(adr, value)
 inline var VkSubpassDescription.colorAttachments: VkAttachmentReference.Buffer?
@@ -186,15 +187,15 @@ inline var VkSubpassDescription.depthStencilAttachment
     get() = VkSubpassDescription.npDepthStencilAttachment(adr)
     set(value) = VkSubpassDescription.npDepthStencilAttachment(adr, value)
 //inline val VkSubpassDescription.preserveAttachmentCount get() = VkSubpassDescription.npreserveAttachmentCount(adr)
-inline var VkSubpassDescription.preserveAttachments
+inline var VkSubpassDescription.preserveAttachments: IntBuffer?
     get() = VkSubpassDescription.npPreserveAttachments(adr)
     set(value) = VkSubpassDescription.npPreserveAttachments(adr, value)
 
 
-inline var VkSubpassDependency.srcSubpass
+inline var VkSubpassDependency.srcSubpass: Int
     get() = VkSubpassDependency.nsrcSubpass(adr)
     set(value) = VkSubpassDependency.nsrcSubpass(adr, value)
-inline var VkSubpassDependency.dstSubpass
+inline var VkSubpassDependency.dstSubpass: Int
     get() = VkSubpassDependency.ndstSubpass(adr)
     set(value) = VkSubpassDependency.ndstSubpass(adr, value)
 inline var VkSubpassDependency.srcStageMask: VkPipelineStageFlags
@@ -217,7 +218,7 @@ inline var VkSubpassDependency.dependencyFlags: VkDependencyFlags
 inline var VkRenderPassCreateInfo.type: VkStructureType
     get() = VkStructureType of VkRenderPassCreateInfo.nsType(adr)
     set(value) = VkRenderPassCreateInfo.nsType(adr, value.i)
-inline var VkRenderPassCreateInfo.next
+inline var VkRenderPassCreateInfo.next: Ptr
     get() = VkRenderPassCreateInfo.npNext(adr)
     set(value) = VkRenderPassCreateInfo.npNext(adr, value)
 inline var VkRenderPassCreateInfo.flags: VkRenderPassCreateFlags
@@ -267,7 +268,7 @@ inline var VkRenderPassCreateInfo.dependency: VkSubpassDependency?
 inline var VkCommandPoolCreateInfo.type: VkStructureType
     get() = VkStructureType of VkCommandPoolCreateInfo.nsType(adr)
     set(value) = VkCommandPoolCreateInfo.nsType(adr, value.i)
-inline var VkCommandPoolCreateInfo.next
+inline var VkCommandPoolCreateInfo.next: Ptr
     get() = VkCommandPoolCreateInfo.npNext(adr)
     set(value) = VkCommandPoolCreateInfo.npNext(adr, value)
 /** JVM custom */
@@ -277,7 +278,7 @@ inline var VkCommandPoolCreateInfo.flag: VkCommandPoolCreate
 inline var VkCommandPoolCreateInfo.flags: VkCommandPoolCreateFlags
     get() = VkCommandPoolCreateInfo.nflags(adr)
     set(value) = VkCommandPoolCreateInfo.nflags(adr, value)
-inline var VkCommandPoolCreateInfo.queueFamilyIndex
+inline var VkCommandPoolCreateInfo.queueFamilyIndex: Int
     get() = VkCommandPoolCreateInfo.nqueueFamilyIndex(adr)
     set(value) = VkCommandPoolCreateInfo.nqueueFamilyIndex(adr, value)
 
@@ -300,7 +301,7 @@ inline var VkCommandBufferAllocateInfo.commandPool: VkCommandPool
 inline var VkCommandBufferAllocateInfo.level: VkCommandBufferLevel
     get() = VkCommandBufferLevel of VkCommandBufferAllocateInfo.nlevel(adr)
     set(value) = VkCommandBufferAllocateInfo.nlevel(adr, value.i)
-inline var VkCommandBufferAllocateInfo.commandBufferCount
+inline var VkCommandBufferAllocateInfo.commandBufferCount: Int
     get() = VkCommandBufferAllocateInfo.ncommandBufferCount(adr)
     set(value) = VkCommandBufferAllocateInfo.ncommandBufferCount(adr, value)
 
@@ -334,7 +335,7 @@ inline var VkCommandBufferInheritanceInfo.pipelineStatistics: VkQueryPipelineSta
 inline var VkCommandBufferBeginInfo.type: VkStructureType
     get() = VkStructureType of VkCommandBufferBeginInfo.nsType(adr)
     set(value) = VkCommandBufferBeginInfo.nsType(adr, value.i)
-inline var VkCommandBufferBeginInfo.next
+inline var VkCommandBufferBeginInfo.next: Ptr
     get() = VkCommandBufferBeginInfo.npNext(adr)
     set(value) = VkCommandBufferBeginInfo.npNext(adr, value)
 /** JVM custom */
@@ -463,7 +464,7 @@ inline var VkClearValue.depthStencil: VkClearDepthStencilValue
     set(value) = VkClearValue.ndepthStencil(adr, value)
 
 fun VkClearValue.color(float: Float) = color(float, float, float, float)
-fun VkClearValue.color(color: Vec4) = color(color.r, color.g, color.b, color.a)
+fun VkClearValue.color(color_: Vec4) = color(color_.r, color_.g, color_.b, color_.a)
 fun VkClearValue.color(r: Float, g: Float, b: Float, a: Float) {
     memPutFloat(adr, r)
     memPutFloat(adr + Float.BYTES, g)
@@ -512,7 +513,7 @@ fun VkClearValue.depthStencil(depth: Float, stencil: Int) {
 inline var VkBufferMemoryBarrier.type: VkStructureType
     get() = VkStructureType of VkBufferMemoryBarrier.nsType(adr)
     set(value) = VkBufferMemoryBarrier.nsType(adr, value.i)
-inline var VkBufferMemoryBarrier.next: Long
+inline var VkBufferMemoryBarrier.next: Ptr
     get() = VkBufferMemoryBarrier.npNext(adr)
     set(value) = VkBufferMemoryBarrier.npNext(adr, value)
 inline var VkBufferMemoryBarrier.srcAccessMask: VkAccessFlags
@@ -541,7 +542,7 @@ inline var VkBufferMemoryBarrier.size: VkDeviceSize
 inline var VkImageMemoryBarrier.type: VkStructureType
     get() = VkStructureType of VkImageMemoryBarrier.nsType(adr)
     set(value) = VkImageMemoryBarrier.nsType(adr, value.i)
-inline var VkImageMemoryBarrier.next
+inline var VkImageMemoryBarrier.next: Ptr
     get() = VkImageMemoryBarrier.npNext(adr)
     set(value) = VkImageMemoryBarrier.npNext(adr, value)
 inline var VkImageMemoryBarrier.srcAccessMask: VkAccessFlags
@@ -556,10 +557,12 @@ inline var VkImageMemoryBarrier.oldLayout: VkImageLayout
 inline var VkImageMemoryBarrier.newLayout: VkImageLayout
     get() = VkImageLayout of VkImageMemoryBarrier.nnewLayout(adr)
     set(value) = VkImageMemoryBarrier.nnewLayout(adr, value.i)
-inline var VkImageMemoryBarrier.srcQueueFamilyIndex
+inline var VkImageMemoryBarrier.srcQueueFamilyIndex: Int
+
     get() = VkImageMemoryBarrier.nsrcQueueFamilyIndex(adr)
     set(value) = VkImageMemoryBarrier.nsrcQueueFamilyIndex(adr, value)
-inline var VkImageMemoryBarrier.dstQueueFamilyIndex
+inline var VkImageMemoryBarrier.dstQueueFamilyIndex: Int
+
     get() = VkImageMemoryBarrier.ndstQueueFamilyIndex(adr)
     set(value) = VkImageMemoryBarrier.ndstQueueFamilyIndex(adr, value)
 inline var VkImageMemoryBarrier.image: VkImage
@@ -573,7 +576,7 @@ inline var VkImageMemoryBarrier.subresourceRange: VkImageSubresourceRange
 inline var VkRenderPassBeginInfo.type: VkStructureType
     get() = VkStructureType of VkRenderPassBeginInfo.nsType(adr)
     set(value) = VkRenderPassBeginInfo.nsType(adr, value.i)
-inline var VkRenderPassBeginInfo.next
+inline var VkRenderPassBeginInfo.next: Ptr
     get() = VkRenderPassBeginInfo.npNext(adr)
     set(value) = VkRenderPassBeginInfo.npNext(adr, value)
 inline var VkRenderPassBeginInfo.renderPass: VkRenderPass
@@ -585,7 +588,8 @@ inline var VkRenderPassBeginInfo.framebuffer: VkFramebuffer
 inline var VkRenderPassBeginInfo.renderArea: VkRect2D
     get() = VkRenderPassBeginInfo.nrenderArea(adr)
     set(value) = VkRenderPassBeginInfo.nrenderArea(adr, value)
-inline val VkRenderPassBeginInfo.clearValueCount get() = clearValueCount()
+inline val VkRenderPassBeginInfo.clearValueCount: Int
+    get() = clearValueCount()
 inline var VkRenderPassBeginInfo.clearValues: VkClearValue.Buffer?
     get() = VkRenderPassBeginInfo.npClearValues(adr)
     set(value) = VkRenderPassBeginInfo.npClearValues(adr, value)
@@ -1595,16 +1599,26 @@ fun VkRenderPassBeginInfo.clearValue(vec4: Vec4) {
 //
 
 
-inline val VkSurfaceCapabilitiesKHR.minImageCount get() = VkSurfaceCapabilitiesKHR.nminImageCount(adr)
-inline val VkSurfaceCapabilitiesKHR.maxImageCount get() = VkSurfaceCapabilitiesKHR.nmaxImageCount(adr)
-inline val VkSurfaceCapabilitiesKHR.currentExtent: VkExtent2D get() = VkSurfaceCapabilitiesKHR.ncurrentExtent(adr)
-inline val VkSurfaceCapabilitiesKHR.minImageExtent: VkExtent2D get() = VkSurfaceCapabilitiesKHR.nminImageExtent(adr)
-inline val VkSurfaceCapabilitiesKHR.maxImageExtent: VkExtent2D get() = VkSurfaceCapabilitiesKHR.nmaxImageExtent(adr)
-inline val VkSurfaceCapabilitiesKHR.maxImageArrayLayers get() = VkSurfaceCapabilitiesKHR.nmaxImageArrayLayers(adr)
-inline val VkSurfaceCapabilitiesKHR.supportedTransforms: VkSurfaceTransformFlagsKHR get() = VkSurfaceCapabilitiesKHR.nsupportedTransforms(adr)
-inline val VkSurfaceCapabilitiesKHR.currentTransform: VkSurfaceTransform get() = VkSurfaceTransform of VkSurfaceCapabilitiesKHR.ncurrentTransform(adr)
-inline val VkSurfaceCapabilitiesKHR.supportedCompositeAlpha: VkCompositeAlphaFlagsKHR get() = VkSurfaceCapabilitiesKHR.nsupportedCompositeAlpha(adr)
-inline val VkSurfaceCapabilitiesKHR.supportedUsageFlags: VkImageUsageFlags get() = VkSurfaceCapabilitiesKHR.nsupportedUsageFlags(adr)
+inline val VkSurfaceCapabilitiesKHR.minImageCount: Int
+    get() = VkSurfaceCapabilitiesKHR.nminImageCount(adr)
+inline val VkSurfaceCapabilitiesKHR.maxImageCount: Int
+    get() = VkSurfaceCapabilitiesKHR.nmaxImageCount(adr)
+inline val VkSurfaceCapabilitiesKHR.currentExtent: VkExtent2D
+    get() = VkSurfaceCapabilitiesKHR.ncurrentExtent(adr)
+inline val VkSurfaceCapabilitiesKHR.minImageExtent: VkExtent2D
+    get() = VkSurfaceCapabilitiesKHR.nminImageExtent(adr)
+inline val VkSurfaceCapabilitiesKHR.maxImageExtent: VkExtent2D
+    get() = VkSurfaceCapabilitiesKHR.nmaxImageExtent(adr)
+inline val VkSurfaceCapabilitiesKHR.maxImageArrayLayers: Int
+    get() = VkSurfaceCapabilitiesKHR.nmaxImageArrayLayers(adr)
+inline val VkSurfaceCapabilitiesKHR.supportedTransforms: VkSurfaceTransformFlagsKHR
+    get() = VkSurfaceCapabilitiesKHR.nsupportedTransforms(adr)
+inline val VkSurfaceCapabilitiesKHR.currentTransform: VkSurfaceTransform
+    get() = VkSurfaceTransform of VkSurfaceCapabilitiesKHR.ncurrentTransform(adr)
+inline val VkSurfaceCapabilitiesKHR.supportedCompositeAlpha: VkCompositeAlphaFlagsKHR
+    get() = VkSurfaceCapabilitiesKHR.nsupportedCompositeAlpha(adr)
+inline val VkSurfaceCapabilitiesKHR.supportedUsageFlags: VkImageUsageFlags
+    get() = VkSurfaceCapabilitiesKHR.nsupportedUsageFlags(adr)
 
 //typedef struct VkSurfaceCapabilitiesKHR {
 //    uint32_t                         minImageCount;
@@ -1677,7 +1691,7 @@ operator fun VkSurfaceFormatKHR.invoke(surfaceFormatKHR: VkSurfaceFormatKHR) {
 inline var VkSwapchainCreateInfoKHR.type: VkStructureType
     get() = VkStructureType of VkSwapchainCreateInfoKHR.nsType(adr)
     set(value) = VkSwapchainCreateInfoKHR.nsType(adr, value.i)
-inline var VkSwapchainCreateInfoKHR.next: Long
+inline var VkSwapchainCreateInfoKHR.next: Ptr
     get() = VkSwapchainCreateInfoKHR.npNext(adr)
     set(value) = VkSwapchainCreateInfoKHR.npNext(adr, value)
 inline var VkSwapchainCreateInfoKHR.flags: VkSwapchainCreateFlagsKHR
@@ -1686,7 +1700,7 @@ inline var VkSwapchainCreateInfoKHR.flags: VkSwapchainCreateFlagsKHR
 inline var VkSwapchainCreateInfoKHR.surface: VkSurface
     get() = VkSurface(VkSwapchainCreateInfoKHR.nsurface(adr))
     set(value) = VkSwapchainCreateInfoKHR.nsurface(adr, value.L)
-inline var VkSwapchainCreateInfoKHR.minImageCount
+inline var VkSwapchainCreateInfoKHR.minImageCount: Int
     get() = VkSwapchainCreateInfoKHR.nminImageCount(adr)
     set(value) = VkSwapchainCreateInfoKHR.nminImageCount(adr, value)
 inline var VkSwapchainCreateInfoKHR.imageFormat: VkFormat
@@ -1705,7 +1719,7 @@ fun VkSwapchainCreateInfoKHR.imageExtent(extent: Vec2i) {
     imageExtent.height = extent.y
 }
 
-inline var VkSwapchainCreateInfoKHR.imageArrayLayers
+inline var VkSwapchainCreateInfoKHR.imageArrayLayers: Int
     get() = VkSwapchainCreateInfoKHR.nimageArrayLayers(adr)
     set(value) = VkSwapchainCreateInfoKHR.nimageArrayLayers(adr, value)
 inline var VkSwapchainCreateInfoKHR.imageUsage: VkImageUsageFlags
@@ -1714,8 +1728,9 @@ inline var VkSwapchainCreateInfoKHR.imageUsage: VkImageUsageFlags
 inline var VkSwapchainCreateInfoKHR.imageSharingMode: VkSharingMode
     get() = VkSharingMode of VkSwapchainCreateInfoKHR.nimageSharingMode(adr)
     set(value) = VkSwapchainCreateInfoKHR.nimageSharingMode(adr, value.i)
-inline val VkSwapchainCreateInfoKHR.queueFamilyIndexCount get() = VkSwapchainCreateInfoKHR.nqueueFamilyIndexCount(adr)
-inline var VkSwapchainCreateInfoKHR.queueFamilyIndices
+inline val VkSwapchainCreateInfoKHR.queueFamilyIndexCount: Int
+    get() = VkSwapchainCreateInfoKHR.nqueueFamilyIndexCount(adr)
+inline var VkSwapchainCreateInfoKHR.queueFamilyIndices: IntBuffer?
     get() = VkSwapchainCreateInfoKHR.npQueueFamilyIndices(adr)
     set(value) = VkSwapchainCreateInfoKHR.npQueueFamilyIndices(adr, value)
 inline var VkSwapchainCreateInfoKHR.preTransform: VkSurfaceTransform
@@ -1727,7 +1742,7 @@ inline var VkSwapchainCreateInfoKHR.compositeAlpha: VkCompositeAlpha
 inline var VkSwapchainCreateInfoKHR.presentMode: VkPresentMode
     get() = VkPresentMode of VkSwapchainCreateInfoKHR.npresentMode(adr)
     set(value) = VkSwapchainCreateInfoKHR.npresentMode(adr, value.i)
-inline var VkSwapchainCreateInfoKHR.clipped
+inline var VkSwapchainCreateInfoKHR.clipped: Boolean
     get() = VkSwapchainCreateInfoKHR.nclipped(adr).bool
     set(value) = VkSwapchainCreateInfoKHR.nclipped(adr, value.i)
 inline var VkSwapchainCreateInfoKHR.oldSwapchain: VkSwapchainKHR
@@ -1762,7 +1777,7 @@ typealias VkSwapchainCreateFlagsKHR = VkFlags
 inline var VkPresentInfoKHR.type: VkStructureType
     get() = VkStructureType of VkPresentInfoKHR.nsType(adr)
     set(value) = VkPresentInfoKHR.nsType(adr, value.i)
-inline var VkPresentInfoKHR.next
+inline var VkPresentInfoKHR.next: Ptr
     get() = VkPresentInfoKHR.npNext(adr)
     set(value) = VkPresentInfoKHR.npNext(adr, value)
 //inline val VkPresentInfoKHR.waitSemaphoreCount get() = VkPresentInfoKHR.nwaitSemaphoreCount(adr)

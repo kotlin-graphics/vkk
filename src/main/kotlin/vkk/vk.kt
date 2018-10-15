@@ -1588,9 +1588,18 @@ object vk {
     fun flushMappedMemoryRange(device: VkDevice, memoryRange: VkMappedMemoryRange): VkResult =
             VkResult(VK10.nvkFlushMappedMemoryRanges(device, 1, memoryRange.adr))
 
-    fun freeCommandBuffers(device: VkDevice, commandPool: VkCommandPool, commandBuffers: Iterable<VkCommandBuffer>) =
+    fun freeCommandBuffers(device: VkDevice, commandPool: VkCommandPool, commandBuffers: Array<VkCommandBuffer>) =
             stak {
-                val size = commandBuffers.count()
+                val size = commandBuffers.size
+                val pointers = it.nmalloc(Pointer.POINTER_SIZE, size * Pointer.POINTER_SIZE)
+                for (i in 0 until size)
+                    memPutAddress(pointers + Pointer.POINTER_SIZE * i, commandBuffers.elementAt(i).adr)
+                VK10.nvkFreeCommandBuffers(device, commandPool.L, size, pointers)
+            }
+
+    fun freeCommandBuffers(device: VkDevice, commandPool: VkCommandPool, commandBuffers: Collection<VkCommandBuffer>) =
+            stak {
+                val size = commandBuffers.size
                 val pointers = it.nmalloc(Pointer.POINTER_SIZE, size * Pointer.POINTER_SIZE)
                 for (i in 0 until size)
                     memPutAddress(pointers + Pointer.POINTER_SIZE * i, commandBuffers.elementAt(i).adr)
