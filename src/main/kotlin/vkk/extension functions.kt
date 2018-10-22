@@ -216,7 +216,7 @@ infix fun VkDevice.allocateCommandBuffer(allocateInfo: VkCommandBufferAllocateIn
 infix fun VkDevice.allocateCommandBuffers(allocateInfo: VkCommandBufferAllocateInfo): Array<VkCommandBuffer> =
         stak {
             val count = allocateInfo.commandBufferCount
-            val pCommandBuffer = it.nmalloc(POINTER_SIZE, count)
+            val pCommandBuffer = it.nmalloc(POINTER_SIZE, count * POINTER_SIZE)
             VK_CHECK_RESULT(VK10.nvkAllocateCommandBuffers(this, allocateInfo.adr, pCommandBuffer))
             return Array(count) { VkCommandBuffer(memGetAddress(pCommandBuffer + POINTER_SIZE * it), this) }
         }
