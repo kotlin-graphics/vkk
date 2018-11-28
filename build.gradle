@@ -1,46 +1,32 @@
 import org.gradle.internal.os.OperatingSystem
 
-apply plugin: 'java'
-apply plugin: 'kotlin'
-
-// jitpack
-apply plugin: 'maven'
-group = 'com.github.kotlin-graphics'
-
-apply plugin: 'com.github.johnrengelman.shadow'
-apply plugin: 'kotlin-kapt'
-
-buildscript {
-
-    ext.kotlinVersion = '1.3.0-rc-190'
-
-    repositories {
-        jcenter()   // shadow
-        mavenCentral()
-        maven { setUrl("https://dl.bintray.com/kotlin/kotlin-eap") }
-        maven { setUrl("https://oss.sonatype.org/content/repositories/snapshots/") }
-    }
-
-    dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
-        classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.4'
-        classpath "org.junit.platform:junit-platform-gradle-plugin:1.2.0"
-    }
+plugins {
+    id 'maven'
+    id 'java'
+    id 'java-library'
+    id "org.jetbrains.kotlin.jvm" version "1.3.10"
+//    id "org.jetbrains.kotlin.kapt" version "1.3.10"
+    id "com.github.johnrengelman.shadow" version '2.0.4'
 }
 
+// jitpack
+group = 'com.github.kotlin-graphics'
+
+ext.kotlin_version = '1.3.10'
+ext.moduleName = 'com.github.kotlin_graphics.vkk'
 
 dependencies {
 
     ext.kotlin = "org.jetbrains.kotlin:kotlin"
-    implementation "$kotlin-stdlib:$kotlinVersion"
-    implementation "$kotlin-reflect:$kotlinVersion"
+    implementation "$kotlin-stdlib:$kotlin_version".toString()
+    implementation "$kotlin-reflect:$kotlin_version".toString()
 
     ext.kx = "com.github.kotlin-graphics"
-    implementation "$kx:gli:4b917585179082f75d1d0ed09c43c54cc04be419"
+    api "$kx:gli:bded5be73ebedf23e236b1dbf47151cb98695e66".toString()
 
-    //testCompile 'io.kotlintest:kotlintest-runner-junit5:3.0.6'
+//    testCompile 'io.kotlintest:kotlintest-runner-junit5:3.0.6'
 
-    ext.lwjglVersion = "3.2.0"
+    ext.lwjglVersion = "3.2.1-SNAPSHOT"
     switch (OperatingSystem.current()) {
         case OperatingSystem.WINDOWS:
             ext.lwjglNatives = "natives-windows"
@@ -59,16 +45,15 @@ dependencies {
     }
 
     ext.spirvCross = "graphics.scenery:spirvcrossj:0.4.0"
-    implementation spirvCross
-    runtime "$spirvCross:$lwjglNatives"
+    implementation "$spirvCross".toString()
+    runtime "$spirvCross:$lwjglNatives".toString()
 
-
-    compile group: 'org.jetbrains.kotlin.kapt', name: 'org.jetbrains.kotlin.kapt.gradle.plugin', version: '1.3.0-rc-146'
+//    compile group: 'org.jetbrains.kotlin.kapt', name: 'org.jetbrains.kotlin.kapt.gradle.plugin', version: '1.3.0-rc-146'
 }
 
 repositories {
     mavenCentral()
-    maven { setUrl("https://dl.bintray.com/kotlin/kotlin-eap") }
+//    maven { setUrl("https://dl.bintray.com/kotlin/kotlin-eap") }
     maven { setUrl("https://oss.sonatype.org/content/repositories/snapshots/") }
     maven { setUrl('https://jitpack.io') }
 }
@@ -86,4 +71,9 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
 artifacts {
     archives sourcesJar
     archives javadocJar
+}
+
+jar {
+    inputs.property("moduleName", moduleName)
+    manifest.attributes('Automatic-Module-Name': moduleName)
 }

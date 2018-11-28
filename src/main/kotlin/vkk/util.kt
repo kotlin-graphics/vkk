@@ -363,7 +363,7 @@ typealias BufferizableData = Pair<BufferizableAddFunctionType, KProperty1<out Bu
 
 fun bufferOf(vararg data: Bufferizable): ByteBuffer {
     val size = data.sumBy { it.size }
-    val res = bufferBig(size)
+    val res = Buffer(size)
     val address = memAddress(res)
     var offset = 0
     for (i in data.indices) {
@@ -375,7 +375,7 @@ fun bufferOf(vararg data: Bufferizable): ByteBuffer {
 
 fun bufferOf(data: Collection<Bufferizable>): ByteBuffer {
     val size = data.sumBy { it.size }
-    val res = bufferBig(size)
+    val res = Buffer(size)
     val address = memAddress(res)
     var offset = 0
     for (i in data.indices) {
@@ -385,12 +385,7 @@ fun bufferOf(data: Collection<Bufferizable>): ByteBuffer {
     return res
 }
 
-fun intArrayOf(ints: Collection<Int>): IntBuffer {
-    val buffer = intBufferBig(ints.size)
-    for (i in ints.indices)
-        buffer[i] = ints.elementAt(i)
-    return buffer
-}
+fun intArrayOf(ints: Collection<Int>) = IntBuffer(ints.size) { ints.elementAt(it) }
 
 //object uboVS : Bufferizable() {
 //

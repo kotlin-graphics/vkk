@@ -2,6 +2,7 @@ package vkk
 
 import glm_.i
 import glm_.set
+import kool.Buffer
 import kool.Ptr
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.NULL
@@ -30,7 +31,7 @@ infix operator fun Long.minus(other: VkObject) = minus(other.L)
 infix operator fun Long.times(other: VkObject) = times(other.L)
 infix operator fun Long.div(other: VkObject) = div(other.L)
 
-fun bufferBig(size: VkDeviceSize): ByteBuffer = kool.bufferBig(size.L.i)
+fun Buffer(size: VkDeviceSize): ByteBuffer = Buffer(size.L.i)
 
 fun memCopy(src: Ptr, dst: Ptr, bytes: VkDeviceSize) = memCopy(src, dst, bytes.L)
 

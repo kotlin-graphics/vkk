@@ -1651,9 +1651,9 @@ inline var VkPipelineDynamicStateCreateInfo.flags: VkPipelineDynamicStateCreateF
     get() = VkPipelineDynamicStateCreateInfo.nflags(adr)
     set(value) = VkPipelineDynamicStateCreateInfo.nflags(adr, value)
 //inline val VkPipelineDynamicStateCreateInfo.dynamicStateCount get() = VkPipelineDynamicStateCreateInfo.ndynamicStateCount(adr)
-inline var VkPipelineDynamicStateCreateInfo.dynamicStates: VkDynamicStateBuffer
-    get() = VkDynamicStateBuffer(VkPipelineDynamicStateCreateInfo.npDynamicStates(adr))
-    set(value) = VkPipelineDynamicStateCreateInfo.npDynamicStates(adr, value.buffer)
+inline var VkPipelineDynamicStateCreateInfo.dynamicStates: VkDynamicStateBuffer?
+    get() = VkPipelineDynamicStateCreateInfo.npDynamicStates(adr)?.let(::VkDynamicStateBuffer)
+    set(value) = VkPipelineDynamicStateCreateInfo.npDynamicStates(adr, value?.buffer)
 
 //typedef struct VkPipelineDynamicStateCreateInfo {
 //    VkStructureType                      sType;
@@ -1681,10 +1681,10 @@ inline var VkGraphicsPipelineCreateInfo.flags: VkPipelineCreateFlags
 inline var VkGraphicsPipelineCreateInfo.stages: VkPipelineShaderStageCreateInfo.Buffer
     get() = VkGraphicsPipelineCreateInfo.npStages(adr)
     set(value) = VkGraphicsPipelineCreateInfo.npStages(adr, value)
-inline var VkGraphicsPipelineCreateInfo.vertexInputState: VkPipelineVertexInputStateCreateInfo
+inline var VkGraphicsPipelineCreateInfo.vertexInputState: VkPipelineVertexInputStateCreateInfo?
     get() = VkGraphicsPipelineCreateInfo.npVertexInputState(adr)
     set(value) = VkGraphicsPipelineCreateInfo.npVertexInputState(adr, value)
-inline var VkGraphicsPipelineCreateInfo.inputAssemblyState: VkPipelineInputAssemblyStateCreateInfo
+inline var VkGraphicsPipelineCreateInfo.inputAssemblyState: VkPipelineInputAssemblyStateCreateInfo?
     get() = VkGraphicsPipelineCreateInfo.npInputAssemblyState(adr)
     set(value) = VkGraphicsPipelineCreateInfo.npInputAssemblyState(adr, value)
 inline var VkGraphicsPipelineCreateInfo.tessellationState
