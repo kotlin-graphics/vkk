@@ -36,7 +36,7 @@ dependencies {
     }
 
     ext.spirvCross = "graphics.scenery:spirvcrossj:$sprivCross_version"
-    implementation "$spirvCross".toString()
+    api "$spirvCross".toString()
     runtime "$spirvCross:natives-$lwjgl_natives".toString()
 
 //    compile group: 'org.jetbrains.kotlin.kapt', name: 'org.jetbrains.kotlin.kapt.gradle.plugin', version: '1.3.0-rc-146'
