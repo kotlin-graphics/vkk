@@ -7,8 +7,11 @@ import glm_.vec2.Vec2i
 import glm_.vec3.Vec3i
 import glm_.vec4.Vec4
 import kool.Ptr
+import kool.adr
+import kool.stak
 import org.lwjgl.system.MemoryUtil.*
 import org.lwjgl.vulkan.*
+import vkk.`object`.*
 import java.nio.IntBuffer
 import java.nio.LongBuffer
 
@@ -94,7 +97,7 @@ inline var VkFramebufferCreateInfo.attachment: VkImageView?
             memPutAddress(adr + VkFramebufferCreateInfo.PATTACHMENTS, NULL)
             VkFramebufferCreateInfo.nattachmentCount(adr, 0)
         }
-        else -> longAddressStack(value.L) {
+        else -> stak.longAddress(value.L) {
             memPutAddress(adr + VkFramebufferCreateInfo.PATTACHMENTS, it)
             memPutInt(adr + VkFramebufferCreateInfo.ATTACHMENTCOUNT, 1)
         }
@@ -427,10 +430,28 @@ inline var VkBufferImageCopy.imageSubresource: VkImageSubresourceLayers
 inline var VkBufferImageCopy.imageOffset: VkOffset3D
     get() = VkBufferImageCopy.nimageOffset(adr)
     set(value) = VkBufferImageCopy.nimageOffset(adr, value)
+/** JVM custom */
+fun VkBufferImageCopy.imageOffset(xyz: Int) = imageOffset(xyz, xyz, xyz)
+/** JVM custom */
+fun VkBufferImageCopy.imageOffset(x: Int, y: Int, z: Int) {
+    imageOffset.also {
+        it.x = x
+        it.y = y
+        it.z = z
+    }
+}
 inline var VkBufferImageCopy.imageExtent: VkExtent3D
     get() = VkBufferImageCopy.nimageExtent(adr)
     set(value) = VkBufferImageCopy.nimageExtent(adr, value)
 
+/** JVM custom */
+fun VkBufferImageCopy.imageExtent(width: Int, height: Int, depth: Int) {
+    imageExtent.also {
+        it.width = width
+        it.height = height
+        it.depth = depth
+    }
+}
 /** JVM custom */
 fun VkBufferImageCopy.imageExtent(extent: Vec2i, depth: Int) {
     imageExtent.apply {
@@ -463,8 +484,13 @@ inline var VkClearValue.depthStencil: VkClearDepthStencilValue
     get() = VkClearValue.ndepthStencil(adr)
     set(value) = VkClearValue.ndepthStencil(adr, value)
 
+/** JVM custom  */
+fun VkClearValue.color(floats: FloatArray) = color(floats[0], floats[1], floats[2], floats[3])
+/** JVM custom  */
 fun VkClearValue.color(float: Float) = color(float, float, float, float)
+/** JVM custom  */
 fun VkClearValue.color(color_: Vec4) = color(color_.r, color_.g, color_.b, color_.a)
+/** JVM custom  */
 fun VkClearValue.color(r: Float, g: Float, b: Float, a: Float) {
     memPutFloat(adr, r)
     memPutFloat(adr + Float.BYTES, g)
@@ -472,7 +498,7 @@ fun VkClearValue.color(r: Float, g: Float, b: Float, a: Float) {
     memPutFloat(adr + Float.BYTES * 3, a)
 }
 
-
+/** JVM Custom */
 fun VkClearValue.depthStencil(depth: Float, stencil: Int) {
     memPutFloat(adr, depth)
     memPutInt(adr + Float.BYTES, stencil)
@@ -1782,8 +1808,8 @@ inline var VkPresentInfoKHR.next: Ptr
     set(value) = VkPresentInfoKHR.npNext(adr, value)
 //inline val VkPresentInfoKHR.waitSemaphoreCount get() = VkPresentInfoKHR.nwaitSemaphoreCount(adr)
 inline var VkPresentInfoKHR.waitSemaphores: VkSemaphoreBuffer?
-    get() = VkPresentInfoKHR.npWaitSemaphores(adr)
-    set(value) = VkPresentInfoKHR.npWaitSemaphores(adr, value)
+    get() = VkPresentInfoKHR.npWaitSemaphores(adr)?.let(::VkSemaphoreBuffer)
+    set(value) = VkPresentInfoKHR.npWaitSemaphores(adr, value?.buffer)
 /** JVM custom */
 inline var VkPresentInfoKHR.waitSemaphore: VkSemaphore?
     get() = VkPresentInfoKHR.npWaitSemaphores(adr)?.let { VkSemaphore(it[0]) }
@@ -1792,7 +1818,7 @@ inline var VkPresentInfoKHR.waitSemaphore: VkSemaphore?
             memPutAddress(adr + VkPresentInfoKHR.PWAITSEMAPHORES, NULL)
             VkPresentInfoKHR.nwaitSemaphoreCount(adr, 0)
         }
-        else -> longAddressStack(value.L) {
+        else -> stak.longAddress(value.L) {
             memPutAddress(adr + VkPresentInfoKHR.PWAITSEMAPHORES, it)
             memPutInt(adr + VkPresentInfoKHR.WAITSEMAPHORECOUNT, 1)
         }
@@ -1806,14 +1832,14 @@ inline var VkPresentInfoKHR.swapchains: VkSwapchainKhrBuffer
 /** JVM custom */
 inline var VkPresentInfoKHR.swapchain: VkSwapchainKHR
     get() = VkSwapchainKHR(VkPresentInfoKHR.npSwapchains(adr)[0])
-    set(value) = longAddressStack(value.L) { memPutAddress(adr + VkPresentInfoKHR.PSWAPCHAINS, it) }
+    set(value) = stak.longAddress(value.L) { memPutAddress(adr + VkPresentInfoKHR.PSWAPCHAINS, it) }
 inline var VkPresentInfoKHR.imageIndices: IntBuffer
     get() = VkPresentInfoKHR.npImageIndices(adr)
     set(value) = VkPresentInfoKHR.npImageIndices(adr, value)
 /** JVM custom */
 inline var VkPresentInfoKHR.imageIndex: Int
     get() = VkPresentInfoKHR.npImageIndices(adr)[0]
-    set(value) = intAddressStack(value) { memPutAddress(adr + VkPresentInfoKHR.PIMAGEINDICES, it) }
+    set(value) = stak.intAddress(value) { memPutAddress(adr + VkPresentInfoKHR.PIMAGEINDICES, it) }
 inline var VkPresentInfoKHR.results: VkResultBuffer?
     get() = VkPresentInfoKHR.npResults(adr)
     set(value) = VkPresentInfoKHR.npResults(adr, value)

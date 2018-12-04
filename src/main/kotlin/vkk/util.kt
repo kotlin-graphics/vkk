@@ -1,13 +1,10 @@
 package vkk
 
-import gli_.extension
 import glm_.BYTES
 import glm_.i
 import glm_.mat3x3.Mat3
 import glm_.mat4x4.Mat4
-import glm_.set
 import glm_.vec2.Vec2
-import glm_.vec2.Vec2i
 import glm_.vec3.Vec3
 import glm_.vec4.Vec4
 import graphics.scenery.spirvcrossj.*
@@ -16,27 +13,18 @@ import org.lwjgl.PointerBuffer
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryStack.stackGet
 import org.lwjgl.system.MemoryUtil.*
-import org.lwjgl.system.Pointer
 import org.lwjgl.system.Struct
 import org.lwjgl.system.StructBuffer
-import org.lwjgl.vulkan.*
-import java.lang.annotation.ElementType
-import java.nio.Buffer
+import org.lwjgl.vulkan.VkAttachmentReference
+import org.lwjgl.vulkan.VkDeviceQueueCreateInfo
 import java.nio.ByteBuffer
-import java.nio.IntBuffer
-import java.nio.LongBuffer
 import java.nio.file.Files
 import java.nio.file.Path
-import javax.lang.model.element.*
 import kotlin.reflect.KProperty1
 import kotlin.reflect.KType
 import kotlin.reflect.full.declaredMemberProperties
 import kotlin.reflect.full.defaultType
 import kotlin.reflect.full.findAnnotation
-import javax.lang.model.type.TypeMirror
-import java.lang.annotation.RetentionPolicy
-
-
 
 
 //fun pointerBufferOf(vararg strings: String): PointerBuffer {
@@ -49,17 +37,6 @@ import java.lang.annotation.RetentionPolicy
 //operator fun PointerBuffer.set(index: Int, string: String) {
 //    put(index, string.memUTF16)
 //}
-operator fun PointerBuffer.set(index: Int, long: Long) {
-    put(index, long)
-}
-
-operator fun PointerBuffer.set(index: Int, pointer: Pointer) {
-    put(index, pointer)
-}
-
-operator fun PointerBuffer.set(index: Int, buffer: Buffer) {
-    put(index, buffer.adr)
-}
 
 //operator fun PointerBuffer.plusAssign(string: String) {
 //    put(string.stackUTF16)
@@ -76,52 +53,8 @@ operator fun PointerBuffer.set(index: Int, buffer: Buffer) {
 //fun PointerBuffer.isNotEmpty() = position() > 0
 
 
-object LongArrayList {
-    operator fun ArrayList<Long>.set(index: Int, long: LongBuffer) {
-        set(index, long[0])
-    }
-
-    infix fun ArrayList<Long>.resize(newSize: Int) {
-        if (size < newSize)
-            for (i in size until newSize)
-                add(NULL)
-        else if (size > newSize)
-            for (i in size downTo newSize + 1)
-                removeAt(lastIndex)
-    }
-}
-
-object VkPhysicalDeviceArrayList {
-//    operator fun ArrayList<VkPhysicalDevice>.set(index: Int, long: LongBuffer) {
-//        set(index, long[0])
-//    }
-
-    infix fun ArrayList<VkPhysicalDevice>.resize(newSize: Int) {
-        if (size < newSize) TODO()
-//            for (i in size until newSize)
-//                add(VkPhysicalDevice())
-        else if (size > newSize)
-            for (i in size downTo newSize + 1)
-                removeAt(lastIndex)
-    }
-}
-
-
-fun vkDestroySemaphores(device: VkDevice, semaphores: VkSemaphoreBuffer) {
-    for (i in 0 until semaphores.remaining())
-        VK10.nvkDestroySemaphore(device, semaphores[i], NULL)
-}
-
-
-fun vkDestroyBuffer(device: VkDevice, buffer: VkBuffer) = VK10.nvkDestroyBuffer(device, buffer.L, NULL)
-
-
-inline val Pointer.adr get() = address()
-
-
-fun PointerBuffer?.toArrayList(): ArrayList<String> {
-    val count = this?.remaining() ?: 0
-    if (this == null || count == 0) return arrayListOf()
+fun PointerBuffer.toArrayList(): ArrayList<String> {
+    val count = this.remaining()
     val res = ArrayList<String>(count)
     for (i in 0 until count)
         res += get(i).utf8
@@ -137,13 +70,6 @@ fun Collection<String>.toPointerBuffer(stack: MemoryStack): PointerBuffer {
     return pointers
 }
 
-
-infix fun Vec2i.put(extent: VkExtent2D) {
-    x = extent.width
-    y = extent.height
-}
-
-
 fun glslToSpirv(path: Path): ByteBuffer {
 
     var compileFail = false
@@ -152,7 +78,7 @@ fun glslToSpirv(path: Path): ByteBuffer {
 
     val code = Files.readAllLines(path).joinToString("\n")
 
-    val extension = path.extension
+    val extension = path.toUri().toASCIIString().substringAfterLast(".")
     val shaderType = when (extension) {
         "vert" -> EShLanguage.EShLangVertex
         "frag" -> EShLanguage.EShLangFragment
@@ -442,16 +368,6 @@ fun main(args: Array<String>) {
         list += annotated[i] ?: plain[plainIdx++]
     println(list)
 }
-
-typealias VkDebugReportCallbackType = (
-        flag: VkDebugReportFlagsEXT,
-        objType: VkDebugReportObjectType,
-        scrType: Long,
-        location: Long,
-        msgCode: Int,
-        layerPrefix: String,
-        msg: String,
-        userData: Any?) -> Boolean
 
 operator fun VkAttachmentReference.invoke(attachment: Int, layout: VkImageLayout): VkAttachmentReference {
     return attachment(attachment).layout(layout.i)

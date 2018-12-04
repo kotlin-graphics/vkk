@@ -1910,6 +1910,8 @@ enum class VkSurfaceTransform(val i: Int) {
     }
 }
 
+infix fun Int.has(f: VkSurfaceTransform) = and(f.i) != 0
+
 typealias VkSurfaceTransformFlagsKHR = VkFlags
 
 enum class VkCompositeAlpha(val i: Int) {
@@ -1995,6 +1997,7 @@ enum class VkDebugReport(val i: Int) {
 
 infix fun Int.has(f: VkDebugReport) = and(f.i) != 0
 infix fun Int.or(f: VkDebugReport): VkDebugReportFlagsEXT = or(f.i)
+infix fun Int.and(f: VkDebugReport): VkDebugReportFlagsEXT = and(f.i)
 
 typealias VkDebugReportFlagsEXT = VkFlags
 

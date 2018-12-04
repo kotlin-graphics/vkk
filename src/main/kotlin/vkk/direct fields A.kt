@@ -8,11 +8,14 @@ import glm_.vec2.Vec2
 import glm_.vec2.Vec2i
 import glm_.vec3.Vec3i
 import kool.Ptr
+import kool.adr
+import kool.stak
 import org.lwjgl.PointerBuffer
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.*
 import org.lwjgl.system.Pointer
 import org.lwjgl.vulkan.*
+import vkk.`object`.*
 import java.nio.ByteBuffer
 import java.nio.FloatBuffer
 import java.nio.IntBuffer
@@ -56,10 +59,10 @@ inline var VkInstanceCreateInfo.applicationInfo: VkApplicationInfo?
     get() = VkInstanceCreateInfo.npApplicationInfo(adr)
     set(value) = VkInstanceCreateInfo.npApplicationInfo(adr, value)
 inline var VkInstanceCreateInfo.enabledLayerNames: Collection<String>
-    get() = VkInstanceCreateInfo.nppEnabledLayerNames(adr).toArrayList()
+    get() = VkInstanceCreateInfo.nppEnabledLayerNames(adr)?.toArrayList() ?: arrayListOf()
     set(value) = VkInstanceCreateInfo.nppEnabledLayerNames(adr, value.toPointerBufferStack())
 inline var VkInstanceCreateInfo.enabledExtensionNames: Collection<String>
-    get() = VkInstanceCreateInfo.nppEnabledExtensionNames(adr).toArrayList()
+    get() = VkInstanceCreateInfo.nppEnabledExtensionNames(adr)?.toArrayList() ?: arrayListOf()
     set(value) = VkInstanceCreateInfo.nppEnabledExtensionNames(adr, value.toPointerBufferStack())
 
 //typedef struct VkAllocationCallbacks {
@@ -624,10 +627,10 @@ inline var VkDeviceCreateInfo.queueCreateInfo: VkDeviceQueueCreateInfo
         VkDeviceCreateInfo.nqueueCreateInfoCount(adr, 1)
     }
 inline var VkDeviceCreateInfo.enabledLayerNames: Collection<String>
-    get() = VkDeviceCreateInfo.nppEnabledLayerNames(adr).toArrayList()
+    get() = VkDeviceCreateInfo.nppEnabledLayerNames(adr)?.toArrayList() ?: arrayListOf()
     set(value) = VkDeviceCreateInfo.nppEnabledLayerNames(adr, value.toPointerBufferStack())
 inline var VkDeviceCreateInfo.enabledExtensionNames: Collection<String>
-    get() = VkDeviceCreateInfo.nppEnabledExtensionNames(adr).toArrayList()
+    get() = VkDeviceCreateInfo.nppEnabledExtensionNames(adr)?.toArrayList() ?: arrayListOf()
     set(value) = VkDeviceCreateInfo.nppEnabledExtensionNames(adr, value.toPointerBufferStack())
 inline var VkDeviceCreateInfo.enabledFeatures: VkPhysicalDeviceFeatures?
     get() = VkDeviceCreateInfo.npEnabledFeatures(adr)
@@ -655,9 +658,9 @@ inline var VkSubmitInfo.next: Ptr
 inline var VkSubmitInfo.waitSemaphoreCount: Int
     get() = VkSubmitInfo.nwaitSemaphoreCount(adr)
     set(value) = VkSubmitInfo.nwaitSemaphoreCount(adr, value)
-inline var VkSubmitInfo.waitSemaphores: LongBuffer?
-    get() = VkSubmitInfo.npWaitSemaphores(adr)
-    set(value) = VkSubmitInfo.npWaitSemaphores(adr, value)
+inline var VkSubmitInfo.waitSemaphores: VkSemaphoreBuffer?
+    get() = VkSubmitInfo.npWaitSemaphores(adr)?.let(::VkSemaphoreBuffer)
+    set(value) = VkSubmitInfo.npWaitSemaphores(adr, value?.buffer)
 /** JVM custom */
 inline var VkSubmitInfo.waitSemaphore: VkSemaphore
     get() = VkSemaphore(VkSubmitInfo.npWaitSemaphores(adr)?.get(0) ?: NULL)
@@ -685,9 +688,9 @@ inline var VkSubmitInfo.commandBuffer: VkCommandBuffer?
         VkSubmitInfo.ncommandBufferCount(adr, if (value == null) 0 else 1)
     }
 //inline val VkSubmitInfo.signalSemaphoreCount get() = VkSubmitInfo.nsignalSemaphoreCount(address)
-inline var VkSubmitInfo.signalSemaphores: LongBuffer?
-    get() = VkSubmitInfo.npSignalSemaphores(adr)
-    set(value) = VkSubmitInfo.npSignalSemaphores(adr, value)
+inline var VkSubmitInfo.signalSemaphores: VkSemaphoreBuffer?
+    get() = VkSubmitInfo.npSignalSemaphores(adr)?.let(::VkSemaphoreBuffer)
+    set(value) = VkSubmitInfo.npSignalSemaphores(adr, value?.buffer)
 /** JVM custom */
 var VkSubmitInfo.signalSemaphore: VkSemaphore // TODO BUG, inline
     get() = VkSemaphore(VkSubmitInfo.npSignalSemaphores(adr)?.get(0) ?: NULL)
@@ -795,12 +798,17 @@ inline var VkImageSubresource.arrayLayer: Int
     get() = VkImageSubresource.narrayLayer(adr)
     set(value) = VkImageSubresource.narrayLayer(adr, value)
 
-//typedef struct VkOffset3D {
-//    int32_t    x;
-//    int32_t    y;
-//    int32_t    z;
-//} VkOffset3D;
-//
+
+inline var VkOffset3D.x: Int
+    get() = VkOffset3D.nx(adr)
+    set(value) = VkOffset3D.nx(adr, value)
+inline var VkOffset3D.y: Int
+    get() = VkOffset3D.ny(adr)
+    set(value) = VkOffset3D.ny(adr, value)
+inline var VkOffset3D.z: Int
+    get() = VkOffset3D.nz(adr)
+    set(value) = VkOffset3D.nz(adr, value)
+
 //typedef struct VkSparseImageMemoryBind {
 //    VkImageSubresource         subresource;
 //    VkOffset3D                 offset;
@@ -1162,6 +1170,10 @@ inline var VkPipelineShaderStageCreateInfo.module: VkShaderModule
 inline var VkPipelineShaderStageCreateInfo.name: String
     get() = VkPipelineShaderStageCreateInfo.npNameString(adr)
     set(value) = VkPipelineShaderStageCreateInfo.npName(adr, value.toUTF8stack())
+inline var VkPipelineShaderStageCreateInfo.pName: ByteBuffer
+    get() = VkPipelineShaderStageCreateInfo.npName(adr)
+    set(value) = VkPipelineShaderStageCreateInfo.npName(adr, value)
+
 inline var VkPipelineShaderStageCreateInfo.specializationInfo: VkSpecializationInfo?
     get() = VkPipelineShaderStageCreateInfo.npSpecializationInfo(adr)
     set(value) = VkPipelineShaderStageCreateInfo.npSpecializationInfo(adr, value)
@@ -1652,7 +1664,7 @@ inline var VkPipelineDynamicStateCreateInfo.flags: VkPipelineDynamicStateCreateF
     set(value) = VkPipelineDynamicStateCreateInfo.nflags(adr, value)
 //inline val VkPipelineDynamicStateCreateInfo.dynamicStateCount get() = VkPipelineDynamicStateCreateInfo.ndynamicStateCount(adr)
 inline var VkPipelineDynamicStateCreateInfo.dynamicStates: VkDynamicStateBuffer?
-    get() = VkPipelineDynamicStateCreateInfo.npDynamicStates(adr)?.let(::VkDynamicStateBuffer)
+    get() = VkPipelineDynamicStateCreateInfo.npDynamicStates(adr)?.let { VkDynamicStateBuffer(it) }
     set(value) = VkPipelineDynamicStateCreateInfo.npDynamicStates(adr, value?.buffer)
 
 //typedef struct VkPipelineDynamicStateCreateInfo {
@@ -1778,7 +1790,7 @@ var VkPipelineLayoutCreateInfo.setLayout: VkDescriptorSetLayout?
     get() = VkPipelineLayoutCreateInfo.npSetLayouts(adr)?.let { VkDescriptorSetLayout(it[0]) }
     set(value) = when (value) {
         null -> VkPipelineLayoutCreateInfo.npSetLayouts(adr, null)
-        else -> longAddressStack(value.L) {
+        else -> stak.longAddress(value.L) {
             memPutAddress(adr + VkPipelineLayoutCreateInfo.PSETLAYOUTS, it)
             memPutInt(adr + VkPipelineLayoutCreateInfo.SETLAYOUTCOUNT, 1)
         }
@@ -1877,6 +1889,11 @@ inline var VkSamplerCreateInfo.minLod: Float
 inline var VkSamplerCreateInfo.maxLod: Float
     get() = VkSamplerCreateInfo.nmaxLod(adr)
     set(value) = VkSamplerCreateInfo.nmaxLod(adr, value)
+/** Custom JVM */
+fun VkSamplerCreateInfo.minMaxLod(min: Float, max: Float) {
+    minLod = min
+    maxLod = max
+}
 inline var VkSamplerCreateInfo.borderColor: VkBorderColor
     get() = VkBorderColor of VkSamplerCreateInfo.nborderColor(adr)
     set(value) = VkSamplerCreateInfo.nborderColor(adr, value.i)
@@ -1909,7 +1926,7 @@ inline var VkDescriptorSetLayoutBinding.immutableSampler: VkSampler?
     get() = VkDescriptorSetLayoutBinding.npImmutableSamplers(adr)?.let { VkSampler(it[0]) }
     set(value) = when (value) {
         null -> memPutAddress(adr + VkDescriptorSetLayoutBinding.PIMMUTABLESAMPLERS, NULL)
-        else -> longAddressStack(value.L) { pSampler ->
+        else -> stak.longAddress(value.L) { pSampler ->
             memPutAddress(adr + VkDescriptorSetLayoutBinding.PIMMUTABLESAMPLERS, pSampler)
             memPutInt(adr + VkDescriptorSetLayoutBinding.DESCRIPTORCOUNT, 1)
         }
@@ -1997,7 +2014,7 @@ inline var VkDescriptorSetAllocateInfo.setLayouts: LongBuffer
 /** JVM custom */
 inline var VkDescriptorSetAllocateInfo.setLayout: VkDescriptorSetLayout
     get() = VkDescriptorSetLayout(VkDescriptorSetAllocateInfo.npSetLayouts(adr)[0])
-    set(value) = longAddressStack(value.L) {
+    set(value) = stak.longAddress(value.L) {
         memPutAddress(adr + VkDescriptorSetAllocateInfo.PSETLAYOUTS, it)
         memPutInt(adr + VkDescriptorSetAllocateInfo.DESCRIPTORSETCOUNT, 1)
     }
