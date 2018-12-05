@@ -11,7 +11,7 @@ import kool.adr
 import kool.stak
 import org.lwjgl.system.MemoryUtil.*
 import org.lwjgl.vulkan.*
-import vkk.`object`.*
+import vkk.entities.*
 import java.nio.IntBuffer
 import java.nio.LongBuffer
 

@@ -7,7 +7,7 @@ import org.lwjgl.PointerBuffer
 import org.lwjgl.system.MemoryUtil.*
 import org.lwjgl.system.Pointer
 import org.lwjgl.vulkan.*
-import vkk.`object`.*
+import vkk.entities.*
 import java.nio.Buffer
 import java.nio.IntBuffer
 import java.nio.LongBuffer

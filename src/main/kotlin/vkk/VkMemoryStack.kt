@@ -10,7 +10,7 @@ import org.lwjgl.system.MemoryUtil.*
 import org.lwjgl.system.Pointer
 import org.lwjgl.system.Struct
 import org.lwjgl.vulkan.*
-import vkk.`object`.*
+import vkk.entities.*
 import java.nio.*
 import kotlin.reflect.KMutableProperty0
 
@@ -734,7 +734,7 @@ inline class VkMemoryStack(val stack: MemoryStack) {
 
     fun PipelineDynamicStateCreateInfo(dynamicStates: Collection<VkDynamicState>, flags: VkPipelineDynamicStateCreateFlags = 0): VkPipelineDynamicStateCreateInfo =
         PipelineDynamicStateCreateInfo {
-            this.dynamicStates = stack.vkDynamicStateBufferOf(dynamicStates)
+            this.dynamicStates = stack.VkDynamicStateBuffer(dynamicStates)
             this.flags = flags
         }
 
@@ -1658,7 +1658,7 @@ inline class VkMemoryStack(val stack: MemoryStack) {
 
     infix fun VkDevice.destroyPipelineLayout(pipelineLayout: VkPipelineLayout) = VK10.nvkDestroyPipelineLayout(this, pipelineLayout.L, NULL)
 
-    fun VkDevice.destroyQueryPool(queryPool: VkQueryPool) = VK10.nvkDestroyQueryPool(this, queryPool.L, NULL)
+    infix fun VkDevice.destroyQueryPool(queryPool: VkQueryPool) = VK10.nvkDestroyQueryPool(this, queryPool.L, NULL)
 
     infix fun VkDevice.destroyRenderPass(renderPass: VkRenderPass) = VK10.nvkDestroyRenderPass(this, renderPass.L, NULL)
 
