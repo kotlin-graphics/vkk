@@ -5,7 +5,7 @@ import glm_.BYTES
 import glm_.i
 import glm_.mat3x3.Mat3
 import glm_.mat4x4.Mat4
-import glm_.set
+import kool.set
 import glm_.vec2.Vec2
 import glm_.vec2.Vec2i
 import glm_.vec3.Vec3

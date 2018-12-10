@@ -2,6 +2,7 @@ package vkk
 
 import glm_.*
 import glm_.vec2.Vec2i
+import kool.set
 import kool.stak
 import org.lwjgl.system.MemoryStack.stackGet
 import org.lwjgl.system.MemoryUtil
@@ -1696,5 +1697,5 @@ object vk {
             VK10.nvkUpdateDescriptorSets(device, descriptorWrites.remaining(), descriptorWrites.adr, descriptorCopies?.remaining()
                     ?: 0, descriptorCopies?.adr ?: NULL)
 
-    val VERSION = "0.2.2"
+    val VERSION = "0.2.3"
 }

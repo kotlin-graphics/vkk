@@ -3,6 +3,7 @@ package vkk
 import glm_.*
 import glm_.vec2.Vec2i
 import kool.Ptr
+import kool.rem
 import kool.stak
 import org.lwjgl.PointerBuffer
 import org.lwjgl.system.MemoryStack.stackGet
@@ -131,10 +132,10 @@ fun VkCommandBuffer.pipelineBarrier(srcStageMask: VkPipelineStageFlags, dstStage
                 if (imageMemoryBarrier != null) 1 else 0, imageMemoryBarrier?.adr ?: NULL)
 
 fun VkCommandBuffer.pushConstants(layout: VkPipelineLayout, stageFlags: VkShaderStageFlags, offset: Int, values: FloatBuffer) =
-        VK10.nvkCmdPushConstants(this, layout.L, stageFlags, offset, values.size, memAddress(values))
+        VK10.nvkCmdPushConstants(this, layout.L, stageFlags, offset, values.rem, memAddress(values))
 
 fun VkCommandBuffer.pushConstants(layout: VkPipelineLayout, stageFlags: VkShaderStageFlags, offset: Int, values: ByteBuffer) =
-        VK10.nvkCmdPushConstants(this, layout.L, stageFlags, offset, values.size, memAddress(values))
+        VK10.nvkCmdPushConstants(this, layout.L, stageFlags, offset, values.rem, memAddress(values))
 
 inline fun <R> VkCommandBuffer.record(beginInfo: VkCommandBufferBeginInfo, block: VkCommandBuffer.() -> R): R {
     begin(beginInfo)

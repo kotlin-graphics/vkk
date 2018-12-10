@@ -1,7 +1,7 @@
 package vkk
 
 import glm_.i
-import glm_.set
+import kool.set
 import kool.Buffer
 import kool.Ptr
 import org.lwjgl.system.MemoryStack
