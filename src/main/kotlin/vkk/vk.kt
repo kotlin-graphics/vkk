@@ -2,16 +2,15 @@ package vkk
 
 import glm_.*
 import glm_.vec2.Vec2i
+import kool.adr
 import kool.set
 import kool.stak
-import org.lwjgl.system.MemoryStack.stackGet
 import org.lwjgl.system.MemoryUtil
 import org.lwjgl.system.MemoryUtil.*
 import org.lwjgl.system.Pointer
 import org.lwjgl.system.Struct
 import org.lwjgl.vulkan.*
-import org.lwjgl.vulkan.VK10.VK_QUEUE_FAMILY_IGNORED
-import vkk.VkPhysicalDeviceArrayList.resize
+import vkk.entities.*
 import java.nio.ByteBuffer
 import java.nio.LongBuffer
 import kotlin.reflect.KMutableProperty0
@@ -19,374 +18,185 @@ import kotlin.reflect.KMutableProperty0
 
 object vk {
 
-    inline fun ApplicationInfo(block: VkApplicationInfo.() -> Unit): VkApplicationInfo =
-            VkApplicationInfo.callocStack().apply {
-                type = VkStructureType.APPLICATION_INFO
-                block()
-            }
+    // type constructors ===============================================================================================
 
-    inline fun BufferCreateInfo(block: VkBufferCreateInfo.() -> Unit): VkBufferCreateInfo =
-            VkBufferCreateInfo.callocStack().apply {
-                type = VkStructureType.BUFFER_CREATE_INFO
-                block()
-            }
+    fun ApplicationInfo(): VkApplicationInfo = VkApplicationInfo.callocStack().apply { type = VkStructureType.APPLICATION_INFO }
+    inline fun ApplicationInfo(block: VkApplicationInfo.() -> Unit): VkApplicationInfo = ApplicationInfo().also(block)
 
-    inline fun BufferMemoryBarrier(block: VkBufferMemoryBarrier.() -> Unit): VkBufferMemoryBarrier =
-            VkBufferMemoryBarrier.callocStack().apply {
-                type = VkStructureType.BUFFER_MEMORY_BARRIER
-                block()
-            }
+    fun BufferCreateInfo(): VkBufferCreateInfo = VkBufferCreateInfo.callocStack().apply { type = VkStructureType.BUFFER_CREATE_INFO }
+    inline fun BufferCreateInfo(block: VkBufferCreateInfo.() -> Unit): VkBufferCreateInfo = BufferCreateInfo().also(block)
 
-    fun CommandBufferAllocateInfo(commandPool: VkCommandPool, level: VkCommandBufferLevel, bufferCount: Int): VkCommandBufferAllocateInfo =
-            CommandBufferAllocateInfo {
-                this.commandPool = commandPool
-                this.level = level
-                commandBufferCount = bufferCount
-            }
+    fun BufferMemoryBarrier(): VkBufferMemoryBarrier = VkBufferMemoryBarrier.callocStack().apply { type = VkStructureType.BUFFER_MEMORY_BARRIER }
+    inline fun BufferMemoryBarrier(block: VkBufferMemoryBarrier.() -> Unit): VkBufferMemoryBarrier = BufferMemoryBarrier().also(block)
 
-    inline fun CommandBufferAllocateInfo(block: VkCommandBufferAllocateInfo.() -> Unit): VkCommandBufferAllocateInfo =
-            VkCommandBufferAllocateInfo.callocStack().apply {
-                type = VkStructureType.COMMAND_BUFFER_ALLOCATE_INFO
-                block()
-            }
+    fun CommandBufferAllocateInfo(): VkCommandBufferAllocateInfo = VkCommandBufferAllocateInfo.callocStack().apply { type = VkStructureType.COMMAND_BUFFER_ALLOCATE_INFO }
+    inline fun CommandBufferAllocateInfo(block: VkCommandBufferAllocateInfo.() -> Unit): VkCommandBufferAllocateInfo = CommandBufferAllocateInfo().also(block)
 
-    fun CommandBufferBeginInfo(): VkCommandBufferBeginInfo =
-            VkCommandBufferBeginInfo.callocStack().apply {
-                type = VkStructureType.COMMAND_BUFFER_BEGIN_INFO
-            }
+    fun CommandBufferBeginInfo(): VkCommandBufferBeginInfo = VkCommandBufferBeginInfo.callocStack().apply { type = VkStructureType.COMMAND_BUFFER_BEGIN_INFO }
+    inline fun CommandBufferBeginInfo(block: VkCommandBufferBeginInfo.() -> Unit): VkCommandBufferBeginInfo = CommandBufferBeginInfo().also(block)
 
-    inline fun CommandBufferBeginInfo(block: VkCommandBufferBeginInfo.() -> Unit): VkCommandBufferBeginInfo =
-            CommandBufferBeginInfo().also(block)
+    fun CommandBufferInheritanceInfo(): VkCommandBufferInheritanceInfo = VkCommandBufferInheritanceInfo.callocStack().apply { type = VkStructureType.COMMAND_BUFFER_INHERITANCE_INFO }
+    inline fun CommandBufferInheritanceInfo(block: VkCommandBufferInheritanceInfo.() -> Unit): VkCommandBufferInheritanceInfo = CommandBufferInheritanceInfo().also(block)
 
-    fun CommandBufferInheritanceInfo(): VkCommandBufferInheritanceInfo =
-            VkCommandBufferInheritanceInfo.callocStack().apply {
-                type = VkStructureType.COMMAND_BUFFER_INHERITANCE_INFO
-            }
+    fun CommandPoolCreateInfo(): VkCommandPoolCreateInfo = VkCommandPoolCreateInfo.callocStack().apply { type = VkStructureType.COMMAND_POOL_CREATE_INFO }
+    inline fun CommandPoolCreateInfo(block: VkCommandPoolCreateInfo.() -> Unit): VkCommandPoolCreateInfo = CommandPoolCreateInfo().also(block)
 
-    inline fun CommandBufferInheritanceInfo(block: VkCommandBufferInheritanceInfo.() -> Unit): VkCommandBufferInheritanceInfo =
-            CommandBufferInheritanceInfo().also(block)
+    fun ComputePipelineCreateInfo(): VkComputePipelineCreateInfo = VkComputePipelineCreateInfo.callocStack().apply { type = VkStructureType.COMPUTE_PIPELINE_CREATE_INFO }
+    inline fun ComputePipelineCreateInfo(block: VkComputePipelineCreateInfo.() -> Unit): VkComputePipelineCreateInfo = ComputePipelineCreateInfo().also(block)
 
-    inline fun CommandPoolCreateInfo(block: VkCommandPoolCreateInfo.() -> Unit): VkCommandPoolCreateInfo =
-            VkCommandPoolCreateInfo.callocStack().apply {
-                type = VkStructureType.COMMAND_POOL_CREATE_INFO
-                block()
-            }
+    fun DebugMarkerMarkerInfoEXT(): VkDebugMarkerMarkerInfoEXT = VkDebugMarkerMarkerInfoEXT.callocStack().apply { type = VkStructureType.DEBUG_MARKER_OBJECT_NAME_INFO_EXT }
+    inline fun DebugMarkerMarkerInfoEXT(block: VkDebugMarkerMarkerInfoEXT.() -> Unit): VkDebugMarkerMarkerInfoEXT = DebugMarkerMarkerInfoEXT().also(block)
 
-    inline fun ComputePipelineCreateInfo(block: VkComputePipelineCreateInfo.() -> Unit): VkComputePipelineCreateInfo =
-            VkComputePipelineCreateInfo.callocStack().apply {
-                type = VkStructureType.COMPUTE_PIPELINE_CREATE_INFO
-                block()
-            }
+    fun DebugMarkerObjectNameInfoEXT(): VkDebugMarkerObjectNameInfoEXT = VkDebugMarkerObjectNameInfoEXT.callocStack().apply { type = VkStructureType.DEBUG_MARKER_OBJECT_NAME_INFO_EXT }
+    inline fun DebugMarkerObjectNameInfoEXT(block: VkDebugMarkerObjectNameInfoEXT.() -> Unit): VkDebugMarkerObjectNameInfoEXT = DebugMarkerObjectNameInfoEXT().also(block)
 
-    inline fun DebugMarkerMarkerInfoEXT(block: VkDebugMarkerMarkerInfoEXT.() -> Unit): VkDebugMarkerMarkerInfoEXT =
-            VkDebugMarkerMarkerInfoEXT.callocStack().apply {
-                type = VkStructureType.DEBUG_MARKER_OBJECT_NAME_INFO_EXT
-                block()
-            }
+    fun DebugMarkerObjectTagInfoEXT(): VkDebugMarkerObjectTagInfoEXT = VkDebugMarkerObjectTagInfoEXT.callocStack().apply { type = VkStructureType.DEBUG_MARKER_OBJECT_TAG_INFO_EXT }
+    inline fun DebugMarkerObjectTagInfoEXT(block: VkDebugMarkerObjectTagInfoEXT .() -> Unit): VkDebugMarkerObjectTagInfoEXT = DebugMarkerObjectTagInfoEXT().also(block)
 
-    inline fun DebugMarkerObjectNameInfoEXT(block: VkDebugMarkerObjectNameInfoEXT.() -> Unit): VkDebugMarkerObjectNameInfoEXT =
-            VkDebugMarkerObjectNameInfoEXT.callocStack().apply {
-                type = VkStructureType.DEBUG_MARKER_OBJECT_NAME_INFO_EXT
-                block()
-            }
+    fun DebugReportCallbackCreateInfoEXT(): VkDebugReportCallbackCreateInfoEXT = VkDebugReportCallbackCreateInfoEXT.callocStack().apply { type = VkStructureType.DEBUG_REPORT_CALLBACK_CREATE_INFO_EXT }
+    inline fun DebugReportCallbackCreateInfoEXT(block: VkDebugReportCallbackCreateInfoEXT.() -> Unit): VkDebugReportCallbackCreateInfoEXT = DebugReportCallbackCreateInfoEXT().also(block)
 
-    inline fun DebugMarkerObjectTagInfoEXT(block: VkDebugMarkerObjectTagInfoEXT .() -> Unit): VkDebugMarkerObjectTagInfoEXT =
-            VkDebugMarkerObjectTagInfoEXT.callocStack().apply {
-                type = VkStructureType.DEBUG_MARKER_OBJECT_TAG_INFO_EXT
-                block()
-            }
+    fun DescriptorPoolCreateInfo(): VkDescriptorPoolCreateInfo = VkDescriptorPoolCreateInfo.callocStack().apply { type = VkStructureType.DESCRIPTOR_POOL_CREATE_INFO }
+    inline fun DescriptorPoolCreateInfo(block: VkDescriptorPoolCreateInfo.() -> Unit): VkDescriptorPoolCreateInfo = DescriptorPoolCreateInfo().also(block)
 
-    inline fun DebugReportCallbackCreateInfoEXT(block: VkDebugReportCallbackCreateInfoEXT.() -> Unit): VkDebugReportCallbackCreateInfoEXT =
-            VkDebugReportCallbackCreateInfoEXT.callocStack().apply {
-                type = VkStructureType.DEBUG_REPORT_CALLBACK_CREATE_INFO_EXT
-                block()
-            }
+    fun DescriptorSetAllocateInfo(): VkDescriptorSetAllocateInfo = VkDescriptorSetAllocateInfo.callocStack().apply { type = VkStructureType.DESCRIPTOR_SET_ALLOCATE_INFO }
+    inline fun DescriptorSetAllocateInfo(block: VkDescriptorSetAllocateInfo.() -> Unit): VkDescriptorSetAllocateInfo = DescriptorSetAllocateInfo().also(block)
 
-    inline fun DescriptorBufferInfo(block: VkDescriptorBufferInfo.() -> Unit): VkDescriptorBufferInfo =
-            VkDescriptorBufferInfo.callocStack().also(block)
+    fun DescriptorSetLayoutCreateInfo(): VkDescriptorSetLayoutCreateInfo = VkDescriptorSetLayoutCreateInfo.callocStack().apply { type = VkStructureType.DESCRIPTOR_SET_LAYOUT_CREATE_INFO }
+    inline fun DescriptorSetLayoutCreateInfo(block: VkDescriptorSetLayoutCreateInfo.() -> Unit): VkDescriptorSetLayoutCreateInfo = DescriptorSetLayoutCreateInfo().also(block)
 
-//    inline fun DescriptorBufferInfo(capacity: Int, block: VkDescriptorBufferInfo.() -> Unit): VkDescriptorBufferInfo.Buffer =
-//            VkDescriptorBufferInfo.callocStack(capacity).
-//        res[0].block()
-//        return res
-//    }
+    fun DeviceCreateInfo(): VkDeviceCreateInfo = VkDeviceCreateInfo.callocStack().apply { type = VkStructureType.DEVICE_CREATE_INFO }
+    inline fun DeviceCreateInfo(block: VkDeviceCreateInfo.() -> Unit): VkDeviceCreateInfo = DeviceCreateInfo().also(block)
 
-    inline fun DescriptorPoolCreateInfo(block: VkDescriptorPoolCreateInfo.() -> Unit): VkDescriptorPoolCreateInfo =
-            VkDescriptorPoolCreateInfo.callocStack().apply {
-                type = VkStructureType.DESCRIPTOR_POOL_CREATE_INFO
-                block()
-            }
+    fun DeviceQueueCreateInfo(): VkDeviceQueueCreateInfo = VkDeviceQueueCreateInfo.callocStack().apply { type = VkStructureType.DEVICE_QUEUE_CREATE_INFO }
+    inline fun DeviceQueueCreateInfo(block: VkDeviceQueueCreateInfo.() -> Unit): VkDeviceQueueCreateInfo = DeviceQueueCreateInfo().also(block)
 
-    inline fun DescriptorSetAllocateInfo(block: VkDescriptorSetAllocateInfo.() -> Unit): VkDescriptorSetAllocateInfo =
-            VkDescriptorSetAllocateInfo.callocStack().apply {
-                type = VkStructureType.DESCRIPTOR_SET_ALLOCATE_INFO
-                block()
-            }
-
-    inline fun DescriptorSetLayoutCreateInfo(block: VkDescriptorSetLayoutCreateInfo.() -> Unit): VkDescriptorSetLayoutCreateInfo =
-            VkDescriptorSetLayoutCreateInfo.callocStack().apply {
-                type = VkStructureType.DESCRIPTOR_SET_LAYOUT_CREATE_INFO
-                block()
-            }
-
-    inline fun DeviceCreateInfo(block: VkDeviceCreateInfo.() -> Unit): VkDeviceCreateInfo =
-            VkDeviceCreateInfo.callocStack().apply {
-                type = VkStructureType.DEVICE_CREATE_INFO
-                block()
-            }
-
-    fun DeviceQueueCreateInfo(): VkDeviceQueueCreateInfo =
-            VkDeviceQueueCreateInfo.callocStack().apply { type = VkStructureType.DEVICE_QUEUE_CREATE_INFO }
-
-    inline fun DeviceQueueCreateInfo(block: VkDeviceQueueCreateInfo.() -> Unit): VkDeviceQueueCreateInfo =
-            DeviceQueueCreateInfo().also(block)
-
-    inline fun DeviceQueueCreateInfo(capacity: Int, block: VkDeviceQueueCreateInfo.() -> Unit): VkDeviceQueueCreateInfo.Buffer {
-        val res = VkDeviceQueueCreateInfo.callocStack(capacity)
-        res.forEach { it.type = VkStructureType.DEVICE_QUEUE_CREATE_INFO }
-        res[0].block()
-        return res
+    fun DeviceQueueCreateInfo(capacity: Int): VkDeviceQueueCreateInfo.Buffer = VkDeviceQueueCreateInfo.callocStack(capacity).apply {
+        for (i in this)
+            i.type = VkStructureType.DEVICE_QUEUE_CREATE_INFO
     }
 
-    inline fun FenceCreateInfo(block: VkFenceCreateInfo.() -> Unit): VkFenceCreateInfo =
-            VkFenceCreateInfo.callocStack().apply {
-                type = VkStructureType.FENCE_CREATE_INFO
-                block()
-            }
+    fun FenceCreateInfo(): VkFenceCreateInfo = VkFenceCreateInfo.callocStack().apply { type = VkStructureType.FENCE_CREATE_INFO }
+    inline fun FenceCreateInfo(block: VkFenceCreateInfo.() -> Unit): VkFenceCreateInfo = FenceCreateInfo().also(block)
 
-    inline fun FramebufferCreateInfo(block: VkFramebufferCreateInfo.() -> Unit): VkFramebufferCreateInfo =
-            VkFramebufferCreateInfo.callocStack().apply {
-                type = VkStructureType.FRAMEBUFFER_CREATE_INFO
-                block()
-            }
+    fun FramebufferCreateInfo(): VkFramebufferCreateInfo = VkFramebufferCreateInfo.callocStack().apply { type = VkStructureType.FRAMEBUFFER_CREATE_INFO }
+    inline fun FramebufferCreateInfo(block: VkFramebufferCreateInfo.() -> Unit): VkFramebufferCreateInfo = FramebufferCreateInfo().also(block)
 
-    fun GraphicsPipelineCreateInfo(): VkGraphicsPipelineCreateInfo =
-            VkGraphicsPipelineCreateInfo.callocStack().apply { type = VkStructureType.GRAPHICS_PIPELINE_CREATE_INFO }
+    fun GraphicsPipelineCreateInfo(): VkGraphicsPipelineCreateInfo = VkGraphicsPipelineCreateInfo.callocStack().apply { type = VkStructureType.GRAPHICS_PIPELINE_CREATE_INFO }
+    inline fun GraphicsPipelineCreateInfo(block: VkGraphicsPipelineCreateInfo.() -> Unit): VkGraphicsPipelineCreateInfo = GraphicsPipelineCreateInfo().also(block)
 
-    inline fun GraphicsPipelineCreateInfo(block: VkGraphicsPipelineCreateInfo.() -> Unit): VkGraphicsPipelineCreateInfo =
-            GraphicsPipelineCreateInfo().also(block)
+    fun ImageCreateInfo(): VkImageCreateInfo = VkImageCreateInfo.callocStack().apply { type = VkStructureType.IMAGE_CREATE_INFO }
+    inline fun ImageCreateInfo(block: VkImageCreateInfo.() -> Unit): VkImageCreateInfo = ImageCreateInfo().also(block)
 
-    inline fun GraphicsPipelineCreateInfo(capacity: Int, block: VkGraphicsPipelineCreateInfo.() -> Unit): VkGraphicsPipelineCreateInfo.Buffer {
-        val res = VkGraphicsPipelineCreateInfo.callocStack(capacity)
-        res.forEach { it.type = VkStructureType.GRAPHICS_PIPELINE_CREATE_INFO }
-        res[0].block()
-        return res
+    fun ImageMemoryBarrier(): VkImageMemoryBarrier = VkImageMemoryBarrier.callocStack().apply {
+        type = VkStructureType.IMAGE_MEMORY_BARRIER
+        srcQueueFamilyIndex = VK10.VK_QUEUE_FAMILY_IGNORED
+        dstQueueFamilyIndex = VK10.VK_QUEUE_FAMILY_IGNORED
     }
 
-    inline fun ImageCreateInfo(block: VkImageCreateInfo.() -> Unit): VkImageCreateInfo =
-            VkImageCreateInfo.callocStack().apply {
-                type = VkStructureType.IMAGE_CREATE_INFO
-                block()
-            }
+    inline fun ImageMemoryBarrier(block: VkImageMemoryBarrier.() -> Unit): VkImageMemoryBarrier = ImageMemoryBarrier().also(block)
 
-    inline fun ImageMemoryBarrier(block: VkImageMemoryBarrier.() -> Unit): VkImageMemoryBarrier =
-            VkImageMemoryBarrier.callocStack().apply {
-                type = VkStructureType.IMAGE_MEMORY_BARRIER
-                srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED
-                dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED
-                block()
-            }
+    fun ImageViewCreateInfo(): VkImageViewCreateInfo = VkImageViewCreateInfo.callocStack().apply { type = VkStructureType.IMAGE_VIEW_CREATE_INFO }
+    inline fun ImageViewCreateInfo(block: VkImageViewCreateInfo.() -> Unit): VkImageViewCreateInfo = ImageViewCreateInfo().also(block)
 
-    inline fun ImageMemoryBarrier(capacity: Int, block: VkImageMemoryBarrier.() -> Unit): VkImageMemoryBarrier.Buffer {
-        val res = VkImageMemoryBarrier.callocStack(capacity)
-        res.forEach { it.type = VkStructureType.IMAGE_MEMORY_BARRIER }
-        res[0].block()
-        return res
-    }
+    fun InstanceCreateInfo(): VkInstanceCreateInfo = VkInstanceCreateInfo.callocStack().apply { type = VkStructureType.INSTANCE_CREATE_INFO }
+    inline fun InstanceCreateInfo(block: VkInstanceCreateInfo.() -> Unit): VkInstanceCreateInfo = InstanceCreateInfo().also(block)
 
-    inline fun ImageViewCreateInfo(block: VkImageViewCreateInfo.() -> Unit): VkImageViewCreateInfo =
-            VkImageViewCreateInfo.callocStack().apply {
-                type = VkStructureType.IMAGE_VIEW_CREATE_INFO
-                block()
-            }
+    fun MappedMemoryRange(): VkMappedMemoryRange = VkMappedMemoryRange.callocStack().apply { type = VkStructureType.MAPPED_MEMORY_RANGE }
+    inline fun MappedMemoryRange(block: VkMappedMemoryRange.() -> Unit): VkMappedMemoryRange = MappedMemoryRange().also(block)
 
-    fun InstanceCreateInfo(): VkInstanceCreateInfo =
-            VkInstanceCreateInfo.callocStack().apply { type = VkStructureType.INSTANCE_CREATE_INFO }
-
-    inline fun InstanceCreateInfo(block: VkInstanceCreateInfo.() -> Unit): VkInstanceCreateInfo =
-            InstanceCreateInfo().also(block)
-
-    fun MappedMemoryRange(): VkMappedMemoryRange =
-            VkMappedMemoryRange.callocStack().apply { type = VkStructureType.MAPPED_MEMORY_RANGE }
-
+    // TODO check
     fun MappedMemoryRange(capacity: Int): VkMappedMemoryRange.Buffer =
             VkMappedMemoryRange.callocStack(capacity).also {
                 for (range in it)
                     range.type = VkStructureType.MAPPED_MEMORY_RANGE
             }
 
-    inline fun MappedMemoryRange(block: VkMappedMemoryRange.() -> Unit): VkMappedMemoryRange =
-            MappedMemoryRange().also(block)
+    fun MemoryAllocateInfo(): VkMemoryAllocateInfo = VkMemoryAllocateInfo.callocStack().apply { type = VkStructureType.MEMORY_ALLOCATE_INFO }
+    inline fun MemoryAllocateInfo(block: VkMemoryAllocateInfo.() -> Unit): VkMemoryAllocateInfo = MemoryAllocateInfo().also(block)
 
-    inline fun MemoryAllocateInfo(block: VkMemoryAllocateInfo.() -> Unit): VkMemoryAllocateInfo =
-            VkMemoryAllocateInfo.callocStack().apply {
-                type = VkStructureType.MEMORY_ALLOCATE_INFO
-                block()
-            }
+    fun PhysicalDeviceFeatures(): VkPhysicalDeviceFeatures = VkPhysicalDeviceFeatures.callocStack()
+    inline fun PhysicalDeviceFeatures(block: VkPhysicalDeviceFeatures.() -> Unit): VkPhysicalDeviceFeatures = PhysicalDeviceFeatures().also(block)
 
-    fun PhysicalDeviceFeatures(): VkPhysicalDeviceFeatures =
-            VkPhysicalDeviceFeatures.callocStack()
+    fun PhysicalDeviceMemoryProperties(): VkPhysicalDeviceMemoryProperties = VkPhysicalDeviceMemoryProperties.callocStack()
+    fun PhysicalDeviceMemoryProperties(block: VkPhysicalDeviceMemoryProperties.() -> Unit): VkPhysicalDeviceMemoryProperties = PhysicalDeviceMemoryProperties().also(block)
 
-    inline fun PhysicalDeviceFeatures(block: VkPhysicalDeviceFeatures.() -> Unit): VkPhysicalDeviceFeatures =
-            PhysicalDeviceFeatures().also(block)
+    fun PhysicalDeviceProperties(): VkPhysicalDeviceProperties = VkPhysicalDeviceProperties.callocStack()
+    fun PhysicalDeviceProperties(block: VkPhysicalDeviceProperties.() -> Unit): VkPhysicalDeviceProperties = PhysicalDeviceProperties().also(block)
 
-    fun PhysicalDeviceMemoryProperties(): VkPhysicalDeviceMemoryProperties =
-            VkPhysicalDeviceMemoryProperties.callocStack()
+    fun PipelineCacheCreateInfo(): VkPipelineCacheCreateInfo = VkPipelineCacheCreateInfo.callocStack().apply { type = VkStructureType.PIPELINE_CACHE_CREATE_INFO }
+    inline fun PipelineCacheCreateInfo(block: VkPipelineCacheCreateInfo.() -> Unit): VkPipelineCacheCreateInfo = PipelineCacheCreateInfo().also(block)
 
-    fun PhysicalDeviceProperties(): VkPhysicalDeviceProperties =
-            VkPhysicalDeviceProperties.callocStack()
+    fun PipelineColorBlendStateCreateInfo(): VkPipelineColorBlendStateCreateInfo = VkPipelineColorBlendStateCreateInfo.callocStack().apply { type = VkStructureType.PIPELINE_COLOR_BLEND_STATE_CREATE_INFO }
+    inline fun PipelineColorBlendStateCreateInfo(block: VkPipelineColorBlendStateCreateInfo.() -> Unit): VkPipelineColorBlendStateCreateInfo = PipelineColorBlendStateCreateInfo().also(block)
 
-    fun PipelineCacheCreateInfo(): VkPipelineCacheCreateInfo =
-            VkPipelineCacheCreateInfo.callocStack().apply { type = VkStructureType.PIPELINE_CACHE_CREATE_INFO }
+    fun PipelineDepthStencilStateCreateInfo(): VkPipelineDepthStencilStateCreateInfo = VkPipelineDepthStencilStateCreateInfo.callocStack().apply { type = VkStructureType.PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO }
+    inline fun PipelineDepthStencilStateCreateInfo(block: VkPipelineDepthStencilStateCreateInfo.() -> Unit): VkPipelineDepthStencilStateCreateInfo = PipelineDepthStencilStateCreateInfo().also(block)
 
-    inline fun PipelineCacheCreateInfo(block: VkPipelineCacheCreateInfo.() -> Unit): VkPipelineCacheCreateInfo =
-            PipelineCacheCreateInfo().also(block)
+    fun PipelineDynamicStateCreateInfo(): VkPipelineDynamicStateCreateInfo = VkPipelineDynamicStateCreateInfo.callocStack().apply { type = VkStructureType.PIPELINE_DYNAMIC_STATE_CREATE_INFO }
+    inline fun PipelineDynamicStateCreateInfo(block: VkPipelineDynamicStateCreateInfo.() -> Unit): VkPipelineDynamicStateCreateInfo = PipelineDynamicStateCreateInfo().also(block)
 
-    inline fun PipelineColorBlendStateCreateInfo(block: VkPipelineColorBlendStateCreateInfo.() -> Unit): VkPipelineColorBlendStateCreateInfo =
-            VkPipelineColorBlendStateCreateInfo.callocStack().apply {
-                type = VkStructureType.PIPELINE_COLOR_BLEND_STATE_CREATE_INFO
-                block()
-            }
+    fun PipelineInputAssemblyStateCreateInfo(): VkPipelineInputAssemblyStateCreateInfo = VkPipelineInputAssemblyStateCreateInfo.callocStack().apply { type = VkStructureType.PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO }
+    inline fun PipelineInputAssemblyStateCreateInfo(block: VkPipelineInputAssemblyStateCreateInfo.() -> Unit): VkPipelineInputAssemblyStateCreateInfo = PipelineInputAssemblyStateCreateInfo().also(block)
 
-    fun PipelineDepthStencilStateCreateInfo(): VkPipelineDepthStencilStateCreateInfo =
-            VkPipelineDepthStencilStateCreateInfo.callocStack().apply { type = VkStructureType.PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO }
+    fun PipelineLayoutCreateInfo(): VkPipelineLayoutCreateInfo = VkPipelineLayoutCreateInfo.callocStack().apply { type = VkStructureType.PIPELINE_LAYOUT_CREATE_INFO }
+    inline fun PipelineLayoutCreateInfo(block: VkPipelineLayoutCreateInfo.() -> Unit): VkPipelineLayoutCreateInfo = PipelineLayoutCreateInfo().also(block)
 
-    inline fun PipelineDepthStencilStateCreateInfo(block: VkPipelineDepthStencilStateCreateInfo.() -> Unit): VkPipelineDepthStencilStateCreateInfo =
-            PipelineDepthStencilStateCreateInfo().also(block)
+    fun PipelineMultisampleStateCreateInfo(): VkPipelineMultisampleStateCreateInfo = VkPipelineMultisampleStateCreateInfo.callocStack().apply { type = VkStructureType.PIPELINE_MULTISAMPLE_STATE_CREATE_INFO }
+    inline fun PipelineMultisampleStateCreateInfo(block: VkPipelineMultisampleStateCreateInfo.() -> Unit): VkPipelineMultisampleStateCreateInfo = PipelineMultisampleStateCreateInfo().also(block)
 
-    inline fun PipelineDynamicStateCreateInfo(block: VkPipelineDynamicStateCreateInfo.() -> Unit): VkPipelineDynamicStateCreateInfo =
-            VkPipelineDynamicStateCreateInfo.callocStack().apply {
-                type = VkStructureType.PIPELINE_DYNAMIC_STATE_CREATE_INFO
-                block()
-            }
+    fun PipelineRasterizationStateCreateInfo(): VkPipelineRasterizationStateCreateInfo = VkPipelineRasterizationStateCreateInfo.callocStack().apply { type = VkStructureType.PIPELINE_RASTERIZATION_STATE_CREATE_INFO }
+    inline fun PipelineRasterizationStateCreateInfo(block: VkPipelineRasterizationStateCreateInfo.() -> Unit): VkPipelineRasterizationStateCreateInfo = PipelineRasterizationStateCreateInfo().also(block)
 
-    inline fun PipelineInputAssemblyStateCreateInfo(block: VkPipelineInputAssemblyStateCreateInfo.() -> Unit): VkPipelineInputAssemblyStateCreateInfo =
-            VkPipelineInputAssemblyStateCreateInfo.callocStack().apply {
-                type = VkStructureType.PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO
-                block()
-            }
-
-    fun PipelineLayoutCreateInfo(): VkPipelineLayoutCreateInfo =
-            VkPipelineLayoutCreateInfo.callocStack().apply { type = VkStructureType.PIPELINE_LAYOUT_CREATE_INFO }
-
-    inline fun PipelineLayoutCreateInfo(block: VkPipelineLayoutCreateInfo.() -> Unit): VkPipelineLayoutCreateInfo =
-            PipelineLayoutCreateInfo().also(block)
-
-    inline fun PipelineMultisampleStateCreateInfo(block: VkPipelineMultisampleStateCreateInfo.() -> Unit): VkPipelineMultisampleStateCreateInfo =
-            VkPipelineMultisampleStateCreateInfo.callocStack().apply {
-                type = VkStructureType.PIPELINE_MULTISAMPLE_STATE_CREATE_INFO
-                block()
-            }
-
-    inline fun PipelineRasterizationStateCreateInfo(block: VkPipelineRasterizationStateCreateInfo.() -> Unit): VkPipelineRasterizationStateCreateInfo =
-            VkPipelineRasterizationStateCreateInfo.callocStack().apply {
-                type = VkStructureType.PIPELINE_RASTERIZATION_STATE_CREATE_INFO
-                block()
-            }
-
+    // TODO check
     fun PipelineShaderStageCreateInfo(capacity: Int): VkPipelineShaderStageCreateInfo.Buffer =
             VkPipelineShaderStageCreateInfo.callocStack(capacity).also {
                 for (info in it)
                     info.type = VkStructureType.PIPELINE_SHADER_STAGE_CREATE_INFO
             }
 
-    fun PipelineVertexInputStateCreateInfo(): VkPipelineVertexInputStateCreateInfo =
-            VkPipelineVertexInputStateCreateInfo.callocStack().apply { type = VkStructureType.PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO }
+    fun PipelineVertexInputStateCreateInfo(): VkPipelineVertexInputStateCreateInfo = VkPipelineVertexInputStateCreateInfo.callocStack().apply { type = VkStructureType.PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO }
+    inline fun PipelineVertexInputStateCreateInfo(block: VkPipelineVertexInputStateCreateInfo.() -> Unit): VkPipelineVertexInputStateCreateInfo = PipelineVertexInputStateCreateInfo().also(block)
 
-    inline fun PipelineVertexInputStateCreateInfo(block: VkPipelineVertexInputStateCreateInfo.() -> Unit): VkPipelineVertexInputStateCreateInfo =
-            PipelineVertexInputStateCreateInfo().also(block)
+    fun PipelineViewportStateCreateInfo(): VkPipelineViewportStateCreateInfo = VkPipelineViewportStateCreateInfo.callocStack().apply { type = VkStructureType.PIPELINE_VIEWPORT_STATE_CREATE_INFO }
+    inline fun PipelineViewportStateCreateInfo(block: VkPipelineViewportStateCreateInfo.() -> Unit): VkPipelineViewportStateCreateInfo = PipelineViewportStateCreateInfo().also(block)
 
-    inline fun PipelineViewportStateCreateInfo(block: VkPipelineViewportStateCreateInfo.() -> Unit): VkPipelineViewportStateCreateInfo =
-            VkPipelineViewportStateCreateInfo.callocStack().apply {
-                type = VkStructureType.PIPELINE_VIEWPORT_STATE_CREATE_INFO
-                block()
-            }
+    fun PresentInfoKHR(): VkPresentInfoKHR = VkPresentInfoKHR.callocStack().apply { type = VkStructureType.PRESENT_INFO_KHR }
+    inline fun PresentInfoKHR(block: VkPresentInfoKHR.() -> Unit): VkPresentInfoKHR = PresentInfoKHR().also(block)
 
-    inline fun PushConstantRange(block: VkPushConstantRange.() -> Unit): VkPushConstantRange =
-            VkPushConstantRange.callocStack().also(block)
+    fun QueryPoolCreateInfo(): VkQueryPoolCreateInfo = VkQueryPoolCreateInfo.callocStack().apply { type = VkStructureType.QUERY_POOL_CREATE_INFO }
+    inline fun QueryPoolCreateInfo(block: VkQueryPoolCreateInfo.() -> Unit): VkQueryPoolCreateInfo = QueryPoolCreateInfo().also(block)
 
-    inline fun PushConstantRange(capacity: Int, block: VkPushConstantRange.() -> Unit): VkPushConstantRange.Buffer =
-            VkPushConstantRange.callocStack(capacity).also { it[0].block() }
+    fun RenderPassBeginInfo(): VkRenderPassBeginInfo = VkRenderPassBeginInfo.callocStack().apply { type = VkStructureType.RENDER_PASS_BEGIN_INFO }
+    inline fun RenderPassBeginInfo(block: VkRenderPassBeginInfo.() -> Unit): VkRenderPassBeginInfo = RenderPassBeginInfo().also(block)
 
-    inline fun PresentInfoKHR(block: VkPresentInfoKHR.() -> Unit): VkPresentInfoKHR =
-            VkPresentInfoKHR.callocStack().apply {
-                type = VkStructureType.PRESENT_INFO_KHR
-                block()
-            }
+    fun RenderPassCreateInfo(): VkRenderPassCreateInfo = VkRenderPassCreateInfo.callocStack().apply { type = VkStructureType.RENDER_PASS_CREATE_INFO }
+    inline fun RenderPassCreateInfo(block: VkRenderPassCreateInfo.() -> Unit): VkRenderPassCreateInfo = RenderPassCreateInfo().also(block)
 
-    fun QueryPoolCreateInfo(): VkQueryPoolCreateInfo =
-            VkQueryPoolCreateInfo.callocStack().apply { type = VkStructureType.QUERY_POOL_CREATE_INFO }
+    fun SamplerCreateInfo(): VkSamplerCreateInfo = VkSamplerCreateInfo.callocStack().apply { type = VkStructureType.SAMPLER_CREATE_INFO; maxAnisotropy = 1f }
+    inline fun SamplerCreateInfo(block: VkSamplerCreateInfo.() -> Unit): VkSamplerCreateInfo = SamplerCreateInfo().also(block)
 
-    inline fun QueryPoolCreateInfo(block: VkQueryPoolCreateInfo.() -> Unit): VkQueryPoolCreateInfo =
-            QueryPoolCreateInfo().also(block)
+    fun SemaphoreCreateInfo(): VkSemaphoreCreateInfo = VkSemaphoreCreateInfo.callocStack().apply { type = VkStructureType.SEMAPHORE_CREATE_INFO }
+    inline fun SemaphoreCreateInfo(block: VkSemaphoreCreateInfo.() -> Unit): VkSemaphoreCreateInfo = SemaphoreCreateInfo().also(block)
 
-    inline fun RenderPassBeginInfo(block: VkRenderPassBeginInfo.() -> Unit): VkRenderPassBeginInfo =
-            VkRenderPassBeginInfo.callocStack().apply {
-                type = VkStructureType.RENDER_PASS_BEGIN_INFO
-                block()
-            }
+    fun ShaderModuleCreateInfo(): VkShaderModuleCreateInfo = VkShaderModuleCreateInfo.callocStack().apply { type = VkStructureType.SHADER_MODULE_CREATE_INFO }
+    inline fun ShaderModuleCreateInfo(block: VkShaderModuleCreateInfo.() -> Unit): VkShaderModuleCreateInfo = ShaderModuleCreateInfo().also(block)
 
-    fun RenderPassCreateInfo(): VkRenderPassCreateInfo =
-            VkRenderPassCreateInfo.callocStack().apply { type = VkStructureType.RENDER_PASS_CREATE_INFO }
+    fun SubmitInfo(): VkSubmitInfo = VkSubmitInfo.callocStack().apply { type = VkStructureType.SUBMIT_INFO }
+    inline fun SubmitInfo(block: VkSubmitInfo.() -> Unit): VkSubmitInfo = SubmitInfo().also(block)
 
-    inline fun RenderPassCreateInfo(block: VkRenderPassCreateInfo.() -> Unit): VkRenderPassCreateInfo =
-            RenderPassCreateInfo().also(block)
+    fun SwapchainCreateInfoKHR(): VkSwapchainCreateInfoKHR = VkSwapchainCreateInfoKHR.callocStack().apply { type = VkStructureType.SWAPCHAIN_CREATE_INFO_KHR }
+    inline fun SwapchainCreateInfoKHR(block: VkSwapchainCreateInfoKHR.() -> Unit): VkSwapchainCreateInfoKHR = SwapchainCreateInfoKHR().also(block)
 
-    inline fun SamplerCreateInfo(block: VkSamplerCreateInfo.() -> Unit): VkSamplerCreateInfo =
-            VkSamplerCreateInfo.callocStack().apply {
-                type = VkStructureType.SAMPLER_CREATE_INFO
-                maxAnisotropy = 1f
-                block()
-            }
+    fun WriteDescriptorSet(): VkWriteDescriptorSet = VkWriteDescriptorSet.callocStack().apply { type = VkStructureType.WRITE_DESCRIPTOR_SET }
+    inline fun WriteDescriptorSet(block: VkWriteDescriptorSet.() -> Unit): VkWriteDescriptorSet = WriteDescriptorSet().also(block)
 
-    fun SemaphoreCreateInfo(): VkSemaphoreCreateInfo =
-            VkSemaphoreCreateInfo.callocStack().apply { type = VkStructureType.SEMAPHORE_CREATE_INFO }
-
-    inline fun SemaphoreCreateInfo(block: VkSemaphoreCreateInfo.() -> Unit): VkSemaphoreCreateInfo =
-            SemaphoreCreateInfo().also(block)
-
-    inline fun ShaderModuleCreateInfo(block: VkShaderModuleCreateInfo.() -> Unit): VkShaderModuleCreateInfo =
-            VkShaderModuleCreateInfo.callocStack().apply {
-                type = VkStructureType.SHADER_MODULE_CREATE_INFO
-                block()
-            }
-
-    fun SubmitInfo(): VkSubmitInfo =
-            VkSubmitInfo.callocStack().apply { type = VkStructureType.SUBMIT_INFO }
-
-    inline fun SubmitInfo(block: VkSubmitInfo.() -> Unit): VkSubmitInfo =
-            SubmitInfo().also(block)
-
-    inline fun SwapchainCreateInfoKHR(block: VkSwapchainCreateInfoKHR.() -> Unit): VkSwapchainCreateInfoKHR =
-            VkSwapchainCreateInfoKHR.callocStack().apply {
-                type = VkStructureType.SWAPCHAIN_CREATE_INFO_KHR
-                block()
-            }
-
-    inline fun WriteDescriptorSet(block: VkWriteDescriptorSet.() -> Unit): VkWriteDescriptorSet =
-            VkWriteDescriptorSet.callocStack().apply {
-                type = VkStructureType.WRITE_DESCRIPTOR_SET
-                block()
-            }
-
+    // TODO check
     fun WriteDescriptorSet(capacity: Int): VkWriteDescriptorSet.Buffer =
             VkWriteDescriptorSet.callocStack(capacity).also {
                 for (set in it)
                     set.type = VkStructureType.WRITE_DESCRIPTOR_SET
             }
-
-    inline fun WriteDescriptorSet(capacity: Int, block: VkWriteDescriptorSet.Buffer.() -> Unit): VkWriteDescriptorSet.Buffer =
-            WriteDescriptorSet(capacity).also(block)
-
-    fun DescriptorImageInfo(capacity: Int): VkDescriptorImageInfo.Buffer =
-            VkDescriptorImageInfo.callocStack(capacity)
-
-    inline fun DescriptorImageInfo(block: VkDescriptorImageInfo.() -> Unit): VkDescriptorImageInfo =
-            VkDescriptorImageInfo.callocStack().also(block)
-
-    inline fun DescriptorImageInfo(capacity: Int, block: VkDescriptorImageInfo.() -> Unit): VkDescriptorImageInfo.Buffer =
-            DescriptorImageInfo(capacity).also { it[0].block() }
-
 
     /*
         normal constructor functions
@@ -399,7 +209,6 @@ object vk {
     fun AttachmentReference(): VkAttachmentReference = VkAttachmentReference.callocStack()
     fun AttachmentReference(capacity: Int): VkAttachmentReference.Buffer = VkAttachmentReference.callocStack(capacity)
     inline fun AttachmentReference(block: VkAttachmentReference.() -> Unit): VkAttachmentReference = AttachmentReference().also(block)
-    inline fun AttachmentReference(capacity: Int, block: VkAttachmentReference.() -> Unit): VkAttachmentReference.Buffer = AttachmentReference(capacity).also { it[0].block() }
 
     fun BufferCopy(): VkBufferCopy = VkBufferCopy.callocStack()
     fun BufferCopy(capacity: Int): VkBufferCopy.Buffer = VkBufferCopy.callocStack(capacity)
@@ -408,9 +217,18 @@ object vk {
     fun BufferImageCopy(): VkBufferImageCopy = VkBufferImageCopy.callocStack()
     fun BufferImageCopy(capacity: Int): VkBufferImageCopy.Buffer = VkBufferImageCopy.callocStack(capacity)
     inline fun BufferImageCopy(block: VkBufferImageCopy.() -> Unit): VkBufferImageCopy = BufferImageCopy().also(block)
-    inline fun BufferImageCopy(capacity: Int, block: VkBufferImageCopy.() -> Unit): VkBufferImageCopy.Buffer = BufferImageCopy(capacity).also { it[0].block() }
 
     fun ClearValue(capacity: Int): VkClearValue.Buffer = VkClearValue.callocStack(capacity)
+
+    fun ComponentMapping(): VkComponentMapping = VkComponentMapping.callocStack()
+    fun ComponentMapping(s: VkComponentSwizzle): VkComponentMapping = VkComponentMapping.callocStack().r(s.i).g(s.i).b(s.i).a(s.i)
+    fun ComponentMapping(r: VkComponentSwizzle, g: VkComponentSwizzle, b: VkComponentSwizzle, a: VkComponentSwizzle): VkComponentMapping = VkComponentMapping.callocStack().r(r.i).g(g.i).b(b.i).a(a.i)
+
+    fun DescriptorBufferInfo(): VkDescriptorBufferInfo = VkDescriptorBufferInfo.callocStack()
+    inline fun DescriptorBufferInfo(block: VkDescriptorBufferInfo.() -> Unit): VkDescriptorBufferInfo = DescriptorBufferInfo().also(block)
+
+    fun DescriptorImageInfo(capacity: Int): VkDescriptorImageInfo.Buffer = VkDescriptorImageInfo.callocStack(capacity)
+    inline fun DescriptorImageInfo(block: VkDescriptorImageInfo.() -> Unit): VkDescriptorImageInfo = VkDescriptorImageInfo.callocStack().also(block)
 
     fun DescriptorPoolSize(): VkDescriptorPoolSize = VkDescriptorPoolSize.callocStack()
     fun DescriptorPoolSize(capacity: Int): VkDescriptorPoolSize.Buffer = VkDescriptorPoolSize.callocStack(capacity)
@@ -461,9 +279,13 @@ object vk {
     fun PipelineColorBlendAttachmentState(capacity: Int): VkPipelineColorBlendAttachmentState.Buffer = VkPipelineColorBlendAttachmentState.callocStack(capacity)
     inline fun PipelineColorBlendAttachmentState(block: VkPipelineColorBlendAttachmentState.() -> Unit): VkPipelineColorBlendAttachmentState = PipelineColorBlendAttachmentState().also(block)
 
+    fun PushConstantRange(): VkPushConstantRange = VkPushConstantRange.callocStack()
+    fun PushConstantRange(capacity: Int): VkPushConstantRange.Buffer = VkPushConstantRange.callocStack(capacity)
+    inline fun PushConstantRange(block: VkPushConstantRange.() -> Unit): VkPushConstantRange = PushConstantRange().also(block)
+
     fun Rect2D(): VkRect2D = VkRect2D.callocStack()
     inline fun Rect2D(block: VkRect2D.() -> Unit): VkRect2D = Rect2D().also(block)
-    inline fun Rect2D(capacity: Int, block: VkRect2D.() -> Unit): VkRect2D.Buffer = VkRect2D.callocStack(capacity).also { it[0].block() }
+    fun Rect2D(capacity: Int): VkRect2D.Buffer = VkRect2D.callocStack(capacity)
 
     fun SpecializationMapEntry(): VkSpecializationMapEntry = VkSpecializationMapEntry.callocStack()
     fun SpecializationMapEntry(capacity: Int): VkSpecializationMapEntry.Buffer = VkSpecializationMapEntry.callocStack(capacity)
@@ -482,7 +304,7 @@ object vk {
     inline fun SubpassDescription(block: VkSubpassDescription.() -> Unit): VkSubpassDescription = SubpassDescription().also(block)
 
     fun SubresourceLayout(): VkSubresourceLayout = VkSubresourceLayout.callocStack()
-    inline fun SubresourceLayout(capacity: Int, block: VkSubresourceLayout.() -> Unit): VkSubresourceLayout.Buffer = VkSubresourceLayout.callocStack(capacity).also { it[0].block() }
+    fun SubresourceLayout(capacity: Int): VkSubresourceLayout.Buffer = VkSubresourceLayout.callocStack(capacity)
 
     fun SurfaceCapabilitiesKHR(): VkSurfaceCapabilitiesKHR = VkSurfaceCapabilitiesKHR.callocStack()
     inline fun SurfaceCapabilitiesKHR(block: VkSurfaceCapabilitiesKHR.() -> Unit): VkSurfaceCapabilitiesKHR = SurfaceCapabilitiesKHR().also(block)
@@ -497,11 +319,11 @@ object vk {
 
     fun VertexInputBindingDescription(): VkVertexInputBindingDescription = VkVertexInputBindingDescription.callocStack()
     inline fun VertexInputBindingDescription(block: VkVertexInputBindingDescription.() -> Unit): VkVertexInputBindingDescription = VertexInputBindingDescription().also(block)
-    inline fun VertexInputBindingDescription(capacity: Int, block: VkVertexInputBindingDescription.() -> Unit): VkVertexInputBindingDescription.Buffer = VkVertexInputBindingDescription.callocStack(capacity).also { it[0].block() }
+    fun VertexInputBindingDescription(capacity: Int): VkVertexInputBindingDescription.Buffer = VkVertexInputBindingDescription.callocStack(capacity)
 
     fun Viewport(): VkViewport = VkViewport.callocStack()
     inline fun Viewport(block: VkViewport.() -> Unit): VkViewport = Viewport().also(block)
-    inline fun Viewport(capacity: Int, block: VkViewport.() -> Unit): VkViewport.Buffer = VkViewport.callocStack(capacity).also { it[0].block() }
+    fun Viewport(capacity: Int): VkViewport.Buffer = VkViewport.callocStack(capacity)
 
 
     /*
@@ -554,6 +376,12 @@ object vk {
                 it[3].attachment(attachment3).layout(layout3.i)
                 it[4].attachment(attachment4).layout(layout4.i)
             }
+
+    fun CommandBufferAllocateInfo(commandPool: VkCommandPool, level: VkCommandBufferLevel, bufferCount: Int): VkCommandBufferAllocateInfo = CommandBufferAllocateInfo {
+        this.commandPool = commandPool
+        this.level = level
+        commandBufferCount = bufferCount
+    }
 
     fun ComputePipelineCreateInfo(layout: VkPipelineLayout, flags: VkPipelineCreateFlags = 0): VkComputePipelineCreateInfo =
             ComputePipelineCreateInfo {
@@ -913,11 +741,12 @@ object vk {
                 back.compareOp = VkCompareOp.ALWAYS
             }
 
-    fun PipelineDynamicStateCreateInfo(dynamicStates: Collection<VkDynamicState>, flags: VkPipelineDynamicStateCreateFlags = 0): VkPipelineDynamicStateCreateInfo =
-            PipelineDynamicStateCreateInfo {
-                this.dynamicStates = stackGet().vkDynamicStateBufferOf(dynamicStates)
-                this.flags = flags
-            }
+    fun PipelineDynamicStateCreateInfo(dynamicStates: Collection<VkDynamicState>, flags: VkPipelineDynamicStateCreateFlags = 0): VkPipelineDynamicStateCreateInfo = stak {
+        PipelineDynamicStateCreateInfo {
+            this.dynamicStates = it.VkDynamicStateBuffer(dynamicStates)
+            this.flags = flags
+        }
+    }
 
     fun PipelineInputAssemblyStateCreateInfo(topology: VkPrimitiveTopology,
                                              flags: VkPipelineInputAssemblyStateCreateFlags = 0,
@@ -1080,24 +909,24 @@ object vk {
     fun WriteDescriptorSet(
             dstSet0: VkDescriptorSet, type0: VkDescriptorType, binding0: Int, info0: Struct,
             dstSet1: VkDescriptorSet, type1: VkDescriptorType, binding1: Int, info1: Struct): VkWriteDescriptorSet.Buffer =
-            WriteDescriptorSet(2) {
-                this[0].dstSet(dstSet0.L).descriptorType(type0.i).dstBinding(binding0)
-                if (info0 is VkDescriptorBufferInfo) this[0].bufferInfo_ = info0 else this[0].imageInfo_ = info0 as VkDescriptorImageInfo
-                this[1].dstSet(dstSet1.L).descriptorType(type1.i).dstBinding(binding1)
-                if (info1 is VkDescriptorBufferInfo) this[1].bufferInfo_ = info1 else this[1].imageInfo_ = info1 as VkDescriptorImageInfo
+            WriteDescriptorSet(2).also {
+                it[0].dstSet(dstSet0.L).descriptorType(type0.i).dstBinding(binding0)
+                if (info0 is VkDescriptorBufferInfo) it[0].bufferInfo_ = info0 else it[0].imageInfo_ = info0 as VkDescriptorImageInfo
+                it[1].dstSet(dstSet1.L).descriptorType(type1.i).dstBinding(binding1)
+                if (info1 is VkDescriptorBufferInfo) it[1].bufferInfo_ = info1 else it[1].imageInfo_ = info1 as VkDescriptorImageInfo
             }
 
     fun WriteDescriptorSet(
             dstSet0: VkDescriptorSet, type0: VkDescriptorType, binding0: Int, info0: Struct,
             dstSet1: VkDescriptorSet, type1: VkDescriptorType, binding1: Int, info1: Struct,
             dstSet2: VkDescriptorSet, type2: VkDescriptorType, binding2: Int, info2: Struct): VkWriteDescriptorSet.Buffer =
-            WriteDescriptorSet(3) {
-                this[0].dstSet(dstSet0.L).descriptorType(type0.i).dstBinding(binding0)
-                if (info0 is VkDescriptorBufferInfo) this[0].bufferInfo_ = info0 else this[0].imageInfo_ = info0 as VkDescriptorImageInfo
-                this[1].dstSet(dstSet1.L).descriptorType(type1.i).dstBinding(binding1)
-                if (info1 is VkDescriptorBufferInfo) this[1].bufferInfo_ = info1 else this[1].imageInfo_ = info1 as VkDescriptorImageInfo
-                this[2].dstSet(dstSet2.L).descriptorType(type2.i).dstBinding(binding2)
-                if (info2 is VkDescriptorBufferInfo) this[2].bufferInfo_ = info2 else this[2].imageInfo_ = info2 as VkDescriptorImageInfo
+            WriteDescriptorSet(3).also {
+                it[0].dstSet(dstSet0.L).descriptorType(type0.i).dstBinding(binding0)
+                if (info0 is VkDescriptorBufferInfo) it[0].bufferInfo_ = info0 else it[0].imageInfo_ = info0 as VkDescriptorImageInfo
+                it[1].dstSet(dstSet1.L).descriptorType(type1.i).dstBinding(binding1)
+                if (info1 is VkDescriptorBufferInfo) it[1].bufferInfo_ = info1 else it[1].imageInfo_ = info1 as VkDescriptorImageInfo
+                it[2].dstSet(dstSet2.L).descriptorType(type2.i).dstBinding(binding2)
+                if (info2 is VkDescriptorBufferInfo) it[2].bufferInfo_ = info2 else it[2].imageInfo_ = info2 as VkDescriptorImageInfo
             }
 
     fun WriteDescriptorSet(
@@ -1105,15 +934,15 @@ object vk {
             dstSet1: VkDescriptorSet, type1: VkDescriptorType, binding1: Int, info1: Struct,
             dstSet2: VkDescriptorSet, type2: VkDescriptorType, binding2: Int, info2: Struct,
             dstSet3: VkDescriptorSet, type3: VkDescriptorType, binding3: Int, info3: Struct): VkWriteDescriptorSet.Buffer =
-            WriteDescriptorSet(4) {
-                this[0].dstSet(dstSet0.L).descriptorType(type0.i).dstBinding(binding0)
-                if (info0 is VkDescriptorBufferInfo) this[0].bufferInfo_ = info0 else this[0].imageInfo_ = info0 as VkDescriptorImageInfo
-                this[1].dstSet(dstSet1.L).descriptorType(type1.i).dstBinding(binding1)
-                if (info1 is VkDescriptorBufferInfo) this[1].bufferInfo_ = info1 else this[1].imageInfo_ = info1 as VkDescriptorImageInfo
-                this[2].dstSet(dstSet2.L).descriptorType(type2.i).dstBinding(binding2)
-                if (info2 is VkDescriptorBufferInfo) this[2].bufferInfo_ = info2 else this[2].imageInfo_ = info2 as VkDescriptorImageInfo
-                this[3].dstSet(dstSet3.L).descriptorType(type3.i).dstBinding(binding3)
-                if (info3 is VkDescriptorBufferInfo) this[3].bufferInfo_ = info3 else this[3].imageInfo_ = info3 as VkDescriptorImageInfo
+            WriteDescriptorSet(4).also {
+                it[0].dstSet(dstSet0.L).descriptorType(type0.i).dstBinding(binding0)
+                if (info0 is VkDescriptorBufferInfo) it[0].bufferInfo_ = info0 else it[0].imageInfo_ = info0 as VkDescriptorImageInfo
+                it[1].dstSet(dstSet1.L).descriptorType(type1.i).dstBinding(binding1)
+                if (info1 is VkDescriptorBufferInfo) it[1].bufferInfo_ = info1 else it[1].imageInfo_ = info1 as VkDescriptorImageInfo
+                it[2].dstSet(dstSet2.L).descriptorType(type2.i).dstBinding(binding2)
+                if (info2 is VkDescriptorBufferInfo) it[2].bufferInfo_ = info2 else it[2].imageInfo_ = info2 as VkDescriptorImageInfo
+                it[3].dstSet(dstSet3.L).descriptorType(type3.i).dstBinding(binding3)
+                if (info3 is VkDescriptorBufferInfo) it[3].bufferInfo_ = info3 else it[3].imageInfo_ = info3 as VkDescriptorImageInfo
             }
 
 
@@ -1280,23 +1109,6 @@ object vk {
 
     fun cmdBeginRenderPass(commandBuffer: VkCommandBuffer, renderPassBegin: VkRenderPassBeginInfo, contents: VkSubpassContents) =
             VK10.nvkCmdBeginRenderPass(commandBuffer, renderPassBegin.adr, contents.i)
-
-    fun cmdBindDescriptorSets(commandBuffer: VkCommandBuffer, pipelineBindPoint: VkPipelineBindPoint, layout: VkPipelineLayout, descriptorSet: VkDescriptorSet, dynamicOffsets: Int? = null) =
-            stak {
-                val pDescriptorSets = it.nmalloc(1, Long.BYTES)
-                memPutLong(pDescriptorSets, descriptorSet.L)
-                val dynamicOffsetCount: Int
-                val pDynamicOffset: Long
-                if (dynamicOffsets != null) {
-                    dynamicOffsetCount = 1
-                    pDynamicOffset = it.nmalloc(1, Int.BYTES)
-                    memPutInt(pDynamicOffset, dynamicOffsets)
-                } else {
-                    dynamicOffsetCount = 0
-                    pDynamicOffset = NULL
-                }
-                VK10.nvkCmdBindDescriptorSets(commandBuffer, pipelineBindPoint.i, layout.L, 0, 1, pDescriptorSets, dynamicOffsetCount, pDynamicOffset)
-            }
 
     fun cmdBindIndexBuffer(commandBuffer: VkCommandBuffer, buffer: VkBuffer, offset: VkDeviceSize, indexType: VkIndexType) =
             VK10.vkCmdBindIndexBuffer(commandBuffer, buffer.L, offset.L, indexType.i)
@@ -1478,8 +1290,8 @@ object vk {
                 }
             }
 
-    fun createSemaphore(device: VkDevice, createInfo: VkSemaphoreCreateInfo, semaphore: VkSemaphoreBuffer): VkResult =
-            VkResult(VK10.nvkCreateSemaphore(device, createInfo.adr, NULL, memAddress(semaphore)))
+    fun createSemaphore(device: VkDevice, createInfo: VkSemaphoreCreateInfo, semaphores: VkSemaphoreBuffer): VkResult =
+            VkResult(VK10.nvkCreateSemaphore(device, createInfo.adr, NULL, semaphores.adr))
 
     fun createShaderModule(device: VkDevice, createInfo: VkShaderModuleCreateInfo, shaderModule: LongBuffer): VkResult =
             VkResult(VK10.nvkCreateShaderModule(device, createInfo.adr, NULL, memAddress(shaderModule)))
@@ -1491,61 +1303,6 @@ object vk {
                     swapchain.set(VkSwapchainKHR(memGetLong(pSwapchain)))
                 }
             }
-
-    fun destroyDescriptorPool(device: VkDevice, descriptorPool: VkDescriptorPool) =
-            VK10.nvkDestroyDescriptorPool(device, descriptorPool.L, NULL)
-
-    fun destroyDescriptorSetLayout(device: VkDevice, descriptorSetLayout: VkDescriptorSetLayout) =
-            VK10.nvkDestroyDescriptorSetLayout(device, descriptorSetLayout.L, NULL)
-
-    fun destroyBuffer(device: VkDevice, buffer: VkBuffer) = VK10.nvkDestroyBuffer(device, buffer.L, NULL)
-
-    fun destroyCommandPool(device: VkDevice, commandPool: VkCommandPool) =
-            VK10.nvkDestroyCommandPool(device, commandPool.L, NULL)
-
-    fun destroyFence(device: VkDevice, fence: VkFence) = VK10.nvkDestroyFence(device, fence.L, NULL)
-
-    fun destroyFences(device: VkDevice, fences: Iterable<VkFence>) {
-        for (i in fences)
-            VK10.nvkDestroyFence(device, i.L, NULL)
-    }
-
-    fun destroyFramebuffers(device: VkDevice, framebuffers: Iterable<VkFramebuffer>) {
-        for (i in framebuffers)
-            VK10.nvkDestroyFramebuffer(device, i.L, NULL)
-    }
-
-    fun destroyImage(device: VkDevice, image: VkImage) = VK10.nvkDestroyImage(device, image.L, NULL)
-
-    fun destroyImageView(device: VkDevice, imageView: VkImageView) = VK10.nvkDestroyImageView(device, imageView.L, NULL)
-
-    fun destroyPipeline(device: VkDevice, pipeline: VkPipeline) = VK10.nvkDestroyPipeline(device, pipeline.L, NULL)
-
-    fun destroyPipelineCache(device: VkDevice, pipelineCache: VkPipelineCache) =
-            VK10.nvkDestroyPipelineCache(device, pipelineCache.L, NULL)
-
-    fun destroyPipelineLayout(device: VkDevice, pipelineLayout: VkPipelineLayout) =
-            VK10.nvkDestroyPipelineLayout(device, pipelineLayout.L, NULL)
-
-    fun destroyRenderPass(device: VkDevice, renderPass: VkRenderPass) =
-            VK10.nvkDestroyRenderPass(device, renderPass.L, NULL)
-
-    fun destroySemaphore(device: VkDevice, semaphore: VkSemaphore) =
-            VK10.nvkDestroySemaphore(device, semaphore.L, NULL)
-
-    fun destroyShaderModules(device: VkDevice, shaderModules: Iterable<VkShaderModule>, allocator: VkAllocationCallbacks? = null) {
-        for (i in shaderModules)
-            VK10.nvkDestroyShaderModule(device, i.L, allocator?.adr ?: NULL)
-    }
-
-    fun destroyShaderModules(device: VkDevice, shaderModules: VkPipelineShaderStageCreateInfo.Buffer) {
-        for (i in shaderModules)
-            VK10.nvkDestroyShaderModule(device, i.module.L, NULL)
-    }
-
-    fun destroySwapchainKHR(device: VkDevice, swapchain: VkSwapchainKHR) {
-        KHRSwapchain.nvkDestroySwapchainKHR(device, swapchain.L, NULL)
-    }
 
     fun endCommandBuffer(commandBuffer: VkCommandBuffer): VkResult =
             VkResult(VK10.vkEndCommandBuffer(commandBuffer))
@@ -1565,49 +1322,8 @@ object vk {
                 res
             }
 
-    fun enumeratePhysicalDevices(instance: VkInstance): ArrayList<VkPhysicalDevice> =
-            stak {
-                val physicalDevices = ArrayList<VkPhysicalDevice>()
-                val pPhysicalDeviceCount = it.nmalloc(1, Int.BYTES)
-                var physicalDeviceCount: Int
-                var result: VkResult
-                do {
-                    result = VkResult(VK10.nvkEnumeratePhysicalDevices(instance, pPhysicalDeviceCount, NULL))
-                    physicalDeviceCount = memGetInt(pPhysicalDeviceCount)
-                    if (result == SUCCESS && physicalDeviceCount > 0) {
-                        val pPhysicalDevices = it.nmalloc(Pointer.POINTER_SIZE, physicalDeviceCount * Pointer.POINTER_SIZE)
-                        result = VkResult(VK10.nvkEnumeratePhysicalDevices(instance, pPhysicalDeviceCount, pPhysicalDevices))
-                        for (i in 0 until physicalDeviceCount)
-                            physicalDevices += VkPhysicalDevice(memGetAddress(pPhysicalDevices), instance)
-                    }
-                } while (result == INCOMPLETE)
-                assert(physicalDeviceCount <= physicalDevices.size)
-                physicalDevices resize physicalDeviceCount
-                physicalDevices
-            }
-
     fun flushMappedMemoryRange(device: VkDevice, memoryRange: VkMappedMemoryRange): VkResult =
             VkResult(VK10.nvkFlushMappedMemoryRanges(device, 1, memoryRange.adr))
-
-    fun freeCommandBuffers(device: VkDevice, commandPool: VkCommandPool, commandBuffers: Array<VkCommandBuffer>) =
-            stak {
-                val size = commandBuffers.size
-                val pointers = it.nmalloc(Pointer.POINTER_SIZE, size * Pointer.POINTER_SIZE)
-                for (i in 0 until size)
-                    memPutAddress(pointers + Pointer.POINTER_SIZE * i, commandBuffers.elementAt(i).adr)
-                VK10.nvkFreeCommandBuffers(device, commandPool.L, size, pointers)
-            }
-
-    fun freeCommandBuffers(device: VkDevice, commandPool: VkCommandPool, commandBuffers: Collection<VkCommandBuffer>) =
-            stak {
-                val size = commandBuffers.size
-                val pointers = it.nmalloc(Pointer.POINTER_SIZE, size * Pointer.POINTER_SIZE)
-                for (i in 0 until size)
-                    memPutAddress(pointers + Pointer.POINTER_SIZE * i, commandBuffers.elementAt(i).adr)
-                VK10.nvkFreeCommandBuffers(device, commandPool.L, size, pointers)
-            }
-
-    fun freeMemory(device: VkDevice, memory: VkDeviceMemory) = VK10.nvkFreeMemory(device, memory.L, NULL)
 
     fun getDeviceQueue(device: VkDevice, queueFamilyIndex: Int, queueIndex: Int, queue: KMutableProperty0<VkQueue>) =
             stak {
@@ -1677,16 +1393,6 @@ object vk {
                 return res
             }
 
-    fun getSwapchainImagesKHR(device: VkDevice, swapchain: VkSwapchainKHR): VkImageArray =
-            stak {
-                val pCount = it.nmalloc(1, Int.BYTES)
-                VK_CHECK_RESULT(KHRSwapchain.nvkGetSwapchainImagesKHR(device, swapchain.L, pCount, NULL))
-                val count = memGetInt(pCount)
-                val images = it.nmalloc(Long.BYTES, count * Long.BYTES)
-                VK_CHECK_RESULT(KHRSwapchain.nvkGetSwapchainImagesKHR(device, swapchain.L, pCount, images))
-                initVkImageArray(count) { i -> VkImage(memGetLong(images + Long.BYTES * i)) }
-            }
-
     fun invalidateMappedMemoryRanges(device: VkDevice, memoryRange: VkMappedMemoryRange): VkResult =
             VkResult(VK10.nvkInvalidateMappedMemoryRanges(device, 1, memoryRange.adr))
 
@@ -1697,5 +1403,5 @@ object vk {
             VK10.nvkUpdateDescriptorSets(device, descriptorWrites.remaining(), descriptorWrites.adr, descriptorCopies?.remaining()
                     ?: 0, descriptorCopies?.adr ?: NULL)
 
-    val VERSION = "0.2.3"
+    val VERSION = "0.2.2"
 }

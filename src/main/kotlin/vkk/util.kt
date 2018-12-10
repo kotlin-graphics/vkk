@@ -1,42 +1,21 @@
 package vkk
 
-import gli_.extension
 import glm_.BYTES
+import glm_.L
 import glm_.i
-import glm_.mat3x3.Mat3
-import glm_.mat4x4.Mat4
-import kool.set
-import glm_.vec2.Vec2
-import glm_.vec2.Vec2i
-import glm_.vec3.Vec3
-import glm_.vec4.Vec4
 import graphics.scenery.spirvcrossj.*
 import kool.*
 import org.lwjgl.PointerBuffer
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryStack.stackGet
-import org.lwjgl.system.MemoryUtil.*
-import org.lwjgl.system.Pointer
-import org.lwjgl.system.Struct
-import org.lwjgl.system.StructBuffer
-import org.lwjgl.vulkan.*
-import java.lang.annotation.ElementType
+import org.lwjgl.system.MemoryUtil
+import org.lwjgl.system.MemoryUtil.memLengthUTF8
+import org.lwjgl.system.MemoryUtil.memUTF8
+import org.lwjgl.vulkan.VkAttachmentReference
 import java.nio.Buffer
 import java.nio.ByteBuffer
-import java.nio.IntBuffer
-import java.nio.LongBuffer
 import java.nio.file.Files
 import java.nio.file.Path
-import javax.lang.model.element.*
-import kotlin.reflect.KProperty1
-import kotlin.reflect.KType
-import kotlin.reflect.full.declaredMemberProperties
-import kotlin.reflect.full.defaultType
-import kotlin.reflect.full.findAnnotation
-import javax.lang.model.type.TypeMirror
-import java.lang.annotation.RetentionPolicy
-
-
 
 
 //fun pointerBufferOf(vararg strings: String): PointerBuffer {
@@ -49,17 +28,6 @@ import java.lang.annotation.RetentionPolicy
 //operator fun PointerBuffer.set(index: Int, string: String) {
 //    put(index, string.memUTF16)
 //}
-operator fun PointerBuffer.set(index: Int, long: Long) {
-    put(index, long)
-}
-
-operator fun PointerBuffer.set(index: Int, pointer: Pointer) {
-    put(index, pointer)
-}
-
-operator fun PointerBuffer.set(index: Int, buffer: Buffer) {
-    put(index, buffer.adr)
-}
 
 //operator fun PointerBuffer.plusAssign(string: String) {
 //    put(string.stackUTF16)
@@ -76,52 +44,8 @@ operator fun PointerBuffer.set(index: Int, buffer: Buffer) {
 //fun PointerBuffer.isNotEmpty() = position() > 0
 
 
-object LongArrayList {
-    operator fun ArrayList<Long>.set(index: Int, long: LongBuffer) {
-        set(index, long[0])
-    }
-
-    infix fun ArrayList<Long>.resize(newSize: Int) {
-        if (size < newSize)
-            for (i in size until newSize)
-                add(NULL)
-        else if (size > newSize)
-            for (i in size downTo newSize + 1)
-                removeAt(lastIndex)
-    }
-}
-
-object VkPhysicalDeviceArrayList {
-//    operator fun ArrayList<VkPhysicalDevice>.set(index: Int, long: LongBuffer) {
-//        set(index, long[0])
-//    }
-
-    infix fun ArrayList<VkPhysicalDevice>.resize(newSize: Int) {
-        if (size < newSize) TODO()
-//            for (i in size until newSize)
-//                add(VkPhysicalDevice())
-        else if (size > newSize)
-            for (i in size downTo newSize + 1)
-                removeAt(lastIndex)
-    }
-}
-
-
-fun vkDestroySemaphores(device: VkDevice, semaphores: VkSemaphoreBuffer) {
-    for (i in 0 until semaphores.remaining())
-        VK10.nvkDestroySemaphore(device, semaphores[i], NULL)
-}
-
-
-fun vkDestroyBuffer(device: VkDevice, buffer: VkBuffer) = VK10.nvkDestroyBuffer(device, buffer.L, NULL)
-
-
-inline val Pointer.adr get() = address()
-
-
-fun PointerBuffer?.toArrayList(): ArrayList<String> {
-    val count = this?.remaining() ?: 0
-    if (this == null || count == 0) return arrayListOf()
+fun PointerBuffer.toArrayList(): ArrayList<String> {
+    val count = this.remaining()
     val res = ArrayList<String>(count)
     for (i in 0 until count)
         res += get(i).utf8
@@ -137,13 +61,6 @@ fun Collection<String>.toPointerBuffer(stack: MemoryStack): PointerBuffer {
     return pointers
 }
 
-
-infix fun Vec2i.put(extent: VkExtent2D) {
-    x = extent.width
-    y = extent.height
-}
-
-
 fun glslToSpirv(path: Path): ByteBuffer {
 
     var compileFail = false
@@ -152,7 +69,7 @@ fun glslToSpirv(path: Path): ByteBuffer {
 
     val code = Files.readAllLines(path).joinToString("\n")
 
-    val extension = path.extension
+    val extension = path.toUri().toASCIIString().substringAfterLast(".")
     val shaderType = when (extension) {
         "vert" -> EShLanguage.EShLangVertex
         "frag" -> EShLanguage.EShLangFragment
@@ -203,263 +120,86 @@ fun glslToSpirv(path: Path): ByteBuffer {
     //System.out.println(shader);
     //System.out.println(program);
 
-    return spirv.toByteBuffer()
-}
-
-private fun IntVec.toByteBuffer(): ByteBuffer {
-    val bytes = MemoryStack.stackGet().malloc(size().i * Int.BYTES)
+    val bytes = MemoryStack.stackGet().malloc(spirv.size().i * Int.BYTES)
     val ints = bytes.asIntBuffer()
     for (i in 0 until ints.cap)
-        ints[i] = get(i).i
+        ints[i] = spirv.get(i).i
     return bytes
 }
-
-
-operator fun <T : Struct, SELF : StructBuffer<T, SELF>> StructBuffer<T, SELF>.set(index: Int, value: T) {
-    put(index, value)
-}
-
-inline fun <R> withAddress(address: Long, block: WithAddress.() -> R): R {
-    WithAddress.address = address
-    WithAddress.offset = 0
-    return WithAddress.block()
-}
-
-object WithAddress {
-
-    var address = NULL
-    var offset = 0
-
-    fun addMat4(mat4: Mat4) {
-        for (i in 0..3)
-            for (j in 0..3) {
-                memPutFloat(address + offset, mat4[i, j])
-                offset += Float.BYTES
-            }
-    }
-
-    fun addMat3(mat3: Mat3) {
-        for (i in 0..2)
-            for (j in 0..2) {
-                memPutFloat(address + offset, mat3[i, j])
-                offset += Float.BYTES
-            }
-    }
-
-    fun addVec4(vec4: Vec4) {
-        for (i in 0..3) {
-            memPutFloat(address + offset, vec4[i])
-            offset += Float.BYTES
-        }
-    }
-
-    fun addVec3(vec3: Vec3) {
-        for (i in 0..2) {
-            memPutFloat(address + offset, vec3[i])
-            offset += Float.BYTES
-        }
-    }
-
-    fun addVec2(vec2: Vec2) {
-        for (i in 0..1) {
-            memPutFloat(address + offset, vec2[i])
-            offset += Float.BYTES
-        }
-    }
-
-    fun addFloat(float: Float) {
-        memPutFloat(address + offset, float)
-        offset += Float.BYTES
-    }
-
-    fun addInt(int: Int) {
-        memPutInt(address + offset, int)
-        offset += Int.BYTES
-    }
-}
-
-
-abstract class Bufferizable {
-
-    @Retention(AnnotationRetention.RUNTIME)
-    annotation class Order(val value: Int)
-
-    val fieldOrderDefault: Array<String> by lazy {
-        val properties = this::class.declaredMemberProperties
-        val parts = properties.partition { it.findAnnotation<Order>() == null }
-        val plain = parts.first.sortedBy { it.name }
-        val annotated = parts.second.associateBy { it.findAnnotation<Order>()!!.value }
-        val list = ArrayList<KProperty1<*, *>>()
-        var plainIdx = 0
-        for (i in properties.indices)
-            list += annotated[i] ?: plain[plainIdx++]
-        list.map { it.name }.toTypedArray()
-    }
-
-    open var fieldOrder = emptyArray<String>()
-        get() = if (field.isEmpty()) fieldOrderDefault else field
-
-    open val size: Int by lazy {
-        fieldOrder.sumBy { field -> this::class.declaredMemberProperties.find { it.name == field }!!.returnType.size }
-    }
-
-    open infix fun to(address: Ptr) {
-
-        WithAddress.address = address
-        WithAddress.offset = 0
-
-        for (i in data.indices)
-            data[i].first(data[i].second.getter.call(this)!!)
-    }
-
-    infix fun from(address: Adr): Unit = TODO()
-
-    val data: Array<BufferizableData> by lazy {
-        Array(fieldOrder.size) {
-            val field = fieldOrder[it]
-            val member = this::class.declaredMemberProperties.find { it.name == field }!!
-            val func = member.returnType.func
-            func to member
-        }
-    }
-
-    val offsets by lazy {
-        var offset = 0
-        MutableList(fieldOrder.size) { i ->
-            fieldOrder[i] to offset.also {
-                offset += data[i].second.returnType.size
-            }
-        }.toMap()
-    }
-
-    fun offsetOf(field: String) = offsets[field]!!
-
-    private val KType.size: Int
-        get() = when (this) {
-            Mat4::class.defaultType -> Mat4.size
-            Mat3::class.defaultType -> Mat3.size
-            Vec4::class.defaultType -> Vec4.size
-            Vec3::class.defaultType -> Vec3.size
-            Vec2::class.defaultType -> Vec2.size
-            Float::class.defaultType -> Float.BYTES
-            Int::class.defaultType -> Int.BYTES
-            else -> throw Error(toString())
-        }
-    private val KType.func: BufferizableAddFunctionType
-        get() = when (this) {
-            Mat4::class.defaultType -> WithAddress::addMat4
-            Mat3::class.defaultType -> WithAddress::addMat3
-            Vec4::class.defaultType -> WithAddress::addVec4
-            Vec3::class.defaultType -> WithAddress::addVec3
-            Vec2::class.defaultType -> WithAddress::addVec2
-            Float::class.defaultType -> WithAddress::addFloat
-            Int::class.defaultType -> WithAddress::addInt
-            else -> throw Error(toString())
-        } as BufferizableAddFunctionType
-}
-
-typealias BufferizableAddFunctionType = (Any) -> Unit
-typealias BufferizableData = Pair<BufferizableAddFunctionType, KProperty1<out Bufferizable, Any?>>
-
-fun bufferOf(vararg data: Bufferizable): ByteBuffer {
-    val size = data.sumBy { it.size }
-    val res = Buffer(size)
-    val address = memAddress(res)
-    var offset = 0
-    for (i in data.indices) {
-        data[i] to address + offset
-        offset += data[i].size
-    }
-    return res
-}
-
-fun bufferOf(data: Collection<Bufferizable>): ByteBuffer {
-    val size = data.sumBy { it.size }
-    val res = Buffer(size)
-    val address = memAddress(res)
-    var offset = 0
-    for (i in data.indices) {
-        data.elementAt(i) to address + offset
-        offset += data.elementAt(i).size
-    }
-    return res
-}
-
-fun intArrayOf(ints: Collection<Int>) = IntBuffer(ints.size) { ints.elementAt(it) }
-
-//object uboVS : Bufferizable() {
-//
-//    var projectionMatrix = Mat4()
-//    var modelMatrix = Mat4()
-//    var viewMatrix = Mat4()
-//
-//    override val fieldOrder = arrayOf("projectionMatrix", "modelMatrix", "viewMatrix")
-//
-//    override infix fun to(address: Long) {
-//        withAddress(address) {
-//            //            add(projectionMatrix); add(modelMatrix); add(viewMatrix)
-//        }
-//    }
-//}
-//
-//fun main(args: Array<String>) {
-//    println(uboVS::class.declaredMemberProperties)
-//    val member = uboVS::class.declaredMemberProperties.find { it.name == "projectionMatrix" }!!
-//    println(member.returnType)
-//    println(member.get(uboVS) as Mat4)
-//    println(member.returnType == Mat4::class.defaultType)
-//}
-
-class FiledOrder {
-    @Retention(AnnotationRetention.RUNTIME)
-    annotation class Order(val value: Int)
-
-    @Order(3)
-    var field1: Int = 0
-    @Order(1)
-    var field2: Int = 0
-    // no annotation
-    var field4: Int = 0
-    var field3: Int = 0
-
-    @Order(1)
-    fun start() {
-    }
-
-    @Order(2)
-    fun end() {
-    }
-}
-
-fun main(args: Array<String>) {
-    val properties = FiledOrder::class.declaredMemberProperties
-    val parts = properties.partition { it.findAnnotation<FiledOrder.Order>() == null }
-    val plain = parts.first.sortedBy { it.name }
-    val annotated = parts.second.associateBy { it.findAnnotation<FiledOrder.Order>()!!.value }
-    val list = ArrayList<KProperty1<*, *>>()
-    var plainIdx = 0
-    for (i in properties.indices)
-        list += annotated[i] ?: plain[plainIdx++]
-    println(list)
-}
-
-typealias VkDebugReportCallbackType = (
-        flag: VkDebugReportFlagsEXT,
-        objType: VkDebugReportObjectType,
-        scrType: Long,
-        location: Long,
-        msgCode: Int,
-        layerPrefix: String,
-        msg: String,
-        userData: Any?) -> Boolean
 
 operator fun VkAttachmentReference.invoke(attachment: Int, layout: VkImageLayout): VkAttachmentReference {
     return attachment(attachment).layout(layout.i)
 }
 
-fun ArrayList<VkDeviceQueueCreateInfo>.toBufferStack(): VkDeviceQueueCreateInfo.Buffer {
-    val buffer = VkDeviceQueueCreateInfo.callocStack(size)
-    for (i in indices)
-        buffer[i] = get(i)
-    return buffer
+//fun ArrayList<VkDeviceQueueCreateInfo>.toBufferStack(): VkDeviceQueueCreateInfo.Buffer {
+//    val buffer = VkDeviceQueueCreateInfo.callocStack(size)
+//    for (i in indices)
+//        buffer[i] = get(i)
+//    return buffer
+//}
+
+fun String.toUTF8stack(): ByteBuffer = toUTF8(MemoryStack.stackGet())
+
+fun String.toUTF8(stack: MemoryStack): ByteBuffer {
+    val size = memLengthUTF8(this, true)
+    return stack.malloc(size).also {
+        memUTF8(this, true, it)
+    }
 }
+
+fun String.toUTF8(): ByteBuffer {
+    val size = memLengthUTF8(this, true)
+    return MemoryUtil.memAlloc(size).also {
+        memUTF8(this, true, it)
+    }
+}
+
+val ByteBuffer.utf8: String
+    get() = MemoryUtil.memUTF8(this)
+
+val Adr.utf8: String
+    get() = MemoryUtil.memUTF8(this)
+
+infix fun Buffer.copyTo(ptr: Ptr) = MemoryUtil.memCopy(adr, ptr, remSize.L)
+infix fun Buffer.copyFrom(ptr: Ptr) = MemoryUtil.memCopy(ptr, adr, remSize.L)
+
+val VkResult.description: String
+    get() = when (this) {
+        // Success Codes
+        SUCCESS -> "Command successfully completed"
+        NOT_READY -> "A fence or query has not yet completed"
+        TIMEOUT -> "A wait operation has not completed in the specified time"
+        EVENT_SET -> "An event is signaled"
+        EVENT_RESET -> "An event is unsignaled"
+        INCOMPLETE -> "A return array was too small for the result"
+        SUBOPTIMAL_KHR -> "A swapchain no longer matches the surface properties exactly, but can still be used to present to the surface successfully"
+        // Error codes
+        ERROR_OUT_OF_HOST_MEMORY -> "A host memory allocation has failed"
+        ERROR_OUT_OF_DEVICE_MEMORY -> "A device memory allocation has failed"
+        ERROR_INITIALIZATION_FAILED -> "Initialization of an object could not be completed for implementation-specific reasons"
+        ERROR_DEVICE_LOST -> "The logical or physical device has been lost. See Lost Device"
+        ERROR_MEMORY_MAP_FAILED -> "Mapping of a memory object has failed"
+        ERROR_LAYER_NOT_PRESENT -> "A requested layer is not present or could not be loaded"
+        ERROR_EXTENSION_NOT_PRESENT -> "A requested extension is not supported"
+        ERROR_FEATURE_NOT_PRESENT -> "A requested feature is not supported"
+        ERROR_INCOMPATIBLE_DRIVER -> "The requested version of Vulkan is not supported by the driver or is otherwise incompatible for implementation-specific reasons"
+        ERROR_TOO_MANY_OBJECTS -> "Too many objects of the type have already been created"
+        ERROR_FORMAT_NOT_SUPPORTED -> "A requested format is not supported on this device"
+        ERROR_FRAGMENTED_POOL -> "A pool allocation has failed due to fragmentation of the pool’s memory. This must only be returned if no attempt to allocate host or device memory was made to accomodate the new allocation. This should be returned in preference to VK_ERROR_OUT_OF_POOL_MEMORY, but only if the implementation is certain that the pool allocation failure was due to fragmentation"
+        ERROR_SURFACE_LOST_KHR -> "A surface is no longer available"
+        ERROR_NATIVE_WINDOW_IN_USE_KHR -> "The requested window is already in use by Vulkan or another API in a manner which prevents it from being used again"
+        ERROR_OUT_OF_DATE_KHR -> "A surface has changed in such a way that it is no longer compatible with the swapchain, and further presentation requests using the swapchain will fail. Applications must query the new surface properties and recreate their swapchain if they wish to continue presenting to the surface"
+        ERROR_INCOMPATIBLE_DISPLAY_KHR -> "The display used by a swapchain does not use the same presentable image layout, or is incompatible in a way that prevents sharing an image"
+        ERROR_INVALID_SHADER_NV -> "One or more shaders failed to compile or link. More details are reported back to the application via ../../html/vkspec.html#VK_EXT_debug_report if enabled"
+        ERROR_OUT_OF_POOL_MEMORY -> "A pool memory allocation has failed. This must only be returned if no attempt to allocate host or device memory was made to accomodate the new allocation. If the failure was definitely due to fragmentation of the pool, VK_ERROR_FRAGMENTED_POOL should be returned instead"
+        ERROR_INVALID_EXTERNAL_HANDLE -> "An external handle is not a valid handle of the specified type"
+        ERROR_FRAGMENTATION_EXT -> "A descriptor pool creation has failed due to fragmentation"
+        else -> "Unknown VkResult type"
+    }
+
+//fun vk.AttachmentDescription(size: Int, init: (Int) -> VkAttachmentDescription): VkAttachmentDescription.Buffer {
+//    val res = VkAttachmentDescription.callocStack(size)
+//    for (i in res.indices)
+//        res[i] = init(i)
+//    return res
+//}
