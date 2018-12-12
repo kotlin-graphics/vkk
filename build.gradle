@@ -16,7 +16,7 @@ ext{
     moduleName = 'com.github.kotlin_graphics.vkk'
     kotlin = 'org.jetbrains.kotlin:kotlin'
     kotlin_version = '1.3.11'
-    gli_version = '42d5ecff1637632c823e230ae5cf3b618051e40f'
+    gli_version = '62783da927'
     lwjgl_version = "3.2.1"
     lwjgl_natives = current() == WINDOWS ? "windows" : current() == LINUX ? "linux" : "macos"
     sprivCross_version = "0.5.0-1.1.85"
