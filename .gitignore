@@ -5,3 +5,5 @@ build
 
 # Avoid ignoring Gradle wrapper jar file
 !gradle-wrapper.jar
+
+*.iml
