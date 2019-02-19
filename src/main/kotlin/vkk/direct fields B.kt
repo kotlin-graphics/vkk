@@ -119,7 +119,7 @@ fun VkFramebufferCreateInfo.extent(extent: Vec2i, layers: Int) {
 }
 
 /** JVM custom */
-inline var VkAttachmentDescription.flag: VkAttachmentDescriptionFlag
+inline var VkAttachmentDescription.flag: VkAttachmentDescription
     get() = TODO()
     set(value) = VkAttachmentDescription.nflags(adr, value.i)
 inline var VkAttachmentDescription.flags: VkAttachmentDescriptionFlags

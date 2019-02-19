@@ -52,8 +52,6 @@ fun PointerBuffer.toArrayList(): ArrayList<String> {
     return res
 }
 
-fun Collection<String>.toPointerBufferStack(): PointerBuffer = toPointerBuffer(stackGet())
-
 fun Collection<String>.toPointerBuffer(stack: MemoryStack): PointerBuffer {
     val pointers = stack.mallocPointer(size)
     for (i in indices)
@@ -137,8 +135,6 @@ operator fun VkAttachmentReference.invoke(attachment: Int, layout: VkImageLayout
 //        buffer[i] = get(i)
 //    return buffer
 //}
-
-fun String.toUTF8stack(): ByteBuffer = toUTF8(MemoryStack.stackGet())
 
 fun String.toUTF8(stack: MemoryStack): ByteBuffer {
     val size = memLengthUTF8(this, true)
