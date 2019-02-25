@@ -50,7 +50,7 @@ package vkk
 //
 //    val surfaceFormat: VkSurfaceFormatKHR = VkSurfaceFormatKHR.calloc()
 //    val imageRange = cVkImageSubresourceRange(VkImageAspect.COLOR_BIT.i, 0, 1, 0, 1)
-//    lateinit var presentMode: VkPresentMode
+//    lateinit var presentMode: VkPresentModeKHR
 //
 //    var pipelineCache: VkPipelineCache = NULL
 //    var descriptorPool: VkDescriptorPool = NULL
@@ -281,13 +281,13 @@ package vkk
 //            if (formats.size == 1) {
 //                if (formats[0].format == VkFormat.UNDEFINED) {
 //                    surfaceFormat.format = VkFormat.B8G8R8A8_UNORM
-//                    surfaceFormat.colorSpace = VkColorSpace.SRGB_NONLINEAR_KHR
+//                    surfaceFormat.colorSpace = VkColorSpaceKHR.SRGB_NONLINEAR_KHR
 //                } else    // no point in searching another format
 //                    surfaceFormat(formats[0])
 //            } else {
 //                // request several formats, the first found will be used
 //                val requestSurfaceImageFormat = arrayOf(VkFormat.B8G8R8A8_UNORM, VkFormat.R8G8B8A8_UNORM, VkFormat.B8G8R8_UNORM, VkFormat.R8G8B8_UNORM)
-//                val requestSurfaceColorSpace = VkColorSpace.SRGB_NONLINEAR_KHR
+//                val requestSurfaceColorSpace = VkColorSpaceKHR.SRGB_NONLINEAR_KHR
 //                var requestedFound = false
 //                for (i in requestSurfaceImageFormat.indices) {
 //                    if (requestedFound)
@@ -310,13 +310,13 @@ package vkk
 //        run {
 //            // Request a certain mode and confirm that it is available. If not use VK_PRESENT_MODE_FIFO_KHR which is mandatory
 //            presentMode = when {
-//                UNLIMITED_FRAME_RATE -> VkPresentMode.MAILBOX_KHR //VK_PRESENT_MODE_IMMEDIATE_KHR;
-//                else -> VkPresentMode.FIFO_KHR
+//                UNLIMITED_FRAME_RATE -> VkPresentModeKHR.MAILBOX_KHR //VK_PRESENT_MODE_IMMEDIATE_KHR;
+//                else -> VkPresentModeKHR.FIFO_KHR
 //            }
 //            val presentModes = gpu getSurfaceFormatsKHR surface
 //            val presentModeAvailable = presentModes.any { it == presentMode }
 //            if (!presentModeAvailable)
-//                presentMode = VkPresentMode.FIFO_KHR   // always available
+//                presentMode = VkPresentModeKHR.FIFO_KHR   // always available
 //        }
 //
 //
@@ -405,8 +405,8 @@ package vkk
 //                imageArrayLayers = 1
 //                imageUsage = imageUsage or VkImageUsage.COLOR_ATTACHMENT_BIT
 //                imageSharingMode = VkSharingMode.EXCLUSIVE
-//                preTransform = VkSurfaceTransform.IDENTITY_BIT_KHR
-//                compositeAlpha = VkCompositeAlpha.OPAQUE_BIT_KHR
+//                preTransform = VkSurfaceTransformKHR.IDENTITY_BIT_KHR
+//                compositeAlpha = VkCompositeAlphaKHR.OPAQUE_BIT_KHR
 //                presentMode = this@Example.presentMode
 //                clipped = true
 //                this.oldSwapchain = oldSwapchain

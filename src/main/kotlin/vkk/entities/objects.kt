@@ -151,7 +151,7 @@ inline class VkShaderModule(val L: Long) {
     val isInvalid get() = L == NULL
 }
 
-inline class VkSurface(val L: Long) { // TODO -> KHR
+inline class VkSurfaceKHR(val L: Long) {
     val isValid get() = L != NULL
     val isInvalid get() = L == NULL
 }
@@ -160,3 +160,7 @@ inline class VkSwapchainKHR(val L: Long) {
     val isValid get() = L != NULL
     val isInvalid get() = L == NULL
 }
+
+
+inline class VkDisplayKHR(val L: Long)
+inline class VkDisplayModeKHR (val L: Long)

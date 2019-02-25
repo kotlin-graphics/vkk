@@ -856,7 +856,7 @@ inline class VkMemoryStack(val stack: MemoryStack) {
             it[3].constantID(constantId3).offset(offset3).size(size3.L)
         }
 
-    fun SurfaceFormatKHR(format: VkFormat, colorSpace: VkColorSpace): VkSurfaceFormatKHR =
+    fun SurfaceFormatKHR(format: VkFormat, colorSpace: VkColorSpaceKHR): VkSurfaceFormatKHR =
         SurfaceFormatKHR().also {
             it.format = format
             it.colorSpace = colorSpace
@@ -1337,14 +1337,14 @@ inline class VkMemoryStack(val stack: MemoryStack) {
             pQueueFamilyProperties.toCollection(arrayListOf())
         }
 
-    fun getPhysicalDeviceSurfaceSupportKHR(physicalDevice: VkPhysicalDevice, queueFamily: Int, surface: VkSurface): Boolean =
+    fun getPhysicalDeviceSurfaceSupportKHR(physicalDevice: VkPhysicalDevice, queueFamily: Int, surface: VkSurfaceKHR): Boolean =
         stak {
             val supported = it.nmalloc(1, Int.BYTES)
             KHRSurface.nvkGetPhysicalDeviceSurfaceSupportKHR(physicalDevice, queueFamily, surface.L, supported)
             memGetBoolean(supported)
         }
 
-    fun getPhysicalDeviceSurfaceSupportKHR(physicalDevice: VkPhysicalDevice, queueFamilyProperties: ArrayList<VkQueueFamilyProperties>, surface: VkSurface): BooleanArray =
+    fun getPhysicalDeviceSurfaceSupportKHR(physicalDevice: VkPhysicalDevice, queueFamilyProperties: ArrayList<VkQueueFamilyProperties>, surface: VkSurfaceKHR): BooleanArray =
         stak {
             val supported = it.nmalloc(1, Int.BYTES)
             BooleanArray(queueFamilyProperties.size) {
@@ -1353,7 +1353,7 @@ inline class VkMemoryStack(val stack: MemoryStack) {
             }
         }
 
-    fun getPhysicalDeviceSurfaceFormatsKHR(physicalDevice: VkPhysicalDevice, surface: VkSurface): ArrayList<VkSurfaceFormatKHR> =
+    fun getPhysicalDeviceSurfaceFormatsKHR(physicalDevice: VkPhysicalDevice, surface: VkSurfaceKHR): ArrayList<VkSurfaceFormatKHR> =
         stak {
             val pCount = it.nmalloc(1, Int.BYTES)
             VK_CHECK_RESULT(KHRSurface.nvkGetPhysicalDeviceSurfaceFormatsKHR(physicalDevice, surface.L, pCount, NULL))
@@ -1364,12 +1364,12 @@ inline class VkMemoryStack(val stack: MemoryStack) {
             return surfaceFormats.toCollection(arrayListOf())
         }
 
-    fun getPhysicalDeviceSurfaceCapabilitiesKHR(physicalDevice: VkPhysicalDevice, surface: VkSurface): VkSurfaceCapabilitiesKHR =
+    fun getPhysicalDeviceSurfaceCapabilitiesKHR(physicalDevice: VkPhysicalDevice, surface: VkSurfaceKHR): VkSurfaceCapabilitiesKHR =
         SurfaceCapabilitiesKHR {
             VK_CHECK_RESULT(KHRSurface.nvkGetPhysicalDeviceSurfaceCapabilitiesKHR(physicalDevice, surface.L, adr))
         }
 
-    fun getPhysicalDeviceSurfacePresentModesKHR(physicalDevice: VkPhysicalDevice, surface: VkSurface): ArrayList<VkPresentMode> =
+    fun getPhysicalDeviceSurfacePresentModesKHR(physicalDevice: VkPhysicalDevice, surface: VkSurfaceKHR): ArrayList<VkPresentModeKHR> =
         stak {
             val pCount = it.nmalloc(1, Int.BYTES)
             VK_CHECK_RESULT(KHRSurface.nvkGetPhysicalDeviceSurfacePresentModesKHR(physicalDevice, surface.L, pCount, NULL))
@@ -1377,9 +1377,9 @@ inline class VkMemoryStack(val stack: MemoryStack) {
             assert(count > 0)
             val presentModes = it.nmalloc(Int.BYTES, count * Int.BYTES)
             KHRSurface.nvkGetPhysicalDeviceSurfacePresentModesKHR(physicalDevice, surface.L, pCount, presentModes)
-            val res = ArrayList<VkPresentMode>()
+            val res = ArrayList<VkPresentModeKHR>()
             for (i in 0 until count)
-                res += VkPresentMode of memGetInt(presentModes + Int.BYTES * i)
+                res += VkPresentModeKHR (memGetInt(presentModes + Int.BYTES * i))
             return res
         }
 
@@ -1811,18 +1811,18 @@ inline class VkMemoryStack(val stack: MemoryStack) {
         do {
             result = VkResult(VK10.nvkEnumeratePhysicalDevices(this, pPhysicalDeviceCount, NULL))
             physicalDeviceCount = memGetInt(pPhysicalDeviceCount)
-            if (result == SUCCESS && physicalDeviceCount > 0) {
+            if (result == VkResult.SUCCESS && physicalDeviceCount > 0) {
                 val pPhysicalDevices = it.nmalloc(Pointer.POINTER_SIZE, physicalDeviceCount * Pointer.POINTER_SIZE)
                 result = VkResult(VK10.nvkEnumeratePhysicalDevices(this, pPhysicalDeviceCount, pPhysicalDevices))
                 for (i in 0 until physicalDeviceCount)
                     physicalDevices += VkPhysicalDevice(memGetAddress(pPhysicalDevices), this)
             }
-        } while (result == INCOMPLETE)
+        } while (result == VkResult.INCOMPLETE)
         assert(physicalDeviceCount == physicalDevices.size)
         physicalDevices
     }
 
-    infix fun VkInstance.destroySurfaceKHR(surface: VkSurface) = KHRSurface.nvkDestroySurfaceKHR(this, surface.L, NULL)
+    infix fun VkInstance.destroySurfaceKHR(surface: VkSurfaceKHR) = KHRSurface.nvkDestroySurfaceKHR(this, surface.L, NULL)
 
 
     // VkPhysicalDevice ================================================================================================
@@ -1836,7 +1836,7 @@ inline class VkMemoryStack(val stack: MemoryStack) {
 
     fun VkPhysicalDevice.getFormatProperties(format: VkFormat, formatProperties: VkFormatProperties): VkFormatProperties = formatProperties.also { VK10.nvkGetPhysicalDeviceFormatProperties(this, format.i, it.adr) }
 
-    infix fun VkPhysicalDevice.getSurfaceFormatsKHR(surface: VkSurface): ArrayList<VkSurfaceFormatKHR> = getPhysicalDeviceSurfaceFormatsKHR(this, surface)
+    infix fun VkPhysicalDevice.getSurfaceFormatsKHR(surface: VkSurfaceKHR): ArrayList<VkSurfaceFormatKHR> = getPhysicalDeviceSurfaceFormatsKHR(this, surface)
 
     inline val VkPhysicalDevice.memoryProperties: VkPhysicalDeviceMemoryProperties
         get() = getMemoryProperties(PhysicalDeviceMemoryProperties())
@@ -1853,13 +1853,13 @@ inline class VkMemoryStack(val stack: MemoryStack) {
 
     infix fun VkPhysicalDevice.createDevice(createInfo: VkDeviceCreateInfo): VkDevice = VkDevice(pointerAddress { VK_CHECK_RESULT(VK10.nvkCreateDevice(this, createInfo.adr, NULL, it)) }, this, createInfo)
 
-    infix fun VkPhysicalDevice.getSurfaceCapabilitiesKHR(surface: VkSurface): VkSurfaceCapabilitiesKHR = SurfaceCapabilitiesKHR { VK_CHECK_RESULT(KHRSurface.nvkGetPhysicalDeviceSurfaceCapabilitiesKHR(this@getSurfaceCapabilitiesKHR, surface.L, adr)) }
+    infix fun VkPhysicalDevice.getSurfaceCapabilitiesKHR(surface: VkSurfaceKHR): VkSurfaceCapabilitiesKHR = SurfaceCapabilitiesKHR { VK_CHECK_RESULT(KHRSurface.nvkGetPhysicalDeviceSurfaceCapabilitiesKHR(this@getSurfaceCapabilitiesKHR, surface.L, adr)) }
 
-    fun VkPhysicalDevice.getSurfaceSupportKHR(queueFamily: Int, surface: VkSurface): Boolean = getPhysicalDeviceSurfaceSupportKHR(this, queueFamily, surface)
+    fun VkPhysicalDevice.getSurfaceSupportKHR(queueFamily: Int, surface: VkSurfaceKHR): Boolean = getPhysicalDeviceSurfaceSupportKHR(this, queueFamily, surface)
 
-    fun VkPhysicalDevice.getSurfaceSupportKHR(queueFamilyProperties: ArrayList<VkQueueFamilyProperties>, surface: VkSurface): BooleanArray = getPhysicalDeviceSurfaceSupportKHR(this, queueFamilyProperties, surface)
+    fun VkPhysicalDevice.getSurfaceSupportKHR(queueFamilyProperties: ArrayList<VkQueueFamilyProperties>, surface: VkSurfaceKHR): BooleanArray = getPhysicalDeviceSurfaceSupportKHR(this, queueFamilyProperties, surface)
 
-    infix fun VkPhysicalDevice.getSurfacePresentModesKHR(surface: VkSurface): ArrayList<VkPresentMode> = getPhysicalDeviceSurfacePresentModesKHR(this, surface)
+    infix fun VkPhysicalDevice.getSurfacePresentModesKHR(surface: VkSurfaceKHR): ArrayList<VkPresentModeKHR> = getPhysicalDeviceSurfacePresentModesKHR(this, surface)
 
 
     // VkQueue =========================================================================================================

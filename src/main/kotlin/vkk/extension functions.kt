@@ -465,18 +465,18 @@ fun VkInstance.enumeratePhysicalDevices(): ArrayList<VkPhysicalDevice> = stak {
     do {
         result = VkResult(VK10.nvkEnumeratePhysicalDevices(this, pPhysicalDeviceCount, NULL))
         physicalDeviceCount = memGetInt(pPhysicalDeviceCount)
-        if (result == SUCCESS && physicalDeviceCount > 0) {
+        if (result == VkResult.SUCCESS && physicalDeviceCount > 0) {
             val pPhysicalDevices = it.nmalloc(Pointer.POINTER_SIZE, physicalDeviceCount * Pointer.POINTER_SIZE)
             result = VkResult(VK10.nvkEnumeratePhysicalDevices(this, pPhysicalDeviceCount, pPhysicalDevices))
             for (i in 0 until physicalDeviceCount)
                 physicalDevices += VkPhysicalDevice(memGetAddress(pPhysicalDevices), this)
         }
-    } while (result == INCOMPLETE)
+    } while (result == VkResult.INCOMPLETE)
     assert(physicalDeviceCount == physicalDevices.size)
     physicalDevices
 }
 
-infix fun VkInstance.destroySurfaceKHR(surface: VkSurface) = KHRSurface.nvkDestroySurfaceKHR(this, surface.L, NULL)
+infix fun VkInstance.destroySurfaceKHR(surface: VkSurfaceKHR) = KHRSurface.nvkDestroySurfaceKHR(this, surface.L, NULL)
 
 
 // VkPhysicalDevice ================================================================================================
@@ -490,7 +490,7 @@ infix fun VkPhysicalDevice.getFormatProperties(format: VkFormat): VkFormatProper
 
 fun VkPhysicalDevice.getFormatProperties(format: VkFormat, formatProperties: VkFormatProperties): VkFormatProperties = formatProperties.also { VK10.nvkGetPhysicalDeviceFormatProperties(this, format.i, it.adr) }
 
-infix fun VkPhysicalDevice.getSurfaceFormatsKHR(surface: VkSurface): ArrayList<VkSurfaceFormatKHR> = vk.getPhysicalDeviceSurfaceFormatsKHR(this, surface)
+infix fun VkPhysicalDevice.getSurfaceFormatsKHR(surface: VkSurfaceKHR): ArrayList<VkSurfaceFormatKHR> = vk.getPhysicalDeviceSurfaceFormatsKHR(this, surface)
 
 inline val VkPhysicalDevice.memoryProperties: VkPhysicalDeviceMemoryProperties
     get() = getMemoryProperties(vk.PhysicalDeviceMemoryProperties())
@@ -507,13 +507,13 @@ infix fun VkPhysicalDevice.getProperties(properties: VkPhysicalDeviceProperties)
 
 infix fun VkPhysicalDevice.createDevice(createInfo: VkDeviceCreateInfo): VkDevice = VkDevice(stak.pointerAddress { VK_CHECK_RESULT(VK10.nvkCreateDevice(this, createInfo.adr, NULL, it)) }, this, createInfo)
 
-infix fun VkPhysicalDevice.getSurfaceCapabilitiesKHR(surface: VkSurface): VkSurfaceCapabilitiesKHR = vk.SurfaceCapabilitiesKHR { VK_CHECK_RESULT(KHRSurface.nvkGetPhysicalDeviceSurfaceCapabilitiesKHR(this@getSurfaceCapabilitiesKHR, surface.L, adr)) }
+infix fun VkPhysicalDevice.getSurfaceCapabilitiesKHR(surface: VkSurfaceKHR): VkSurfaceCapabilitiesKHR = vk.SurfaceCapabilitiesKHR { VK_CHECK_RESULT(KHRSurface.nvkGetPhysicalDeviceSurfaceCapabilitiesKHR(this@getSurfaceCapabilitiesKHR, surface.L, adr)) }
 
-fun VkPhysicalDevice.getSurfaceSupportKHR(queueFamily: Int, surface: VkSurface): Boolean = vk.getPhysicalDeviceSurfaceSupportKHR(this, queueFamily, surface)
+fun VkPhysicalDevice.getSurfaceSupportKHR(queueFamily: Int, surface: VkSurfaceKHR): Boolean = vk.getPhysicalDeviceSurfaceSupportKHR(this, queueFamily, surface)
 
-fun VkPhysicalDevice.getSurfaceSupportKHR(queueFamilyProperties: ArrayList<VkQueueFamilyProperties>, surface: VkSurface): BooleanArray = vk.getPhysicalDeviceSurfaceSupportKHR(this, queueFamilyProperties, surface)
+fun VkPhysicalDevice.getSurfaceSupportKHR(queueFamilyProperties: ArrayList<VkQueueFamilyProperties>, surface: VkSurfaceKHR): BooleanArray = vk.getPhysicalDeviceSurfaceSupportKHR(this, queueFamilyProperties, surface)
 
-infix fun VkPhysicalDevice.getSurfacePresentModesKHR(surface: VkSurface): ArrayList<VkPresentMode> = vk.getPhysicalDeviceSurfacePresentModesKHR(this, surface)
+infix fun VkPhysicalDevice.getSurfacePresentModesKHR(surface: VkSurfaceKHR): ArrayList<VkPresentModeKHR> = vk.getPhysicalDeviceSurfacePresentModesKHR(this, surface)
 
 
 // VkQueue =========================================================================================================
