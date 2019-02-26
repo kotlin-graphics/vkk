@@ -164,3 +164,5 @@ inline class VkSwapchainKHR(val L: Long) {
 
 inline class VkDisplayKHR(val L: Long)
 inline class VkDisplayModeKHR (val L: Long)
+inline class VkObjectTableNVX  (val L: Long)
+inline class VkIndirectCommandsLayoutNVX   (val L: Long)

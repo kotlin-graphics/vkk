@@ -7,9 +7,7 @@ import kool.Ptr
 import kool.adr
 import org.lwjgl.system.MemoryUtil
 import org.lwjgl.vulkan.*
-import vkk.entities.VkBuffer
-import vkk.entities.VkDeviceSize
-import vkk.entities.VkImage
+import vkk.entities.*
 import java.nio.ByteBuffer
 import java.nio.IntBuffer
 
@@ -364,20 +362,20 @@ inline val VkShaderResourceUsageAMD.scratchMemUsageInBytes: Long
     get() = VkShaderResourceUsageAMD.nscratchMemUsageInBytes(adr)
 
 
-inline val VkShaderStatisticsInfoAMD .shaderStageMask: VkShaderStageFlags
-    get() = VkShaderStatisticsInfoAMD .nshaderStageMask(adr)
-inline val VkShaderStatisticsInfoAMD .resourceUsage: VkShaderResourceUsageAMD
-    get() = VkShaderStatisticsInfoAMD .nresourceUsage(adr)
-inline val VkShaderStatisticsInfoAMD .numPhysicalVgprs: Int
-    get() = VkShaderStatisticsInfoAMD .nnumPhysicalVgprs(adr)
-inline val VkShaderStatisticsInfoAMD .numPhysicalSgprs: Int
-    get() = VkShaderStatisticsInfoAMD .nnumPhysicalSgprs(adr)
-inline val VkShaderStatisticsInfoAMD .numAvailableVgprs: Int
-    get() = VkShaderStatisticsInfoAMD .nnumAvailableVgprs(adr)
-inline val VkShaderStatisticsInfoAMD .numAvailableSgprs: Int
-    get() = VkShaderStatisticsInfoAMD .nnumAvailableSgprs(adr)
-inline val VkShaderStatisticsInfoAMD .computeWorkGroupSize: IntBuffer
-    get() = VkShaderStatisticsInfoAMD .ncomputeWorkGroupSize(adr)
+inline val VkShaderStatisticsInfoAMD.shaderStageMask: VkShaderStageFlags
+    get() = VkShaderStatisticsInfoAMD.nshaderStageMask(adr)
+inline val VkShaderStatisticsInfoAMD.resourceUsage: VkShaderResourceUsageAMD
+    get() = VkShaderStatisticsInfoAMD.nresourceUsage(adr)
+inline val VkShaderStatisticsInfoAMD.numPhysicalVgprs: Int
+    get() = VkShaderStatisticsInfoAMD.nnumPhysicalVgprs(adr)
+inline val VkShaderStatisticsInfoAMD.numPhysicalSgprs: Int
+    get() = VkShaderStatisticsInfoAMD.nnumPhysicalSgprs(adr)
+inline val VkShaderStatisticsInfoAMD.numAvailableVgprs: Int
+    get() = VkShaderStatisticsInfoAMD.nnumAvailableVgprs(adr)
+inline val VkShaderStatisticsInfoAMD.numAvailableSgprs: Int
+    get() = VkShaderStatisticsInfoAMD.nnumAvailableSgprs(adr)
+inline val VkShaderStatisticsInfoAMD.computeWorkGroupSize: IntBuffer
+    get() = VkShaderStatisticsInfoAMD.ncomputeWorkGroupSize(adr)
 
 
 inline var VkPhysicalDeviceCornerSampledImageFeaturesNV.type: VkStructureType
@@ -433,15 +431,15 @@ inline var VkExternalMemoryImageCreateInfoNV.handleTypes: VkExternalMemoryHandle
     set(value) = VkExternalMemoryImageCreateInfoNV.nhandleTypes(adr, value)
 
 
-inline var VkExportMemoryAllocateInfoNV .type: VkStructureType
-    get() = VkStructureType(VkExportMemoryAllocateInfoNV .nsType(adr))
-    set(value) = VkExportMemoryAllocateInfoNV .nsType(adr, value.i)
-inline var VkExportMemoryAllocateInfoNV .next: Ptr
-    get() = VkExportMemoryAllocateInfoNV .npNext(adr)
-    set(value) = VkExportMemoryAllocateInfoNV .npNext(adr, value)
-inline var VkExportMemoryAllocateInfoNV .handleTypes: VkExternalMemoryHandleTypeFlagsNV
-    get() = VkExportMemoryAllocateInfoNV .nhandleTypes(adr)
-    set(value) = VkExportMemoryAllocateInfoNV .nhandleTypes(adr, value)
+inline var VkExportMemoryAllocateInfoNV.type: VkStructureType
+    get() = VkStructureType(VkExportMemoryAllocateInfoNV.nsType(adr))
+    set(value) = VkExportMemoryAllocateInfoNV.nsType(adr, value.i)
+inline var VkExportMemoryAllocateInfoNV.next: Ptr
+    get() = VkExportMemoryAllocateInfoNV.npNext(adr)
+    set(value) = VkExportMemoryAllocateInfoNV.npNext(adr, value)
+inline var VkExportMemoryAllocateInfoNV.handleTypes: VkExternalMemoryHandleTypeFlagsNV
+    get() = VkExportMemoryAllocateInfoNV.nhandleTypes(adr)
+    set(value) = VkExportMemoryAllocateInfoNV.nhandleTypes(adr, value)
 
 
 inline class VkValidationCheckEXT(val i: Int) {
@@ -450,3 +448,253 @@ inline class VkValidationCheckEXT(val i: Int) {
         val SHADERS_EXT = VkValidationCheckEXT(1)
     }
 }
+
+
+inline var VkValidationFlagsEXT.type: VkStructureType
+    get() = VkStructureType(VkValidationFlagsEXT.nsType(adr))
+    set(value) = VkValidationFlagsEXT.nsType(adr, value.i)
+inline var VkValidationFlagsEXT.next: Ptr
+    get() = VkValidationFlagsEXT.npNext(adr)
+    set(value) = VkValidationFlagsEXT.npNext(adr, value)
+@Deprecated("this will be set automatically")
+inline var VkValidationFlagsEXT.disabledValidationCheckCount: Int
+    get() = VkValidationFlagsEXT.ndisabledValidationCheckCount(adr)
+    set(value) = VkValidationFlagsEXT.ndisabledValidationCheckCount(adr, value)
+inline var VkValidationFlagsEXT.disabledValidationChecks: IntBuffer
+    get() = VkValidationFlagsEXT.npDisabledValidationChecks(adr)
+    set(value) = VkValidationFlagsEXT.npDisabledValidationChecks(adr, value)
+
+
+inline var VkImageViewASTCDecodeModeEXT.type: VkStructureType
+    get() = VkStructureType(VkImageViewASTCDecodeModeEXT.nsType(adr))
+    set(value) = VkImageViewASTCDecodeModeEXT.nsType(adr, value.i)
+inline var VkImageViewASTCDecodeModeEXT.next: Ptr
+    get() = VkImageViewASTCDecodeModeEXT.npNext(adr)
+    set(value) = VkImageViewASTCDecodeModeEXT.npNext(adr, value)
+inline var VkImageViewASTCDecodeModeEXT.decodeMode: VkFormat
+    get() = VkFormat(VkImageViewASTCDecodeModeEXT.ndecodeMode(adr))
+    set(value) = VkImageViewASTCDecodeModeEXT.ndecodeMode(adr, value.i)
+
+
+inline var VkPhysicalDeviceASTCDecodeFeaturesEXT.type: VkStructureType
+    get() = VkStructureType(VkPhysicalDeviceASTCDecodeFeaturesEXT.nsType(adr))
+    set(value) = VkPhysicalDeviceASTCDecodeFeaturesEXT.nsType(adr, value.i)
+inline var VkPhysicalDeviceASTCDecodeFeaturesEXT.next: Ptr
+    get() = VkPhysicalDeviceASTCDecodeFeaturesEXT.npNext(adr)
+    set(value) = VkPhysicalDeviceASTCDecodeFeaturesEXT.npNext(adr, value)
+inline var VkPhysicalDeviceASTCDecodeFeaturesEXT.decodeModeSharedExponent: Boolean
+    get() = VkPhysicalDeviceASTCDecodeFeaturesEXT.ndecodeModeSharedExponent(adr).bool
+    set(value) = VkPhysicalDeviceASTCDecodeFeaturesEXT.ndecodeModeSharedExponent(adr, value.i)
+
+
+inline class VkConditionalRenderingEXT(val i: Int) {
+    companion object {
+        val INVERTED_BIT_EXT = VkConditionalRenderingEXT(0x00000001)
+    }
+}
+
+typealias VkConditionalRenderingFlagsEXT = VkFlags
+
+
+inline var VkConditionalRenderingBeginInfoEXT.type: VkStructureType
+    get() = VkStructureType(VkConditionalRenderingBeginInfoEXT.nsType(adr))
+    set(value) = VkConditionalRenderingBeginInfoEXT.nsType(adr, value.i)
+inline var VkConditionalRenderingBeginInfoEXT.next: Ptr
+    get() = VkConditionalRenderingBeginInfoEXT.npNext(adr)
+    set(value) = VkConditionalRenderingBeginInfoEXT.npNext(adr, value)
+inline var VkConditionalRenderingBeginInfoEXT.buffer: VkBuffer
+    get() = VkBuffer(VkConditionalRenderingBeginInfoEXT.nbuffer(adr))
+    set(value) = VkConditionalRenderingBeginInfoEXT.nbuffer(adr, value.L)
+inline var VkConditionalRenderingBeginInfoEXT.offset: VkDeviceSize
+    get() = VkDeviceSize(VkConditionalRenderingBeginInfoEXT.nbuffer(adr))
+    set(value) = VkConditionalRenderingBeginInfoEXT.nbuffer(adr, value.L)
+inline var VkConditionalRenderingBeginInfoEXT.flags: VkConditionalRenderingFlagsEXT
+    get() = VkConditionalRenderingBeginInfoEXT.nflags(adr)
+    set(value) = VkConditionalRenderingBeginInfoEXT.nflags(adr, value)
+
+
+inline var VkPhysicalDeviceConditionalRenderingFeaturesEXT.type: VkStructureType
+    get() = VkStructureType(VkPhysicalDeviceConditionalRenderingFeaturesEXT.nsType(adr))
+    set(value) = VkPhysicalDeviceConditionalRenderingFeaturesEXT.nsType(adr, value.i)
+inline var VkPhysicalDeviceConditionalRenderingFeaturesEXT.next: Ptr
+    get() = VkPhysicalDeviceConditionalRenderingFeaturesEXT.npNext(adr)
+    set(value) = VkPhysicalDeviceConditionalRenderingFeaturesEXT.npNext(adr, value)
+inline var VkPhysicalDeviceConditionalRenderingFeaturesEXT.conditionalRendering: Boolean
+    get() = VkPhysicalDeviceConditionalRenderingFeaturesEXT.nconditionalRendering(adr).bool
+    set(value) = VkPhysicalDeviceConditionalRenderingFeaturesEXT.nconditionalRendering(adr, value.i)
+inline var VkPhysicalDeviceConditionalRenderingFeaturesEXT.inheritedConditionalRendering: Boolean
+    get() = VkPhysicalDeviceConditionalRenderingFeaturesEXT.ninheritedConditionalRendering(adr).bool
+    set(value) = VkPhysicalDeviceConditionalRenderingFeaturesEXT.ninheritedConditionalRendering(adr, value.i)
+
+
+inline var VkCommandBufferInheritanceConditionalRenderingInfoEXT.type: VkStructureType
+    get() = VkStructureType(VkCommandBufferInheritanceConditionalRenderingInfoEXT.nsType(adr))
+    set(value) = VkCommandBufferInheritanceConditionalRenderingInfoEXT.nsType(adr, value.i)
+inline var VkCommandBufferInheritanceConditionalRenderingInfoEXT.next: Ptr
+    get() = VkCommandBufferInheritanceConditionalRenderingInfoEXT.npNext(adr)
+    set(value) = VkCommandBufferInheritanceConditionalRenderingInfoEXT.npNext(adr, value)
+inline var VkCommandBufferInheritanceConditionalRenderingInfoEXT.conditionalRenderingEnable: Boolean
+    get() = VkCommandBufferInheritanceConditionalRenderingInfoEXT.nconditionalRenderingEnable(adr).bool
+    set(value) = VkCommandBufferInheritanceConditionalRenderingInfoEXT.nconditionalRenderingEnable(adr, value.i)
+
+
+inline class VkIndirectCommandsTokenTypeNVX(val i: Int) {
+    companion object {
+        val PIPELINE_NVX = VkIndirectCommandsTokenTypeNVX(0)
+        val DESCRIPTOR_SET_NVX = VkIndirectCommandsTokenTypeNVX(1)
+        val INDEX_BUFFER_NVX = VkIndirectCommandsTokenTypeNVX(2)
+        val VERTEX_BUFFER_NVX = VkIndirectCommandsTokenTypeNVX(3)
+        val PUSH_CONSTANT_NVX = VkIndirectCommandsTokenTypeNVX(4)
+        val DRAW_INDEXED_NVX = VkIndirectCommandsTokenTypeNVX(5)
+        val DRAW_NVX = VkIndirectCommandsTokenTypeNVX(6)
+        val DISPATCH_NVX = VkIndirectCommandsTokenTypeNVX(7)
+    }
+}
+
+inline class VkObjectEntryTypeNVX(val i: Int) {
+    companion object {
+        val DESCRIPTOR_SET_NVX = VkObjectEntryTypeNVX(0)
+        val PIPELINE_NVX = VkObjectEntryTypeNVX(1)
+        val INDEX_BUFFER_NVX = VkObjectEntryTypeNVX(2)
+        val VERTEX_BUFFER_NVX = VkObjectEntryTypeNVX(3)
+        val PUSH_CONSTANT_NVX = VkObjectEntryTypeNVX(4)
+    }
+}
+
+
+inline class VkIndirectCommandsLayoutUsageNVX(val i: Int) {
+    companion object {
+        val UNORDERED_SEQUENCES_BIT_NVX = VkIndirectCommandsLayoutUsageNVX(0x00000001)
+        val SPARSE_SEQUENCES_BIT_NVX = VkIndirectCommandsLayoutUsageNVX(0x00000002)
+        val EMPTY_EXECUTIONS_BIT_NVX = VkIndirectCommandsLayoutUsageNVX(0x00000004)
+        val INDEXED_SEQUENCES_BIT_NVX = VkIndirectCommandsLayoutUsageNVX(0x00000008)
+    }
+}
+
+typealias VkIndirectCommandsLayoutUsageFlagsNVX = VkFlags
+
+
+inline class VkObjectEntryUsageNVX(val i: Int) {
+    companion object {
+        val GRAPHICS_BIT_NVX = VkObjectEntryUsageNVX(0x00000001)
+        val COMPUTE_BIT_NVX = VkObjectEntryUsageNVX(0x00000002)
+    }
+}
+
+typealias VkObjectEntryUsageFlagsNVX = VkFlags
+
+
+inline var VkDeviceGeneratedCommandsFeaturesNVX.type: VkStructureType
+    get() = VkStructureType(VkDeviceGeneratedCommandsFeaturesNVX.nsType(adr))
+    set(value) = VkDeviceGeneratedCommandsFeaturesNVX.nsType(adr, value.i)
+inline var VkDeviceGeneratedCommandsFeaturesNVX.next: Ptr
+    get() = VkDeviceGeneratedCommandsFeaturesNVX.npNext(adr)
+    set(value) = VkDeviceGeneratedCommandsFeaturesNVX.npNext(adr, value)
+inline var VkDeviceGeneratedCommandsFeaturesNVX.computeBindingPointSupport: Boolean
+    get() = VkDeviceGeneratedCommandsFeaturesNVX.ncomputeBindingPointSupport(adr).bool
+    set(value) = VkDeviceGeneratedCommandsFeaturesNVX.ncomputeBindingPointSupport(adr, value.i)
+
+
+inline var VkDeviceGeneratedCommandsLimitsNVX.type: VkStructureType
+    get() = VkStructureType(VkDeviceGeneratedCommandsLimitsNVX.nsType(adr))
+    set(value) = VkDeviceGeneratedCommandsLimitsNVX.nsType(adr, value.i)
+inline var VkDeviceGeneratedCommandsLimitsNVX.next: Ptr
+    get() = VkDeviceGeneratedCommandsLimitsNVX.npNext(adr)
+    set(value) = VkDeviceGeneratedCommandsLimitsNVX.npNext(adr, value)
+inline var VkDeviceGeneratedCommandsLimitsNVX.maxIndirectCommandsLayoutTokenCount: Int
+    get() = VkDeviceGeneratedCommandsLimitsNVX.nmaxIndirectCommandsLayoutTokenCount(adr)
+    set(value) = VkDeviceGeneratedCommandsLimitsNVX.nmaxIndirectCommandsLayoutTokenCount(adr, value)
+inline var VkDeviceGeneratedCommandsLimitsNVX.maxObjectEntryCounts: Int
+    get() = VkDeviceGeneratedCommandsLimitsNVX.nmaxObjectEntryCounts(adr)
+    set(value) = VkDeviceGeneratedCommandsLimitsNVX.nmaxObjectEntryCounts(adr, value)
+inline var VkDeviceGeneratedCommandsLimitsNVX.minSequenceCountBufferOffsetAlignment: Int
+    get() = VkDeviceGeneratedCommandsLimitsNVX.nminSequenceCountBufferOffsetAlignment(adr)
+    set(value) = VkDeviceGeneratedCommandsLimitsNVX.nminSequenceCountBufferOffsetAlignment(adr, value)
+inline var VkDeviceGeneratedCommandsLimitsNVX.minSequenceIndexBufferOffsetAlignment: Int
+    get() = VkDeviceGeneratedCommandsLimitsNVX.nminSequenceIndexBufferOffsetAlignment(adr)
+    set(value) = VkDeviceGeneratedCommandsLimitsNVX.nminSequenceIndexBufferOffsetAlignment(adr, value)
+inline var VkDeviceGeneratedCommandsLimitsNVX.minCommandsTokenBufferOffsetAlignment: Int
+    get() = VkDeviceGeneratedCommandsLimitsNVX.nminCommandsTokenBufferOffsetAlignment(adr)
+    set(value) = VkDeviceGeneratedCommandsLimitsNVX.nminCommandsTokenBufferOffsetAlignment(adr, value)
+
+
+inline var VkIndirectCommandsTokenNVX.tokenType: VkIndirectCommandsTokenTypeNVX
+    get() = VkIndirectCommandsTokenTypeNVX(VkIndirectCommandsTokenNVX.ntokenType(adr))
+    set(value) = VkIndirectCommandsTokenNVX.ntokenType(adr, value.i)
+inline var VkIndirectCommandsTokenNVX.buffer: VkBuffer
+    get() = VkBuffer(VkIndirectCommandsTokenNVX.nbuffer(adr))
+    set(value) = VkIndirectCommandsTokenNVX.nbuffer(adr, value.L)
+inline var VkIndirectCommandsTokenNVX.offset: VkDeviceSize
+    get() = VkDeviceSize(VkIndirectCommandsTokenNVX.noffset(adr))
+    set(value) = VkIndirectCommandsTokenNVX.noffset(adr, value.L)
+
+
+inline var VkIndirectCommandsLayoutTokenNVX.tokenType: VkIndirectCommandsTokenTypeNVX
+    get() = VkIndirectCommandsTokenTypeNVX(VkIndirectCommandsLayoutTokenNVX.ntokenType(adr))
+    set(value) = VkIndirectCommandsLayoutTokenNVX.ntokenType(adr, value.i)
+inline var VkIndirectCommandsLayoutTokenNVX.bindingUnit: Int
+    get() = VkIndirectCommandsLayoutTokenNVX.nbindingUnit(adr)
+    set(value) = VkIndirectCommandsLayoutTokenNVX.nbindingUnit(adr, value)
+inline var VkIndirectCommandsLayoutTokenNVX.dynamicCount: Int
+    get() = VkIndirectCommandsLayoutTokenNVX.ndynamicCount(adr)
+    set(value) = VkIndirectCommandsLayoutTokenNVX.ndynamicCount(adr, value)
+inline var VkIndirectCommandsLayoutTokenNVX.divisor: Int
+    get() = VkIndirectCommandsLayoutTokenNVX.ndivisor(adr)
+    set(value) = VkIndirectCommandsLayoutTokenNVX.ndivisor(adr, value)
+
+
+inline var VkIndirectCommandsLayoutCreateInfoNVX.type: VkStructureType
+    get() = VkStructureType(VkIndirectCommandsLayoutCreateInfoNVX.nsType(adr))
+    set(value) = VkIndirectCommandsLayoutCreateInfoNVX.nsType(adr, value.i)
+inline var VkIndirectCommandsLayoutCreateInfoNVX.next: Ptr
+    get() = VkIndirectCommandsLayoutCreateInfoNVX.npNext(adr)
+    set(value) = VkIndirectCommandsLayoutCreateInfoNVX.npNext(adr, value)
+inline var VkIndirectCommandsLayoutCreateInfoNVX.pipelineBindPoint: VkPipelineBindPoint
+    get() = VkPipelineBindPoint(VkIndirectCommandsLayoutCreateInfoNVX.npipelineBindPoint(adr))
+    set(value) = VkIndirectCommandsLayoutCreateInfoNVX.npipelineBindPoint(adr, value.i)
+inline var VkIndirectCommandsLayoutCreateInfoNVX.flags: VkIndirectCommandsLayoutUsageFlagsNVX
+    get() = VkIndirectCommandsLayoutCreateInfoNVX.nflags(adr)
+    set(value) = VkIndirectCommandsLayoutCreateInfoNVX.nflags(adr, value)
+@Deprecated("this will be set automatically")
+inline var VkIndirectCommandsLayoutCreateInfoNVX.tokenCount: Int
+    get() = VkIndirectCommandsLayoutCreateInfoNVX.ntokenCount(adr)
+    set(value) = VkIndirectCommandsLayoutCreateInfoNVX.ntokenCount(adr, value)
+inline var VkIndirectCommandsLayoutCreateInfoNVX.tokens: VkIndirectCommandsLayoutTokenNVX.Buffer
+    get() = VkIndirectCommandsLayoutCreateInfoNVX.npTokens(adr)
+    set(value) = VkIndirectCommandsLayoutCreateInfoNVX.npTokens(adr, value)
+
+
+inline var VkCmdProcessCommandsInfoNVX.type: VkStructureType
+    get() = VkStructureType(VkCmdProcessCommandsInfoNVX.nsType(adr))
+    set(value) = VkCmdProcessCommandsInfoNVX.nsType(adr, value.i)
+inline var VkCmdProcessCommandsInfoNVX.next: Ptr
+    get() = VkCmdProcessCommandsInfoNVX.npNext(adr)
+    set(value) = VkCmdProcessCommandsInfoNVX.npNext(adr, value)
+inline var VkCmdProcessCommandsInfoNVX.objectTable: VkObjectTableNVX
+    get() = VkObjectTableNVX(VkCmdProcessCommandsInfoNVX.nobjectTable(adr))
+    set(value) = VkCmdProcessCommandsInfoNVX.nobjectTable(adr, value.L)
+inline var VkCmdProcessCommandsInfoNVX.indirectCommandsLayout: VkIndirectCommandsLayoutNVX
+    get() = VkIndirectCommandsLayoutNVX(VkCmdProcessCommandsInfoNVX.nindirectCommandsLayout(adr))
+    set(value) = VkCmdProcessCommandsInfoNVX.nindirectCommandsLayout(adr, value.L)
+@Deprecated("this will be set automatically")
+inline var VkCmdProcessCommandsInfoNVX.indirectCommandsTokenCount: Int
+    get() = VkCmdProcessCommandsInfoNVX.nindirectCommandsTokenCount(adr)
+    set(value) = VkCmdProcessCommandsInfoNVX.nindirectCommandsTokenCount(adr, value)
+inline var VkCmdProcessCommandsInfoNVX.indirectCommandsTokens: VkIndirectCommandsTokenNVX.Buffer
+    get() = VkCmdProcessCommandsInfoNVX.npIndirectCommandsTokens(adr)
+    set(value) = VkCmdProcessCommandsInfoNVX.npIndirectCommandsTokens(adr, value)
+inline var VkCmdProcessCommandsInfoNVX.maxSequencesCount: Int
+    get() = VkCmdProcessCommandsInfoNVX.nmaxSequencesCount(adr)
+    set(value) = VkCmdProcessCommandsInfoNVX.nmaxSequencesCount(adr, value)
+//inline var VkCmdProcessCommandsInfoNVX.targetCommandBuffer: VkCommandBuffer
+//    get() = VkCmdProcessCommandsInfoNVX.ntargetCommandBuffer(adr)
+//    set(value) = VkCmdProcessCommandsInfoNVX.ntargetCommandBuffer(adr, value)
+inline var VkCmdProcessCommandsInfoNVX.sequencesCountOffset: VkDeviceSize
+    get() = VkDeviceSize(VkCmdProcessCommandsInfoNVX.nsequencesCountOffset(adr))
+    set(value) = VkCmdProcessCommandsInfoNVX.nsequencesCountOffset(adr, value.L)
+inline var VkCmdProcessCommandsInfoNVX.sequencesIndexBuffer: VkBuffer
+    get() = VkBuffer(VkCmdProcessCommandsInfoNVX.nsequencesIndexBuffer(adr))
+    set(value) = VkCmdProcessCommandsInfoNVX.nsequencesIndexBuffer(adr, value.L)
+inline var VkCmdProcessCommandsInfoNVX.sequencesIndexOffset: VkDeviceSize
+    get() = VkDeviceSize(VkCmdProcessCommandsInfoNVX.nsequencesIndexOffset(adr))
+    set(value) = VkCmdProcessCommandsInfoNVX.nsequencesIndexOffset(adr, value.L)
