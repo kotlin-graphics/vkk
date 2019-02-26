@@ -1,71 +1,97 @@
 package vkk.entities
 
 import glm_.i
-import kool.*
-import kool.lib.isEmpty
-import kool.lib.isNotEmpty
-import org.lwjgl.system.MemoryStack
-import org.lwjgl.system.MemoryUtil.NULL
+import kool.Ptr
 import org.lwjgl.system.MemoryUtil.memCopy
-import vkk.VkDynamicState
+import org.lwjgl.vulkan.VK10.VK_NULL_HANDLE
 import java.nio.ByteBuffer
-import java.nio.IntBuffer
-import java.nio.LongBuffer
 
-inline class VkBuffer(val L: Long) {
-    val isValid get() = L != NULL
-    val isInvalid get() = L == NULL
+inline class VkBuffer(val L: Long = VK_NULL_HANDLE) {
+    val isValid get() = L != VK_NULL_HANDLE
+    val isInvalid get() = L == VK_NULL_HANDLE
 
     val asHexString: String
         get() = "0x%X".format(L)
+
+    companion object {
+        val NULL = VkBuffer()
+    }
 }
 
-inline class VkBufferView(val L: Long) {
-    val isValid get() = L != NULL
-    val isInvalid get() = L == NULL
+inline class VkBufferView(val L: Long = VK_NULL_HANDLE) {
+    val isValid get() = L != VK_NULL_HANDLE
+    val isInvalid get() = L == VK_NULL_HANDLE
+
+    companion object {
+        val NULL = VkBufferView()
+    }
 }
 
-inline class VkCommandPool(val L: Long) {
-    val isValid get() = L != NULL
-    val isInvalid get() = L == NULL
+inline class VkCommandPool(val L: Long = VK_NULL_HANDLE) {
+    val isValid get() = L != VK_NULL_HANDLE
+    val isInvalid get() = L == VK_NULL_HANDLE
+
+    companion object {
+        val NULL = VkCommandPool()
+    }
 }
 
-inline class VkDebugReportCallback(val L: Long) {
-    val isValid get() = L != NULL
-    val isInvalid get() = L == NULL
+inline class VkDebugReportCallback(val L: Long = VK_NULL_HANDLE) {
+    val isValid get() = L != VK_NULL_HANDLE
+    val isInvalid get() = L == VK_NULL_HANDLE
+
+    companion object {
+        val NULL = VkDebugReportCallback()
+    }
 }
 
-inline class VkDescriptorPool(val L: Long) {
-    val isValid get() = L != NULL
-    val isInvalid get() = L == NULL
+inline class VkDescriptorPool(val L: Long = VK_NULL_HANDLE) {
+    val isValid get() = L != VK_NULL_HANDLE
+    val isInvalid get() = L == VK_NULL_HANDLE
+
+    companion object {
+        val NULL = VkDescriptorPool()
+    }
 }
 
-inline class VkDescriptorSet(val L: Long) {
-    val isValid get() = L != NULL
-    val isInvalid get() = L == NULL
+inline class VkDescriptorSet(val L: Long = VK_NULL_HANDLE) {
+    val isValid get() = L != VK_NULL_HANDLE
+    val isInvalid get() = L == VK_NULL_HANDLE
 
     val asHexString: String
         get() = "0x%X".format(L)
+
+    companion object {
+        val NULL = VkDescriptorSet()
+    }
 }
 
-inline class VkDescriptorSetLayout(val L: Long) {
-    val isValid get() = L != NULL
-    val isInvalid get() = L == NULL
+inline class VkDescriptorSetLayout(val L: Long = VK_NULL_HANDLE) {
+    val isValid get() = L != VK_NULL_HANDLE
+    val isInvalid get() = L == VK_NULL_HANDLE
 
     val asHexString: String
         get() = "0x%X".format(L)
+
+    companion object {
+        val NULL = VkDescriptorSetLayout()
+    }
 }
 
-inline class VkDeviceMemory(val L: Long) {
+inline class VkDeviceMemory(val L: Long = VK_NULL_HANDLE) {
 
-    val isValid get() = L != NULL
-    val isInvalid get() = L == NULL
+    val isValid get() = L != VK_NULL_HANDLE
+    val isInvalid get() = L == VK_NULL_HANDLE
 
     val asHexString: String
         get() = "0x%X".format(L)
+
+    companion object {
+        val NULL = VkDeviceMemory()
+    }
 }
 
-inline class VkDeviceSize(val L: Long) {
+inline class VkDeviceSize(val L: Long = VK_NULL_HANDLE) {
 
     val i: Int get() = L.i
 
@@ -75,8 +101,12 @@ inline class VkDeviceSize(val L: Long) {
     operator fun minus(b: VkDeviceSize) = VkDeviceSize(L - b.L)
     operator fun times(b: Int) = VkDeviceSize(L * b)
 
-    val isEmpty get() = L == NULL
-    val isNotEmpty get() = L != NULL
+    val isEmpty get() = L == VK_NULL_HANDLE
+    val isNotEmpty get() = L != VK_NULL_HANDLE
+
+    companion object {
+        val NULL = VkDeviceSize()
+    }
 }
 
 fun Buffer(size: VkDeviceSize): ByteBuffer = kool.Buffer(size.L.i)
@@ -86,83 +116,174 @@ fun memCopy(src: Ptr, dst: Ptr, bytes: VkDeviceSize) = memCopy(src, dst, bytes.L
 operator fun Int.rem(b: VkDeviceSize) = VkDeviceSize(this % b.L)
 operator fun Int.plus(b: VkDeviceSize) = VkDeviceSize(this + b.L)
 
-inline class VkEvent(val L: Long) {
-    val isValid get() = L != NULL
-    val isInvalid get() = L == NULL
+inline class VkEvent(val L: Long = VK_NULL_HANDLE) {
+    val isValid get() = L != VK_NULL_HANDLE
+    val isInvalid get() = L == VK_NULL_HANDLE
+
+    companion object {
+        val NULL = VkEvent()
+    }
 }
 
-inline class VkFence(val L: Long) {
-    val isValid get() = L != NULL
-    val isInvalid get() = L == NULL
+inline class VkFence(val L: Long = VK_NULL_HANDLE) {
+    val isValid get() = L != VK_NULL_HANDLE
+    val isInvalid get() = L == VK_NULL_HANDLE
+
+    companion object {
+        val NULL = VkFence()
+    }
 }
 
-inline class VkFramebuffer(val L: Long) {
-    val isValid get() = L != NULL
-    val isInvalid get() = L == NULL
+inline class VkFramebuffer(val L: Long = VK_NULL_HANDLE) {
+    val isValid get() = L != VK_NULL_HANDLE
+    val isInvalid get() = L == VK_NULL_HANDLE
+
+    companion object {
+        val NULL = VkFramebuffer()
+    }
 }
 
-inline class VkImage(val L: Long) {
-    val isValid get() = L != NULL
-    val isInvalid get() = L == NULL
+inline class VkImage(val L: Long = VK_NULL_HANDLE) {
+    val isValid get() = L != VK_NULL_HANDLE
+    val isInvalid get() = L == VK_NULL_HANDLE
+
+    companion object {
+        val NULL = VkImage()
+    }
 }
 
-inline class VkImageView(val L: Long) {
-    val isValid get() = L != NULL
-    val isInvalid get() = L == NULL
+inline class VkImageView(val L: Long = VK_NULL_HANDLE) {
+    val isValid get() = L != VK_NULL_HANDLE
+    val isInvalid get() = L == VK_NULL_HANDLE
+
+    companion object {
+        val NULL = VkImageView()
+    }
 }
 
-inline class VkPipeline(val L: Long) {
-    val isValid get() = L != NULL
-    val isInvalid get() = L == NULL
+inline class VkPipeline(val L: Long = VK_NULL_HANDLE) {
+    val isValid get() = L != VK_NULL_HANDLE
+    val isInvalid get() = L == VK_NULL_HANDLE
+
+    companion object {
+        val NULL = VkPipeline()
+    }
 }
 
-inline class VkPipelineCache(val L: Long) {
-    val isValid get() = L != NULL
-    val isInvalid get() = L == NULL
+inline class VkPipelineCache(val L: Long = VK_NULL_HANDLE) {
+    val isValid get() = L != VK_NULL_HANDLE
+    val isInvalid get() = L == VK_NULL_HANDLE
+
+    companion object {
+        val NULL = VkPipelineCache()
+    }
 }
 
-inline class VkPipelineLayout(val L: Long) {
-    val isValid get() = L != NULL
-    val isInvalid get() = L == NULL
+inline class VkPipelineLayout(val L: Long = VK_NULL_HANDLE) {
+    val isValid get() = L != VK_NULL_HANDLE
+    val isInvalid get() = L == VK_NULL_HANDLE
+
+    companion object {
+        val NULL = VkPipelineLayout()
+    }
 }
 
-inline class VkQueryPool(val L: Long) {
-    val isValid get() = L != NULL
-    val isInvalid get() = L == NULL
+inline class VkQueryPool(val L: Long = VK_NULL_HANDLE) {
+    val isValid get() = L != VK_NULL_HANDLE
+    val isInvalid get() = L == VK_NULL_HANDLE
+
+    companion object {
+        val NULL = VkQueryPool()
+    }
 }
 
-inline class VkRenderPass(val L: Long) {
-    val isValid get() = L != NULL
-    val isInvalid get() = L == NULL
+inline class VkRenderPass(val L: Long = VK_NULL_HANDLE) {
+    val isValid get() = L != VK_NULL_HANDLE
+    val isInvalid get() = L == VK_NULL_HANDLE
+
+    companion object {
+        val NULL = VkRenderPass()
+    }
 }
 
-inline class VkSampler(val L: Long) {
-    val isValid get() = L != NULL
-    val isInvalid get() = L == NULL
+inline class VkSampler(val L: Long = VK_NULL_HANDLE) {
+    val isValid get() = L != VK_NULL_HANDLE
+    val isInvalid get() = L == VK_NULL_HANDLE
+
+    companion object {
+        val NULL = VkSampler()
+    }
 }
 
-inline class VkSemaphore(val L: Long) {
-    val isValid get() = L != NULL
-    val isInvalid get() = L == NULL
+inline class VkSemaphore(val L: Long = VK_NULL_HANDLE) {
+    val isValid get() = L != VK_NULL_HANDLE
+    val isInvalid get() = L == VK_NULL_HANDLE
+
+    companion object {
+        val NULL = VkSemaphore()
+    }
 }
 
-inline class VkShaderModule(val L: Long) {
-    val isValid get() = L != NULL
-    val isInvalid get() = L == NULL
+inline class VkShaderModule(val L: Long = VK_NULL_HANDLE) {
+    val isValid get() = L != VK_NULL_HANDLE
+    val isInvalid get() = L == VK_NULL_HANDLE
+
+    companion object {
+        val NULL = VkShaderModule()
+    }
 }
 
-inline class VkSurfaceKHR(val L: Long) {
-    val isValid get() = L != NULL
-    val isInvalid get() = L == NULL
+inline class VkSurfaceKHR(val L: Long = VK_NULL_HANDLE) {
+    val isValid get() = L != VK_NULL_HANDLE
+    val isInvalid get() = L == VK_NULL_HANDLE
+
+    companion object {
+        val NULL = VkSurfaceKHR()
+    }
 }
 
-inline class VkSwapchainKHR(val L: Long) {
-    val isValid get() = L != NULL
-    val isInvalid get() = L == NULL
+inline class VkSwapchainKHR(val L: Long = VK_NULL_HANDLE) {
+    val isValid get() = L != VK_NULL_HANDLE
+    val isInvalid get() = L == VK_NULL_HANDLE
+
+    companion object {
+        val NULL = VkSwapchainKHR()
+    }
 }
 
 
-inline class VkDisplayKHR(val L: Long)
-inline class VkDisplayModeKHR (val L: Long)
-inline class VkObjectTableNVX  (val L: Long)
-inline class VkIndirectCommandsLayoutNVX   (val L: Long)
+inline class VkDisplayKHR(val L: Long = VK_NULL_HANDLE) {
+    val isValid get() = L != VK_NULL_HANDLE
+    val isInvalid get() = L == VK_NULL_HANDLE
+
+    companion object {
+        val NULL = VkDisplayKHR()
+    }
+}
+
+inline class VkDisplayModeKHR(val L: Long = VK_NULL_HANDLE) {
+    val isValid get() = L != VK_NULL_HANDLE
+    val isInvalid get() = L == VK_NULL_HANDLE
+
+    companion object {
+        val NULL = VkDisplayModeKHR()
+    }
+}
+
+inline class VkObjectTableNVX(val L: Long = VK_NULL_HANDLE) {
+    val isValid get() = L != VK_NULL_HANDLE
+    val isInvalid get() = L == VK_NULL_HANDLE
+
+    companion object {
+        val NULL = VkObjectTableNVX()
+    }
+}
+
+inline class VkIndirectCommandsLayoutNVX(val L: Long = VK_NULL_HANDLE) {
+    val isValid get() = L != VK_NULL_HANDLE
+    val isInvalid get() = L == VK_NULL_HANDLE
+
+    companion object {
+        val NULL = VkIndirectCommandsLayoutNVX()
+    }
+}
