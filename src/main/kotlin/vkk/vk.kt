@@ -1403,5 +1403,5 @@ object vk {
             VK10.nvkUpdateDescriptorSets(device, descriptorWrites.remaining(), descriptorWrites.adr, descriptorCopies?.remaining()
                     ?: 0, descriptorCopies?.adr ?: NULL)
 
-    val VERSION = "0.2.2"
+    val VERSION = "0.2.4"
 }

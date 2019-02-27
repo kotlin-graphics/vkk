@@ -21,34 +21,65 @@ infix fun VkCommandBuffer.begin(beginInfo: VkCommandBufferBeginInfo) =
 fun VkCommandBuffer.begin(flags: VkCommandBufferUsageFlags = VkCommandBufferUsage.SIMULTANEOUS_USE_BIT.i) =
         begin(vk.CommandBufferBeginInfo { this.flags = flags })
 
-infix fun VkCommandBuffer.begin(conditionalRenderingBegin: VkConditionalRenderingBeginInfoEXT) =
+infix fun VkCommandBuffer.beginConditionalRenderingEXT(conditionalRenderingBegin: VkConditionalRenderingBeginInfoEXT) =
         EXTConditionalRendering.nvkCmdBeginConditionalRenderingEXT(this, conditionalRenderingBegin.adr)
 
-fun VkCommandBuffer.beginRenderPass(renderPassBegin: VkRenderPassBeginInfo, contents: VkSubpassContents) = VK10.nvkCmdBeginRenderPass(this, renderPassBegin.adr, contents.i)
+infix fun VkCommandBuffer.beginDebugUtilsLabelEXT(labelInfo: VkDebugUtilsLabelEXT) =
+        EXTDebugUtils.nvkCmdBeginDebugUtilsLabelEXT(this, labelInfo.adr)
 
-fun VkCommandBuffer.bindDescriptorSets(pipelineBindPoint: VkPipelineBindPoint, layout: VkPipelineLayout, descriptorSets: VkDescriptorSetBuffer, dynamicOffsets: IntBuffer) {
-    VK10.nvkCmdBindDescriptorSets(this, pipelineBindPoint.i, layout.L, 0, descriptorSets.rem, descriptorSets.adr, dynamicOffsets.rem, dynamicOffsets.adr)
-}
+fun VkCommandBuffer.beginQuery(queryPool: VkQueryPool, query: Int, flags: VkQueryControlFlags) =
+        VK10.vkCmdBeginQuery(this, queryPool.L, query, flags)
 
-fun VkCommandBuffer.bindDescriptorSets(pipelineBindPoint: VkPipelineBindPoint, layout: VkPipelineLayout, descriptorSet: VkDescriptorSet, dynamicOffsets: Int? = null) = stak {
+fun VkCommandBuffer.beginQueryIndexedEXT(queryPool: VkQueryPool, query: Int, flags: VkQueryControlFlags, index: Int) =
+        EXTTransformFeedback.vkCmdBeginQueryIndexedEXT(this, queryPool.L, query, flags, index)
+
+fun VkCommandBuffer.beginRenderPass(renderPassBegin: VkRenderPassBeginInfo, contents: VkSubpassContents) =
+        VK10.nvkCmdBeginRenderPass(this, renderPassBegin.adr, contents.i)
+
+fun VkCommandBuffer.beginRenderPass2KHR(renderPassBegin: VkRenderPassBeginInfo, subpassBeginInfo: VkSubpassBeginInfoKHR) =
+        KHRCreateRenderpass2.nvkCmdBeginRenderPass2KHR(this, renderPassBegin.adr, subpassBeginInfo.adr)
+
+fun VkCommandBuffer.beginTransformFeedbackEXT(firstCounterBuffer: Int, counterBuffers: VkBufferBuffer?,
+                                              counterBufferOffsets: VkDeviceSizeBuffer?) =
+        EXTTransformFeedback.nvkCmdBeginTransformFeedbackEXT(this, firstCounterBuffer, counterBuffers?.rem
+                ?: 0, counterBuffers?.adr ?: NULL, counterBufferOffsets?.adr ?: NULL)
+
+fun VkCommandBuffer.bindDescriptorSets(pipelineBindPoint: VkPipelineBindPoint,
+                                       layout: VkPipelineLayout,
+                                       descriptorSets: VkDescriptorSetBuffer,
+                                       dynamicOffsets: IntBuffer) =
+        VK10.nvkCmdBindDescriptorSets(this, pipelineBindPoint.i, layout.L, 0, descriptorSets.rem, descriptorSets.adr, dynamicOffsets.rem, dynamicOffsets.adr)
+
+fun VkCommandBuffer.bindDescriptorSets(pipelineBindPoint: VkPipelineBindPoint,
+                                       layout: VkPipelineLayout,
+                                       firstSet: Int,
+                                       descriptorSets: VkDescriptorSetBuffer,
+                                       dynamicOffsets: IntBuffer) =
+        VK10.nvkCmdBindDescriptorSets(this, pipelineBindPoint.i, layout.L, firstSet, descriptorSets.rem, descriptorSets.adr, dynamicOffsets.rem, dynamicOffsets.adr)
+
+fun VkCommandBuffer.bindDescriptorSets(pipelineBindPoint: VkPipelineBindPoint, layout: VkPipelineLayout,
+                                       descriptorSet: VkDescriptorSet, dynamicOffsets: Int? = null) = stak {
     val pDescriptorSets = it.nmalloc(8, Long.BYTES)
     memPutLong(pDescriptorSets, descriptorSet.L)
     val dynamicOffsetCount: Int
-    val pDynamicOffset: Long
-    if (dynamicOffsets != null) {
-        dynamicOffsetCount = 1
-        pDynamicOffset = it.nmalloc(1, Int.BYTES)
-        memPutInt(pDynamicOffset, dynamicOffsets)
-    } else {
-        dynamicOffsetCount = 0
-        pDynamicOffset = NULL
+    val pDynamicOffset = when (dynamicOffsets) {
+        null -> {
+            dynamicOffsetCount = 0
+            NULL
+        }
+        else -> {
+            dynamicOffsetCount = 1
+            it.nmalloc(4, Int.BYTES).also { memPutInt(it, dynamicOffsets) }
+        }
     }
     VK10.nvkCmdBindDescriptorSets(this, pipelineBindPoint.i, layout.L, 0, 1, pDescriptorSets, dynamicOffsetCount, pDynamicOffset)
 }
 
-fun VkCommandBuffer.bindIndexBuffer(buffer: VkBuffer, offset: VkDeviceSize, indexType: VkIndexType) = VK10.vkCmdBindIndexBuffer(this, buffer.L, offset.L, indexType.i)
+fun VkCommandBuffer.bindIndexBuffer(buffer: VkBuffer, offset: VkDeviceSize, indexType: VkIndexType) =
+        VK10.vkCmdBindIndexBuffer(this, buffer.L, offset.L, indexType.i)
 
-fun VkCommandBuffer.bindPipeline(pipelineBindPoint: VkPipelineBindPoint, pipeline: VkPipeline) = VK10.vkCmdBindPipeline(this, pipelineBindPoint.i, pipeline.L)
+fun VkCommandBuffer.bindPipeline(pipelineBindPoint: VkPipelineBindPoint, pipeline: VkPipeline) =
+        VK10.vkCmdBindPipeline(this, pipelineBindPoint.i, pipeline.L)
 
 infix fun VkCommandBuffer.bindVertexBuffers(buffer: VkBuffer) = bindVertexBuffers(0, buffer)
 
@@ -137,11 +168,6 @@ fun VkCommandBuffer.pipelineBarrier(srcStageMask: VkPipelineStageFlags, dstStage
 
 fun VkCommandBuffer.pushConstants(layout: VkPipelineLayout, stageFlags: VkShaderStageFlags, offset: Int, values: Buffer) = VK10.nvkCmdPushConstants(this, layout.L, stageFlags, offset, values.remSize, values.adr)
 
-/** begin .. end */
-inline fun <R> VkCommandBuffer.record(beginInfo: VkCommandBufferBeginInfo, block: VkCommandBuffer.() -> R): R {
-    begin(beginInfo)
-    return block().also { end() }
-}
 
 fun VkCommandBuffer.reset(flags: VkCommandBufferResetFlags = 0) = VK_CHECK_RESULT(VK10.vkResetCommandBuffer(this, flags))
 
@@ -185,4 +211,53 @@ fun VkCommandBuffer.writeTimestamp(pipelineStage: VkPipelineStageFlags, queryPoo
 //}
 //inline fun VkCommandBuffer.setBlendConstants(depthBiasConstantFactor: Float, depthBiasClamp: Float, depthBiasSlopeFactor: Float) {
 //    VK10.setBlendConstants(this, depthBiasConstantFactor, depthBiasClamp, depthBiasSlopeFactor)
+//}
+
+// ---------- Inline lambdas ----------
+
+/** begin .. end */
+inline fun <R> VkCommandBuffer.record(beginInfo: VkCommandBufferBeginInfo, block: VkCommandBuffer.() -> R): R {
+    begin(beginInfo)
+    return block().also { end() }
+}
+
+//inline fun <R> VkCommandBuffer.conditionalRenderingEXT(conditionalRenderingBegin: VkConditionalRenderingBeginInfoEXT,
+//                                                       block: VkCommandBuffer.() -> R): R {
+//    beginConditionalRenderingEXT(conditionalRenderingBegin)
+//    return block().also { endConditionalRenderingEXT() }
+//}
+//
+//inline fun <R> VkCommandBuffer.debugUtilsLabelEXT(labelInfo: VkDebugUtilsLabelEXT, block: VkCommandBuffer.() -> R): R {
+//    beginDebugUtilsLabelEXT(labelInfo)
+//    return block().also { endDebugUtilsLabelEXT() }
+//}
+//
+//inline fun <R> VkCommandBuffer.query(queryPool: VkQueryPool, query: Int, flags: VkQueryControlFlags, block: VkCommandBuffer.() -> R): R {
+//    beginQuery(queryPool, query, flags)
+//    return block().also { endQuery() }
+//}
+//
+//inline fun <R> VkCommandBuffer.queryIndexedEXT(queryPool: VkQueryPool, query: Int, flags: VkQueryControlFlags,
+//                                               index: Int, block: VkCommandBuffer.() -> R): R {
+//    beginQueryIndexedEXT(queryPool, query, flags, index)
+//    return block().also { endQueryIndexedEXT() }
+//}
+//
+//inline fun <R> VkCommandBuffer.renderPass(renderPassBegin: VkRenderPassBeginInfo, contents: VkSubpassContents,
+//                                          block: VkCommandBuffer.() -> R): R {
+//    beginRenderPass(renderPassBegin, contents)
+//    return block().also { endRenderPass() }
+//}
+//
+//inline fun <R> VkCommandBuffer.renderPass2KHR(renderPassBegin: VkRenderPassBeginInfo, subpassBeginInfo: VkSubpassBeginInfoKHR,
+//                                              block: VkCommandBuffer.() -> R): R {
+//    beginRenderPass2KHR(renderPassBegin, subpassBeginInfo)
+//    return block().also { endRenderPass2KHR() }
+//}
+//
+//inline fun <R> VkCommandBuffer.transformFeedbackEXT(firstCounterBuffer: Int, counterBuffers: VkBufferBuffer?,
+//                                                    counterBufferOffsets: VkDeviceSizeBuffer?,
+//                                                    block: VkCommandBuffer.() -> R): R {
+//    beginTransformFeedbackEXT(firstCounterBuffer, counterBuffers, counterBufferOffsets)
+//    return block().also { endTransformFeedbackEXT() }
 //}
