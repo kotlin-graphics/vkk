@@ -81,6 +81,9 @@ fun VkCommandBuffer.bindIndexBuffer(buffer: VkBuffer, offset: VkDeviceSize, inde
 fun VkCommandBuffer.bindPipeline(pipelineBindPoint: VkPipelineBindPoint, pipeline: VkPipeline) =
         VK10.vkCmdBindPipeline(this, pipelineBindPoint.i, pipeline.L)
 
+fun VkCommandBuffer.bindShadingRateImageNV(imageView: VkImageView, imageLayout: VkImageLayout) =
+        NVShadingRateImage.vkCmdBindShadingRateImageNV(this, imageView.L, imageLayout.i)
+
 infix fun VkCommandBuffer.bindVertexBuffers(buffer: VkBuffer) = bindVertexBuffers(0, buffer)
 
 fun VkCommandBuffer.bindVertexBuffers(firstBinding: Int, buffer: LongBuffer, offset: LongBuffer) {
