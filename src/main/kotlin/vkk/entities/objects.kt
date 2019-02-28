@@ -287,3 +287,21 @@ inline class VkIndirectCommandsLayoutNVX(val L: Long = VK_NULL_HANDLE) {
         val NULL = VkIndirectCommandsLayoutNVX()
     }
 }
+
+inline class VkAccelerationStructureNV(val L: Long = VK_NULL_HANDLE) {
+    val isValid get() = L != VK_NULL_HANDLE
+    val isInvalid get() = L == VK_NULL_HANDLE
+
+    companion object {
+        val NULL = VkAccelerationStructureNV()
+    }
+}
+
+inline class VkDescriptorUpdateTemplate(val L: Long = VK_NULL_HANDLE) {
+    val isValid get() = L != VK_NULL_HANDLE
+    val isInvalid get() = L == VK_NULL_HANDLE
+
+    companion object {
+        val NULL = VkDescriptorUpdateTemplate()
+    }
+}
