@@ -85,6 +85,17 @@ fun MemoryStack.VkDynamicStateBuffer(size: Int) = VkDynamicStateBuffer(IntBuffer
 fun MemoryStack.VkDynamicStateBuffer(images: Collection<VkDynamicState>) = VkDynamicStateBuffer(IntBuffer(images.size) { images.elementAt(it).i })
 
 
+fun vkDynamicStateBufferOf(dynamicState: VkDynamicState): VkDynamicStateBuffer = VkDynamicStateBuffer(intBufferOf(dynamicState.i))
+
+fun vkDynamicStateBufferOf(dynamicState0: VkDynamicState,
+                                       dynamicState1: VkDynamicState): VkDynamicStateBuffer =
+        VkDynamicStateBuffer(intBufferOf(dynamicState0.i, dynamicState1.i))
+
+fun vkDynamicStateBufferOf(dynamicState0: VkDynamicState,
+                                       dynamicState1: VkDynamicState,
+                                       dynamicState2: VkDynamicState): VkDynamicStateBuffer =
+        VkDynamicStateBuffer(intBufferOf(dynamicState0.i, dynamicState1.i, dynamicState2.i))
+
 fun MemoryStack.vkDynamicStateBufferOf(dynamicState: VkDynamicState): VkDynamicStateBuffer = VkDynamicStateBuffer(ints(dynamicState.i))
 
 fun MemoryStack.vkDynamicStateBufferOf(dynamicState0: VkDynamicState,
