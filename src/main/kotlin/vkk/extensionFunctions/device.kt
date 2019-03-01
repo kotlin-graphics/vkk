@@ -49,6 +49,7 @@ inline infix fun <reified C> VkDevice.allocateDescriptorSets(allocateInfo: VkDes
             val pDescriptorSets = it.nmalloc(8, count * Long.BYTES)
             VK_CHECK_RESULT(VK10.nvkAllocateDescriptorSets(this, allocateInfo.adr, pDescriptorSets))
             when (C::class) {
+                VkDescriptorSet::class -> VkDescriptorSet(memGetLong(pDescriptorSets)) as C
                 VkDescriptorSet_Array::class -> VkDescriptorSet_Array(
                         LongArray(count) { memGetLong(pDescriptorSets + Long.BYTES * it) }) as C
                 ArrayList::class -> {
@@ -140,19 +141,51 @@ infix fun VkDevice.createDescriptorUpdateTemplate(createInfo: VkDescriptorUpdate
             VkDescriptorUpdateTemplate_Buffer(buffer)
         }
 
-infix fun VkDevice.createFence(flag: VkFenceCreate): VkFence = createFence(vk.FenceCreateInfo { flags = flag.i })
+infix fun VkDevice.createEvent(createInfo: VkEventCreateInfo): VkEvent =
+        VkEvent(stak.longAddress { VK_CHECK_RESULT(VK10.nvkCreateEvent(this, createInfo.adr, NULL, it)) })
 
-infix fun VkDevice.createFence(flags: VkFenceCreateFlags): VkFence = createFence(vk.FenceCreateInfo { this.flags = flags })
+infix fun VkDevice.createFence(flag: VkFenceCreate): VkFence =
+        createFence(vk.FenceCreateInfo { flags = flag.i })
 
-infix fun VkDevice.createFence(createInfo: VkFenceCreateInfo): VkFence = VkFence(stak.longAddress { VK_CHECK_RESULT(VK10.nvkCreateFence(this, createInfo.adr, NULL, it)) })
+infix fun VkDevice.createFence(flags: VkFenceCreateFlags): VkFence =
+        createFence(vk.FenceCreateInfo { this.flags = flags })
 
-infix fun VkDevice.createFramebuffer(createInfo: VkFramebufferCreateInfo): VkFramebuffer = VkFramebuffer(stak.longAddress { VK_CHECK_RESULT(VK10.nvkCreateFramebuffer(this, createInfo.adr, NULL, it)) })
+infix fun VkDevice.createFence(createInfo: VkFenceCreateInfo): VkFence =
+        VkFence(stak.longAddress { VK_CHECK_RESULT(VK10.nvkCreateFence(this, createInfo.adr, NULL, it)) })
 
-fun VkDevice.createGraphicsPipelines(pipelineCache: VkPipelineCache, createInfo: VkGraphicsPipelineCreateInfo): VkPipeline = VkPipeline(stak.longAddress { VK_CHECK_RESULT(VK10.nvkCreateGraphicsPipelines(this, pipelineCache.L, 1, createInfo.adr, NULL, it)) })
+infix fun VkDevice.createFramebuffer(createInfo: VkFramebufferCreateInfo): VkFramebuffer =
+        VkFramebuffer(stak.longAddress { VK_CHECK_RESULT(VK10.nvkCreateFramebuffer(this, createInfo.adr, NULL, it)) })
 
-infix fun VkDevice.createImage(createInfo: VkImageCreateInfo): VkImage = VkImage(stak.longAddress { VK_CHECK_RESULT(VK10.nvkCreateImage(this, createInfo.adr, NULL, it)) })
+fun VkDevice.createGraphicsPipeline(pipelineCache: VkPipelineCache, createInfo: VkGraphicsPipelineCreateInfo): VkPipeline =
+        VkPipeline(stak.longAddress { VK_CHECK_RESULT(VK10.nvkCreateGraphicsPipelines(this, pipelineCache.L, 1, createInfo.adr, NULL, it)) })
 
-infix fun VkDevice.createImageView(createInfo: VkImageViewCreateInfo): VkImageView = VkImageView(stak.longAddress { VK10.nvkCreateImageView(this, createInfo.adr, NULL, it) })
+inline fun <reified C> VkDevice.createGraphicsPipeline(pipelineCache: VkPipelineCache, createInfos: VkGraphicsPipelineCreateInfo.Buffer): C =
+        stak {
+            val count = createInfos.rem
+            val pGraphicPipelines = it.nmalloc(8, count * Long.BYTES)
+            VK_CHECK_RESULT(VK10.nvkCreateGraphicsPipelines(this, pipelineCache.L, count, createInfos.adr, NULL, pGraphicPipelines))
+            when (C::class) {
+                VkPipeline_Array::class -> VkPipeline_Array(
+                        LongArray(count) { memGetLong(pGraphicPipelines + Long.BYTES * it) }) as C
+                ArrayList::class -> {
+                    val res = ArrayList<VkPipeline>(count)
+                    for (i in 0 until count)
+                        res += VkPipeline(memGetLong(pGraphicPipelines + Long.BYTES * i))
+                    res as C
+                }
+                List::class -> List(count) { VkPipeline(memGetLong(pGraphicPipelines + Long.BYTES * it)) } as C
+                else -> throw Exception("Invalid")
+            }
+        }
+
+infix fun VkDevice.createImage(createInfo: VkImageCreateInfo): VkImage =
+        VkImage(stak.longAddress { VK_CHECK_RESULT(VK10.nvkCreateImage(this, createInfo.adr, NULL, it)) })
+
+infix fun VkDevice.createImageView(createInfo: VkImageViewCreateInfo): VkImageView =
+        VkImageView(stak.longAddress { VK10.nvkCreateImageView(this, createInfo.adr, NULL, it) })
+
+fun VkDevice.createIndirectCommandsLayoutNVX(createInfo: VkIndirectCommandsLayoutCreateInfoNVX, indirectCommandsLayout: VkIndirectCommandsLayoutNVX): VkImageView =
+        VkImageView(stak.longAddress { NVXDeviceGeneratedCommands.nvkCreateIndirectCommandsLayoutNVX(this, createInfo.adr, NULL, it) })
 
 fun VkDevice.createPipeline(pipelineCache: VkPipelineCache, createInfo: VkGraphicsPipelineCreateInfo): VkPipeline = VkPipeline(stak.longAddress { VK_CHECK_RESULT(VK10.nvkCreateGraphicsPipelines(this, pipelineCache.L, 1, createInfo.adr, NULL, it)) })
 

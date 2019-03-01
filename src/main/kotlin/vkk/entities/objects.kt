@@ -296,6 +296,8 @@ inline class VkIndirectCommandsLayoutNVX(val L: Long = VK_NULL_HANDLE) {
     }
 }
 
+inline class VkIndirectCommandsLayoutNVX_Buffer(val buffer: LongBuffer)
+
 inline class VkAccelerationStructureNV(val L: Long = VK_NULL_HANDLE) {
     val isValid get() = L != VK_NULL_HANDLE
     val isInvalid get() = L == VK_NULL_HANDLE
