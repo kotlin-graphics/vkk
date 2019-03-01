@@ -25,37 +25,37 @@ inline class VkResolveModeKHR(val i: Int) {
 typealias VkResolveModeFlagsKHR = VkFlags
 
 
-inline var VkSubpassDescriptionDepthStencilResolveKHR.type: VkStructureType
-    get() = VkStructureType(VkSubpassDescriptionDepthStencilResolveKHR.nsType(adr))
-    set(value) = VkSubpassDescriptionDepthStencilResolveKHR.nsType(adr, value.i)
-inline var VkSubpassDescriptionDepthStencilResolveKHR.next: Ptr
-    get() = VkSubpassDescriptionDepthStencilResolveKHR.npNext(adr)
-    set(value) = VkSubpassDescriptionDepthStencilResolveKHR.npNext(adr, value)
-inline var VkSubpassDescriptionDepthStencilResolveKHR.depthResolveMode: VkResolveModeKHR
-    get() = VkResolveModeKHR(VkSubpassDescriptionDepthStencilResolveKHR.ndepthResolveMode(adr))
-    set(value) = VkSubpassDescriptionDepthStencilResolveKHR.ndepthResolveMode(adr, value.i)
-inline var VkSubpassDescriptionDepthStencilResolveKHR.stencilResolveMode: VkResolveModeKHR
-    get() = VkResolveModeKHR(VkSubpassDescriptionDepthStencilResolveKHR.nstencilResolveMode(adr))
-    set(value) = VkSubpassDescriptionDepthStencilResolveKHR.nstencilResolveMode(adr, value.i)
-inline var VkSubpassDescriptionDepthStencilResolveKHR.depthStencilResolveAttachment: VkAttachmentReference2KHR?
-    get() = VkSubpassDescriptionDepthStencilResolveKHR.npDepthStencilResolveAttachment(adr)
-    set(value) = VkSubpassDescriptionDepthStencilResolveKHR.npDepthStencilResolveAttachment(adr, value)
-
-
-inline var VkPhysicalDeviceDepthStencilResolvePropertiesKHR.type: VkStructureType
-    get() = VkStructureType(VkPhysicalDeviceDepthStencilResolvePropertiesKHR.nsType(adr))
-    set(value) = VkPhysicalDeviceDepthStencilResolvePropertiesKHR.nsType(adr, value.i)
-inline var VkPhysicalDeviceDepthStencilResolvePropertiesKHR.next: Ptr
-    get() = VkPhysicalDeviceDepthStencilResolvePropertiesKHR.npNext(adr)
-    set(value) = VkPhysicalDeviceDepthStencilResolvePropertiesKHR.npNext(adr, value)
-inline val VkPhysicalDeviceDepthStencilResolvePropertiesKHR.supportedDepthResolveModes: VkResolveModeFlagsKHR
-    get() = VkPhysicalDeviceDepthStencilResolvePropertiesKHR.nsupportedDepthResolveModes(adr)
-inline val VkPhysicalDeviceDepthStencilResolvePropertiesKHR.supportedStencilResolveModes: VkResolveModeFlagsKHR
-    get() = VkPhysicalDeviceDepthStencilResolvePropertiesKHR.nsupportedStencilResolveModes(adr)
-inline val VkPhysicalDeviceDepthStencilResolvePropertiesKHR.independentResolveNone: Boolean
-    get() = VkPhysicalDeviceDepthStencilResolvePropertiesKHR.nindependentResolveNone(adr).bool
-inline val VkPhysicalDeviceDepthStencilResolvePropertiesKHR.independentResolve: Boolean
-    get() = VkPhysicalDeviceDepthStencilResolvePropertiesKHR.nindependentResolve(adr).bool
+//inline var VkSubpassDescriptionDepthStencilResolveKHR.type: VkStructureType TODO
+//    get() = VkStructureType(VkSubpassDescriptionDepthStencilResolveKHR.nsType(adr))
+//    set(value) = VkSubpassDescriptionDepthStencilResolveKHR.nsType(adr, value.i)
+//inline var VkSubpassDescriptionDepthStencilResolveKHR.next: Ptr
+//    get() = VkSubpassDescriptionDepthStencilResolveKHR.npNext(adr)
+//    set(value) = VkSubpassDescriptionDepthStencilResolveKHR.npNext(adr, value)
+//inline var VkSubpassDescriptionDepthStencilResolveKHR.depthResolveMode: VkResolveModeKHR
+//    get() = VkResolveModeKHR(VkSubpassDescriptionDepthStencilResolveKHR.ndepthResolveMode(adr))
+//    set(value) = VkSubpassDescriptionDepthStencilResolveKHR.ndepthResolveMode(adr, value.i)
+//inline var VkSubpassDescriptionDepthStencilResolveKHR.stencilResolveMode: VkResolveModeKHR
+//    get() = VkResolveModeKHR(VkSubpassDescriptionDepthStencilResolveKHR.nstencilResolveMode(adr))
+//    set(value) = VkSubpassDescriptionDepthStencilResolveKHR.nstencilResolveMode(adr, value.i)
+//inline var VkSubpassDescriptionDepthStencilResolveKHR.depthStencilResolveAttachment: VkAttachmentReference2KHR?
+//    get() = VkSubpassDescriptionDepthStencilResolveKHR.npDepthStencilResolveAttachment(adr)
+//    set(value) = VkSubpassDescriptionDepthStencilResolveKHR.npDepthStencilResolveAttachment(adr, value)
+//
+//
+//inline var VkPhysicalDeviceDepthStencilResolvePropertiesKHR.type: VkStructureType
+//    get() = VkStructureType(VkPhysicalDeviceDepthStencilResolvePropertiesKHR.nsType(adr))
+//    set(value) = VkPhysicalDeviceDepthStencilResolvePropertiesKHR.nsType(adr, value.i)
+//inline var VkPhysicalDeviceDepthStencilResolvePropertiesKHR.next: Ptr
+//    get() = VkPhysicalDeviceDepthStencilResolvePropertiesKHR.npNext(adr)
+//    set(value) = VkPhysicalDeviceDepthStencilResolvePropertiesKHR.npNext(adr, value)
+//inline val VkPhysicalDeviceDepthStencilResolvePropertiesKHR.supportedDepthResolveModes: VkResolveModeFlagsKHR
+//    get() = VkPhysicalDeviceDepthStencilResolvePropertiesKHR.nsupportedDepthResolveModes(adr)
+//inline val VkPhysicalDeviceDepthStencilResolvePropertiesKHR.supportedStencilResolveModes: VkResolveModeFlagsKHR
+//    get() = VkPhysicalDeviceDepthStencilResolvePropertiesKHR.nsupportedStencilResolveModes(adr)
+//inline val VkPhysicalDeviceDepthStencilResolvePropertiesKHR.independentResolveNone: Boolean
+//    get() = VkPhysicalDeviceDepthStencilResolvePropertiesKHR.nindependentResolveNone(adr).bool
+//inline val VkPhysicalDeviceDepthStencilResolvePropertiesKHR.independentResolve: Boolean
+//    get() = VkPhysicalDeviceDepthStencilResolvePropertiesKHR.nindependentResolve(adr).bool
 
 
 inline var VkPhysicalDeviceVulkanMemoryModelFeaturesKHR.type: VkStructureType
@@ -70,9 +70,9 @@ inline var VkPhysicalDeviceVulkanMemoryModelFeaturesKHR.vulkanMemoryModel: Boole
 inline var VkPhysicalDeviceVulkanMemoryModelFeaturesKHR.vulkanMemoryModelDeviceScope: Boolean
     get() = VkPhysicalDeviceVulkanMemoryModelFeaturesKHR.nvulkanMemoryModelDeviceScope(adr).bool
     set(value) = VkPhysicalDeviceVulkanMemoryModelFeaturesKHR.nvulkanMemoryModelDeviceScope(adr, value.i)
-inline var VkPhysicalDeviceVulkanMemoryModelFeaturesKHR.vulkanMemoryModelAvailabilityVisibilityChains: Boolean
-    get() = VkPhysicalDeviceVulkanMemoryModelFeaturesKHR.nvulkanMemoryModelAvailabilityVisibilityChains(adr).bool
-    set(value) = VkPhysicalDeviceVulkanMemoryModelFeaturesKHR.nvulkanMemoryModelAvailabilityVisibilityChains(adr, value.i)
+//inline var VkPhysicalDeviceVulkanMemoryModelFeaturesKHR.vulkanMemoryModelAvailabilityVisibilityChains: Boolean
+//    get() = VkPhysicalDeviceVulkanMemoryModelFeaturesKHR.nvulkanMemoryModelAvailabilityVisibilityChains(adr).bool TODO
+//    set(value) = VkPhysicalDeviceVulkanMemoryModelFeaturesKHR.nvulkanMemoryModelAvailabilityVisibilityChains(adr, value.i)
 
 
 inline class VkDebugReportObjectType(val i: Int) {

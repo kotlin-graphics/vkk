@@ -15,8 +15,8 @@ import java.nio.IntBuffer
 import kotlin.math.min
 
 
-infix fun VkCommandBuffer.begin(beginInfo: VkCommandBufferBeginInfo) =
-        VK_CHECK_RESULT(VK10.nvkBeginCommandBuffer(this, beginInfo.adr))
+infix fun VkCommandBuffer.begin(beginInfo: VkCommandBufferBeginInfo): VkResult =
+        VkResult(VK10.nvkBeginCommandBuffer(this, beginInfo.adr)).apply { check() }
 
 /** JVM custom */
 fun VkCommandBuffer.begin(flags: VkCommandBufferUsageFlags = VkCommandBufferUsage.SIMULTANEOUS_USE_BIT.i) =
@@ -187,7 +187,7 @@ fun VkCommandBuffer.dispatchBaseKHR(baseGroupXYZ: Vec3i, groupCountXYZ: Vec3i) =
 fun VkCommandBuffer.dispatchBaseKHR(baseGroupX: Int, baseGroupY: Int, baseGroupZ: Int, groupCountX: Int, groupCountY: Int, groupCountZ: Int) =
         KHRDeviceGroup.vkCmdDispatchBaseKHR(this, baseGroupX, baseGroupY, baseGroupZ, groupCountX, groupCountY, groupCountZ)
 
-fun VkCommandBuffer.vkCmdDispatchIndirect(buffer: VkBuffer, offset: VkDeviceSize) =
+fun VkCommandBuffer.dispatchIndirect(buffer: VkBuffer, offset: VkDeviceSize) =
         VK10.vkCmdDispatchIndirect(this, buffer.L, offset.L)
 
 fun VkCommandBuffer.draw(vertexCount: Int, instanceCount: Int, firstVertex: Int, firstInstance: Int) =
@@ -226,9 +226,10 @@ fun VkCommandBuffer.drawMeshTasksIndirectNV(buffer: VkBuffer, offset: VkDeviceSi
 fun VkCommandBuffer.drawMeshTasksNV(taskCount: Int, firstTask: Int) =
         NVMeshShader.vkCmdDrawMeshTasksNV(this, taskCount, firstTask)
 
-fun VkCommandBuffer.end() = VK_CHECK_RESULT(VK10.vkEndCommandBuffer(this))
+fun VkCommandBuffer.end(): VkResult =
+        VkResult(VK10.vkEndCommandBuffer(this)).apply { check() }
 
-/** JVM custom */
+/** JVM custom TODO :VkResult?  */
 fun VkCommandBuffer.end(queue: VkQueue, submitInfoPNext: Pointer? = null) {
     end()
     submit(queue, submitInfoPNext)
@@ -323,8 +324,8 @@ fun VkCommandBuffer.pushDescriptorSetWithTemplateKHR(descriptorUpdateTemplate: V
 fun VkCommandBuffer.reserveSpaceForCommandsNVX(reserveSpaceInfo: VkCmdReserveSpaceForCommandsInfoNVX) =
         NVXDeviceGeneratedCommands.nvkCmdReserveSpaceForCommandsNVX(this, reserveSpaceInfo.adr)
 
-fun VkCommandBuffer.reset(flags: VkCommandBufferResetFlags = 0) =
-        VK_CHECK_RESULT(VK10.vkResetCommandBuffer(this, flags))
+fun VkCommandBuffer.reset(flags: VkCommandBufferResetFlags = 0): VkResult =
+        VkResult(VK10.vkResetCommandBuffer(this, flags)).apply { check() }
 
 fun VkCommandBuffer.resetEvent(event: VkEvent, stageMask: VkPipelineStageFlags) =
         VK10.vkCmdResetEvent(this, event.L, stageMask)
@@ -360,27 +361,65 @@ fun VkCommandBuffer.setDeviceMask(deviceMask: Int) =
 fun VkCommandBuffer.setDeviceMaskKHR(deviceMask: Int) =
         KHRDeviceGroup.vkCmdSetDeviceMaskKHR(this, deviceMask)
 
-infix fun VkCommandBuffer.setLineWidth(lineWidth: Float) = VK10.vkCmdSetLineWidth(this, lineWidth)
+fun VkCommandBuffer.setDiscardRectangleEXT(firstDiscardRectangle: Int, discardRectangles: VkRect2D.Buffer) =
+        EXTDiscardRectangles.nvkCmdSetDiscardRectangleEXT(this, firstDiscardRectangle, discardRectangles.rem, discardRectangles.adr)
 
-infix fun VkCommandBuffer.setScissor(extend: Vec2i) = setScissor(vk.Rect2D(0, 0, extend.x, extend.y))
+fun VkCommandBuffer.setEvent(event: VkEvent, stageMask: VkPipelineStageFlags) =
+        VK10.vkCmdSetEvent(this, event.L, stageMask)
 
-fun VkCommandBuffer.setScissor(offset: Vec2i, extend: Vec2i) = setScissor(vk.Rect2D(offset, extend))
+fun VkCommandBuffer.setExclusiveScissorNV(firstExclusiveScissor: Int, exclusiveScissors: VkRect2D.Buffer) =
+        NVScissorExclusive.nvkCmdSetExclusiveScissorNV(this, firstExclusiveScissor, exclusiveScissors.rem, exclusiveScissors.adr)
 
-infix fun VkCommandBuffer.setScissor(scissor: VkRect2D) = VK10.nvkCmdSetScissor(this, 0, 1, scissor.adr)
+infix fun VkCommandBuffer.setLineWidth(lineWidth: Float) =
+        VK10.vkCmdSetLineWidth(this, lineWidth)
 
-infix fun VkCommandBuffer.setScissor(scissors: VkRect2D.Buffer) = VK10.nvkCmdSetScissor(this, 0, scissors.remaining(), scissors.adr)
+infix fun VkCommandBuffer.setSampleLocationsEXT(sampleLocationsInfo: VkSampleLocationsInfoEXT) =
+        EXTSampleLocations.nvkCmdSetSampleLocationsEXT(this, sampleLocationsInfo.adr)
 
-fun VkCommandBuffer.setScissor(firstScissor: Int, scissors: VkRect2D.Buffer) = VK10.nvkCmdSetScissor(this, firstScissor, scissors.remaining(), scissors.adr)
+infix fun VkCommandBuffer.setScissor(extend: Vec2i) =
+        setScissor(vk.Rect2D(0, 0, extend.x, extend.y))
 
-infix fun VkCommandBuffer.setViewport(size: Vec2i) = setViewport(size, 0f, 1f)
+fun VkCommandBuffer.setScissor(offset: Vec2i, extend: Vec2i) =
+        setScissor(vk.Rect2D(offset, extend))
 
-fun VkCommandBuffer.setViewport(size: Vec2i, minDepth: Float, maxDepth: Float) = setViewport(size.x.f, size.y.f, minDepth, maxDepth)
+infix fun VkCommandBuffer.setScissor(scissor: VkRect2D) =
+        VK10.nvkCmdSetScissor(this, 0, 1, scissor.adr)
 
-fun VkCommandBuffer.setViewport(width: Float, height: Float, minDepth: Float = 0f, maxDepth: Float = 1f) = setViewport(vk.Viewport(width, height, minDepth, maxDepth))
+infix fun VkCommandBuffer.setScissor(scissors: VkRect2D.Buffer) =
+        VK10.nvkCmdSetScissor(this, 0, scissors.remaining(), scissors.adr)
 
-infix fun VkCommandBuffer.setViewport(viewport: VkViewport) = VK10.nvkCmdSetViewport(this, 0, 1, viewport.adr)
+fun VkCommandBuffer.setScissor(firstScissor: Int, scissors: VkRect2D.Buffer) =
+        VK10.nvkCmdSetScissor(this, firstScissor, scissors.rem, scissors.adr)
 
-fun VkCommandBuffer.setViewport(firstViewport: Int, viewports: VkViewport.Buffer) = VK10.nvkCmdSetViewport(this, firstViewport, viewports.remaining(), viewports.adr)
+fun VkCommandBuffer.setStencilCompareMask(faceMask: VkStencilFaceFlags, compareMask: Int) =
+        VK10.vkCmdSetStencilCompareMask(this, faceMask, compareMask)
+
+fun VkCommandBuffer.setStencilReference(faceMask: VkStencilFaceFlags, reference: Int) =
+        VK10.vkCmdSetStencilReference(this, faceMask, reference)
+
+fun VkCommandBuffer.setStencilWriteMask(faceMask: VkStencilFaceFlags, writeMask: Int) =
+        VK10.vkCmdSetStencilWriteMask(this, faceMask, writeMask)
+
+infix fun VkCommandBuffer.setViewport(size: Vec2i) =
+        setViewport(size, 0f, 1f)
+
+fun VkCommandBuffer.setViewport(size: Vec2i, minDepth: Float, maxDepth: Float) =
+        setViewport(size.x.f, size.y.f, minDepth, maxDepth)
+
+fun VkCommandBuffer.setViewport(width: Float, height: Float, minDepth: Float = 0f, maxDepth: Float = 1f) =
+        setViewport(vk.Viewport(width, height, minDepth, maxDepth))
+
+infix fun VkCommandBuffer.setViewport(viewport: VkViewport) =
+        VK10.nvkCmdSetViewport(this, 0, 1, viewport.adr)
+
+fun VkCommandBuffer.setViewport(firstViewport: Int, viewports: VkViewport.Buffer) =
+        VK10.nvkCmdSetViewport(this, firstViewport, viewports.rem, viewports.adr)
+
+fun VkCommandBuffer.setViewportShadingRatePaletteNV(firstViewport: Int, shadingRatePalettes: VkShadingRatePaletteNV.Buffer) =
+        NVShadingRateImage.nvkCmdSetViewportShadingRatePaletteNV(this, firstViewport, shadingRatePalettes.rem, shadingRatePalettes.adr)
+
+fun VkCommandBuffer.setViewportWScalingNV(firstViewport: Int, viewportWScalings: VkViewportWScalingNV.Buffer) =
+        NVClipSpaceWScaling.nvkCmdSetViewportWScalingNV(this, firstViewport, viewportWScalings.rem, viewportWScalings.adr)
 
 fun VkCommandBuffer.submit(queue: VkQueue, submitInfoPNext: Pointer? = null) {
     queue submit vk.SubmitInfo {
@@ -390,17 +429,42 @@ fun VkCommandBuffer.submit(queue: VkQueue, submitInfoPNext: Pointer? = null) {
     queue.waitIdle()
 }
 
-fun VkCommandBuffer.writeTimestamp(pipelineStage: VkPipelineStageFlags, queryPool: VkQueryPool, query: Int) = VK10.vkCmdWriteTimestamp(this, pipelineStage, queryPool.L, query)
+fun VkCommandBuffer.traceRaysNV(raygenShaderBindingTableBuffer: VkBuffer, raygenShaderBindingOffset: VkDeviceSize,
+                                missShaderBindingTableBuffer: VkBuffer, missShaderBindingOffset: VkDeviceSize,
+                                missShaderBindingStride: VkDeviceSize, hitShaderBindingTableBuffer: VkBuffer,
+                                hitShaderBindingOffset: VkDeviceSize, hitShaderBindingStride: VkDeviceSize,
+                                callableShaderBindingTableBuffer: VkBuffer, callableShaderBindingOffset: VkDeviceSize,
+                                callableShaderBindingStride: VkDeviceSize, width: Int, height: Int, depth: Int) =
+        NVRayTracing.vkCmdTraceRaysNV(this, raygenShaderBindingTableBuffer.L, raygenShaderBindingOffset.L,
+                missShaderBindingTableBuffer.L, missShaderBindingOffset.L, missShaderBindingStride.L,
+                hitShaderBindingTableBuffer.L, hitShaderBindingOffset.L, hitShaderBindingStride.L,
+                callableShaderBindingTableBuffer.L, callableShaderBindingOffset.L, callableShaderBindingStride.L,
+                width, height, depth)
 
+fun VkCommandBuffer.updateBuffer(dstBuffer: VkBuffer, dstOffset: VkDeviceSize, data: Buffer) =
+        VK10.nvkCmdUpdateBuffer(this, dstBuffer.L, dstOffset.L, data.remSize.L, data.adr)
 
-//inline fun VkCommandBuffer.use(block: ()) {
-//    VK10.nvkCmdSetViewport(this, firstViewport, viewports.remaining(), viewports.adr)
-//}
-//inline fun VkCommandBuffer.setBlendConstants(depthBiasConstantFactor: Float, depthBiasClamp: Float, depthBiasSlopeFactor: Float) {
-//    VK10.setBlendConstants(this, depthBiasConstantFactor, depthBiasClamp, depthBiasSlopeFactor)
-//}
+fun VkCommandBuffer.waitEvents(events: VkEventBuffer, srcStageMask: VkPipelineStageFlags, dstStageMask: VkPipelineStageFlags,
+                               memoryBarriers: VkMemoryBarrier.Buffer? = null, bufferMemoryBarriers: VkBufferMemoryBarrier.Buffer? = null,
+                               imageMemoryBarriers: VkImageMemoryBarrier.Buffer? = null) =
+        VK10.nvkCmdWaitEvents(this, events.rem, events.adr, srcStageMask, dstStageMask, memoryBarriers?.rem
+                ?: 0, memoryBarriers?.adr ?: NULL, bufferMemoryBarriers?.rem ?: 0, bufferMemoryBarriers?.adr
+                ?: NULL, imageMemoryBarriers?.rem ?: 0, imageMemoryBarriers?.adr ?: NULL)
+
+fun VkCommandBuffer.writeAccelerationStructuresPropertiesNV(accelerationStructures: VkAccelerationStructureNV_Buffer,
+                                                            queryType: VkQueryType, queryPool: VkQueryPool, firstQuery: Int) =
+        NVRayTracing.nvkCmdWriteAccelerationStructuresPropertiesNV(this, accelerationStructures.rem,
+                accelerationStructures.adr, queryType.i, queryPool.L, firstQuery)
+
+fun VkCommandBuffer.writeBufferMarkerAMD(pipelineStage: VkPipelineStage, dstBuffer: VkBuffer, dstOffset: VkDeviceSize, marker: Int) =
+        AMDBufferMarker.vkCmdWriteBufferMarkerAMD(this, pipelineStage.i, dstBuffer.L, dstOffset.L, marker)
+
+fun VkCommandBuffer.writeTimestamp(pipelineStage: VkPipelineStageFlags, queryPool: VkQueryPool, query: Int) =
+        VK10.vkCmdWriteTimestamp(this, pipelineStage, queryPool.L, query)
+
 
 // ---------- Inline lambdas ----------
+
 
 inline fun <R> VkCommandBuffer.debugMarkerEXT(markerInfo: VkDebugMarkerMarkerInfoEXT, block: () -> R): R {
     debugMarkerBeginEXT(markerInfo)
@@ -411,6 +475,11 @@ inline fun <R> VkCommandBuffer.conditionalRenderingEXT(conditionalRenderingBegin
                                                        block: VkCommandBuffer.() -> R): R {
     beginConditionalRenderingEXT(conditionalRenderingBegin)
     return block().also { endConditionalRenderingEXT() }
+}
+
+inline fun <R> VkCommandBuffer.debugUtilsLabelEXT(labelInfo: VkDebugUtilsLabelEXT, block: VkCommandBuffer.() -> R): R {
+    beginDebugUtilsLabelEXT(labelInfo)
+    return block().also { endDebugUtilsLabelEXT() }
 }
 
 inline fun <R> VkCommandBuffer.query(queryPool: VkQueryPool, query: Int, flags: VkQueryControlFlags, block: VkCommandBuffer.() -> R): R {
@@ -441,17 +510,10 @@ inline fun <R> VkCommandBuffer.record(beginInfo: VkCommandBufferBeginInfo, block
     begin(beginInfo)
     return block().also { end() }
 }
-//
-//inline fun <R> VkCommandBuffer.debugUtilsLabelEXT(labelInfo: VkDebugUtilsLabelEXT, block: VkCommandBuffer.() -> R): R {
-//    beginDebugUtilsLabelEXT(labelInfo)
-//    return block().also { endDebugUtilsLabelEXT() }
-//}
-//
 
-
-//inline fun <R> VkCommandBuffer.transformFeedbackEXT(firstCounterBuffer: Int, counterBuffers: VkBufferBuffer?,
-//                                                    counterBufferOffsets: VkDeviceSizeBuffer?,
-//                                                    block: VkCommandBuffer.() -> R): R {
-//    beginTransformFeedbackEXT(firstCounterBuffer, counterBuffers, counterBufferOffsets)
-//    return block().also { endTransformFeedbackEXT() }
-//}
+inline fun <R> VkCommandBuffer.transformFeedbackEXT(firstCounterBuffer: Int, counterBuffers: VkBufferBuffer?,
+                                                    counterBufferOffsets: VkDeviceSizeBuffer?,
+                                                    block: VkCommandBuffer.() -> R): R {
+    beginTransformFeedbackEXT(firstCounterBuffer, counterBuffers, counterBufferOffsets)
+    return block().also { endTransformFeedbackEXT(firstCounterBuffer, counterBufferOffsets, counterBufferOffsets) }
+}

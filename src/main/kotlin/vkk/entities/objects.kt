@@ -2,9 +2,12 @@ package vkk.entities
 
 import glm_.i
 import kool.Ptr
+import kool.adr
+import kool.rem
 import org.lwjgl.system.MemoryUtil.memCopy
 import org.lwjgl.vulkan.VK10.VK_NULL_HANDLE
 import java.nio.ByteBuffer
+import java.nio.LongBuffer
 
 inline class VkBuffer(val L: Long = VK_NULL_HANDLE) {
     val isValid get() = L != VK_NULL_HANDLE
@@ -65,6 +68,8 @@ inline class VkDescriptorSet(val L: Long = VK_NULL_HANDLE) {
         val NULL = VkDescriptorSet()
     }
 }
+
+inline class VkDescriptorSet_Array(val array: LongArray)
 
 inline class VkDescriptorSetLayout(val L: Long = VK_NULL_HANDLE) {
     val isValid get() = L != VK_NULL_HANDLE
@@ -169,6 +174,9 @@ inline class VkPipeline(val L: Long = VK_NULL_HANDLE) {
         val NULL = VkPipeline()
     }
 }
+
+inline class VkPipeline_Array(val array: LongArray)
+inline class VkPipeline_Buffer(val buffer: LongBuffer)
 
 inline class VkPipelineCache(val L: Long = VK_NULL_HANDLE) {
     val isValid get() = L != VK_NULL_HANDLE
@@ -297,6 +305,11 @@ inline class VkAccelerationStructureNV(val L: Long = VK_NULL_HANDLE) {
     }
 }
 
+inline class VkAccelerationStructureNV_Buffer(val buffer: LongBuffer) {
+    val rem get() = buffer.rem
+    val adr get() = buffer.adr
+}
+
 inline class VkDescriptorUpdateTemplate(val L: Long = VK_NULL_HANDLE) {
     val isValid get() = L != VK_NULL_HANDLE
     val isInvalid get() = L == VK_NULL_HANDLE
@@ -305,3 +318,5 @@ inline class VkDescriptorUpdateTemplate(val L: Long = VK_NULL_HANDLE) {
         val NULL = VkDescriptorUpdateTemplate()
     }
 }
+
+inline class VkDescriptorUpdateTemplate_Buffer(val buffer: LongBuffer)

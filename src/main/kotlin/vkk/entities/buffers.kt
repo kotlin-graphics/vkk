@@ -99,3 +99,9 @@ fun MemoryStack.vkDynamicStateBufferOf(dynamicState0: VkDynamicState,
 
 
 typealias VkResultBuffer = IntBuffer
+
+inline class VkEventBuffer(val buffer: LongBuffer) {
+
+    val rem get() = buffer.rem
+    val adr get() = buffer.adr
+}
