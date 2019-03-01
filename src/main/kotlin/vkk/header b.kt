@@ -630,6 +630,7 @@ inline class VkColorComponent(val i: Int) {
         val G_BIT = VkColorComponent(0x00000002)
         val B_BIT = VkColorComponent(0x00000004)
         val A_BIT = VkColorComponent(0x00000008)
+        val RGBA_BIT = VkColorComponent(0x0000000F)
     }
 }
 
