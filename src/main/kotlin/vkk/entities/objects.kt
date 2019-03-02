@@ -1,6 +1,7 @@
 package vkk.entities
 
 import glm_.i
+import kool.LongBuffer
 import kool.Ptr
 import kool.adr
 import kool.rem
@@ -82,6 +83,13 @@ inline class VkDescriptorSetLayout(val L: Long = VK_NULL_HANDLE) {
         val NULL = VkDescriptorSetLayout()
     }
 }
+
+inline class VkDescriptorSetLayout_Buffer(val buffer: LongBuffer)
+
+fun VkDescriptorSetLayout_Buffer(collection: Collection<VkDescriptorSetLayout>) =
+        VkDescriptorSetLayout_Buffer(
+                LongBuffer(collection.size) { collection.elementAt(it).L }
+        )
 
 inline class VkDeviceMemory(val L: Long = VK_NULL_HANDLE) {
 
