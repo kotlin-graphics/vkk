@@ -1,7 +1,12 @@
 package vkk.extensionFunctions
 
-import glm_.*
-import kool.*
+import glm_.BYTES
+import glm_.L
+import glm_.i
+import kool.Ptr
+import kool.adr
+import kool.rem
+import kool.stak
 import org.lwjgl.PointerBuffer
 import org.lwjgl.system.MemoryUtil.*
 import org.lwjgl.system.Pointer
@@ -103,15 +108,13 @@ infix fun VkDevice.createBufferView(createInfo: VkBufferViewCreateInfo): VkBuffe
 infix fun VkDevice.createCommandPool(createInfo: VkCommandPoolCreateInfo): VkCommandPool =
         VkCommandPool(stak.longAddress { VK_CHECK_RESULT(VK10.nvkCreateCommandPool(this, createInfo.adr, NULL, it)) })
 
-fun VkDevice.createComputePipelines(pipelineCache: VkPipelineCache, createInfo: VkComputePipelineCreateInfo): VkPipeline =
-        VkPipeline(stak.longAddress { VK_CHECK_RESULT(VK10.nvkCreateComputePipelines(this, pipelineCache.L, 1, createInfo.adr, NULL, it)) })
-
 inline fun <reified C> VkDevice.createComputePipelines(pipelineCache: VkPipelineCache, createInfos: VkComputePipelineCreateInfo.Buffer): C =
         stak {
             val count = createInfos.rem
             val pComputePipelines = it.nmalloc(8, count * Long.BYTES)
             VK_CHECK_RESULT(VK10.nvkCreateComputePipelines(this, pipelineCache.L, count, createInfos.adr, NULL, pComputePipelines))
             when (C::class) {
+                VkPipeline::class -> VkPipeline(memGetLong(pComputePipelines)) as C
                 VkPipeline_Array::class -> VkPipeline_Array(
                         LongArray(count) { memGetLong(pComputePipelines + Long.BYTES * it) }) as C
                 ArrayList::class -> {
@@ -154,15 +157,13 @@ infix fun VkDevice.createFence(createInfo: VkFenceCreateInfo): VkFence =
 infix fun VkDevice.createFramebuffer(createInfo: VkFramebufferCreateInfo): VkFramebuffer =
         VkFramebuffer(stak.longAddress { VK_CHECK_RESULT(VK10.nvkCreateFramebuffer(this, createInfo.adr, NULL, it)) })
 
-fun VkDevice.createGraphicsPipeline(pipelineCache: VkPipelineCache, createInfo: VkGraphicsPipelineCreateInfo): VkPipeline =
-        VkPipeline(stak.longAddress { VK_CHECK_RESULT(VK10.nvkCreateGraphicsPipelines(this, pipelineCache.L, 1, createInfo.adr, NULL, it)) })
-
-inline fun <reified C> VkDevice.createGraphicsPipeline(pipelineCache: VkPipelineCache, createInfos: VkGraphicsPipelineCreateInfo.Buffer): C =
+inline fun <reified C> VkDevice.createGraphicsPipelines(pipelineCache: VkPipelineCache, createInfos: VkGraphicsPipelineCreateInfo.Buffer): C =
         stak {
             val count = createInfos.rem
             val pGraphicPipelines = it.nmalloc(8, count * Long.BYTES)
             VK_CHECK_RESULT(VK10.nvkCreateGraphicsPipelines(this, pipelineCache.L, count, createInfos.adr, NULL, pGraphicPipelines))
             when (C::class) {
+                VkPipeline::class -> VkPipeline(memGetLong(pGraphicPipelines)) as C
                 VkPipeline_Array::class -> VkPipeline_Array(
                         LongArray(count) { memGetLong(pGraphicPipelines + Long.BYTES * it) }) as C
                 ArrayList::class -> {
