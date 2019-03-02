@@ -5,8 +5,11 @@ import kool.LongBuffer
 import kool.Ptr
 import kool.adr
 import kool.rem
+import org.lwjgl.system.MemoryStack
+import org.lwjgl.system.MemoryStack.stackGet
 import org.lwjgl.system.MemoryUtil.memCopy
 import org.lwjgl.vulkan.VK10.VK_NULL_HANDLE
+import vkk.vk
 import java.nio.ByteBuffer
 import java.nio.LongBuffer
 
@@ -86,9 +89,9 @@ inline class VkDescriptorSetLayout(val L: Long = VK_NULL_HANDLE) {
 
 inline class VkDescriptorSetLayout_Buffer(val buffer: LongBuffer)
 
-fun VkDescriptorSetLayout_Buffer(collection: Collection<VkDescriptorSetLayout>) =
+fun vk.DescriptorSetLayout_Buffer(collection: Collection<VkDescriptorSetLayout>) =
         VkDescriptorSetLayout_Buffer(
-                LongBuffer(collection.size) { collection.elementAt(it).L }
+                stackGet().LongBuffer(collection.size) { collection.elementAt(it).L }
         )
 
 inline class VkDeviceMemory(val L: Long = VK_NULL_HANDLE) {
