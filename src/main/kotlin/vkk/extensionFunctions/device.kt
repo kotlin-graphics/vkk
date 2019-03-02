@@ -108,6 +108,11 @@ infix fun VkDevice.createBufferView(createInfo: VkBufferViewCreateInfo): VkBuffe
 infix fun VkDevice.createCommandPool(createInfo: VkCommandPoolCreateInfo): VkCommandPool =
         VkCommandPool(stak.longAddress { VK_CHECK_RESULT(VK10.nvkCreateCommandPool(this, createInfo.adr, NULL, it)) })
 
+fun VkDevice.createComputePipelines(pipelineCache: VkPipelineCache, createInfo: VkComputePipelineCreateInfo): VkPipeline =
+        VkPipeline(stak.longAddress {
+            VK_CHECK_RESULT(VK10.nvkCreateComputePipelines(this, pipelineCache.L, 1, createInfo.adr, NULL, it))
+        })
+
 inline fun <reified C> VkDevice.createComputePipelines(pipelineCache: VkPipelineCache, createInfos: VkComputePipelineCreateInfo.Buffer): C =
         stak {
             val count = createInfos.rem
@@ -156,6 +161,11 @@ infix fun VkDevice.createFence(createInfo: VkFenceCreateInfo): VkFence =
 
 infix fun VkDevice.createFramebuffer(createInfo: VkFramebufferCreateInfo): VkFramebuffer =
         VkFramebuffer(stak.longAddress { VK_CHECK_RESULT(VK10.nvkCreateFramebuffer(this, createInfo.adr, NULL, it)) })
+
+fun VkDevice.createGraphicsPipelines(pipelineCache: VkPipelineCache, createInfo: VkGraphicsPipelineCreateInfo): VkPipeline =
+        VkPipeline(stak.longAddress {
+            VK_CHECK_RESULT(VK10.nvkCreateGraphicsPipelines(this, pipelineCache.L, 1, createInfo.adr, NULL, it))
+        })
 
 inline fun <reified C> VkDevice.createGraphicsPipelines(pipelineCache: VkPipelineCache, createInfos: VkGraphicsPipelineCreateInfo.Buffer): C =
         stak {
