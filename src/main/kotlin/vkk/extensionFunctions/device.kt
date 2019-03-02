@@ -19,23 +19,21 @@ fun VkDevice.acquireNextImageKHR(swapchain: VkSwapchainKHR, timeout: Long, semap
 fun VkDevice.acquireNextImage2KHR(acquireInfo: VkAcquireNextImageInfoKHR): Int =
         stak.intAddress { VK_CHECK_RESULT(KHRSwapchain.nvkAcquireNextImage2KHR(this, acquireInfo.adr, it)) }
 
-infix fun VkDevice.allocateCommandBuffer(allocateInfo: VkCommandBufferAllocateInfo): VkCommandBuffer =
-        VkCommandBuffer(stak.pointerAddress { VK_CHECK_RESULT(VK10.nvkAllocateCommandBuffers(this, allocateInfo.adr, it)) }, this)
-
 inline infix fun <reified C> VkDevice.allocateCommandBuffers(allocateInfo: VkCommandBufferAllocateInfo): C =
         stak {
             val count = allocateInfo.commandBufferCount
-            val pCommandBuffer = it.nmalloc(Pointer.POINTER_SIZE, count * Pointer.POINTER_SIZE)
-            VK_CHECK_RESULT(VK10.nvkAllocateCommandBuffers(this, allocateInfo.adr, pCommandBuffer))
+            val pCommandBuffers = it.nmalloc(Pointer.POINTER_SIZE, count * Pointer.POINTER_SIZE)
+            VK_CHECK_RESULT(VK10.nvkAllocateCommandBuffers(this, allocateInfo.adr, pCommandBuffers))
             when (C::class) {
-                Array<VkCommandBuffer>::class -> Array(count) { VkCommandBuffer(memGetAddress(pCommandBuffer + Pointer.POINTER_SIZE * it), this) } as C
+                VkCommandBuffer::class -> VkCommandBuffer(memGetLong(pCommandBuffers), this) as C
+                Array<VkCommandBuffer>::class -> Array(count) { VkCommandBuffer(memGetAddress(pCommandBuffers + Pointer.POINTER_SIZE * it), this) } as C
                 ArrayList::class -> {
                     val res = ArrayList<VkCommandBuffer>(count)
                     for (i in 0 until count)
-                        res += VkCommandBuffer(memGetAddress(pCommandBuffer + Pointer.POINTER_SIZE * i), this)
+                        res += VkCommandBuffer(memGetAddress(pCommandBuffers + Pointer.POINTER_SIZE * i), this)
                     res as C
                 }
-                List::class -> List(count) { VkCommandBuffer(memGetAddress(pCommandBuffer + Pointer.POINTER_SIZE * it), this) } as C
+                List::class -> List(count) { VkCommandBuffer(memGetAddress(pCommandBuffers + Pointer.POINTER_SIZE * it), this) } as C
                 else -> throw Exception("Invalid")
             }
         }
@@ -105,7 +103,7 @@ infix fun VkDevice.createBufferView(createInfo: VkBufferViewCreateInfo): VkBuffe
 infix fun VkDevice.createCommandPool(createInfo: VkCommandPoolCreateInfo): VkCommandPool =
         VkCommandPool(stak.longAddress { VK_CHECK_RESULT(VK10.nvkCreateCommandPool(this, createInfo.adr, NULL, it)) })
 
-fun VkDevice.createComputePipeline(pipelineCache: VkPipelineCache, createInfo: VkComputePipelineCreateInfo): VkPipeline =
+fun VkDevice.createComputePipelines(pipelineCache: VkPipelineCache, createInfo: VkComputePipelineCreateInfo): VkPipeline =
         VkPipeline(stak.longAddress { VK_CHECK_RESULT(VK10.nvkCreateComputePipelines(this, pipelineCache.L, 1, createInfo.adr, NULL, it)) })
 
 inline fun <reified C> VkDevice.createComputePipelines(pipelineCache: VkPipelineCache, createInfos: VkComputePipelineCreateInfo.Buffer): C =
@@ -339,7 +337,7 @@ infix fun VkDevice.getCommandBuffer(commandPool: VkCommandPool): VkCommandBuffer
 
 fun VkDevice.getCommandBuffer(commandPool: VkCommandPool, level: VkCommandBufferLevel = VkCommandBufferLevel.PRIMARY, autostart: Boolean = false): VkCommandBuffer {
     val cmdBufAllocateInfo = vk.CommandBufferAllocateInfo(commandPool, level, 1)
-    return allocateCommandBuffer(cmdBufAllocateInfo).apply { if (autostart) begin() }
+    return allocateCommandBuffers<VkCommandBuffer>(cmdBufAllocateInfo).apply { if (autostart) begin() }
 }
 
 infix fun VkDevice.getImageMemoryRequirements(image: VkImage): VkMemoryRequirements = getImageMemoryRequirements(image, vk.MemoryRequirements())
