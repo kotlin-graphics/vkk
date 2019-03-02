@@ -87,7 +87,10 @@ inline class VkDescriptorSetLayout(val L: Long = VK_NULL_HANDLE) {
     }
 }
 
-inline class VkDescriptorSetLayout_Buffer(val buffer: LongBuffer)
+inline class VkDescriptorSetLayout_Buffer(val buffer: LongBuffer) {
+    val rem get() = buffer.rem
+    val adr get() = buffer.adr
+}
 
 fun vk.DescriptorSetLayout_Buffer(collection: Collection<VkDescriptorSetLayout>) =
         VkDescriptorSetLayout_Buffer(

@@ -628,9 +628,9 @@ inline var VkPipelineLayoutCreateInfo.flags: VkPipelineLayoutCreateFlags
 inline var VkPipelineLayoutCreateInfo.setLayoutCount: Int
     get() = VkPipelineLayoutCreateInfo.nsetLayoutCount(adr)
     set(value) = VkPipelineLayoutCreateInfo.nsetLayoutCount(adr, value)
-inline var VkPipelineLayoutCreateInfo.setLayouts: LongBuffer?
-    get() = VkPipelineLayoutCreateInfo.npSetLayouts(adr)
-    set(value) = VkPipelineLayoutCreateInfo.npSetLayouts(adr, value)
+inline var VkPipelineLayoutCreateInfo.setLayouts: VkDescriptorSetLayout_Buffer?
+    get() = VkPipelineLayoutCreateInfo.npSetLayouts(adr)?.let(::VkDescriptorSetLayout_Buffer)
+    set(value) = VkPipelineLayoutCreateInfo.npSetLayouts(adr, value?.buffer)
 /** JVM custom */
 inline var VkPipelineLayoutCreateInfo.setLayout: VkDescriptorSetLayout?
     get() = VkPipelineLayoutCreateInfo.npSetLayouts(adr)?.let { VkDescriptorSetLayout(it[0]) }

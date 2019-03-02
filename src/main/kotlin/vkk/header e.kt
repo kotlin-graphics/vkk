@@ -70,9 +70,9 @@ inline var VkDescriptorSetAllocateInfo.descriptorPool: VkDescriptorPool
 inline var VkDescriptorSetAllocateInfo.descriptorSetCount: Int
     get() = VkDescriptorSetAllocateInfo.ndescriptorSetCount(adr)
     set(value) = VkDescriptorSetAllocateInfo.ndescriptorSetCount(adr, value)
-inline var VkDescriptorSetAllocateInfo.setLayouts: LongBuffer
-    get() = VkDescriptorSetAllocateInfo.npSetLayouts(adr)
-    set(value) = VkDescriptorSetAllocateInfo.npSetLayouts(adr, value)
+inline var VkDescriptorSetAllocateInfo.setLayouts: VkDescriptorSetLayout_Buffer
+    get() = VkDescriptorSetLayout_Buffer(VkDescriptorSetAllocateInfo.npSetLayouts(adr))
+    set(value) = VkDescriptorSetAllocateInfo.npSetLayouts(adr, value.buffer)
 /** JVM custom */
 inline var VkDescriptorSetAllocateInfo.setLayout: VkDescriptorSetLayout
     get() = VkDescriptorSetLayout(VkDescriptorSetAllocateInfo.npSetLayouts(adr)[0])
