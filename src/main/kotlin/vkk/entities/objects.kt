@@ -1,10 +1,7 @@
 package vkk.entities
 
 import glm_.i
-import kool.LongBuffer
-import kool.Ptr
-import kool.adr
-import kool.rem
+import kool.*
 import org.lwjgl.system.MemoryStack.stackGet
 import org.lwjgl.system.MemoryUtil.memCopy
 import org.lwjgl.vulkan.VK10.VK_NULL_HANDLE
@@ -75,6 +72,25 @@ inline class VkDescriptorSet(val L: Long = VK_NULL_HANDLE) {
 inline class VkDescriptorSet_Buffer(val buffer: LongBuffer) {
     val rem get() = buffer.rem
     val adr get() = buffer.adr
+    var pos
+        get() = buffer.pos
+        set(value) {
+            buffer.pos = value
+        }
+    var lim
+        get() = buffer.lim
+        set(value) {
+            buffer.lim = value
+        }
+
+    fun put(src: VkDescriptorSet_Buffer) {
+        buffer.put(src.buffer)
+    }
+
+    fun flip(): VkDescriptorSet_Buffer {
+        buffer.flip()
+        return this
+    }
 }
 
 fun VkDescriptorSet_Buffer(collection: Collection<VkDescriptorSet>) =
