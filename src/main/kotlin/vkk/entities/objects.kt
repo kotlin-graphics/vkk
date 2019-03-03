@@ -291,6 +291,12 @@ inline class VkSemaphore_Array(val array: LongArray) {
     operator fun set(index: Int, value: VkSemaphore) = array.set(index, value.L)
 }
 
+fun VkSemaphore_Array(collection: Collection<VkSemaphore>) =
+        VkSemaphore_Array(LongArray(collection.size) { collection.elementAt(it).L })
+
+fun VkSemaphore_Array(size: Int, init: (Int) -> VkSemaphore) =
+        VkSemaphore_Array(LongArray(size) { init(it).L })
+
 inline class VkShaderModule(val L: Long = VK_NULL_HANDLE) {
     val isValid get() = L != VK_NULL_HANDLE
     val isInvalid get() = L == VK_NULL_HANDLE
