@@ -4,7 +4,6 @@ import kool.*
 import kool.lib.isEmpty
 import kool.lib.isNotEmpty
 import org.lwjgl.system.MemoryStack
-import org.lwjgl.system.MemoryStack.stackGet
 import vkk.VkDynamicState
 import java.nio.IntBuffer
 import java.nio.LongBuffer
@@ -14,11 +13,6 @@ typealias VkBufferBuffer = LongBuffer
 
 inline class VkDescriptorSetLayoutBuffer(val buffer: LongBuffer)
 
-typealias VkDescriptorSetBuffer = LongBuffer
-
-fun VkDescriptorSetLayoutBuffer(size: Int, init: (Int) -> VkDescriptorSetLayout) = VkDescriptorSetLayoutBuffer(LongBuffer(size) { init(it).L })
-
-fun VkDescriptorSetLayoutBuffer(collection: Collection<VkDescriptorSetLayout>) = VkDescriptorSetLayoutBuffer(collection.size) { collection.elementAt(it) }
 
 typealias VkDeviceMemoryBuffer = LongBuffer
 typealias VkDeviceSizeBuffer = LongBuffer

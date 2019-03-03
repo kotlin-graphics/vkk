@@ -47,14 +47,14 @@ fun VkCommandBuffer.beginTransformFeedbackEXT(firstCounterBuffer: Int, counterBu
 
 fun VkCommandBuffer.bindDescriptorSets(pipelineBindPoint: VkPipelineBindPoint,
                                        layout: VkPipelineLayout,
-                                       descriptorSets: VkDescriptorSetBuffer,
+                                       descriptorSets: VkDescriptorSet_Buffer,
                                        dynamicOffsets: IntBuffer) =
         VK10.nvkCmdBindDescriptorSets(this, pipelineBindPoint.i, layout.L, 0, descriptorSets.rem, descriptorSets.adr, dynamicOffsets.rem, dynamicOffsets.adr)
 
 fun VkCommandBuffer.bindDescriptorSets(pipelineBindPoint: VkPipelineBindPoint,
                                        layout: VkPipelineLayout,
                                        firstSet: Int,
-                                       descriptorSets: VkDescriptorSetBuffer,
+                                       descriptorSets: VkDescriptorSet_Buffer,
                                        dynamicOffsets: IntBuffer) =
         VK10.nvkCmdBindDescriptorSets(this, pipelineBindPoint.i, layout.L, firstSet, descriptorSets.rem, descriptorSets.adr, dynamicOffsets.rem, dynamicOffsets.adr)
 

@@ -5,7 +5,6 @@ import kool.LongBuffer
 import kool.Ptr
 import kool.adr
 import kool.rem
-import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryStack.stackGet
 import org.lwjgl.system.MemoryUtil.memCopy
 import org.lwjgl.vulkan.VK10.VK_NULL_HANDLE
@@ -73,6 +72,23 @@ inline class VkDescriptorSet(val L: Long = VK_NULL_HANDLE) {
     }
 }
 
+inline class VkDescriptorSet_Buffer(val buffer: LongBuffer) {
+    val rem get() = buffer.rem
+    val adr get() = buffer.adr
+}
+
+fun VkDescriptorSet_Buffer(collection: Collection<VkDescriptorSet>) =
+        VkDescriptorSet_Buffer(collection.size) { collection.elementAt(it) }
+
+fun VkDescriptorSet_Buffer(size: Int, init: (Int) -> VkDescriptorSet) =
+        VkDescriptorSet_Buffer(LongBuffer(size) { init(it).L })
+
+fun vk.DescriptorSet_Buffer(collection: Collection<VkDescriptorSet>) =
+        VkDescriptorSet_Buffer(stackGet().LongBuffer(collection.size) { collection.elementAt(it).L })
+
+fun vk.DescriptorSet_Buffer(size: Int, init: (Int) -> VkDescriptorSet) =
+        VkDescriptorSet_Buffer(stackGet().LongBuffer(size) { init(it).L })
+
 inline class VkDescriptorSet_Array(val array: LongArray)
 
 inline class VkDescriptorSetLayout(val L: Long = VK_NULL_HANDLE) {
@@ -92,10 +108,17 @@ inline class VkDescriptorSetLayout_Buffer(val buffer: LongBuffer) {
     val adr get() = buffer.adr
 }
 
+fun VkDescriptorSetLayout_Buffer(collection: Collection<VkDescriptorSetLayout>) =
+        VkDescriptorSetLayout_Buffer(collection.size) { collection.elementAt(it) }
+
+fun VkDescriptorSetLayout_Buffer(size: Int, init: (Int) -> VkDescriptorSetLayout) =
+        VkDescriptorSetLayoutBuffer(LongBuffer(size) { init(it).L })
+
 fun vk.DescriptorSetLayout_Buffer(collection: Collection<VkDescriptorSetLayout>) =
-        VkDescriptorSetLayout_Buffer(
-                stackGet().LongBuffer(collection.size) { collection.elementAt(it).L }
-        )
+        VkDescriptorSetLayout_Buffer(stackGet().LongBuffer(collection.size) { collection.elementAt(it).L })
+
+fun vk.DescriptorSetLayout_Buffer(size: Int, init: (Int) -> VkDescriptorSetLayout) =
+        VkDescriptorSetLayoutBuffer(stackGet().LongBuffer(size) { init(it).L })
 
 inline class VkDeviceMemory(val L: Long = VK_NULL_HANDLE) {
 
