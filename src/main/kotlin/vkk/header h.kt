@@ -130,6 +130,7 @@ inline class VkDebugReport(val i: Int) {
         val ERROR_BIT_EXT = VkDebugReport(0x00000008)
         val DEBUG_BIT_EXT = VkDebugReport(0x00000010)
     }
+    infix fun or(other: VkDebugReport) = i or other.i
 }
 
 infix fun Int.has(f: VkDebugReport) = and(f.i) != 0
