@@ -760,9 +760,9 @@ inline var VkDescriptorSetLayoutBinding.stageFlag: VkShaderStage
 inline var VkDescriptorSetLayoutBinding.stageFlags: VkShaderStageFlags
     get() = VkDescriptorSetLayoutBinding.nstageFlags(adr)
     set(value) = VkDescriptorSetLayoutBinding.nstageFlags(adr, value)
-inline var VkDescriptorSetLayoutBinding.immutableSamplers: VkSamplerBuffer?
-    get() = VkDescriptorSetLayoutBinding.npImmutableSamplers(adr)
-    set(value) = VkDescriptorSetLayoutBinding.npImmutableSamplers(adr, value)
+inline var VkDescriptorSetLayoutBinding.immutableSamplers: VkSampler_Buffer?
+    get() = VkDescriptorSetLayoutBinding.npImmutableSamplers(adr)?.let(::VkSampler_Buffer)
+    set(value) = VkDescriptorSetLayoutBinding.npImmutableSamplers(adr, value?.buffer)
 /** JVM custom */
 inline var VkDescriptorSetLayoutBinding.immutableSampler: VkSampler?
     get() = VkDescriptorSetLayoutBinding.npImmutableSamplers(adr)?.let { VkSampler(it[0]) }

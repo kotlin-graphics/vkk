@@ -9,6 +9,15 @@ import vkk.vk
 import java.nio.ByteBuffer
 import java.nio.LongBuffer
 
+inline class VkAccelerationStructureNV(val L: Long = VK_NULL_HANDLE) {
+    val isValid get() = L != VK_NULL_HANDLE
+    val isInvalid get() = L == VK_NULL_HANDLE
+
+    companion object {
+        val NULL = VkAccelerationStructureNV()
+    }
+}
+
 inline class VkBuffer(val L: Long = VK_NULL_HANDLE) {
     val isValid get() = L != VK_NULL_HANDLE
     val isInvalid get() = L == VK_NULL_HANDLE
@@ -69,44 +78,6 @@ inline class VkDescriptorSet(val L: Long = VK_NULL_HANDLE) {
     }
 }
 
-inline class VkDescriptorSet_Buffer(val buffer: LongBuffer) {
-    val rem get() = buffer.rem
-    val adr get() = buffer.adr
-    var pos
-        get() = buffer.pos
-        set(value) {
-            buffer.pos = value
-        }
-    var lim
-        get() = buffer.lim
-        set(value) {
-            buffer.lim = value
-        }
-
-    fun put(src: VkDescriptorSet_Buffer) {
-        buffer.put(src.buffer)
-    }
-
-    fun flip(): VkDescriptorSet_Buffer {
-        buffer.flip()
-        return this
-    }
-}
-
-fun VkDescriptorSet_Buffer(collection: Collection<VkDescriptorSet>) =
-        VkDescriptorSet_Buffer(collection.size) { collection.elementAt(it) }
-
-fun VkDescriptorSet_Buffer(size: Int, init: (Int) -> VkDescriptorSet) =
-        VkDescriptorSet_Buffer(LongBuffer(size) { init(it).L })
-
-fun vk.DescriptorSet_Buffer(collection: Collection<VkDescriptorSet>) =
-        VkDescriptorSet_Buffer(stackGet().LongBuffer(collection.size) { collection.elementAt(it).L })
-
-fun vk.DescriptorSet_Buffer(size: Int, init: (Int) -> VkDescriptorSet) =
-        VkDescriptorSet_Buffer(stackGet().LongBuffer(size) { init(it).L })
-
-inline class VkDescriptorSet_Array(val array: LongArray)
-
 inline class VkDescriptorSetLayout(val L: Long = VK_NULL_HANDLE) {
     val isValid get() = L != VK_NULL_HANDLE
     val isInvalid get() = L == VK_NULL_HANDLE
@@ -119,22 +90,14 @@ inline class VkDescriptorSetLayout(val L: Long = VK_NULL_HANDLE) {
     }
 }
 
-inline class VkDescriptorSetLayout_Buffer(val buffer: LongBuffer) {
-    val rem get() = buffer.rem
-    val adr get() = buffer.adr
+inline class VkDescriptorUpdateTemplate(val L: Long = VK_NULL_HANDLE) {
+    val isValid get() = L != VK_NULL_HANDLE
+    val isInvalid get() = L == VK_NULL_HANDLE
+
+    companion object {
+        val NULL = VkDescriptorUpdateTemplate()
+    }
 }
-
-fun VkDescriptorSetLayout_Buffer(collection: Collection<VkDescriptorSetLayout>) =
-        VkDescriptorSetLayout_Buffer(collection.size) { collection.elementAt(it) }
-
-fun VkDescriptorSetLayout_Buffer(size: Int, init: (Int) -> VkDescriptorSetLayout) =
-        VkDescriptorSetLayoutBuffer(LongBuffer(size) { init(it).L })
-
-fun vk.DescriptorSetLayout_Buffer(collection: Collection<VkDescriptorSetLayout>) =
-        VkDescriptorSetLayout_Buffer(stackGet().LongBuffer(collection.size) { collection.elementAt(it).L })
-
-fun vk.DescriptorSetLayout_Buffer(size: Int, init: (Int) -> VkDescriptorSetLayout) =
-        VkDescriptorSetLayoutBuffer(stackGet().LongBuffer(size) { init(it).L })
 
 inline class VkDeviceMemory(val L: Long = VK_NULL_HANDLE) {
 
@@ -167,12 +130,26 @@ inline class VkDeviceSize(val L: Long = VK_NULL_HANDLE) {
     }
 }
 
-fun Buffer(size: VkDeviceSize): ByteBuffer = kool.Buffer(size.L.i)
-
-fun memCopy(src: Ptr, dst: Ptr, bytes: VkDeviceSize) = memCopy(src, dst, bytes.L)
-
 operator fun Int.rem(b: VkDeviceSize) = VkDeviceSize(this % b.L)
 operator fun Int.plus(b: VkDeviceSize) = VkDeviceSize(this + b.L)
+
+inline class VkDisplayKHR(val L: Long = VK_NULL_HANDLE) {
+    val isValid get() = L != VK_NULL_HANDLE
+    val isInvalid get() = L == VK_NULL_HANDLE
+
+    companion object {
+        val NULL = VkDisplayKHR()
+    }
+}
+
+inline class VkDisplayModeKHR(val L: Long = VK_NULL_HANDLE) {
+    val isValid get() = L != VK_NULL_HANDLE
+    val isInvalid get() = L == VK_NULL_HANDLE
+
+    companion object {
+        val NULL = VkDisplayModeKHR()
+    }
+}
 
 inline class VkEvent(val L: Long = VK_NULL_HANDLE) {
     val isValid get() = L != VK_NULL_HANDLE
@@ -219,6 +196,24 @@ inline class VkImageView(val L: Long = VK_NULL_HANDLE) {
     }
 }
 
+inline class VkIndirectCommandsLayoutNVX(val L: Long = VK_NULL_HANDLE) {
+    val isValid get() = L != VK_NULL_HANDLE
+    val isInvalid get() = L == VK_NULL_HANDLE
+
+    companion object {
+        val NULL = VkIndirectCommandsLayoutNVX()
+    }
+}
+
+inline class VkObjectTableNVX(val L: Long = VK_NULL_HANDLE) {
+    val isValid get() = L != VK_NULL_HANDLE
+    val isInvalid get() = L == VK_NULL_HANDLE
+
+    companion object {
+        val NULL = VkObjectTableNVX()
+    }
+}
+
 inline class VkPipeline(val L: Long = VK_NULL_HANDLE) {
     val isValid get() = L != VK_NULL_HANDLE
     val isInvalid get() = L == VK_NULL_HANDLE
@@ -227,9 +222,6 @@ inline class VkPipeline(val L: Long = VK_NULL_HANDLE) {
         val NULL = VkPipeline()
     }
 }
-
-inline class VkPipeline_Array(val array: LongArray)
-inline class VkPipeline_Buffer(val buffer: LongBuffer)
 
 inline class VkPipelineCache(val L: Long = VK_NULL_HANDLE) {
     val isValid get() = L != VK_NULL_HANDLE
@@ -285,18 +277,6 @@ inline class VkSemaphore(val L: Long = VK_NULL_HANDLE) {
     }
 }
 
-inline class VkSemaphore_Array(val array: LongArray) {
-    val size get() = array.size
-    operator fun get(index: Int) = VkSemaphore(array[index])
-    operator fun set(index: Int, value: VkSemaphore) = array.set(index, value.L)
-}
-
-fun VkSemaphore_Array(collection: Collection<VkSemaphore>) =
-        VkSemaphore_Array(LongArray(collection.size) { collection.elementAt(it).L })
-
-fun VkSemaphore_Array(size: Int, init: (Int) -> VkSemaphore) =
-        VkSemaphore_Array(LongArray(size) { init(it).L })
-
 inline class VkShaderModule(val L: Long = VK_NULL_HANDLE) {
     val isValid get() = L != VK_NULL_HANDLE
     val isInvalid get() = L == VK_NULL_HANDLE
@@ -324,66 +304,11 @@ inline class VkSwapchainKHR(val L: Long = VK_NULL_HANDLE) {
     }
 }
 
-
-inline class VkDisplayKHR(val L: Long = VK_NULL_HANDLE) {
+inline class VkValidationCacheEXT(val L: Long = VK_NULL_HANDLE) {
     val isValid get() = L != VK_NULL_HANDLE
     val isInvalid get() = L == VK_NULL_HANDLE
 
     companion object {
-        val NULL = VkDisplayKHR()
+        val NULL = VkValidationCacheEXT()
     }
 }
-
-inline class VkDisplayModeKHR(val L: Long = VK_NULL_HANDLE) {
-    val isValid get() = L != VK_NULL_HANDLE
-    val isInvalid get() = L == VK_NULL_HANDLE
-
-    companion object {
-        val NULL = VkDisplayModeKHR()
-    }
-}
-
-inline class VkObjectTableNVX(val L: Long = VK_NULL_HANDLE) {
-    val isValid get() = L != VK_NULL_HANDLE
-    val isInvalid get() = L == VK_NULL_HANDLE
-
-    companion object {
-        val NULL = VkObjectTableNVX()
-    }
-}
-
-inline class VkIndirectCommandsLayoutNVX(val L: Long = VK_NULL_HANDLE) {
-    val isValid get() = L != VK_NULL_HANDLE
-    val isInvalid get() = L == VK_NULL_HANDLE
-
-    companion object {
-        val NULL = VkIndirectCommandsLayoutNVX()
-    }
-}
-
-inline class VkIndirectCommandsLayoutNVX_Buffer(val buffer: LongBuffer)
-
-inline class VkAccelerationStructureNV(val L: Long = VK_NULL_HANDLE) {
-    val isValid get() = L != VK_NULL_HANDLE
-    val isInvalid get() = L == VK_NULL_HANDLE
-
-    companion object {
-        val NULL = VkAccelerationStructureNV()
-    }
-}
-
-inline class VkAccelerationStructureNV_Buffer(val buffer: LongBuffer) {
-    val rem get() = buffer.rem
-    val adr get() = buffer.adr
-}
-
-inline class VkDescriptorUpdateTemplate(val L: Long = VK_NULL_HANDLE) {
-    val isValid get() = L != VK_NULL_HANDLE
-    val isInvalid get() = L == VK_NULL_HANDLE
-
-    companion object {
-        val NULL = VkDescriptorUpdateTemplate()
-    }
-}
-
-inline class VkDescriptorUpdateTemplate_Buffer(val buffer: LongBuffer)

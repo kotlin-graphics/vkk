@@ -339,9 +339,6 @@ inline val VkMemoryRequirements2.memoryRequirements: VkMemoryRequirements
     get() = VkMemoryRequirements2.nmemoryRequirements(adr)
 
 
-typealias VkMemoryRequirements2KHR = VkMemoryRequirements2
-
-
 inline var VkSparseImageMemoryRequirements2.type: VkStructureType
     get() = VkStructureType(VkSparseImageMemoryRequirements2.nsType(adr))
     set(value) = VkSparseImageMemoryRequirements2.nsType(adr, value.i)

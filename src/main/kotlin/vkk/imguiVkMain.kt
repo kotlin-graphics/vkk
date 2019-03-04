@@ -67,7 +67,7 @@ package vkk
 //    var frameIndex = 0
 //    val commandPool = VkCommandPoolArray(VK_QUEUED_FRAMES)
 //    val commandBuffer: Array<VkCommandBuffer?> = Array(VK_QUEUED_FRAMES) { null }
-//    val fence = VkFenceArray(VK_QUEUED_FRAMES)
+//    val fence = VkFence_Array(VK_QUEUED_FRAMES)
 //    val presentCompleteSemaphore = VkSemaphoreArray(VK_QUEUED_FRAMES)
 //    val renderCompleteSemaphore = VkSemaphoreArray(VK_QUEUED_FRAMES)
 //

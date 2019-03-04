@@ -451,8 +451,8 @@ inline var VkSubmitInfo.next: Ptr
 inline var VkSubmitInfo.waitSemaphoreCount: Int
     get() = VkSubmitInfo.nwaitSemaphoreCount(adr)
     set(value) = VkSubmitInfo.nwaitSemaphoreCount(adr, value)
-inline var VkSubmitInfo.waitSemaphores: VkSemaphoreBuffer?
-    get() = VkSubmitInfo.npWaitSemaphores(adr)?.let(::VkSemaphoreBuffer)
+inline var VkSubmitInfo.waitSemaphores: VkSemaphore_Buffer?
+    get() = VkSubmitInfo.npWaitSemaphores(adr)?.let(::VkSemaphore_Buffer)
     set(value) = VkSubmitInfo.npWaitSemaphores(adr, value?.buffer)
 /** JVM custom */
 inline var VkSubmitInfo.waitSemaphore: VkSemaphore
@@ -486,8 +486,8 @@ inline var VkSubmitInfo.signalSemaphoreCount: Int
     get() = VkSubmitInfo.nsignalSemaphoreCount(adr)
     set(value) = VkSubmitInfo.nsignalSemaphoreCount(adr, value)
 
-inline var VkSubmitInfo.signalSemaphores: VkSemaphoreBuffer?
-    get() = VkSubmitInfo.npSignalSemaphores(adr)?.let(::VkSemaphoreBuffer)
+inline var VkSubmitInfo.signalSemaphores: VkSemaphore_Buffer?
+    get() = VkSubmitInfo.npSignalSemaphores(adr)?.let(::VkSemaphore_Buffer)
     set(value) = VkSubmitInfo.npSignalSemaphores(adr, value?.buffer)
 /** JVM custom */
 inline var VkSubmitInfo.signalSemaphore: VkSemaphore
@@ -659,8 +659,8 @@ inline var VkBindSparseInfo.next: Ptr
 inline var VkBindSparseInfo.waitSemaphoreCount: Int
     get() = VkBindSparseInfo.nwaitSemaphoreCount(adr)
     set(value) = VkBindSparseInfo.nwaitSemaphoreCount(adr, value)
-inline var VkBindSparseInfo.waitSemaphores: VkSemaphoreBuffer?
-    get() = VkBindSparseInfo.npWaitSemaphores(adr)?.let(::VkSemaphoreBuffer)
+inline var VkBindSparseInfo.waitSemaphores: VkSemaphore_Buffer?
+    get() = VkBindSparseInfo.npWaitSemaphores(adr)?.let(::VkSemaphore_Buffer)
     set(value) = VkBindSparseInfo.npWaitSemaphores(adr, value?.buffer)
 @Deprecated("this will be set automatically")
 inline var VkBindSparseInfo.bufferBindCount: Int
@@ -687,8 +687,8 @@ inline var VkBindSparseInfo.imageBinds: VkSparseImageMemoryBindInfo.Buffer?
 inline var VkBindSparseInfo.signalSemaphoreCount: Int
     get() = VkBindSparseInfo.nsignalSemaphoreCount(adr)
     set(value) = VkBindSparseInfo.nsignalSemaphoreCount(adr, value)
-inline var VkBindSparseInfo.signalSemaphores: VkSemaphoreBuffer?
-    get() = VkBindSparseInfo.npSignalSemaphores(adr)?.let(::VkSemaphoreBuffer)
+inline var VkBindSparseInfo.signalSemaphores: VkSemaphore_Buffer?
+    get() = VkBindSparseInfo.npSignalSemaphores(adr)?.let(::VkSemaphore_Buffer)
     set(value) = VkBindSparseInfo.npSignalSemaphores(adr, value?.buffer)
 
 

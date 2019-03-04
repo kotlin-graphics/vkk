@@ -40,8 +40,8 @@ fun VkCommandBuffer.beginRenderPass(renderPassBegin: VkRenderPassBeginInfo, cont
 fun VkCommandBuffer.beginRenderPass2KHR(renderPassBegin: VkRenderPassBeginInfo, subpassBeginInfo: VkSubpassBeginInfoKHR) =
         KHRCreateRenderpass2.nvkCmdBeginRenderPass2KHR(this, renderPassBegin.adr, subpassBeginInfo.adr)
 
-fun VkCommandBuffer.beginTransformFeedbackEXT(firstCounterBuffer: Int, counterBuffers: VkBufferBuffer?,
-                                              counterBufferOffsets: VkDeviceSizeBuffer?) =
+fun VkCommandBuffer.beginTransformFeedbackEXT(firstCounterBuffer: Int, counterBuffers: VkBuffer_Buffer?,
+                                              counterBufferOffsets: VkDeviceSize_Buffer?) =
         EXTTransformFeedback.nvkCmdBeginTransformFeedbackEXT(this, firstCounterBuffer, counterBuffers?.rem
                 ?: 0, counterBuffers?.adr ?: NULL, counterBufferOffsets?.adr ?: NULL)
 
@@ -85,7 +85,7 @@ fun VkCommandBuffer.bindPipeline(pipelineBindPoint: VkPipelineBindPoint, pipelin
 fun VkCommandBuffer.bindShadingRateImageNV(imageView: VkImageView, imageLayout: VkImageLayout) =
         NVShadingRateImage.vkCmdBindShadingRateImageNV(this, imageView.L, imageLayout.i)
 
-fun VkCommandBuffer.bindTransformFeedbackBuffersEXT(firstBinding: Int, buffers: VkBufferBuffer, offsets: VkDeviceSizeBuffer, sizes: VkDeviceSizeBuffer? = null) =
+fun VkCommandBuffer.bindTransformFeedbackBuffersEXT(firstBinding: Int, buffers: VkBuffer_Buffer, offsets: VkDeviceSize_Buffer, sizes: VkDeviceSize_Buffer? = null) =
         EXTTransformFeedback.nvkCmdBindTransformFeedbackBuffersEXT(this, firstBinding, buffers.rem, buffers.adr, offsets.adr, sizes?.adr
                 ?: NULL)
 
@@ -101,7 +101,7 @@ fun VkCommandBuffer.bindVertexBuffers(firstBinding: Int, buffer: VkBuffer, offse
             VK10.nvkCmdBindVertexBuffers(this, firstBinding, 1, pBuffer, pOffset)
         }
 
-fun VkCommandBuffer.bindVertexBuffers(firstBinding: Int, buffer: VkBufferBuffer, offset: VkDeviceSizeBuffer) =
+fun VkCommandBuffer.bindVertexBuffers(firstBinding: Int, buffer: VkBuffer_Buffer, offset: VkDeviceSize_Buffer) =
         VK10.nvkCmdBindVertexBuffers(this, firstBinding, buffer.rem, buffer.adr, offset.adr)
 
 fun VkCommandBuffer.blitImage(srcImage: VkImage, srcImageLayout: VkImageLayout, dstImage: VkImage, dstImageLayout: VkImageLayout, region: VkImageBlit, filter: VkFilter) =
@@ -259,7 +259,7 @@ fun VkCommandBuffer.endRenderPass() =
 fun VkCommandBuffer.endRenderPass2KHR(subpassEndInfo: VkSubpassEndInfoKHR) =
         KHRCreateRenderpass2.nvkCmdEndRenderPass2KHR(this, subpassEndInfo.adr)
 
-fun VkCommandBuffer.endTransformFeedbackEXT(firstCounterBuffer: Int, counterBuffers: VkBufferBuffer?, counterBufferOffsets: VkDeviceSizeBuffer?) =
+fun VkCommandBuffer.endTransformFeedbackEXT(firstCounterBuffer: Int, counterBuffers: VkBuffer_Buffer?, counterBufferOffsets: VkDeviceSize_Buffer?) =
         EXTTransformFeedback.nvkCmdEndTransformFeedbackEXT(this, firstCounterBuffer, counterBuffers?.rem
                 ?: 0, counterBuffers?.adr ?: NULL, counterBufferOffsets?.adr ?: NULL)
 
@@ -444,7 +444,7 @@ fun VkCommandBuffer.traceRaysNV(raygenShaderBindingTableBuffer: VkBuffer, raygen
 fun VkCommandBuffer.updateBuffer(dstBuffer: VkBuffer, dstOffset: VkDeviceSize, data: Buffer) =
         VK10.nvkCmdUpdateBuffer(this, dstBuffer.L, dstOffset.L, data.remSize.L, data.adr)
 
-fun VkCommandBuffer.waitEvents(events: VkEventBuffer, srcStageMask: VkPipelineStageFlags, dstStageMask: VkPipelineStageFlags,
+fun VkCommandBuffer.waitEvents(events: VkEvent_Buffer, srcStageMask: VkPipelineStageFlags, dstStageMask: VkPipelineStageFlags,
                                memoryBarriers: VkMemoryBarrier.Buffer? = null, bufferMemoryBarriers: VkBufferMemoryBarrier.Buffer? = null,
                                imageMemoryBarriers: VkImageMemoryBarrier.Buffer? = null) =
         VK10.nvkCmdWaitEvents(this, events.rem, events.adr, srcStageMask, dstStageMask, memoryBarriers?.rem
@@ -511,9 +511,9 @@ inline fun <R> VkCommandBuffer.record(beginInfo: VkCommandBufferBeginInfo, block
     return block().also { end() }
 }
 
-inline fun <R> VkCommandBuffer.transformFeedbackEXT(firstCounterBuffer: Int, counterBuffers: VkBufferBuffer?,
-                                                    counterBufferOffsets: VkDeviceSizeBuffer?,
+inline fun <R> VkCommandBuffer.transformFeedbackEXT(firstCounterBuffer: Int, counterBuffers: VkBuffer_Buffer?,
+                                                    counterBufferOffsets: VkDeviceSize_Buffer?,
                                                     block: VkCommandBuffer.() -> R): R {
     beginTransformFeedbackEXT(firstCounterBuffer, counterBuffers, counterBufferOffsets)
-    return block().also { endTransformFeedbackEXT(firstCounterBuffer, counterBufferOffsets, counterBufferOffsets) }
+    return block().also { endTransformFeedbackEXT(firstCounterBuffer, counterBuffers, counterBufferOffsets) }
 }

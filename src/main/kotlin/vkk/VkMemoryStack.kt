@@ -1280,7 +1280,7 @@ inline class VkMemoryStack(val stack: MemoryStack) {
             }
         }
 
-    fun createSemaphore(device: VkDevice, createInfo: VkSemaphoreCreateInfo, semaphores: VkSemaphoreBuffer): VkResult =
+    fun createSemaphore(device: VkDevice, createInfo: VkSemaphoreCreateInfo, semaphores: VkSemaphore_Buffer): VkResult =
         VkResult(VK10.nvkCreateSemaphore(device, createInfo.adr, NULL, semaphores.adr))
 
     fun createShaderModule(device: VkDevice, createInfo: VkShaderModuleCreateInfo, shaderModule: LongBuffer): VkResult =
@@ -1636,8 +1636,8 @@ inline class VkMemoryStack(val stack: MemoryStack) {
             VK10.nvkDestroyFence(this, fence.L, NULL)
     }
 
-    infix fun VkDevice.destroyFences(fences: VkFenceArray) {
-        for (fence in fences)
+    infix fun VkDevice.destroyFences(fences: VkFence_Array) {
+        for (fence in fences.array)
             VK10.nvkDestroyFence(this, fence.L, NULL)
     }
 
@@ -1757,13 +1757,13 @@ inline class VkMemoryStack(val stack: MemoryStack) {
 
     fun VkDevice.getQueue(queueFamilyIndex: Int, queueIndex: Int): VkQueue = VkQueue(pointerAddress { VK10.nvkGetDeviceQueue(this, queueFamilyIndex, queueIndex, it) }, this)
 
-    infix fun VkDevice.getSwapchainImagesKHR(swapchain: VkSwapchainKHR): VkImageArray = stack {
+    infix fun VkDevice.getSwapchainImagesKHR(swapchain: VkSwapchainKHR): VkImage_Array = stack {
         val pCount = it.nmalloc(1, Int.BYTES)
         VK_CHECK_RESULT(KHRSwapchain.nvkGetSwapchainImagesKHR(this, swapchain.L, pCount, NULL))
         val count = memGetInt(pCount)
         val images = it.nmalloc(Long.BYTES, count * Long.BYTES)
         VK_CHECK_RESULT(KHRSwapchain.nvkGetSwapchainImagesKHR(this, swapchain.L, pCount, images))
-        VkImageArray(count) { i -> VkImage(memGetLong(images + Long.BYTES * i)) }
+        VkImage_Array(count) { i -> VkImage(memGetLong(images + Long.BYTES * i)) }
     }
 
     infix fun VkDevice.resetCommandPool(commandPool: VkCommandPool) = resetCommandPool(commandPool, 0)

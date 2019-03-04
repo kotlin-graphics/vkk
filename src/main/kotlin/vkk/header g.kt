@@ -192,8 +192,8 @@ inline var VkPresentInfoKHR.next: Ptr
 inline var VkPresentInfoKHR.waitSemaphoreCount: Int
     get() = VkPresentInfoKHR.nwaitSemaphoreCount(adr)
     set(value) = VkPresentInfoKHR.nwaitSemaphoreCount(adr, value)
-inline var VkPresentInfoKHR.waitSemaphores: VkSemaphoreBuffer?
-    get() = VkPresentInfoKHR.npWaitSemaphores(adr)?.let(::VkSemaphoreBuffer)
+inline var VkPresentInfoKHR.waitSemaphores: VkSemaphore_Buffer?
+    get() = VkPresentInfoKHR.npWaitSemaphores(adr)?.let(::VkSemaphore_Buffer)
     set(value) = VkPresentInfoKHR.npWaitSemaphores(adr, value?.buffer)
 /** JVM custom */
 inline var VkPresentInfoKHR.waitSemaphore: VkSemaphore?
@@ -212,9 +212,9 @@ inline var VkPresentInfoKHR.waitSemaphore: VkSemaphore?
 inline var VkPresentInfoKHR.swapchainCount: Int
     get() = VkPresentInfoKHR.nswapchainCount(adr)
     set(value) = VkPresentInfoKHR.nswapchainCount(adr, value)
-inline var VkPresentInfoKHR.swapchains: VkSwapchainKhrBuffer
-    get() = VkPresentInfoKHR.npSwapchains(adr)
-    set(value) = VkPresentInfoKHR.npSwapchains(adr, value)
+inline var VkPresentInfoKHR.swapchains: VkSwapchainKHR_Buffer
+    get() = VkSwapchainKHR_Buffer(VkPresentInfoKHR.npSwapchains(adr))
+    set(value) = VkPresentInfoKHR.npSwapchains(adr, value.buffer)
 /** JVM custom */
 inline var VkPresentInfoKHR.swapchain: VkSwapchainKHR
     get() = VkSwapchainKHR(VkPresentInfoKHR.npSwapchains(adr)[0])

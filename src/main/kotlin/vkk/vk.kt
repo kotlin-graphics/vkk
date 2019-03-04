@@ -275,6 +275,9 @@ object vk {
     fun MemoryRequirements(): VkMemoryRequirements = VkMemoryRequirements.callocStack()
     inline fun MemoryRequirements(block: VkMemoryRequirements.() -> Unit): VkMemoryRequirements = MemoryRequirements().also(block)
 
+    fun MemoryRequirements2KHR(): MemoryRequirements2KHR = MemoryRequirements2KHR.callocStack()
+    inline fun MemoryRequirements2KHR(block: MemoryRequirements2KHR.() -> Unit): MemoryRequirements2KHR = MemoryRequirements2KHR().also(block)
+
     fun PipelineColorBlendAttachmentState(): VkPipelineColorBlendAttachmentState = VkPipelineColorBlendAttachmentState.callocStack()
     fun PipelineColorBlendAttachmentState(capacity: Int): VkPipelineColorBlendAttachmentState.Buffer = VkPipelineColorBlendAttachmentState.callocStack(capacity)
     inline fun PipelineColorBlendAttachmentState(block: VkPipelineColorBlendAttachmentState.() -> Unit): VkPipelineColorBlendAttachmentState = PipelineColorBlendAttachmentState().also(block)
@@ -1290,7 +1293,7 @@ object vk {
                 }
             }
 
-    fun createSemaphore(device: VkDevice, createInfo: VkSemaphoreCreateInfo, semaphores: VkSemaphoreBuffer): VkResult =
+    fun createSemaphore(device: VkDevice, createInfo: VkSemaphoreCreateInfo, semaphores: VkSemaphore_Buffer): VkResult =
             VkResult(VK10.nvkCreateSemaphore(device, createInfo.adr, NULL, semaphores.adr))
 
     fun createShaderModule(device: VkDevice, createInfo: VkShaderModuleCreateInfo, shaderModule: LongBuffer): VkResult =

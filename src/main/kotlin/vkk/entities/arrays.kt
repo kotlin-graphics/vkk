@@ -1,9 +1,273 @@
 package vkk.entities
 
 
-typealias VkCommandPoolArray = LongArray
+inline class VkAccelerationStructureNV_Array(val array: LongArray) {
 
-inline class VkFenceArray(val array: LongArray) : Iterable<VkFence> {
+    operator fun get(index: Int) = VkAccelerationStructureNV(array[index])
+    operator fun set(index: Int, fence: VkAccelerationStructureNV) = array.set(index, fence.L)
+
+    val size get() = array.size
+    val indices get() = array.indices
+
+    inline fun forEach(action: (VkAccelerationStructureNV) -> Unit) {
+        for (element in array) action(VkAccelerationStructureNV(element))
+    }
+}
+
+fun VkAccelerationStructureNV_Array(size: Int, block: (Int) -> VkAccelerationStructureNV) = VkAccelerationStructureNV_Array(LongArray(size) { block(it).L })
+fun VkAccelerationStructureNV_Array(size: Int) = VkAccelerationStructureNV_Array(LongArray(size))
+fun VkAccelerationStructureNV_Array(elements: Collection<VkAccelerationStructureNV>) = VkAccelerationStructureNV_Array(LongArray(elements.size) { elements.elementAt(it).L })
+fun VkAccelerationStructureNV_Array() = VkAccelerationStructureNV_Array(LongArray(0))
+
+
+inline class VkBuffer_Array(val array: LongArray) {
+
+    operator fun get(index: Int) = VkBuffer(array[index])
+    operator fun set(index: Int, fence: VkBuffer) = array.set(index, fence.L)
+
+    val size get() = array.size
+    val indices get() = array.indices
+
+    inline fun forEach(action: (VkBuffer) -> Unit) {
+        for (element in array) action(VkBuffer(element))
+    }
+}
+
+fun VkBuffer_Array(size: Int, block: (Int) -> VkBuffer) = VkBuffer_Array(LongArray(size) { block(it).L })
+fun VkBuffer_Array(size: Int) = VkBuffer_Array(LongArray(size))
+fun VkBuffer_Array(elements: Collection<VkBuffer>) = VkBuffer_Array(LongArray(elements.size) { elements.elementAt(it).L })
+fun VkBuffer_Array() = VkBuffer_Array(LongArray(0))
+
+
+inline class VkBufferView_Array(val array: LongArray) {
+
+    operator fun get(index: Int) = VkBufferView(array[index])
+    operator fun set(index: Int, fence: VkBufferView) = array.set(index, fence.L)
+
+    val size get() = array.size
+    val indices get() = array.indices
+
+    inline fun forEach(action: (VkBufferView) -> Unit) {
+        for (element in array) action(VkBufferView(element))
+    }
+}
+
+fun VkBufferView_Array(size: Int, block: (Int) -> VkBufferView) = VkBufferView_Array(LongArray(size) { block(it).L })
+fun VkBufferView_Array(size: Int) = VkBufferView_Array(LongArray(size))
+fun VkBufferView_Array(elements: Collection<VkBufferView>) = VkBufferView_Array(LongArray(elements.size) { elements.elementAt(it).L })
+fun VkBufferView_Array() = VkBufferView_Array(LongArray(0))
+
+
+inline class VkCommandPool_Array(val array: LongArray) {
+
+    operator fun get(index: Int) = VkCommandPool(array[index])
+    operator fun set(index: Int, fence: VkCommandPool) = array.set(index, fence.L)
+
+    val size get() = array.size
+    val indices get() = array.indices
+
+    inline fun forEach(action: (VkCommandPool) -> Unit) {
+        for (element in array) action(VkCommandPool(element))
+    }
+}
+
+fun VkCommandPool_Array(size: Int, block: (Int) -> VkCommandPool) = VkCommandPool_Array(LongArray(size) { block(it).L })
+fun VkCommandPool_Array(size: Int) = VkCommandPool_Array(LongArray(size))
+fun VkCommandPool_Array(elements: Collection<VkCommandPool>) = VkCommandPool_Array(LongArray(elements.size) { elements.elementAt(it).L })
+fun VkCommandPool_Array() = VkCommandPool_Array(LongArray(0))
+
+
+inline class VkDebugReportCallback_Array(val array: LongArray) {
+
+    operator fun get(index: Int) = VkDebugReportCallback(array[index])
+    operator fun set(index: Int, fence: VkDebugReportCallback) = array.set(index, fence.L)
+
+    val size get() = array.size
+    val indices get() = array.indices
+
+    inline fun forEach(action: (VkDebugReportCallback) -> Unit) {
+        for (element in array) action(VkDebugReportCallback(element))
+    }
+}
+
+fun VkDebugReportCallback_Array(size: Int, block: (Int) -> VkDebugReportCallback) = VkDebugReportCallback_Array(LongArray(size) { block(it).L })
+fun VkDebugReportCallback_Array(size: Int) = VkDebugReportCallback_Array(LongArray(size))
+fun VkDebugReportCallback_Array(elements: Collection<VkDebugReportCallback>) = VkDebugReportCallback_Array(LongArray(elements.size) { elements.elementAt(it).L })
+fun VkDebugReportCallback_Array() = VkDebugReportCallback_Array(LongArray(0))
+
+
+inline class VkDescriptorPool_Array(val array: LongArray) {
+
+    operator fun get(index: Int) = VkDescriptorPool(array[index])
+    operator fun set(index: Int, fence: VkDescriptorPool) = array.set(index, fence.L)
+
+    val size get() = array.size
+    val indices get() = array.indices
+
+    inline fun forEach(action: (VkDescriptorPool) -> Unit) {
+        for (element in array) action(VkDescriptorPool(element))
+    }
+}
+
+fun VkDescriptorPool_Array(size: Int, block: (Int) -> VkDescriptorPool) = VkDescriptorPool_Array(LongArray(size) { block(it).L })
+fun VkDescriptorPool_Array(size: Int) = VkDescriptorPool_Array(LongArray(size))
+fun VkDescriptorPool_Array(elements: Collection<VkDescriptorPool>) = VkDescriptorPool_Array(LongArray(elements.size) { elements.elementAt(it).L })
+fun VkDescriptorPool_Array() = VkDescriptorPool_Array(LongArray(0))
+
+
+inline class VkDescriptorSet_Array(val array: LongArray) {
+
+    operator fun get(index: Int) = VkDescriptorSet(array[index])
+    operator fun set(index: Int, fence: VkDescriptorSet) = array.set(index, fence.L)
+
+    val size get() = array.size
+    val indices get() = array.indices
+
+    inline fun forEach(action: (VkDescriptorSet) -> Unit) {
+        for (element in array) action(VkDescriptorSet(element))
+    }
+}
+
+fun VkDescriptorSet_Array(size: Int, block: (Int) -> VkDescriptorSet) = VkDescriptorSet_Array(LongArray(size) { block(it).L })
+fun VkDescriptorSet_Array(size: Int) = VkDescriptorSet_Array(LongArray(size))
+fun VkDescriptorSet_Array(elements: Collection<VkDescriptorSet>) = VkDescriptorSet_Array(LongArray(elements.size) { elements.elementAt(it).L })
+fun VkDescriptorSet_Array() = VkDescriptorSet_Array(LongArray(0))
+
+
+inline class VkDescriptorSetLayout_Array(val array: LongArray) {
+
+    operator fun get(index: Int) = VkDescriptorSetLayout(array[index])
+    operator fun set(index: Int, fence: VkDescriptorSetLayout) = array.set(index, fence.L)
+
+    val size get() = array.size
+    val indices get() = array.indices
+
+    inline fun forEach(action: (VkDescriptorSetLayout) -> Unit) {
+        for (element in array) action(VkDescriptorSetLayout(element))
+    }
+}
+
+fun VkDescriptorSetLayout_Array(size: Int, block: (Int) -> VkDescriptorSetLayout) = VkDescriptorSetLayout_Array(LongArray(size) { block(it).L })
+fun VkDescriptorSetLayout_Array(size: Int) = VkDescriptorSetLayout_Array(LongArray(size))
+fun VkDescriptorSetLayout_Array(elements: Collection<VkDescriptorSetLayout>) = VkDescriptorSetLayout_Array(LongArray(elements.size) { elements.elementAt(it).L })
+fun VkDescriptorSetLayout_Array() = VkDescriptorSetLayout_Array(LongArray(0))
+
+
+inline class VkDescriptorUpdateTemplate_Array(val array: LongArray) {
+
+    operator fun get(index: Int) = VkDescriptorUpdateTemplate(array[index])
+    operator fun set(index: Int, fence: VkDescriptorUpdateTemplate) = array.set(index, fence.L)
+
+    val size get() = array.size
+    val indices get() = array.indices
+
+    inline fun forEach(action: (VkDescriptorUpdateTemplate) -> Unit) {
+        for (element in array) action(VkDescriptorUpdateTemplate(element))
+    }
+}
+
+fun VkDescriptorUpdateTemplate_Array(size: Int, block: (Int) -> VkDescriptorUpdateTemplate) = VkDescriptorUpdateTemplate_Array(LongArray(size) { block(it).L })
+fun VkDescriptorUpdateTemplate_Array(size: Int) = VkDescriptorUpdateTemplate_Array(LongArray(size))
+fun VkDescriptorUpdateTemplate_Array(elements: Collection<VkDescriptorUpdateTemplate>) = VkDescriptorUpdateTemplate_Array(LongArray(elements.size) { elements.elementAt(it).L })
+fun VkDescriptorUpdateTemplate_Array() = VkDescriptorUpdateTemplate_Array(LongArray(0))
+
+
+inline class VkDeviceMemory_Array(val array: LongArray) {
+
+    operator fun get(index: Int) = VkDeviceMemory(array[index])
+    operator fun set(index: Int, fence: VkDeviceMemory) = array.set(index, fence.L)
+
+    val size get() = array.size
+    val indices get() = array.indices
+
+    inline fun forEach(action: (VkDeviceMemory) -> Unit) {
+        for (element in array) action(VkDeviceMemory(element))
+    }
+}
+
+fun VkDeviceMemory_Array(size: Int, block: (Int) -> VkDeviceMemory) = VkDeviceMemory_Array(LongArray(size) { block(it).L })
+fun VkDeviceMemory_Array(size: Int) = VkDeviceMemory_Array(LongArray(size))
+fun VkDeviceMemory_Array(elements: Collection<VkDeviceMemory>) = VkDeviceMemory_Array(LongArray(elements.size) { elements.elementAt(it).L })
+fun VkDeviceMemory_Array() = VkDeviceMemory_Array(LongArray(0))
+
+
+inline class VkDeviceSize_Array(val array: LongArray) {
+
+    operator fun get(index: Int) = VkDeviceSize(array[index])
+    operator fun set(index: Int, fence: VkDeviceSize) = array.set(index, fence.L)
+
+    val size get() = array.size
+    val indices get() = array.indices
+
+    inline fun forEach(action: (VkDeviceSize) -> Unit) {
+        for (element in array) action(VkDeviceSize(element))
+    }
+}
+
+fun VkDeviceSize_Array(size: Int, block: (Int) -> VkDeviceSize) = VkDeviceSize_Array(LongArray(size) { block(it).L })
+fun VkDeviceSize_Array(size: Int) = VkDeviceSize_Array(LongArray(size))
+fun VkDeviceSize_Array(elements: Collection<VkDeviceSize>) = VkDeviceSize_Array(LongArray(elements.size) { elements.elementAt(it).L })
+fun VkDeviceSize_Array() = VkDeviceSize_Array(LongArray(0))
+
+
+inline class VkDisplayKHR_Array(val array: LongArray) {
+
+    operator fun get(index: Int) = VkDisplayKHR(array[index])
+    operator fun set(index: Int, fence: VkDisplayKHR) = array.set(index, fence.L)
+
+    val size get() = array.size
+    val indices get() = array.indices
+
+    inline fun forEach(action: (VkDisplayKHR) -> Unit) {
+        for (element in array) action(VkDisplayKHR(element))
+    }
+}
+
+fun VkDisplayKHR_Array(size: Int, block: (Int) -> VkDisplayKHR) = VkDisplayKHR_Array(LongArray(size) { block(it).L })
+fun VkDisplayKHR_Array(size: Int) = VkDisplayKHR_Array(LongArray(size))
+fun VkDisplayKHR_Array(elements: Collection<VkDisplayKHR>) = VkDisplayKHR_Array(LongArray(elements.size) { elements.elementAt(it).L })
+fun VkDisplayKHR_Array() = VkDisplayKHR_Array(LongArray(0))
+
+
+inline class VkDisplayModeKHR_Array(val array: LongArray) {
+
+    operator fun get(index: Int) = VkDisplayModeKHR(array[index])
+    operator fun set(index: Int, fence: VkDisplayModeKHR) = array.set(index, fence.L)
+
+    val size get() = array.size
+    val indices get() = array.indices
+
+    inline fun forEach(action: (VkDisplayModeKHR) -> Unit) {
+        for (element in array) action(VkDisplayModeKHR(element))
+    }
+}
+
+fun VkDisplayModeKHR_Array(size: Int, block: (Int) -> VkDisplayModeKHR) = VkDisplayModeKHR_Array(LongArray(size) { block(it).L })
+fun VkDisplayModeKHR_Array(size: Int) = VkDisplayModeKHR_Array(LongArray(size))
+fun VkDisplayModeKHR_Array(elements: Collection<VkDisplayModeKHR>) = VkDisplayModeKHR_Array(LongArray(elements.size) { elements.elementAt(it).L })
+fun VkDisplayModeKHR_Array() = VkDisplayModeKHR_Array(LongArray(0))
+
+
+inline class VkEvent_Array(val array: LongArray) {
+
+    operator fun get(index: Int) = VkEvent(array[index])
+    operator fun set(index: Int, fence: VkEvent) = array.set(index, fence.L)
+
+    val size get() = array.size
+    val indices get() = array.indices
+
+    inline fun forEach(action: (VkEvent) -> Unit) {
+        for (element in array) action(VkEvent(element))
+    }
+}
+
+fun VkEvent_Array(size: Int, block: (Int) -> VkEvent) = VkEvent_Array(LongArray(size) { block(it).L })
+fun VkEvent_Array(size: Int) = VkEvent_Array(LongArray(size))
+fun VkEvent_Array(elements: Collection<VkEvent>) = VkEvent_Array(LongArray(elements.size) { elements.elementAt(it).L })
+fun VkEvent_Array() = VkEvent_Array(LongArray(0))
+
+
+inline class VkFence_Array(val array: LongArray) {
 
     operator fun get(index: Int) = VkFence(array[index])
     operator fun set(index: Int, fence: VkFence) = array.set(index, fence.L)
@@ -11,136 +275,330 @@ inline class VkFenceArray(val array: LongArray) : Iterable<VkFence> {
     val size get() = array.size
     val indices get() = array.indices
 
-    override operator fun iterator() = VkFenceArrayIterator()
+//    override operator fun iterator() = VkFenceArrayIterator()
+//
+//    inner class VkFenceArrayIterator : Iterator<VkFence> {
+//        private var index = 0
+//        override fun hasNext() = index < array.size
+//        override fun next() =
+//                try {
+//                    VkFence(array[index++])
+//                } catch (e: ArrayIndexOutOfBoundsException) {
+//                    index -= 1
+//                    throw NoSuchElementException(e.message)
+//                }
+//    }
 
-    inner class VkFenceArrayIterator : Iterator<VkFence> {
-        private var index = 0
-        override fun hasNext() = index < array.size
-        override fun next() =
-                try {
-                    VkFence(array[index++])
-                } catch (e: ArrayIndexOutOfBoundsException) {
-                    index -= 1
-                    throw NoSuchElementException(e.message)
-                }
+    inline fun forEach(action: (VkFence) -> Unit) {
+        for (element in array) action(VkFence(element))
     }
 }
 
-fun VkFenceArray(size: Int, block: (Int) -> VkFence) = VkFenceArray(LongArray(size) { block(it).L })
-fun VkFenceArray(size: Int) = VkFenceArray(LongArray(size))
-fun VkFenceArray(images: Collection<VkFence>) = VkFenceArray(LongArray(images.size) { images.elementAt(it).L })
-fun VkFenceArray() = VkFenceArray(LongArray(0))
+fun VkFence_Array(size: Int, block: (Int) -> VkFence) = VkFence_Array(LongArray(size) { block(it).L })
+fun VkFence_Array(size: Int) = VkFence_Array(LongArray(size))
+fun VkFence_Array(elements: Collection<VkFence>) = VkFence_Array(LongArray(elements.size) { elements.elementAt(it).L })
+fun VkFence_Array() = VkFence_Array(LongArray(0))
 
 
-inline class VkFramebufferArray(val array: LongArray) : Iterable<VkFramebuffer> {
+inline class VkFramebuffer_Array(val array: LongArray) {
 
     operator fun get(index: Int) = VkFramebuffer(array[index])
-    operator fun set(index: Int, framebuffer: VkFramebuffer) = array.set(index, framebuffer.L)
+    operator fun set(index: Int, fence: VkFramebuffer) = array.set(index, fence.L)
 
     val size get() = array.size
     val indices get() = array.indices
 
-    override operator fun iterator() = VkFramebufferArrayIterator()
-
-    inner class VkFramebufferArrayIterator : Iterator<VkFramebuffer> {
-        private var index = 0
-        override fun hasNext() = index < array.size
-        override fun next() =
-                try {
-                    VkFramebuffer(array[index++])
-                } catch (e: ArrayIndexOutOfBoundsException) {
-                    index -= 1
-                    throw NoSuchElementException(e.message)
-                }
+    inline fun forEach(action: (VkFramebuffer) -> Unit) {
+        for (element in array) action(VkFramebuffer(element))
     }
 }
 
-fun VkFramebufferArray(size: Int, block: (Int) -> VkFramebuffer) = VkFramebufferArray(LongArray(size) { block(it).L })
-fun VkFramebufferArray(size: Int) = VkFramebufferArray(LongArray(size))
-fun VkFramebufferArray(images: Collection<VkFramebuffer>) = VkFramebufferArray(LongArray(images.size) { images.elementAt(it).L })
-fun VkFramebufferArray() = VkFramebufferArray(LongArray(0))
+fun VkFramebuffer_Array(size: Int, block: (Int) -> VkFramebuffer) = VkFramebuffer_Array(LongArray(size) { block(it).L })
+fun VkFramebuffer_Array(size: Int) = VkFramebuffer_Array(LongArray(size))
+fun VkFramebuffer_Array(elements: Collection<VkFramebuffer>) = VkFramebuffer_Array(LongArray(elements.size) { elements.elementAt(it).L })
+fun VkFramebuffer_Array() = VkFramebuffer_Array(LongArray(0))
 
-inline class VkImageArray(val array: LongArray) : Iterable<VkImage> {
+
+inline class VkImage_Array(val array: LongArray) {
 
     operator fun get(index: Int) = VkImage(array[index])
-    operator fun set(index: Int, image: VkImage) = array.set(index, image.L)
+    operator fun set(index: Int, fence: VkImage) = array.set(index, fence.L)
 
     val size get() = array.size
     val indices get() = array.indices
 
-    override operator fun iterator() = VkImageArrayIterator()
-
-    inner class VkImageArrayIterator : Iterator<VkImage> {
-        private var index = 0
-        override fun hasNext() = index < array.size
-        override fun next() =
-                try {
-                    VkImage(array[index++])
-                } catch (e: ArrayIndexOutOfBoundsException) {
-                    index -= 1
-                    throw NoSuchElementException(e.message)
-                }
+    inline fun forEach(action: (VkImage) -> Unit) {
+        for (element in array) action(VkImage(element))
     }
 }
 
+fun VkImage_Array(size: Int, block: (Int) -> VkImage) = VkImage_Array(LongArray(size) { block(it).L })
+fun VkImage_Array(size: Int) = VkImage_Array(LongArray(size))
+fun VkImage_Array(elements: Collection<VkImage>) = VkImage_Array(LongArray(elements.size) { elements.elementAt(it).L })
+fun VkImage_Array() = VkImage_Array(LongArray(0))
 
-fun VkImageArray(size: Int, block: (Int) -> VkImage) = VkImageArray(LongArray(size) { block(it).L })
-fun VkImageArray(size: Int) = VkImageArray(LongArray(size))
-fun VkImageArray(images: Collection<VkImage>) = VkImageArray(LongArray(images.size) { images.elementAt(it).L })
-fun VkImageArray() = VkImageArray(LongArray(0))
 
-inline class VkImageViewArray(val array: LongArray) : Iterable<VkImageView> {
+inline class VkImageView_Array(val array: LongArray) {
 
     operator fun get(index: Int) = VkImageView(array[index])
-    operator fun set(index: Int, imageView: VkImageView) = array.set(index, imageView.L)
+    operator fun set(index: Int, fence: VkImageView) = array.set(index, fence.L)
 
     val size get() = array.size
     val indices get() = array.indices
 
-    override operator fun iterator() = VkImageViewArrayIterator()
-
-    inner class VkImageViewArrayIterator : Iterator<VkImageView> {
-        private var index = 0
-        override fun hasNext() = index < array.size
-        override fun next() =
-                try {
-                    VkImageView(array[index++])
-                } catch (e: ArrayIndexOutOfBoundsException) {
-                    index -= 1
-                    throw NoSuchElementException(e.message)
-                }
+    inline fun forEach(action: (VkImageView) -> Unit) {
+        for (element in array) action(VkImageView(element))
     }
 }
 
-fun VkImageViewArray(size: Int, block: (Int) -> VkImageView) = VkImageViewArray(LongArray(size) { block(it).L })
-fun VkImageViewArray(size: Int) = VkImageViewArray(LongArray(size))
-fun VkImageViewArray(images: Collection<VkImageView>) = VkImageViewArray(LongArray(images.size) { images.elementAt(it).L })
-fun VkImageViewArray() = VkImageViewArray(LongArray(0))
+fun VkImageView_Array(size: Int, block: (Int) -> VkImageView) = VkImageView_Array(LongArray(size) { block(it).L })
+fun VkImageView_Array(size: Int) = VkImageView_Array(LongArray(size))
+fun VkImageView_Array(elements: Collection<VkImageView>) = VkImageView_Array(LongArray(elements.size) { elements.elementAt(it).L })
+fun VkImageView_Array() = VkImageView_Array(LongArray(0))
 
-inline class VkSemaphoreArray(val array: LongArray) : Iterable<VkSemaphore> {
+
+inline class VkIndirectCommandsLayoutNVX_Array(val array: LongArray) {
+
+    operator fun get(index: Int) = VkIndirectCommandsLayoutNVX(array[index])
+    operator fun set(index: Int, fence: VkIndirectCommandsLayoutNVX) = array.set(index, fence.L)
+
+    val size get() = array.size
+    val indices get() = array.indices
+
+    inline fun forEach(action: (VkIndirectCommandsLayoutNVX) -> Unit) {
+        for (element in array) action(VkIndirectCommandsLayoutNVX(element))
+    }
+}
+
+fun VkIndirectCommandsLayoutNVX_Array(size: Int, block: (Int) -> VkIndirectCommandsLayoutNVX) = VkIndirectCommandsLayoutNVX_Array(LongArray(size) { block(it).L })
+fun VkIndirectCommandsLayoutNVX_Array(size: Int) = VkIndirectCommandsLayoutNVX_Array(LongArray(size))
+fun VkIndirectCommandsLayoutNVX_Array(elements: Collection<VkIndirectCommandsLayoutNVX>) = VkIndirectCommandsLayoutNVX_Array(LongArray(elements.size) { elements.elementAt(it).L })
+fun VkIndirectCommandsLayoutNVX_Array() = VkIndirectCommandsLayoutNVX_Array(LongArray(0))
+
+
+inline class VkObjectTableNVX_Array(val array: LongArray) {
+
+    operator fun get(index: Int) = VkObjectTableNVX(array[index])
+    operator fun set(index: Int, fence: VkObjectTableNVX) = array.set(index, fence.L)
+
+    val size get() = array.size
+    val indices get() = array.indices
+
+    inline fun forEach(action: (VkObjectTableNVX) -> Unit) {
+        for (element in array) action(VkObjectTableNVX(element))
+    }
+}
+
+fun VkObjectTableNVX_Array(size: Int, block: (Int) -> VkObjectTableNVX) = VkObjectTableNVX_Array(LongArray(size) { block(it).L })
+fun VkObjectTableNVX_Array(size: Int) = VkObjectTableNVX_Array(LongArray(size))
+fun VkObjectTableNVX_Array(elements: Collection<VkObjectTableNVX>) = VkObjectTableNVX_Array(LongArray(elements.size) { elements.elementAt(it).L })
+fun VkObjectTableNVX_Array() = VkObjectTableNVX_Array(LongArray(0))
+
+
+inline class VkPipeline_Array(val array: LongArray) {
+
+    operator fun get(index: Int) = VkPipeline(array[index])
+    operator fun set(index: Int, fence: VkPipeline) = array.set(index, fence.L)
+
+    val size get() = array.size
+    val indices get() = array.indices
+
+    inline fun forEach(action: (VkPipeline) -> Unit) {
+        for (element in array) action(VkPipeline(element))
+    }
+}
+
+fun VkPipeline_Array(size: Int, block: (Int) -> VkPipeline) = VkPipeline_Array(LongArray(size) { block(it).L })
+fun VkPipeline_Array(size: Int) = VkPipeline_Array(LongArray(size))
+fun VkPipeline_Array(elements: Collection<VkPipeline>) = VkPipeline_Array(LongArray(elements.size) { elements.elementAt(it).L })
+fun VkPipeline_Array() = VkPipeline_Array(LongArray(0))
+
+
+inline class VkPipelineCache_Array(val array: LongArray) {
+
+    operator fun get(index: Int) = VkPipelineCache(array[index])
+    operator fun set(index: Int, fence: VkPipelineCache) = array.set(index, fence.L)
+
+    val size get() = array.size
+    val indices get() = array.indices
+
+    inline fun forEach(action: (VkPipelineCache) -> Unit) {
+        for (element in array) action(VkPipelineCache(element))
+    }
+}
+
+fun VkPipelineCache_Array(size: Int, block: (Int) -> VkPipelineCache) = VkPipelineCache_Array(LongArray(size) { block(it).L })
+fun VkPipelineCache_Array(size: Int) = VkPipelineCache_Array(LongArray(size))
+fun VkPipelineCache_Array(elements: Collection<VkPipelineCache>) = VkPipelineCache_Array(LongArray(elements.size) { elements.elementAt(it).L })
+fun VkPipelineCache_Array() = VkPipelineCache_Array(LongArray(0))
+
+
+inline class VkPipelineLayout_Array(val array: LongArray) {
+
+    operator fun get(index: Int) = VkPipelineLayout(array[index])
+    operator fun set(index: Int, fence: VkPipelineLayout) = array.set(index, fence.L)
+
+    val size get() = array.size
+    val indices get() = array.indices
+
+    inline fun forEach(action: (VkPipelineLayout) -> Unit) {
+        for (element in array) action(VkPipelineLayout(element))
+    }
+}
+
+fun VkPipelineLayout_Array(size: Int, block: (Int) -> VkPipelineLayout) = VkPipelineLayout_Array(LongArray(size) { block(it).L })
+fun VkPipelineLayout_Array(size: Int) = VkPipelineLayout_Array(LongArray(size))
+fun VkPipelineLayout_Array(elements: Collection<VkPipelineLayout>) = VkPipelineLayout_Array(LongArray(elements.size) { elements.elementAt(it).L })
+fun VkPipelineLayout_Array() = VkPipelineLayout_Array(LongArray(0))
+
+
+inline class VkQueryPool_Array(val array: LongArray) {
+
+    operator fun get(index: Int) = VkQueryPool(array[index])
+    operator fun set(index: Int, fence: VkQueryPool) = array.set(index, fence.L)
+
+    val size get() = array.size
+    val indices get() = array.indices
+
+    inline fun forEach(action: (VkQueryPool) -> Unit) {
+        for (element in array) action(VkQueryPool(element))
+    }
+}
+
+fun VkQueryPool_Array(size: Int, block: (Int) -> VkQueryPool) = VkQueryPool_Array(LongArray(size) { block(it).L })
+fun VkQueryPool_Array(size: Int) = VkQueryPool_Array(LongArray(size))
+fun VkQueryPool_Array(elements: Collection<VkQueryPool>) = VkQueryPool_Array(LongArray(elements.size) { elements.elementAt(it).L })
+fun VkQueryPool_Array() = VkQueryPool_Array(LongArray(0))
+
+
+inline class VkRenderPass_Array(val array: LongArray) {
+
+    operator fun get(index: Int) = VkRenderPass(array[index])
+    operator fun set(index: Int, fence: VkRenderPass) = array.set(index, fence.L)
+
+    val size get() = array.size
+    val indices get() = array.indices
+
+    inline fun forEach(action: (VkRenderPass) -> Unit) {
+        for (element in array) action(VkRenderPass(element))
+    }
+}
+
+fun VkRenderPass_Array(size: Int, block: (Int) -> VkRenderPass) = VkRenderPass_Array(LongArray(size) { block(it).L })
+fun VkRenderPass_Array(size: Int) = VkRenderPass_Array(LongArray(size))
+fun VkRenderPass_Array(elements: Collection<VkRenderPass>) = VkRenderPass_Array(LongArray(elements.size) { elements.elementAt(it).L })
+fun VkRenderPass_Array() = VkRenderPass_Array(LongArray(0))
+
+
+inline class VkSampler_Array(val array: LongArray) {
+
+    operator fun get(index: Int) = VkSampler(array[index])
+    operator fun set(index: Int, fence: VkSampler) = array.set(index, fence.L)
+
+    val size get() = array.size
+    val indices get() = array.indices
+
+    inline fun forEach(action: (VkSampler) -> Unit) {
+        for (element in array) action(VkSampler(element))
+    }
+}
+
+fun VkSampler_Array(size: Int, block: (Int) -> VkSampler) = VkSampler_Array(LongArray(size) { block(it).L })
+fun VkSampler_Array(size: Int) = VkSampler_Array(LongArray(size))
+fun VkSampler_Array(elements: Collection<VkSampler>) = VkSampler_Array(LongArray(elements.size) { elements.elementAt(it).L })
+fun VkSampler_Array() = VkSampler_Array(LongArray(0))
+
+
+inline class VkSemaphore_Array(val array: LongArray) {
 
     operator fun get(index: Int) = VkSemaphore(array[index])
-    operator fun set(index: Int, imageView: VkSemaphore) = array.set(index, imageView.L)
+    operator fun set(index: Int, fence: VkSemaphore) = array.set(index, fence.L)
 
     val size get() = array.size
     val indices get() = array.indices
 
-    override operator fun iterator() = VkSemaphoreArrayIterator()
-
-    inner class VkSemaphoreArrayIterator : Iterator<VkSemaphore> {
-        private var index = 0
-        override fun hasNext() = index < array.size
-        override fun next() =
-                try {
-                    VkSemaphore(array[index++])
-                } catch (e: ArrayIndexOutOfBoundsException) {
-                    index -= 1
-                    throw NoSuchElementException(e.message)
-                }
+    inline fun forEach(action: (VkSemaphore) -> Unit) {
+        for (element in array) action(VkSemaphore(element))
     }
 }
 
-fun VkSemaphoreArray(size: Int, block: (Int) -> VkSemaphore) = VkSemaphoreArray(LongArray(size) { block(it).L })
-fun VkSemaphoreArray(size: Int) = VkSemaphoreArray(LongArray(size))
-fun VkSemaphoreArray(images: Collection<VkSemaphore>) = VkSemaphoreArray(LongArray(images.size) { images.elementAt(it).L })
-fun VkSemaphoreArray() = VkSemaphoreArray(LongArray(0))
+fun VkSemaphore_Array(size: Int, block: (Int) -> VkSemaphore) = VkSemaphore_Array(LongArray(size) { block(it).L })
+fun VkSemaphore_Array(size: Int) = VkSemaphore_Array(LongArray(size))
+fun VkSemaphore_Array(elements: Collection<VkSemaphore>) = VkSemaphore_Array(LongArray(elements.size) { elements.elementAt(it).L })
+fun VkSemaphore_Array() = VkSemaphore_Array(LongArray(0))
+
+
+inline class VkShaderModule_Array(val array: LongArray) {
+
+    operator fun get(index: Int) = VkShaderModule(array[index])
+    operator fun set(index: Int, fence: VkShaderModule) = array.set(index, fence.L)
+
+    val size get() = array.size
+    val indices get() = array.indices
+
+    inline fun forEach(action: (VkShaderModule) -> Unit) {
+        for (element in array) action(VkShaderModule(element))
+    }
+}
+
+fun VkShaderModule_Array(size: Int, block: (Int) -> VkShaderModule) = VkShaderModule_Array(LongArray(size) { block(it).L })
+fun VkShaderModule_Array(size: Int) = VkShaderModule_Array(LongArray(size))
+fun VkShaderModule_Array(elements: Collection<VkShaderModule>) = VkShaderModule_Array(LongArray(elements.size) { elements.elementAt(it).L })
+fun VkShaderModule_Array() = VkShaderModule_Array(LongArray(0))
+
+
+inline class VkSurfaceKHR_Array(val array: LongArray) {
+
+    operator fun get(index: Int) = VkSurfaceKHR(array[index])
+    operator fun set(index: Int, fence: VkSurfaceKHR) = array.set(index, fence.L)
+
+    val size get() = array.size
+    val indices get() = array.indices
+
+    inline fun forEach(action: (VkSurfaceKHR) -> Unit) {
+        for (element in array) action(VkSurfaceKHR(element))
+    }
+}
+
+fun VkSurfaceKHR_Array(size: Int, block: (Int) -> VkSurfaceKHR) = VkSurfaceKHR_Array(LongArray(size) { block(it).L })
+fun VkSurfaceKHR_Array(size: Int) = VkSurfaceKHR_Array(LongArray(size))
+fun VkSurfaceKHR_Array(elements: Collection<VkSurfaceKHR>) = VkSurfaceKHR_Array(LongArray(elements.size) { elements.elementAt(it).L })
+fun VkSurfaceKHR_Array() = VkSurfaceKHR_Array(LongArray(0))
+
+
+inline class VkSwapchainKHR_Array(val array: LongArray) {
+
+    operator fun get(index: Int) = VkSwapchainKHR(array[index])
+    operator fun set(index: Int, fence: VkSwapchainKHR) = array.set(index, fence.L)
+
+    val size get() = array.size
+    val indices get() = array.indices
+
+    inline fun forEach(action: (VkSwapchainKHR) -> Unit) {
+        for (element in array) action(VkSwapchainKHR(element))
+    }
+}
+
+fun VkSwapchainKHR_Array(size: Int, block: (Int) -> VkSwapchainKHR) = VkSwapchainKHR_Array(LongArray(size) { block(it).L })
+fun VkSwapchainKHR_Array(size: Int) = VkSwapchainKHR_Array(LongArray(size))
+fun VkSwapchainKHR_Array(elements: Collection<VkSwapchainKHR>) = VkSwapchainKHR_Array(LongArray(elements.size) { elements.elementAt(it).L })
+fun VkSwapchainKHR_Array() = VkSwapchainKHR_Array(LongArray(0))
+
+
+inline class VkValidationCacheEXT_Array(val array: LongArray) {
+
+    operator fun get(index: Int) = VkValidationCacheEXT(array[index])
+    operator fun set(index: Int, fence: VkValidationCacheEXT) = array.set(index, fence.L)
+
+    val size get() = array.size
+    val indices get() = array.indices
+
+    inline fun forEach(action: (VkValidationCacheEXT) -> Unit) {
+        for (element in array) action(VkValidationCacheEXT(element))
+    }
+}
+
+fun VkValidationCacheEXT_Array(size: Int, block: (Int) -> VkValidationCacheEXT) = VkValidationCacheEXT_Array(LongArray(size) { block(it).L })
+fun VkValidationCacheEXT_Array(size: Int) = VkValidationCacheEXT_Array(LongArray(size))
+fun VkValidationCacheEXT_Array(elements: Collection<VkValidationCacheEXT>) = VkValidationCacheEXT_Array(LongArray(elements.size) { elements.elementAt(it).L })
+fun VkValidationCacheEXT_Array() = VkValidationCacheEXT_Array(LongArray(0))

@@ -1,7 +1,6 @@
 package vkk
 
 import org.lwjgl.vulkan.*
-import vkk.entities.VkDynamicStateBuffer
 
 
 //fun VmDescriptorBufferInfo(): VkDescriptorBufferInfo = VkDescriptorBufferInfo.malloc()

@@ -198,8 +198,8 @@ inline var VkFramebufferCreateInfo.renderPass: VkRenderPass
 inline var VkFramebufferCreateInfo.attachmentCount: Int
     get() = VkFramebufferCreateInfo.nattachmentCount(adr)
     set(value) = VkFramebufferCreateInfo.nattachmentCount(adr, value)
-inline var VkFramebufferCreateInfo.attachments: VkImageViewBuffer?
-    get() = VkFramebufferCreateInfo.npAttachments(adr)?.let(::VkImageViewBuffer)
+inline var VkFramebufferCreateInfo.attachments: VkImageView_Buffer?
+    get() = VkFramebufferCreateInfo.npAttachments(adr)?.let(::VkImageView_Buffer)
     set(value) = VkFramebufferCreateInfo.npAttachments(adr, value?.buffer)
 /** JVM custom */
 inline var VkFramebufferCreateInfo.attachment: VkImageView?
