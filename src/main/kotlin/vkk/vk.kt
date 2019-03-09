@@ -65,16 +65,33 @@ object vk {
     fun DescriptorSetLayoutCreateInfo(): VkDescriptorSetLayoutCreateInfo = VkDescriptorSetLayoutCreateInfo.callocStack().apply { type = VkStructureType.DESCRIPTOR_SET_LAYOUT_CREATE_INFO }
     inline fun DescriptorSetLayoutCreateInfo(block: VkDescriptorSetLayoutCreateInfo.() -> Unit): VkDescriptorSetLayoutCreateInfo = DescriptorSetLayoutCreateInfo().also(block)
 
+    fun DescriptorSetLayoutSupport(): VkDescriptorSetLayoutSupport = VkDescriptorSetLayoutSupport.callocStack().apply { type = VkStructureType.DESCRIPTOR_SET_LAYOUT_SUPPORT }
+    fun DescriptorSetLayoutSupport(capacity: Int): VkDescriptorSetLayoutSupport.Buffer = VkDescriptorSetLayoutSupport.callocStack(capacity).onEach { it.type = VkStructureType.DESCRIPTOR_SET_LAYOUT_SUPPORT }
+
     fun DeviceCreateInfo(): VkDeviceCreateInfo = VkDeviceCreateInfo.callocStack().apply { type = VkStructureType.DEVICE_CREATE_INFO }
     inline fun DeviceCreateInfo(block: VkDeviceCreateInfo.() -> Unit): VkDeviceCreateInfo = DeviceCreateInfo().also(block)
 
+    fun DeviceGroupPresentCapabilitiesKHR(): VkDeviceGroupPresentCapabilitiesKHR = VkDeviceGroupPresentCapabilitiesKHR.callocStack().apply { type = VkStructureType.DEVICE_GROUP_PRESENT_CAPABILITIES_KHR }
+    inline fun DeviceGroupPresentCapabilitiesKHR(block: VkDeviceGroupPresentCapabilitiesKHR.() -> Unit): VkDeviceGroupPresentCapabilitiesKHR = DeviceGroupPresentCapabilitiesKHR().also(block)
+
+    fun DeviceGeneratedCommandsLimitsNVX(): VkDeviceGeneratedCommandsLimitsNVX = VkDeviceGeneratedCommandsLimitsNVX.callocStack().apply { type = VkStructureType.DEVICE_GENERATED_COMMANDS_LIMITS_NVX }
+    inline fun DeviceGeneratedCommandsLimitsNVX(block: VkDeviceGeneratedCommandsLimitsNVX.() -> Unit): VkDeviceGeneratedCommandsLimitsNVX = DeviceGeneratedCommandsLimitsNVX().also(block)
+
     fun DeviceQueueCreateInfo(): VkDeviceQueueCreateInfo = VkDeviceQueueCreateInfo.callocStack().apply { type = VkStructureType.DEVICE_QUEUE_CREATE_INFO }
     inline fun DeviceQueueCreateInfo(block: VkDeviceQueueCreateInfo.() -> Unit): VkDeviceQueueCreateInfo = DeviceQueueCreateInfo().also(block)
+    fun DeviceQueueCreateInfo(capacity: Int): VkDeviceQueueCreateInfo.Buffer = VkDeviceQueueCreateInfo.callocStack(capacity).onEach { it.type = VkStructureType.DEVICE_QUEUE_CREATE_INFO }
 
-    fun DeviceQueueCreateInfo(capacity: Int): VkDeviceQueueCreateInfo.Buffer = VkDeviceQueueCreateInfo.callocStack(capacity).apply {
-        for (i in this)
-            i.type = VkStructureType.DEVICE_QUEUE_CREATE_INFO
-    }
+    fun DisplayPlaneProperties2KHR(): VkDisplayPlaneProperties2KHR = VkDisplayPlaneProperties2KHR.callocStack().apply { type = VkStructureType.DISPLAY_PLANE_PROPERTIES_2_KHR }
+    fun DisplayPlaneProperties2KHR(capacity: Int): VkDisplayPlaneProperties2KHR.Buffer = VkDisplayPlaneProperties2KHR.callocStack(capacity).onEach { it.type = VkStructureType.DISPLAY_PLANE_PROPERTIES_2_KHR }
+
+    fun ExternalBufferProperties (): VkExternalBufferProperties  = VkExternalBufferProperties .callocStack().apply { type = VkStructureType.EXTERNAL_BUFFER_PROPERTIES }
+    fun ExternalBufferProperties (capacity: Int): VkExternalBufferProperties .Buffer = VkExternalBufferProperties .callocStack(capacity).onEach { it.type = VkStructureType.EXTERNAL_BUFFER_PROPERTIES }
+
+    fun ExternalFenceProperties (): VkExternalFenceProperties  = VkExternalFenceProperties .callocStack().apply { type = VkStructureType.EXTERNAL_FENCE_PROPERTIES }
+    fun ExternalFenceProperties (capacity: Int): VkExternalFenceProperties .Buffer = VkExternalFenceProperties .callocStack(capacity).onEach { it.type = VkStructureType.EXTERNAL_FENCE_PROPERTIES }
+
+    fun ExternalSemaphoreProperties (): VkExternalSemaphoreProperties  = VkExternalSemaphoreProperties .callocStack().apply { type = VkStructureType.EXTERNAL_SEMAPHORE_PROPERTIES }
+    fun ExternalSemaphoreProperties (capacity: Int): VkExternalSemaphoreProperties .Buffer = VkExternalSemaphoreProperties .callocStack(capacity).onEach { it.type = VkStructureType.EXTERNAL_SEMAPHORE_PROPERTIES }
 
     fun FenceCreateInfo(): VkFenceCreateInfo = VkFenceCreateInfo.callocStack().apply { type = VkStructureType.FENCE_CREATE_INFO }
     inline fun FenceCreateInfo(block: VkFenceCreateInfo.() -> Unit): VkFenceCreateInfo = FenceCreateInfo().also(block)
@@ -96,6 +113,9 @@ object vk {
 
     inline fun ImageMemoryBarrier(block: VkImageMemoryBarrier.() -> Unit): VkImageMemoryBarrier = ImageMemoryBarrier().also(block)
 
+    fun ImageDrmFormatModifierPropertiesEXT(): VkImageDrmFormatModifierPropertiesEXT = VkImageDrmFormatModifierPropertiesEXT.callocStack().apply { type = VkStructureType.IMAGE_DRM_FORMAT_MODIFIER_PROPERTIES_EXT }
+    inline fun ImageDrmFormatModifierPropertiesEXT(block: VkImageDrmFormatModifierPropertiesEXT.() -> Unit): VkImageDrmFormatModifierPropertiesEXT = ImageDrmFormatModifierPropertiesEXT().also(block)
+
     fun ImageViewCreateInfo(): VkImageViewCreateInfo = VkImageViewCreateInfo.callocStack().apply { type = VkStructureType.IMAGE_VIEW_CREATE_INFO }
     inline fun ImageViewCreateInfo(block: VkImageViewCreateInfo.() -> Unit): VkImageViewCreateInfo = ImageViewCreateInfo().also(block)
 
@@ -106,23 +126,40 @@ object vk {
     inline fun MappedMemoryRange(block: VkMappedMemoryRange.() -> Unit): VkMappedMemoryRange = MappedMemoryRange().also(block)
 
     // TODO check
-    fun MappedMemoryRange(capacity: Int): VkMappedMemoryRange.Buffer =
-            VkMappedMemoryRange.callocStack(capacity).also {
-                for (range in it)
-                    range.type = VkStructureType.MAPPED_MEMORY_RANGE
-            }
+    fun MappedMemoryRange(capacity: Int): VkMappedMemoryRange.Buffer = VkMappedMemoryRange.callocStack(capacity).onEach { it.type = VkStructureType.MAPPED_MEMORY_RANGE }
 
     fun MemoryAllocateInfo(): VkMemoryAllocateInfo = VkMemoryAllocateInfo.callocStack().apply { type = VkStructureType.MEMORY_ALLOCATE_INFO }
     inline fun MemoryAllocateInfo(block: VkMemoryAllocateInfo.() -> Unit): VkMemoryAllocateInfo = MemoryAllocateInfo().also(block)
 
+    fun MemoryFdPropertiesKHR(): VkMemoryFdPropertiesKHR = VkMemoryFdPropertiesKHR.callocStack().apply { type = VkStructureType.MEMORY_FD_PROPERTIES_KHR }
+    inline fun MemoryFdPropertiesKHR(block: VkMemoryFdPropertiesKHR.() -> Unit): VkMemoryFdPropertiesKHR = MemoryFdPropertiesKHR().also(block)
+
+    fun MemoryHostPointerPropertiesEXT(): VkMemoryHostPointerPropertiesEXT = VkMemoryHostPointerPropertiesEXT.callocStack().apply { type = VkStructureType.MEMORY_HOST_POINTER_PROPERTIES_EXT }
+    inline fun MemoryHostPointerPropertiesEXT(block: VkMemoryHostPointerPropertiesEXT.() -> Unit): VkMemoryHostPointerPropertiesEXT = MemoryHostPointerPropertiesEXT().also(block)
+
+    fun MemoryWin32HandlePropertiesKHR(): VkMemoryWin32HandlePropertiesKHR = VkMemoryWin32HandlePropertiesKHR.callocStack().apply { type = VkStructureType.MEMORY_HOST_POINTER_PROPERTIES_EXT }
+    inline fun MemoryWin32HandlePropertiesKHR(block: VkMemoryWin32HandlePropertiesKHR.() -> Unit): VkMemoryWin32HandlePropertiesKHR = MemoryWin32HandlePropertiesKHR().also(block)
+
+    fun MultisamplePropertiesEXT(): VkMultisamplePropertiesEXT = VkMultisamplePropertiesEXT.callocStack().apply { type = VkStructureType.MULTISAMPLE_PROPERTIES_EXT }
+    inline fun MultisamplePropertiesEXT(block: VkMultisamplePropertiesEXT.() -> Unit): VkMultisamplePropertiesEXT = MultisamplePropertiesEXT().also(block)
+
     fun PhysicalDeviceFeatures(): VkPhysicalDeviceFeatures = VkPhysicalDeviceFeatures.callocStack()
     inline fun PhysicalDeviceFeatures(block: VkPhysicalDeviceFeatures.() -> Unit): VkPhysicalDeviceFeatures = PhysicalDeviceFeatures().also(block)
+
+    fun PhysicalDeviceFeatures2(): VkPhysicalDeviceFeatures2 = VkPhysicalDeviceFeatures2.callocStack()
+    inline fun PhysicalDeviceFeatures2(block: VkPhysicalDeviceFeatures2.() -> Unit): VkPhysicalDeviceFeatures2 = PhysicalDeviceFeatures2().also(block)
 
     fun PhysicalDeviceMemoryProperties(): VkPhysicalDeviceMemoryProperties = VkPhysicalDeviceMemoryProperties.callocStack()
     fun PhysicalDeviceMemoryProperties(block: VkPhysicalDeviceMemoryProperties.() -> Unit): VkPhysicalDeviceMemoryProperties = PhysicalDeviceMemoryProperties().also(block)
 
+    fun PhysicalDeviceMemoryProperties2(): VkPhysicalDeviceMemoryProperties2 = VkPhysicalDeviceMemoryProperties2.callocStack().apply { type = VkStructureType.PHYSICAL_DEVICE_MEMORY_PROPERTIES_2 }
+    fun PhysicalDeviceMemoryProperties2(block: VkPhysicalDeviceMemoryProperties2.() -> Unit): VkPhysicalDeviceMemoryProperties2 = PhysicalDeviceMemoryProperties2().also(block)
+
     fun PhysicalDeviceProperties(): VkPhysicalDeviceProperties = VkPhysicalDeviceProperties.callocStack()
     fun PhysicalDeviceProperties(block: VkPhysicalDeviceProperties.() -> Unit): VkPhysicalDeviceProperties = PhysicalDeviceProperties().also(block)
+
+    fun PhysicalDeviceProperties2(): VkPhysicalDeviceProperties2 = VkPhysicalDeviceProperties2.callocStack().apply { type = VkStructureType.PHYSICAL_DEVICE_PROPERTIES_2 }
+    fun PhysicalDeviceProperties2(block: VkPhysicalDeviceProperties2.() -> Unit): VkPhysicalDeviceProperties2 = PhysicalDeviceProperties2().also(block)
 
     fun PipelineCacheCreateInfo(): VkPipelineCacheCreateInfo = VkPipelineCacheCreateInfo.callocStack().apply { type = VkStructureType.PIPELINE_CACHE_CREATE_INFO }
     inline fun PipelineCacheCreateInfo(block: VkPipelineCacheCreateInfo.() -> Unit): VkPipelineCacheCreateInfo = PipelineCacheCreateInfo().also(block)
@@ -149,11 +186,7 @@ object vk {
     inline fun PipelineRasterizationStateCreateInfo(block: VkPipelineRasterizationStateCreateInfo.() -> Unit): VkPipelineRasterizationStateCreateInfo = PipelineRasterizationStateCreateInfo().also(block)
 
     // TODO check
-    fun PipelineShaderStageCreateInfo(capacity: Int): VkPipelineShaderStageCreateInfo.Buffer =
-            VkPipelineShaderStageCreateInfo.callocStack(capacity).also {
-                for (info in it)
-                    info.type = VkStructureType.PIPELINE_SHADER_STAGE_CREATE_INFO
-            }
+    fun PipelineShaderStageCreateInfo(capacity: Int): VkPipelineShaderStageCreateInfo.Buffer = VkPipelineShaderStageCreateInfo.callocStack(capacity).onEach { it.type = VkStructureType.PIPELINE_SHADER_STAGE_CREATE_INFO }
 
     fun PipelineVertexInputStateCreateInfo(): VkPipelineVertexInputStateCreateInfo = VkPipelineVertexInputStateCreateInfo.callocStack().apply { type = VkStructureType.PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO }
     inline fun PipelineVertexInputStateCreateInfo(block: VkPipelineVertexInputStateCreateInfo.() -> Unit): VkPipelineVertexInputStateCreateInfo = PipelineVertexInputStateCreateInfo().also(block)
@@ -166,6 +199,14 @@ object vk {
 
     fun QueryPoolCreateInfo(): VkQueryPoolCreateInfo = VkQueryPoolCreateInfo.callocStack().apply { type = VkStructureType.QUERY_POOL_CREATE_INFO }
     inline fun QueryPoolCreateInfo(block: VkQueryPoolCreateInfo.() -> Unit): VkQueryPoolCreateInfo = QueryPoolCreateInfo().also(block)
+
+    fun QueueFamilyProperties(): VkQueueFamilyProperties = VkQueueFamilyProperties.callocStack()
+    inline fun QueueFamilyProperties(block: VkQueueFamilyProperties.() -> Unit): VkQueueFamilyProperties = QueueFamilyProperties().also(block)
+    fun QueueFamilyProperties(capacity: Int): VkQueueFamilyProperties.Buffer = VkQueueFamilyProperties.callocStack(capacity)
+
+    fun QueueFamilyProperties2(): VkQueueFamilyProperties2 = VkQueueFamilyProperties2.callocStack().apply { type = VkStructureType.QUEUE_FAMILY_PROPERTIES_2 }
+    inline fun QueueFamilyProperties2(block: VkQueueFamilyProperties2.() -> Unit): VkQueueFamilyProperties2 = QueueFamilyProperties2().also(block)
+    fun QueueFamilyProperties2(capacity: Int): VkQueueFamilyProperties2.Buffer = VkQueueFamilyProperties2.callocStack(capacity).onEach { it.type = VkStructureType.QUEUE_FAMILY_PROPERTIES_2 }
 
     fun RenderPassBeginInfo(): VkRenderPassBeginInfo = VkRenderPassBeginInfo.callocStack().apply { type = VkStructureType.RENDER_PASS_BEGIN_INFO }
     inline fun RenderPassBeginInfo(block: VkRenderPassBeginInfo.() -> Unit): VkRenderPassBeginInfo = RenderPassBeginInfo().also(block)
@@ -192,11 +233,7 @@ object vk {
     inline fun WriteDescriptorSet(block: VkWriteDescriptorSet.() -> Unit): VkWriteDescriptorSet = WriteDescriptorSet().also(block)
 
     // TODO check
-    fun WriteDescriptorSet(capacity: Int): VkWriteDescriptorSet.Buffer =
-            VkWriteDescriptorSet.callocStack(capacity).also {
-                for (set in it)
-                    set.type = VkStructureType.WRITE_DESCRIPTOR_SET
-            }
+    fun WriteDescriptorSet(capacity: Int): VkWriteDescriptorSet.Buffer = VkWriteDescriptorSet.callocStack(capacity).onEach { it.type = VkStructureType.WRITE_DESCRIPTOR_SET }
 
     /*
         normal constructor functions
@@ -236,9 +273,18 @@ object vk {
     inline fun DescriptorPoolSize(capacity: Int, block: VkDescriptorPoolSize.Buffer.() -> Unit): VkDescriptorPoolSize.Buffer = DescriptorPoolSize(capacity).also(block)
 
     fun DescriptorSetLayoutBinding(): VkDescriptorSetLayoutBinding = VkDescriptorSetLayoutBinding.callocStack()
-    fun DescriptorSetLayoutBinding(capacity: Int): VkDescriptorSetLayoutBinding.Buffer = VkDescriptorSetLayoutBinding.callocStack(capacity)
     inline fun DescriptorSetLayoutBinding(block: VkDescriptorSetLayoutBinding.() -> Unit): VkDescriptorSetLayoutBinding = DescriptorSetLayoutBinding().also(block)
     inline fun DescriptorSetLayoutBinding(capacity: Int, block: VkDescriptorSetLayoutBinding.Buffer.() -> Unit): VkDescriptorSetLayoutBinding.Buffer = DescriptorSetLayoutBinding(capacity).also(block)
+    fun DescriptorSetLayoutBinding(capacity: Int): VkDescriptorSetLayoutBinding.Buffer = VkDescriptorSetLayoutBinding.callocStack(capacity)
+
+    fun DisplayModeProperties2KHR(capacity: Int): VkDisplayModeProperties2KHR.Buffer = VkDisplayModeProperties2KHR.callocStack(capacity)
+    fun DisplayModePropertiesKHR(capacity: Int): VkDisplayModePropertiesKHR.Buffer = VkDisplayModePropertiesKHR.callocStack(capacity)
+
+    fun DisplayPlaneCapabilities2KHR(): VkDisplayPlaneCapabilities2KHR = VkDisplayPlaneCapabilities2KHR.callocStack()
+    fun DisplayPlaneCapabilities2KHR(capacity: Int): VkDisplayPlaneCapabilities2KHR.Buffer = VkDisplayPlaneCapabilities2KHR.callocStack(capacity)
+
+    fun DisplayPlaneCapabilitiesKHR(): VkDisplayPlaneCapabilitiesKHR = VkDisplayPlaneCapabilitiesKHR.callocStack()
+    fun DisplayPlaneCapabilitiesKHR(capacity: Int): VkDisplayPlaneCapabilitiesKHR.Buffer = VkDisplayPlaneCapabilitiesKHR.callocStack(capacity)
 
     fun ExtensionProperties(capacity: Int): VkExtensionProperties.Buffer = VkExtensionProperties.callocStack(capacity)
 
@@ -248,14 +294,26 @@ object vk {
     fun Extent3D(): VkExtent3D = VkExtent3D.callocStack()
     inline fun Extent3D(block: VkExtent3D.() -> Unit): VkExtent3D = Extent3D().also(block)
 
+    fun ExternalImageFormatPropertiesNV(): VkExternalImageFormatPropertiesNV = VkExternalImageFormatPropertiesNV.callocStack()
+    inline fun ExternalImageFormatPropertiesNV(block: VkExternalImageFormatPropertiesNV.() -> Unit): VkExternalImageFormatPropertiesNV = ExternalImageFormatPropertiesNV().also(block)
+
     fun FormatProperties(): VkFormatProperties = VkFormatProperties.callocStack()
     inline fun FormatProperties(block: VkFormatProperties.() -> Unit): VkFormatProperties = FormatProperties().also(block)
+
+    fun FormatProperties2(): VkFormatProperties2 = VkFormatProperties2.callocStack().apply { type = VkStructureType.FORMAT_PROPERTIES_2 }
+    inline fun FormatProperties2(block: VkFormatProperties2.() -> Unit): VkFormatProperties2 = FormatProperties2().also(block)
 
     fun ImageBlit(): VkImageBlit = VkImageBlit.callocStack()
     inline fun ImageBlit(block: VkImageBlit.() -> Unit): VkImageBlit = ImageBlit().also(block)
 
     fun ImageCopy(): VkImageCopy = VkImageCopy.callocStack()
     inline fun ImageCopy(block: VkImageCopy.() -> Unit): VkImageCopy = ImageCopy().also(block)
+
+    fun ImageFormatProperties(): VkImageFormatProperties = VkImageFormatProperties.callocStack()
+    inline fun ImageFormatProperties(block: VkImageFormatProperties.() -> Unit): VkImageFormatProperties = ImageFormatProperties().also(block)
+
+    fun ImageFormatProperties2(): VkImageFormatProperties2 = VkImageFormatProperties2.callocStack().apply { type = VkStructureType.IMAGE_FORMAT_PROPERTIES_2 }
+    inline fun ImageFormatProperties2(block: VkImageFormatProperties2.() -> Unit): VkImageFormatProperties2 = ImageFormatProperties2().also(block)
 
     fun ImageSubresource(): VkImageSubresource = VkImageSubresource.callocStack()
     inline fun ImageSubresource(block: VkImageSubresource.() -> Unit): VkImageSubresource = ImageSubresource().also(block)
@@ -266,6 +324,10 @@ object vk {
     fun ImageSubresourceLayers(): VkImageSubresourceLayers = VkImageSubresourceLayers.callocStack()
     inline fun ImageSubresourceLayers(block: VkImageSubresourceLayers.() -> Unit): VkImageSubresourceLayers = ImageSubresourceLayers().also(block)
 
+    fun LayerProperties(): VkLayerProperties = VkLayerProperties.callocStack()
+    inline fun LayerProperties(block: VkLayerProperties.() -> Unit): VkLayerProperties = LayerProperties().also(block)
+    fun LayerProperties(capacity: Int): VkLayerProperties.Buffer = VkLayerProperties.callocStack(capacity)
+
 //    inline fun InstanceCreateInfo(extensions: ArrayList<String>): VkInstanceCreateInfo {
 //        return InstanceCreateInfo {
 //
@@ -275,8 +337,15 @@ object vk {
     fun MemoryRequirements(): VkMemoryRequirements = VkMemoryRequirements.callocStack()
     inline fun MemoryRequirements(block: VkMemoryRequirements.() -> Unit): VkMemoryRequirements = MemoryRequirements().also(block)
 
+    fun MemoryRequirements2(): VkMemoryRequirements2 = VkMemoryRequirements2.callocStack()
+    inline fun MemoryRequirements2(block: VkMemoryRequirements2.() -> Unit): VkMemoryRequirements2 = MemoryRequirements2().also(block)
+
     fun MemoryRequirements2KHR(): VkMemoryRequirements2KHR = VkMemoryRequirements2KHR.callocStack()
     inline fun MemoryRequirements2KHR(block: VkMemoryRequirements2KHR.() -> Unit): VkMemoryRequirements2KHR = MemoryRequirements2KHR().also(block)
+
+    fun PastPresentationTimingGOOGLE(): VkPastPresentationTimingGOOGLE = VkPastPresentationTimingGOOGLE.callocStack()
+    fun PastPresentationTimingGOOGLE(capacity: Int): VkPastPresentationTimingGOOGLE.Buffer = VkPastPresentationTimingGOOGLE.callocStack(capacity)
+    inline fun PastPresentationTimingGOOGLE(block: VkPastPresentationTimingGOOGLE.() -> Unit): VkPastPresentationTimingGOOGLE = PastPresentationTimingGOOGLE().also(block)
 
     fun PipelineColorBlendAttachmentState(): VkPipelineColorBlendAttachmentState = VkPipelineColorBlendAttachmentState.callocStack()
     fun PipelineColorBlendAttachmentState(capacity: Int): VkPipelineColorBlendAttachmentState.Buffer = VkPipelineColorBlendAttachmentState.callocStack(capacity)
@@ -289,6 +358,25 @@ object vk {
     fun Rect2D(): VkRect2D = VkRect2D.callocStack()
     inline fun Rect2D(block: VkRect2D.() -> Unit): VkRect2D = Rect2D().also(block)
     fun Rect2D(capacity: Int): VkRect2D.Buffer = VkRect2D.callocStack(capacity)
+
+    fun RefreshCycleDurationGOOGLE(): VkRefreshCycleDurationGOOGLE = VkRefreshCycleDurationGOOGLE.callocStack()
+    inline fun RefreshCycleDurationGOOGLE(block: VkRefreshCycleDurationGOOGLE.() -> Unit): VkRefreshCycleDurationGOOGLE = RefreshCycleDurationGOOGLE().also(block)
+
+    fun SparseImageFormatProperties(): VkSparseImageFormatProperties = VkSparseImageFormatProperties.callocStack()
+    fun SparseImageFormatProperties(capacity: Int): VkSparseImageFormatProperties.Buffer = VkSparseImageFormatProperties.callocStack(capacity)
+    inline fun SparseImageFormatProperties(block: VkSparseImageFormatProperties.() -> Unit): VkSparseImageFormatProperties = SparseImageFormatProperties().also(block)
+
+    fun SparseImageFormatProperties2(): VkSparseImageFormatProperties2 = VkSparseImageFormatProperties2.callocStack().apply { type = VkStructureType.SPARSE_IMAGE_FORMAT_PROPERTIES_2 }
+    fun SparseImageFormatProperties2(capacity: Int): VkSparseImageFormatProperties2.Buffer = VkSparseImageFormatProperties2.callocStack(capacity).onEach { it.type = VkStructureType.SPARSE_IMAGE_FORMAT_PROPERTIES_2 }
+    inline fun SparseImageFormatProperties2(block: VkSparseImageFormatProperties2.() -> Unit): VkSparseImageFormatProperties2 = SparseImageFormatProperties2().also(block)
+
+    fun SparseImageMemoryRequirements(): VkSparseImageMemoryRequirements = VkSparseImageMemoryRequirements.callocStack()
+    fun SparseImageMemoryRequirements(capacity: Int): VkSparseImageMemoryRequirements.Buffer = VkSparseImageMemoryRequirements.callocStack(capacity)
+    inline fun SparseImageMemoryRequirements(block: VkSparseImageMemoryRequirements.() -> Unit): VkSparseImageMemoryRequirements = SparseImageMemoryRequirements().also(block)
+
+    fun SparseImageMemoryRequirements2(): VkSparseImageMemoryRequirements2 = VkSparseImageMemoryRequirements2.callocStack()
+    fun SparseImageMemoryRequirements2(capacity: Int): VkSparseImageMemoryRequirements2.Buffer = VkSparseImageMemoryRequirements2.callocStack(capacity)
+    inline fun SparseImageMemoryRequirements2(block: VkSparseImageMemoryRequirements2.() -> Unit): VkSparseImageMemoryRequirements2 = SparseImageMemoryRequirements2().also(block)
 
     fun SpecializationMapEntry(): VkSpecializationMapEntry = VkSpecializationMapEntry.callocStack()
     fun SpecializationMapEntry(capacity: Int): VkSpecializationMapEntry.Buffer = VkSpecializationMapEntry.callocStack(capacity)
@@ -309,8 +397,17 @@ object vk {
     fun SubresourceLayout(): VkSubresourceLayout = VkSubresourceLayout.callocStack()
     fun SubresourceLayout(capacity: Int): VkSubresourceLayout.Buffer = VkSubresourceLayout.callocStack(capacity)
 
+    fun SurfaceCapabilities2EXT(): VkSurfaceCapabilities2EXT = VkSurfaceCapabilities2EXT.callocStack().apply { type = VkStructureType.SURFACE_CAPABILITIES_2_EXT }
+    inline fun SurfaceCapabilities2EXT(block: VkSurfaceCapabilities2EXT.() -> Unit): VkSurfaceCapabilities2EXT = SurfaceCapabilities2EXT().also(block)
+
+    fun SurfaceCapabilities2KHR(): VkSurfaceCapabilities2KHR = VkSurfaceCapabilities2KHR.callocStack().apply { type = VkStructureType.SURFACE_CAPABILITIES_2_KHR }
+    inline fun SurfaceCapabilities2KHR(block: VkSurfaceCapabilities2KHR.() -> Unit): VkSurfaceCapabilities2KHR = SurfaceCapabilities2KHR().also(block)
+
     fun SurfaceCapabilitiesKHR(): VkSurfaceCapabilitiesKHR = VkSurfaceCapabilitiesKHR.callocStack()
     inline fun SurfaceCapabilitiesKHR(block: VkSurfaceCapabilitiesKHR.() -> Unit): VkSurfaceCapabilitiesKHR = SurfaceCapabilitiesKHR().also(block)
+
+    fun SurfaceFormat2KHR(): VkSurfaceFormat2KHR = VkSurfaceFormat2KHR.callocStack().apply { type = VkStructureType.SURFACE_FORMAT_2_KHR }
+    fun SurfaceFormat2KHR(capacity: Int): VkSurfaceFormat2KHR.Buffer = VkSurfaceFormat2KHR.callocStack(capacity)
 
     fun SurfaceFormatKHR(): VkSurfaceFormatKHR = VkSurfaceFormatKHR.callocStack()
     fun SurfaceFormatKHR(capacity: Int): VkSurfaceFormatKHR.Buffer = VkSurfaceFormatKHR.callocStack(capacity)

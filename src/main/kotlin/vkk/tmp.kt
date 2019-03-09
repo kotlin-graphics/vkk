@@ -1,35 +1,19 @@
 package vkk
 
-import gli_.memCopy
 import glm_.i
 import kool.*
+import org.lwjgl.PointerBuffer
 import org.lwjgl.system.MemoryStack
+import org.lwjgl.system.MemoryStack.stackGet
 import org.lwjgl.system.MemoryUtil
-import org.lwjgl.vulkan.NVRayTracing
-import org.lwjgl.vulkan.NVRayTracing.VK_COPY_ACCELERATION_STRUCTURE_MODE_CLONE_NV
-import org.lwjgl.vulkan.NVRayTracing.VK_COPY_ACCELERATION_STRUCTURE_MODE_COMPACT_NV
-import org.lwjgl.vulkan.NVShadingRateImage.*
 import org.lwjgl.vulkan.VkCommandBuffer
+import org.lwjgl.vulkan.VkD3D12FenceSubmitInfoKHR
 import vkk.entities.VkDeviceSize
+import vkk.entities.VkDisplayKHR_Buffer
+import vkk.entities.VkSemaphore_Buffer
 import java.nio.ByteBuffer
 import java.nio.IntBuffer
-
-inline class VkCopyAccelerationStructureModeNV(val i: Int) {
-    companion object {
-        val CLONE = VkCopyAccelerationStructureModeNV(VK_COPY_ACCELERATION_STRUCTURE_MODE_CLONE_NV)
-        val COMPACT = VkCopyAccelerationStructureModeNV(VK_COPY_ACCELERATION_STRUCTURE_MODE_COMPACT_NV)
-    }
-}
-
-inline class VkCoarseSampleOrderTypeNV(val i: Int) {
-    companion object {
-        val DEFAULT = VkCoarseSampleOrderTypeNV(VK_COARSE_SAMPLE_ORDER_TYPE_DEFAULT_NV)
-        val CUSTOM = VkCoarseSampleOrderTypeNV(VK_COARSE_SAMPLE_ORDER_TYPE_CUSTOM_NV)
-        val PIXEL_MAJOR = VkCoarseSampleOrderTypeNV(VK_COARSE_SAMPLE_ORDER_TYPE_PIXEL_MAJOR_NV)
-        val SAMPLE_MAJOR = VkCoarseSampleOrderTypeNV(VK_COARSE_SAMPLE_ORDER_TYPE_SAMPLE_MAJOR_NV)
-    }
-}
-
+import java.nio.LongBuffer
 
 fun main() {
     test<Int>()
@@ -39,8 +23,8 @@ fun main() {
     test<Float>()
 }
 
-inline fun <reified T : Any>test() {
-    println(when(T::class) {
+inline fun <reified T : Any> test() {
+    println(when (T::class) {
         Int::class -> "Int"
         Float::class -> "Float"
         VkCommandBuffer::class -> "VkCommandBuffer"
@@ -97,3 +81,62 @@ fun MemoryStack.vkDynamicStateBufferOf(dynamicState0: VkDynamicState,
 
 
 typealias VkResultBuffer = IntBuffer
+
+inline class VkObjectEntryTypeNVX_Buffer(val buffer: IntBuffer) {
+    val rem get() = buffer.rem
+    val adr get() = buffer.adr
+}
+
+inline class VkObjectEntryUsageFlagsNVX_Buffer(val buffer: IntBuffer) {
+    val rem get() = buffer.rem
+    val adr get() = buffer.adr
+}
+
+inline class VkDescriptorBindingFlagsEXT_Buffer(val buffer: IntBuffer) {
+    val rem get() = buffer.rem
+    val adr get() = buffer.adr
+}
+
+inline class VkShadingRatePaletteEntryNV_Buffer(val buffer: IntBuffer) {
+    val rem get() = buffer.rem
+    val adr get() = buffer.adr
+}
+
+inline class HINSTANCE(val L: Long)
+inline class HWND(val L: Long)
+inline class HANDLE(val L: Long)
+inline class DWORD(val i: Int)
+inline class Display(val L: Long)
+inline class Window(val L: Long)
+inline class VisualID(val L: Long)
+inline class WLDisplay(val L: Long)
+inline class WLSurface(val L: Long)
+inline class RROutput(val L: Long)
+
+inline class VkDebugUtilsMessengerEXT(val L: Long)
+
+
+inline class VkTimeDomainEXT_Buffer(val buffer: IntBuffer) {
+    val rem get() = buffer.rem
+    val adr get() = buffer.adr
+}
+
+inline class VkPresentModeKHR_Buffer(val buffer: IntBuffer) {
+    val rem get() = buffer.rem
+    val adr get() = buffer.adr
+}
+
+inline class VkPhysicalDevice_Buffer(val buffer: PointerBuffer) {
+    val rem get() = buffer.rem
+    val adr: Adr get() = buffer.adr // TODO -> Adr
+}
+
+
+
+inline class VkValidationFeatureEnableEXT_Buffer(val buffer: IntBuffer) {
+    val rem get() = buffer.rem
+    val adr: Adr get() = buffer.adr // TODO -> Adr
+}
+
+
+

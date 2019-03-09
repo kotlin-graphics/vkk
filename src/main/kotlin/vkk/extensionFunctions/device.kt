@@ -3,11 +3,9 @@ package vkk.extensionFunctions
 import glm_.BYTES
 import glm_.L
 import glm_.i
-import kool.Ptr
-import kool.adr
-import kool.rem
-import kool.stak
+import kool.*
 import org.lwjgl.PointerBuffer
+import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.*
 import org.lwjgl.system.Pointer
 import org.lwjgl.vulkan.*
@@ -15,6 +13,7 @@ import vkk.*
 import vkk.entities.*
 import java.nio.ByteBuffer
 import java.nio.IntBuffer
+import java.nio.LongBuffer
 
 
 /** @return ImageIndex */
@@ -568,37 +567,209 @@ infix fun VkDevice.free(memory: VkDeviceMemory) =
 fun VkDevice.getAccelerationStructureHandleNV(accelerationStructure: VkAccelerationStructureNV, data: ByteBuffer) =
         VK_CHECK_RESULT(NVRayTracing.nvkGetAccelerationStructureHandleNV(this, accelerationStructure.L, data.rem.L, data.adr))
 
-fun VkDevice.getAccelerationStructureMemoryRequirementsNV(info: VkAccelerationStructureMemoryRequirementsInfoNV, memoryRequirements: VkMemoryRequirements2KHR) =
+fun VkDevice.getAccelerationStructureMemoryRequirementsNV(info: VkAccelerationStructureMemoryRequirementsInfoNV, memoryRequirements: VkMemoryRequirements2KHR = vk.MemoryRequirements2KHR()) =
         NVRayTracing.nvkGetAccelerationStructureMemoryRequirementsNV(this, info.adr, memoryRequirements.adr)
 
-infix fun VkDevice.getAccelerationStructureMemoryRequirementsNV(info: VkAccelerationStructureMemoryRequirementsInfoNV) =
-        NVRayTracing.nvkGetAccelerationStructureMemoryRequirementsNV(this, info.adr, vk.MemoryRequirements2KHR().adr)
+fun VkDevice.getBufferAddressEXT(info: VkBufferDeviceAddressInfoEXT): VkDeviceAddress =
+        VkDeviceAddress(EXTBufferDeviceAddress.nvkGetBufferDeviceAddressEXT(this, info.adr))
 
-infix fun VkDevice.getBufferMemoryRequirements(buffer: VkBuffer): VkMemoryRequirements = getBufferMemoryRequirements(buffer, vk.MemoryRequirements())
+fun VkDevice.getBufferMemoryRequirements(buffer: VkBuffer, memoryRequirements: VkMemoryRequirements = vk.MemoryRequirements()): VkMemoryRequirements =
+        memoryRequirements.also { VK10.nvkGetBufferMemoryRequirements(this, buffer.L, it.adr) }
 
-fun VkDevice.getBufferMemoryRequirements(buffer: VkBuffer, memoryRequirements: VkMemoryRequirements): VkMemoryRequirements {
-    VK10.nvkGetBufferMemoryRequirements(this, buffer.L, memoryRequirements.adr)
-    return memoryRequirements
+fun VkDevice.getBufferMemoryRequirements2(info: VkBufferMemoryRequirementsInfo2, memoryRequirements: VkMemoryRequirements2 = vk.MemoryRequirements2()): VkMemoryRequirements2 =
+        memoryRequirements.also { VK11.nvkGetBufferMemoryRequirements2(this, info.adr, it.adr) }
+
+fun VkDevice.getBufferMemoryRequirements2KHR(info: VkBufferMemoryRequirementsInfo2, memoryRequirements: VkMemoryRequirements2 = vk.MemoryRequirements2()): VkMemoryRequirements2 =
+        memoryRequirements.also { KHRGetMemoryRequirements2.nvkGetBufferMemoryRequirements2KHR(this, info.adr, it.adr) }
+
+/** @return maxDeviation */
+fun VkDevice.getCalibratedTimestampsEXT(timestampInfos: VkCalibratedTimestampInfoEXT.Buffer, timestamps: LongBuffer): Long =
+        stak.longAddress {
+            EXTCalibratedTimestamps.nvkGetCalibratedTimestampsEXT(this, timestampInfos.rem, timestampInfos.adr, timestamps.adr, it)
+        }
+
+fun VkDevice.getDescriptorSetLayoutSupport(createInfo: VkDescriptorSetLayoutCreateInfo, support: VkDescriptorSetLayoutSupport = vk.DescriptorSetLayoutSupport()): VkDescriptorSetLayoutSupport =
+        support.also { VK11.nvkGetDescriptorSetLayoutSupport(this, createInfo.adr, it.adr) }
+
+fun VkDevice.getDescriptorSetLayoutSupportKHR(createInfo: VkDescriptorSetLayoutCreateInfo, support: VkDescriptorSetLayoutSupport = vk.DescriptorSetLayoutSupport()): VkDescriptorSetLayoutSupport =
+        support.also { KHRMaintenance3.nvkGetDescriptorSetLayoutSupportKHR(this, createInfo.adr, it.adr) }
+
+fun VkDevice.getGroupPeerMemoryFeatures(heapIndex: Int, localDeviceIndex: Int, remoteDeviceIndex: Int): VkPeerMemoryFeatureFlags =
+        stak.intAddress { VK11.nvkGetDeviceGroupPeerMemoryFeatures(this, heapIndex, localDeviceIndex, remoteDeviceIndex, it) }
+
+fun VkDevice.getGroupPeerMemoryFeaturesKHR(heapIndex: Int, localDeviceIndex: Int, remoteDeviceIndex: Int): VkPeerMemoryFeatureFlags =
+        stak.intAddress { KHRDeviceGroup.nvkGetDeviceGroupPeerMemoryFeaturesKHR(this, heapIndex, localDeviceIndex, remoteDeviceIndex, it) }
+
+fun VkDevice.getGroupPresentCapabilitiesKHR(deviceGroupPresentCapabilities: VkDeviceGroupPresentCapabilitiesKHR = vk.DeviceGroupPresentCapabilitiesKHR()): VkDeviceGroupPresentCapabilitiesKHR =
+        deviceGroupPresentCapabilities.also { VK_CHECK_RESULT(KHRDeviceGroup.nvkGetDeviceGroupPresentCapabilitiesKHR(this, it.adr)) }
+
+fun VkDevice.getGroupSurfacePresentModesKHR(surface: VkSurfaceKHR): VkDeviceGroupPresentModeFlagsKHR =
+        stak.intAddress { VK_CHECK_RESULT(KHRDeviceGroup.nvkGetDeviceGroupSurfacePresentModesKHR(this, surface.L, it)) }
+
+fun VkDevice.getMemoryCommitment(memory: VkDeviceMemory): VkDeviceSize =
+        VkDeviceSize(stak.longAddress { VK10.nvkGetDeviceMemoryCommitment(this, memory.L, it) })
+
+infix fun VkDevice.getProcAddr(name: CharSequence): Adr =
+        stak.asciiAddress(name) { VK10.nvkGetDeviceProcAddr(this, it) }
+
+fun VkDevice.getQueue(queueFamilyIndex: Int, queueIndex: Int = 0): VkQueue =
+        VkQueue(stak.pointerAddress { VK10.nvkGetDeviceQueue(this, queueFamilyIndex, queueIndex, it) }, this)
+
+infix fun VkDevice.getQueue2(queueInfo: VkDeviceQueueInfo2): VkQueue =
+        VkQueue(stak.pointerAddress { VK11.nvkGetDeviceQueue2(this, queueInfo.adr, it) }, this)
+
+infix fun VkDevice.getEventStatus(event: VkEvent): VkResult =
+        VkResult(VK10.vkGetEventStatus(this, event.L)).apply { check() }
+
+infix fun VkDevice.getFenceFdKHR(getFdInfo: VkFenceGetFdInfoKHR): Int =
+        stak.intAddress { VK_CHECK_RESULT(KHRExternalFenceFd.nvkGetFenceFdKHR(this, getFdInfo.adr, it)) }
+
+infix fun VkDevice.getFenceStatus(fence: VkFence): VkResult =
+        VkResult(VK10.vkGetFenceStatus(this, fence.L)).apply { check() }
+
+infix fun VkDevice.getFenceWin32HandleKHR(getWin32HandleInfo: VkFenceGetWin32HandleInfoKHR): HANDLE =
+        HANDLE(stak.pointerAddress { VK_CHECK_RESULT(KHRExternalFenceWin32.nvkGetFenceWin32HandleKHR(this, getWin32HandleInfo.adr, it)) })
+
+fun VkDevice.getImageDrmFormatModifierPropertiesEXT(image: VkImage, properties: VkImageDrmFormatModifierPropertiesEXT = vk.ImageDrmFormatModifierPropertiesEXT()): VkImageDrmFormatModifierPropertiesEXT =
+        properties.also { VK_CHECK_RESULT(EXTImageDrmFormatModifier.nvkGetImageDrmFormatModifierPropertiesEXT(this, image.L, it.adr)) }
+
+fun VkDevice.getImageMemoryRequirements(image: VkImage, memoryRequirements: VkMemoryRequirements = vk.MemoryRequirements()): VkMemoryRequirements =
+        memoryRequirements.also { VK10.nvkGetImageMemoryRequirements(this, image.L, it.adr) }
+
+fun VkDevice.getImageMemoryRequirements2(info: VkImageMemoryRequirementsInfo2, memoryRequirements: VkMemoryRequirements2 = vk.MemoryRequirements2()): VkMemoryRequirements2 =
+        memoryRequirements.also { VK11.nvkGetImageMemoryRequirements2(this, info.adr, it.adr) }
+
+fun VkDevice.getImageMemoryRequirements2KHR(info: VkImageMemoryRequirementsInfo2, memoryRequirements: VkMemoryRequirements2 = vk.MemoryRequirements2()): VkMemoryRequirements2 =
+        memoryRequirements.also { KHRGetMemoryRequirements2.nvkGetImageMemoryRequirements2KHR(this, info.adr, it.adr) }
+
+fun VkDevice.getImageSparseMemoryRequirements(image: VkImage, sparseMemoryRequirements: VkSparseImageMemoryRequirements.Buffer? = null): VkSparseImageMemoryRequirements.Buffer {
+    val stak = MemoryStack.stackGet()
+    val pCount = stak.nmalloc(4, Int.BYTES)
+    return when (sparseMemoryRequirements) {
+        null -> {
+            VK10.nvkGetImageSparseMemoryRequirements(this, image.L, pCount, NULL)
+            vk.SparseImageMemoryRequirements(memGetInt(pCount)).also {
+                VK10.nvkGetImageSparseMemoryRequirements(this, image.L, pCount, it.adr)
+            }
+        }
+        else -> {
+            memPutInt(pCount, sparseMemoryRequirements.rem)
+            VK10.nvkGetImageSparseMemoryRequirements(this, image.L, pCount, sparseMemoryRequirements.adr)
+            sparseMemoryRequirements
+        }
+    }
 }
 
-infix fun VkDevice.getCommandBuffer(commandPool: VkCommandPool): VkCommandBuffer = getCommandBuffer(commandPool, VkCommandBufferLevel.PRIMARY)
+fun VkDevice.getImageSparseMemoryRequirements2(info: VkImageSparseMemoryRequirementsInfo2, sparseMemoryRequirements: VkSparseImageMemoryRequirements2.Buffer? = null): VkSparseImageMemoryRequirements2.Buffer {
+    val stak = MemoryStack.stackGet()
+    val pCount = stak.nmalloc(4, Int.BYTES)
+    return when (sparseMemoryRequirements) {
+        null -> {
+            VK11.nvkGetImageSparseMemoryRequirements2(this, info.adr, pCount, NULL)
+            vk.SparseImageMemoryRequirements2(memGetInt(pCount)).also {
+                VK11.nvkGetImageSparseMemoryRequirements2(this, info.adr, pCount, it.adr)
+            }
+        }
+        else -> {
+            memPutInt(pCount, sparseMemoryRequirements.rem)
+            VK11.nvkGetImageSparseMemoryRequirements2(this, info.adr, pCount, sparseMemoryRequirements.adr)
+            sparseMemoryRequirements
+        }
+    }
+}
 
-fun VkDevice.getCommandBuffer(commandPool: VkCommandPool, level: VkCommandBufferLevel = VkCommandBufferLevel.PRIMARY, autostart: Boolean = false): VkCommandBuffer {
+fun VkDevice.getImageSparseMemoryRequirements2KHR(info: VkImageSparseMemoryRequirementsInfo2, sparseMemoryRequirements: VkSparseImageMemoryRequirements2.Buffer? = null): VkSparseImageMemoryRequirements2.Buffer {
+    val stak = MemoryStack.stackGet()
+    val pCount = stak.nmalloc(4, Int.BYTES)
+    return when (sparseMemoryRequirements) {
+        null -> {
+            KHRGetMemoryRequirements2.nvkGetImageSparseMemoryRequirements2KHR(this, info.adr, pCount, NULL)
+            vk.SparseImageMemoryRequirements2(memGetInt(pCount)).also {
+                KHRGetMemoryRequirements2.nvkGetImageSparseMemoryRequirements2KHR(this, info.adr, pCount, it.adr)
+            }
+        }
+        else -> {
+            memPutInt(pCount, sparseMemoryRequirements.rem)
+            KHRGetMemoryRequirements2.nvkGetImageSparseMemoryRequirements2KHR(this, info.adr, pCount, sparseMemoryRequirements.adr)
+            sparseMemoryRequirements
+        }
+    }
+}
+
+fun VkDevice.getImageSubresourceLayout(image: VkImage, subresource: VkImageSubresource, layout: VkSubresourceLayout = vk.SubresourceLayout()): VkSubresourceLayout =
+        layout.also { VK10.nvkGetImageSubresourceLayout(this, image.L, subresource.adr, it.adr) }
+
+/** @return fd  */
+infix fun VkDevice.getMemoryFdKHR(getFdInfo: VkMemoryGetFdInfoKHR): Int =
+        stak.intAddress { VK_CHECK_RESULT(KHRExternalMemoryFd.nvkGetMemoryFdKHR(this, getFdInfo.adr, it)) }
+
+fun VkDevice.getMemoryFdKHR(handleType: VkExternalMemoryHandleType, fd: Int, memoryFdProperties: VkMemoryFdPropertiesKHR = vk.MemoryFdPropertiesKHR()): VkMemoryFdPropertiesKHR =
+        memoryFdProperties.also { VK_CHECK_RESULT(KHRExternalMemoryFd.nvkGetMemoryFdPropertiesKHR(this, handleType.i, fd, it.adr)) }
+
+fun VkDevice.getMemoryHostPointerPropertiesEXT(handleType: VkExternalMemoryHandleType, hostPointer: Ptr, memoryHostPointerProperties: VkMemoryHostPointerPropertiesEXT = vk.MemoryHostPointerPropertiesEXT()): VkMemoryHostPointerPropertiesEXT =
+        memoryHostPointerProperties.also { VK_CHECK_RESULT(EXTExternalMemoryHost.nvkGetMemoryHostPointerPropertiesEXT(this, handleType.i, hostPointer, it.adr)) }
+
+infix fun VkDevice.getMemoryWin32HandleKHR(getWin32HandleInfo: VkMemoryGetWin32HandleInfoKHR): HANDLE =
+        HANDLE(stak.pointerAddress { VK_CHECK_RESULT(KHRExternalMemoryWin32.nvkGetMemoryWin32HandleKHR(this, getWin32HandleInfo.adr, it)) })
+
+fun VkDevice.getMemoryWin32HandleNV(memory: VkDeviceMemory, handleType: VkExternalMemoryHandleTypeFlagsNV): HANDLE =
+        HANDLE(stak.pointerAddress { VK_CHECK_RESULT(NVExternalMemoryWin32.nvkGetMemoryWin32HandleNV(this, memory.L, handleType, it)) })
+
+fun VkDevice.getMemoryWin32HandlePropertiesKHR(handleType: VkExternalMemoryHandleType, handle: HANDLE, memoryWin32HandleProperties: VkMemoryWin32HandlePropertiesKHR = vk.MemoryWin32HandlePropertiesKHR()): VkMemoryWin32HandlePropertiesKHR =
+        memoryWin32HandleProperties.also { VK_CHECK_RESULT(KHRExternalMemoryWin32.nvkGetMemoryWin32HandlePropertiesKHR(this, handleType.i, handle.L, it.adr)) }
+
+fun VkDevice.getPastPresentationTimingGOOGLE(swapchain: VkSwapchainKHR, presentationTimings: VkPastPresentationTimingGOOGLE.Buffer? = null): VkPastPresentationTimingGOOGLE.Buffer {
+    val stak = MemoryStack.stackGet()
+    val pCount = stak.nmalloc(4, Int.BYTES)
+    return when (presentationTimings) {
+        null -> {
+            VK_CHECK_RESULT(GOOGLEDisplayTiming.nvkGetPastPresentationTimingGOOGLE(this, swapchain.L, pCount, NULL))
+            vk.PastPresentationTimingGOOGLE(memGetInt(pCount)).also {
+                VK_CHECK_RESULT(GOOGLEDisplayTiming.nvkGetPastPresentationTimingGOOGLE(this, swapchain.L, pCount, it.adr))
+            }
+        }
+        else -> {
+            memPutInt(pCount, presentationTimings.rem)
+            GOOGLEDisplayTiming.nvkGetPastPresentationTimingGOOGLE(this, swapchain.L, pCount, presentationTimings.adr)
+            presentationTimings
+        }
+    }
+}
+
+infix fun VkDevice.getPipelineCacheData(pipelineCache: VkPipelineCache): ByteBuffer =
+        stak { s ->
+            val pDataSize = s.nmalloc(4, Int.BYTES)
+            VK_CHECK_RESULT(VK10.nvkGetPipelineCacheData(this, pipelineCache.L, pDataSize, NULL))
+            s.malloc(1, memGetInt(pDataSize)).also {
+                VK_CHECK_RESULT(VK10.nvkGetPipelineCacheData(this, pipelineCache.L, pDataSize, it.adr))
+            }
+        }
+
+fun VkDevice.getQueryPoolResults(queryPool: VkQueryPool, firstQuery: Int, queryCount: Int, data: IntBuffer, stride: VkDeviceSize = VkDeviceSize(0), flags: VkQueryResultFlags = 0): VkResult =
+        VkResult(VK10.nvkGetQueryPoolResults(this, queryPool.L, firstQuery, queryCount, data.rem.L, data.adr, stride.L, flags)).apply { check() }
+
+fun VkDevice.getRayTracingShaderGroupHandlesNV(pipeline: VkPipeline, firstGroup: Int, groupCount: Int, data: ByteBuffer): VkResult =
+        VkResult(NVRayTracing.nvkGetRayTracingShaderGroupHandlesNV(this, pipeline.L, firstGroup, groupCount, data.rem.L, data.adr)).apply { check() }
+
+fun VkDevice.getRefreshCycleDurationGOOGLE(swapchain: VkSwapchainKHR, displayTimingProperties: VkRefreshCycleDurationGOOGLE = vk.RefreshCycleDurationGOOGLE()): VkResult =
+        VkResult(GOOGLEDisplayTiming.nvkGetRefreshCycleDurationGOOGLE(this, swapchain.L, displayTimingProperties.adr)).apply { check() }
+
+fun VkDevice.getRenderAreaGranularity(renderPass: VkRenderPass, granularity: VkExtent2D = vk.Extent2D()): VkExtent2D =
+        granularity.also { VK10.nvkGetRenderAreaGranularity(this, renderPass.L, it.adr) }
+
+//fun VkDevice.getSemaphoreFdKHR(renderPass: VkRenderPass, granularity: VkExtent2D = vk.Extent2D()): VkExtent2D =
+//        KHRExternalSemaphoreFd.nvkGetSemaphoreFdKHR(this, renderPass.L, it.adr) TODO
+
+// ----------------------------------
+
+infix fun VkDevice.newCommandBuffer(commandPool: VkCommandPool): VkCommandBuffer = newCommandBuffer(commandPool, VkCommandBufferLevel.PRIMARY)
+
+fun VkDevice.newCommandBuffer(commandPool: VkCommandPool, level: VkCommandBufferLevel = VkCommandBufferLevel.PRIMARY, autostart: Boolean = false): VkCommandBuffer {
     val cmdBufAllocateInfo = vk.CommandBufferAllocateInfo(commandPool, level, 1)
     return allocateCommandBuffers<VkCommandBuffer>(cmdBufAllocateInfo).apply { if (autostart) begin() }
 }
 
 infix fun VkDevice.getImageMemoryRequirements(image: VkImage): VkMemoryRequirements = getImageMemoryRequirements(image, vk.MemoryRequirements())
-
-fun VkDevice.getImageMemoryRequirements(image: VkImage, memoryRequirements: VkMemoryRequirements): VkMemoryRequirements = memoryRequirements.also { VK10.nvkGetImageMemoryRequirements(this, image.L, it.adr) }
-
-fun VkDevice.getImageSubresourceLayout(image: VkImage, subresource: VkImageSubresource): VkSubresourceLayout = vk.SubresourceLayout().also { VK10.nvkGetImageSubresourceLayout(this, image.L, subresource.adr, it.adr) }
-
-fun VkDevice.getImageSubresourceLayout(image: VkImage, subresource: VkImageSubresource, layout: VkSubresourceLayout): VkSubresourceLayout = layout.also { VK10.nvkGetImageSubresourceLayout(this, image.L, subresource.adr, it.adr) }
-
-fun VkDevice.getQueryPoolResults(queryPool: VkQueryPool, firstQuery: Int, queryCount: Int, data: IntBuffer, stride: VkDeviceSize = VkDeviceSize(0), flags: VkQueryResultFlags = 0) {
-    VK_CHECK_RESULT(VK10.nvkGetQueryPoolResults(this, queryPool.L, firstQuery, queryCount, data.rem.L, data.adr, stride.L, flags))
-}
 
 inline fun VkDevice.mappedMemory(memory: VkDeviceMemory, offset: VkDeviceSize, size: VkDeviceSize, flags: VkMemoryMapFlags = 0, block: (Ptr) -> Unit) = stak.pointerAddress { data ->
     VK_CHECK_RESULT(VK10.nvkMapMemory(this, memory.L, offset.L, size.L, flags, data))
@@ -610,13 +781,9 @@ fun VkDevice.mapMemory(memory: VkDeviceMemory, offset: VkDeviceSize, size: VkDev
 
 fun VkDevice.mapMemory(memory: VkDeviceMemory, offset: VkDeviceSize, size: VkDeviceSize, flags: VkMemoryMapFlags, data: PointerBuffer) = VK_CHECK_RESULT(VK10.nvkMapMemory(this, memory.L, offset.L, size.L, flags, data.adr))
 
-infix fun VkDevice.getQueue(queueFamilyIndex: Int): VkQueue = getQueue(queueFamilyIndex, 0)
-
-fun VkDevice.getQueue(queueFamilyIndex: Int, queueIndex: Int): VkQueue = VkQueue(stak.pointerAddress { VK10.nvkGetDeviceQueue(this, queueFamilyIndex, queueIndex, it) }, this)
-
 infix fun VkDevice.getSwapchainImagesKHR(swapchain: VkSwapchainKHR): VkImage_Array =
         stak {
-            val pCount = it.nmalloc(1, Int.BYTES)
+            val pCount = it.nmalloc(4, Int.BYTES)
             VK_CHECK_RESULT(KHRSwapchain.nvkGetSwapchainImagesKHR(this, swapchain.L, pCount, NULL))
             val count = memGetInt(pCount)
             val images = it.nmalloc(Long.BYTES, count * Long.BYTES)

@@ -94,9 +94,9 @@ infix fun VkCommandBuffer.bindVertexBuffers(buffer: VkBuffer) = bindVertexBuffer
 // TODO remove firstBinding?
 fun VkCommandBuffer.bindVertexBuffers(firstBinding: Int, buffer: VkBuffer, offset: VkDeviceSize = VkDeviceSize(0)) =
         stak {
-            val pBuffer = it.nmalloc(1, Long.BYTES)
+            val pBuffer = it.nmalloc(8, Long.BYTES)
             memPutLong(pBuffer, buffer.L)
-            val pOffset = it.nmalloc(1, Long.BYTES)
+            val pOffset = it.nmalloc(8, Long.BYTES)
             memPutLong(pOffset, offset.L)
             VK10.nvkCmdBindVertexBuffers(this, firstBinding, 1, pBuffer, pOffset)
         }

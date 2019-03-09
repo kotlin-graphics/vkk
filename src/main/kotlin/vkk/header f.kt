@@ -400,8 +400,8 @@ inline var VkPhysicalDeviceImageFormatInfo2.format: VkFormat
     get() = VkFormat(VkPhysicalDeviceImageFormatInfo2.nformat(adr))
     set(value) = VkPhysicalDeviceImageFormatInfo2.nformat(adr, value.i)
 inline var VkPhysicalDeviceImageFormatInfo2.type: VkImageType
-    get() = VkImageType(VkPhysicalDeviceImageFormatInfo2.nsType(adr))
-    set(value) = VkPhysicalDeviceImageFormatInfo2.nsType(adr, value.i)
+    get() = VkImageType(VkPhysicalDeviceImageFormatInfo2.ntype(adr))
+    set(value) = VkPhysicalDeviceImageFormatInfo2.ntype(adr, value.i)
 inline var VkPhysicalDeviceImageFormatInfo2.tiling: VkImageTiling
     get() = VkImageTiling(VkPhysicalDeviceImageFormatInfo2.ntiling(adr))
     set(value) = VkPhysicalDeviceImageFormatInfo2.ntiling(adr, value.i)
@@ -453,8 +453,8 @@ inline var VkPhysicalDeviceSparseImageFormatInfo2.format: VkFormat
     get() = VkFormat(VkPhysicalDeviceSparseImageFormatInfo2.nformat(adr))
     set(value) = VkPhysicalDeviceSparseImageFormatInfo2.nformat(adr, value.i)
 inline var VkPhysicalDeviceSparseImageFormatInfo2.type: VkImageType
-    get() = VkImageType(VkPhysicalDeviceSparseImageFormatInfo2.nsType(adr))
-    set(value) = VkPhysicalDeviceSparseImageFormatInfo2.nsType(adr, value.i)
+    get() = VkImageType(VkPhysicalDeviceSparseImageFormatInfo2.ntype(adr))
+    set(value) = VkPhysicalDeviceSparseImageFormatInfo2.ntype(adr, value.i)
 inline var VkPhysicalDeviceSparseImageFormatInfo2.samples: VkSampleCount
     get() = VkSampleCount(VkPhysicalDeviceSparseImageFormatInfo2.nsamples(adr))
     set(value) = VkPhysicalDeviceSparseImageFormatInfo2.nsamples(adr, value.i)

@@ -22,7 +22,7 @@ inline class VkBuffer(val L: Long = VK_NULL_HANDLE) {
     val isValid get() = L != VK_NULL_HANDLE
     val isInvalid get() = L == VK_NULL_HANDLE
 
-    val asHexString: String
+    val hexString: String
         get() = "0x%X".format(L)
 
     companion object {
@@ -70,7 +70,7 @@ inline class VkDescriptorSet(val L: Long = VK_NULL_HANDLE) {
     val isValid get() = L != VK_NULL_HANDLE
     val isInvalid get() = L == VK_NULL_HANDLE
 
-    val asHexString: String
+    val hexString: String
         get() = "0x%X".format(L)
 
     companion object {
@@ -82,7 +82,7 @@ inline class VkDescriptorSetLayout(val L: Long = VK_NULL_HANDLE) {
     val isValid get() = L != VK_NULL_HANDLE
     val isInvalid get() = L == VK_NULL_HANDLE
 
-    val asHexString: String
+    val hexString: String
         get() = "0x%X".format(L)
 
     companion object {
@@ -99,12 +99,25 @@ inline class VkDescriptorUpdateTemplate(val L: Long = VK_NULL_HANDLE) {
     }
 }
 
+inline class VkDeviceAddress(val L: Long = VK_NULL_HANDLE) {
+
+    val isValid get() = L != VK_NULL_HANDLE
+    val isInvalid get() = L == VK_NULL_HANDLE
+
+    val hexString: String
+        get() = "0x%X".format(L)
+
+    companion object {
+        val NULL = VkDeviceAddress()
+    }
+}
+
 inline class VkDeviceMemory(val L: Long = VK_NULL_HANDLE) {
 
     val isValid get() = L != VK_NULL_HANDLE
     val isInvalid get() = L == VK_NULL_HANDLE
 
-    val asHexString: String
+    val hexString: String
         get() = "0x%X".format(L)
 
     companion object {
