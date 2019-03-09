@@ -186,6 +186,7 @@ object vk {
     inline fun PipelineRasterizationStateCreateInfo(block: VkPipelineRasterizationStateCreateInfo.() -> Unit): VkPipelineRasterizationStateCreateInfo = PipelineRasterizationStateCreateInfo().also(block)
 
     // TODO check
+    fun PipelineShaderStageCreateInfo(): VkPipelineShaderStageCreateInfo = VkPipelineShaderStageCreateInfo.callocStack().apply{ type = VkStructureType.PIPELINE_SHADER_STAGE_CREATE_INFO }
     fun PipelineShaderStageCreateInfo(capacity: Int): VkPipelineShaderStageCreateInfo.Buffer = VkPipelineShaderStageCreateInfo.callocStack(capacity).onEach { it.type = VkStructureType.PIPELINE_SHADER_STAGE_CREATE_INFO }
 
     fun PipelineVertexInputStateCreateInfo(): VkPipelineVertexInputStateCreateInfo = VkPipelineVertexInputStateCreateInfo.callocStack().apply { type = VkStructureType.PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO }
