@@ -898,7 +898,7 @@ object vk {
                 this.dstSet = dstSet
                 descriptorType = type
                 dstBinding = binding
-                imageInfo_ = imageInfo
+                imageInfo = imageInfo
             }
 
     fun WriteDescriptorSet(dstSet: VkDescriptorSet, type: VkDescriptorType, binding: Int, bufferInfo: VkDescriptorBufferInfo): VkWriteDescriptorSet =
@@ -914,9 +914,9 @@ object vk {
             dstSet1: VkDescriptorSet, type1: VkDescriptorType, binding1: Int, info1: Struct): VkWriteDescriptorSet.Buffer =
             WriteDescriptorSet(2).also {
                 it[0].dstSet(dstSet0.L).descriptorType(type0.i).dstBinding(binding0)
-                if (info0 is VkDescriptorBufferInfo) it[0].bufferInfo_ = info0 else it[0].imageInfo_ = info0 as VkDescriptorImageInfo
+                if (info0 is VkDescriptorBufferInfo) it[0].bufferInfo_ = info0 else it[0].imageInfo = info0 as VkDescriptorImageInfo
                 it[1].dstSet(dstSet1.L).descriptorType(type1.i).dstBinding(binding1)
-                if (info1 is VkDescriptorBufferInfo) it[1].bufferInfo_ = info1 else it[1].imageInfo_ = info1 as VkDescriptorImageInfo
+                if (info1 is VkDescriptorBufferInfo) it[1].bufferInfo_ = info1 else it[1].imageInfo = info1 as VkDescriptorImageInfo
             }
 
     fun WriteDescriptorSet(
@@ -925,11 +925,11 @@ object vk {
             dstSet2: VkDescriptorSet, type2: VkDescriptorType, binding2: Int, info2: Struct): VkWriteDescriptorSet.Buffer =
             WriteDescriptorSet(3).also {
                 it[0].dstSet(dstSet0.L).descriptorType(type0.i).dstBinding(binding0)
-                if (info0 is VkDescriptorBufferInfo) it[0].bufferInfo_ = info0 else it[0].imageInfo_ = info0 as VkDescriptorImageInfo
+                if (info0 is VkDescriptorBufferInfo) it[0].bufferInfo_ = info0 else it[0].imageInfo = info0 as VkDescriptorImageInfo
                 it[1].dstSet(dstSet1.L).descriptorType(type1.i).dstBinding(binding1)
-                if (info1 is VkDescriptorBufferInfo) it[1].bufferInfo_ = info1 else it[1].imageInfo_ = info1 as VkDescriptorImageInfo
+                if (info1 is VkDescriptorBufferInfo) it[1].bufferInfo_ = info1 else it[1].imageInfo = info1 as VkDescriptorImageInfo
                 it[2].dstSet(dstSet2.L).descriptorType(type2.i).dstBinding(binding2)
-                if (info2 is VkDescriptorBufferInfo) it[2].bufferInfo_ = info2 else it[2].imageInfo_ = info2 as VkDescriptorImageInfo
+                if (info2 is VkDescriptorBufferInfo) it[2].bufferInfo_ = info2 else it[2].imageInfo = info2 as VkDescriptorImageInfo
             }
 
     fun WriteDescriptorSet(
@@ -939,13 +939,13 @@ object vk {
             dstSet3: VkDescriptorSet, type3: VkDescriptorType, binding3: Int, info3: Struct): VkWriteDescriptorSet.Buffer =
             WriteDescriptorSet(4).also {
                 it[0].dstSet(dstSet0.L).descriptorType(type0.i).dstBinding(binding0)
-                if (info0 is VkDescriptorBufferInfo) it[0].bufferInfo_ = info0 else it[0].imageInfo_ = info0 as VkDescriptorImageInfo
+                if (info0 is VkDescriptorBufferInfo) it[0].bufferInfo_ = info0 else it[0].imageInfo = info0 as VkDescriptorImageInfo
                 it[1].dstSet(dstSet1.L).descriptorType(type1.i).dstBinding(binding1)
-                if (info1 is VkDescriptorBufferInfo) it[1].bufferInfo_ = info1 else it[1].imageInfo_ = info1 as VkDescriptorImageInfo
+                if (info1 is VkDescriptorBufferInfo) it[1].bufferInfo_ = info1 else it[1].imageInfo = info1 as VkDescriptorImageInfo
                 it[2].dstSet(dstSet2.L).descriptorType(type2.i).dstBinding(binding2)
-                if (info2 is VkDescriptorBufferInfo) it[2].bufferInfo_ = info2 else it[2].imageInfo_ = info2 as VkDescriptorImageInfo
+                if (info2 is VkDescriptorBufferInfo) it[2].bufferInfo_ = info2 else it[2].imageInfo = info2 as VkDescriptorImageInfo
                 it[3].dstSet(dstSet3.L).descriptorType(type3.i).dstBinding(binding3)
-                if (info3 is VkDescriptorBufferInfo) it[3].bufferInfo_ = info3 else it[3].imageInfo_ = info3 as VkDescriptorImageInfo
+                if (info3 is VkDescriptorBufferInfo) it[3].bufferInfo_ = info3 else it[3].imageInfo = info3 as VkDescriptorImageInfo
             }
 
 

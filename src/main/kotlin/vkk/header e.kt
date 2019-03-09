@@ -128,11 +128,11 @@ inline var VkWriteDescriptorSet.descriptorCount: Int
 inline var VkWriteDescriptorSet.descriptorType: VkDescriptorType
     get() = VkDescriptorType(VkWriteDescriptorSet.ndescriptorType(adr))
     set(value) = VkWriteDescriptorSet.ndescriptorType(adr, value.i)
-inline var VkWriteDescriptorSet.imageInfo: VkDescriptorImageInfo.Buffer?
+inline var VkWriteDescriptorSet.imageInfos: VkDescriptorImageInfo.Buffer?
     get() = VkWriteDescriptorSet.npImageInfo(adr)
     set(value) = VkWriteDescriptorSet.npImageInfo(adr, value)
 /** JVM custom */
-inline var VkWriteDescriptorSet.imageInfo_: VkDescriptorImageInfo?
+inline var VkWriteDescriptorSet.imageInfo: VkDescriptorImageInfo?
     get() = VkDescriptorImageInfo.createSafe(memGetAddress(adr + VkWriteDescriptorSet.PIMAGEINFO))
     set(value) {
         memPutAddress(adr + VkWriteDescriptorSet.PIMAGEINFO, memAddressSafe(value))

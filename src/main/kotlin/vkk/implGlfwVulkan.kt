@@ -583,7 +583,7 @@ package vkk
 //            val writeDesc = vk.WriteDescriptorSet {
 //                dstSet = descriptorSet
 //                descriptorType = VkDescriptorType.COMBINED_IMAGE_SAMPLER
-//                imageInfo_ = descImage
+//                imageInfo = descImage
 //            }
 //            device updateDescriptorSets writeDesc
 //        }
