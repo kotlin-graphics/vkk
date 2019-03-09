@@ -885,7 +885,7 @@ inline class VkMemoryStack(val stack: MemoryStack) {
             this.dstSet = dstSet
             descriptorType = type
             dstBinding = binding
-            imageInfo = imageInfo
+            this.imageInfo = imageInfo
         }
 
     fun WriteDescriptorSet(dstSet: VkDescriptorSet, type: VkDescriptorType, binding: Int, bufferInfo: VkDescriptorBufferInfo): VkWriteDescriptorSet =

@@ -898,7 +898,7 @@ object vk {
                 this.dstSet = dstSet
                 descriptorType = type
                 dstBinding = binding
-                imageInfo = imageInfo
+                this.imageInfo = imageInfo
             }
 
     fun WriteDescriptorSet(dstSet: VkDescriptorSet, type: VkDescriptorType, binding: Int, bufferInfo: VkDescriptorBufferInfo): VkWriteDescriptorSet =
