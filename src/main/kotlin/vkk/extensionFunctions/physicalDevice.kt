@@ -4,7 +4,6 @@ import glm_.BYTES
 import glm_.bool
 import kool.*
 import org.lwjgl.system.MemoryStack.stackGet
-import org.lwjgl.system.MemoryUtil
 import org.lwjgl.system.MemoryUtil.*
 import org.lwjgl.vulkan.*
 import vkk.*
@@ -492,15 +491,15 @@ inline fun <reified T> VkPhysicalDevice.getQueueFamilyProperties(): T = when (T:
     Int::class -> stak.intAddress {
         VK10.nvkGetPhysicalDeviceQueueFamilyProperties(this, it, NULL)
     } as T
-    ArrayList::class -> {
-        val st = stackGet()
-        val pQueueFamilyPropertyCount = st.nmalloc(4, Int.BYTES)
-        VK10.nvkGetPhysicalDeviceQueueFamilyProperties(this, pQueueFamilyPropertyCount, NULL)
-        val count = memGetInt(pQueueFamilyPropertyCount)
-        st.QueueFamilyProperties(count).also {
-            VK10.nvkGetPhysicalDeviceQueueFamilyProperties(this, pQueueFamilyPropertyCount, it.adr)
-        }.toCollection(arrayListOf()) as T
-    }
+//    ArrayList::class -> {
+//        val st = stackGet()
+//        val pQueueFamilyPropertyCount = st.nmalloc(4, Int.BYTES)
+//        VK10.nvkGetPhysicalDeviceQueueFamilyProperties(this, pQueueFamilyPropertyCount, NULL)
+//        val count = memGetInt(pQueueFamilyPropertyCount)
+//        st.QueueFamilyProperties(count).also {
+//            VK10.nvkGetPhysicalDeviceQueueFamilyProperties(this, pQueueFamilyPropertyCount, it.adr)
+//        }.toCollection(arrayListOf()) as T
+//    }
     VkQueueFamilyProperties.Buffer::class -> {
         val st = stackGet()
         val pQueueFamilyPropertyCount = st.nmalloc(4, Int.BYTES)
@@ -513,7 +512,7 @@ inline fun <reified T> VkPhysicalDevice.getQueueFamilyProperties(): T = when (T:
     else -> throw Exception("[VkPhysicalDevice::getQueueFamilyProperties] Invalid T")
 }
 
-inline val VkPhysicalDevice.queueFamilyProperties: ArrayList<VkQueueFamilyProperties>
+inline val VkPhysicalDevice.queueFamilyProperties: VkQueueFamilyProperties.Buffer
     get() = getQueueFamilyProperties()
 
 
@@ -788,10 +787,20 @@ fun VkPhysicalDevice.getSurfaceSupportKHR(queueFamilyIndex: Int, surface: VkSurf
             VK_CHECK_RESULT(KHRSurface.nvkGetPhysicalDeviceSurfaceSupportKHR(this, queueFamilyIndex, surface.L, it))
         }.bool
 
+fun VkPhysicalDevice.getSurfaceSupportKHR(queueFamilyIndices: VkQueueFamilyProperties.Buffer, surface: VkSurfaceKHR): BooleanArray =
+        BooleanArray(queueFamilyIndices.rem) { i ->
+            stak.intAddress {
+                VK_CHECK_RESULT(KHRSurface.nvkGetPhysicalDeviceSurfaceSupportKHR(this, i, surface.L, it))
+            }.bool
+        }
 
 fun VkPhysicalDevice.getSurfaceSupportKHR(queueFamilyIndex: Int, display: WLDisplay): Boolean =
         KHRWaylandSurface.vkGetPhysicalDeviceWaylandPresentationSupportKHR(this, queueFamilyIndex, display.L)
 
+fun VkPhysicalDevice.getSurfaceSupportKHR(queueFamilyIndices: VkQueueFamilyProperties.Buffer, display: WLDisplay): BooleanArray =
+        BooleanArray(queueFamilyIndices.rem) { i ->
+            KHRWaylandSurface.vkGetPhysicalDeviceWaylandPresentationSupportKHR(this, i, display.L)
+        }
 
 infix fun VkPhysicalDevice.getWin32PresentationSupportKHR(queueFamilyIndex: Int): Boolean =
         KHRWin32Surface.vkGetPhysicalDeviceWin32PresentationSupportKHR(this, queueFamilyIndex)

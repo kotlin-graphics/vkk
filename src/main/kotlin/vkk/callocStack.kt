@@ -1,5 +1,6 @@
 package vkk
 
+import org.lwjgl.Version
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.vulkan.*
 
@@ -363,10 +364,10 @@ fun MemoryStack.DescriptorSetVariableDescriptorCountAllocateInfoEXT(block: VkDes
 fun MemoryStack.DescriptorSetVariableDescriptorCountAllocateInfoEXT(capacity: Int): VkDescriptorSetVariableDescriptorCountAllocateInfoEXT.Buffer = VkDescriptorSetVariableDescriptorCountAllocateInfoEXT.callocStack(capacity, this).onEach { it.type = VkStructureType.DESCRIPTOR_SET_VARIABLE_DESCRIPTOR_COUNT_ALLOCATE_INFO_EXT }
 fun MemoryStack.DescriptorSetVariableDescriptorCountAllocateInfoEXT(capacity: Int, block: VkDescriptorSetVariableDescriptorCountAllocateInfoEXT.Buffer.() -> Unit): VkDescriptorSetVariableDescriptorCountAllocateInfoEXT.Buffer = DescriptorSetVariableDescriptorCountAllocateInfoEXT(capacity).also(block)
 
-//fun MemoryStack.DescriptorSetVariableDescriptorCountLayoutSupportEXT(): VkDescriptorSetVariableDescriptorCountLayoutSupportEXT = VkDescriptorSetVariableDescriptorCountLayoutSupportEXT.callocStack(this).apply { type = VkStructureType.DESCRIPTOR_SET_VARIABLE_DESCRIPTOR_COUNT_ALLOCATE_INFO_EXT }
-//fun MemoryStack.DescriptorSetVariableDescriptorCountLayoutSupportEXT(block: VkDescriptorSetVariableDescriptorCountLayoutSupportEXT.() -> Unit): VkDescriptorSetVariableDescriptorCountLayoutSupportEXT = DescriptorSetVariableDescriptorCountLayoutSupportEXT().also(block)
-//fun MemoryStack.DescriptorSetVariableDescriptorCountLayoutSupportEXT(capacity: Int): VkDescriptorSetVariableDescriptorCountLayoutSupportEXT.Buffer = VkDescriptorSetVariableDescriptorCountLayoutSupportEXT.callocStack(capacity, this).onEach { it.type = VkStructureType.DESCRIPTOR_SET_VARIABLE_DESCRIPTOR_COUNT_ALLOCATE_INFO_EXT }
-//fun MemoryStack.DescriptorSetVariableDescriptorCountLayoutSupportEXT(capacity: Int, block: VkDescriptorSetVariableDescriptorCountLayoutSupportEXT.Buffer.() -> Unit): VkDescriptorSetVariableDescriptorCountLayoutSupportEXT.Buffer = DescriptorSetVariableDescriptorCountLayoutSupportEXT(capacity).also(block)
+fun MemoryStack.DescriptorSetVariableDescriptorCountLayoutSupportEXT(): VkDescriptorSetVariableDescriptorCountLayoutSupportEXT = VkDescriptorSetVariableDescriptorCountLayoutSupportEXT.callocStack(this).apply { type = VkStructureType.DESCRIPTOR_SET_VARIABLE_DESCRIPTOR_COUNT_ALLOCATE_INFO_EXT }
+fun MemoryStack.DescriptorSetVariableDescriptorCountLayoutSupportEXT(block: VkDescriptorSetVariableDescriptorCountLayoutSupportEXT.() -> Unit): VkDescriptorSetVariableDescriptorCountLayoutSupportEXT = DescriptorSetVariableDescriptorCountLayoutSupportEXT().also(block)
+fun MemoryStack.DescriptorSetVariableDescriptorCountLayoutSupportEXT(capacity: Int): VkDescriptorSetVariableDescriptorCountLayoutSupportEXT.Buffer = VkDescriptorSetVariableDescriptorCountLayoutSupportEXT.callocStack(capacity, this).onEach { it.type = VkStructureType.DESCRIPTOR_SET_VARIABLE_DESCRIPTOR_COUNT_ALLOCATE_INFO_EXT }
+fun MemoryStack.DescriptorSetVariableDescriptorCountLayoutSupportEXT(capacity: Int, block: VkDescriptorSetVariableDescriptorCountLayoutSupportEXT.Buffer.() -> Unit): VkDescriptorSetVariableDescriptorCountLayoutSupportEXT.Buffer = DescriptorSetVariableDescriptorCountLayoutSupportEXT(capacity).also(block)
 
 fun MemoryStack.DescriptorUpdateTemplateCreateInfo(): VkDescriptorUpdateTemplateCreateInfo = VkDescriptorUpdateTemplateCreateInfo.callocStack(this).apply { type = VkStructureType.DESCRIPTOR_UPDATE_TEMPLATE_CREATE_INFO }
 fun MemoryStack.DescriptorUpdateTemplateCreateInfo(block: VkDescriptorUpdateTemplateCreateInfo.() -> Unit): VkDescriptorUpdateTemplateCreateInfo = DescriptorUpdateTemplateCreateInfo().also(block)
@@ -557,11 +558,11 @@ fun MemoryStack.DrawMeshTasksIndirectCommandNV(capacity: Int, block: VkDrawMeshT
 //fun MemoryStack.DrmFormatModifierPropertiesEXT(block: VkDrmFormatModifierPropertiesEXT.() -> Unit): VkDrmFormatModifierPropertiesEXT = DrmFormatModifierPropertiesEXT().also(block)
 //fun MemoryStack.DrmFormatModifierPropertiesEXT(capacity: Int): VkDrmFormatModifierPropertiesEXT.Buffer = VkDrmFormatModifierPropertiesEXT.callocStack(capacity, this)
 //fun MemoryStack.DrmFormatModifierPropertiesEXT(capacity: Int, block: VkDrmFormatModifierPropertiesEXT.Buffer.() -> Unit): VkDrmFormatModifierPropertiesEXT.Buffer = DrmFormatModifierPropertiesEXT(capacity).also(block)
-//
-//fun MemoryStack.DrmFormatModifierPropertiesListEXT(): VkDrmFormatModifierPropertiesListEXT = VkDrmFormatModifierPropertiesListEXT.callocStack(this)
-//fun MemoryStack.DrmFormatModifierPropertiesListEXT(block: VkDrmFormatModifierPropertiesListEXT.() -> Unit): VkDrmFormatModifierPropertiesListEXT = DrmFormatModifierPropertiesListEXT().also(block)
-//fun MemoryStack.DrmFormatModifierPropertiesListEXT(capacity: Int): VkDrmFormatModifierPropertiesListEXT.Buffer = VkDrmFormatModifierPropertiesListEXT.callocStack(capacity, this)
-//fun MemoryStack.DrmFormatModifierPropertiesListEXT(capacity: Int, block: VkDrmFormatModifierPropertiesListEXT.Buffer.() -> Unit): VkDrmFormatModifierPropertiesListEXT.Buffer = DrmFormatModifierPropertiesListEXT(capacity).also(block)
+
+fun MemoryStack.DrmFormatModifierPropertiesListEXT(): VkDrmFormatModifierPropertiesListEXT = VkDrmFormatModifierPropertiesListEXT.callocStack(this)
+fun MemoryStack.DrmFormatModifierPropertiesListEXT(block: VkDrmFormatModifierPropertiesListEXT.() -> Unit): VkDrmFormatModifierPropertiesListEXT = DrmFormatModifierPropertiesListEXT().also(block)
+fun MemoryStack.DrmFormatModifierPropertiesListEXT(capacity: Int): VkDrmFormatModifierPropertiesListEXT.Buffer = VkDrmFormatModifierPropertiesListEXT.callocStack(capacity, this)
+fun MemoryStack.DrmFormatModifierPropertiesListEXT(capacity: Int, block: VkDrmFormatModifierPropertiesListEXT.Buffer.() -> Unit): VkDrmFormatModifierPropertiesListEXT.Buffer = DrmFormatModifierPropertiesListEXT(capacity).also(block)
 
 fun MemoryStack.D3D12FenceSubmitInfoKHR(): VkD3D12FenceSubmitInfoKHR = VkD3D12FenceSubmitInfoKHR.callocStack(this).apply { type = VkStructureType.D3D12_FENCE_SUBMIT_INFO_KHR }
 fun MemoryStack.D3D12FenceSubmitInfoKHR(block: VkD3D12FenceSubmitInfoKHR.() -> Unit): VkD3D12FenceSubmitInfoKHR = D3D12FenceSubmitInfoKHR().also(block)
@@ -638,10 +639,10 @@ fun MemoryStack.ExternalFenceProperties(block: VkExternalFenceProperties.() -> U
 fun MemoryStack.ExternalFenceProperties(capacity: Int): VkExternalFenceProperties.Buffer = VkExternalFenceProperties.callocStack(capacity, this).onEach { it.type = VkStructureType.EXTERNAL_FENCE_PROPERTIES }
 fun MemoryStack.ExternalFenceProperties(capacity: Int, block: VkExternalFenceProperties.Buffer.() -> Unit): VkExternalFenceProperties.Buffer = ExternalFenceProperties(capacity).also(block)
 
-//fun MemoryStack.ExternalImageFormatProperties(): VkExternalImageFormatProperties = VkExternalImageFormatProperties.callocStack(this).apply { type = VkStructureType.EXTERNAL_IMAGE_FORMAT_PROPERTIES }
-//fun MemoryStack.ExternalImageFormatProperties(block: VkExternalImageFormatProperties.() -> Unit): VkExternalImageFormatProperties = ExternalImageFormatProperties().also(block)
-//fun MemoryStack.ExternalImageFormatProperties(capacity: Int): VkExternalImageFormatProperties.Buffer = VkExternalImageFormatProperties.callocStack(capacity, this).onEach { it.type = VkStructureType.EXTERNAL_IMAGE_FORMAT_PROPERTIES }
-//fun MemoryStack.ExternalImageFormatProperties(capacity: Int, block: VkExternalImageFormatProperties.Buffer.() -> Unit): VkExternalImageFormatProperties.Buffer = ExternalImageFormatProperties(capacity).also(block)
+fun MemoryStack.ExternalImageFormatProperties(): VkExternalImageFormatProperties = VkExternalImageFormatProperties.callocStack(this).apply { type = VkStructureType.EXTERNAL_IMAGE_FORMAT_PROPERTIES }
+fun MemoryStack.ExternalImageFormatProperties(block: VkExternalImageFormatProperties.() -> Unit): VkExternalImageFormatProperties = ExternalImageFormatProperties().also(block)
+fun MemoryStack.ExternalImageFormatProperties(capacity: Int): VkExternalImageFormatProperties.Buffer = VkExternalImageFormatProperties.callocStack(capacity, this).onEach { it.type = VkStructureType.EXTERNAL_IMAGE_FORMAT_PROPERTIES }
+fun MemoryStack.ExternalImageFormatProperties(capacity: Int, block: VkExternalImageFormatProperties.Buffer.() -> Unit): VkExternalImageFormatProperties.Buffer = ExternalImageFormatProperties(capacity).also(block)
 
 fun MemoryStack.ExternalImageFormatPropertiesNV(): VkExternalImageFormatPropertiesNV = VkExternalImageFormatPropertiesNV.callocStack(this)
 fun MemoryStack.ExternalImageFormatPropertiesNV(block: VkExternalImageFormatPropertiesNV.() -> Unit): VkExternalImageFormatPropertiesNV = ExternalImageFormatPropertiesNV().also(block)
@@ -688,10 +689,10 @@ fun MemoryStack.FenceGetWin32HandleInfoKHR(block: VkFenceGetWin32HandleInfoKHR.(
 fun MemoryStack.FenceGetWin32HandleInfoKHR(capacity: Int): VkFenceGetWin32HandleInfoKHR.Buffer = VkFenceGetWin32HandleInfoKHR.callocStack(capacity, this).onEach { it.type = VkStructureType.FENCE_GET_WIN32_HANDLE_INFO_KHR }
 fun MemoryStack.FenceGetWin32HandleInfoKHR(capacity: Int, block: VkFenceGetWin32HandleInfoKHR.Buffer.() -> Unit): VkFenceGetWin32HandleInfoKHR.Buffer = FenceGetWin32HandleInfoKHR(capacity).also(block)
 
-//fun MemoryStack.FilterCubicImageViewImageFormatPropertiesEXT(): VkFilterCubicImageViewImageFormatPropertiesEXT = VkFilterCubicImageViewImageFormatPropertiesEXT.callocStack(this).apply { type = VkStructureType.FENCE_GET_WIN32_HANDLE_INFO_KHR }
-//fun MemoryStack.FilterCubicImageViewImageFormatPropertiesEXT(block: VkFilterCubicImageViewImageFormatPropertiesEXT.() -> Unit): VkFilterCubicImageViewImageFormatPropertiesEXT = FilterCubicImageViewImageFormatPropertiesEXT().also(block)
-//fun MemoryStack.FilterCubicImageViewImageFormatPropertiesEXT(capacity: Int): VkFilterCubicImageViewImageFormatPropertiesEXT.Buffer = VkFilterCubicImageViewImageFormatPropertiesEXT.callocStack(capacity, this).onEach { it.type = VkStructureType.FENCE_GET_WIN32_HANDLE_INFO_KHR }
-//fun MemoryStack.FilterCubicImageViewImageFormatPropertiesEXT(capacity: Int, block: VkFilterCubicImageViewImageFormatPropertiesEXT.Buffer.() -> Unit): VkFilterCubicImageViewImageFormatPropertiesEXT.Buffer = FilterCubicImageViewImageFormatPropertiesEXT(capacity).also(block)
+fun MemoryStack.FilterCubicImageViewImageFormatPropertiesEXT(): VkFilterCubicImageViewImageFormatPropertiesEXT = VkFilterCubicImageViewImageFormatPropertiesEXT.callocStack(this).apply { type = VkStructureType.FENCE_GET_WIN32_HANDLE_INFO_KHR }
+fun MemoryStack.FilterCubicImageViewImageFormatPropertiesEXT(block: VkFilterCubicImageViewImageFormatPropertiesEXT.() -> Unit): VkFilterCubicImageViewImageFormatPropertiesEXT = FilterCubicImageViewImageFormatPropertiesEXT().also(block)
+fun MemoryStack.FilterCubicImageViewImageFormatPropertiesEXT(capacity: Int): VkFilterCubicImageViewImageFormatPropertiesEXT.Buffer = VkFilterCubicImageViewImageFormatPropertiesEXT.callocStack(capacity, this).onEach { it.type = VkStructureType.FENCE_GET_WIN32_HANDLE_INFO_KHR }
+fun MemoryStack.FilterCubicImageViewImageFormatPropertiesEXT(capacity: Int, block: VkFilterCubicImageViewImageFormatPropertiesEXT.Buffer.() -> Unit): VkFilterCubicImageViewImageFormatPropertiesEXT.Buffer = FilterCubicImageViewImageFormatPropertiesEXT(capacity).also(block)
 
 fun MemoryStack.FormatProperties(): VkFormatProperties = VkFormatProperties.callocStack(this)
 fun MemoryStack.FormatProperties(block: VkFormatProperties.() -> Unit): VkFormatProperties = FormatProperties().also(block)
@@ -958,10 +959,10 @@ fun MemoryStack.MemoryDedicatedAllocateInfo(block: VkMemoryDedicatedAllocateInfo
 fun MemoryStack.MemoryDedicatedAllocateInfo(capacity: Int): VkMemoryDedicatedAllocateInfo.Buffer = VkMemoryDedicatedAllocateInfo.callocStack(capacity, this).onEach { it.type = VkStructureType.MEMORY_DEDICATED_ALLOCATE_INFO }
 fun MemoryStack.MemoryDedicatedAllocateInfo(capacity: Int, block: VkMemoryDedicatedAllocateInfo.Buffer.() -> Unit): VkMemoryDedicatedAllocateInfo.Buffer = MemoryDedicatedAllocateInfo(capacity).also(block)
 
-//fun MemoryStack.MemoryDedicatedRequirements(): VkMemoryDedicatedRequirements = VkMemoryDedicatedRequirements.callocStack(this).apply { type = VkStructureType.MEMORY_DEDICATED_ALLOCATE_INFO }
-//fun MemoryStack.MemoryDedicatedRequirements(block: VkMemoryDedicatedRequirements.() -> Unit): VkMemoryDedicatedRequirements = MemoryDedicatedRequirements().also(block)
-//fun MemoryStack.MemoryDedicatedRequirements(capacity: Int): VkMemoryDedicatedRequirements.Buffer = VkMemoryDedicatedRequirements.callocStack(capacity, this).onEach { it.type = VkStructureType.MEMORY_DEDICATED_ALLOCATE_INFO }
-//fun MemoryStack.MemoryDedicatedRequirements(capacity: Int, block: VkMemoryDedicatedRequirements.Buffer.() -> Unit): VkMemoryDedicatedRequirements.Buffer = MemoryDedicatedRequirements(capacity).also(block)
+fun MemoryStack.MemoryDedicatedRequirements(): VkMemoryDedicatedRequirements = VkMemoryDedicatedRequirements.callocStack(this).apply { type = VkStructureType.MEMORY_DEDICATED_ALLOCATE_INFO }
+fun MemoryStack.MemoryDedicatedRequirements(block: VkMemoryDedicatedRequirements.() -> Unit): VkMemoryDedicatedRequirements = MemoryDedicatedRequirements().also(block)
+fun MemoryStack.MemoryDedicatedRequirements(capacity: Int): VkMemoryDedicatedRequirements.Buffer = VkMemoryDedicatedRequirements.callocStack(capacity, this).onEach { it.type = VkStructureType.MEMORY_DEDICATED_ALLOCATE_INFO }
+fun MemoryStack.MemoryDedicatedRequirements(capacity: Int, block: VkMemoryDedicatedRequirements.Buffer.() -> Unit): VkMemoryDedicatedRequirements.Buffer = MemoryDedicatedRequirements(capacity).also(block)
 
 fun MemoryStack.MemoryFdPropertiesKHR(): VkMemoryFdPropertiesKHR = VkMemoryFdPropertiesKHR.callocStack(this).apply { type = VkStructureType.MEMORY_FD_PROPERTIES_KHR }
 fun MemoryStack.MemoryFdPropertiesKHR(block: VkMemoryFdPropertiesKHR.() -> Unit): VkMemoryFdPropertiesKHR = MemoryFdPropertiesKHR().also(block)
