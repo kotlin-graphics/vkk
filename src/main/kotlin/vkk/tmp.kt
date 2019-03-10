@@ -126,6 +126,10 @@ inline class VkTimeDomainEXT_Buffer(val buffer: IntBuffer) {
 inline class VkPresentModeKHR_Buffer(val buffer: IntBuffer) {
     val rem get() = buffer.rem
     val adr get() = buffer.adr
+    operator fun get(index: Int) = VkPresentModeKHR(buffer[index])
+    operator fun set(index: Int, presentMode: VkPresentModeKHR) {
+        buffer[index] = presentMode.i
+    }
 }
 
 class VkPhysicalDevice_Buffer(val buffer: PointerBuffer, val instance: VkInstance) {
