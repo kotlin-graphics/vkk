@@ -140,6 +140,7 @@ inline class VkDeviceSize(val L: Long = VK_NULL_HANDLE) {
 
     companion object {
         val NULL = VkDeviceSize()
+        val WHOLE_SIZE = VkDeviceSize(0L)
     }
 }
 
