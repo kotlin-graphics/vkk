@@ -8,6 +8,8 @@ import org.lwjgl.system.MemoryStack.stackGet
 import org.lwjgl.system.MemoryUtil
 import org.lwjgl.vulkan.VkCommandBuffer
 import org.lwjgl.vulkan.VkD3D12FenceSubmitInfoKHR
+import org.lwjgl.vulkan.VkInstance
+import org.lwjgl.vulkan.VkPhysicalDevice
 import vkk.entities.VkDeviceSize
 import vkk.entities.VkDisplayKHR_Buffer
 import vkk.entities.VkSemaphore_Buffer
@@ -126,9 +128,14 @@ inline class VkPresentModeKHR_Buffer(val buffer: IntBuffer) {
     val adr get() = buffer.adr
 }
 
-inline class VkPhysicalDevice_Buffer(val buffer: PointerBuffer) {
+class VkPhysicalDevice_Buffer(val buffer: PointerBuffer, val instance: VkInstance) {
     val rem get() = buffer.rem
     val adr: Adr get() = buffer.adr // TODO -> Adr
+
+    operator fun get(index: Int) = VkPhysicalDevice(buffer[index], instance)
+    operator fun set(index: Int, vkPhysicalDevice: VkPhysicalDevice) {
+        buffer.put(index, vkPhysicalDevice.adr)
+    }
 }
 
 

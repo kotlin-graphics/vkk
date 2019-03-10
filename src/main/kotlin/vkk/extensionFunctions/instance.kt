@@ -108,7 +108,7 @@ inline fun <reified T> VkInstance.enumeratePhysicalDeviceGroups(): T = when (T::
             val physicalDeviceCount = memGetInt(pPhysicalDeviceGroupCount)
             if (result == VkResult.SUCCESS && physicalDeviceCount != 0) {
                 physicalDeviceGroupProperties = it.PhysicalDeviceGroupProperties(physicalDeviceCount)
-                result = VkResult(VK10.nvkEnumeratePhysicalDevices(this, pPhysicalDeviceGroupCount, physicalDeviceGroupProperties.adr))
+                result = VkResult(VK11.nvkEnumeratePhysicalDeviceGroups(this, pPhysicalDeviceGroupCount, physicalDeviceGroupProperties.adr))
             }
         } while (result == VkResult.INCOMPLETE)
         physicalDeviceGroupProperties as T
@@ -171,7 +171,7 @@ inline fun <reified T> VkInstance.enumeratePhysicalDevices(): T = when (T::class
                 result = VkResult(VK10.nvkEnumeratePhysicalDevices(this, pPhysicalDeviceGroupCount, physicalDevices.adr))
             }
         } while (result == VkResult.INCOMPLETE)
-        VkPhysicalDevice_Buffer(physicalDevices) as T
+        VkPhysicalDevice_Buffer(physicalDevices, this) as T
     }
     else -> throw Exception("[VkInstance::enumeratePhysicalDevices] Invalid T")
 }
