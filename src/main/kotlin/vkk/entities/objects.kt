@@ -9,6 +9,7 @@ import vkk.vk
 import java.nio.ByteBuffer
 import java.nio.LongBuffer
 
+
 inline class VkAccelerationStructureNV(val L: Long = VK_NULL_HANDLE) {
     val isValid get() = L != VK_NULL_HANDLE
     val isInvalid get() = L == VK_NULL_HANDLE
@@ -54,6 +55,15 @@ inline class VkDebugReportCallback(val L: Long = VK_NULL_HANDLE) {
 
     companion object {
         val NULL = VkDebugReportCallback()
+    }
+}
+
+inline class VkDebugUtilsMessengerEXT(val L: Long = VK_NULL_HANDLE) {
+    val isValid get() = L != VK_NULL_HANDLE
+    val isInvalid get() = L == VK_NULL_HANDLE
+
+    companion object {
+        val NULL = VkDebugUtilsMessengerEXT()
     }
 }
 
@@ -279,6 +289,15 @@ inline class VkSampler(val L: Long = VK_NULL_HANDLE) {
 
     companion object {
         val NULL = VkSampler()
+    }
+}
+
+inline class VkSamplerYcbcrConversion(val L: Long = VK_NULL_HANDLE) {
+    val isValid get() = L != VK_NULL_HANDLE
+    val isInvalid get() = L == VK_NULL_HANDLE
+
+    companion object {
+        val NULL = VkSamplerYcbcrConversion()
     }
 }
 

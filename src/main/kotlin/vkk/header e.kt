@@ -822,8 +822,6 @@ inline var VkBaseInStructure.next: VkBaseInStructure?
     set(value) = VkBaseInStructure.npNext(adr, value)
 
 
-inline class VkSamplerYcbcrConversion(val L: Long)
-
 inline class VkPointClippingBehavior(val i: Int) {
     companion object {
         val ALL_CLIP_PLANES = VkPointClippingBehavior(0)

@@ -1,15 +1,13 @@
 package vkk
 
+import glm_.bool
 import glm_.i
 import kool.*
 import org.lwjgl.PointerBuffer
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryStack.stackGet
 import org.lwjgl.system.MemoryUtil
-import org.lwjgl.vulkan.VkCommandBuffer
-import org.lwjgl.vulkan.VkD3D12FenceSubmitInfoKHR
-import org.lwjgl.vulkan.VkInstance
-import org.lwjgl.vulkan.VkPhysicalDevice
+import org.lwjgl.vulkan.*
 import vkk.entities.VkDeviceSize
 import vkk.entities.VkDisplayKHR_Buffer
 import vkk.entities.VkSemaphore_Buffer
@@ -115,7 +113,7 @@ inline class WLDisplay(val L: Long)
 inline class WLSurface(val L: Long)
 inline class RROutput(val L: Long)
 
-inline class VkDebugUtilsMessengerEXT(val L: Long)
+
 
 
 inline class VkTimeDomainEXT_Buffer(val buffer: IntBuffer) {
@@ -151,3 +149,23 @@ inline class VkValidationFeatureEnableEXT_Buffer(val buffer: IntBuffer) {
 
 
 
+
+inline var VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV.type: VkStructureType
+    get() = VkStructureType(VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV.nsType(adr))
+    set(value) = VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV.nsType(adr, value.i)
+inline var VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV.next: Ptr
+    get() = VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV.npNext(adr)
+    set(value) = VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV.npNext(adr, value)
+inline var VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV.representativeFragmentTest: Boolean
+    get() = VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV.nrepresentativeFragmentTest(adr).bool
+    set(value) = VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV.nrepresentativeFragmentTest(adr, value.i)
+
+inline var VkPipelineRepresentativeFragmentTestStateCreateInfoNV.type: VkStructureType
+    get() = VkStructureType(VkPipelineRepresentativeFragmentTestStateCreateInfoNV.nsType(adr))
+    set(value) = VkPipelineRepresentativeFragmentTestStateCreateInfoNV.nsType(adr, value.i)
+inline var VkPipelineRepresentativeFragmentTestStateCreateInfoNV.next: Ptr
+    get() = VkPipelineRepresentativeFragmentTestStateCreateInfoNV.npNext(adr)
+    set(value) = VkPipelineRepresentativeFragmentTestStateCreateInfoNV.npNext(adr, value)
+inline var VkPipelineRepresentativeFragmentTestStateCreateInfoNV.representativeFragmentTestEnable: Boolean
+    get() = VkPipelineRepresentativeFragmentTestStateCreateInfoNV.nrepresentativeFragmentTestEnable(adr).bool
+    set(value) = VkPipelineRepresentativeFragmentTestStateCreateInfoNV.nrepresentativeFragmentTestEnable(adr, value.i)

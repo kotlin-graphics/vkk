@@ -19,7 +19,7 @@ infix fun VkCommandBuffer.begin(beginInfo: VkCommandBufferBeginInfo): VkResult =
         VkResult(VK10.nvkBeginCommandBuffer(this, beginInfo.adr)).apply { check() }
 
 /** JVM custom */
-fun VkCommandBuffer.begin(flags: VkCommandBufferUsageFlags = VkCommandBufferUsage.SIMULTANEOUS_USE_BIT.i) =
+fun VkCommandBuffer.begin(flags: VkCommandBufferUsageFlags = VkCommandBufferUsage.SIMULTANEOUS_USE_BIT.i): VkResult =
         begin(vk.CommandBufferBeginInfo { this.flags = flags })
 
 infix fun VkCommandBuffer.beginConditionalRenderingEXT(conditionalRenderingBegin: VkConditionalRenderingBeginInfoEXT) =

@@ -9,6 +9,7 @@ import org.lwjgl.system.MemoryUtil.memGetInt
 import org.lwjgl.vulkan.*
 import vkk.*
 import vkk.entities.VkDebugReportCallback
+import vkk.entities.VkDebugUtilsMessengerEXT
 import vkk.entities.VkDisplayKHR
 import vkk.entities.VkSurfaceKHR
 
