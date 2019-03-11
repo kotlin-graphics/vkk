@@ -476,14 +476,11 @@ inline fun vkCmdDrawIndexedIndirect(
 		drawCount: Int,
 		stride: Int) = VK10.vkCmdDrawIndexedIndirect(commandBuffer, buffer.L, offset.L, drawCount, stride)
 
-/* TODO
 inline fun vkCmdBindVertexBuffers(
 		commandBuffer: VkCommandBuffer,
 		firstBinding: Int,
-		bindingCount: Int,
 		pBuffers: Array<VkBuffer>,
-		pOffsets: Array<VkDeviceSize>) = vkCmdBindVertexBuffers()
-*/
+		pOffsets: Array<VkDeviceSize>) = VK10.vkCmdBindVertexBuffers(commandBuffer, firstBinding, LongArray(pBuffers.size) { pBuffers[it].L }, LongArray(pOffsets.size) { pOffsets[it].L })
 
 inline fun vkCmdDispatchIndirect(
 		commandBuffer: VkCommandBuffer,
