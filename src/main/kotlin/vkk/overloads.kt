@@ -523,8 +523,3 @@ inline fun vkGetPhysicalDeviceFormatProperties(
 		physicalDevice: VkPhysicalDevice,
 		format: VkFormat,
 		pFormatProperties: VkFormatProperties) = VK10.vkGetPhysicalDeviceFormatProperties(physicalDevice, format.i, pFormatProperties)
-
-
-
-
-

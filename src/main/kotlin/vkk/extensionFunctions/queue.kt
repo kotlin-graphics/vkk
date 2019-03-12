@@ -46,8 +46,10 @@ fun VkQueue.insertDebugUtilsLabelEXT(labelInfo: VkDebugUtilsLabelEXT) =
 infix fun VkQueue.presentKHR(presentInfo: VkPresentInfoKHR): VkResult =
         VkResult(KHRSwapchain.vkQueuePresentKHR(this, presentInfo)).apply { check() }
 
-fun VkQueue.submit(submits: VkSubmitInfo, fence: VkFence = VkFence.NULL): VkResult =
+fun VkQueue.submit(submits: VkSubmitInfo, fence: VkFence): VkResult =
         VkResult(VK10.nvkQueueSubmit(this, 1, submits.adr, fence.L)).apply { check() }
+
+infix fun VkQueue.submit(submits: VkSubmitInfo): VkResult = submit(submits, VkFence.NULL)
 
 fun VkQueue.waitIdle(): VkResult =
         VkResult(VK10.vkQueueWaitIdle(this)).apply { check() }
