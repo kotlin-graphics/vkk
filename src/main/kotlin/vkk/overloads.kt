@@ -259,6 +259,76 @@ inline fun vkCmdPushConstants(
 inline fun vkCmdPushConstants(
         commandBuffer: VkCommandBuffer,
         layout: VkPipelineLayout,
+        stageFlags: VkShaderStage,
+        offset: Int,
+        pValues: ByteBuffer) = VK10.vkCmdPushConstants(commandBuffer, layout.L, stageFlags.i, offset, pValues)
+
+inline fun vkCmdPushConstants(
+        commandBuffer: VkCommandBuffer,
+        layout: VkPipelineLayout,
+        stageFlags: VkShaderStage,
+        offset: Int,
+        pValues: ShortBuffer) = VK10.vkCmdPushConstants(commandBuffer, layout.L, stageFlags.i, offset, pValues)
+
+inline fun vkCmdPushConstants(
+        commandBuffer: VkCommandBuffer,
+        layout: VkPipelineLayout,
+        stageFlags: VkShaderStage,
+        offset: Int,
+        pValues: IntBuffer) = VK10.vkCmdPushConstants(commandBuffer, layout.L, stageFlags.i, offset, pValues)
+
+inline fun vkCmdPushConstants(
+        commandBuffer: VkCommandBuffer,
+        layout: VkPipelineLayout,
+        stageFlags: VkShaderStage,
+        offset: Int,
+        pValues: LongBuffer) = VK10.vkCmdPushConstants(commandBuffer, layout.L, stageFlags.i, offset, pValues)
+
+inline fun vkCmdPushConstants(
+        commandBuffer: VkCommandBuffer,
+        layout: VkPipelineLayout,
+        stageFlags: VkShaderStage,
+        offset: Int,
+        pValues: FloatBuffer) = VK10.vkCmdPushConstants(commandBuffer, layout.L, stageFlags.i, offset, pValues)
+
+inline fun vkCmdPushConstants(
+        commandBuffer: VkCommandBuffer,
+        layout: VkPipelineLayout,
+        stageFlags: VkShaderStage,
+        offset: Int,
+        pValues: DoubleBuffer) = VK10.vkCmdPushConstants(commandBuffer, layout.L, stageFlags.i, offset, pValues)
+
+inline fun vkCmdPushConstants(
+        commandBuffer: VkCommandBuffer,
+        layout: VkPipelineLayout,
+        stageFlags: VkShaderStage,
+        offset: Int,
+        pValues: ShortArray) = VK10.vkCmdPushConstants(commandBuffer, layout.L, stageFlags.i, offset, pValues)
+
+inline fun vkCmdPushConstants(
+        commandBuffer: VkCommandBuffer,
+        layout: VkPipelineLayout,
+        stageFlags: VkShaderStage,
+        offset: Int,
+        pValues: IntArray) = VK10.vkCmdPushConstants(commandBuffer, layout.L, stageFlags.i, offset, pValues)
+
+inline fun vkCmdPushConstants(
+        commandBuffer: VkCommandBuffer,
+        layout: VkPipelineLayout,
+        stageFlags: VkShaderStage,
+        offset: Int,
+        pValues: LongArray) = VK10.vkCmdPushConstants(commandBuffer, layout.L, stageFlags.i, offset, pValues)
+
+inline fun vkCmdPushConstants(
+        commandBuffer: VkCommandBuffer,
+        layout: VkPipelineLayout,
+        stageFlags: VkShaderStage,
+        offset: Int,
+        pValues: FloatArray) = VK10.vkCmdPushConstants(commandBuffer, layout.L, stageFlags.i, offset, pValues)
+
+inline fun vkCmdPushConstants(
+        commandBuffer: VkCommandBuffer,
+        layout: VkPipelineLayout,
         stageFlags: VkShaderStageFlags,
         offset: Int,
         pValues: DoubleArray) = VK10.vkCmdPushConstants(commandBuffer, layout.L, stageFlags, offset, pValues)
