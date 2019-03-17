@@ -20,9 +20,23 @@ import java.nio.LongBuffer
 fun VkDevice.acquireNextImageKHR(swapchain: VkSwapchainKHR, timeout: Long, semaphore: VkSemaphore, fence: VkFence = VkFence(NULL)): Int =
         stak.intAddress { VK_CHECK_RESULT(KHRSwapchain.nvkAcquireNextImageKHR(this, swapchain.L, timeout, semaphore.L, fence.L, it)) }
 
+/** @return Pair<ImageIndex, VkResult> */
+fun VkDevice.acquireNextImageKHRErr(swapchain: VkSwapchainKHR, timeout: Long, semaphore: VkSemaphore, fence: VkFence = VkFence(NULL)): Pair<Int, VkResult> {
+    var vkr = VkResult.SUCCESS
+    val nImg = stak.intAddress { vkr = KHRSwapchain.nvkAcquireNextImageKHR(this, swapchain.L, timeout, semaphore.L, fence.L, it).vkr }
+    return nImg to vkr
+}
+
 /** @return ImageIndex */
 fun VkDevice.acquireNextImage2KHR(acquireInfo: VkAcquireNextImageInfoKHR): Int =
         stak.intAddress { VK_CHECK_RESULT(KHRSwapchain.nvkAcquireNextImage2KHR(this, acquireInfo.adr, it)) }
+
+/** @return Pair<ImageIndex, VkResult> */
+fun VkDevice.acquireNextImage2KHRErr(acquireInfo: VkAcquireNextImageInfoKHR): Pair<Int, VkResult> {
+    var vkr = VkResult.SUCCESS
+    val nImg = stak.intAddress { vkr = KHRSwapchain.nvkAcquireNextImage2KHR(this, acquireInfo.adr, it).vkr }
+    return nImg to vkr
+}
 
 inline infix fun <reified C> VkDevice.allocateCommandBuffers(allocateInfo: VkCommandBufferAllocateInfo): C =
         stak {
@@ -46,6 +60,12 @@ inline infix fun <reified C> VkDevice.allocateCommandBuffers(allocateInfo: VkCom
 inline infix fun VkDevice.allocateDescriptorSet(allocateInfo: VkDescriptorSetAllocateInfo): VkDescriptorSet =
         VkDescriptorSet(stak.longAddress { VK_CHECK_RESULT(VK10.nvkAllocateDescriptorSets(this, allocateInfo.adr, it)) })
 
+inline fun VkDevice.allocateDescriptorSetErr(allocateInfo: VkDescriptorSetAllocateInfo): Pair<VkDescriptorSet, VkResult> {
+    var vkr = VkResult.SUCCESS
+    val ret = VkDescriptorSet(stak.longAddress { vkr = VK10.nvkAllocateDescriptorSets(this, allocateInfo.adr, it).vkr })
+    return ret to vkr
+}
+
 inline infix fun <reified C> VkDevice.allocateDescriptorSets(allocateInfo: VkDescriptorSetAllocateInfo): C =
         stak {
             val count = allocateInfo.descriptorSetCount
@@ -68,6 +88,18 @@ inline infix fun <reified C> VkDevice.allocateDescriptorSets(allocateInfo: VkDes
 
 infix fun VkDevice.allocateMemory(allocateInfo: VkMemoryAllocateInfo): VkDeviceMemory =
         VkDeviceMemory(stak.longAddress { VK_CHECK_RESULT(VK10.nvkAllocateMemory(this, allocateInfo.adr, NULL, it)) })
+
+fun VkDevice.allocateMemoryErr(allocateInfo: VkMemoryAllocateInfo): Pair<VkDeviceMemory, VkResult> {
+    var vkr = VkResult.SUCCESS
+    val ret = VkDeviceMemory(stak.longAddress { vkr = VK10.nvkAllocateMemory(this, allocateInfo.adr, NULL, it).vkr })
+    return ret to vkr
+}
+
+fun VkDevice.allocateMemoryErr(allocateInfo: VkMemoryAllocateInfo, pAllocator: VkAllocationCallbacks?): Pair<VkDeviceMemory, VkResult> {
+    var vkr = VkResult.SUCCESS
+    val ret = VkDeviceMemory(stak.longAddress { vkr = VK10.nvkAllocateMemory(this, allocateInfo.adr, pAllocator?.adr ?: NULL, it).vkr })
+    return ret to vkr
+}
 
 infix fun VkDevice.bindAccelerationStructureMemoryNV(bindInfos: VkBindAccelerationStructureMemoryInfoNV.Buffer) =
         VK_CHECK_RESULT(NVRayTracing.nvkBindAccelerationStructureMemoryNV(this, bindInfos.rem, bindInfos.adr))
