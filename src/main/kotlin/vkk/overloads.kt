@@ -1,141 +1,192 @@
 package vkk
 
+import kool.LongBuffer
+import kool.longBufferOf
 import kool.stak
 import org.lwjgl.PointerBuffer
 import org.lwjgl.vulkan.*
 import vkk.entities.*
 import java.nio.*
 
-inline fun vkDestroyCommandPool(device: VkDevice,
-                                commandPool: VkCommandPool,
-                                pAllocator: VkAllocationCallbacks?) = VK10.vkDestroyCommandPool(device, commandPool.L, pAllocator)
+inline fun vkDestroyCommandPool(
+        device: VkDevice,
+        commandPool: VkCommandPool,
+        pAllocator: VkAllocationCallbacks?) = VK10.vkDestroyCommandPool(device, commandPool.L, pAllocator)
 
-inline fun vkFreeCommandBuffers(device: VkDevice,
-                                commandPool: VkCommandPool,
-                                pCommandBuffer: VkCommandBuffer) = VK10.vkFreeCommandBuffers(device, commandPool.L, pCommandBuffer)
+inline fun vkFreeCommandBuffers(
+        device: VkDevice,
+        commandPool: VkCommandPool,
+        pCommandBuffer: VkCommandBuffer) = VK10.vkFreeCommandBuffers(device, commandPool.L, pCommandBuffer)
 
-inline fun vkFreeCommandBuffers(device: VkDevice,
-                                commandPool: VkCommandPool,
-                                pCommandBuffers: PointerBuffer) = VK10.vkFreeCommandBuffers(device, commandPool.L, pCommandBuffers)
+inline fun vkFreeCommandBuffers(
+        device: VkDevice,
+        commandPool: VkCommandPool,
+        pCommandBuffers: PointerBuffer) = VK10.vkFreeCommandBuffers(device, commandPool.L, pCommandBuffers)
 
-inline fun vkDestroyFence(device: VkDevice,
-                          fence: VkFence,
-                          pAllocator: VkAllocationCallbacks?) = VK10.vkDestroyFence(device, fence.L, pAllocator)
+inline fun vkDestroyFence(
+        device: VkDevice,
+        fence: VkFence,
+        pAllocator: VkAllocationCallbacks?) = VK10.vkDestroyFence(device, fence.L, pAllocator)
 
-inline fun vkDestroySemaphore(device: VkDevice,
-                              semaphore: VkSemaphore,
-                              pAllocator: VkAllocationCallbacks?) = VK10.vkDestroySemaphore(device, semaphore.L, pAllocator)
+inline fun vkDestroySemaphore(
+        device: VkDevice,
+        semaphore: VkSemaphore,
+        pAllocator: VkAllocationCallbacks?) = VK10.vkDestroySemaphore(device, semaphore.L, pAllocator)
 
-inline fun vkDestroyEvent(device: VkDevice,
-                          event: VkEvent,
-                          pAllocator: VkAllocationCallbacks?) = VK10.vkDestroyEvent(device, event.L, pAllocator)
+inline fun vkDestroyEvent(
+        device: VkDevice,
+        event: VkEvent,
+        pAllocator: VkAllocationCallbacks?) = VK10.vkDestroyEvent(device, event.L, pAllocator)
 
-inline fun vkCmdSetEvent(commandBuffer: VkCommandBuffer,
-                         event: VkEvent,
-                         stageMask: VkPipelineStageFlags) = VK10.vkCmdSetEvent(commandBuffer, event.L, stageMask)
+inline fun vkCmdSetEvent(
+        commandBuffer: VkCommandBuffer,
+        event: VkEvent,
+        stageMask: VkPipelineStageFlags) = VK10.vkCmdSetEvent(commandBuffer, event.L, stageMask)
 
-inline fun vkCmdResetEvent(commandBuffer: VkCommandBuffer,
-                           event: VkEvent,
-                           stageMask: VkPipelineStageFlags) = VK10.vkCmdResetEvent(commandBuffer, event.L, stageMask)
+inline fun vkCmdResetEvent(
+        commandBuffer: VkCommandBuffer,
+        event: VkEvent,
+        stageMask: VkPipelineStageFlags) = VK10.vkCmdResetEvent(commandBuffer, event.L, stageMask)
 
-inline fun vkCmdWaitEvents(commandBuffer: VkCommandBuffer,
-                           pEvent: VkEvent,
-                           srcStageMask: VkPipelineStageFlags,
-                           dstStageMask: VkPipelineStageFlags,
-                           pMemoryBarriers: VkMemoryBarrier.Buffer?,
-                           pBufferMemoryBarriers: VkBufferMemoryBarrier.Buffer?,
-                           pImageMemoryBarriers: VkImageMemoryBarrier.Buffer?) = VK10.vkCmdWaitEvents(commandBuffer, longArrayOf(pEvent.L), srcStageMask, dstStageMask, pMemoryBarriers, pBufferMemoryBarriers, pImageMemoryBarriers)
+inline fun vkCmdWaitEvents(
+        commandBuffer: VkCommandBuffer,
+        pEvent: VkEvent,
+        srcStageMask: VkPipelineStageFlags,
+        dstStageMask: VkPipelineStageFlags,
+        pMemoryBarriers: VkMemoryBarrier.Buffer?,
+        pBufferMemoryBarriers: VkBufferMemoryBarrier.Buffer?,
+        pImageMemoryBarriers: VkImageMemoryBarrier.Buffer?) = VK10.vkCmdWaitEvents(commandBuffer, longArrayOf(pEvent.L), srcStageMask, dstStageMask, pMemoryBarriers, pBufferMemoryBarriers, pImageMemoryBarriers)
 
-inline fun vkCmdWaitEvents(commandBuffer: VkCommandBuffer,
-                           pEvents: Array<VkEvent>,
-                           srcStageMask: VkPipelineStageFlags,
-                           dstStageMask: VkPipelineStageFlags,
-                           pMemoryBarriers: VkMemoryBarrier.Buffer?,
-                           pBufferMemoryBarriers: VkBufferMemoryBarrier.Buffer?,
-                           pImageMemoryBarriers: VkImageMemoryBarrier.Buffer?) = VK10.vkCmdWaitEvents(commandBuffer, LongArray(pEvents.size) { pEvents[it].L }, srcStageMask, dstStageMask, pMemoryBarriers, pBufferMemoryBarriers, pImageMemoryBarriers)
+inline fun vkCmdWaitEvents(
+        commandBuffer: VkCommandBuffer,
+        pEvents: Array<VkEvent>,
+        srcStageMask: VkPipelineStageFlags,
+        dstStageMask: VkPipelineStageFlags,
+        pMemoryBarriers: VkMemoryBarrier.Buffer?,
+        pBufferMemoryBarriers: VkBufferMemoryBarrier.Buffer?,
+        pImageMemoryBarriers: VkImageMemoryBarrier.Buffer?) = VK10.vkCmdWaitEvents(commandBuffer, LongArray(pEvents.size) { pEvents[it].L }, srcStageMask, dstStageMask, pMemoryBarriers, pBufferMemoryBarriers, pImageMemoryBarriers)
 
-inline fun vkDestroyRenderPass(device: VkDevice,
-                               renderPass: VkRenderPass,
-                               pAllocator: VkAllocationCallbacks?) = VK10.vkDestroyRenderPass(device, renderPass.L, pAllocator)
+inline fun vkCmdWaitEvents(
+        commandBuffer: VkCommandBuffer,
+        pEvents: VkEvent_Array,
+        srcStageMask: VkPipelineStageFlags,
+        dstStageMask: VkPipelineStageFlags,
+        pMemoryBarriers: VkMemoryBarrier.Buffer?,
+        pBufferMemoryBarriers: VkBufferMemoryBarrier.Buffer?,
+        pImageMemoryBarriers: VkImageMemoryBarrier.Buffer?) = VK10.vkCmdWaitEvents(commandBuffer, LongArray(pEvents.size) { pEvents[it].L }, srcStageMask, dstStageMask, pMemoryBarriers, pBufferMemoryBarriers, pImageMemoryBarriers)
 
-inline fun vkDestroyFramebuffer(device: VkDevice,
-                                framebuffer: VkFramebuffer,
-                                pAllocator: VkAllocationCallbacks?) = VK10.vkDestroyFramebuffer(device, framebuffer.L, pAllocator)
+inline fun vkCmdWaitEvents(
+        commandBuffer: VkCommandBuffer,
+        pEvents: VkEvent_Buffer,
+        srcStageMask: VkPipelineStageFlags,
+        dstStageMask: VkPipelineStageFlags,
+        pMemoryBarriers: VkMemoryBarrier.Buffer?,
+        pBufferMemoryBarriers: VkBufferMemoryBarrier.Buffer?,
+        pImageMemoryBarriers: VkImageMemoryBarrier.Buffer?) = VK10.vkCmdWaitEvents(commandBuffer, pEvents.buffer, srcStageMask, dstStageMask, pMemoryBarriers, pBufferMemoryBarriers, pImageMemoryBarriers)
 
-inline fun vkCmdBeginRenderPass(commandBuffer: VkCommandBuffer,
-                                pRenderPassBegin: VkRenderPassBeginInfo,
-                                contents: VkSubpassContents) = VK10.vkCmdBeginRenderPass(commandBuffer, pRenderPassBegin, contents.i)
+inline fun vkDestroyRenderPass(
+        device: VkDevice,
+        renderPass: VkRenderPass,
+        pAllocator: VkAllocationCallbacks?) = VK10.vkDestroyRenderPass(device, renderPass.L, pAllocator)
 
-inline fun vkGetRenderAreaGranularity(device: VkDevice,
-                                      renderPass: VkRenderPass,
-                                      pGranularity: VkExtent2D) = VK10.vkGetRenderAreaGranularity(device, renderPass.L, pGranularity)
+inline fun vkDestroyFramebuffer(
+        device: VkDevice,
+        framebuffer: VkFramebuffer,
+        pAllocator: VkAllocationCallbacks?) = VK10.vkDestroyFramebuffer(device, framebuffer.L, pAllocator)
 
-inline fun vkCmdNextSubpass(commandBuffer: VkCommandBuffer,
-                            contents: VkSubpassContents) = VK10.vkCmdNextSubpass(commandBuffer, contents.i)
+inline fun vkCmdBeginRenderPass(
+        commandBuffer: VkCommandBuffer,
+        pRenderPassBegin: VkRenderPassBeginInfo,
+        contents: VkSubpassContents) = VK10.vkCmdBeginRenderPass(commandBuffer, pRenderPassBegin, contents.i)
 
-inline fun vkDestroyShaderModule(device: VkDevice,
-                                 shaderModule: VkShaderModule,
-                                 pAllocator: VkAllocationCallbacks?) = VK10.vkDestroyShaderModule(device, shaderModule.L, pAllocator)
+inline fun vkGetRenderAreaGranularity(
+        device: VkDevice,
+        renderPass: VkRenderPass,
+        pGranularity: VkExtent2D) = VK10.vkGetRenderAreaGranularity(device, renderPass.L, pGranularity)
 
-inline fun vkDestroyPipeline(device: VkDevice,
-                             pipeline: VkPipeline,
-                             pAllocator: VkAllocationCallbacks?) = VK10.vkDestroyPipeline(device, pipeline.L, pAllocator)
+inline fun vkCmdNextSubpass(
+        commandBuffer: VkCommandBuffer,
+        contents: VkSubpassContents) = VK10.vkCmdNextSubpass(commandBuffer, contents.i)
 
-inline fun vkDestroyPipelineCache(device: VkDevice,
-                                  pipelineCache: VkPipelineCache,
-                                  pAllocator: VkAllocationCallbacks?) = VK10.vkDestroyPipelineCache(device, pipelineCache.L, pAllocator)
+inline fun vkDestroyShaderModule(
+        device: VkDevice,
+        shaderModule: VkShaderModule,
+        pAllocator: VkAllocationCallbacks?) = VK10.vkDestroyShaderModule(device, shaderModule.L, pAllocator)
 
-inline fun vkCmdBindPipeline(commandBuffer: VkCommandBuffer,
-                             pipelineBindPoint: VkPipelineBindPoint,
-                             pipeline: VkPipeline) = VK10.vkCmdBindPipeline(commandBuffer, pipelineBindPoint.i, pipeline.L)
+inline fun vkDestroyPipeline(
+        device: VkDevice,
+        pipeline: VkPipeline,
+        pAllocator: VkAllocationCallbacks?) = VK10.vkDestroyPipeline(device, pipeline.L, pAllocator)
 
-inline fun vkFreeMemory(device: VkDevice,
-                        memory: VkDeviceMemory,
-                        pAllocator: VkAllocationCallbacks?) = VK10.vkFreeMemory(device, memory.L, pAllocator)
+inline fun vkDestroyPipelineCache(
+        device: VkDevice,
+        pipelineCache: VkPipelineCache,
+        pAllocator: VkAllocationCallbacks?) = VK10.vkDestroyPipelineCache(device, pipelineCache.L, pAllocator)
 
-inline fun vkUnmapMemory(device: VkDevice,
-                         memory: VkDeviceMemory) = VK10.vkUnmapMemory(device, memory.L)
+inline fun vkCmdBindPipeline(
+        commandBuffer: VkCommandBuffer,
+        pipelineBindPoint: VkPipelineBindPoint,
+        pipeline: VkPipeline) = VK10.vkCmdBindPipeline(commandBuffer, pipelineBindPoint.i, pipeline.L)
 
-inline fun vkGetDeviceMemoryCommitment(device: VkDevice,
-                                       memory: VkDeviceMemory,
-                                       pCommittedMemoryInBytes: LongArray) = VK10.vkGetDeviceMemoryCommitment(device, memory.L, pCommittedMemoryInBytes)
+inline fun vkFreeMemory(
+        device: VkDevice,
+        memory: VkDeviceMemory,
+        pAllocator: VkAllocationCallbacks?) = VK10.vkFreeMemory(device, memory.L, pAllocator)
 
-inline fun vkGetDeviceMemoryCommitment(device: VkDevice,
-                                       memory: VkDeviceMemory,
-                                       pCommittedMemoryInBytes: LongBuffer) = VK10.vkGetDeviceMemoryCommitment(device, memory.L, pCommittedMemoryInBytes)
+inline fun vkUnmapMemory(
+        device: VkDevice,
+        memory: VkDeviceMemory) = VK10.vkUnmapMemory(device, memory.L)
 
-inline fun vkDestroyBuffer(device: VkDevice,
-                           buffer: VkBuffer,
-                           pAllocator: VkAllocationCallbacks?) = VK10.vkDestroyBuffer(device, buffer.L, pAllocator)
+inline fun vkGetDeviceMemoryCommitment(
+        device: VkDevice,
+        memory: VkDeviceMemory,
+        pCommittedMemoryInBytes: LongArray) = VK10.vkGetDeviceMemoryCommitment(device, memory.L, pCommittedMemoryInBytes)
 
-inline fun vkDestroyBufferView(device: VkDevice,
-                               bufferView: VkBufferView,
-                               pAllocator: VkAllocationCallbacks?) = VK10.vkDestroyBufferView(device, bufferView.L, pAllocator)
+inline fun vkGetDeviceMemoryCommitment(
+        device: VkDevice,
+        memory: VkDeviceMemory,
+        pCommittedMemoryInBytes: LongBuffer) = VK10.vkGetDeviceMemoryCommitment(device, memory.L, pCommittedMemoryInBytes)
 
-inline fun vkGetImageSubresourceLayout(device: VkDevice,
-                                       image: VkImage,
-                                       pSubresource: VkImageSubresource,
-                                       pLayout: VkSubresourceLayout) = VK10.vkGetImageSubresourceLayout(device, image.L, pSubresource, pLayout)
+inline fun vkDestroyBuffer(
+        device: VkDevice,
+        buffer: VkBuffer,
+        pAllocator: VkAllocationCallbacks?) = VK10.vkDestroyBuffer(device, buffer.L, pAllocator)
 
-inline fun vkDestroyImage(device: VkDevice,
-                          image: VkImage,
-                          pAllocator: VkAllocationCallbacks?) = VK10.vkDestroyImage(device, image.L, pAllocator)
+inline fun vkDestroyBufferView(
+        device: VkDevice,
+        bufferView: VkBufferView,
+        pAllocator: VkAllocationCallbacks?) = VK10.vkDestroyBufferView(device, bufferView.L, pAllocator)
 
-inline fun vkDestroyImageView(device: VkDevice,
-                              imageView: VkImageView,
-                              pAllocator: VkAllocationCallbacks?) = VK10.vkDestroyImageView(device, imageView.L, pAllocator)
+inline fun vkGetImageSubresourceLayout(
+        device: VkDevice,
+        image: VkImage,
+        pSubresource: VkImageSubresource,
+        pLayout: VkSubresourceLayout) = VK10.vkGetImageSubresourceLayout(device, image.L, pSubresource, pLayout)
 
-inline fun vkGetBufferMemoryRequirements(device: VkDevice,
-                                         buffer: VkBuffer,
-                                         pMemoryRequirements: VkMemoryRequirements) = VK10.vkGetBufferMemoryRequirements(device, buffer.L, pMemoryRequirements)
+inline fun vkDestroyImage(
+        device: VkDevice,
+        image: VkImage,
+        pAllocator: VkAllocationCallbacks?) = VK10.vkDestroyImage(device, image.L, pAllocator)
 
-inline fun vkGetImageMemoryRequirements(device: VkDevice,
-                                        image: VkImage,
-                                        pMemoryRequirements: VkMemoryRequirements) = VK10.vkGetImageMemoryRequirements(device, image.L, pMemoryRequirements)
+inline fun vkDestroyImageView(
+        device: VkDevice,
+        imageView: VkImageView,
+        pAllocator: VkAllocationCallbacks?) = VK10.vkDestroyImageView(device, imageView.L, pAllocator)
 
-inline fun vkDestroySampler(device: VkDevice,
-                            sampler: VkSampler,
-                            pAllocator: VkAllocationCallbacks?) = VK10.vkDestroySampler(device, sampler.L, pAllocator)
+inline fun vkGetBufferMemoryRequirements(
+        device: VkDevice,
+        buffer: VkBuffer,
+        pMemoryRequirements: VkMemoryRequirements) = VK10.vkGetBufferMemoryRequirements(device, buffer.L, pMemoryRequirements)
+
+inline fun vkGetImageMemoryRequirements(
+        device: VkDevice,
+        image: VkImage,
+        pMemoryRequirements: VkMemoryRequirements) = VK10.vkGetImageMemoryRequirements(device, image.L, pMemoryRequirements)
+
+inline fun vkDestroySampler(
+        device: VkDevice,
+        sampler: VkSampler,
+        pAllocator: VkAllocationCallbacks?) = VK10.vkDestroySampler(device, sampler.L, pAllocator)
 
 inline fun vkDestroyDescriptorSetLayout(
         device: VkDevice,
@@ -160,15 +211,29 @@ inline fun vkCmdBindDescriptorSets(
         pDescriptorSets: Array<VkDescriptorSet>,
         pDynamicOffsets: IntArray?) = VK10.vkCmdBindDescriptorSets(commandBuffer, pipelineBindPoint.i, layout.L, firstSet, LongArray(pDescriptorSets.size) { pDescriptorSets[it].L }, pDynamicOffsets)
 
-/* TODO:
+inline fun vkCmdBindDescriptorSets(
+        commandBuffer: VkCommandBuffer,
+        pipelineBindPoint: VkPipelineBindPoint,
+        layout: VkPipelineLayout,
+        firstSet: Int,
+        pDescriptorSets: VkDescriptorSet_Array,
+        pDynamicOffsets: IntArray?) = VK10.vkCmdBindDescriptorSets(commandBuffer, pipelineBindPoint.i, layout.L, firstSet, pDescriptorSets.array, pDynamicOffsets)
+
+inline fun vkCmdBindDescriptorSets(
+        commandBuffer: VkCommandBuffer,
+        pipelineBindPoint: VkPipelineBindPoint,
+        layout: VkPipelineLayout,
+        firstSet: Int,
+        pDescriptorSets: VkDescriptorSet_Buffer,
+        pDynamicOffsets: IntBuffer?) = VK10.vkCmdBindDescriptorSets(commandBuffer, pipelineBindPoint.i, layout.L, firstSet, pDescriptorSets.buffer, pDynamicOffsets)
+
 inline fun vkCmdBindDescriptorSets(
         commandBuffer: VkCommandBuffer,
         pipelineBindPoint: VkPipelineBindPoint,
         layout: VkPipelineLayout,
         firstSet: Int,
         pDescriptorSets: Array<VkDescriptorSet>,
-        pDynamicOffsets: IntBuffer) = VK10.vkCmdBindDescriptorSets(commandBuffer, pipelineBindPoint.i, layout.L, firstSet, LongArray(pDescriptorSets.size) { pDescriptorSets[it].L }, pDynamicOffsets)
-*/
+        pDynamicOffsets: IntBuffer) = VK10.vkCmdBindDescriptorSets(commandBuffer, pipelineBindPoint.i, layout.L, firstSet, LongBuffer(pDescriptorSets.size) { pDescriptorSets[it].L }, pDynamicOffsets)
 
 inline fun vkCmdBindDescriptorSets(
         commandBuffer: VkCommandBuffer,
@@ -557,6 +622,30 @@ inline fun vkCmdBindVertexBuffers(
         firstBinding: Int,
         pBuffer: VkBuffer,
         pOffsets: Array<VkDeviceSize>) = VK10.vkCmdBindVertexBuffers(commandBuffer, firstBinding, longArrayOf(pBuffer.L), LongArray(pOffsets.size) { pOffsets[it].L })
+
+inline fun vkCmdBindVertexBuffers(
+        commandBuffer: VkCommandBuffer,
+        firstBinding: Int,
+        pBuffers: VkBuffer_Array,
+        pOffsets: VkDeviceSize_Array) = VK10.vkCmdBindVertexBuffers(commandBuffer, firstBinding, LongArray(pBuffers.size) { pBuffers[it].L }, LongArray(pOffsets.size) { pOffsets[it].L })
+
+inline fun vkCmdBindVertexBuffers(
+        commandBuffer: VkCommandBuffer,
+        firstBinding: Int,
+        pBuffer: VkBuffer,
+        pOffsets: VkDeviceSize_Array) = VK10.vkCmdBindVertexBuffers(commandBuffer, firstBinding, longArrayOf(pBuffer.L), LongArray(pOffsets.size) { pOffsets[it].L })
+
+inline fun vkCmdBindVertexBuffers(
+        commandBuffer: VkCommandBuffer,
+        firstBinding: Int,
+        pBuffers: VkBuffer_Buffer,
+        pOffsets: VkDeviceSize_Buffer) = VK10.vkCmdBindVertexBuffers(commandBuffer, firstBinding, pBuffers.buffer, pOffsets.buffer)
+
+inline fun vkCmdBindVertexBuffers(
+        commandBuffer: VkCommandBuffer,
+        firstBinding: Int,
+        pBuffer: VkBuffer,
+        pOffsets: VkDeviceSize_Buffer) = VK10.vkCmdBindVertexBuffers(commandBuffer, firstBinding, longBufferOf(pBuffer.L), pOffsets.buffer)
 
 inline fun vkCmdBindVertexBuffers(
         commandBuffer: VkCommandBuffer,
