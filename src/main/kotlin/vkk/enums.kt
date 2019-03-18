@@ -32,10 +32,7 @@ class OutOfPoolMemoryError(message: String) : Error(message)
 class InvalidExternalHandleError(message: String) : Error(message)
 class NotPermittedError(message: String) : Error(message)
 
-fun VK_CHECK_RESULT(i: Int) = VkResult(i).check()
+val DEFAULT_ERR_CHECKER: (Int) -> Unit = { i -> VkResult(i).check() }
+var VKK_ERR_CHECKER: (Int) -> Unit = DEFAULT_ERR_CHECKER
 
-
-
-
-
-
+fun VK_CHECK_RESULT(i: Int) = VKK_ERR_CHECKER(i)
