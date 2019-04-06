@@ -422,10 +422,10 @@ fun VkCommandBuffer.setViewportWScalingNV(firstViewport: Int, viewportWScalings:
         NVClipSpaceWScaling.nvkCmdSetViewportWScalingNV(this, firstViewport, viewportWScalings.rem, viewportWScalings.adr)
 
 fun VkCommandBuffer.submit(queue: VkQueue, submitInfoPNext: Pointer? = null) {
-    queue submit vk.SubmitInfo {
+    queue.submit(vk.SubmitInfo {
         commandBuffer = this@submit
         submitInfoPNext?.let { next = it.adr }
-    }
+    })
     queue.waitIdle()
 }
 
