@@ -169,3 +169,5 @@ inline var VkPipelineRepresentativeFragmentTestStateCreateInfoNV.next: Ptr
 inline var VkPipelineRepresentativeFragmentTestStateCreateInfoNV.representativeFragmentTestEnable: Boolean
     get() = VkPipelineRepresentativeFragmentTestStateCreateInfoNV.nrepresentativeFragmentTestEnable(adr).bool
     set(value) = VkPipelineRepresentativeFragmentTestStateCreateInfoNV.nrepresentativeFragmentTestEnable(adr, value.i)
+
+typealias stak = Stack

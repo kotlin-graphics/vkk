@@ -7,7 +7,6 @@ import glm_.i
 import glm_.vec2.Vec2i
 import kool.Ptr
 import kool.adr
-import kool.stak
 import org.lwjgl.PointerBuffer
 import org.lwjgl.system.MemoryStack.stackGet
 import org.lwjgl.system.MemoryUtil.*

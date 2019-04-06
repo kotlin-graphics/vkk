@@ -2,7 +2,6 @@ package vkk
 
 import kool.LongBuffer
 import kool.longBufferOf
-import kool.stak
 import org.lwjgl.PointerBuffer
 import org.lwjgl.vulkan.*
 import vkk.entities.*

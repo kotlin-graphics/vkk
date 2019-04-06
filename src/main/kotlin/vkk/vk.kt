@@ -4,7 +4,6 @@ import glm_.*
 import glm_.vec2.Vec2i
 import kool.adr
 import kool.set
-import kool.stak
 import org.lwjgl.system.MemoryUtil
 import org.lwjgl.system.MemoryUtil.*
 import org.lwjgl.system.Pointer

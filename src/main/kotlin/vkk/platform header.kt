@@ -2,7 +2,6 @@ package vkk
 
 import kool.Ptr
 import kool.adr
-import kool.stak
 import org.lwjgl.system.windows.SECURITY_ATTRIBUTES
 import org.lwjgl.vulkan.*
 import vkk.entities.*

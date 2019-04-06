@@ -1,9 +1,9 @@
 package vkk.extensionFunctions
 
 import glm_.BYTES
+import kool.Stack
 import kool.adr
 import kool.rem
-import kool.stak
 import org.lwjgl.system.MemoryStack.stackGet
 import org.lwjgl.system.MemoryUtil.NULL
 import org.lwjgl.system.MemoryUtil.memGetInt
@@ -13,10 +13,10 @@ import vkk.entities.VkFence
 
 
 fun VkQueue.getCheckpointDataNV(checkpointData: VkCheckpointDataNV.Buffer) =
-        stak.intAddress(checkpointData.rem) { NVDeviceDiagnosticCheckpoints.nvkGetQueueCheckpointDataNV(this, it, checkpointData.adr) }
+        Stack.intAddress(checkpointData.rem) { NVDeviceDiagnosticCheckpoints.nvkGetQueueCheckpointDataNV(this, it, checkpointData.adr) }
 
 inline fun <reified T> VkQueue.getCheckpointDataNV(): T = when (T::class) {
-    Int::class -> stak.intAddress {
+    Int::class -> Stack.intAddress {
         NVDeviceDiagnosticCheckpoints.nvkGetQueueCheckpointDataNV(this, it, NULL)
     } as T
     VkCheckpointDataNV.Buffer::class -> {
