@@ -37,7 +37,7 @@ To avoid name collisions with the lwjgl Vulkan bindings, the VK² wrapper reside
   * `VkCreateImage` can be accessed as `vk.createImage`
   * `VkImageTiling` can be accessed as `vk.ImageTiling`
   * `VkImageCreateInfo` can be accessed as `vk.ImageCreateInfo`
-* Enums are mapped to scoped enums to provide compile time type safety. The names have been changed to have the Enum Base in CamelCase with the VK_ prefix and the enum name in Capital letters (corresponding to the original counterpart). Enums starting with a number requires ~to be surrounded by backticks, `` ` ``~ the underscore prefix `_`, this because Idea handles backticks this very poorly.
+* Enums are mapped to scoped enums to provide compile time type safety. The names have been changed to have the Enum Base in CamelCase with the VK_ prefix and the enum name in Capital letters (corresponding to the original counterpart). Enums starting with a number requires ~to be surrounded by backticks~ the underscore prefix `_`, this because Idea handles backticks this very poorly.
 
 Some examples:
   - `VK_COLOR_SPACE_SRGB_NONLINEAR_KHR` is now `VkColorSpace.SRGB_NONLINEAR_KHR`
