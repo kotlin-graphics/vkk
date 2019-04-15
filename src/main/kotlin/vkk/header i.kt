@@ -165,6 +165,28 @@ inline var VkPipelineRasterizationConservativeStateCreateInfoEXT.extraPrimitiveO
     set(value) = VkPipelineRasterizationConservativeStateCreateInfoEXT.nextraPrimitiveOverestimationSize(adr, value)
 
 
+typealias VkPipelineRasterizationDepthClipStateCreateFlagsEXT = VkFlags
+
+
+inline var VkPhysicalDeviceDepthClipEnableFeaturesEXT.type: VkStructureType
+    get() = VkStructureType(VkPhysicalDeviceDepthClipEnableFeaturesEXT.nsType(adr))
+    set(value) = VkPhysicalDeviceDepthClipEnableFeaturesEXT.nsType(adr, value.i)
+inline var VkPhysicalDeviceDepthClipEnableFeaturesEXT.depthClipEnable: Boolean
+    get() = VkPhysicalDeviceDepthClipEnableFeaturesEXT.ndepthClipEnable(adr).bool
+    set(value) = VkPhysicalDeviceDepthClipEnableFeaturesEXT.ndepthClipEnable(adr, value.i)
+
+
+inline var VkPipelineRasterizationDepthClipStateCreateInfoEXT.type: VkStructureType
+    get() = VkStructureType(VkPipelineRasterizationDepthClipStateCreateInfoEXT.nsType(adr))
+    set(value) = VkPipelineRasterizationDepthClipStateCreateInfoEXT.nsType(adr, value.i)
+inline var VkPipelineRasterizationDepthClipStateCreateInfoEXT.flags: VkPipelineRasterizationDepthClipStateCreateFlagsEXT
+    get() = VkPipelineRasterizationDepthClipStateCreateInfoEXT.nflags(adr)
+    set(value) = VkPipelineRasterizationDepthClipStateCreateInfoEXT.nflags(adr, value)
+inline var VkPipelineRasterizationDepthClipStateCreateInfoEXT.depthClipEnable: Boolean
+    get() = VkPipelineRasterizationDepthClipStateCreateInfoEXT.ndepthClipEnable(adr).bool
+    set(value) = VkPipelineRasterizationDepthClipStateCreateInfoEXT.ndepthClipEnable(adr, value.i)
+
+
 inline var VkXYColorEXT.x: Float
     get() = VkXYColorEXT.nx(adr)
     set(value) = VkXYColorEXT.nx(adr, value)

@@ -961,3 +961,86 @@ inline var VkValidationFeaturesEXT.disabledValidationFeatureCount: VkImageUsageF
 inline var VkValidationFeaturesEXT.disabledValidationFeatures: VkValidationFeatureEnableEXT_Buffer?
     get() = VkValidationFeaturesEXT.npDisabledValidationFeatures(adr)?.let(::VkValidationFeatureEnableEXT_Buffer)
     set(value) = VkValidationFeaturesEXT.npDisabledValidationFeatures(adr, value?.buffer)
+
+
+inline class VkComponentTypeNV(val i: Int) {
+    companion object {
+        val FLOAT16_NV = VkComponentTypeNV(0)
+        val FLOAT32_NV = VkComponentTypeNV(1)
+        val FLOAT64_NV = VkComponentTypeNV(2)
+        val SINT8_NV = VkComponentTypeNV(3)
+        val SINT16_NV = VkComponentTypeNV(4)
+        val SINT32_NV = VkComponentTypeNV(5)
+        val SINT64_NV = VkComponentTypeNV(6)
+        val UINT8_NV = VkComponentTypeNV(7)
+        val UINT16_NV = VkComponentTypeNV(8)
+        val UINT32_NV = VkComponentTypeNV(9)
+        val UINT64_NV = VkComponentTypeNV(10)
+    }
+}
+
+
+inline class VkScopeNV(val i: Int) {
+    companion object {
+        val DEVICE_NV = VkScopeNV(1)
+        val WORKGROUP_NV = VkScopeNV(2)
+        val SUBGROUP_NV = VkScopeNV(3)
+        val QUEUE_FAMILY_NV = VkScopeNV(5)
+    }
+}
+
+
+inline var VkCooperativeMatrixPropertiesNV.type: VkStructureType
+    get() = VkStructureType(VkCooperativeMatrixPropertiesNV.nsType(adr))
+    set(value) = VkCooperativeMatrixPropertiesNV.nsType(adr, value.i)
+inline var VkCooperativeMatrixPropertiesNV.next: Ptr
+    get() = VkCooperativeMatrixPropertiesNV.npNext(adr)
+    set(value) = VkCooperativeMatrixPropertiesNV.npNext(adr, value)
+inline var VkCooperativeMatrixPropertiesNV.mSize: Int
+    get() = VkCooperativeMatrixPropertiesNV.nMSize(adr)
+    set(value) = VkCooperativeMatrixPropertiesNV.nMSize(adr, value)
+inline var VkCooperativeMatrixPropertiesNV.nSize: Int
+    get() = VkCooperativeMatrixPropertiesNV.nNSize(adr)
+    set(value) = VkCooperativeMatrixPropertiesNV.nNSize(adr, value)
+inline var VkCooperativeMatrixPropertiesNV.kSize: Int
+    get() = VkCooperativeMatrixPropertiesNV.nKSize(adr)
+    set(value) = VkCooperativeMatrixPropertiesNV.nKSize(adr, value)
+inline var VkCooperativeMatrixPropertiesNV.aType: VkComponentTypeNV
+    get() = VkComponentTypeNV(VkCooperativeMatrixPropertiesNV.nAType(adr))
+    set(value) = VkCooperativeMatrixPropertiesNV.nAType(adr, value.i)
+inline var VkCooperativeMatrixPropertiesNV.bType: VkComponentTypeNV
+    get() = VkComponentTypeNV(VkCooperativeMatrixPropertiesNV.nBType(adr))
+    set(value) = VkCooperativeMatrixPropertiesNV.nBType(adr, value.i)
+inline var VkCooperativeMatrixPropertiesNV.cType: VkComponentTypeNV
+    get() = VkComponentTypeNV(VkCooperativeMatrixPropertiesNV.nCType(adr))
+    set(value) = VkCooperativeMatrixPropertiesNV.nCType(adr, value.i)
+inline var VkCooperativeMatrixPropertiesNV.dType: VkComponentTypeNV
+    get() = VkComponentTypeNV(VkCooperativeMatrixPropertiesNV.nDType(adr))
+    set(value) = VkCooperativeMatrixPropertiesNV.nDType(adr, value.i)
+inline var VkCooperativeMatrixPropertiesNV.scope: VkScopeNV
+    get() = VkScopeNV(VkCooperativeMatrixPropertiesNV.nscope(adr))
+    set(value) = VkCooperativeMatrixPropertiesNV.nscope(adr, value.i)
+
+
+inline var VkPhysicalDeviceCooperativeMatrixFeaturesNV.type: VkStructureType
+    get() = VkStructureType(VkPhysicalDeviceCooperativeMatrixFeaturesNV.nsType(adr))
+    set(value) = VkPhysicalDeviceCooperativeMatrixFeaturesNV.nsType(adr, value.i)
+inline var VkPhysicalDeviceCooperativeMatrixFeaturesNV.next: Ptr
+    get() = VkPhysicalDeviceCooperativeMatrixFeaturesNV.npNext(adr)
+    set(value) = VkPhysicalDeviceCooperativeMatrixFeaturesNV.npNext(adr, value)
+inline var VkPhysicalDeviceCooperativeMatrixFeaturesNV.cooperativeMatrix: Boolean
+    get() = VkPhysicalDeviceCooperativeMatrixFeaturesNV.ncooperativeMatrix(adr).bool
+    set(value) = VkPhysicalDeviceCooperativeMatrixFeaturesNV.ncooperativeMatrix(adr, value.i)
+inline var VkPhysicalDeviceCooperativeMatrixFeaturesNV.cooperativeMatrixRobustBufferAccess: Boolean
+    get() = VkPhysicalDeviceCooperativeMatrixFeaturesNV.ncooperativeMatrixRobustBufferAccess(adr).bool
+    set(value) = VkPhysicalDeviceCooperativeMatrixFeaturesNV.ncooperativeMatrixRobustBufferAccess(adr, value.i)
+
+
+inline var VkPhysicalDeviceCooperativeMatrixPropertiesNV.type: VkStructureType
+    get() = VkStructureType(VkPhysicalDeviceCooperativeMatrixPropertiesNV.nsType(adr))
+    set(value) = VkPhysicalDeviceCooperativeMatrixPropertiesNV.nsType(adr, value.i)
+inline var VkPhysicalDeviceCooperativeMatrixPropertiesNV.next: Ptr
+    get() = VkPhysicalDeviceCooperativeMatrixPropertiesNV.npNext(adr)
+    set(value) = VkPhysicalDeviceCooperativeMatrixPropertiesNV.npNext(adr, value)
+inline val VkPhysicalDeviceCooperativeMatrixPropertiesNV.cooperativeMatrixSupportedStages: VkShaderStageFlags
+    get() = VkPhysicalDeviceCooperativeMatrixPropertiesNV.ncooperativeMatrixSupportedStages(adr)
