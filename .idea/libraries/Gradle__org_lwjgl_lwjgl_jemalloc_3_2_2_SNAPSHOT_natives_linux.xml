@@ -2,10 +2,12 @@
   <library name="Gradle: org.lwjgl:lwjgl-jemalloc:3.2.2-SNAPSHOT:natives-linux">
     <CLASSES>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-jemalloc/3.2.2-SNAPSHOT/52e001ba54880ee9de9192d43f975f6c64ee513e/lwjgl-jemalloc-3.2.2-SNAPSHOT-natives-linux.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-jemalloc/3.2.2-SNAPSHOT/dfec54299289d14f5baef9998f941e511ec0a732/lwjgl-jemalloc-3.2.2-SNAPSHOT-natives-linux.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-jemalloc/3.2.2-SNAPSHOT/ab9a5c8521c2758472b6111849a75f5e102260bb/lwjgl-jemalloc-3.2.2-SNAPSHOT-sources.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-jemalloc/3.2.2-SNAPSHOT/af05bbe480604a0c8371fb3152a8a127a309fbc0/lwjgl-jemalloc-3.2.2-SNAPSHOT-sources.jar!/" />
     </SOURCES>
   </library>
 </component>
