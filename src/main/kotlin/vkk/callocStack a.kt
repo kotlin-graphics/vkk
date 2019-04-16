@@ -849,6 +849,11 @@ fun MemoryStack.ImageViewCreateInfo(block: VkImageViewCreateInfo.() -> Unit): Vk
 fun MemoryStack.ImageViewCreateInfo(capacity: Int): VkImageViewCreateInfo.Buffer = VkImageViewCreateInfo.callocStack(capacity, this).onEach { it.type = VkStructureType.IMAGE_VIEW_CREATE_INFO }
 fun MemoryStack.ImageViewCreateInfo(capacity: Int, block: VkImageViewCreateInfo.Buffer.() -> Unit): VkImageViewCreateInfo.Buffer = ImageViewCreateInfo(capacity).also(block)
 
+fun MemoryStack.ImageViewHandleInfoNVX(): VkImageViewHandleInfoNVX = VkImageViewHandleInfoNVX.callocStack(this).apply { type = VkStructureType.IMAGE_VIEW_HANDLE_INFO_NVX }
+fun MemoryStack.ImageViewHandleInfoNVX(block: VkImageViewHandleInfoNVX.() -> Unit): VkImageViewHandleInfoNVX = ImageViewHandleInfoNVX().also(block)
+fun MemoryStack.ImageViewHandleInfoNVX(capacity: Int): VkImageViewHandleInfoNVX.Buffer = VkImageViewHandleInfoNVX.callocStack(capacity, this).onEach { it.type = VkStructureType.IMAGE_VIEW_HANDLE_INFO_NVX }
+fun MemoryStack.ImageViewHandleInfoNVX(capacity: Int, block: VkImageViewHandleInfoNVX.Buffer.() -> Unit): VkImageViewHandleInfoNVX.Buffer = ImageViewHandleInfoNVX(capacity).also(block)
+
 fun MemoryStack.ImageViewUsageCreateInfo(): VkImageViewUsageCreateInfo = VkImageViewUsageCreateInfo.callocStack(this).apply { type = VkStructureType.IMAGE_VIEW_USAGE_CREATE_INFO }
 fun MemoryStack.ImageViewUsageCreateInfo(block: VkImageViewUsageCreateInfo.() -> Unit): VkImageViewUsageCreateInfo = ImageViewUsageCreateInfo().also(block)
 fun MemoryStack.ImageViewUsageCreateInfo(capacity: Int): VkImageViewUsageCreateInfo.Buffer = VkImageViewUsageCreateInfo.callocStack(capacity, this).onEach { it.type = VkStructureType.IMAGE_VIEW_USAGE_CREATE_INFO }

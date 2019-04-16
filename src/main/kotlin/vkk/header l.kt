@@ -1044,3 +1044,14 @@ inline var VkPhysicalDeviceCooperativeMatrixPropertiesNV.next: Ptr
     set(value) = VkPhysicalDeviceCooperativeMatrixPropertiesNV.npNext(adr, value)
 inline val VkPhysicalDeviceCooperativeMatrixPropertiesNV.cooperativeMatrixSupportedStages: VkShaderStageFlags
     get() = VkPhysicalDeviceCooperativeMatrixPropertiesNV.ncooperativeMatrixSupportedStages(adr)
+
+
+inline var VkPhysicalDeviceYcbcrImageArraysFeaturesEXT.type: VkStructureType
+    get() = VkStructureType(VkPhysicalDeviceYcbcrImageArraysFeaturesEXT.nsType(adr))
+    set(value) = VkPhysicalDeviceYcbcrImageArraysFeaturesEXT.nsType(adr, value.i)
+inline var VkPhysicalDeviceYcbcrImageArraysFeaturesEXT.next: Ptr
+    get() = VkPhysicalDeviceYcbcrImageArraysFeaturesEXT.npNext(adr)
+    set(value) = VkPhysicalDeviceYcbcrImageArraysFeaturesEXT.npNext(adr, value)
+inline var VkPhysicalDeviceYcbcrImageArraysFeaturesEXT.ycbcrImageArrays: Boolean
+    get() = VkPhysicalDeviceYcbcrImageArraysFeaturesEXT.nycbcrImageArrays(adr).bool
+    set(value) = VkPhysicalDeviceYcbcrImageArraysFeaturesEXT.nycbcrImageArrays(adr, value.i)

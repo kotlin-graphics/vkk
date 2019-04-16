@@ -449,6 +449,11 @@ fun MemoryStack.PhysicalDeviceVulkanMemoryModelFeaturesKHR(block: VkPhysicalDevi
 fun MemoryStack.PhysicalDeviceVulkanMemoryModelFeaturesKHR(capacity: Int): VkPhysicalDeviceVulkanMemoryModelFeaturesKHR.Buffer = VkPhysicalDeviceVulkanMemoryModelFeaturesKHR.callocStack(capacity, this).onEach { it.type = VkStructureType.PHYSICAL_DEVICE_VULKAN_MEMORY_MODEL_FEATURES_KHR }
 fun MemoryStack.PhysicalDeviceVulkanMemoryModelFeaturesKHR(capacity: Int, block: VkPhysicalDeviceVulkanMemoryModelFeaturesKHR.Buffer.() -> Unit): VkPhysicalDeviceVulkanMemoryModelFeaturesKHR.Buffer = PhysicalDeviceVulkanMemoryModelFeaturesKHR(capacity).also(block)
 
+fun MemoryStack.PhysicalDeviceYcbcrImageArraysFeaturesEXT(): VkPhysicalDeviceYcbcrImageArraysFeaturesEXT = VkPhysicalDeviceYcbcrImageArraysFeaturesEXT.callocStack(this).apply { type = VkStructureType.PHYSICAL_DEVICE_YCBCR_IMAGE_ARRAYS_FEATURES_EXT }
+fun MemoryStack.PhysicalDeviceYcbcrImageArraysFeaturesEXT(block: VkPhysicalDeviceYcbcrImageArraysFeaturesEXT.() -> Unit): VkPhysicalDeviceYcbcrImageArraysFeaturesEXT = PhysicalDeviceYcbcrImageArraysFeaturesEXT().also(block)
+fun MemoryStack.PhysicalDeviceYcbcrImageArraysFeaturesEXT(capacity: Int): VkPhysicalDeviceYcbcrImageArraysFeaturesEXT.Buffer = VkPhysicalDeviceYcbcrImageArraysFeaturesEXT.callocStack(capacity, this).onEach { it.type = VkStructureType.PHYSICAL_DEVICE_YCBCR_IMAGE_ARRAYS_FEATURES_EXT }
+fun MemoryStack.PhysicalDeviceYcbcrImageArraysFeaturesEXT(capacity: Int, block: VkPhysicalDeviceYcbcrImageArraysFeaturesEXT.Buffer.() -> Unit): VkPhysicalDeviceYcbcrImageArraysFeaturesEXT.Buffer = PhysicalDeviceYcbcrImageArraysFeaturesEXT(capacity).also(block)
+
 fun MemoryStack.PipelineCacheCreateInfo(): VkPipelineCacheCreateInfo = VkPipelineCacheCreateInfo.callocStack(this).apply { type = VkStructureType.PIPELINE_CACHE_CREATE_INFO }
 fun MemoryStack.PipelineCacheCreateInfo(block: VkPipelineCacheCreateInfo.() -> Unit): VkPipelineCacheCreateInfo = PipelineCacheCreateInfo().also(block)
 fun MemoryStack.PipelineCacheCreateInfo(capacity: Int): VkPipelineCacheCreateInfo.Buffer = VkPipelineCacheCreateInfo.callocStack(capacity, this).onEach { it.type = VkStructureType.PIPELINE_CACHE_CREATE_INFO }

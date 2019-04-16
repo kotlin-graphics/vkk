@@ -335,6 +335,23 @@ inline var VkPipelineRasterizationStateStreamCreateInfoEXT.rasterizationStream: 
     set(value) = VkPipelineRasterizationStateStreamCreateInfoEXT.nrasterizationStream(adr, value)
 
 
+inline var VkImageViewHandleInfoNVX.type: VkStructureType
+    get() = VkStructureType(VkImageViewHandleInfoNVX.nsType(adr))
+    set(value) = VkImageViewHandleInfoNVX.nsType(adr, value.i)
+inline var VkImageViewHandleInfoNVX.next: Ptr
+    get() = VkImageViewHandleInfoNVX.npNext(adr)
+    set(value) = VkImageViewHandleInfoNVX.npNext(adr, value)
+inline var VkImageViewHandleInfoNVX.imageView: VkImageView
+    get() = VkImageView(VkImageViewHandleInfoNVX.nimageView(adr))
+    set(value) = VkImageViewHandleInfoNVX.nimageView(adr, value.L)
+inline var VkImageViewHandleInfoNVX.descriptorType: VkDescriptorType
+    get() = VkDescriptorType(VkImageViewHandleInfoNVX.ndescriptorType(adr))
+    set(value) = VkImageViewHandleInfoNVX.ndescriptorType(adr, value.i)
+inline var VkImageViewHandleInfoNVX.sampler: VkSampler
+    get() = VkSampler(VkImageViewHandleInfoNVX.nsampler(adr))
+    set(value) = VkImageViewHandleInfoNVX.nsampler(adr, value.L)
+
+
 inline var VkTextureLODGatherFormatPropertiesAMD.type: VkStructureType
     get() = VkStructureType(VkTextureLODGatherFormatPropertiesAMD.nsType(adr))
     set(value) = VkTextureLODGatherFormatPropertiesAMD.nsType(adr, value.i)
