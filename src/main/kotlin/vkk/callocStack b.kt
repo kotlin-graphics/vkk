@@ -39,6 +39,16 @@ fun MemoryStack.ObjectTableVertexBufferEntryNVX(block: VkObjectTableVertexBuffer
 fun MemoryStack.ObjectTableVertexBufferEntryNVX(capacity: Int): VkObjectTableVertexBufferEntryNVX.Buffer = VkObjectTableVertexBufferEntryNVX.callocStack(capacity, this)
 fun MemoryStack.ObjectTableVertexBufferEntryNVX(capacity: Int, block: VkObjectTableVertexBufferEntryNVX.Buffer.() -> Unit): VkObjectTableVertexBufferEntryNVX.Buffer = ObjectTableVertexBufferEntryNVX(capacity).also(block)
 
+fun MemoryStack.Offset2D(): VkOffset2D = VkOffset2D.callocStack(this)
+fun MemoryStack.Offset2D(block: VkOffset2D.() -> Unit): VkOffset2D = Offset2D().also(block)
+fun MemoryStack.Offset2D(capacity: Int): VkOffset2D.Buffer = VkOffset2D.callocStack(capacity, this)
+fun MemoryStack.Offset2D(capacity: Int, block: VkOffset2D.Buffer.() -> Unit): VkOffset2D.Buffer = Offset2D(capacity).also(block)
+
+fun MemoryStack.Offset3D(): VkOffset3D = VkOffset3D.callocStack(this)
+fun MemoryStack.Offset3D(block: VkOffset3D.() -> Unit): VkOffset3D = Offset3D().also(block)
+fun MemoryStack.Offset3D(capacity: Int): VkOffset3D.Buffer = VkOffset3D.callocStack(capacity, this)
+fun MemoryStack.Offset3D(capacity: Int, block: VkOffset3D.Buffer.() -> Unit): VkOffset3D.Buffer = Offset3D(capacity).also(block)
+
 fun MemoryStack.PastPresentationTimingGOOGLE(): VkPastPresentationTimingGOOGLE = VkPastPresentationTimingGOOGLE.callocStack(this)
 fun MemoryStack.PastPresentationTimingGOOGLE(block: VkPastPresentationTimingGOOGLE.() -> Unit): VkPastPresentationTimingGOOGLE = PastPresentationTimingGOOGLE().also(block)
 fun MemoryStack.PastPresentationTimingGOOGLE(capacity: Int): VkPastPresentationTimingGOOGLE.Buffer = VkPastPresentationTimingGOOGLE.callocStack(capacity, this)
@@ -71,8 +81,8 @@ fun MemoryStack.PhysicalDeviceBlendOperationAdvancedPropertiesEXT(capacity: Int,
 
 fun MemoryStack.PhysicalDeviceBufferAddressFeaturesEXT(): VkPhysicalDeviceBufferAddressFeaturesEXT = VkPhysicalDeviceBufferAddressFeaturesEXT.callocStack(this).apply { type = VkStructureType.PHYSICAL_DEVICE_BUFFER_ADDRESS_FEATURES_EXT }
 fun MemoryStack.PhysicalDeviceBufferAddressFeaturesEXT(block: VkPhysicalDeviceBufferAddressFeaturesEXT.() -> Unit): VkPhysicalDeviceBufferAddressFeaturesEXT = PhysicalDeviceBufferAddressFeaturesEXT().also(block)
-fun MemoryStack.PhysicalDeviceBufferAddressFeaturesEXT(capacity: Int): VkPhysicalDeviceBufferAddressFeaturesEXT.Buffer = VkPhysicalDeviceBufferAddressFeaturesEXT.callocStack(capacity, this).onEach { it.type = VkStructureType.PHYSICAL_DEVICE_BUFFER_ADDRESS_FEATURES_EXT }
-fun MemoryStack.PhysicalDeviceBufferAddressFeaturesEXT(capacity: Int, block: VkPhysicalDeviceBufferAddressFeaturesEXT.Buffer.() -> Unit): VkPhysicalDeviceBufferAddressFeaturesEXT.Buffer = PhysicalDeviceBufferAddressFeaturesEXT(capacity).also(block)
+//fun MemoryStack.PhysicalDeviceBufferAddressFeaturesEXT(capacity: Int): VkPhysicalDeviceBufferAddressFeaturesEXT.Buffer = VkPhysicalDeviceBufferAddressFeaturesEXT.callocStack(capacity, this).onEach { it.type = VkStructureType.PHYSICAL_DEVICE_BUFFER_ADDRESS_FEATURES_EXT }
+//fun MemoryStack.PhysicalDeviceBufferAddressFeaturesEXT(capacity: Int, block: VkPhysicalDeviceBufferAddressFeaturesEXT.Buffer.() -> Unit): VkPhysicalDeviceBufferAddressFeaturesEXT.Buffer = PhysicalDeviceBufferAddressFeaturesEXT(capacity).also(block)
 
 fun MemoryStack.PhysicalDeviceConditionalRenderingFeaturesEXT(): VkPhysicalDeviceConditionalRenderingFeaturesEXT = VkPhysicalDeviceConditionalRenderingFeaturesEXT.callocStack(this).apply { type = VkStructureType.PHYSICAL_DEVICE_CONDITIONAL_RENDERING_FEATURES_EXT }
 fun MemoryStack.PhysicalDeviceConditionalRenderingFeaturesEXT(block: VkPhysicalDeviceConditionalRenderingFeaturesEXT.() -> Unit): VkPhysicalDeviceConditionalRenderingFeaturesEXT = PhysicalDeviceConditionalRenderingFeaturesEXT().also(block)
@@ -89,6 +99,16 @@ fun MemoryStack.PhysicalDeviceConservativeRasterizationPropertiesEXT(block: VkPh
 fun MemoryStack.PhysicalDeviceConservativeRasterizationPropertiesEXT(capacity: Int): VkPhysicalDeviceConservativeRasterizationPropertiesEXT.Buffer = VkPhysicalDeviceConservativeRasterizationPropertiesEXT.callocStack(capacity, this).onEach { it.type = VkStructureType.PHYSICAL_DEVICE_CONSERVATIVE_RASTERIZATION_PROPERTIES_EXT }
 fun MemoryStack.PhysicalDeviceConservativeRasterizationPropertiesEXT(capacity: Int, block: VkPhysicalDeviceConservativeRasterizationPropertiesEXT.Buffer.() -> Unit): VkPhysicalDeviceConservativeRasterizationPropertiesEXT.Buffer = PhysicalDeviceConservativeRasterizationPropertiesEXT(capacity).also(block)
 
+fun MemoryStack.PhysicalDeviceCooperativeMatrixFeaturesNV(): VkPhysicalDeviceCooperativeMatrixFeaturesNV = VkPhysicalDeviceCooperativeMatrixFeaturesNV.callocStack(this).apply { type = VkStructureType.PHYSICAL_DEVICE_COOPERATIVE_MATRIX_FEATURES_NV }
+fun MemoryStack.PhysicalDeviceCooperativeMatrixFeaturesNV(block: VkPhysicalDeviceCooperativeMatrixFeaturesNV.() -> Unit): VkPhysicalDeviceCooperativeMatrixFeaturesNV = PhysicalDeviceCooperativeMatrixFeaturesNV().also(block)
+fun MemoryStack.PhysicalDeviceCooperativeMatrixFeaturesNV(capacity: Int): VkPhysicalDeviceCooperativeMatrixFeaturesNV.Buffer = VkPhysicalDeviceCooperativeMatrixFeaturesNV.callocStack(capacity, this).onEach { it.type = VkStructureType.PHYSICAL_DEVICE_COOPERATIVE_MATRIX_FEATURES_NV }
+fun MemoryStack.PhysicalDeviceCooperativeMatrixFeaturesNV(capacity: Int, block: VkPhysicalDeviceCooperativeMatrixFeaturesNV.Buffer.() -> Unit): VkPhysicalDeviceCooperativeMatrixFeaturesNV.Buffer = PhysicalDeviceCooperativeMatrixFeaturesNV(capacity).also(block)
+
+fun MemoryStack.PhysicalDeviceCooperativeMatrixPropertiesNV(): VkPhysicalDeviceCooperativeMatrixPropertiesNV = VkPhysicalDeviceCooperativeMatrixPropertiesNV.callocStack(this).apply { type = VkStructureType.PHYSICAL_DEVICE_COOPERATIVE_MATRIX_PROPERTIES_NV }
+fun MemoryStack.PhysicalDeviceCooperativeMatrixPropertiesNV(block: VkPhysicalDeviceCooperativeMatrixPropertiesNV.() -> Unit): VkPhysicalDeviceCooperativeMatrixPropertiesNV = PhysicalDeviceCooperativeMatrixPropertiesNV().also(block)
+fun MemoryStack.PhysicalDeviceCooperativeMatrixPropertiesNV(capacity: Int): VkPhysicalDeviceCooperativeMatrixPropertiesNV.Buffer = VkPhysicalDeviceCooperativeMatrixPropertiesNV.callocStack(capacity, this).onEach { it.type = VkStructureType.PHYSICAL_DEVICE_COOPERATIVE_MATRIX_PROPERTIES_NV }
+fun MemoryStack.PhysicalDeviceCooperativeMatrixPropertiesNV(capacity: Int, block: VkPhysicalDeviceCooperativeMatrixPropertiesNV.Buffer.() -> Unit): VkPhysicalDeviceCooperativeMatrixPropertiesNV.Buffer = PhysicalDeviceCooperativeMatrixPropertiesNV(capacity).also(block)
+
 fun MemoryStack.PhysicalDeviceCornerSampledImageFeaturesNV(): VkPhysicalDeviceCornerSampledImageFeaturesNV = VkPhysicalDeviceCornerSampledImageFeaturesNV.callocStack(this).apply { type = VkStructureType.PHYSICAL_DEVICE_CORNER_SAMPLED_IMAGE_FEATURES_NV }
 fun MemoryStack.PhysicalDeviceCornerSampledImageFeaturesNV(block: VkPhysicalDeviceCornerSampledImageFeaturesNV.() -> Unit): VkPhysicalDeviceCornerSampledImageFeaturesNV = PhysicalDeviceCornerSampledImageFeaturesNV().also(block)
 fun MemoryStack.PhysicalDeviceCornerSampledImageFeaturesNV(capacity: Int): VkPhysicalDeviceCornerSampledImageFeaturesNV.Buffer = VkPhysicalDeviceCornerSampledImageFeaturesNV.callocStack(capacity, this).onEach { it.type = VkStructureType.PHYSICAL_DEVICE_CORNER_SAMPLED_IMAGE_FEATURES_NV }
@@ -98,6 +118,11 @@ fun MemoryStack.PhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV(): VkPh
 fun MemoryStack.PhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV(block: VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV.() -> Unit): VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV = PhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV().also(block)
 fun MemoryStack.PhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV(capacity: Int): VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV.Buffer = VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV.callocStack(capacity, this).onEach { it.type = VkStructureType.PHYSICAL_DEVICE_DEDICATED_ALLOCATION_IMAGE_ALIASING_FEATURES_NV }
 fun MemoryStack.PhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV(capacity: Int, block: VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV.Buffer.() -> Unit): VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV.Buffer = PhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV(capacity).also(block)
+
+fun MemoryStack.PhysicalDeviceDepthClipEnableFeaturesEXT(): VkPhysicalDeviceDepthClipEnableFeaturesEXT = VkPhysicalDeviceDepthClipEnableFeaturesEXT.callocStack(this).apply { type = VkStructureType.PHYSICAL_DEVICE_DEPTH_CLIP_ENABLE_FEATURES_EXT }
+fun MemoryStack.PhysicalDeviceDepthClipEnableFeaturesEXT(block: VkPhysicalDeviceDepthClipEnableFeaturesEXT.() -> Unit): VkPhysicalDeviceDepthClipEnableFeaturesEXT = PhysicalDeviceDepthClipEnableFeaturesEXT().also(block)
+fun MemoryStack.PhysicalDeviceDepthClipEnableFeaturesEXT(capacity: Int): VkPhysicalDeviceDepthClipEnableFeaturesEXT.Buffer = VkPhysicalDeviceDepthClipEnableFeaturesEXT.callocStack(capacity, this).onEach { it.type = VkStructureType.PHYSICAL_DEVICE_DEPTH_CLIP_ENABLE_FEATURES_EXT }
+fun MemoryStack.PhysicalDeviceDepthClipEnableFeaturesEXT(capacity: Int, block: VkPhysicalDeviceDepthClipEnableFeaturesEXT.Buffer.() -> Unit): VkPhysicalDeviceDepthClipEnableFeaturesEXT.Buffer = PhysicalDeviceDepthClipEnableFeaturesEXT(capacity).also(block)
 
 fun MemoryStack.PhysicalDeviceDepthStencilResolvePropertiesKHR(): VkPhysicalDeviceDepthStencilResolvePropertiesKHR = VkPhysicalDeviceDepthStencilResolvePropertiesKHR.callocStack(this).apply { type = VkStructureType.PHYSICAL_DEVICE_DEPTH_STENCIL_RESOLVE_PROPERTIES_KHR }
 fun MemoryStack.PhysicalDeviceDepthStencilResolvePropertiesKHR(block: VkPhysicalDeviceDepthStencilResolvePropertiesKHR.() -> Unit): VkPhysicalDeviceDepthStencilResolvePropertiesKHR = PhysicalDeviceDepthStencilResolvePropertiesKHR().also(block)
@@ -361,8 +386,8 @@ fun MemoryStack.PhysicalDeviceShaderCorePropertiesAMD(capacity: Int, block: VkPh
 
 fun MemoryStack.PhysicalDeviceShaderDrawParameterFeatures(): VkPhysicalDeviceShaderDrawParameterFeatures = VkPhysicalDeviceShaderDrawParameterFeatures.callocStack(this).apply { type = VkStructureType.PHYSICAL_DEVICE_SHADER_DRAW_PARAMETER_FEATURES }
 fun MemoryStack.PhysicalDeviceShaderDrawParameterFeatures(block: VkPhysicalDeviceShaderDrawParameterFeatures.() -> Unit): VkPhysicalDeviceShaderDrawParameterFeatures = PhysicalDeviceShaderDrawParameterFeatures().also(block)
-fun MemoryStack.PhysicalDeviceShaderDrawParameterFeatures(capacity: Int): VkPhysicalDeviceShaderDrawParameterFeatures.Buffer = VkPhysicalDeviceShaderDrawParameterFeatures.callocStack(capacity, this).onEach { it.type = VkStructureType.PHYSICAL_DEVICE_SHADER_DRAW_PARAMETER_FEATURES }
-fun MemoryStack.PhysicalDeviceShaderDrawParameterFeatures(capacity: Int, block: VkPhysicalDeviceShaderDrawParameterFeatures.Buffer.() -> Unit): VkPhysicalDeviceShaderDrawParameterFeatures.Buffer = PhysicalDeviceShaderDrawParameterFeatures(capacity).also(block)
+//fun MemoryStack.PhysicalDeviceShaderDrawParameterFeatures(capacity: Int): VkPhysicalDeviceShaderDrawParameterFeatures.Buffer = VkPhysicalDeviceShaderDrawParameterFeatures.callocStack(capacity, this).onEach { it.type = VkStructureType.PHYSICAL_DEVICE_SHADER_DRAW_PARAMETER_FEATURES }
+//fun MemoryStack.PhysicalDeviceShaderDrawParameterFeatures(capacity: Int, block: VkPhysicalDeviceShaderDrawParameterFeatures.Buffer.() -> Unit): VkPhysicalDeviceShaderDrawParameterFeatures.Buffer = PhysicalDeviceShaderDrawParameterFeatures(capacity).also(block)
 
 fun MemoryStack.PhysicalDeviceShaderImageFootprintFeaturesNV(): VkPhysicalDeviceShaderImageFootprintFeaturesNV = VkPhysicalDeviceShaderImageFootprintFeaturesNV.callocStack(this).apply { type = VkStructureType.PHYSICAL_DEVICE_SHADER_IMAGE_FOOTPRINT_FEATURES_NV }
 fun MemoryStack.PhysicalDeviceShaderImageFootprintFeaturesNV(block: VkPhysicalDeviceShaderImageFootprintFeaturesNV.() -> Unit): VkPhysicalDeviceShaderImageFootprintFeaturesNV = PhysicalDeviceShaderImageFootprintFeaturesNV().also(block)
@@ -406,8 +431,8 @@ fun MemoryStack.PhysicalDeviceTransformFeedbackPropertiesEXT(capacity: Int, bloc
 
 fun MemoryStack.PhysicalDeviceVariablePointerFeatures(): VkPhysicalDeviceVariablePointerFeatures = VkPhysicalDeviceVariablePointerFeatures.callocStack(this).apply { type = VkStructureType.PHYSICAL_DEVICE_VARIABLE_POINTER_FEATURES }
 fun MemoryStack.PhysicalDeviceVariablePointerFeatures(block: VkPhysicalDeviceVariablePointerFeatures.() -> Unit): VkPhysicalDeviceVariablePointerFeatures = PhysicalDeviceVariablePointerFeatures().also(block)
-fun MemoryStack.PhysicalDeviceVariablePointerFeatures(capacity: Int): VkPhysicalDeviceVariablePointerFeatures.Buffer = VkPhysicalDeviceVariablePointerFeatures.callocStack(capacity, this).onEach { it.type = VkStructureType.PHYSICAL_DEVICE_VARIABLE_POINTER_FEATURES }
-fun MemoryStack.PhysicalDeviceVariablePointerFeatures(capacity: Int, block: VkPhysicalDeviceVariablePointerFeatures.Buffer.() -> Unit): VkPhysicalDeviceVariablePointerFeatures.Buffer = PhysicalDeviceVariablePointerFeatures(capacity).also(block)
+//fun MemoryStack.PhysicalDeviceVariablePointerFeatures(capacity: Int): VkPhysicalDeviceVariablePointerFeatures.Buffer = VkPhysicalDeviceVariablePointerFeatures.callocStack(capacity, this).onEach { it.type = VkStructureType.PHYSICAL_DEVICE_VARIABLE_POINTER_FEATURES }
+//fun MemoryStack.PhysicalDeviceVariablePointerFeatures(capacity: Int, block: VkPhysicalDeviceVariablePointerFeatures.Buffer.() -> Unit): VkPhysicalDeviceVariablePointerFeatures.Buffer = PhysicalDeviceVariablePointerFeatures(capacity).also(block)
 
 fun MemoryStack.PhysicalDeviceVertexAttributeDivisorFeaturesEXT(): VkPhysicalDeviceVertexAttributeDivisorFeaturesEXT = VkPhysicalDeviceVertexAttributeDivisorFeaturesEXT.callocStack(this).apply { type = VkStructureType.PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_DIVISOR_FEATURES_EXT }
 fun MemoryStack.PhysicalDeviceVertexAttributeDivisorFeaturesEXT(block: VkPhysicalDeviceVertexAttributeDivisorFeaturesEXT.() -> Unit): VkPhysicalDeviceVertexAttributeDivisorFeaturesEXT = PhysicalDeviceVertexAttributeDivisorFeaturesEXT().also(block)
@@ -488,6 +513,11 @@ fun MemoryStack.PipelineRasterizationConservativeStateCreateInfoEXT(): VkPipelin
 fun MemoryStack.PipelineRasterizationConservativeStateCreateInfoEXT(block: VkPipelineRasterizationConservativeStateCreateInfoEXT.() -> Unit): VkPipelineRasterizationConservativeStateCreateInfoEXT = PipelineRasterizationConservativeStateCreateInfoEXT().also(block)
 fun MemoryStack.PipelineRasterizationConservativeStateCreateInfoEXT(capacity: Int): VkPipelineRasterizationConservativeStateCreateInfoEXT.Buffer = VkPipelineRasterizationConservativeStateCreateInfoEXT.callocStack(capacity, this).onEach { it.type = VkStructureType.PIPELINE_RASTERIZATION_CONSERVATIVE_STATE_CREATE_INFO_EXT }
 fun MemoryStack.PipelineRasterizationConservativeStateCreateInfoEXT(capacity: Int, block: VkPipelineRasterizationConservativeStateCreateInfoEXT.Buffer.() -> Unit): VkPipelineRasterizationConservativeStateCreateInfoEXT.Buffer = PipelineRasterizationConservativeStateCreateInfoEXT(capacity).also(block)
+
+fun MemoryStack.PipelineRasterizationDepthClipStateCreateInfoEXT(): VkPipelineRasterizationDepthClipStateCreateInfoEXT = VkPipelineRasterizationDepthClipStateCreateInfoEXT.callocStack(this).apply { type = VkStructureType.PIPELINE_RASTERIZATION_DEPTH_CLIP_STATE_CREATE_INFO_EXT }
+fun MemoryStack.PipelineRasterizationDepthClipStateCreateInfoEXT(block: VkPipelineRasterizationDepthClipStateCreateInfoEXT.() -> Unit): VkPipelineRasterizationDepthClipStateCreateInfoEXT = PipelineRasterizationDepthClipStateCreateInfoEXT().also(block)
+fun MemoryStack.PipelineRasterizationDepthClipStateCreateInfoEXT(capacity: Int): VkPipelineRasterizationDepthClipStateCreateInfoEXT.Buffer = VkPipelineRasterizationDepthClipStateCreateInfoEXT.callocStack(capacity, this).onEach { it.type = VkStructureType.PIPELINE_RASTERIZATION_DEPTH_CLIP_STATE_CREATE_INFO_EXT }
+fun MemoryStack.PipelineRasterizationDepthClipStateCreateInfoEXT(capacity: Int, block: VkPipelineRasterizationDepthClipStateCreateInfoEXT.Buffer.() -> Unit): VkPipelineRasterizationDepthClipStateCreateInfoEXT.Buffer = PipelineRasterizationDepthClipStateCreateInfoEXT(capacity).also(block)
 
 fun MemoryStack.PipelineRasterizationStateCreateInfo(): VkPipelineRasterizationStateCreateInfo = VkPipelineRasterizationStateCreateInfo.callocStack(this).apply { type = VkStructureType.PIPELINE_RASTERIZATION_STATE_CREATE_INFO }
 fun MemoryStack.PipelineRasterizationStateCreateInfo(block: VkPipelineRasterizationStateCreateInfo.() -> Unit): VkPipelineRasterizationStateCreateInfo = PipelineRasterizationStateCreateInfo().also(block)

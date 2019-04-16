@@ -54,7 +54,15 @@ infix fun VkQueue.submit(submits: VkSubmitInfo): VkResult = submit(submits, VkFe
 fun VkQueue.waitIdle(): VkResult =
         VkResult(VK10.vkQueueWaitIdle(this)).apply { check() }
 
+// block result
 
 fun VkQueue.presentKHR(presentInfo: VkPresentInfoKHR, block: (VkResult) -> Unit) =
         block(VkResult(KHRSwapchain.vkQueuePresentKHR(this, presentInfo)))
 
+// lambda
+
+fun VkQueue.debugUtilsLabelEXT(labelInfo: VkDebugUtilsLabelEXT, block: () -> Unit) {
+    EXTDebugUtils.nvkQueueBeginDebugUtilsLabelEXT(this, labelInfo.adr)
+    block()
+    EXTDebugUtils.vkQueueEndDebugUtilsLabelEXT(this)
+}

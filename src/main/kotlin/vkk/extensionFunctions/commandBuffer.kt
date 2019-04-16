@@ -59,22 +59,23 @@ fun VkCommandBuffer.bindDescriptorSets(pipelineBindPoint: VkPipelineBindPoint,
         VK10.nvkCmdBindDescriptorSets(this, pipelineBindPoint.i, layout.L, firstSet, descriptorSets.rem, descriptorSets.adr, dynamicOffsets.rem, dynamicOffsets.adr)
 
 fun VkCommandBuffer.bindDescriptorSets(pipelineBindPoint: VkPipelineBindPoint, layout: VkPipelineLayout,
-                                       descriptorSet: VkDescriptorSet, dynamicOffsets: Int? = null) = stak {
-    val pDescriptorSets = it.nmalloc(8, Long.BYTES)
-    memPutLong(pDescriptorSets, descriptorSet.L)
-    val dynamicOffsetCount: Int
-    val pDynamicOffset = when (dynamicOffsets) {
-        null -> {
-            dynamicOffsetCount = 0
-            NULL
+                                       descriptorSet: VkDescriptorSet, dynamicOffsets: Int? = null) =
+        stak {
+            val pDescriptorSets = it.nmalloc(8, Long.BYTES)
+            memPutLong(pDescriptorSets, descriptorSet.L)
+            val dynamicOffsetCount: Int
+            val pDynamicOffset = when (dynamicOffsets) {
+                null -> {
+                    dynamicOffsetCount = 0
+                    NULL
+                }
+                else -> {
+                    dynamicOffsetCount = 1
+                    it.nmalloc(4, Int.BYTES).also { memPutInt(it, dynamicOffsets) }
+                }
+            }
+            VK10.nvkCmdBindDescriptorSets(this, pipelineBindPoint.i, layout.L, 0, 1, pDescriptorSets, dynamicOffsetCount, pDynamicOffset)
         }
-        else -> {
-            dynamicOffsetCount = 1
-            it.nmalloc(4, Int.BYTES).also { memPutInt(it, dynamicOffsets) }
-        }
-    }
-    VK10.nvkCmdBindDescriptorSets(this, pipelineBindPoint.i, layout.L, 0, 1, pDescriptorSets, dynamicOffsetCount, pDynamicOffset)
-}
 
 fun VkCommandBuffer.bindIndexBuffer(buffer: VkBuffer, offset: VkDeviceSize, indexType: VkIndexType) =
         VK10.vkCmdBindIndexBuffer(this, buffer.L, offset.L, indexType.i)

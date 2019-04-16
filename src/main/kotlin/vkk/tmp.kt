@@ -170,4 +170,6 @@ inline var VkPipelineRepresentativeFragmentTestStateCreateInfoNV.representativeF
     get() = VkPipelineRepresentativeFragmentTestStateCreateInfoNV.nrepresentativeFragmentTestEnable(adr).bool
     set(value) = VkPipelineRepresentativeFragmentTestStateCreateInfoNV.nrepresentativeFragmentTestEnable(adr, value.i)
 
+typealias NanoSecond = Long
+
 typealias stak = Stack

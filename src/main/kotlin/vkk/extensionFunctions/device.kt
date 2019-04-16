@@ -5,7 +5,6 @@ import glm_.L
 import glm_.i
 import kool.*
 import org.lwjgl.PointerBuffer
-import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.*
 import org.lwjgl.system.Pointer
 import org.lwjgl.vulkan.*
@@ -24,77 +23,77 @@ fun VkDevice.acquireNextImageKHR(swapchain: VkSwapchainKHR, timeout: Long, semap
 fun VkDevice.acquireNextImage2KHR(acquireInfo: VkAcquireNextImageInfoKHR): Int =
         stak.intAddress { VK_CHECK_RESULT(KHRSwapchain.nvkAcquireNextImage2KHR(this, acquireInfo.adr, it)) }
 
-inline infix fun <reified C> VkDevice.allocateCommandBuffers(allocateInfo: VkCommandBufferAllocateInfo): C =
+inline infix fun <reified T> VkDevice.allocateCommandBuffers(allocateInfo: VkCommandBufferAllocateInfo): T =
         stak {
             val count = allocateInfo.commandBufferCount
             val pCommandBuffers = it.nmalloc(Pointer.POINTER_SIZE, count * Pointer.POINTER_SIZE)
             VK_CHECK_RESULT(VK10.nvkAllocateCommandBuffers(this, allocateInfo.adr, pCommandBuffers))
-            when (C::class) {
-                VkCommandBuffer::class -> VkCommandBuffer(memGetLong(pCommandBuffers), this) as C
-                Array<VkCommandBuffer>::class -> Array(count) { VkCommandBuffer(memGetAddress(pCommandBuffers + Pointer.POINTER_SIZE * it), this) } as C
+            when (T::class) {
+                VkCommandBuffer::class -> VkCommandBuffer(memGetLong(pCommandBuffers), this) as T
+                Array<VkCommandBuffer>::class -> Array(count) { VkCommandBuffer(memGetAddress(pCommandBuffers + Pointer.POINTER_SIZE * it), this) } as T
                 ArrayList::class -> {
                     val res = ArrayList<VkCommandBuffer>(count)
                     for (i in 0 until count)
                         res += VkCommandBuffer(memGetAddress(pCommandBuffers + Pointer.POINTER_SIZE * i), this)
-                    res as C
+                    res as T
                 }
-                List::class -> List(count) { VkCommandBuffer(memGetAddress(pCommandBuffers + Pointer.POINTER_SIZE * it), this) } as C
-                else -> throw Exception("Invalid")
+                List::class -> List(count) { VkCommandBuffer(memGetAddress(pCommandBuffers + Pointer.POINTER_SIZE * it), this) } as T
+                else -> throw Exception("[VkDevice::allocateCommandBuffers] Invalid T")
             }
         }
 
 inline infix fun VkDevice.allocateDescriptorSet(allocateInfo: VkDescriptorSetAllocateInfo): VkDescriptorSet =
         VkDescriptorSet(stak.longAddress { VK_CHECK_RESULT(VK10.nvkAllocateDescriptorSets(this, allocateInfo.adr, it)) })
 
-inline infix fun <reified C> VkDevice.allocateDescriptorSets(allocateInfo: VkDescriptorSetAllocateInfo): C =
+inline infix fun <reified T> VkDevice.allocateDescriptorSets(allocateInfo: VkDescriptorSetAllocateInfo): T =
         stak {
             val count = allocateInfo.descriptorSetCount
             val pDescriptorSets = it.nmalloc(8, count * Long.BYTES)
             VK_CHECK_RESULT(VK10.nvkAllocateDescriptorSets(this, allocateInfo.adr, pDescriptorSets))
-            when (C::class) {
-                VkDescriptorSet::class -> VkDescriptorSet(memGetLong(pDescriptorSets)) as C
+            when (T::class) {
+                VkDescriptorSet::class -> VkDescriptorSet(memGetLong(pDescriptorSets)) as T
                 VkDescriptorSet_Array::class -> VkDescriptorSet_Array(
-                        LongArray(count) { memGetLong(pDescriptorSets + Long.BYTES * it) }) as C
+                        LongArray(count) { memGetLong(pDescriptorSets + Long.BYTES * it) }) as T
                 ArrayList::class -> {
                     val res = ArrayList<VkDescriptorSet>(count)
                     for (i in 0 until count)
                         res += VkDescriptorSet(memGetLong(pDescriptorSets + Long.BYTES * i))
-                    res as C
+                    res as T
                 }
-                List::class -> List(count) { VkDescriptorSet(memGetLong(pDescriptorSets + Long.BYTES * it)) } as C
-                else -> throw Exception("Invalid")
+                List::class -> List(count) { VkDescriptorSet(memGetLong(pDescriptorSets + Long.BYTES * it)) } as T
+                else -> throw Exception("[VkDevice::allocateDescriptorSets] Invalid T")
             }
         }
 
 infix fun VkDevice.allocateMemory(allocateInfo: VkMemoryAllocateInfo): VkDeviceMemory =
         VkDeviceMemory(stak.longAddress { VK_CHECK_RESULT(VK10.nvkAllocateMemory(this, allocateInfo.adr, NULL, it)) })
 
-infix fun VkDevice.bindAccelerationStructureMemoryNV(bindInfos: VkBindAccelerationStructureMemoryInfoNV.Buffer) =
-        VK_CHECK_RESULT(NVRayTracing.nvkBindAccelerationStructureMemoryNV(this, bindInfos.rem, bindInfos.adr))
+infix fun VkDevice.bindAccelerationStructureMemoryNV(bindInfos: VkBindAccelerationStructureMemoryInfoNV.Buffer): VkResult =
+        VkResult(NVRayTracing.nvkBindAccelerationStructureMemoryNV(this, bindInfos.rem, bindInfos.adr)).apply { check() }
 
-fun VkDevice.bindBufferMemory(buffer: VkBuffer, memory: VkDeviceMemory, memoryOffset: VkDeviceSize = VkDeviceSize(0)) =
-        VK_CHECK_RESULT(VK10.vkBindBufferMemory(this, buffer.L, memory.L, memoryOffset.L))
+fun VkDevice.bindBufferMemory(buffer: VkBuffer, memory: VkDeviceMemory, memoryOffset: VkDeviceSize = VkDeviceSize(0)): VkResult =
+        VkResult(VK10.vkBindBufferMemory(this, buffer.L, memory.L, memoryOffset.L)).apply { check() }
 
-infix fun VkDevice.bindBufferMemory2(bindInfos: VkBindBufferMemoryInfo.Buffer) =
-        VK_CHECK_RESULT(VK11.nvkBindBufferMemory2(this, bindInfos.rem, bindInfos.adr))
+infix fun VkDevice.bindBufferMemory2(bindInfos: VkBindBufferMemoryInfo.Buffer): VkResult =
+        VkResult(VK11.nvkBindBufferMemory2(this, bindInfos.rem, bindInfos.adr)).apply { check() }
 
-infix fun VkDevice.bindBufferMemory2KHR(bindInfos: VkBindBufferMemoryInfo.Buffer) =
-        VK_CHECK_RESULT(KHRBindMemory2.nvkBindBufferMemory2KHR(this, bindInfos.rem, bindInfos.adr))
+infix fun VkDevice.bindBufferMemory2KHR(bindInfos: VkBindBufferMemoryInfo.Buffer): VkResult =
+        VkResult(KHRBindMemory2.nvkBindBufferMemory2KHR(this, bindInfos.rem, bindInfos.adr)).apply { check() }
 
-fun VkDevice.bindImageMemory(image: VkImage, memory: VkDeviceMemory, memoryOffset: VkDeviceSize = VkDeviceSize(0)) =
-        VK_CHECK_RESULT(VK10.vkBindImageMemory(this, image.L, memory.L, memoryOffset.L))
+fun VkDevice.bindImageMemory(image: VkImage, memory: VkDeviceMemory, memoryOffset: VkDeviceSize = VkDeviceSize(0)): VkResult =
+        VkResult(VK10.vkBindImageMemory(this, image.L, memory.L, memoryOffset.L)).apply { check() }
 
-fun VkDevice.bindImageMemory2(bindInfos: VkBindImageMemoryInfo.Buffer) =
-        VK_CHECK_RESULT(VK11.nvkBindImageMemory2(this, bindInfos.rem, bindInfos.adr))
+fun VkDevice.bindImageMemory2(bindInfos: VkBindImageMemoryInfo.Buffer): VkResult =
+        VkResult(VK11.nvkBindImageMemory2(this, bindInfos.rem, bindInfos.adr)).apply { check() }
 
-infix fun VkDevice.bindImageMemory2KHR(bindInfos: VkBindImageMemoryInfo.Buffer) =
-        VK_CHECK_RESULT(KHRBindMemory2.nvkBindImageMemory2KHR(this, bindInfos.rem, bindInfos.adr))
+infix fun VkDevice.bindImageMemory2KHR(bindInfos: VkBindImageMemoryInfo.Buffer): VkResult =
+        VkResult(KHRBindMemory2.nvkBindImageMemory2KHR(this, bindInfos.rem, bindInfos.adr)).apply { check() }
 
-fun VkDevice.compileDeferredNV(pipeline: VkPipeline, shader: Int) =
-        VK_CHECK_RESULT(NVRayTracing.vkCompileDeferredNV(this, pipeline.L, shader))
+fun VkDevice.compileDeferredNV(pipeline: VkPipeline, shader: Int): VkResult =
+        VkResult(NVRayTracing.vkCompileDeferredNV(this, pipeline.L, shader)).apply { check() }
 
-fun VkDevice.createAccelerationStructureNV(createInfo: VkAccelerationStructureCreateInfoNV, accelerationStructure: VkAccelerationStructureNV_Buffer) =
-        VK_CHECK_RESULT(NVRayTracing.nvkCreateAccelerationStructureNV(this, createInfo.adr, NULL, accelerationStructure.adr))
+fun VkDevice.createAccelerationStructureNV(createInfo: VkAccelerationStructureCreateInfoNV, accelerationStructure: VkAccelerationStructureNV_Buffer): VkResult =
+        VkResult(NVRayTracing.nvkCreateAccelerationStructureNV(this, createInfo.adr, NULL, accelerationStructure.adr)).apply { check() }
 
 fun VkDevice.createBuffer(usage: VkBufferUsageFlags, size: VkDeviceSize): VkBuffer =
         createBuffer(vk.BufferCreateInfo { this.usage = usage; this.size = size })
@@ -113,23 +112,23 @@ fun VkDevice.createComputePipelines(pipelineCache: VkPipelineCache, createInfo: 
             VK_CHECK_RESULT(VK10.nvkCreateComputePipelines(this, pipelineCache.L, 1, createInfo.adr, NULL, it))
         })
 
-inline fun <reified C> VkDevice.createComputePipelines(pipelineCache: VkPipelineCache, createInfos: VkComputePipelineCreateInfo.Buffer): C =
+inline fun <reified T> VkDevice.createComputePipelines(pipelineCache: VkPipelineCache, createInfos: VkComputePipelineCreateInfo.Buffer): T =
         stak {
             val count = createInfos.rem
             val pComputePipelines = it.nmalloc(8, count * Long.BYTES)
             VK_CHECK_RESULT(VK10.nvkCreateComputePipelines(this, pipelineCache.L, count, createInfos.adr, NULL, pComputePipelines))
-            when (C::class) {
-                VkPipeline::class -> VkPipeline(memGetLong(pComputePipelines)) as C
+            when (T::class) {
+                VkPipeline::class -> VkPipeline(memGetLong(pComputePipelines)) as T
                 VkPipeline_Array::class -> VkPipeline_Array(
-                        LongArray(count) { memGetLong(pComputePipelines + Long.BYTES * it) }) as C
+                        LongArray(count) { memGetLong(pComputePipelines + Long.BYTES * it) }) as T
                 ArrayList::class -> {
                     val res = ArrayList<VkPipeline>(count)
                     for (i in 0 until count)
                         res += VkPipeline(memGetLong(pComputePipelines + Long.BYTES * i))
-                    res as C
+                    res as T
                 }
-                List::class -> List(count) { VkPipeline(memGetLong(pComputePipelines + Long.BYTES * it)) } as C
-                else -> throw Exception("Invalid")
+                List::class -> List(count) { VkPipeline(memGetLong(pComputePipelines + Long.BYTES * it)) } as T
+                else -> throw Exception("[VkDevice::createComputePipelines] Invalid T")
             }
         }
 
@@ -139,13 +138,10 @@ infix fun VkDevice.createDescriptorPool(createInfo: VkDescriptorPoolCreateInfo):
 infix fun VkDevice.createDescriptorSetLayout(createInfo: VkDescriptorSetLayoutCreateInfo): VkDescriptorSetLayout =
         VkDescriptorSetLayout(stak.longAddress { VK_CHECK_RESULT(VK10.nvkCreateDescriptorSetLayout(this, createInfo.adr, NULL, it)) })
 
-infix fun VkDevice.createDescriptorUpdateTemplate(createInfo: VkDescriptorUpdateTemplateCreateInfo): VkDescriptorUpdateTemplate_Buffer =
-        stak {
-            val count = createInfo.descriptorUpdateEntryCount
-            val buffer = it.mallocLong(count)
-            VK_CHECK_RESULT(VK11.vkCreateDescriptorUpdateTemplate(this, createInfo, null, buffer))
-            VkDescriptorUpdateTemplate_Buffer(buffer)
-        }
+infix fun VkDevice.createDescriptorUpdateTemplate(createInfo: VkDescriptorUpdateTemplateCreateInfo): VkDescriptorUpdateTemplate =
+        VkDescriptorUpdateTemplate(stak.longAddress {
+            VK_CHECK_RESULT(VK11.nvkCreateDescriptorUpdateTemplate(this, createInfo.adr, NULL, it))
+        })
 
 infix fun VkDevice.createEvent(createInfo: VkEventCreateInfo): VkEvent =
         VkEvent(stak.longAddress { VK_CHECK_RESULT(VK10.nvkCreateEvent(this, createInfo.adr, NULL, it)) })
@@ -167,23 +163,23 @@ fun VkDevice.createGraphicsPipelines(pipelineCache: VkPipelineCache, createInfo:
             VK_CHECK_RESULT(VK10.nvkCreateGraphicsPipelines(this, pipelineCache.L, 1, createInfo.adr, NULL, it))
         })
 
-inline fun <reified C> VkDevice.createGraphicsPipelines(pipelineCache: VkPipelineCache, createInfos: VkGraphicsPipelineCreateInfo.Buffer): C =
+inline fun <reified T> VkDevice.createGraphicsPipelines(pipelineCache: VkPipelineCache, createInfos: VkGraphicsPipelineCreateInfo.Buffer): T =
         stak {
             val count = createInfos.rem
             val pGraphicPipelines = it.nmalloc(8, count * Long.BYTES)
             VK_CHECK_RESULT(VK10.nvkCreateGraphicsPipelines(this, pipelineCache.L, count, createInfos.adr, NULL, pGraphicPipelines))
-            when (C::class) {
-                VkPipeline::class -> VkPipeline(memGetLong(pGraphicPipelines)) as C
+            when (T::class) {
+                VkPipeline::class -> VkPipeline(memGetLong(pGraphicPipelines)) as T
                 VkPipeline_Array::class -> VkPipeline_Array(
-                        LongArray(count) { memGetLong(pGraphicPipelines + Long.BYTES * it) }) as C
+                        LongArray(count) { memGetLong(pGraphicPipelines + Long.BYTES * it) }) as T
                 ArrayList::class -> {
                     val res = ArrayList<VkPipeline>(count)
                     for (i in 0 until count)
                         res += VkPipeline(memGetLong(pGraphicPipelines + Long.BYTES * i))
-                    res as C
+                    res as T
                 }
-                List::class -> List(count) { VkPipeline(memGetLong(pGraphicPipelines + Long.BYTES * it)) } as C
-                else -> throw Exception("Invalid")
+                List::class -> List(count) { VkPipeline(memGetLong(pGraphicPipelines + Long.BYTES * it)) } as T
+                else -> throw Exception("[VkDevice::createGraphicsPipelines] Invalid T")
             }
         }
 
@@ -214,23 +210,23 @@ infix fun VkDevice.createQueryPool(createInfo: VkQueryPoolCreateInfo): VkQueryPo
 fun VkDevice.createRayTracingPipelinesNV(pipelineCache: VkPipelineCache, createInfos: VkRayTracingPipelineCreateInfoNV): VkPipeline =
         VkPipeline(stak.longAddress { VK_CHECK_RESULT(NVRayTracing.nvkCreateRayTracingPipelinesNV(this, pipelineCache.L, 1, createInfos.adr, NULL, it)) })
 
-inline fun <reified C> VkDevice.createRayTracingPipelinesNV(pipelineCache: VkPipelineCache, createInfos: VkRayTracingPipelineCreateInfoNV.Buffer): C =
+inline fun <reified T> VkDevice.createRayTracingPipelinesNV(pipelineCache: VkPipelineCache, createInfos: VkRayTracingPipelineCreateInfoNV.Buffer): T =
         stak {
             val count = createInfos.rem
             val pRayTracingPipelinesNV = it.nmalloc(8, count * Long.BYTES)
             VK_CHECK_RESULT(NVRayTracing.nvkCreateRayTracingPipelinesNV(this, pipelineCache.L, 1, createInfos.adr, NULL, pRayTracingPipelinesNV))
-            when (C::class) {
-                VkPipeline::class -> VkPipeline(memGetLong(pRayTracingPipelinesNV)) as C
+            when (T::class) {
+                VkPipeline::class -> VkPipeline(memGetLong(pRayTracingPipelinesNV)) as T
                 VkPipeline_Array::class -> VkPipeline_Array(
-                        LongArray(count) { memGetLong(pRayTracingPipelinesNV + Long.BYTES * it) }) as C
+                        LongArray(count) { memGetLong(pRayTracingPipelinesNV + Long.BYTES * it) }) as T
                 ArrayList::class -> {
                     val res = ArrayList<VkPipeline>(count)
                     for (i in 0 until count)
                         res += VkPipeline(memGetLong(pRayTracingPipelinesNV + Long.BYTES * i))
-                    res as C
+                    res as T
                 }
-                List::class -> List(count) { VkPipeline(memGetLong(pRayTracingPipelinesNV + Long.BYTES * it)) } as C
-                else -> throw Exception("Invalid")
+                List::class -> List(count) { VkPipeline(memGetLong(pRayTracingPipelinesNV + Long.BYTES * it)) } as T
+                else -> throw Exception("[VkDevice::createRayTracingPipelinesNV] Invalid T")
             }
         }
 
@@ -260,23 +256,23 @@ fun VkDevice.createSharedSwapchainsKHR(createInfos: VkSwapchainCreateInfoKHR): V
             VK_CHECK_RESULT(KHRDisplaySwapchain.nvkCreateSharedSwapchainsKHR(this, 1, createInfos.adr, NULL, it))
         })
 
-inline fun <reified C> VkDevice.createSharedSwapchainsKHR(createInfos: VkSwapchainCreateInfoKHR.Buffer): C =
+inline fun <reified T> VkDevice.createSharedSwapchainsKHR(createInfos: VkSwapchainCreateInfoKHR.Buffer): T =
         stak {
             val count = createInfos.rem
             val pSharedSwapchainsKHR = it.nmalloc(8, count * Long.BYTES)
             VK_CHECK_RESULT(KHRDisplaySwapchain.nvkCreateSharedSwapchainsKHR(this, createInfos.rem, createInfos.adr, NULL, pSharedSwapchainsKHR))
-            when (C::class) {
-                VkSwapchainKHR::class -> VkSwapchainKHR(memGetLong(pSharedSwapchainsKHR)) as C
+            when (T::class) {
+                VkSwapchainKHR::class -> VkSwapchainKHR(memGetLong(pSharedSwapchainsKHR)) as T
                 VkSwapchainKHR_Array::class -> VkSwapchainKHR_Array(
-                        LongArray(count) { memGetLong(pSharedSwapchainsKHR + Long.BYTES * it) }) as C
+                        LongArray(count) { memGetLong(pSharedSwapchainsKHR + Long.BYTES * it) }) as T
                 ArrayList::class -> {
                     val res = ArrayList<VkSwapchainKHR>(count)
                     for (i in 0 until count)
                         res += VkSwapchainKHR(memGetLong(pSharedSwapchainsKHR + Long.BYTES * i))
-                    res as C
+                    res as T
                 }
-                List::class -> List(count) { VkSwapchainKHR(memGetLong(pSharedSwapchainsKHR + Long.BYTES * it)) } as C
-                else -> throw Exception("Invalid")
+                List::class -> List(count) { VkSwapchainKHR(memGetLong(pSharedSwapchainsKHR + Long.BYTES * it)) } as T
+                else -> throw Exception("[VkDevice::createSharedSwapchainsKHR] Invalid T")
             }
         }
 
@@ -520,13 +516,7 @@ fun VkDevice.freeCommandBuffers(commandPool: VkCommandPool, commandBuffers: Arra
         }
 
 fun VkDevice.free(commandPool: VkCommandPool, commandBuffers: Array<VkCommandBuffer>) =
-        stak {
-            val size = commandBuffers.size
-            val pointers = it.nmalloc(Pointer.POINTER_SIZE, size * Pointer.POINTER_SIZE)
-            for (i in 0 until size)
-                memPutAddress(pointers + Pointer.POINTER_SIZE * i, commandBuffers[i].adr)
-            VK10.nvkFreeCommandBuffers(this, commandPool.L, size, pointers)
-        }
+        freeCommandBuffers(commandPool, commandBuffers)
 
 fun VkDevice.freeCommandBuffers(commandPool: VkCommandPool, commandBuffers: Collection<VkCommandBuffer>) =
         stak {
@@ -538,13 +528,7 @@ fun VkDevice.freeCommandBuffers(commandPool: VkCommandPool, commandBuffers: Coll
         }
 
 fun VkDevice.free(commandPool: VkCommandPool, commandBuffers: Collection<VkCommandBuffer>) =
-        stak {
-            val size = commandBuffers.size
-            val pointers = it.nmalloc(Pointer.POINTER_SIZE, size * Pointer.POINTER_SIZE)
-            for (i in 0 until size)
-                memPutAddress(pointers + Pointer.POINTER_SIZE * i, commandBuffers.elementAt(i).adr)
-            VK10.nvkFreeCommandBuffers(this, commandPool.L, size, pointers)
-        }
+        freeCommandBuffers(commandPool, commandBuffers)
 
 fun VkDevice.freeDescriptorSets(descriptorPool: VkDescriptorPool, descriptorSet: VkDescriptorSet) =
         stak.longAddress(descriptorSet.L) { VK_CHECK_RESULT(VK10.nvkFreeDescriptorSets(this, descriptorPool.L, 1, it)) }
@@ -642,58 +626,49 @@ fun VkDevice.getImageMemoryRequirements2(info: VkImageMemoryRequirementsInfo2, m
 fun VkDevice.getImageMemoryRequirements2KHR(info: VkImageMemoryRequirementsInfo2, memoryRequirements: VkMemoryRequirements2 = vk.MemoryRequirements2()): VkMemoryRequirements2 =
         memoryRequirements.also { KHRGetMemoryRequirements2.nvkGetImageMemoryRequirements2KHR(this, info.adr, it.adr) }
 
-fun VkDevice.getImageSparseMemoryRequirements(image: VkImage, sparseMemoryRequirements: VkSparseImageMemoryRequirements.Buffer? = null): VkSparseImageMemoryRequirements.Buffer {
-    val stak = MemoryStack.stackGet()
-    val pCount = stak.nmalloc(4, Int.BYTES)
-    return when (sparseMemoryRequirements) {
-        null -> {
-            VK10.nvkGetImageSparseMemoryRequirements(this, image.L, pCount, NULL)
-            vk.SparseImageMemoryRequirements(memGetInt(pCount)).also {
-                VK10.nvkGetImageSparseMemoryRequirements(this, image.L, pCount, it.adr)
-            }
+fun VkDevice.getImageSparseMemoryRequirements(image: VkImage, sparseMemoryRequirements: VkSparseImageMemoryRequirements.Buffer) =
+        stak.intAddress(sparseMemoryRequirements.rem) { VK10.nvkGetImageSparseMemoryRequirements(this, image.L, it, NULL) }
+
+inline fun <reified T> VkDevice.getImageSparseMemoryRequirements(image: VkImage): T = when (T::class) {
+    Int::class -> stak.intAddress { VK10.nvkGetImageSparseMemoryRequirements(this, image.L, it, NULL) } as T
+    VkSparseImageMemoryRequirements.Buffer::class -> stak { st ->
+        val pSparseMemoryRequirementCount = st.nmalloc(4, Int.BYTES)
+        VK10.nvkGetImageSparseMemoryRequirements(this, image.L, pSparseMemoryRequirementCount, NULL)
+        st.SparseImageMemoryRequirements(memGetInt(pSparseMemoryRequirementCount)).also {
+            VK10.nvkGetImageSparseMemoryRequirements(this, image.L, pSparseMemoryRequirementCount, it.adr)
         }
-        else -> {
-            memPutInt(pCount, sparseMemoryRequirements.rem)
-            VK10.nvkGetImageSparseMemoryRequirements(this, image.L, pCount, sparseMemoryRequirements.adr)
-            sparseMemoryRequirements
-        }
-    }
+    } as T
+    else -> throw Exception("[VkDevice::getImageSparseMemoryRequirements] Invalid T")
 }
 
-fun VkDevice.getImageSparseMemoryRequirements2(info: VkImageSparseMemoryRequirementsInfo2, sparseMemoryRequirements: VkSparseImageMemoryRequirements2.Buffer? = null): VkSparseImageMemoryRequirements2.Buffer {
-    val stak = MemoryStack.stackGet()
-    val pCount = stak.nmalloc(4, Int.BYTES)
-    return when (sparseMemoryRequirements) {
-        null -> {
-            VK11.nvkGetImageSparseMemoryRequirements2(this, info.adr, pCount, NULL)
-            vk.SparseImageMemoryRequirements2(memGetInt(pCount)).also {
-                VK11.nvkGetImageSparseMemoryRequirements2(this, info.adr, pCount, it.adr)
-            }
+fun VkDevice.getImageSparseMemoryRequirements2(image: VkImage, sparseMemoryRequirements: VkSparseImageMemoryRequirements2.Buffer) =
+        stak.intAddress(sparseMemoryRequirements.rem) { VK11.nvkGetImageSparseMemoryRequirements2(this, image.L, it, NULL) }
+
+inline fun <reified T> VkDevice.getImageSparseMemoryRequirements2(image: VkImage): T = when (T::class) {
+    Int::class -> stak.intAddress { VK11.nvkGetImageSparseMemoryRequirements2(this, image.L, it, NULL) } as T
+    VkSparseImageMemoryRequirements2.Buffer::class -> stak { st ->
+        val pSparseMemoryRequirementCount = st.nmalloc(4, Int.BYTES)
+        VK11.nvkGetImageSparseMemoryRequirements2(this, image.L, pSparseMemoryRequirementCount, NULL)
+        st.SparseImageMemoryRequirements2(memGetInt(pSparseMemoryRequirementCount)).also {
+            VK11.nvkGetImageSparseMemoryRequirements2(this, image.L, pSparseMemoryRequirementCount, it.adr)
         }
-        else -> {
-            memPutInt(pCount, sparseMemoryRequirements.rem)
-            VK11.nvkGetImageSparseMemoryRequirements2(this, info.adr, pCount, sparseMemoryRequirements.adr)
-            sparseMemoryRequirements
-        }
-    }
+    } as T
+    else -> throw Exception("[VkDevice::getImageSparseMemoryRequirements] Invalid T")
 }
 
-fun VkDevice.getImageSparseMemoryRequirements2KHR(info: VkImageSparseMemoryRequirementsInfo2, sparseMemoryRequirements: VkSparseImageMemoryRequirements2.Buffer? = null): VkSparseImageMemoryRequirements2.Buffer {
-    val stak = MemoryStack.stackGet()
-    val pCount = stak.nmalloc(4, Int.BYTES)
-    return when (sparseMemoryRequirements) {
-        null -> {
-            KHRGetMemoryRequirements2.nvkGetImageSparseMemoryRequirements2KHR(this, info.adr, pCount, NULL)
-            vk.SparseImageMemoryRequirements2(memGetInt(pCount)).also {
-                KHRGetMemoryRequirements2.nvkGetImageSparseMemoryRequirements2KHR(this, info.adr, pCount, it.adr)
-            }
+fun VkDevice.getImageSparseMemoryRequirements2KHR(image: VkImage, sparseMemoryRequirements: VkSparseImageMemoryRequirements2.Buffer) =
+        stak.intAddress(sparseMemoryRequirements.rem) { KHRGetMemoryRequirements2.nvkGetImageSparseMemoryRequirements2KHR(this, image.L, it, NULL) }
+
+inline fun <reified T> VkDevice.getImageSparseMemoryRequirements2KHR(image: VkImage): T = when (T::class) {
+    Int::class -> stak.intAddress { KHRGetMemoryRequirements2.nvkGetImageSparseMemoryRequirements2KHR(this, image.L, it, NULL) } as T
+    VkSparseImageMemoryRequirements2.Buffer::class -> stak { st ->
+        val pSparseMemoryRequirementCount = st.nmalloc(4, Int.BYTES)
+        KHRGetMemoryRequirements2.nvkGetImageSparseMemoryRequirements2KHR(this, image.L, pSparseMemoryRequirementCount, NULL)
+        st.SparseImageMemoryRequirements2(memGetInt(pSparseMemoryRequirementCount)).also {
+            KHRGetMemoryRequirements2.nvkGetImageSparseMemoryRequirements2KHR(this, image.L, pSparseMemoryRequirementCount, it.adr)
         }
-        else -> {
-            memPutInt(pCount, sparseMemoryRequirements.rem)
-            KHRGetMemoryRequirements2.nvkGetImageSparseMemoryRequirements2KHR(this, info.adr, pCount, sparseMemoryRequirements.adr)
-            sparseMemoryRequirements
-        }
-    }
+    } as T
+    else -> throw Exception("[VkDevice::getImageSparseMemoryRequirements] Invalid T")
 }
 
 fun VkDevice.getImageSubresourceLayout(image: VkImage, subresource: VkImageSubresource, layout: VkSubresourceLayout = vk.SubresourceLayout()): VkSubresourceLayout =
@@ -718,32 +693,60 @@ fun VkDevice.getMemoryWin32HandleNV(memory: VkDeviceMemory, handleType: VkExtern
 fun VkDevice.getMemoryWin32HandlePropertiesKHR(handleType: VkExternalMemoryHandleType, handle: HANDLE, memoryWin32HandleProperties: VkMemoryWin32HandlePropertiesKHR = vk.MemoryWin32HandlePropertiesKHR()): VkMemoryWin32HandlePropertiesKHR =
         memoryWin32HandleProperties.also { VK_CHECK_RESULT(KHRExternalMemoryWin32.nvkGetMemoryWin32HandlePropertiesKHR(this, handleType.i, handle.L, it.adr)) }
 
-fun VkDevice.getPastPresentationTimingGOOGLE(swapchain: VkSwapchainKHR, presentationTimings: VkPastPresentationTimingGOOGLE.Buffer? = null): VkPastPresentationTimingGOOGLE.Buffer {
-    val stak = MemoryStack.stackGet()
-    val pCount = stak.nmalloc(4, Int.BYTES)
-    return when (presentationTimings) {
-        null -> {
-            VK_CHECK_RESULT(GOOGLEDisplayTiming.nvkGetPastPresentationTimingGOOGLE(this, swapchain.L, pCount, NULL))
-            vk.PastPresentationTimingGOOGLE(memGetInt(pCount)).also {
-                VK_CHECK_RESULT(GOOGLEDisplayTiming.nvkGetPastPresentationTimingGOOGLE(this, swapchain.L, pCount, it.adr))
+
+fun VkDevice.getPastPresentationTimingGOOGLE(swapchain: VkSwapchainKHR, physicalDeviceGroupProperties: VkPhysicalDeviceGroupProperties.Buffer): VkResult =
+        VkResult(stak.intAddress(physicalDeviceGroupProperties.rem) {
+            GOOGLEDisplayTiming.nvkGetPastPresentationTimingGOOGLE(this, swapchain.L, it, physicalDeviceGroupProperties.adr)
+        }).apply { check() }
+
+inline fun <reified T> VkDevice.getPastPresentationTimingGOOGLE(swapchain: VkSwapchainKHR): T = when (T::class) {
+    Int::class -> stak.intAddress {
+        VK_CHECK_RESULT(GOOGLEDisplayTiming.nvkGetPastPresentationTimingGOOGLE(this, swapchain.L, it, NULL))
+    } as T
+    VkPastPresentationTimingGOOGLE.Buffer::class -> stak {
+        lateinit var presentationTimings: VkPastPresentationTimingGOOGLE.Buffer
+        val pPresentationTimingCount = it.nmalloc(4, Int.BYTES)
+        var result: VkResult
+        do {
+            result = VkResult(GOOGLEDisplayTiming.nvkGetPastPresentationTimingGOOGLE(this, swapchain.L, pPresentationTimingCount, NULL))
+            val presentationTimingCount = memGetInt(pPresentationTimingCount)
+            if (result == VkResult.SUCCESS && presentationTimingCount != 0) {
+                presentationTimings = it.PastPresentationTimingGOOGLE(presentationTimingCount)
+                result = VkResult(GOOGLEDisplayTiming.nvkGetPastPresentationTimingGOOGLE(this, swapchain.L, pPresentationTimingCount, presentationTimings.adr))
             }
-        }
-        else -> {
-            memPutInt(pCount, presentationTimings.rem)
-            GOOGLEDisplayTiming.nvkGetPastPresentationTimingGOOGLE(this, swapchain.L, pCount, presentationTimings.adr)
-            presentationTimings
-        }
+        } while (result == VkResult.INCOMPLETE)
+        presentationTimings as T
     }
+    else -> throw Exception("[VkDevice::getPastPresentationTimingGOOGLE] Invalid T")
 }
 
-infix fun VkDevice.getPipelineCacheData(pipelineCache: VkPipelineCache): ByteBuffer =
-        stak { s ->
-            val pDataSize = s.nmalloc(4, Int.BYTES)
-            VK_CHECK_RESULT(VK10.nvkGetPipelineCacheData(this, pipelineCache.L, pDataSize, NULL))
-            s.malloc(1, memGetInt(pDataSize)).also {
-                VK_CHECK_RESULT(VK10.nvkGetPipelineCacheData(this, pipelineCache.L, pDataSize, it.adr))
+
+fun VkDevice.getPipelineCacheData(pipelineCache: VkPipelineCache, data: ByteBuffer): VkResult =
+        VkResult(stak.longAddress(data.rem.L) {
+            VK10.nvkGetPipelineCacheData(this, pipelineCache.L, it, data.adr)
+        }).apply { check() }
+
+inline fun <reified T> VkDevice.getPipelineCacheData(pipelineCache: VkPipelineCache): T = when (T::class) {
+    Int::class -> stak.longAddress {
+        VK_CHECK_RESULT(VK10.nvkGetPipelineCacheData(this, pipelineCache.L, it, NULL))
+    }.i as T
+    ByteBuffer::class -> stak {
+        lateinit var data: ByteBuffer
+        val pDataSize = it.nmalloc(8, Long.BYTES)
+        var result: VkResult
+        do {
+            result = VkResult(VK10.nvkGetPipelineCacheData(this, pipelineCache.L, pDataSize, NULL))
+            val presentationTimingCount = memGetLong(pDataSize).i
+            if (result == VkResult.SUCCESS && presentationTimingCount != 0) {
+                data = it.Buffer(presentationTimingCount)
+                result = VkResult(VK10.nvkGetPipelineCacheData(this, pipelineCache.L, pDataSize, data.adr))
             }
-        }
+        } while (result == VkResult.INCOMPLETE)
+        data as T
+    }
+    else -> throw Exception("[VkDevice::getPipelineCacheData] Invalid T")
+}
+
 
 fun VkDevice.getQueryPoolResults(queryPool: VkQueryPool, firstQuery: Int, queryCount: Int, data: IntBuffer, stride: VkDeviceSize = VkDeviceSize(0), flags: VkQueryResultFlags = 0): VkResult =
         VkResult(VK10.nvkGetQueryPoolResults(this, queryPool.L, firstQuery, queryCount, data.rem.L, data.adr, stride.L, flags)).apply { check() }
@@ -757,8 +760,214 @@ fun VkDevice.getRefreshCycleDurationGOOGLE(swapchain: VkSwapchainKHR, displayTim
 fun VkDevice.getRenderAreaGranularity(renderPass: VkRenderPass, granularity: VkExtent2D = vk.Extent2D()): VkExtent2D =
         granularity.also { VK10.nvkGetRenderAreaGranularity(this, renderPass.L, it.adr) }
 
-//fun VkDevice.getSemaphoreFdKHR(renderPass: VkRenderPass, granularity: VkExtent2D = vk.Extent2D()): VkExtent2D =
-//        KHRExternalSemaphoreFd.nvkGetSemaphoreFdKHR(this, renderPass.L, it.adr) TODO
+infix fun VkDevice.getSemaphoreFdKHR(renderPass: VkRenderPass): Int =
+        stak.intAddress { VK_CHECK_RESULT(KHRExternalSemaphoreFd.nvkGetSemaphoreFdKHR(this, renderPass.L, it)) }
+
+infix fun VkDevice.getSemaphoreWin32HandleKHR(getWin32HandleInfo: VkSemaphoreGetWin32HandleInfoKHR): HANDLE =
+        HANDLE(stak.pointerAddress {
+            VK_CHECK_RESULT(KHRExternalSemaphoreWin32.nvkGetSemaphoreWin32HandleKHR(this, getWin32HandleInfo.adr, it))
+        })
+
+
+fun VkDevice.getShaderInfoAMD(pipeline: VkPipeline, shaderStage: VkShaderStage, infoType: VkShaderInfoTypeAMD, info: ByteBuffer): VkResult =
+        VkResult(stak.longAddress(info.rem.L) {
+            AMDShaderInfo.nvkGetShaderInfoAMD(this, pipeline.L, shaderStage.i, infoType.i, it, info.adr)
+        }).apply { check() }
+
+inline fun <reified T> VkDevice.getShaderInfoAMD(pipeline: VkPipeline, shaderStage: VkShaderStage, infoType: VkShaderInfoTypeAMD): T = when (T::class) {
+    Int::class -> stak.longAddress {
+        VK_CHECK_RESULT(AMDShaderInfo.nvkGetShaderInfoAMD(this, pipeline.L, shaderStage.i, infoType.i, it, NULL))
+    }.i as T
+    ByteBuffer::class -> stak {
+        lateinit var data: ByteBuffer
+        val pDataSize = it.nmalloc(8, Long.BYTES)
+        var result: VkResult
+        do {
+            result = VkResult(AMDShaderInfo.nvkGetShaderInfoAMD(this, pipeline.L, shaderStage.i, infoType.i, pDataSize, NULL))
+            val dataSize = memGetLong(pDataSize).i
+            if (result == VkResult.SUCCESS && dataSize != 0) {
+                data = it.Buffer(dataSize)
+                result = VkResult(AMDShaderInfo.nvkGetShaderInfoAMD(this, pipeline.L, shaderStage.i, infoType.i, pDataSize, data.adr))
+            }
+        } while (result == VkResult.INCOMPLETE)
+        data as T
+    }
+    else -> throw Exception("[VkDevice::getShaderInfoAMD] Invalid T")
+}
+
+
+fun VkDevice.getSwapchainCounterEXT(swapchain: VkSwapchainKHR, counter: VkSurfaceCounterFlagsEXT): Long =
+        stak.longAddress {
+            VK_CHECK_RESULT(EXTDisplayControl.nvkGetSwapchainCounterEXT(this, swapchain.L, counter, it))
+        }
+
+
+fun VkDevice.getSwapchainImagesKHR(swapchain: VkSwapchainKHR, swapchainImages: VkImage_Buffer): VkResult =
+        VkResult(stak.intAddress(swapchainImages.rem) {
+            KHRSwapchain.nvkGetSwapchainImagesKHR(this, swapchain.L, it, swapchainImages.adr)
+        }).apply { check() }
+
+inline fun <reified T> VkDevice.getSwapchainImagesKHR(swapchain: VkSwapchainKHR): T = when (T::class) {
+    Int::class -> stak.intAddress {
+        VK_CHECK_RESULT(KHRSwapchain.nvkGetSwapchainImagesKHR(this, swapchain.L, it, NULL))
+    } as T
+    VkImage_Buffer::class -> stak {
+        lateinit var swapchainImages: LongBuffer
+        val pSwapchainImageCount = it.nmalloc(4, Int.BYTES)
+        var result: VkResult
+        do {
+            result = VkResult(KHRSwapchain.nvkGetSwapchainImagesKHR(this, swapchain.L, pSwapchainImageCount, NULL))
+            val swapchainImageCount = memGetInt(pSwapchainImageCount)
+            if (result == VkResult.SUCCESS && swapchainImageCount != 0) {
+                swapchainImages = it.LongBuffer(swapchainImageCount)
+                result = VkResult(KHRSwapchain.nvkGetSwapchainImagesKHR(this, swapchain.L, pSwapchainImageCount, swapchainImages.adr))
+            }
+        } while (result == VkResult.INCOMPLETE)
+        VkImage_Buffer(swapchainImages) as T
+    }
+    else -> throw Exception("[VkDevice::getSwapchainImagesKHR] Invalid T")
+}
+
+
+infix fun VkDevice.getSwapchainStatusKHR(swapchain: VkSwapchainKHR): VkResult =
+        VkResult(KHRSharedPresentableImage.vkGetSwapchainStatusKHR(this, swapchain.L)).apply { check() }
+
+
+fun VkDevice.getValidationCacheDataEXT(validationCache: VkValidationCacheEXT, data: ByteBuffer): VkResult =
+        VkResult(stak.longAddress(data.rem.L) {
+            EXTValidationCache.nvkGetValidationCacheDataEXT(this, validationCache.L, it, data.adr)
+        }).apply { check() }
+
+inline fun <reified T> VkDevice.getValidationCacheDataEXT(swapchain: VkSwapchainKHR): T = when (T::class) {
+    Int::class -> stak.longAddress {
+        VK_CHECK_RESULT(EXTValidationCache.nvkGetValidationCacheDataEXT(this, swapchain.L, it, NULL))
+    }.i as T
+    ByteBuffer::class -> stak {
+        lateinit var swapchainImages: ByteBuffer
+        val pSwapchainImageCount = it.nmalloc(8, Long.BYTES)
+        var result: VkResult
+        do {
+            result = VkResult(EXTValidationCache.nvkGetValidationCacheDataEXT(this, swapchain.L, pSwapchainImageCount, NULL))
+            val swapchainImageCount = memGetLong(pSwapchainImageCount).i
+            if (result == VkResult.SUCCESS && swapchainImageCount != 0) {
+                swapchainImages = it.Buffer(swapchainImageCount)
+                result = VkResult(EXTValidationCache.nvkGetValidationCacheDataEXT(this, swapchain.L, pSwapchainImageCount, swapchainImages.adr))
+            }
+        } while (result == VkResult.INCOMPLETE)
+        swapchainImages as T
+    }
+    else -> throw Exception("[VkDevice::getValidationCacheDataEXT] Invalid T")
+}
+
+
+infix fun VkDevice.importFenceFdKHR(importFenceFdInfo: VkImportFenceFdInfoKHR): VkResult =
+        VkResult(KHRExternalFenceFd.nvkImportFenceFdKHR(this, importFenceFdInfo.adr)).apply { check() }
+
+infix fun VkDevice.importFenceWin32HandleKHR(importFenceWin32HandleInfo: VkImportFenceWin32HandleInfoKHR): VkResult =
+        VkResult(KHRExternalFenceWin32.nvkImportFenceWin32HandleKHR(this, importFenceWin32HandleInfo.adr)).apply { check() }
+
+infix fun VkDevice.importSemaphoreFdKHR(importSemaphoreFdInfo: VkImportSemaphoreFdInfoKHR): VkResult =
+        VkResult(KHRExternalSemaphoreFd.nvkImportSemaphoreFdKHR(this, importSemaphoreFdInfo.adr)).apply { check() }
+
+infix fun VkDevice.importSemaphoreWin32HandleKHR(importSemaphoreWin32HandleInfo: VkImportSemaphoreWin32HandleInfoKHR): VkResult =
+        VkResult(KHRExternalSemaphoreWin32.nvkImportSemaphoreWin32HandleKHR(this, importSemaphoreWin32HandleInfo.adr)).apply { check() }
+
+
+infix fun VkDevice.invalidateMappedMemoryRanges(memoryRanges: VkMappedMemoryRange.Buffer): VkResult =
+        VkResult(VK10.nvkInvalidateMappedMemoryRanges(this, memoryRanges.rem, memoryRanges.adr)).apply { check() }
+
+infix fun VkDevice.invalidateMappedMemoryRanges(memoryRange: VkMappedMemoryRange): VkResult =
+        VkResult(VK10.nvkInvalidateMappedMemoryRanges(this, 1, memoryRange.adr)).apply { check() }
+
+
+fun VkDevice.mapMemory(memory: VkDeviceMemory, offset: VkDeviceSize, size: VkDeviceSize, flags: VkMemoryMapFlags, data: PointerBuffer): VkResult =
+        VkResult(VK10.nvkMapMemory(this, memory.L, offset.L, size.L, flags, data.adr)).apply { check() }
+
+fun VkDevice.mapMemory(memory: VkDeviceMemory, offset: VkDeviceSize, size: VkDeviceSize, flags: VkMemoryMapFlags = 0): Ptr =
+        stak.pointerAddress { data -> VK_CHECK_RESULT(VK10.nvkMapMemory(this, memory.L, offset.L, size.L, flags, data)) }
+
+
+fun VkDevice.mergePipelineCaches(dstCache: VkPipelineCache, srcCaches: VkPipelineCache_Buffer): VkResult =
+        VkResult(VK10.nvkMergePipelineCaches(this, dstCache.L, srcCaches.rem, srcCaches.adr)).apply { check() }
+
+fun VkDevice.mergeValidationCachesEXT(dstCache: VkValidationCacheEXT, srcCaches: VkValidationCacheEXT_Buffer): VkResult =
+        VkResult(EXTValidationCache.nvkMergeValidationCachesEXT(this, dstCache.L, srcCaches.rem, srcCaches.adr)).apply { check() }
+
+infix fun VkDevice.registerEventEXT(deviceEventInfo: VkDeviceEventInfoEXT): VkFence =
+        VkFence(stak.longAddress {
+            EXTDisplayControl.nvkRegisterDeviceEventEXT(this, deviceEventInfo.adr, NULL, it)
+        })
+
+fun VkDevice.registerDisplayEventEXT(display: VkDisplayKHR, displayEventInfo: VkDisplayEventInfoEXT): VkFence =
+        VkFence(stak.longAddress {
+            EXTDisplayControl.nvkRegisterDisplayEventEXT(this, display.L, displayEventInfo.adr, NULL, it)
+        })
+
+// TODO evaluate what to do best with ppObjectTableEntries
+//fun VkDevice.registerObjectsNVX(objectTable: VkObjectTableNVX, "VkObjectTableEntryNVX const * const *") PointerBuffer ppObjectTableEntries, @NativeType("uint32_t const *") IntBuffer pObjectIndices): VkFence =
+//        VkFence(stak.longAddress {
+//            NVXDeviceGeneratedCommands.nvkRegisterObjectsNVX(this, display.L, displayEventInfo.adr, NULL, it)
+//        })
+
+
+fun VkDevice.resetCommandPool(commandPool: VkCommandPool, flags: VkCommandPoolResetFlags = 0): VkResult =
+        VkResult(VK10.vkResetCommandPool(this, commandPool.L, flags)).apply { check() }
+
+fun VkDevice.resetDescriptorPool(descriptorPool: VkDescriptorPool, flags: VkDescriptorPoolResetFlags = 0): VkResult =
+        VkResult(VK10.vkResetDescriptorPool(this, descriptorPool.L, flags)).apply { check() }
+
+infix fun VkDevice.resetEvent(event: VkEvent): VkResult =
+        VkResult(VK10.vkResetEvent(this, event.L)).apply { check() }
+
+infix fun VkDevice.resetFences(fence: VkFence): VkResult =
+        VkResult(stak.longAddress(fence.L) { VK10.nvkResetFences(this, 1, it) }).apply { check() }
+
+infix fun VkDevice.resetFences(fences: VkFence_Buffer): VkResult =
+        VkResult(VK10.nvkResetFences(this, fences.rem, fences.adr)).apply { check() }
+
+infix fun VkDevice.setDebugUtilsObjectNameEXT(nameInfo: VkDebugUtilsObjectNameInfoEXT): VkResult =
+        VkResult(EXTDebugUtils.nvkSetDebugUtilsObjectNameEXT(this, nameInfo.adr)).apply { check() }
+
+infix fun VkDevice.setDebugUtilsObjectTagEXT(tagInfo: VkDebugUtilsObjectTagInfoEXT): VkResult =
+        VkResult(EXTDebugUtils.nvkSetDebugUtilsObjectTagEXT(this, tagInfo.adr)).apply { check() }
+
+infix fun VkDevice.setEvent(event: VkEvent): VkResult =
+        VkResult(VK10.vkSetEvent(this, event.L)).apply { check() }
+
+fun VkDevice.setHdrMetadataEXT(swapchains: VkSwapchainKHR_Buffer, metadata: VkHdrMetadataEXT.Buffer) =
+        EXTHdrMetadata.nvkSetHdrMetadataEXT(this, swapchains.rem, swapchains.adr, metadata.adr)
+
+fun VkDevice.trimCommandPool(commandPool: VkCommandPool, flags: VkCommandPoolTrimFlags = 0) =
+        VK11.vkTrimCommandPool(this, commandPool.L, flags)
+
+fun VkDevice.trimCommandPoolKHR(commandPool: VkCommandPool, flags: VkCommandPoolTrimFlags = 0) =
+        KHRMaintenance1.vkTrimCommandPoolKHR(this, commandPool.L, flags)
+
+infix fun VkDevice.unmapMemory(memory: VkDeviceMemory) =
+        VK10.vkUnmapMemory(this, memory.L)
+
+fun VkDevice.unregisterObjectsNVX(objectTable: VkObjectTableNVX, objectEntryTypes: VkObjectEntryTypeNVX_Buffer, objectIndices: IntBuffer): VkResult =
+        VkResult(NVXDeviceGeneratedCommands.nvkUnregisterObjectsNVX(this, objectTable.L, objectEntryTypes.rem, objectEntryTypes.adr, objectIndices.adr)).apply { check() }
+
+fun VkDevice.updateDescriptorSetWithTemplate(descriptorSet: VkDescriptorSet, descriptorUpdateTemplate: VkDescriptorUpdateTemplate, data: ByteBuffer) =
+        VK11.vkUpdateDescriptorSetWithTemplate(this, descriptorSet.L, descriptorUpdateTemplate.L, data.adr)
+
+fun VkDevice.updateDescriptorSetWithTemplateKHR(descriptorSet: VkDescriptorSet, descriptorUpdateTemplate: VkDescriptorUpdateTemplate, data: ByteBuffer) =
+        KHRDescriptorUpdateTemplate.vkUpdateDescriptorSetWithTemplateKHR(this, descriptorSet.L, descriptorUpdateTemplate.L, data.adr)
+
+fun VkDevice.updateDescriptorSets(descriptorWrites: VkWriteDescriptorSet.Buffer? = null, descriptorCopies: VkCopyDescriptorSet.Buffer? = null) =
+        VK10.nvkUpdateDescriptorSets(this, descriptorWrites?.rem ?: 0, descriptorWrites?.adr
+                ?: NULL, descriptorCopies?.rem ?: 0, descriptorCopies?.adr ?: NULL)
+
+fun VkDevice.updateDescriptorSets(descriptorWrite: VkWriteDescriptorSet? = null, descriptorCopy: VkCopyDescriptorSet? = null) =
+        VK10.nvkUpdateDescriptorSets(this, if(descriptorWrite == null) 0 else 1, descriptorWrite?.adr
+                ?: NULL, if(descriptorCopy == null) 0 else 1, descriptorCopy?.adr ?: NULL)
+
+fun VkDevice.waitForFences(fences: VkFence_Buffer, waitAll: Boolean, timeout: NanoSecond): VkResult =
+        VkResult(VK10.nvkWaitForFences(this, fences.rem, fences.adr, waitAll.i, timeout.L)).apply { check() }
+
+fun VkDevice.waitForFences(fence: VkFence, waitAll: Boolean, timeout: NanoSecond): VkResult =
+        VkResult(stak.longAddress(fence.L) { VK10.nvkWaitForFences(this, 1, it, waitAll.i, timeout.L) }).apply { check() }
 
 // ----------------------------------
 
@@ -769,47 +978,18 @@ fun VkDevice.newCommandBuffer(commandPool: VkCommandPool, level: VkCommandBuffer
     return allocateCommandBuffers<VkCommandBuffer>(cmdBufAllocateInfo).apply { if (autostart) begin() }
 }
 
-infix fun VkDevice.getImageMemoryRequirements(image: VkImage): VkMemoryRequirements = getImageMemoryRequirements(image, vk.MemoryRequirements())
-
 inline fun VkDevice.mappedMemory(memory: VkDeviceMemory, offset: VkDeviceSize, size: VkDeviceSize, flags: VkMemoryMapFlags = 0, block: (Ptr) -> Unit) = stak.pointerAddress { data ->
     VK_CHECK_RESULT(VK10.nvkMapMemory(this, memory.L, offset.L, size.L, flags, data))
     block(memGetAddress(data))
     VK10.vkUnmapMemory(this, memory.L)
 }
 
-fun VkDevice.mapMemory(memory: VkDeviceMemory, offset: VkDeviceSize, size: VkDeviceSize, flags: VkMemoryMapFlags = 0): Ptr = stak.pointerAddress { data -> VK_CHECK_RESULT(VK10.nvkMapMemory(this, memory.L, offset.L, size.L, flags, data)) }
-
-fun VkDevice.mapMemory(memory: VkDeviceMemory, offset: VkDeviceSize, size: VkDeviceSize, flags: VkMemoryMapFlags, data: PointerBuffer) = VK_CHECK_RESULT(VK10.nvkMapMemory(this, memory.L, offset.L, size.L, flags, data.adr))
-
-infix fun VkDevice.getSwapchainImagesKHR(swapchain: VkSwapchainKHR): VkImage_Array =
-        stak {
-            val pCount = it.nmalloc(4, Int.BYTES)
-            VK_CHECK_RESULT(KHRSwapchain.nvkGetSwapchainImagesKHR(this, swapchain.L, pCount, NULL))
-            val count = memGetInt(pCount)
-            val images = it.nmalloc(Long.BYTES, count * Long.BYTES)
-            VK_CHECK_RESULT(KHRSwapchain.nvkGetSwapchainImagesKHR(this, swapchain.L, pCount, images))
-            VkImage_Array(count) { i -> VkImage(memGetLong(images + Long.BYTES * i)) }
-        }
-
-infix fun VkDevice.resetCommandPool(commandPool: VkCommandPool) = resetCommandPool(commandPool, 0)
-
-fun VkDevice.resetCommandPool(commandPool: VkCommandPool, flags: VkCommandPoolResetFlags) = VK_CHECK_RESULT(VK10.vkResetCommandPool(this, commandPool.L, flags))
-
-infix fun VkDevice.resetFence(fence: VkFence) = stak.longAddress(fence.L) { VK10.nvkResetFences(this, 1, it) }
-
-infix fun VkDevice.unmapMemory(memory: VkDeviceMemory) = VK10.vkUnmapMemory(this, memory.L)
-
-infix fun VkDevice.updateDescriptorSets(descriptorWrites: VkWriteDescriptorSet) = VK10.nvkUpdateDescriptorSets(this, 1, descriptorWrites.adr, 0, NULL)
-
-infix fun VkDevice.updateDescriptorSets(descriptorWrites: VkWriteDescriptorSet.Buffer) = VK10.nvkUpdateDescriptorSets(this, descriptorWrites.remaining(), descriptorWrites.adr, 0, NULL)
 
 //inline fun VkDevice.updateDescriptorSets(descriptorWrites: VkWriteDescriptorSet.Buffer,
 //                                descriptorCopies: VkCopyDescriptorSet.Buffer? = null) {
 //    VK10.nvkUpdateDescriptorSets(device, descriptorWrites.remaining(), descriptorWrites.adr,
 //            descriptorCopies?.remaining() ?: 0, descriptorCopies?.adr ?: NULL)
 //}
-
-fun VkDevice.waitForFence(fence: VkFence, waitAll: Boolean, timeout: Long) = stak.longAddress(fence.L) { VK_CHECK_RESULT(VK10.nvkWaitForFences(this, 1, it, waitAll.i, timeout)) }
 
 
 inline fun VkDevice.withFence(flags: VkFenceCreateFlags = 0, block: (VkFence) -> Unit) {

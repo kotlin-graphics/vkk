@@ -96,6 +96,25 @@ fun VkDebugReportCallback_Array(elements: Collection<VkDebugReportCallback>) = V
 fun VkDebugReportCallback_Array() = VkDebugReportCallback_Array(LongArray(0))
 
 
+inline class VkDebugUtilsMessengerEXT_Array(val array: LongArray) {
+
+    operator fun get(index: Int) = VkDebugUtilsMessengerEXT(array[index])
+    operator fun set(index: Int, fence: VkDebugUtilsMessengerEXT) = array.set(index, fence.L)
+
+    val size get() = array.size
+    val indices get() = array.indices
+
+    inline fun forEach(action: (VkDebugUtilsMessengerEXT) -> Unit) {
+        for (element in array) action(VkDebugUtilsMessengerEXT(element))
+    }
+}
+
+fun VkDebugUtilsMessengerEXT_Array(size: Int, block: (Int) -> VkDebugUtilsMessengerEXT) = VkDebugUtilsMessengerEXT_Array(LongArray(size) { block(it).L })
+fun VkDebugUtilsMessengerEXT_Array(size: Int) = VkDebugUtilsMessengerEXT_Array(LongArray(size))
+fun VkDebugUtilsMessengerEXT_Array(elements: Collection<VkDebugUtilsMessengerEXT>) = VkDebugUtilsMessengerEXT_Array(LongArray(elements.size) { elements.elementAt(it).L })
+fun VkDebugUtilsMessengerEXT_Array() = VkDebugUtilsMessengerEXT_Array(LongArray(0))
+
+
 inline class VkDescriptorPool_Array(val array: LongArray) {
 
     operator fun get(index: Int) = VkDescriptorPool(array[index])
@@ -507,6 +526,25 @@ fun VkSampler_Array(size: Int, block: (Int) -> VkSampler) = VkSampler_Array(Long
 fun VkSampler_Array(size: Int) = VkSampler_Array(LongArray(size))
 fun VkSampler_Array(elements: Collection<VkSampler>) = VkSampler_Array(LongArray(elements.size) { elements.elementAt(it).L })
 fun VkSampler_Array() = VkSampler_Array(LongArray(0))
+
+
+inline class VkSamplerYcbcrConversion_Array(val array: LongArray) {
+
+    operator fun get(index: Int) = VkSamplerYcbcrConversion(array[index])
+    operator fun set(index: Int, fence: VkSamplerYcbcrConversion) = array.set(index, fence.L)
+
+    val size get() = array.size
+    val indices get() = array.indices
+
+    inline fun forEach(action: (VkSamplerYcbcrConversion) -> Unit) {
+        for (element in array) action(VkSamplerYcbcrConversion(element))
+    }
+}
+
+fun VkSamplerYcbcrConversion_Array(size: Int, block: (Int) -> VkSamplerYcbcrConversion) = VkSamplerYcbcrConversion_Array(LongArray(size) { block(it).L })
+fun VkSamplerYcbcrConversion_Array(size: Int) = VkSamplerYcbcrConversion_Array(LongArray(size))
+fun VkSamplerYcbcrConversion_Array(elements: Collection<VkSamplerYcbcrConversion>) = VkSamplerYcbcrConversion_Array(LongArray(elements.size) { elements.elementAt(it).L })
+fun VkSamplerYcbcrConversion_Array() = VkSamplerYcbcrConversion_Array(LongArray(0))
 
 
 inline class VkSemaphore_Array(val array: LongArray) {

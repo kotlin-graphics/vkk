@@ -525,15 +525,15 @@ inline fun <reified T> VkPhysicalDevice.getQueueFamilyProperties2(): T = when (T
     Int::class -> stak.intAddress {
         VK11.nvkGetPhysicalDeviceQueueFamilyProperties2(this, it, NULL)
     } as T
-    ArrayList::class -> {
-        val st = stackGet()
-        val pQueueFamilyPropertyCount = st.nmalloc(4, Int.BYTES)
-        VK11.nvkGetPhysicalDeviceQueueFamilyProperties2(this, pQueueFamilyPropertyCount, NULL)
-        val count = memGetInt(pQueueFamilyPropertyCount)
-        st.QueueFamilyProperties2(count).also {
-            VK11.nvkGetPhysicalDeviceQueueFamilyProperties2(this, pQueueFamilyPropertyCount, it.adr)
-        }.toCollection(arrayListOf()) as T
-    }
+//    ArrayList::class -> {
+//        val st = stackGet()
+//        val pQueueFamilyPropertyCount = st.nmalloc(4, Int.BYTES)
+//        VK11.nvkGetPhysicalDeviceQueueFamilyProperties2(this, pQueueFamilyPropertyCount, NULL)
+//        val count = memGetInt(pQueueFamilyPropertyCount)
+//        st.QueueFamilyProperties2(count).also {
+//            VK11.nvkGetPhysicalDeviceQueueFamilyProperties2(this, pQueueFamilyPropertyCount, it.adr)
+//        }.toCollection(arrayListOf()) as T
+//    }
     VkQueueFamilyProperties2.Buffer::class -> {
         val st = stackGet()
         val pQueueFamilyPropertyCount = st.nmalloc(4, Int.BYTES)
@@ -559,15 +559,15 @@ inline fun <reified T> VkPhysicalDevice.getQueueFamilyProperties2KHR(): T = when
     Int::class -> stak.intAddress {
         KHRGetPhysicalDeviceProperties2.nvkGetPhysicalDeviceQueueFamilyProperties2KHR(this, it, NULL)
     } as T
-    ArrayList::class -> {
-        val st = stackGet()
-        val pQueueFamilyPropertyCount = st.nmalloc(4, Int.BYTES)
-        KHRGetPhysicalDeviceProperties2.nvkGetPhysicalDeviceQueueFamilyProperties2KHR(this, pQueueFamilyPropertyCount, NULL)
-        val count = memGetInt(pQueueFamilyPropertyCount)
-        st.QueueFamilyProperties2(count).also {
-            KHRGetPhysicalDeviceProperties2.nvkGetPhysicalDeviceQueueFamilyProperties2KHR(this, pQueueFamilyPropertyCount, it.adr)
-        }.toCollection(arrayListOf()) as T
-    }
+//    ArrayList::class -> {
+//        val st = stackGet()
+//        val pQueueFamilyPropertyCount = st.nmalloc(4, Int.BYTES)
+//        KHRGetPhysicalDeviceProperties2.nvkGetPhysicalDeviceQueueFamilyProperties2KHR(this, pQueueFamilyPropertyCount, NULL)
+//        val count = memGetInt(pQueueFamilyPropertyCount)
+//        st.QueueFamilyProperties2(count).also {
+//            KHRGetPhysicalDeviceProperties2.nvkGetPhysicalDeviceQueueFamilyProperties2KHR(this, pQueueFamilyPropertyCount, it.adr)
+//        }.toCollection(arrayListOf()) as T
+//    }
     VkQueueFamilyProperties.Buffer::class -> {
         val st = stackGet()
         val pQueueFamilyPropertyCount = st.nmalloc(4, Int.BYTES)
@@ -593,15 +593,15 @@ inline fun <reified T> VkPhysicalDevice.getSparseImageFormatProperties(format: V
     Int::class -> stak.intAddress {
         VK10.nvkGetPhysicalDeviceSparseImageFormatProperties(this, format.i, type.i, samples.i, usage, tiling.i, it, NULL)
     } as T
-    ArrayList::class -> {
-        val st = stackGet()
-        val pPropertyCount = st.nmalloc(4, Int.BYTES)
-        VK10.nvkGetPhysicalDeviceSparseImageFormatProperties(this, format.i, type.i, samples.i, usage, tiling.i, pPropertyCount, NULL)
-        val count = memGetInt(pPropertyCount)
-        st.SparseImageFormatProperties(count).also {
-            VK10.nvkGetPhysicalDeviceSparseImageFormatProperties(this, format.i, type.i, samples.i, usage, tiling.i, pPropertyCount, it.adr)
-        }.toCollection(arrayListOf()) as T
-    }
+//    ArrayList::class -> {
+//        val st = stackGet()
+//        val pPropertyCount = st.nmalloc(4, Int.BYTES)
+//        VK10.nvkGetPhysicalDeviceSparseImageFormatProperties(this, format.i, type.i, samples.i, usage, tiling.i, pPropertyCount, NULL)
+//        val count = memGetInt(pPropertyCount)
+//        st.SparseImageFormatProperties(count).also {
+//            VK10.nvkGetPhysicalDeviceSparseImageFormatProperties(this, format.i, type.i, samples.i, usage, tiling.i, pPropertyCount, it.adr)
+//        }.toCollection(arrayListOf()) as T
+//    }
     VkSparseImageFormatProperties.Buffer::class -> {
         val st = stackGet()
         val pPropertyCount = st.nmalloc(4, Int.BYTES)
@@ -624,15 +624,15 @@ inline fun <reified T> VkPhysicalDevice.getSparseImageFormatProperties2(formatIn
     Int::class -> stak.intAddress {
         VK11.nvkGetPhysicalDeviceSparseImageFormatProperties2(this, formatInfo.adr, it, NULL)
     } as T
-    ArrayList::class -> {
-        val st = stackGet()
-        val pPropertyCount = st.nmalloc(4, Int.BYTES)
-        VK11.nvkGetPhysicalDeviceSparseImageFormatProperties2(this, formatInfo.adr, pPropertyCount, NULL)
-        val count = memGetInt(pPropertyCount)
-        st.SparseImageFormatProperties2(count).also {
-            VK11.nvkGetPhysicalDeviceSparseImageFormatProperties2(this, formatInfo.adr, pPropertyCount, it.adr)
-        }.toCollection(arrayListOf()) as T
-    }
+//    ArrayList::class -> {
+//        val st = stackGet()
+//        val pPropertyCount = st.nmalloc(4, Int.BYTES)
+//        VK11.nvkGetPhysicalDeviceSparseImageFormatProperties2(this, formatInfo.adr, pPropertyCount, NULL)
+//        val count = memGetInt(pPropertyCount)
+//        st.SparseImageFormatProperties2(count).also {
+//            VK11.nvkGetPhysicalDeviceSparseImageFormatProperties2(this, formatInfo.adr, pPropertyCount, it.adr)
+//        }.toCollection(arrayListOf()) as T
+//    }
     VkSparseImageFormatProperties2.Buffer::class -> {
         val st = stackGet()
         val pPropertyCount = st.nmalloc(4, Int.BYTES)
@@ -655,15 +655,15 @@ inline infix fun <reified T> VkPhysicalDevice.getSparseImageFormatProperties2KHR
     Int::class -> stak.intAddress {
         KHRGetPhysicalDeviceProperties2.nvkGetPhysicalDeviceSparseImageFormatProperties2KHR(this, formatInfo.adr, it, NULL)
     } as T
-    ArrayList::class -> {
-        val st = stackGet()
-        val pPropertyCount = st.nmalloc(4, Int.BYTES)
-        KHRGetPhysicalDeviceProperties2.nvkGetPhysicalDeviceSparseImageFormatProperties2KHR(this, formatInfo.adr, pPropertyCount, NULL)
-        val count = memGetInt(pPropertyCount)
-        st.SparseImageFormatProperties2(count).also {
-            KHRGetPhysicalDeviceProperties2.nvkGetPhysicalDeviceSparseImageFormatProperties2KHR(this, formatInfo.adr, pPropertyCount, it.adr)
-        }.toCollection(arrayListOf()) as T
-    }
+//    ArrayList::class -> {
+//        val st = stackGet()
+//        val pPropertyCount = st.nmalloc(4, Int.BYTES)
+//        KHRGetPhysicalDeviceProperties2.nvkGetPhysicalDeviceSparseImageFormatProperties2KHR(this, formatInfo.adr, pPropertyCount, NULL)
+//        val count = memGetInt(pPropertyCount)
+//        st.SparseImageFormatProperties2(count).also {
+//            KHRGetPhysicalDeviceProperties2.nvkGetPhysicalDeviceSparseImageFormatProperties2KHR(this, formatInfo.adr, pPropertyCount, it.adr)
+//        }.toCollection(arrayListOf()) as T
+//    }
     VkSparseImageFormatProperties2.Buffer::class -> {
         val st = stackGet()
         val pPropertyCount = st.nmalloc(4, Int.BYTES)

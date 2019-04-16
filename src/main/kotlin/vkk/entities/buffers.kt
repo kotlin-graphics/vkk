@@ -194,6 +194,42 @@ fun vk.DebugReportCallback_Buffer(size: Int, block: (Int) -> VkDebugReportCallba
 fun vk.DebugReportCallback_Buffer(size: Int) = VkDebugReportCallback_Buffer(stackGet().LongBuffer(size))
 fun vk.DebugReportCallback_Buffer(elements: Collection<VkDebugReportCallback>) = VkDebugReportCallback_Buffer(stackGet().LongBuffer(elements.size) { elements.elementAt(it).L })
 
+inline class VkDebugUtilsMessengerEXT_Buffer(val buffer: LongBuffer) {
+    operator fun get(index: Int) = VkDebugUtilsMessengerEXT(buffer[index])
+    operator fun set(index: Int, value: VkDebugUtilsMessengerEXT) {
+        buffer[index] = value.L
+    }
+
+    val rem get() = buffer.rem
+    val adr get() = buffer.adr
+    var pos
+        get() = buffer.pos
+        set(value) {
+            buffer.pos = value
+        }
+    var lim
+        get() = buffer.lim
+        set(value) {
+            buffer.lim = value
+        }
+
+    infix fun put(src: VkAccelerationStructureNV_Buffer) {
+        buffer.put(src.buffer)
+    }
+
+    fun flip() {
+        buffer.flip()
+    }
+}
+
+fun VkDebugUtilsMessengerEXT_Buffer(size: Int, block: (Int) -> VkDebugUtilsMessengerEXT) = VkDebugUtilsMessengerEXT_Buffer(LongBuffer(size) { block(it).L })
+fun VkDebugUtilsMessengerEXT_Buffer(size: Int) = VkDebugUtilsMessengerEXT_Buffer(LongBuffer(size))
+fun VkDebugUtilsMessengerEXT_Buffer(elements: Collection<VkDebugUtilsMessengerEXT>) = VkDebugUtilsMessengerEXT_Buffer(LongBuffer(elements.size) { elements.elementAt(it).L })
+
+fun vk.DebugUtilsMessengerEXT_Buffer(size: Int, block: (Int) -> VkDebugUtilsMessengerEXT) = VkDebugUtilsMessengerEXT_Buffer(stackGet().LongBuffer(size) { block(it).L })
+fun vk.DebugUtilsMessengerEXT_Buffer(size: Int) = VkDebugUtilsMessengerEXT_Buffer(stackGet().LongBuffer(size))
+fun vk.DebugUtilsMessengerEXT_Buffer(elements: Collection<VkDebugUtilsMessengerEXT>) = VkDebugUtilsMessengerEXT_Buffer(stackGet().LongBuffer(elements.size) { elements.elementAt(it).L })
+
 
 inline class VkDescriptorPool_Buffer(val buffer: LongBuffer) {
     operator fun get(index: Int) = VkDescriptorPool(buffer[index])
@@ -970,6 +1006,43 @@ fun VkSampler_Buffer(elements: Collection<VkSampler>) = VkSampler_Buffer(LongBuf
 fun vk.Sampler_Buffer(size: Int, block: (Int) -> VkSampler) = VkSampler_Buffer(stackGet().LongBuffer(size) { block(it).L })
 fun vk.Sampler_Buffer(size: Int) = VkSampler_Buffer(stackGet().LongBuffer(size))
 fun vk.Sampler_Buffer(elements: Collection<VkSampler>) = VkSampler_Buffer(stackGet().LongBuffer(elements.size) { elements.elementAt(it).L })
+
+
+inline class VkSamplerYcbcrConversion_Buffer(val buffer: LongBuffer) {
+    operator fun get(index: Int) = VkSamplerYcbcrConversion(buffer[index])
+    operator fun set(index: Int, value: VkSamplerYcbcrConversion) {
+        buffer[index] = value.L
+    }
+
+    val rem get() = buffer.rem
+    val adr get() = buffer.adr
+    var pos
+        get() = buffer.pos
+        set(value) {
+            buffer.pos = value
+        }
+    var lim
+        get() = buffer.lim
+        set(value) {
+            buffer.lim = value
+        }
+
+    infix fun put(src: VkAccelerationStructureNV_Buffer) {
+        buffer.put(src.buffer)
+    }
+
+    fun flip() {
+        buffer.flip()
+    }
+}
+
+fun VkSamplerYcbcrConversion_Buffer(size: Int, block: (Int) -> VkSamplerYcbcrConversion) = VkSamplerYcbcrConversion_Buffer(LongBuffer(size) { block(it).L })
+fun VkSamplerYcbcrConversion_Buffer(size: Int) = VkSamplerYcbcrConversion_Buffer(LongBuffer(size))
+fun VkSamplerYcbcrConversion_Buffer(elements: Collection<VkSamplerYcbcrConversion>) = VkSamplerYcbcrConversion_Buffer(LongBuffer(elements.size) { elements.elementAt(it).L })
+
+fun vk.SamplerYcbcrConversion_Buffer(size: Int, block: (Int) -> VkSamplerYcbcrConversion) = VkSamplerYcbcrConversion_Buffer(stackGet().LongBuffer(size) { block(it).L })
+fun vk.SamplerYcbcrConversion_Buffer(size: Int) = VkSamplerYcbcrConversion_Buffer(stackGet().LongBuffer(size))
+fun vk.SamplerYcbcrConversion_Buffer(elements: Collection<VkSamplerYcbcrConversion>) = VkSamplerYcbcrConversion_Buffer(stackGet().LongBuffer(elements.size) { elements.elementAt(it).L })
 
 
 inline class VkSemaphore_Buffer(val buffer: LongBuffer) {

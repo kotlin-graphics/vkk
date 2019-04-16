@@ -1,6 +1,5 @@
 package vkk
 
-import org.lwjgl.Version
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.vulkan.*
 
@@ -204,6 +203,11 @@ fun MemoryStack.CommandPoolCreateInfo(): VkCommandPoolCreateInfo = VkCommandPool
 fun MemoryStack.CommandPoolCreateInfo(block: VkCommandPoolCreateInfo.() -> Unit): VkCommandPoolCreateInfo = CommandPoolCreateInfo().also(block)
 fun MemoryStack.CommandPoolCreateInfo(capacity: Int): VkCommandPoolCreateInfo.Buffer = VkCommandPoolCreateInfo.callocStack(capacity, this).onEach { it.type = VkStructureType.COMMAND_POOL_CREATE_INFO }
 fun MemoryStack.CommandPoolCreateInfo(capacity: Int, block: VkCommandPoolCreateInfo.Buffer.() -> Unit): VkCommandPoolCreateInfo.Buffer = CommandPoolCreateInfo(capacity).also(block)
+
+fun MemoryStack.CooperativeMatrixPropertiesNV(): VkCooperativeMatrixPropertiesNV = VkCooperativeMatrixPropertiesNV.callocStack(this).apply { type = VkStructureType.COOPERATIVE_MATRIX_PROPERTIES_NV }
+fun MemoryStack.CooperativeMatrixPropertiesNV(block: VkCooperativeMatrixPropertiesNV.() -> Unit): VkCooperativeMatrixPropertiesNV = CooperativeMatrixPropertiesNV().also(block)
+fun MemoryStack.CooperativeMatrixPropertiesNV(capacity: Int): VkCooperativeMatrixPropertiesNV.Buffer = VkCooperativeMatrixPropertiesNV.callocStack(capacity, this).onEach { it.type = VkStructureType.COOPERATIVE_MATRIX_PROPERTIES_NV }
+fun MemoryStack.CooperativeMatrixPropertiesNV(capacity: Int, block: VkCooperativeMatrixPropertiesNV.Buffer.() -> Unit): VkCooperativeMatrixPropertiesNV.Buffer = CooperativeMatrixPropertiesNV(capacity).also(block)
 
 fun MemoryStack.CmdProcessCommandsInfoNVX(): VkCmdProcessCommandsInfoNVX = VkCmdProcessCommandsInfoNVX.callocStack(this).apply { type = VkStructureType.CMD_PROCESS_COMMANDS_INFO_NVX }
 fun MemoryStack.CmdProcessCommandsInfoNVX(block: VkCmdProcessCommandsInfoNVX.() -> Unit): VkCmdProcessCommandsInfoNVX = CmdProcessCommandsInfoNVX().also(block)
@@ -924,16 +928,6 @@ fun MemoryStack.MacOSSurfaceCreateInfoMVK(): VkMacOSSurfaceCreateInfoMVK = VkMac
 fun MemoryStack.MacOSSurfaceCreateInfoMVK(block: VkMacOSSurfaceCreateInfoMVK.() -> Unit): VkMacOSSurfaceCreateInfoMVK = MacOSSurfaceCreateInfoMVK().also(block)
 fun MemoryStack.MacOSSurfaceCreateInfoMVK(capacity: Int): VkMacOSSurfaceCreateInfoMVK.Buffer = VkMacOSSurfaceCreateInfoMVK.callocStack(capacity, this).onEach { it.type = VkStructureType.MACOS_SURFACE_CREATE_INFO_MVK }
 fun MemoryStack.MacOSSurfaceCreateInfoMVK(capacity: Int, block: VkMacOSSurfaceCreateInfoMVK.Buffer.() -> Unit): VkMacOSSurfaceCreateInfoMVK.Buffer = MacOSSurfaceCreateInfoMVK(capacity).also(block)
-
-fun MemoryStack.Offset2D(): VkOffset2D = VkOffset2D.callocStack(this)
-fun MemoryStack.Offset2D(block: VkOffset2D.() -> Unit): VkOffset2D = Offset2D().also(block)
-fun MemoryStack.Offset2D(capacity: Int): VkOffset2D.Buffer = VkOffset2D.callocStack(capacity, this)
-fun MemoryStack.Offset2D(capacity: Int, block: VkOffset2D.Buffer.() -> Unit): VkOffset2D.Buffer = Offset2D(capacity).also(block)
-
-fun MemoryStack.Offset3D(): VkOffset3D = VkOffset3D.callocStack(this)
-fun MemoryStack.Offset3D(block: VkOffset3D.() -> Unit): VkOffset3D = Offset3D().also(block)
-fun MemoryStack.Offset3D(capacity: Int): VkOffset3D.Buffer = VkOffset3D.callocStack(capacity, this)
-fun MemoryStack.Offset3D(capacity: Int, block: VkOffset3D.Buffer.() -> Unit): VkOffset3D.Buffer = Offset3D(capacity).also(block)
 
 fun MemoryStack.MappedMemoryRange(): VkMappedMemoryRange = VkMappedMemoryRange.callocStack(this).apply { type = VkStructureType.MAPPED_MEMORY_RANGE }
 fun MemoryStack.MappedMemoryRange(block: VkMappedMemoryRange.() -> Unit): VkMappedMemoryRange = MappedMemoryRange().also(block)
