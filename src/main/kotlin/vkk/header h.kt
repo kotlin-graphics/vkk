@@ -77,6 +77,17 @@ inline var VkPhysicalDeviceVulkanMemoryModelFeaturesKHR.vulkanMemoryModelAvailab
     set(value) = VkPhysicalDeviceVulkanMemoryModelFeaturesKHR.nvulkanMemoryModelAvailabilityVisibilityChains(adr, value.i)
 
 
+inline var VkSurfaceProtectedCapabilitiesKHR .type: VkStructureType
+    get() = VkStructureType(VkSurfaceProtectedCapabilitiesKHR .nsType(adr))
+    set(value) = VkSurfaceProtectedCapabilitiesKHR .nsType(adr, value.i)
+inline var VkSurfaceProtectedCapabilitiesKHR .next: Ptr
+    get() = VkSurfaceProtectedCapabilitiesKHR .npNext(adr)
+    set(value) = VkSurfaceProtectedCapabilitiesKHR .npNext(adr, value)
+inline var VkSurfaceProtectedCapabilitiesKHR .supportsProtected: Boolean
+    get() = VkSurfaceProtectedCapabilitiesKHR .nsupportsProtected(adr).bool
+    set(value) = VkSurfaceProtectedCapabilitiesKHR .nsupportsProtected(adr, value.i)
+
+
 inline class VkDebugReportObjectTypeEXT(val i: Int) {
     companion object {
         val UNKNOWN = VkDebugReportObjectTypeEXT(0)

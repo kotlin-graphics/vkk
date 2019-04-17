@@ -1008,5 +1008,6 @@ inline class VkColorSpaceKHR(val i: Int) {
         val ADOBERGB_NONLINEAR_EXT = VkColorSpaceKHR(1000104012)
         val PASS_THROUGH_EXT = VkColorSpaceKHR(1000104013)
         val EXTENDED_SRGB_NONLINEAR_EXT = VkColorSpaceKHR(1000104014)
+        val DISPLAY_NATIVE_AMD = VkColorSpaceKHR(1000213000)
     }
 }

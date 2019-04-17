@@ -112,8 +112,7 @@ inline class VisualID(val L: Long)
 inline class WLDisplay(val L: Long)
 inline class WLSurface(val L: Long)
 inline class RROutput(val L: Long)
-
-
+inline class HMONITOR(val L: Long)
 
 
 inline class VkTimeDomainEXT_Buffer(val buffer: IntBuffer) {
@@ -141,13 +140,10 @@ class VkPhysicalDevice_Buffer(val buffer: PointerBuffer, val instance: VkInstanc
 }
 
 
-
 inline class VkValidationFeatureEnableEXT_Buffer(val buffer: IntBuffer) {
     val rem get() = buffer.rem
     val adr: Adr get() = buffer.adr // TODO -> Adr
 }
-
-
 
 
 inline var VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV.type: VkStructureType

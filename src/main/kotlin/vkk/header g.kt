@@ -956,6 +956,7 @@ inline class VkDriverIdKHR(val i: Int) {
         val QUALCOMM_PROPRIETARY_KHR = VkDriverIdKHR(8)
         val ARM_PROPRIETARY_KHR = VkDriverIdKHR(9)
         val GOOGLE_PASTEL_KHR = VkDriverIdKHR(10)
+        val GGP_PROPRIETARY_KHR = VkDriverIdKHR(11)
     }
 }
 

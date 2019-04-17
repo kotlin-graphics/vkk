@@ -219,6 +219,11 @@ fun MemoryStack.PhysicalDeviceGroupProperties(block: VkPhysicalDeviceGroupProper
 fun MemoryStack.PhysicalDeviceGroupProperties(capacity: Int): VkPhysicalDeviceGroupProperties.Buffer = VkPhysicalDeviceGroupProperties.callocStack(capacity, this).onEach { it.type = VkStructureType.PHYSICAL_DEVICE_GROUP_PROPERTIES }
 fun MemoryStack.PhysicalDeviceGroupProperties(capacity: Int, block: VkPhysicalDeviceGroupProperties.Buffer.() -> Unit): VkPhysicalDeviceGroupProperties.Buffer = PhysicalDeviceGroupProperties(capacity).also(block)
 
+fun MemoryStack.PhysicalDeviceHostQueryResetFeaturesEXT(): VkPhysicalDeviceHostQueryResetFeaturesEXT = VkPhysicalDeviceHostQueryResetFeaturesEXT.callocStack(this).apply { type = VkStructureType.PHYSICAL_DEVICE_HOST_QUERY_RESET_FEATURES_EXT }
+fun MemoryStack.PhysicalDeviceHostQueryResetFeaturesEXT(block: VkPhysicalDeviceHostQueryResetFeaturesEXT.() -> Unit): VkPhysicalDeviceHostQueryResetFeaturesEXT = PhysicalDeviceHostQueryResetFeaturesEXT().also(block)
+fun MemoryStack.PhysicalDeviceHostQueryResetFeaturesEXT(capacity: Int): VkPhysicalDeviceHostQueryResetFeaturesEXT.Buffer = VkPhysicalDeviceHostQueryResetFeaturesEXT.callocStack(capacity, this).onEach { it.type = VkStructureType.PHYSICAL_DEVICE_HOST_QUERY_RESET_FEATURES_EXT }
+fun MemoryStack.PhysicalDeviceHostQueryResetFeaturesEXT(capacity: Int, block: VkPhysicalDeviceHostQueryResetFeaturesEXT.Buffer.() -> Unit): VkPhysicalDeviceHostQueryResetFeaturesEXT.Buffer = PhysicalDeviceHostQueryResetFeaturesEXT(capacity).also(block)
+
 fun MemoryStack.PhysicalDeviceIDProperties(): VkPhysicalDeviceIDProperties = VkPhysicalDeviceIDProperties.callocStack(this).apply { type = VkStructureType.PHYSICAL_DEVICE_ID_PROPERTIES }
 fun MemoryStack.PhysicalDeviceIDProperties(block: VkPhysicalDeviceIDProperties.() -> Unit): VkPhysicalDeviceIDProperties = PhysicalDeviceIDProperties().also(block)
 fun MemoryStack.PhysicalDeviceIDProperties(capacity: Int): VkPhysicalDeviceIDProperties.Buffer = VkPhysicalDeviceIDProperties.callocStack(capacity, this).onEach { it.type = VkStructureType.PHYSICAL_DEVICE_ID_PROPERTIES }
@@ -483,6 +488,16 @@ fun MemoryStack.PipelineCoverageToColorStateCreateInfoNV(): VkPipelineCoverageTo
 fun MemoryStack.PipelineCoverageToColorStateCreateInfoNV(block: VkPipelineCoverageToColorStateCreateInfoNV.() -> Unit): VkPipelineCoverageToColorStateCreateInfoNV = PipelineCoverageToColorStateCreateInfoNV().also(block)
 fun MemoryStack.PipelineCoverageToColorStateCreateInfoNV(capacity: Int): VkPipelineCoverageToColorStateCreateInfoNV.Buffer = VkPipelineCoverageToColorStateCreateInfoNV.callocStack(capacity, this).onEach { it.type = VkStructureType.PIPELINE_COVERAGE_TO_COLOR_STATE_CREATE_INFO_NV }
 fun MemoryStack.PipelineCoverageToColorStateCreateInfoNV(capacity: Int, block: VkPipelineCoverageToColorStateCreateInfoNV.Buffer.() -> Unit): VkPipelineCoverageToColorStateCreateInfoNV.Buffer = PipelineCoverageToColorStateCreateInfoNV(capacity).also(block)
+
+//fun MemoryStack.PipelineCreationFeedbackEXT(): VkPipelineCreationFeedbackEXT = VkPipelineCreationFeedbackEXT.callocStack(this)
+//fun MemoryStack.PipelineCreationFeedbackEXT(block: VkPipelineCreationFeedbackEXT .() -> Unit): VkPipelineCreationFeedbackEXT = PipelineCreationFeedbackEXT().also(block)
+//fun MemoryStack.PipelineCreationFeedbackEXT(capacity: Int): VkPipelineCreationFeedbackEXT.Buffer = VkPipelineCreationFeedbackEXT.callocStack(capacity, this)
+//fun MemoryStack.PipelineCreationFeedbackEXT(capacity: Int, block: VkPipelineCreationFeedbackEXT.Buffer.() -> Unit): VkPipelineCreationFeedbackEXT.Buffer = PipelineCreationFeedbackEXT(capacity).also(block)
+
+fun MemoryStack.PipelineCreationFeedbackCreateInfoEXT(): VkPipelineCreationFeedbackCreateInfoEXT = VkPipelineCreationFeedbackCreateInfoEXT.callocStack(this).apply { type = VkStructureType.PIPELINE_CREATION_FEEDBACK_CREATE_INFO_EXT }
+fun MemoryStack.PipelineCreationFeedbackCreateInfoEXT(block: VkPipelineCreationFeedbackCreateInfoEXT  .() -> Unit): VkPipelineCreationFeedbackCreateInfoEXT = PipelineCreationFeedbackCreateInfoEXT().also(block)
+fun MemoryStack.PipelineCreationFeedbackCreateInfoEXT(capacity: Int): VkPipelineCreationFeedbackCreateInfoEXT.Buffer = VkPipelineCreationFeedbackCreateInfoEXT.callocStack(capacity, this).onEach { it.type = VkStructureType.PIPELINE_CREATION_FEEDBACK_CREATE_INFO_EXT }
+fun MemoryStack.PipelineCreationFeedbackCreateInfoEXT(capacity: Int, block: VkPipelineCreationFeedbackCreateInfoEXT.Buffer.() -> Unit): VkPipelineCreationFeedbackCreateInfoEXT.Buffer = PipelineCreationFeedbackCreateInfoEXT(capacity).also(block)
 
 fun MemoryStack.PipelineDepthStencilStateCreateInfo(): VkPipelineDepthStencilStateCreateInfo = VkPipelineDepthStencilStateCreateInfo.callocStack(this).apply { type = VkStructureType.PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO }
 fun MemoryStack.PipelineDepthStencilStateCreateInfo(block: VkPipelineDepthStencilStateCreateInfo.() -> Unit): VkPipelineDepthStencilStateCreateInfo = PipelineDepthStencilStateCreateInfo().also(block)
@@ -909,6 +924,11 @@ fun MemoryStack.SubresourceLayout(block: VkSubresourceLayout.() -> Unit): VkSubr
 fun MemoryStack.SubresourceLayout(capacity: Int): VkSubresourceLayout.Buffer = VkSubresourceLayout.callocStack(capacity, this)
 fun MemoryStack.SubresourceLayout(capacity: Int, block: VkSubresourceLayout.Buffer.() -> Unit): VkSubresourceLayout.Buffer = SubresourceLayout(capacity).also(block)
 
+fun MemoryStack.SurfaceCapabilitiesFullScreenExclusiveEXT(): VkSurfaceCapabilitiesFullScreenExclusiveEXT = VkSurfaceCapabilitiesFullScreenExclusiveEXT.callocStack(this).apply { type = VkStructureType.SURFACE_CAPABILITIES_FULL_SCREEN_EXCLUSIVE_EXT }
+fun MemoryStack.SurfaceCapabilitiesFullScreenExclusiveEXT(block: VkSurfaceCapabilitiesFullScreenExclusiveEXT.() -> Unit): VkSurfaceCapabilitiesFullScreenExclusiveEXT = SurfaceCapabilitiesFullScreenExclusiveEXT().also(block)
+fun MemoryStack.SurfaceCapabilitiesFullScreenExclusiveEXT(capacity: Int): VkSurfaceCapabilitiesFullScreenExclusiveEXT.Buffer = VkSurfaceCapabilitiesFullScreenExclusiveEXT.callocStack(capacity, this).onEach { it.type = VkStructureType.SURFACE_CAPABILITIES_FULL_SCREEN_EXCLUSIVE_EXT }
+fun MemoryStack.SurfaceCapabilitiesFullScreenExclusiveEXT(capacity: Int, block: VkSurfaceCapabilitiesFullScreenExclusiveEXT.Buffer.() -> Unit): VkSurfaceCapabilitiesFullScreenExclusiveEXT.Buffer = SurfaceCapabilitiesFullScreenExclusiveEXT(capacity).also(block)
+
 fun MemoryStack.SurfaceCapabilitiesKHR(): VkSurfaceCapabilitiesKHR = VkSurfaceCapabilitiesKHR.callocStack(this)
 fun MemoryStack.SurfaceCapabilitiesKHR(block: VkSurfaceCapabilitiesKHR.() -> Unit): VkSurfaceCapabilitiesKHR = SurfaceCapabilitiesKHR().also(block)
 fun MemoryStack.SurfaceCapabilitiesKHR(capacity: Int): VkSurfaceCapabilitiesKHR.Buffer = VkSurfaceCapabilitiesKHR.callocStack(capacity, this)
@@ -929,10 +949,25 @@ fun MemoryStack.SurfaceFormatKHR(block: VkSurfaceFormatKHR.() -> Unit): VkSurfac
 fun MemoryStack.SurfaceFormatKHR(capacity: Int): VkSurfaceFormatKHR.Buffer = VkSurfaceFormatKHR.callocStack(capacity, this)
 fun MemoryStack.SurfaceFormatKHR(capacity: Int, block: VkSurfaceFormatKHR.Buffer.() -> Unit): VkSurfaceFormatKHR.Buffer = SurfaceFormatKHR(capacity).also(block)
 
-fun MemoryStack.SurfaceFormat2KHR(): VkSurfaceFormat2KHR = VkSurfaceFormat2KHR.callocStack(this)
+fun MemoryStack.SurfaceFormat2KHR(): VkSurfaceFormat2KHR = VkSurfaceFormat2KHR.callocStack(this).apply { type = VkStructureType.SURFACE_FORMAT_2_KHR }
 fun MemoryStack.SurfaceFormat2KHR(block: VkSurfaceFormat2KHR.() -> Unit): VkSurfaceFormat2KHR = SurfaceFormat2KHR().also(block)
-fun MemoryStack.SurfaceFormat2KHR(capacity: Int): VkSurfaceFormat2KHR.Buffer = VkSurfaceFormat2KHR.callocStack(capacity, this)
+fun MemoryStack.SurfaceFormat2KHR(capacity: Int): VkSurfaceFormat2KHR.Buffer = VkSurfaceFormat2KHR.callocStack(capacity, this).onEach { it.type = VkStructureType.SURFACE_FORMAT_2_KHR }
 fun MemoryStack.SurfaceFormat2KHR(capacity: Int, block: VkSurfaceFormat2KHR.Buffer.() -> Unit): VkSurfaceFormat2KHR.Buffer = SurfaceFormat2KHR(capacity).also(block)
+
+fun MemoryStack.SurfaceFullScreenExclusiveInfoEXT(): VkSurfaceFullScreenExclusiveInfoEXT = VkSurfaceFullScreenExclusiveInfoEXT.callocStack(this).apply { type = VkStructureType.SURFACE_FULL_SCREEN_EXCLUSIVE_INFO_EXT }
+fun MemoryStack.SurfaceFullScreenExclusiveInfoEXT(block: VkSurfaceFullScreenExclusiveInfoEXT.() -> Unit): VkSurfaceFullScreenExclusiveInfoEXT = SurfaceFullScreenExclusiveInfoEXT().also(block)
+fun MemoryStack.SurfaceFullScreenExclusiveInfoEXT(capacity: Int): VkSurfaceFullScreenExclusiveInfoEXT.Buffer = VkSurfaceFullScreenExclusiveInfoEXT.callocStack(capacity, this).onEach { it.type = VkStructureType.SURFACE_FULL_SCREEN_EXCLUSIVE_INFO_EXT }
+fun MemoryStack.SurfaceFullScreenExclusiveInfoEXT(capacity: Int, block: VkSurfaceFullScreenExclusiveInfoEXT.Buffer.() -> Unit): VkSurfaceFullScreenExclusiveInfoEXT.Buffer = SurfaceFullScreenExclusiveInfoEXT(capacity).also(block)
+
+fun MemoryStack.SurfaceFullScreenExclusiveWin32InfoEXT(): VkSurfaceFullScreenExclusiveWin32InfoEXT = VkSurfaceFullScreenExclusiveWin32InfoEXT.callocStack(this).apply { type = VkStructureType.SURFACE_FULL_SCREEN_EXCLUSIVE_WIN32_INFO_EXT }
+fun MemoryStack.SurfaceFullScreenExclusiveWin32InfoEXT(block: VkSurfaceFullScreenExclusiveWin32InfoEXT.() -> Unit): VkSurfaceFullScreenExclusiveWin32InfoEXT = SurfaceFullScreenExclusiveWin32InfoEXT().also(block)
+fun MemoryStack.SurfaceFullScreenExclusiveWin32InfoEXT(capacity: Int): VkSurfaceFullScreenExclusiveWin32InfoEXT.Buffer = VkSurfaceFullScreenExclusiveWin32InfoEXT.callocStack(capacity, this).onEach { it.type = VkStructureType.SURFACE_FULL_SCREEN_EXCLUSIVE_WIN32_INFO_EXT }
+fun MemoryStack.SurfaceFullScreenExclusiveWin32InfoEXT(capacity: Int, block: VkSurfaceFullScreenExclusiveWin32InfoEXT.Buffer.() -> Unit): VkSurfaceFullScreenExclusiveWin32InfoEXT.Buffer = SurfaceFullScreenExclusiveWin32InfoEXT(capacity).also(block)
+
+fun MemoryStack.SurfaceProtectedCapabilitiesKHR(): VkSurfaceProtectedCapabilitiesKHR = VkSurfaceProtectedCapabilitiesKHR.callocStack(this)
+fun MemoryStack.SurfaceProtectedCapabilitiesKHR(block: VkSurfaceProtectedCapabilitiesKHR.() -> Unit): VkSurfaceProtectedCapabilitiesKHR = SurfaceProtectedCapabilitiesKHR().also(block)
+fun MemoryStack.SurfaceProtectedCapabilitiesKHR(capacity: Int): VkSurfaceProtectedCapabilitiesKHR.Buffer = VkSurfaceProtectedCapabilitiesKHR.callocStack(capacity, this)
+fun MemoryStack.SurfaceProtectedCapabilitiesKHR(capacity: Int, block: VkSurfaceProtectedCapabilitiesKHR.Buffer.() -> Unit): VkSurfaceProtectedCapabilitiesKHR.Buffer = SurfaceProtectedCapabilitiesKHR(capacity).also(block)
 
 fun MemoryStack.SwapchainCounterCreateInfoEXT(): VkSwapchainCounterCreateInfoEXT = VkSwapchainCounterCreateInfoEXT.callocStack(this).apply { type = VkStructureType.SWAPCHAIN_COUNTER_CREATE_INFO_EXT }
 fun MemoryStack.SwapchainCounterCreateInfoEXT(block: VkSwapchainCounterCreateInfoEXT.() -> Unit): VkSwapchainCounterCreateInfoEXT = SwapchainCounterCreateInfoEXT().also(block)
@@ -943,6 +978,11 @@ fun MemoryStack.SwapchainCreateInfoKHR(): VkSwapchainCreateInfoKHR = VkSwapchain
 fun MemoryStack.SwapchainCreateInfoKHR(block: VkSwapchainCreateInfoKHR.() -> Unit): VkSwapchainCreateInfoKHR = SwapchainCreateInfoKHR().also(block)
 fun MemoryStack.SwapchainCreateInfoKHR(capacity: Int): VkSwapchainCreateInfoKHR.Buffer = VkSwapchainCreateInfoKHR.callocStack(capacity, this).onEach { it.type = VkStructureType.SWAPCHAIN_CREATE_INFO_KHR }
 fun MemoryStack.SwapchainCreateInfoKHR(capacity: Int, block: VkSwapchainCreateInfoKHR.Buffer.() -> Unit): VkSwapchainCreateInfoKHR.Buffer = SwapchainCreateInfoKHR(capacity).also(block)
+
+fun MemoryStack.SwapchainDisplayNativeHdrCreateInfoAMD(): VkSwapchainDisplayNativeHdrCreateInfoAMD = VkSwapchainDisplayNativeHdrCreateInfoAMD.callocStack(this).apply { type = VkStructureType.SWAPCHAIN_DISPLAY_NATIVE_HDR_CREATE_INFO_AMD }
+fun MemoryStack.SwapchainDisplayNativeHdrCreateInfoAMD(block: VkSwapchainDisplayNativeHdrCreateInfoAMD.() -> Unit): VkSwapchainDisplayNativeHdrCreateInfoAMD = SwapchainDisplayNativeHdrCreateInfoAMD().also(block)
+fun MemoryStack.SwapchainDisplayNativeHdrCreateInfoAMD(capacity: Int): VkSwapchainDisplayNativeHdrCreateInfoAMD.Buffer = VkSwapchainDisplayNativeHdrCreateInfoAMD.callocStack(capacity, this).onEach { it.type = VkStructureType.SWAPCHAIN_DISPLAY_NATIVE_HDR_CREATE_INFO_AMD }
+fun MemoryStack.SwapchainDisplayNativeHdrCreateInfoAMD(capacity: Int, block: VkSwapchainDisplayNativeHdrCreateInfoAMD.Buffer.() -> Unit): VkSwapchainDisplayNativeHdrCreateInfoAMD.Buffer = SwapchainDisplayNativeHdrCreateInfoAMD(capacity).also(block)
 
 fun MemoryStack.TextureLODGatherFormatPropertiesAMD(): VkTextureLODGatherFormatPropertiesAMD = VkTextureLODGatherFormatPropertiesAMD.callocStack(this).apply { type = VkStructureType.TEXTURE_LOD_GATHER_FORMAT_PROPERTIES_AMD }
 fun MemoryStack.TextureLODGatherFormatPropertiesAMD(block: VkTextureLODGatherFormatPropertiesAMD.() -> Unit): VkTextureLODGatherFormatPropertiesAMD = TextureLODGatherFormatPropertiesAMD().also(block)

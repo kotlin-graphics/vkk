@@ -494,6 +494,11 @@ fun MemoryStack.DisplayModeProperties2KHR(block: VkDisplayModeProperties2KHR.() 
 fun MemoryStack.DisplayModeProperties2KHR(capacity: Int): VkDisplayModeProperties2KHR.Buffer = VkDisplayModeProperties2KHR.callocStack(capacity, this).onEach { it.type = VkStructureType.DISPLAY_MODE_PROPERTIES_2_KHR }
 fun MemoryStack.DisplayModeProperties2KHR(capacity: Int, block: VkDisplayModeProperties2KHR.Buffer.() -> Unit): VkDisplayModeProperties2KHR.Buffer = DisplayModeProperties2KHR(capacity).also(block)
 
+fun MemoryStack.DisplayNativeHdrSurfaceCapabilitiesAMD(): VkDisplayNativeHdrSurfaceCapabilitiesAMD = VkDisplayNativeHdrSurfaceCapabilitiesAMD.callocStack(this).apply { type = VkStructureType.DISPLAY_NATIVE_HDR_SURFACE_CAPABILITIES_AMD }
+fun MemoryStack.DisplayNativeHdrSurfaceCapabilitiesAMD(block: VkDisplayNativeHdrSurfaceCapabilitiesAMD.() -> Unit): VkDisplayNativeHdrSurfaceCapabilitiesAMD = DisplayNativeHdrSurfaceCapabilitiesAMD().also(block)
+fun MemoryStack.DisplayNativeHdrSurfaceCapabilitiesAMD(capacity: Int): VkDisplayNativeHdrSurfaceCapabilitiesAMD.Buffer = VkDisplayNativeHdrSurfaceCapabilitiesAMD.callocStack(capacity, this).onEach { it.type = VkStructureType.DISPLAY_NATIVE_HDR_SURFACE_CAPABILITIES_AMD }
+fun MemoryStack.DisplayNativeHdrSurfaceCapabilitiesAMD(capacity: Int, block: VkDisplayNativeHdrSurfaceCapabilitiesAMD.Buffer.() -> Unit): VkDisplayNativeHdrSurfaceCapabilitiesAMD.Buffer = DisplayNativeHdrSurfaceCapabilitiesAMD(capacity).also(block)
+
 fun MemoryStack.DisplayPlaneCapabilitiesKHR(): VkDisplayPlaneCapabilitiesKHR = VkDisplayPlaneCapabilitiesKHR.callocStack(this)
 fun MemoryStack.DisplayPlaneCapabilitiesKHR(block: VkDisplayPlaneCapabilitiesKHR.() -> Unit): VkDisplayPlaneCapabilitiesKHR = DisplayPlaneCapabilitiesKHR().also(block)
 fun MemoryStack.DisplayPlaneCapabilitiesKHR(capacity: Int): VkDisplayPlaneCapabilitiesKHR.Buffer = VkDisplayPlaneCapabilitiesKHR.callocStack(capacity, this)

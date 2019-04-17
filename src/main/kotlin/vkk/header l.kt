@@ -620,6 +620,41 @@ inline var VkPhysicalDeviceVertexAttributeDivisorFeaturesEXT.vertexAttributeInst
     set(value) = VkPhysicalDeviceVertexAttributeDivisorFeaturesEXT.nvertexAttributeInstanceRateZeroDivisor(adr, value.i)
 
 
+inline class VkPipelineCreationFeedback(val i: Int) {
+    companion object {
+        val FEEDBACK_VALID_BIT_EXT = VkPipelineCreationFeedback(0x00000001)
+        val APPLICATION_PIPELINE_CACHE_HIT_BIT_EXT = VkPipelineCreationFeedback(0x00000002)
+        val FEEDBACK_BASE_PIPELINE_ACCELERATION_BIT_EXT = VkPipelineCreationFeedback(0x00000004)
+    }
+}
+
+typealias VkPipelineCreationFeedbackFlagsEXT = VkFlags
+
+
+inline val VkPipelineCreationFeedbackEXT.flags: VkPipelineCreationFeedbackFlagsEXT
+    get() = VkPipelineCreationFeedbackEXT.nflags(adr)
+inline val VkPipelineCreationFeedbackEXT.duration: Long
+    get() = VkPipelineCreationFeedbackEXT.nduration(adr)
+
+
+inline var VkPipelineCreationFeedbackCreateInfoEXT.type: VkStructureType
+    get() = VkStructureType(VkPipelineCreationFeedbackCreateInfoEXT.nsType(adr))
+    set(value) = VkPipelineCreationFeedbackCreateInfoEXT.nsType(adr, value.i)
+inline var VkPipelineCreationFeedbackCreateInfoEXT.next: Ptr
+    get() = VkPipelineCreationFeedbackCreateInfoEXT.npNext(adr)
+    set(value) = VkPipelineCreationFeedbackCreateInfoEXT.npNext(adr, value)
+inline var VkPipelineCreationFeedbackCreateInfoEXT.pipelineCreationFeedback: VkPipelineCreationFeedbackEXT
+    get() = VkPipelineCreationFeedbackCreateInfoEXT.npPipelineCreationFeedback(adr)
+    set(value) = VkPipelineCreationFeedbackCreateInfoEXT.npPipelineCreationFeedback(adr, value)
+inline var VkPipelineCreationFeedbackCreateInfoEXT.pipelineStageCreationFeedbackCount: Int
+    get() = VkPipelineCreationFeedbackCreateInfoEXT.npipelineStageCreationFeedbackCount(adr)
+    @Deprecated("this will be set automatically")
+    set(value) = VkPipelineCreationFeedbackCreateInfoEXT.npipelineStageCreationFeedbackCount(adr, value)
+inline var VkPipelineCreationFeedbackCreateInfoEXT.pipelineStageCreationFeedbacks: VkPipelineCreationFeedbackEXT.Buffer
+    get() = VkPipelineCreationFeedbackCreateInfoEXT.npPipelineStageCreationFeedbacks(adr)
+    set(value) = VkPipelineCreationFeedbackCreateInfoEXT.npPipelineStageCreationFeedbacks(adr, value)
+
+
 inline var VkPhysicalDeviceComputeShaderDerivativesFeaturesNV.type: VkStructureType
     get() = VkStructureType(VkPhysicalDeviceComputeShaderDerivativesFeaturesNV.nsType(adr))
     set(value) = VkPhysicalDeviceComputeShaderDerivativesFeaturesNV.nsType(adr, value.i)
@@ -776,6 +811,27 @@ inline val VkPhysicalDevicePCIBusInfoPropertiesEXT.pciFunction: Int
     get() = VkPhysicalDevicePCIBusInfoPropertiesEXT.npciFunction(adr)
 
 
+inline var VkDisplayNativeHdrSurfaceCapabilitiesAMD.type: VkStructureType
+    get() = VkStructureType(VkDisplayNativeHdrSurfaceCapabilitiesAMD.nsType(adr))
+    set(value) = VkDisplayNativeHdrSurfaceCapabilitiesAMD.nsType(adr, value.i)
+inline var VkDisplayNativeHdrSurfaceCapabilitiesAMD.next: Ptr
+    get() = VkDisplayNativeHdrSurfaceCapabilitiesAMD.npNext(adr)
+    set(value) = VkDisplayNativeHdrSurfaceCapabilitiesAMD.npNext(adr, value)
+inline val VkDisplayNativeHdrSurfaceCapabilitiesAMD.localDimmingSupport: Boolean
+    get() = VkDisplayNativeHdrSurfaceCapabilitiesAMD.nlocalDimmingSupport(adr).bool
+
+
+inline var VkSwapchainDisplayNativeHdrCreateInfoAMD.type: VkStructureType
+    get() = VkStructureType(VkSwapchainDisplayNativeHdrCreateInfoAMD.nsType(adr))
+    set(value) = VkSwapchainDisplayNativeHdrCreateInfoAMD.nsType(adr, value.i)
+inline var VkSwapchainDisplayNativeHdrCreateInfoAMD.next: Ptr
+    get() = VkSwapchainDisplayNativeHdrCreateInfoAMD.npNext(adr)
+    set(value) = VkSwapchainDisplayNativeHdrCreateInfoAMD.npNext(adr, value)
+inline var VkSwapchainDisplayNativeHdrCreateInfoAMD.localDimmingEnable: Boolean
+    get() = VkSwapchainDisplayNativeHdrCreateInfoAMD.nlocalDimmingEnable(adr).bool
+    set(value) = VkSwapchainDisplayNativeHdrCreateInfoAMD.nlocalDimmingEnable(adr, value.i)
+
+
 inline var VkPhysicalDeviceFragmentDensityMapFeaturesEXT.type: VkStructureType
     get() = VkStructureType(VkPhysicalDeviceFragmentDensityMapFeaturesEXT.nsType(adr))
     set(value) = VkPhysicalDeviceFragmentDensityMapFeaturesEXT.nsType(adr, value.i)
@@ -905,8 +961,8 @@ inline var VkBufferDeviceAddressCreateInfoEXT.type: VkStructureType
 inline var VkBufferDeviceAddressCreateInfoEXT.next: Ptr
     get() = VkBufferDeviceAddressCreateInfoEXT.npNext(adr)
     set(value) = VkBufferDeviceAddressCreateInfoEXT.npNext(adr, value)
-inline var VkBufferDeviceAddressCreateInfoEXT.deviceAddress: VkDeviceSize
-    get() = VkDeviceSize(VkBufferDeviceAddressCreateInfoEXT.ndeviceAddress(adr))
+inline var VkBufferDeviceAddressCreateInfoEXT.deviceAddress: VkDeviceAddress
+    get() = VkDeviceAddress(VkBufferDeviceAddressCreateInfoEXT.ndeviceAddress(adr))
     set(value) = VkBufferDeviceAddressCreateInfoEXT.ndeviceAddress(adr, value.L)
 
 
@@ -1055,3 +1111,15 @@ inline var VkPhysicalDeviceYcbcrImageArraysFeaturesEXT.next: Ptr
 inline var VkPhysicalDeviceYcbcrImageArraysFeaturesEXT.ycbcrImageArrays: Boolean
     get() = VkPhysicalDeviceYcbcrImageArraysFeaturesEXT.nycbcrImageArrays(adr).bool
     set(value) = VkPhysicalDeviceYcbcrImageArraysFeaturesEXT.nycbcrImageArrays(adr, value.i)
+
+
+
+inline var VkPhysicalDeviceHostQueryResetFeaturesEXT.type: VkStructureType
+    get() = VkStructureType(VkPhysicalDeviceHostQueryResetFeaturesEXT.nsType(adr))
+    set(value) = VkPhysicalDeviceHostQueryResetFeaturesEXT.nsType(adr, value.i)
+inline var VkPhysicalDeviceHostQueryResetFeaturesEXT.next: Ptr
+    get() = VkPhysicalDeviceHostQueryResetFeaturesEXT.npNext(adr)
+    set(value) = VkPhysicalDeviceHostQueryResetFeaturesEXT.npNext(adr, value)
+inline var VkPhysicalDeviceHostQueryResetFeaturesEXT.hostQueryReset: Boolean
+    get() = VkPhysicalDeviceHostQueryResetFeaturesEXT.nhostQueryReset(adr).bool
+    set(value) = VkPhysicalDeviceHostQueryResetFeaturesEXT.nhostQueryReset(adr, value.i)

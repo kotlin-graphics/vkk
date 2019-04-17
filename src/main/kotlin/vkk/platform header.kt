@@ -1,5 +1,7 @@
 package vkk
 
+import glm_.bool
+import glm_.i
 import kool.Ptr
 import kool.adr
 import org.lwjgl.system.windows.SECURITY_ATTRIBUTES
@@ -302,6 +304,52 @@ inline var VkWin32KeyedMutexAcquireReleaseInfoNV.releaseSyncs: VkDeviceMemory_Bu
 inline var VkWin32KeyedMutexAcquireReleaseInfoNV.releaseKeys: LongBuffer?
     get() = VkWin32KeyedMutexAcquireReleaseInfoNV.npReleaseKeys(adr)
     set(value) = VkWin32KeyedMutexAcquireReleaseInfoNV.npReleaseKeys(adr, value)
+
+
+inline class VkFullScreenExclusiveEXT(val i: Int) {
+    companion object {
+        val DEFAULT_EXT = VkFullScreenExclusiveEXT(0)
+        val ALLOWED_EXT = VkFullScreenExclusiveEXT(1)
+        val DISALLOWED_EXT = VkFullScreenExclusiveEXT(2)
+        val APPLICATION_CONTROLLED_EXT = VkFullScreenExclusiveEXT(3)
+    }
+}
+
+
+inline var VkSurfaceFullScreenExclusiveInfoEXT.type: VkStructureType
+    get() = VkStructureType(VkSurfaceFullScreenExclusiveInfoEXT.nsType(adr))
+    set(value) = VkSurfaceFullScreenExclusiveInfoEXT.nsType(adr, value.i)
+inline var VkSurfaceFullScreenExclusiveInfoEXT.next: Ptr
+    get() = VkSurfaceFullScreenExclusiveInfoEXT.npNext(adr)
+    set(value) = VkSurfaceFullScreenExclusiveInfoEXT.npNext(adr, value)
+inline var VkSurfaceFullScreenExclusiveInfoEXT.fullScreenExclusive: VkFullScreenExclusiveEXT
+    get() = VkFullScreenExclusiveEXT(VkSurfaceFullScreenExclusiveInfoEXT.nfullScreenExclusive(adr))
+    set(value) = VkSurfaceFullScreenExclusiveInfoEXT.nfullScreenExclusive(adr, value.i)
+
+
+inline var VkSurfaceCapabilitiesFullScreenExclusiveEXT.type: VkStructureType
+    get() = VkStructureType(VkSurfaceCapabilitiesFullScreenExclusiveEXT.nsType(adr))
+    set(value) = VkSurfaceCapabilitiesFullScreenExclusiveEXT.nsType(adr, value.i)
+inline var VkSurfaceCapabilitiesFullScreenExclusiveEXT.next: Ptr
+    get() = VkSurfaceCapabilitiesFullScreenExclusiveEXT.npNext(adr)
+    set(value) = VkSurfaceCapabilitiesFullScreenExclusiveEXT.npNext(adr, value)
+inline var VkSurfaceCapabilitiesFullScreenExclusiveEXT.fullScreenExclusiveSupported: Boolean
+    get() = VkSurfaceCapabilitiesFullScreenExclusiveEXT.nfullScreenExclusiveSupported(adr).bool
+    set(value) = VkSurfaceCapabilitiesFullScreenExclusiveEXT.nfullScreenExclusiveSupported(adr, value.i)
+
+
+// VkPhysicalDeviceSurfaceInfo2KHR is already defined in the header
+
+
+inline var VkSurfaceFullScreenExclusiveWin32InfoEXT .type: VkStructureType
+    get() = VkStructureType(VkSurfaceFullScreenExclusiveWin32InfoEXT .nsType(adr))
+    set(value) = VkSurfaceFullScreenExclusiveWin32InfoEXT .nsType(adr, value.i)
+inline var VkSurfaceFullScreenExclusiveWin32InfoEXT .next: Ptr
+    get() = VkSurfaceFullScreenExclusiveWin32InfoEXT .npNext(adr)
+    set(value) = VkSurfaceFullScreenExclusiveWin32InfoEXT .npNext(adr, value)
+inline var VkSurfaceFullScreenExclusiveWin32InfoEXT .hmonitor: HMONITOR
+    get() = HMONITOR(VkSurfaceFullScreenExclusiveWin32InfoEXT .nhmonitor(adr))
+    set(value) = VkSurfaceFullScreenExclusiveWin32InfoEXT .nhmonitor(adr, value.L)
 
 
 // macosx
