@@ -578,18 +578,18 @@ inline val VkPhysicalDeviceMultiviewProperties.maxMultiviewInstanceIndex: Int
     get() = VkPhysicalDeviceMultiviewProperties.nmaxMultiviewInstanceIndex(adr)
 
 
-inline var VkPhysicalDeviceVariablePointerFeatures.type: VkStructureType
-    get() = VkStructureType(VkPhysicalDeviceVariablePointerFeatures.nsType(adr))
-    set(value) = VkPhysicalDeviceVariablePointerFeatures.nsType(adr, value.i)
-inline var VkPhysicalDeviceVariablePointerFeatures.next: Ptr
-    get() = VkPhysicalDeviceVariablePointerFeatures.npNext(adr)
-    set(value) = VkPhysicalDeviceVariablePointerFeatures.npNext(adr, value)
-inline var VkPhysicalDeviceVariablePointerFeatures.variablePointersStorageBuffer: Boolean
-    get() = VkPhysicalDeviceVariablePointerFeatures.nvariablePointersStorageBuffer(adr).bool
-    set(value) = VkPhysicalDeviceVariablePointerFeatures.nvariablePointersStorageBuffer(adr, value.i)
-inline var VkPhysicalDeviceVariablePointerFeatures.variablePointers: Boolean
-    get() = VkPhysicalDeviceVariablePointerFeatures.nvariablePointers(adr).bool
-    set(value) = VkPhysicalDeviceVariablePointerFeatures.nvariablePointers(adr, value.i)
+inline var VkPhysicalDeviceVariablePointersFeatures.type: VkStructureType
+    get() = VkStructureType(VkPhysicalDeviceVariablePointersFeatures.nsType(adr))
+    set(value) = VkPhysicalDeviceVariablePointersFeatures.nsType(adr, value.i)
+inline var VkPhysicalDeviceVariablePointersFeatures.next: Ptr
+    get() = VkPhysicalDeviceVariablePointersFeatures.npNext(adr)
+    set(value) = VkPhysicalDeviceVariablePointersFeatures.npNext(adr, value)
+inline var VkPhysicalDeviceVariablePointersFeatures.variablePointersStorageBuffer: Boolean
+    get() = VkPhysicalDeviceVariablePointersFeatures.nvariablePointersStorageBuffer(adr).bool
+    set(value) = VkPhysicalDeviceVariablePointersFeatures.nvariablePointersStorageBuffer(adr, value.i)
+inline var VkPhysicalDeviceVariablePointersFeatures.variablePointers: Boolean
+    get() = VkPhysicalDeviceVariablePointersFeatures.nvariablePointers(adr).bool
+    set(value) = VkPhysicalDeviceVariablePointersFeatures.nvariablePointers(adr, value.i)
 
 
 inline var VkPhysicalDeviceProtectedMemoryFeatures.type: VkStructureType
@@ -981,14 +981,14 @@ inline val VkDescriptorSetLayoutSupport.supported: Boolean
     get() = VkDescriptorSetLayoutSupport.nsupported(adr).bool
 
 
-inline var VkPhysicalDeviceShaderDrawParameterFeatures.type: VkStructureType
-    get() = VkStructureType(VkPhysicalDeviceShaderDrawParameterFeatures.nsType(adr))
-    set(value) = VkPhysicalDeviceShaderDrawParameterFeatures.nsType(adr, value.i)
-inline var VkPhysicalDeviceShaderDrawParameterFeatures.next: Ptr
-    get() = VkPhysicalDeviceShaderDrawParameterFeatures.npNext(adr)
-    set(value) = VkPhysicalDeviceShaderDrawParameterFeatures.npNext(adr, value)
-inline val VkPhysicalDeviceShaderDrawParameterFeatures.shaderDrawParameters: Boolean
-    get() = VkPhysicalDeviceShaderDrawParameterFeatures.nshaderDrawParameters(adr).bool
+inline var VkPhysicalDeviceShaderDrawParametersFeatures.type: VkStructureType
+    get() = VkStructureType(VkPhysicalDeviceShaderDrawParametersFeatures.nsType(adr))
+    set(value) = VkPhysicalDeviceShaderDrawParametersFeatures.nsType(adr, value.i)
+inline var VkPhysicalDeviceShaderDrawParametersFeatures.next: Ptr
+    get() = VkPhysicalDeviceShaderDrawParametersFeatures.npNext(adr)
+    set(value) = VkPhysicalDeviceShaderDrawParametersFeatures.npNext(adr, value)
+inline val VkPhysicalDeviceShaderDrawParametersFeatures.shaderDrawParameters: Boolean
+    get() = VkPhysicalDeviceShaderDrawParametersFeatures.nshaderDrawParameters(adr).bool
 
 
 inline class VkColorSpaceKHR(val i: Int) {

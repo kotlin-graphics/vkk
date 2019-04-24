@@ -927,21 +927,21 @@ inline var VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV.dedicatedA
     set(value) = VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV.ndedicatedAllocationImageAliasing(adr, value.i)
 
 
-inline var VkPhysicalDeviceBufferAddressFeaturesEXT.type: VkStructureType
-    get() = VkStructureType(VkPhysicalDeviceBufferAddressFeaturesEXT.nsType(adr))
-    set(value) = VkPhysicalDeviceBufferAddressFeaturesEXT.nsType(adr, value.i)
-inline var VkPhysicalDeviceBufferAddressFeaturesEXT.next: Ptr
-    get() = VkPhysicalDeviceBufferAddressFeaturesEXT.npNext(adr)
-    set(value) = VkPhysicalDeviceBufferAddressFeaturesEXT.npNext(adr, value)
-inline var VkPhysicalDeviceBufferAddressFeaturesEXT.bufferDeviceAddress: Boolean
-    get() = VkPhysicalDeviceBufferAddressFeaturesEXT.nbufferDeviceAddress(adr).bool
-    set(value) = VkPhysicalDeviceBufferAddressFeaturesEXT.nbufferDeviceAddress(adr, value.i)
-inline var VkPhysicalDeviceBufferAddressFeaturesEXT.bufferDeviceAddressCaptureReplay: Boolean
-    get() = VkPhysicalDeviceBufferAddressFeaturesEXT.nbufferDeviceAddressCaptureReplay(adr).bool
-    set(value) = VkPhysicalDeviceBufferAddressFeaturesEXT.nbufferDeviceAddressCaptureReplay(adr, value.i)
-inline var VkPhysicalDeviceBufferAddressFeaturesEXT.bufferDeviceAddressMultiDevice: Boolean
-    get() = VkPhysicalDeviceBufferAddressFeaturesEXT.nbufferDeviceAddressMultiDevice(adr).bool
-    set(value) = VkPhysicalDeviceBufferAddressFeaturesEXT.nbufferDeviceAddressMultiDevice(adr, value.i)
+inline var VkPhysicalDeviceBufferDeviceAddressFeaturesEXT .type: VkStructureType
+    get() = VkStructureType(VkPhysicalDeviceBufferDeviceAddressFeaturesEXT .nsType(adr))
+    set(value) = VkPhysicalDeviceBufferDeviceAddressFeaturesEXT .nsType(adr, value.i)
+inline var VkPhysicalDeviceBufferDeviceAddressFeaturesEXT .next: Ptr
+    get() = VkPhysicalDeviceBufferDeviceAddressFeaturesEXT .npNext(adr)
+    set(value) = VkPhysicalDeviceBufferDeviceAddressFeaturesEXT .npNext(adr, value)
+inline var VkPhysicalDeviceBufferDeviceAddressFeaturesEXT .bufferDeviceAddress: Boolean
+    get() = VkPhysicalDeviceBufferDeviceAddressFeaturesEXT .nbufferDeviceAddress(adr).bool
+    set(value) = VkPhysicalDeviceBufferDeviceAddressFeaturesEXT .nbufferDeviceAddress(adr, value.i)
+inline var VkPhysicalDeviceBufferDeviceAddressFeaturesEXT .bufferDeviceAddressCaptureReplay: Boolean
+    get() = VkPhysicalDeviceBufferDeviceAddressFeaturesEXT .nbufferDeviceAddressCaptureReplay(adr).bool
+    set(value) = VkPhysicalDeviceBufferDeviceAddressFeaturesEXT .nbufferDeviceAddressCaptureReplay(adr, value.i)
+inline var VkPhysicalDeviceBufferDeviceAddressFeaturesEXT .bufferDeviceAddressMultiDevice: Boolean
+    get() = VkPhysicalDeviceBufferDeviceAddressFeaturesEXT .nbufferDeviceAddressMultiDevice(adr).bool
+    set(value) = VkPhysicalDeviceBufferDeviceAddressFeaturesEXT .nbufferDeviceAddressMultiDevice(adr, value.i)
 
 
 inline var VkBufferDeviceAddressInfoEXT.type: VkStructureType

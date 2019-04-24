@@ -590,6 +590,9 @@ fun VkDevice.getGroupPresentCapabilitiesKHR(deviceGroupPresentCapabilities: VkDe
 fun VkDevice.getGroupSurfacePresentModesKHR(surface: VkSurfaceKHR): VkDeviceGroupPresentModeFlagsKHR =
         stak.intAddress { VK_CHECK_RESULT(KHRDeviceGroup.nvkGetDeviceGroupSurfacePresentModesKHR(this, surface.L, it)) }
 
+infix fun VkDevice.getImageViewHandleNVX(info: VkImageViewHandleInfoNVX): Int =
+        NVXImageViewHandle.nvkGetImageViewHandleNVX(this, info.adr)
+
 fun VkDevice.getMemoryCommitment(memory: VkDeviceMemory): VkDeviceSize =
         VkDeviceSize(stak.longAddress { VK10.nvkGetDeviceMemoryCommitment(this, memory.L, it) })
 
@@ -695,9 +698,9 @@ fun VkDevice.getMemoryWin32HandlePropertiesKHR(handleType: VkExternalMemoryHandl
 
 
 fun VkDevice.getPastPresentationTimingGOOGLE(swapchain: VkSwapchainKHR, physicalDeviceGroupProperties: VkPhysicalDeviceGroupProperties.Buffer): VkResult =
-        VkResult(stak.intAddress(physicalDeviceGroupProperties.rem) {
-            GOOGLEDisplayTiming.nvkGetPastPresentationTimingGOOGLE(this, swapchain.L, it, physicalDeviceGroupProperties.adr)
-        }).apply { check() }
+        stak.intAddress(physicalDeviceGroupProperties.rem) {
+            VkResult(GOOGLEDisplayTiming.nvkGetPastPresentationTimingGOOGLE(this, swapchain.L, it, physicalDeviceGroupProperties.adr))
+        }.apply { check() }
 
 inline fun <reified T> VkDevice.getPastPresentationTimingGOOGLE(swapchain: VkSwapchainKHR): T = when (T::class) {
     Int::class -> stak.intAddress {
@@ -722,9 +725,9 @@ inline fun <reified T> VkDevice.getPastPresentationTimingGOOGLE(swapchain: VkSwa
 
 
 fun VkDevice.getPipelineCacheData(pipelineCache: VkPipelineCache, data: ByteBuffer): VkResult =
-        VkResult(stak.longAddress(data.rem.L) {
-            VK10.nvkGetPipelineCacheData(this, pipelineCache.L, it, data.adr)
-        }).apply { check() }
+        stak.longAddress(data.rem.L) {
+            VkResult(VK10.nvkGetPipelineCacheData(this, pipelineCache.L, it, data.adr))
+        }.apply { check() }
 
 inline fun <reified T> VkDevice.getPipelineCacheData(pipelineCache: VkPipelineCache): T = when (T::class) {
     Int::class -> stak.longAddress {
@@ -770,9 +773,9 @@ infix fun VkDevice.getSemaphoreWin32HandleKHR(getWin32HandleInfo: VkSemaphoreGet
 
 
 fun VkDevice.getShaderInfoAMD(pipeline: VkPipeline, shaderStage: VkShaderStage, infoType: VkShaderInfoTypeAMD, info: ByteBuffer): VkResult =
-        VkResult(stak.longAddress(info.rem.L) {
-            AMDShaderInfo.nvkGetShaderInfoAMD(this, pipeline.L, shaderStage.i, infoType.i, it, info.adr)
-        }).apply { check() }
+        stak.longAddress(info.rem.L) {
+            VkResult(AMDShaderInfo.nvkGetShaderInfoAMD(this, pipeline.L, shaderStage.i, infoType.i, it, info.adr))
+        }.apply { check() }
 
 inline fun <reified T> VkDevice.getShaderInfoAMD(pipeline: VkPipeline, shaderStage: VkShaderStage, infoType: VkShaderInfoTypeAMD): T = when (T::class) {
     Int::class -> stak.longAddress {
@@ -803,9 +806,9 @@ fun VkDevice.getSwapchainCounterEXT(swapchain: VkSwapchainKHR, counter: VkSurfac
 
 
 fun VkDevice.getSwapchainImagesKHR(swapchain: VkSwapchainKHR, swapchainImages: VkImage_Buffer): VkResult =
-        VkResult(stak.intAddress(swapchainImages.rem) {
-            KHRSwapchain.nvkGetSwapchainImagesKHR(this, swapchain.L, it, swapchainImages.adr)
-        }).apply { check() }
+        stak.intAddress(swapchainImages.rem) {
+            VkResult(KHRSwapchain.nvkGetSwapchainImagesKHR(this, swapchain.L, it, swapchainImages.adr))
+        }.apply { check() }
 
 inline fun <reified T> VkDevice.getSwapchainImagesKHR(swapchain: VkSwapchainKHR): T = when (T::class) {
     Int::class -> stak.intAddress {
@@ -834,9 +837,9 @@ infix fun VkDevice.getSwapchainStatusKHR(swapchain: VkSwapchainKHR): VkResult =
 
 
 fun VkDevice.getValidationCacheDataEXT(validationCache: VkValidationCacheEXT, data: ByteBuffer): VkResult =
-        VkResult(stak.longAddress(data.rem.L) {
-            EXTValidationCache.nvkGetValidationCacheDataEXT(this, validationCache.L, it, data.adr)
-        }).apply { check() }
+        stak.longAddress(data.rem.L) {
+            VkResult(EXTValidationCache.nvkGetValidationCacheDataEXT(this, validationCache.L, it, data.adr))
+        }.apply { check() }
 
 inline fun <reified T> VkDevice.getValidationCacheDataEXT(swapchain: VkSwapchainKHR): T = when (T::class) {
     Int::class -> stak.longAddress {

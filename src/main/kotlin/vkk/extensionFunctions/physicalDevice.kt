@@ -32,8 +32,8 @@ fun VkPhysicalDevice.enumerateDeviceExtensionProperties(layerName: String? = nul
             val pPropertyCount = it.nmalloc(4, Int.BYTES)
             memPutInt(pPropertyCount, properties.rem)
             val pLayerName = layerName?.toUTF8(it)?.let(::memAddress) ?: NULL
-            VkResult(VK10.nvkEnumerateDeviceExtensionProperties(this, pLayerName, pPropertyCount, properties.adr)).apply { check() }
-        }
+            VkResult(VK10.nvkEnumerateDeviceExtensionProperties(this, pLayerName, pPropertyCount, properties.adr))
+        }.apply { check() }
 
 inline fun <reified T> VkPhysicalDevice.enumerateDeviceExtensionProperties(layerName: String? = null): T = when (T::class) {
     Int::class -> stak {
@@ -67,8 +67,8 @@ val VkPhysicalDevice.extensionProperties: VkExtensionProperties.Buffer
 
 fun VkPhysicalDevice.enumerateDeviceLayerProperties(properties: VkLayerProperties.Buffer): VkResult =
         stak.intAddress(properties.rem) {
-            VkResult(VK10.nvkEnumerateDeviceLayerProperties(this, it, properties.adr)).apply { check() }
-        }
+            VkResult(VK10.nvkEnumerateDeviceLayerProperties(this, it, properties.adr))
+        }.apply { check() }
 
 inline fun <reified T> VkPhysicalDevice.enumerateDeviceLayerProperties(): T = when (T::class) {
     Int::class -> stak.intAddress {
@@ -162,8 +162,8 @@ fun VkPhysicalDevice.getDisplayPlaneCapabilitiesKHR(mode: VkDisplayModeKHR, plan
 
 fun VkPhysicalDevice.getDisplayPlaneSupportedDisplaysKHR(planeIndex: Int, displays: VkDisplayKHR_Buffer): VkResult =
         stak.intAddress(displays.rem) {
-            VkResult(KHRDisplay.nvkGetDisplayPlaneSupportedDisplaysKHR(this, planeIndex, it, displays.adr)).apply { check() }
-        }
+            VkResult(KHRDisplay.nvkGetDisplayPlaneSupportedDisplaysKHR(this, planeIndex, it, displays.adr))
+        }.apply { check() }
 
 inline fun <reified T> VkPhysicalDevice.getDisplayPlaneSupportedDisplaysKHR(planeIndex: Int): T = when (T::class) {
     Int::class -> stak.intAddress {
@@ -190,8 +190,8 @@ inline fun <reified T> VkPhysicalDevice.getDisplayPlaneSupportedDisplaysKHR(plan
 
 fun VkPhysicalDevice.getCalibrateableTimeDomainsEXT(timeDomains: VkTimeDomainEXT_Buffer): VkResult =
         stak.intAddress(timeDomains.rem) {
-            VkResult(EXTCalibratedTimestamps.nvkGetPhysicalDeviceCalibrateableTimeDomainsEXT(this, it, timeDomains.adr)).apply { check() }
-        }
+            VkResult(EXTCalibratedTimestamps.nvkGetPhysicalDeviceCalibrateableTimeDomainsEXT(this, it, timeDomains.adr))
+        }.apply { check() }
 
 inline fun <reified T> VkPhysicalDevice.getCalibrateableTimeDomainsEXT(): T = when (T::class) {
     Int::class -> stak.intAddress {
@@ -219,10 +219,41 @@ val VkPhysicalDevice.calibrateableTimeDomainsEXT: VkTimeDomainEXT_Buffer
     get() = getCalibrateableTimeDomainsEXT()
 
 
+fun VkPhysicalDevice.getCooperativeMatrixPropertiesNV(properties: VkCooperativeMatrixPropertiesNV.Buffer): VkResult =
+        stak.intAddress(properties.rem) {
+            VkResult(NVCooperativeMatrix.nvkGetPhysicalDeviceCooperativeMatrixPropertiesNV(this, it, properties.adr))
+        }.apply { check() }
+
+inline fun <reified T> VkPhysicalDevice.getCooperativeMatrixPropertiesNV(): T = when (T::class) {
+    Int::class -> stak.intAddress {
+        VK_CHECK_RESULT(NVCooperativeMatrix.nvkGetPhysicalDeviceCooperativeMatrixPropertiesNV(this, it, NULL))
+    } as T
+    VkCooperativeMatrixPropertiesNV.Buffer::class -> {
+        val s = stackGet()
+        val pPropertiesCount = s.nmalloc(4, Int.BYTES)
+        var result: VkResult
+        lateinit var properties: VkCooperativeMatrixPropertiesNV.Buffer
+        do {
+            result = VkResult(NVCooperativeMatrix.nvkGetPhysicalDeviceCooperativeMatrixPropertiesNV(this, pPropertiesCount, NULL))
+            val timeDomainCount = memGetInt(pPropertiesCount)
+            if (result == VkResult.SUCCESS && timeDomainCount != 0) {
+                properties = s.CooperativeMatrixPropertiesNV(timeDomainCount)
+                VK_CHECK_RESULT(NVCooperativeMatrix.nvkGetPhysicalDeviceCooperativeMatrixPropertiesNV(this, pPropertiesCount, properties.adr))
+            }
+        } while (result == VkResult.INCOMPLETE)
+        properties as T
+    }
+    else -> throw Exception("[VkPhysicalDevice::getCooperativeMatrixPropertiesNV] Invalid T")
+}
+
+val VkPhysicalDevice.cooperativeMatrixPropertiesNV: VkCooperativeMatrixPropertiesNV.Buffer
+    get() = getCooperativeMatrixPropertiesNV()
+
+
 fun VkPhysicalDevice.getDisplayPlaneProperties2KHR(properties: VkDisplayPlaneProperties2KHR.Buffer): VkResult =
         stak.intAddress(properties.rem) {
-            VkResult(KHRGetDisplayProperties2.nvkGetPhysicalDeviceDisplayPlaneProperties2KHR(this, it, properties.adr)).apply { check() }
-        }
+            VkResult(KHRGetDisplayProperties2.nvkGetPhysicalDeviceDisplayPlaneProperties2KHR(this, it, properties.adr))
+        }.apply { check() }
 
 inline fun <reified T> VkPhysicalDevice.getDisplayPlaneProperties2KHR(): T = when (T::class) {
     Int::class -> stak.intAddress {
@@ -252,8 +283,8 @@ inline val VkPhysicalDevice.displayPlaneProperties2KHR: VkDisplayPlaneProperties
 
 fun VkPhysicalDevice.getDisplayPlanePropertiesKHR(properties: VkDisplayPlanePropertiesKHR.Buffer): VkResult =
         stak.intAddress(properties.rem) {
-            VkResult(KHRDisplay.nvkGetPhysicalDeviceDisplayPlanePropertiesKHR(this, it, properties.adr)).apply { check() }
-        }
+            VkResult(KHRDisplay.nvkGetPhysicalDeviceDisplayPlanePropertiesKHR(this, it, properties.adr))
+        }.apply { check() }
 
 inline fun <reified T> VkPhysicalDevice.getDisplayPlanePropertiesKHR(): T = when (T::class) {
     Int::class -> stak.intAddress {
@@ -283,8 +314,8 @@ inline val VkPhysicalDevice.displayPlanePropertiesKHR: VkDisplayPlanePropertiesK
 
 fun VkPhysicalDevice.getDisplayProperties2KHR(properties: VkDisplayProperties2KHR.Buffer): VkResult =
         stak.intAddress(properties.rem) {
-            VkResult(KHRGetDisplayProperties2.nvkGetPhysicalDeviceDisplayProperties2KHR(this, it, properties.adr)).apply { check() }
-        }
+            VkResult(KHRGetDisplayProperties2.nvkGetPhysicalDeviceDisplayProperties2KHR(this, it, properties.adr))
+        }.apply { check() }
 
 inline fun <reified T> VkPhysicalDevice.getDisplayProperties2KHR(): T = when (T::class) {
     Int::class -> stak.intAddress {
@@ -314,8 +345,8 @@ inline val VkPhysicalDevice.displayProperties2KHR: VkDisplayProperties2KHR.Buffe
 
 fun VkPhysicalDevice.getDisplayPropertiesKHR(properties: VkDisplayPropertiesKHR.Buffer): VkResult =
         stak.intAddress(properties.rem) {
-            VkResult(KHRDisplay.nvkGetPhysicalDeviceDisplayPropertiesKHR(this, it, properties.adr)).apply { check() }
-        }
+            VkResult(KHRDisplay.nvkGetPhysicalDeviceDisplayPropertiesKHR(this, it, properties.adr))
+        }.apply { check() }
 
 inline fun <reified T> VkPhysicalDevice.getDisplayPropertiesKHR(): T = when (T::class) {
     Int::class -> stak.intAddress {
@@ -435,8 +466,8 @@ fun VkPhysicalDevice.getMultisamplePropertiesEXT(samples: VkSampleCount, multisa
 
 fun VkPhysicalDevice.getPresentRectanglesKHR(surface: VkSurfaceKHR, rects: VkRect2D.Buffer): VkResult =
         stak.intAddress(rects.rem) {
-            VkResult(KHRDeviceGroup.nvkGetPhysicalDevicePresentRectanglesKHR(this, surface.L, it, rects.adr)).apply { check() }
-        }
+            VkResult(KHRDeviceGroup.nvkGetPhysicalDevicePresentRectanglesKHR(this, surface.L, it, rects.adr))
+        }.apply { check() }
 
 inline infix fun <reified T> VkPhysicalDevice.getPresentRectanglesKHR(surface: VkSurfaceKHR): T = when (T::class) {
     Int::class -> stak.intAddress {
@@ -728,8 +759,8 @@ inline infix fun <reified T> VkPhysicalDevice.getSurfaceFormats2KHR(surfaceInfo:
 
 fun VkPhysicalDevice.getSurfaceFormatsKHR(surface: VkSurfaceKHR, surfaceFormats: VkSurfaceFormatKHR.Buffer): VkResult =
         stak.intAddress(surfaceFormats.rem) {
-            VkResult(KHRSurface.nvkGetPhysicalDeviceSurfaceFormatsKHR(this, surface.L, it, surfaceFormats.adr)).apply { check() }
-        }
+            VkResult(KHRSurface.nvkGetPhysicalDeviceSurfaceFormatsKHR(this, surface.L, it, surfaceFormats.adr))
+        }.apply { check() }
 
 inline infix fun <reified T> VkPhysicalDevice.getSurfaceFormatsKHR(surface: VkSurfaceKHR): T = when (T::class) {
     Int::class -> stak.intAddress {

@@ -1,6 +1,8 @@
 package vkk
 
-import glm_.*
+import glm_.BYTES
+import glm_.L
+import glm_.f
 import glm_.vec2.Vec2i
 import kool.adr
 import kool.set
@@ -10,12 +12,15 @@ import org.lwjgl.system.Pointer
 import org.lwjgl.system.Struct
 import org.lwjgl.vulkan.*
 import vkk.entities.*
+//import java.lang.ref.Cleaner
 import java.nio.ByteBuffer
 import java.nio.LongBuffer
 import kotlin.reflect.KMutableProperty0
 
 
 object vk {
+
+//    val cleaner by lazy { Cleaner.create() }
 
     // type constructors ===============================================================================================
 

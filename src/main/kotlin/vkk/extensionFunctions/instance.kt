@@ -92,9 +92,9 @@ fun VkInstance.destroy(surface: VkSurfaceKHR) =
 
 
 fun VkInstance.enumeratePhysicalDeviceGroups(physicalDeviceGroupProperties: VkPhysicalDeviceGroupProperties.Buffer): VkResult =
-        VkResult(stak.intAddress(physicalDeviceGroupProperties.rem) {
-            VK11.nvkEnumeratePhysicalDeviceGroups(this, it, physicalDeviceGroupProperties.adr)
-        }).apply { check() }
+        stak.intAddress(physicalDeviceGroupProperties.rem) {
+            VkResult(VK11.nvkEnumeratePhysicalDeviceGroups(this, it, physicalDeviceGroupProperties.adr))
+        }.apply { check() }
 
 inline fun <reified T> VkInstance.enumeratePhysicalDeviceGroups(): T = when (T::class) {
     Int::class -> stak.intAddress {
@@ -122,9 +122,9 @@ val VkInstance.enumeratePhysicalDeviceGroups: VkPhysicalDeviceGroupProperties.Bu
 
 
 fun VkInstance.enumeratePhysicalDeviceGroupsKHR(physicalDeviceGroupProperties: VkPhysicalDeviceGroupProperties.Buffer): VkResult =
-        VkResult(stak.intAddress(physicalDeviceGroupProperties.rem) {
-            KHRDeviceGroupCreation.nvkEnumeratePhysicalDeviceGroupsKHR(this, it, physicalDeviceGroupProperties.adr)
-        }).apply { check() }
+        stak.intAddress(physicalDeviceGroupProperties.rem) {
+            VkResult(KHRDeviceGroupCreation.nvkEnumeratePhysicalDeviceGroupsKHR(this, it, physicalDeviceGroupProperties.adr))
+        }.apply { check() }
 
 inline fun <reified T> VkInstance.enumeratePhysicalDeviceGroupsKHR(): T = when (T::class) {
     Int::class -> stak.intAddress {
@@ -152,9 +152,9 @@ val VkInstance.enumeratePhysicalDeviceGroupsKHR: VkPhysicalDeviceGroupProperties
 
 
 fun VkInstance.enumeratePhysicalDevices(physicalDevices: VkPhysicalDevice_Buffer): VkResult =
-        VkResult(stak.intAddress(physicalDevices.rem) {
-            VK10.nvkEnumeratePhysicalDevices(this, it, physicalDevices.adr)
-        }).apply { check() }
+        stak.intAddress(physicalDevices.rem) {
+            VkResult(VK10.nvkEnumeratePhysicalDevices(this, it, physicalDevices.adr))
+        }.apply { check() }
 
 inline fun <reified T> VkInstance.enumeratePhysicalDevices(): T = when (T::class) {
     Int::class -> stak.intAddress {
