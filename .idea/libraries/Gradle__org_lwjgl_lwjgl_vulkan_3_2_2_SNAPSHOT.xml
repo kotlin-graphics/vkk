@@ -1,13 +1,11 @@
 <component name="libraryTable">
   <library name="Gradle: org.lwjgl:lwjgl-vulkan:3.2.2-SNAPSHOT">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-vulkan/3.2.2-SNAPSHOT/e9c66d09828f4f9692c9301d9965743fc5fcf123/lwjgl-vulkan-3.2.2-SNAPSHOT.jar!/" />
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-vulkan/3.2.2-SNAPSHOT/dc5c5a8e364981996e84c2a9d8d36be6445ceaae/lwjgl-vulkan-3.2.2-SNAPSHOT.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-vulkan/3.2.2-SNAPSHOT/e79a697a3b4ccec239d353b9c1e684133ff7010e/lwjgl-vulkan-3.2.2-SNAPSHOT.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-vulkan/3.2.2-SNAPSHOT/f3999f90fea1d57c69f3d0c743a7e2c1d6a78928/lwjgl-vulkan-3.2.2-SNAPSHOT-sources.jar!/" />
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-vulkan/3.2.2-SNAPSHOT/9454d5793ce8cd6d706adb59fe483b5247e7dc86/lwjgl-vulkan-3.2.2-SNAPSHOT-sources.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-vulkan/3.2.2-SNAPSHOT/cab6df56946c2570ac725b3fb62c9b4cd9a1414a/lwjgl-vulkan-3.2.2-SNAPSHOT-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

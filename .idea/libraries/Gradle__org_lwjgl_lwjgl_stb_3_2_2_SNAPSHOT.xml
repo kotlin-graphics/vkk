@@ -1,13 +1,11 @@
 <component name="libraryTable">
   <library name="Gradle: org.lwjgl:lwjgl-stb:3.2.2-SNAPSHOT">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-stb/3.2.2-SNAPSHOT/84cf9b1d437dc88cc6d67c5b725c5423741125cd/lwjgl-stb-3.2.2-SNAPSHOT.jar!/" />
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-stb/3.2.2-SNAPSHOT/c606c575f0dfd9186f30683313dfb0d6b4ca9bde/lwjgl-stb-3.2.2-SNAPSHOT.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-stb/3.2.2-SNAPSHOT/ac7305fcb31af82ec7419a8d9600b24f13a4460c/lwjgl-stb-3.2.2-SNAPSHOT.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-stb/3.2.2-SNAPSHOT/ccb16d04d50c4ca3b0646a25f8b818adbf9b682a/lwjgl-stb-3.2.2-SNAPSHOT-sources.jar!/" />
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-stb/3.2.2-SNAPSHOT/9f22d36c699390247c43af720e450ed1b48634af/lwjgl-stb-3.2.2-SNAPSHOT-sources.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-stb/3.2.2-SNAPSHOT/a1ee6d57eb40573c149599bd48862ce41302aafd/lwjgl-stb-3.2.2-SNAPSHOT-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

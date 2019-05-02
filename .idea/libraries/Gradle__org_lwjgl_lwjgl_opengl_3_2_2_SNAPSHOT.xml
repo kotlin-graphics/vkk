@@ -1,13 +1,11 @@
 <component name="libraryTable">
   <library name="Gradle: org.lwjgl:lwjgl-opengl:3.2.2-SNAPSHOT">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-opengl/3.2.2-SNAPSHOT/43af1f813b5e69e4761e5b8d26fd72d020cf3703/lwjgl-opengl-3.2.2-SNAPSHOT.jar!/" />
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-opengl/3.2.2-SNAPSHOT/ec4b5583b053191219d73f36534ea67fd44c2b0f/lwjgl-opengl-3.2.2-SNAPSHOT.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-opengl/3.2.2-SNAPSHOT/33eaec28859cadb4e57849b3219ff075a062efc2/lwjgl-opengl-3.2.2-SNAPSHOT.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-opengl/3.2.2-SNAPSHOT/3ec93516a11217c4243101215a13b6ec4d81cdf2/lwjgl-opengl-3.2.2-SNAPSHOT-sources.jar!/" />
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-opengl/3.2.2-SNAPSHOT/d7c96746520b0f7006aff655139724b2b85385f5/lwjgl-opengl-3.2.2-SNAPSHOT-sources.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-opengl/3.2.2-SNAPSHOT/3f3b05dc1588200e86881c7d46115978581a26ce/lwjgl-opengl-3.2.2-SNAPSHOT-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

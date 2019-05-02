@@ -927,21 +927,21 @@ inline var VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV.dedicatedA
     set(value) = VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV.ndedicatedAllocationImageAliasing(adr, value.i)
 
 
-inline var VkPhysicalDeviceBufferDeviceAddressFeaturesEXT .type: VkStructureType
-    get() = VkStructureType(VkPhysicalDeviceBufferDeviceAddressFeaturesEXT .nsType(adr))
-    set(value) = VkPhysicalDeviceBufferDeviceAddressFeaturesEXT .nsType(adr, value.i)
-inline var VkPhysicalDeviceBufferDeviceAddressFeaturesEXT .next: Ptr
-    get() = VkPhysicalDeviceBufferDeviceAddressFeaturesEXT .npNext(adr)
-    set(value) = VkPhysicalDeviceBufferDeviceAddressFeaturesEXT .npNext(adr, value)
-inline var VkPhysicalDeviceBufferDeviceAddressFeaturesEXT .bufferDeviceAddress: Boolean
-    get() = VkPhysicalDeviceBufferDeviceAddressFeaturesEXT .nbufferDeviceAddress(adr).bool
-    set(value) = VkPhysicalDeviceBufferDeviceAddressFeaturesEXT .nbufferDeviceAddress(adr, value.i)
-inline var VkPhysicalDeviceBufferDeviceAddressFeaturesEXT .bufferDeviceAddressCaptureReplay: Boolean
-    get() = VkPhysicalDeviceBufferDeviceAddressFeaturesEXT .nbufferDeviceAddressCaptureReplay(adr).bool
-    set(value) = VkPhysicalDeviceBufferDeviceAddressFeaturesEXT .nbufferDeviceAddressCaptureReplay(adr, value.i)
-inline var VkPhysicalDeviceBufferDeviceAddressFeaturesEXT .bufferDeviceAddressMultiDevice: Boolean
-    get() = VkPhysicalDeviceBufferDeviceAddressFeaturesEXT .nbufferDeviceAddressMultiDevice(adr).bool
-    set(value) = VkPhysicalDeviceBufferDeviceAddressFeaturesEXT .nbufferDeviceAddressMultiDevice(adr, value.i)
+inline var VkPhysicalDeviceBufferDeviceAddressFeaturesEXT.type: VkStructureType
+    get() = VkStructureType(VkPhysicalDeviceBufferDeviceAddressFeaturesEXT.nsType(adr))
+    set(value) = VkPhysicalDeviceBufferDeviceAddressFeaturesEXT.nsType(adr, value.i)
+inline var VkPhysicalDeviceBufferDeviceAddressFeaturesEXT.next: Ptr
+    get() = VkPhysicalDeviceBufferDeviceAddressFeaturesEXT.npNext(adr)
+    set(value) = VkPhysicalDeviceBufferDeviceAddressFeaturesEXT.npNext(adr, value)
+inline var VkPhysicalDeviceBufferDeviceAddressFeaturesEXT.bufferDeviceAddress: Boolean
+    get() = VkPhysicalDeviceBufferDeviceAddressFeaturesEXT.nbufferDeviceAddress(adr).bool
+    set(value) = VkPhysicalDeviceBufferDeviceAddressFeaturesEXT.nbufferDeviceAddress(adr, value.i)
+inline var VkPhysicalDeviceBufferDeviceAddressFeaturesEXT.bufferDeviceAddressCaptureReplay: Boolean
+    get() = VkPhysicalDeviceBufferDeviceAddressFeaturesEXT.nbufferDeviceAddressCaptureReplay(adr).bool
+    set(value) = VkPhysicalDeviceBufferDeviceAddressFeaturesEXT.nbufferDeviceAddressCaptureReplay(adr, value.i)
+inline var VkPhysicalDeviceBufferDeviceAddressFeaturesEXT.bufferDeviceAddressMultiDevice: Boolean
+    get() = VkPhysicalDeviceBufferDeviceAddressFeaturesEXT.nbufferDeviceAddressMultiDevice(adr).bool
+    set(value) = VkPhysicalDeviceBufferDeviceAddressFeaturesEXT.nbufferDeviceAddressMultiDevice(adr, value.i)
 
 
 inline var VkBufferDeviceAddressInfoEXT.type: VkStructureType
@@ -1112,6 +1112,19 @@ inline var VkPhysicalDeviceYcbcrImageArraysFeaturesEXT.ycbcrImageArrays: Boolean
     get() = VkPhysicalDeviceYcbcrImageArraysFeaturesEXT.nycbcrImageArrays(adr).bool
     set(value) = VkPhysicalDeviceYcbcrImageArraysFeaturesEXT.nycbcrImageArrays(adr, value.i)
 
+
+typealias VkHeadlessSurfaceCreateFlagsEXT = VkFlags
+
+
+inline var VkHeadlessSurfaceCreateInfoEXT.type: VkStructureType
+    get() = VkStructureType(VkHeadlessSurfaceCreateInfoEXT.nsType(adr))
+    set(value) = VkHeadlessSurfaceCreateInfoEXT.nsType(adr, value.i)
+inline var VkHeadlessSurfaceCreateInfoEXT.next: Ptr
+    get() = VkHeadlessSurfaceCreateInfoEXT.npNext(adr)
+    set(value) = VkHeadlessSurfaceCreateInfoEXT.npNext(adr, value)
+inline var VkHeadlessSurfaceCreateInfoEXT.flags: VkHeadlessSurfaceCreateFlagsEXT
+    get() = VkHeadlessSurfaceCreateInfoEXT.nflags(adr)
+    set(value) = VkHeadlessSurfaceCreateInfoEXT.nflags(adr, value)
 
 
 inline var VkPhysicalDeviceHostQueryResetFeaturesEXT.type: VkStructureType
