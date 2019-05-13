@@ -18,6 +18,10 @@ import java.nio.LongBuffer
 import kotlin.reflect.KMutableProperty0
 
 
+//fun main() {
+//    println(VK10.VK_HEADER_VERSION)
+//}
+
 object vk {
 
 //    val cleaner by lazy { Cleaner.create() }

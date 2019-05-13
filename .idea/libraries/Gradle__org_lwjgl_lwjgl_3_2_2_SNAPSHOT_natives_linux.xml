@@ -1,11 +1,11 @@
 <component name="libraryTable">
   <library name="Gradle: org.lwjgl:lwjgl:3.2.2-SNAPSHOT:natives-linux">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl/3.2.2-SNAPSHOT/3af3d3e91fd69844b8f88489a324b415eb7e382a/lwjgl-3.2.2-SNAPSHOT-natives-linux.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl/3.2.2-SNAPSHOT/15a7c165d67b36e254adf09fd9f28eb7500d8a7f/lwjgl-3.2.2-SNAPSHOT-natives-linux.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl/3.2.2-SNAPSHOT/b954df5bf0c9810ee3e1f00410e81ad6c63a20f4/lwjgl-3.2.2-SNAPSHOT-sources.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl/3.2.2-SNAPSHOT/86591aaae0ab0b5fc7f5d581f2e4e4af4ffb88a1/lwjgl-3.2.2-SNAPSHOT-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

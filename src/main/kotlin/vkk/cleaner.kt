@@ -1,5 +1,3 @@
-import org.lwjgl.vulkan.VK10
-
 //package vkk
 //
 //import glm_.L
@@ -9,7 +7,7 @@ import org.lwjgl.vulkan.VK10
 //    val cleaner = Cleaner.create()
 //    for (i in 0..9) {
 //        val id = Integer.toString(i)
-//        val vkObject = VkObject(i.L)
+//        val vkObject: Integer = java.lang.Integer(i)
 //        cleaner.register(vkObject, CleanerRunnable(id))
 //    }
 //
