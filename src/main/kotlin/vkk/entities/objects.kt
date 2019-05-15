@@ -150,6 +150,10 @@ inline class VkDeviceSize(val L: Long = VK_NULL_HANDLE) {
     val isEmpty get() = L == VK_NULL_HANDLE
     val isNotEmpty get() = L != VK_NULL_HANDLE
 
+    operator fun VkDeviceSize.compareTo(other: VkDeviceSize): Int = L.compareTo(other.L)
+    operator fun VkDeviceSize.compareTo(other: Int): Int = L.compareTo(other.L)
+    operator fun VkDeviceSize.compareTo(other: Long): Int = L.compareTo(other)
+
     companion object {
         val NULL = VkDeviceSize()
         val WHOLE_SIZE = VkDeviceSize(0L)
