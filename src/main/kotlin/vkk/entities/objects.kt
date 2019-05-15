@@ -1,5 +1,6 @@
 package vkk.entities
 
+import glm_.L
 import glm_.i
 import kool.*
 import org.lwjgl.system.MemoryStack.stackGet
@@ -135,6 +136,7 @@ inline class VkDeviceMemory(val L: Long = VK_NULL_HANDLE) {
     }
 }
 
+fun VkDeviceSize(int: Int): VkDeviceSize = VkDeviceSize(int.L)
 inline class VkDeviceSize(val L: Long = VK_NULL_HANDLE) {
 
     val i: Int get() = L.i
