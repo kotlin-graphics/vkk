@@ -11,7 +11,9 @@ import org.lwjgl.system.MemoryStack.stackGet
 import org.lwjgl.system.MemoryUtil
 import org.lwjgl.system.MemoryUtil.memLengthUTF8
 import org.lwjgl.system.MemoryUtil.memUTF8
+import org.lwjgl.vulkan.VK10
 import org.lwjgl.vulkan.VkAttachmentReference
+import vkk.entities.VkDeviceSize
 import java.nio.Buffer
 import java.nio.ByteBuffer
 import java.nio.file.Files
@@ -171,3 +173,5 @@ infix fun Buffer.copyFrom(ptr: Ptr) = MemoryUtil.memCopy(ptr, adr, remSize.L)
 //        res[i] = init(i)
 //    return res
 //}
+
+val VK_WHOLE_SIZE = VkDeviceSize(VK10.VK_WHOLE_SIZE)
