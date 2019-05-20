@@ -84,7 +84,7 @@ fun VkInstance.destroy() =
         VK10.nvkDestroyInstance(this, NULL)
 
 
-fun VkInstance.destroySurfaceKHR(surface: VkSurfaceKHR) =
+infix fun VkInstance.destroySurfaceKHR(surface: VkSurfaceKHR) =
         KHRSurface.nvkDestroySurfaceKHR(this, surface.L, NULL)
 
 fun VkInstance.destroy(surface: VkSurfaceKHR) =
