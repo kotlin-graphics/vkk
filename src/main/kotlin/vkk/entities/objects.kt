@@ -2,13 +2,7 @@ package vkk.entities
 
 import glm_.L
 import glm_.i
-import kool.*
-import org.lwjgl.system.MemoryStack.stackGet
-import org.lwjgl.system.MemoryUtil.memCopy
 import org.lwjgl.vulkan.VK10.VK_NULL_HANDLE
-import vkk.vk
-import java.nio.ByteBuffer
-import java.nio.LongBuffer
 
 
 inline class VkAccelerationStructureNV(val L: Long = VK_NULL_HANDLE) {
@@ -142,10 +136,15 @@ inline class VkDeviceSize(val L: Long = VK_NULL_HANDLE) {
     val i: Int get() = L.i
 
     operator fun plus(size: VkDeviceSize) = VkDeviceSize(L + size.L)
-    operator fun plus(size: Int) = VkDeviceSize(L + size)
-    operator fun rem(b: VkDeviceSize) = VkDeviceSize(L % b.L)
+    operator fun plus(int: Int) = VkDeviceSize(L + int)
     operator fun minus(b: VkDeviceSize) = VkDeviceSize(L - b.L)
-    operator fun times(b: Int) = VkDeviceSize(L * b)
+    operator fun minus(int: Int) = VkDeviceSize(L - int)
+    operator fun rem(size: VkDeviceSize) = VkDeviceSize(L % size.L)
+    operator fun rem(int: Int) = VkDeviceSize(L % int.L)
+    operator fun times(size: VkDeviceSize) = VkDeviceSize(L * size.L)
+    operator fun times(int: Int) = VkDeviceSize(L * int)
+    operator fun div(size: VkDeviceSize) = VkDeviceSize(L / size.L)
+    operator fun div(int: Int) = VkDeviceSize(L / int)
 
     val isEmpty get() = L == VK_NULL_HANDLE
     val isNotEmpty get() = L != VK_NULL_HANDLE
