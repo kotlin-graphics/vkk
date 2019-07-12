@@ -2,23 +2,33 @@
 <module external.linked.project.id="vkk" external.linked.project.path="$MODULE_DIR$" external.root.project.path="$MODULE_DIR$" external.system.id="GRADLE" external.system.module.group="com.github.kotlin-graphics" external.system.module.version="unspecified" type="JAVA_MODULE" version="4">
   <component name="FacetManager">
     <facet type="kotlin-language" name="Kotlin">
-      <configuration version="3" platform="JVM 1.6" useProjectSettings="false">
-        <compilerSettings />
+      <configuration version="3" platform="JVM 1.8" useProjectSettings="false">
+        <compilerSettings>
+          <option name="additionalArguments" value="-Xallow-no-source-files -Xjvm-default=enable -XXLanguage:+InlineClasses" />
+        </compilerSettings>
         <compilerArguments>
-          <option name="destination" value="$MODULE_DIR$/build/classes/kotlin/main" />
-          <option name="classpath" value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.kotlin-graphics/gli/7f3b2987ab60265e8f95ed3a395ddda0d5003b57/b24dad3bbdfdf9e455d41dc76333b3e565e8224c/gli-7f3b2987ab60265e8f95ed3a395ddda0d5003b57.jar;C:/Users/elect/.gradle/caches/modules-2/files-2.1/graphics.scenery/spirvcrossj/0.5.0-1.1.85/9e7046761351ed6736dc259b9e78742a893cca78/spirvcrossj-0.5.0-1.1.85.jar;C:/Users/elect/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-reflect/1.3.21/d0d5ff2ac2ebd8a42697af41e20fc225a23c5d3b/kotlin-reflect-1.3.21.jar;C:/Users/elect/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/1.3.21/4bcc2012b84840e19e1e28074284cac908be0295/kotlin-stdlib-1.3.21.jar;C:/Users/elect/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-glfw/3.2.2-SNAPSHOT/5dae912a8ce143b4d32b064542b3dcdd6a4644a9/lwjgl-glfw-3.2.2-SNAPSHOT.jar;C:/Users/elect/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-jemalloc/3.2.2-SNAPSHOT/a106cdca6bf5408b655ca1e4989325d8b61b88f9/lwjgl-jemalloc-3.2.2-SNAPSHOT.jar;C:/Users/elect/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-openal/3.2.2-SNAPSHOT/5232c7cf69f4705cc1acb6dc8bae83e8e64adee/lwjgl-openal-3.2.2-SNAPSHOT.jar;C:/Users/elect/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-opengl/3.2.2-SNAPSHOT/eaf9494f1666e3a99adca07a06dc4026eab40c2d/lwjgl-opengl-3.2.2-SNAPSHOT.jar;C:/Users/elect/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-stb/3.2.2-SNAPSHOT/21bb0d93e578091511184af4308768edcb3aedb5/lwjgl-stb-3.2.2-SNAPSHOT.jar;C:/Users/elect/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-vulkan/3.2.2-SNAPSHOT/390cebcc049b3f94fbf2b48a7499caf2a958233/lwjgl-vulkan-3.2.2-SNAPSHOT.jar;C:/Users/elect/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl/3.2.2-SNAPSHOT/60b277e64e5d516272eaa8c8ba26d51738cdd732/lwjgl-3.2.2-SNAPSHOT.jar;C:/Users/elect/.gradle/caches/modules-2/files-2.1/com.github.kotlin-graphics.glm/glm/fe5b8f0783e0d0fd4b2e424b6c1bdecb802e617a/895a89f5278f116774a3982d8bfefb0b56cf8b2b/glm-fe5b8f0783e0d0fd4b2e424b6c1bdecb802e617a.jar;C:/Users/elect/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-common/1.3.21/f30e4a9897913e53d778f564110bafa1fef46643/kotlin-stdlib-common-1.3.21.jar;C:/Users/elect/.gradle/caches/modules-2/files-2.1/org.jetbrains/annotations/13.0/919f0dfe192fb4e063e7dacadee7f8bb9a2672a9/annotations-13.0.jar;C:/Users/elect/.gradle/caches/modules-2/files-2.1/com.github.kotlin-graphics/kotlin-unsigned/0e3cc3ec155986f2100fee03cc143cbd3dfd0d84/d5350e1c475920b81a877a2efa8a21d7b002e9/kotlin-unsigned-0e3cc3ec155986f2100fee03cc143cbd3dfd0d84.jar;C:/Users/elect/.gradle/caches/modules-2/files-2.1/com.github.kotlin-graphics/kool/98ffadafd81f8d69b21bf374f54f83a8e1e539f2/f793fbbf51fa70e5c827cd66c8d7bc9218d05b26/kool-98ffadafd81f8d69b21bf374f54f83a8e1e539f2.jar" />
+          <option name="destination" value="$MODULE_DIR$/build/classes/java/main" />
+          <option name="classpath" value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.kotlin-graphics/gln/871cb280ce0094a4482e7c23cc9ffc8209683620/bed465adec45aeda2ce358342301c3bb56b61326/gln-871cb280ce0094a4482e7c23cc9ffc8209683620.jar;C:/Users/elect/.gradle/caches/modules-2/files-2.1/com.github.kotlin-graphics/gli/7215fca3cc82f8757b29f1a6b5e5527555ccd0ba/b6beaf5c4dd0bb833a45ee6f3e7f232af232dde3/gli-7215fca3cc82f8757b29f1a6b5e5527555ccd0ba.jar;C:/Users/elect/.gradle/caches/modules-2/files-2.1/com.github.kotlin-graphics.glm/glm/148636ff5d0d7d744707bc39acc7fa7bf5bc4dd8/dacf01ec709660723d8c32e52490312c1dc16522/glm-148636ff5d0d7d744707bc39acc7fa7bf5bc4dd8.jar;C:/Users/elect/.gradle/caches/modules-2/files-2.1/com.github.kotlin-graphics/kool/12dabfead107537474721bbd84ba148ca339ee9b/ae6600c4ec3a5b8013138813e24cd5998fce2da0/kool-12dabfead107537474721bbd84ba148ca339ee9b.jar;C:/Users/elect/.gradle/caches/modules-2/files-2.1/com.github.kotlin-graphics/kotlin-unsigned/da0d936cb929bdfd5c8bcc2858f6162bdfdd4433/c5ea0098921449f7fb53bd791b743ef53601157b/kotlin-unsigned-da0d936cb929bdfd5c8bcc2858f6162bdfdd4433.jar;C:/Users/elect/.gradle/caches/modules-2/files-2.1/graphics.scenery/spirvcrossj/0.5.0-1.1.85/9e7046761351ed6736dc259b9e78742a893cca78/spirvcrossj-0.5.0-1.1.85.jar;C:/Users/elect/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-reflect/1.3.41/8fb58b8954661de666e321478bf4178c18ce8018/kotlin-reflect-1.3.41.jar;C:/Users/elect/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/1.3.41/e24bd38de28a326cce8b1f0d61e809e9a92dad6a/kotlin-stdlib-1.3.41.jar;C:/Users/elect/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-glfw/3.2.2/d3ad4df38e400b8afba1de63f84338809399df5b/lwjgl-glfw-3.2.2.jar;C:/Users/elect/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-jemalloc/3.2.2/ee8e57a79300f78294576d87c4a587f8c99402e2/lwjgl-jemalloc-3.2.2.jar;C:/Users/elect/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-openal/3.2.2/2b772a102b0a11ee5f2109a5b136f4dc7c630827/lwjgl-openal-3.2.2.jar;C:/Users/elect/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-opengl/3.2.2/6ac5bb88b44c43ea195a570aab059f63da004cd8/lwjgl-opengl-3.2.2.jar;C:/Users/elect/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-stb/3.2.2/3b8e6ebc5851dd3d17e37e5cadce2eff2a429f0f/lwjgl-stb-3.2.2.jar;C:/Users/elect/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-vulkan/3.2.2/d87dddb009dd949c8c0facc79a5b87dbad962417/lwjgl-vulkan-3.2.2.jar;C:/Users/elect/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl/3.2.2/8ad6294407e15780b43e84929c40e4c5e997972e/lwjgl-3.2.2.jar;C:/Users/elect/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-common/1.3.41/2ecf4aa059427d7186312fd1736afedf7972e7f7/kotlin-stdlib-common-1.3.41.jar;C:/Users/elect/.gradle/caches/modules-2/files-2.1/org.jetbrains/annotations/13.0/919f0dfe192fb4e063e7dacadee7f8bb9a2672a9/annotations-13.0.jar" />
           <option name="noStdlib" value="true" />
           <option name="noReflect" value="true" />
           <option name="moduleName" value="vkk" />
-          <option name="addCompilerBuiltIns" value="true" />
-          <option name="loadBuiltInsFromDependencies" value="true" />
+          <option name="jvmTarget" value="1.8" />
           <option name="languageVersion" value="1.3" />
           <option name="apiVersion" value="1.3" />
           <option name="pluginOptions">
             <array />
           </option>
           <option name="pluginClasspaths">
-            <array />
+            <array>
+              <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-reflect/1.3.41/8fb58b8954661de666e321478bf4178c18ce8018/kotlin-reflect-1.3.41.jar" />
+              <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-script-runtime/1.3.41/bcc3380041bbba171119c22d7024961b60da69e0/kotlin-script-runtime-1.3.41.jar" />
+              <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-scripting-common/1.3.41/f5200923717f821267ed450728e13680b9065f2e/kotlin-scripting-common-1.3.41.jar" />
+              <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-scripting-jvm/1.3.41/5fe615a9cf0ae74bd99f302c2cdc92556ea960ea/kotlin-scripting-jvm-1.3.41.jar" />
+              <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-common/1.3.41/2ecf4aa059427d7186312fd1736afedf7972e7f7/kotlin-stdlib-common-1.3.41.jar" />
+              <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/1.3.41/e24bd38de28a326cce8b1f0d61e809e9a92dad6a/kotlin-stdlib-1.3.41.jar" />
+              <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/kotlinx-coroutines-core/1.1.1/3d2b7321cdef9ebf9cb7729ea4f75a6f6457df86/kotlinx-coroutines-core-1.1.1.jar" />
+              <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains/annotations/13.0/919f0dfe192fb4e063e7dacadee7f8bb9a2672a9/annotations-13.0.jar" />
+            </array>
           </option>
           <option name="errors">
             <ArgumentParseErrors />
@@ -33,53 +43,55 @@
     <exclude-output />
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src/main/kotlin" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/.gradle" />
       <excludeFolder url="file://$MODULE_DIR$/build" />
       <excludeFolder url="file://$MODULE_DIR$/out" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Gradle: com.github.kotlin-graphics:gli:7f3b2987ab60265e8f95ed3a395ddda0d5003b57" level="project" />
+    <orderEntry type="library" name="Gradle: com.github.kotlin-graphics:gln:871cb280ce0094a4482e7c23cc9ffc8209683620" level="project" />
+    <orderEntry type="library" name="Gradle: com.github.kotlin-graphics:gli:7215fca3cc82f8757b29f1a6b5e5527555ccd0ba" level="project" />
+    <orderEntry type="library" name="Gradle: com.github.kotlin-graphics.glm:glm:148636ff5d0d7d744707bc39acc7fa7bf5bc4dd8" level="project" />
+    <orderEntry type="library" name="Gradle: com.github.kotlin-graphics:kool:12dabfead107537474721bbd84ba148ca339ee9b" level="project" />
+    <orderEntry type="library" name="Gradle: com.github.kotlin-graphics:kotlin-unsigned:da0d936cb929bdfd5c8bcc2858f6162bdfdd4433" level="project" />
     <orderEntry type="library" name="Gradle: graphics.scenery:spirvcrossj:0.5.0-1.1.85" level="project" />
-    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-reflect:1.3.21" level="project" />
-    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib:1.3.21" level="project" />
-    <orderEntry type="library" name="Gradle: org.lwjgl:lwjgl-glfw:3.2.2-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Gradle: org.lwjgl:lwjgl-jemalloc:3.2.2-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Gradle: org.lwjgl:lwjgl-openal:3.2.2-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Gradle: org.lwjgl:lwjgl-opengl:3.2.2-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Gradle: org.lwjgl:lwjgl-stb:3.2.2-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Gradle: org.lwjgl:lwjgl-vulkan:3.2.2-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Gradle: org.lwjgl:lwjgl:3.2.2-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Gradle: com.github.kotlin-graphics.glm:glm:fe5b8f0783e0d0fd4b2e424b6c1bdecb802e617a" level="project" />
-    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-common:1.3.21" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-reflect:1.3.41" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib:1.3.41" level="project" />
+    <orderEntry type="library" name="Gradle: org.lwjgl:lwjgl-glfw:3.2.2" level="project" />
+    <orderEntry type="library" name="Gradle: org.lwjgl:lwjgl-jemalloc:3.2.2" level="project" />
+    <orderEntry type="library" name="Gradle: org.lwjgl:lwjgl-openal:3.2.2" level="project" />
+    <orderEntry type="library" name="Gradle: org.lwjgl:lwjgl-opengl:3.2.2" level="project" />
+    <orderEntry type="library" name="Gradle: org.lwjgl:lwjgl-stb:3.2.2" level="project" />
+    <orderEntry type="library" name="Gradle: org.lwjgl:lwjgl-vulkan:3.2.2" level="project" />
+    <orderEntry type="library" name="Gradle: org.lwjgl:lwjgl:3.2.2" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-common:1.3.41" level="project" />
     <orderEntry type="library" name="Gradle: org.jetbrains:annotations:13.0" level="project" />
-    <orderEntry type="library" name="Gradle: com.github.kotlin-graphics:kotlin-unsigned:0e3cc3ec155986f2100fee03cc143cbd3dfd0d84" level="project" />
-    <orderEntry type="library" name="Gradle: com.github.kotlin-graphics:kool:98ffadafd81f8d69b21bf374f54f83a8e1e539f2" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: graphics.scenery:spirvcrossj:0.5.0-1.1.85:natives-windows" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.lwjgl:lwjgl-glfw:3.2.2-SNAPSHOT:natives-windows" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.lwjgl:lwjgl-glfw:3.2.2-SNAPSHOT:natives-linux" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.lwjgl:lwjgl-jemalloc:3.2.2-SNAPSHOT:natives-windows" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.lwjgl:lwjgl-jemalloc:3.2.2-SNAPSHOT:natives-linux" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.lwjgl:lwjgl-openal:3.2.2-SNAPSHOT:natives-windows" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.lwjgl:lwjgl-openal:3.2.2-SNAPSHOT:natives-linux" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.lwjgl:lwjgl-opengl:3.2.2-SNAPSHOT:natives-windows" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.lwjgl:lwjgl-opengl:3.2.2-SNAPSHOT:natives-linux" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.lwjgl:lwjgl-stb:3.2.2-SNAPSHOT:natives-windows" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.lwjgl:lwjgl-stb:3.2.2-SNAPSHOT:natives-linux" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.lwjgl:lwjgl:3.2.2-SNAPSHOT:natives-windows" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.lwjgl:lwjgl:3.2.2-SNAPSHOT:natives-linux" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.lwjgl:lwjgl-glfw:3.2.2:natives-windows" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.lwjgl:lwjgl-glfw:3.2.2:natives-linux" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.lwjgl:lwjgl-jemalloc:3.2.2:natives-windows" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.lwjgl:lwjgl-jemalloc:3.2.2:natives-linux" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.lwjgl:lwjgl-openal:3.2.2:natives-windows" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.lwjgl:lwjgl-openal:3.2.2:natives-linux" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.lwjgl:lwjgl-opengl:3.2.2:natives-windows" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.lwjgl:lwjgl-opengl:3.2.2:natives-linux" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.lwjgl:lwjgl-stb:3.2.2:natives-windows" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.lwjgl:lwjgl-stb:3.2.2:natives-linux" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.lwjgl:lwjgl:3.2.2:natives-windows" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.lwjgl:lwjgl:3.2.2:natives-linux" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: graphics.scenery:spirvcrossj:0.5.0-1.1.85:natives-windows" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: org.lwjgl:lwjgl-glfw:3.2.2-SNAPSHOT:natives-windows" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: org.lwjgl:lwjgl-glfw:3.2.2-SNAPSHOT:natives-linux" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: org.lwjgl:lwjgl-jemalloc:3.2.2-SNAPSHOT:natives-windows" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: org.lwjgl:lwjgl-jemalloc:3.2.2-SNAPSHOT:natives-linux" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: org.lwjgl:lwjgl-openal:3.2.2-SNAPSHOT:natives-windows" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: org.lwjgl:lwjgl-openal:3.2.2-SNAPSHOT:natives-linux" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: org.lwjgl:lwjgl-opengl:3.2.2-SNAPSHOT:natives-windows" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: org.lwjgl:lwjgl-opengl:3.2.2-SNAPSHOT:natives-linux" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: org.lwjgl:lwjgl-stb:3.2.2-SNAPSHOT:natives-windows" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: org.lwjgl:lwjgl-stb:3.2.2-SNAPSHOT:natives-linux" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: org.lwjgl:lwjgl:3.2.2-SNAPSHOT:natives-windows" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: org.lwjgl:lwjgl:3.2.2-SNAPSHOT:natives-linux" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.lwjgl:lwjgl-glfw:3.2.2:natives-windows" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.lwjgl:lwjgl-glfw:3.2.2:natives-linux" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.lwjgl:lwjgl-jemalloc:3.2.2:natives-windows" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.lwjgl:lwjgl-jemalloc:3.2.2:natives-linux" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.lwjgl:lwjgl-openal:3.2.2:natives-windows" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.lwjgl:lwjgl-openal:3.2.2:natives-linux" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.lwjgl:lwjgl-opengl:3.2.2:natives-windows" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.lwjgl:lwjgl-opengl:3.2.2:natives-linux" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.lwjgl:lwjgl-stb:3.2.2:natives-windows" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.lwjgl:lwjgl-stb:3.2.2:natives-linux" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.lwjgl:lwjgl:3.2.2:natives-windows" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: org.lwjgl:lwjgl:3.2.2:natives-linux" level="project" />
   </component>
 </module>
