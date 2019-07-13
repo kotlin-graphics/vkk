@@ -8,6 +8,8 @@ import glm_.vec2.Vec2i
 import glm_.vec3.Vec3i
 import kool.Ptr
 import kool.adr
+import kool.rem
+import kool.set
 import org.lwjgl.PointerBuffer
 import org.lwjgl.system.MemoryStack.stackGet
 import org.lwjgl.system.MemoryUtil.*
@@ -408,6 +410,18 @@ inline var VkDeviceCreateInfo.queueCreateInfoCount: Int
 inline var VkDeviceCreateInfo.queueCreateInfos: VkDeviceQueueCreateInfo.Buffer
     get() = VkDeviceCreateInfo.npQueueCreateInfos(adr)
     set(value) = VkDeviceCreateInfo.npQueueCreateInfos(adr, value)
+/** JVM custom */
+inline var VkDeviceCreateInfo.queueCreateInfos_: Collection<VkDeviceQueueCreateInfo>
+    get() {
+        val infos = VkDeviceCreateInfo.npQueueCreateInfos(adr)
+        return List(infos.rem) { infos[it] }
+    }
+    set(value) {
+        val infos = vk.DeviceQueueCreateInfo(value.size)
+        for (i in value.indices)
+            infos[i] = value.elementAt(i)
+        VkDeviceCreateInfo.npQueueCreateInfos(adr, infos)
+    }
 /** JVM custom */
 inline var VkDeviceCreateInfo.queueCreateInfo: VkDeviceQueueCreateInfo
     get() = VkDeviceCreateInfo.npQueueCreateInfos(adr)[0]

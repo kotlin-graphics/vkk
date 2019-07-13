@@ -5,6 +5,7 @@ module com.github.kotlin_graphics.vkk {
     requires java.management;
 
     requires org.lwjgl;
+    requires org.lwjgl.vulkan;
 
     requires com.github.kotlin_graphics.gln;
     requires com.github.kotlin_graphics.gli;

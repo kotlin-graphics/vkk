@@ -78,6 +78,7 @@ object vk {
 
     fun DeviceCreateInfo(): VkDeviceCreateInfo = VkDeviceCreateInfo.callocStack().apply { type = VkStructureType.DEVICE_CREATE_INFO }
     inline fun DeviceCreateInfo(block: VkDeviceCreateInfo.() -> Unit): VkDeviceCreateInfo = DeviceCreateInfo().also(block)
+    fun DeviceCreateInfo(capacity: Int): VkDeviceCreateInfo.Buffer = VkDeviceCreateInfo.callocStack(capacity).onEach { it.type = VkStructureType.DEVICE_CREATE_INFO }
 
     fun DeviceGroupPresentCapabilitiesKHR(): VkDeviceGroupPresentCapabilitiesKHR = VkDeviceGroupPresentCapabilitiesKHR.callocStack().apply { type = VkStructureType.DEVICE_GROUP_PRESENT_CAPABILITIES_KHR }
     inline fun DeviceGroupPresentCapabilitiesKHR(block: VkDeviceGroupPresentCapabilitiesKHR.() -> Unit): VkDeviceGroupPresentCapabilitiesKHR = DeviceGroupPresentCapabilitiesKHR().also(block)
