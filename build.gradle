@@ -16,7 +16,7 @@ ext{
     moduleName = 'com.github.kotlin_graphics.vkk'
     kotlin = 'org.jetbrains.kotlin:kotlin'
     kotlin_version = '1.3.41'
-    gln_version = '871cb280ce0094a4482e7c23cc9ffc8209683620'
+    gln_version = '342bb4e960cec016dcf23228ef6510cc6ed96aee'
     gli_version = '7215fca3cc82f8757b29f1a6b5e5527555ccd0ba'
     glm_version = '148636ff5d0d7d744707bc39acc7fa7bf5bc4dd8'
     kool_version = '12dabfead107537474721bbd84ba148ca339ee9b'
