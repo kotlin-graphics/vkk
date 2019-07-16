@@ -16,11 +16,11 @@ ext{
     moduleName = 'com.github.kotlin_graphics.vkk'
     kotlin = 'org.jetbrains.kotlin:kotlin'
     kotlin_version = '1.3.41'
-    gln_version = '342bb4e960cec016dcf23228ef6510cc6ed96aee'
-    gli_version = '7215fca3cc82f8757b29f1a6b5e5527555ccd0ba'
-    glm_version = '148636ff5d0d7d744707bc39acc7fa7bf5bc4dd8'
-    kool_version = '12dabfead107537474721bbd84ba148ca339ee9b'
-    unsigned_version = 'da0d936cb929bdfd5c8bcc2858f6162bdfdd4433'
+    gln_version = '6631fe89c698a0b8e8f27f07e1123ee9b3f7b417'
+    gli_version = '35fd742487eb585ce6807b782c4a9073b56a5f2a'
+    glm_version = '96b8303d99a3d8cf0245c490b8fb4ca703393baa'
+    unsigned_version = '6a5060027e295c503e4fac39127bdd57c36c7083'
+    kool_version = '7b1e0522d1fe5a7d1a276f4d46b2e24be9e444cb'
     lwjgl_version = "3.2.2"
     lwjgl_natives = current() == WINDOWS ? "windows" : current() == LINUX ? "linux" : "macos"
     sprivCross_version = "0.5.0-1.1.85"
@@ -32,11 +32,11 @@ dependencies {
     implementation "$kotlin-reflect"
 
     def kx = "com.github.kotlin-graphics"
-    api "${kx}:gln:$gln_version".toString()
-    api "${kx}:gli:$gli_version".toString()
-    api "${kx}.glm:glm:$glm_version".toString()
-    api "${kx}:kool:$kool_version".toString()
-    api "${kx}:kotlin-unsigned:$unsigned_version".toString()
+    implementation "$kx:gln:$gln_version"
+    implementation "$kx:gli:$gli_version"
+    implementation "${kx}.glm:glm:$glm_version"
+    implementation "$kx:kool:$kool_version"
+    implementation "$kx:kotlin-unsigned:$unsigned_version"
 
     ["", "-glfw", "-jemalloc", "-openal", "-opengl", "-stb", "-vulkan"].each {
         implementation "org.lwjgl:lwjgl$it:$lwjgl_version"
@@ -45,16 +45,16 @@ dependencies {
     }
 
     ext.spirvCross = "graphics.scenery:spirvcrossj:$sprivCross_version"
-    api spirvCross
-    runtime "$spirvCross:natives-$lwjgl_natives".toString()
+    implementation spirvCross
+    runtime "$spirvCross:natives-$lwjgl_natives"
 
 //    compile group: 'org.jetbrains.kotlin.kapt', name: 'org.jetbrains.kotlin.kapt.gradle.plugin', version: '1.3.0-rc-146'
 }
 
 repositories {
     mavenCentral()
-    maven { setUrl("https://oss.sonatype.org/content/repositories/snapshots/") }
-    maven { setUrl('https://jitpack.io') }
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+    maven { url 'https://jitpack.io' }
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
