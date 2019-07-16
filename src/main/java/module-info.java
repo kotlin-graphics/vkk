@@ -1,6 +1,7 @@
 module com.github.kotlin_graphics.vkk {
 
     requires kotlin.stdlib;
+    requires kotlin.reflect;
 
     requires java.management;
 
