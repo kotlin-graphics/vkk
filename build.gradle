@@ -10,10 +10,10 @@ plugins {
 }
 
 // jitpack
-group = 'com.github.kotlin-graphics'
+group = 'com.github.kotlin_graphics'
 
 ext{
-    moduleName = 'com.github.kotlin_graphics.vkk'
+    moduleName = "${group}.vkk"
     kotlin = 'org.jetbrains.kotlin:kotlin'
     kotlin_version = '1.3.41'
     gln_version = '6631fe89c698a0b8e8f27f07e1123ee9b3f7b417'
