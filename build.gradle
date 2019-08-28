@@ -16,7 +16,7 @@ ext {
     moduleName = "${group}.vkk"
     kotlin = 'org.jetbrains.kotlin:kotlin'
     kotlin_version = '1.3.41'
-    gln_version = 'e6fd699b6723c770a4dd891119e33e6dca74961a'
+    gln_version = '4ec09b72e22431a2921791c082a0e66bf858e6b6'
     gli_version = 'c8cb88947b77232beed84599fb7a01b5ce158f25'
     glm_version = '6048c31425ae6110258e4b42165f1e636f8b5603'
     unsigned_version = 'ba1b5c2ab0231aabbef753df5fa0d0de98142360'
