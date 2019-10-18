@@ -535,18 +535,18 @@ inline val VkPhysicalDevicePushDescriptorPropertiesKHR.maxPushDescriptors: Int
     get() = VkPhysicalDevicePushDescriptorPropertiesKHR.nmaxPushDescriptors(adr)
 
 
-inline var VkPhysicalDeviceFloat16Int8FeaturesKHR.type: VkStructureType
-    get() = VkStructureType(VkPhysicalDeviceFloat16Int8FeaturesKHR.nsType(adr))
-    set(value) = VkPhysicalDeviceFloat16Int8FeaturesKHR.nsType(adr, value.i)
-inline var VkPhysicalDeviceFloat16Int8FeaturesKHR.next: Ptr
-    get() = VkPhysicalDeviceFloat16Int8FeaturesKHR.npNext(adr)
-    set(value) = VkPhysicalDeviceFloat16Int8FeaturesKHR.npNext(adr, value)
-inline var VkPhysicalDeviceFloat16Int8FeaturesKHR.shaderFloat16: Boolean
-    get() = VkPhysicalDeviceFloat16Int8FeaturesKHR.nshaderFloat16(adr).bool
-    set(value) = VkPhysicalDeviceFloat16Int8FeaturesKHR.nshaderFloat16(adr, value.i)
-inline var VkPhysicalDeviceFloat16Int8FeaturesKHR.shaderInt8: Boolean
-    get() = VkPhysicalDeviceFloat16Int8FeaturesKHR.nshaderInt8(adr).bool
-    set(value) = VkPhysicalDeviceFloat16Int8FeaturesKHR.nshaderInt8(adr, value.i)
+inline var VkPhysicalDeviceShaderFloat16Int8FeaturesKHR.type: VkStructureType
+    get() = VkStructureType(VkPhysicalDeviceShaderFloat16Int8FeaturesKHR.nsType(adr))
+    set(value) = VkPhysicalDeviceShaderFloat16Int8FeaturesKHR.nsType(adr, value.i)
+inline var VkPhysicalDeviceShaderFloat16Int8FeaturesKHR.next: Ptr
+    get() = VkPhysicalDeviceShaderFloat16Int8FeaturesKHR.npNext(adr)
+    set(value) = VkPhysicalDeviceShaderFloat16Int8FeaturesKHR.npNext(adr, value)
+inline var VkPhysicalDeviceShaderFloat16Int8FeaturesKHR.shaderFloat16: Boolean
+    get() = VkPhysicalDeviceShaderFloat16Int8FeaturesKHR.nshaderFloat16(adr).bool
+    set(value) = VkPhysicalDeviceShaderFloat16Int8FeaturesKHR.nshaderFloat16(adr, value.i)
+inline var VkPhysicalDeviceShaderFloat16Int8FeaturesKHR.shaderInt8: Boolean
+    get() = VkPhysicalDeviceShaderFloat16Int8FeaturesKHR.nshaderInt8(adr).bool
+    set(value) = VkPhysicalDeviceShaderFloat16Int8FeaturesKHR.nshaderInt8(adr, value.i)
 
 
 inline var VkRectLayerKHR.offset: VkOffset2D

@@ -189,10 +189,10 @@ fun MemoryStack.PhysicalDeviceFeatures2(block: VkPhysicalDeviceFeatures2.() -> U
 fun MemoryStack.PhysicalDeviceFeatures2(capacity: Int): VkPhysicalDeviceFeatures2.Buffer = VkPhysicalDeviceFeatures2.callocStack(capacity, this).onEach { it.type = VkStructureType.PHYSICAL_DEVICE_FEATURES_2 }
 fun MemoryStack.PhysicalDeviceFeatures2(capacity: Int, block: VkPhysicalDeviceFeatures2.Buffer.() -> Unit): VkPhysicalDeviceFeatures2.Buffer = PhysicalDeviceFeatures2(capacity).also(block)
 
-fun MemoryStack.PhysicalDeviceFloat16Int8FeaturesKHR(): VkPhysicalDeviceFloat16Int8FeaturesKHR = VkPhysicalDeviceFloat16Int8FeaturesKHR.callocStack(this).apply { type = VkStructureType.PHYSICAL_DEVICE_FLOAT16_INT8_FEATURES_KHR }
-fun MemoryStack.PhysicalDeviceFloat16Int8FeaturesKHR(block: VkPhysicalDeviceFloat16Int8FeaturesKHR.() -> Unit): VkPhysicalDeviceFloat16Int8FeaturesKHR = PhysicalDeviceFloat16Int8FeaturesKHR().also(block)
-//fun MemoryStack.PhysicalDeviceFloat16Int8FeaturesKHR(capacity: Int): VkPhysicalDeviceFloat16Int8FeaturesKHR.Buffer = VkPhysicalDeviceFloat16Int8FeaturesKHR.callocStack(capacity, this).onEach { it.type = VkStructureType.PHYSICAL_DEVICE_FLOAT16_INT8_FEATURES_KHR } TODO
-//fun MemoryStack.PhysicalDeviceFloat16Int8FeaturesKHR(capacity: Int, block: VkPhysicalDeviceFloat16Int8FeaturesKHR.Buffer.() -> Unit): VkPhysicalDeviceFloat16Int8FeaturesKHR.Buffer = PhysicalDeviceFloat16Int8FeaturesKHR(capacity).also(block)
+fun MemoryStack.PhysicalDeviceShaderFloat16Int8FeaturesKHR (): VkPhysicalDeviceShaderFloat16Int8FeaturesKHR  = VkPhysicalDeviceShaderFloat16Int8FeaturesKHR .callocStack(this).apply { type = VkStructureType.PHYSICAL_DEVICE_SHADER_FLOAT16_INT8_FEATURES_KHR }
+fun MemoryStack.PhysicalDeviceShaderFloat16Int8FeaturesKHR (block: VkPhysicalDeviceShaderFloat16Int8FeaturesKHR .() -> Unit): VkPhysicalDeviceShaderFloat16Int8FeaturesKHR  = PhysicalDeviceShaderFloat16Int8FeaturesKHR ().also(block)
+fun MemoryStack.PhysicalDeviceShaderFloat16Int8FeaturesKHR (capacity: Int): VkPhysicalDeviceShaderFloat16Int8FeaturesKHR .Buffer = VkPhysicalDeviceShaderFloat16Int8FeaturesKHR .callocStack(capacity, this).onEach { it.type = VkStructureType.PHYSICAL_DEVICE_SHADER_FLOAT16_INT8_FEATURES_KHR }
+fun MemoryStack.PhysicalDeviceShaderFloat16Int8FeaturesKHR (capacity: Int, block: VkPhysicalDeviceShaderFloat16Int8FeaturesKHR .Buffer.() -> Unit): VkPhysicalDeviceShaderFloat16Int8FeaturesKHR .Buffer = PhysicalDeviceShaderFloat16Int8FeaturesKHR (capacity).also(block)
 
 fun MemoryStack.PhysicalDeviceFloatControlsPropertiesKHR(): VkPhysicalDeviceFloatControlsPropertiesKHR = VkPhysicalDeviceFloatControlsPropertiesKHR.callocStack(this).apply { type = VkStructureType.PHYSICAL_DEVICE_FLOAT_CONTROLS_PROPERTIES_KHR }
 fun MemoryStack.PhysicalDeviceFloatControlsPropertiesKHR(block: VkPhysicalDeviceFloatControlsPropertiesKHR.() -> Unit): VkPhysicalDeviceFloatControlsPropertiesKHR = PhysicalDeviceFloatControlsPropertiesKHR().also(block)

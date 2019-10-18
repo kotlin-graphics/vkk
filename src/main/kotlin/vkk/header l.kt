@@ -795,15 +795,15 @@ inline val VkCheckpointDataNV.pCheckpointMarker: Ptr
     get() = VkCheckpointDataNV.npCheckpointMarker(adr)
 
 
-//inline var VkPhysicalDeviceShaderIntegerFunctions2INTEL.type: VkStructureType
-//    get() = VkStructureType(VkPhysicalDeviceShaderIntegerFunctions2INTEL.nsType(adr))
-//    set(value) = VkPhysicalDeviceShaderIntegerFunctions2INTEL.nsType(adr, value.i)
-//inline var VkPhysicalDeviceShaderIntegerFunctions2INTEL.next: Ptr
-//    get() = VkPhysicalDeviceShaderIntegerFunctions2INTEL.npNext(adr)
-//    set(value) = VkPhysicalDeviceShaderIntegerFunctions2INTEL.npNext(adr, value)
-//inline var VkPhysicalDeviceShaderIntegerFunctions2INTEL.shaderIntegerFunctions2: Boolean
-//    get() = VkPhysicalDeviceShaderIntegerFunctions2INTEL.shaderIntegerFunctions2(adr).bool
-//    set(value) = VkPhysicalDeviceShaderIntegerFunctions2INTEL.shaderIntegerFunctions2(adr, value.i)
+inline var VkPhysicalDeviceShaderIntegerFunctions2FeaturesINTEL.type: VkStructureType
+    get() = VkStructureType(VkPhysicalDeviceShaderIntegerFunctions2FeaturesINTEL.nsType(adr))
+    set(value) = VkPhysicalDeviceShaderIntegerFunctions2FeaturesINTEL.nsType(adr, value.i)
+inline var VkPhysicalDeviceShaderIntegerFunctions2FeaturesINTEL.next: Ptr
+    get() = VkPhysicalDeviceShaderIntegerFunctions2FeaturesINTEL.npNext(adr)
+    set(value) = VkPhysicalDeviceShaderIntegerFunctions2FeaturesINTEL.npNext(adr, value)
+inline var VkPhysicalDeviceShaderIntegerFunctions2FeaturesINTEL.shaderIntegerFunctions2: Boolean
+    get() = VkPhysicalDeviceShaderIntegerFunctions2FeaturesINTEL.nshaderIntegerFunctions2(adr).bool
+    set(value) = VkPhysicalDeviceShaderIntegerFunctions2FeaturesINTEL.nshaderIntegerFunctions2(adr, value.i)
 
 
 inline class VkPerformanceConfigurationTypeINTEL(val i: Int) {
