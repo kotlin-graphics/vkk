@@ -957,6 +957,7 @@ inline class VkDriverIdKHR(val i: Int) {
         val ARM_PROPRIETARY_KHR = VkDriverIdKHR(9)
         val GOOGLE_SWIFTSHADER_KHR = VkDriverIdKHR(10)
         val GGP_PROPRIETARY_KHR = VkDriverIdKHR(11)
+        val BROADCOM_PROPRIETARY_KHR = VkDriverIdKHR(12)
     }
 }
 
