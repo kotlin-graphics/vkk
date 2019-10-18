@@ -684,6 +684,29 @@ inline var VkPipelineCoverageModulationStateCreateInfoNV.coverageModulationTable
     set(value) = VkPipelineCoverageModulationStateCreateInfoNV.npCoverageModulationTable(adr, value)
 
 
+inline var VkPhysicalDeviceShaderSMBuiltinsPropertiesNV.type: VkStructureType
+    get() = VkStructureType(VkPhysicalDeviceShaderSMBuiltinsPropertiesNV.nsType(adr))
+    set(value) = VkPhysicalDeviceShaderSMBuiltinsPropertiesNV.nsType(adr, value.i)
+inline var VkPhysicalDeviceShaderSMBuiltinsPropertiesNV.next: Ptr
+    get() = VkPhysicalDeviceShaderSMBuiltinsPropertiesNV.npNext(adr)
+    set(value) = VkPhysicalDeviceShaderSMBuiltinsPropertiesNV.npNext(adr, value)
+inline val VkPhysicalDeviceShaderSMBuiltinsPropertiesNV.shaderSMCount: Int
+    get() = VkPhysicalDeviceShaderSMBuiltinsPropertiesNV.nshaderSMCount(adr)
+inline val VkPhysicalDeviceShaderSMBuiltinsPropertiesNV.shaderWarpsPerSM: Int
+    get() = VkPhysicalDeviceShaderSMBuiltinsPropertiesNV.nshaderWarpsPerSM(adr)
+
+
+inline var VkPhysicalDeviceShaderSMBuiltinsFeaturesNV.type: VkStructureType
+    get() = VkStructureType(VkPhysicalDeviceShaderSMBuiltinsFeaturesNV.nsType(adr))
+    set(value) = VkPhysicalDeviceShaderSMBuiltinsFeaturesNV.nsType(adr, value.i)
+inline var VkPhysicalDeviceShaderSMBuiltinsFeaturesNV.next: Ptr
+    get() = VkPhysicalDeviceShaderSMBuiltinsFeaturesNV.npNext(adr)
+    set(value) = VkPhysicalDeviceShaderSMBuiltinsFeaturesNV.npNext(adr, value)
+inline var VkPhysicalDeviceShaderSMBuiltinsFeaturesNV.shaderSMBuiltins: Boolean
+    get() = VkPhysicalDeviceShaderSMBuiltinsFeaturesNV.nshaderSMBuiltins(adr).bool
+    set(value) = VkPhysicalDeviceShaderSMBuiltinsFeaturesNV.nshaderSMBuiltins(adr, value.i)
+
+
 inline val VkDrmFormatModifierPropertiesEXT.drmFormatModifier: Long
     get() = VkDrmFormatModifierPropertiesEXT.ndrmFormatModifier(adr)
 inline val VkDrmFormatModifierPropertiesEXT.drmFormatModifierPlaneCount: Int

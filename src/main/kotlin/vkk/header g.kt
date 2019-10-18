@@ -955,7 +955,7 @@ inline class VkDriverIdKHR(val i: Int) {
         val IMAGINATION_PROPRIETARY_KHR = VkDriverIdKHR(7)
         val QUALCOMM_PROPRIETARY_KHR = VkDriverIdKHR(8)
         val ARM_PROPRIETARY_KHR = VkDriverIdKHR(9)
-        val GOOGLE_PASTEL_KHR = VkDriverIdKHR(10)
+        val GOOGLE_SWIFTSHADER_KHR = VkDriverIdKHR(10)
         val GGP_PROPRIETARY_KHR = VkDriverIdKHR(11)
     }
 }
@@ -997,10 +997,10 @@ inline var VkPhysicalDeviceFloatControlsPropertiesKHR.type: VkStructureType
 inline var VkPhysicalDeviceFloatControlsPropertiesKHR.next: Ptr
     get() = VkPhysicalDeviceFloatControlsPropertiesKHR.npNext(adr)
     set(value) = VkPhysicalDeviceFloatControlsPropertiesKHR.npNext(adr, value)
-inline val VkPhysicalDeviceFloatControlsPropertiesKHR.separateDenormSettings: Boolean
-    get() = VkPhysicalDeviceFloatControlsPropertiesKHR.nseparateDenormSettings(adr).bool
-inline val VkPhysicalDeviceFloatControlsPropertiesKHR.separateRoundingModeSettings: Boolean
-    get() = VkPhysicalDeviceFloatControlsPropertiesKHR.nseparateRoundingModeSettings(adr).bool
+//inline val VkPhysicalDeviceFloatControlsPropertiesKHR.separateDenormSettings: Boolean TODO
+//    get() = VkPhysicalDeviceFloatControlsPropertiesKHR.nseparateDenormSettings(adr).bool
+//inline val VkPhysicalDeviceFloatControlsPropertiesKHR.separateRoundingModeSettings: Boolean
+//    get() = VkPhysicalDeviceFloatControlsPropertiesKHR.nseparateRoundingModeSettings(adr).bool
 inline val VkPhysicalDeviceFloatControlsPropertiesKHR.shaderSignedZeroInfNanPreserveFloat16: Boolean
     get() = VkPhysicalDeviceFloatControlsPropertiesKHR.nshaderSignedZeroInfNanPreserveFloat16(adr).bool
 inline val VkPhysicalDeviceFloatControlsPropertiesKHR.shaderSignedZeroInfNanPreserveFloat32: Boolean

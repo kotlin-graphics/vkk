@@ -46,6 +46,9 @@ fun VkQueue.insertDebugUtilsLabelEXT(labelInfo: VkDebugUtilsLabelEXT) =
 infix fun VkQueue.presentKHR(presentInfo: VkPresentInfoKHR): VkResult =
         VkResult(KHRSwapchain.vkQueuePresentKHR(this, presentInfo)).apply { check() }
 
+//infix fun VkQueue.setPerformanceConfigurationINTEL(configuration: VkPerformanceConfigurationINTEL): VkResult = TODO
+//        VkResult(nsetPerformanceConfigurationINTEL(this, configuration.adr)).apply { check() }
+
 fun VkQueue.submit(submits: VkSubmitInfo, fence: VkFence): VkResult =
         VkResult(VK10.nvkQueueSubmit(this, 1, submits.adr, fence.L)).apply { check() }
 

@@ -795,6 +795,149 @@ inline val VkCheckpointDataNV.pCheckpointMarker: Ptr
     get() = VkCheckpointDataNV.npCheckpointMarker(adr)
 
 
+//inline var VkPhysicalDeviceShaderIntegerFunctions2INTEL.type: VkStructureType
+//    get() = VkStructureType(VkPhysicalDeviceShaderIntegerFunctions2INTEL.nsType(adr))
+//    set(value) = VkPhysicalDeviceShaderIntegerFunctions2INTEL.nsType(adr, value.i)
+//inline var VkPhysicalDeviceShaderIntegerFunctions2INTEL.next: Ptr
+//    get() = VkPhysicalDeviceShaderIntegerFunctions2INTEL.npNext(adr)
+//    set(value) = VkPhysicalDeviceShaderIntegerFunctions2INTEL.npNext(adr, value)
+//inline var VkPhysicalDeviceShaderIntegerFunctions2INTEL.shaderIntegerFunctions2: Boolean
+//    get() = VkPhysicalDeviceShaderIntegerFunctions2INTEL.shaderIntegerFunctions2(adr).bool
+//    set(value) = VkPhysicalDeviceShaderIntegerFunctions2INTEL.shaderIntegerFunctions2(adr, value.i)
+
+
+inline class VkPerformanceConfigurationTypeINTEL(val i: Int) {
+    companion object {
+        val COMMAND_QUEUE_METRICS_DISCOVERY_ACTIVATED = VkPerformanceConfigurationTypeINTEL(0)
+    }
+}
+
+
+inline class VkQueryPoolSamplingModeINTEL(val i: Int) {
+    companion object {
+        val MANUAL = VkQueryPoolSamplingModeINTEL(0)
+    }
+}
+
+
+inline class VkPerformanceOverrideTypeINTEL(val i: Int) {
+    companion object {
+        val NULL_HARDWARE = VkPerformanceOverrideTypeINTEL(0)
+        val FLUSH_GPU_CACHES = VkPerformanceOverrideTypeINTEL(1)
+    }
+}
+
+
+inline class VkPerformanceParameterTypeINTEL(val i: Int) {
+    companion object {
+        val HW_COUNTERS_SUPPORTED = VkPerformanceParameterTypeINTEL(0)
+        val STREAM_MARKER_VALID_BITS = VkPerformanceParameterTypeINTEL(1)
+    }
+}
+
+
+inline class VkPerformanceValueTypeINTEL(val i: Int) {
+    companion object {
+        val UINT32 = VkPerformanceValueTypeINTEL(0)
+        val UINT64 = VkPerformanceValueTypeINTEL(1)
+        val FLOAT = VkPerformanceValueTypeINTEL(2)
+        val BOOL = VkPerformanceValueTypeINTEL(3)
+        val STRING = VkPerformanceValueTypeINTEL(4)
+    }
+}
+
+
+inline var VkPerformanceValueDataINTEL.value32: Int
+    get() = VkPerformanceValueDataINTEL.nvalue32(adr)
+    set(value) = VkPerformanceValueDataINTEL.nvalue32(adr, value)
+inline var VkPerformanceValueDataINTEL.value64: Long
+    get() = VkPerformanceValueDataINTEL.nvalue64(adr)
+    set(value) = VkPerformanceValueDataINTEL.nvalue64(adr, value)
+inline var VkPerformanceValueDataINTEL.valueFloat: Float
+    get() = VkPerformanceValueDataINTEL.nvalueFloat(adr)
+    set(value) = VkPerformanceValueDataINTEL.nvalueFloat(adr, value)
+inline var VkPerformanceValueDataINTEL.valueBool: Boolean
+    get() = VkPerformanceValueDataINTEL.nvalueBool(adr).bool
+    set(value) = VkPerformanceValueDataINTEL.nvalueBool(adr, value.i)
+//inline var VkPerformanceValueDataINTEL.valueString: String TODO
+//    get() = VkPerformanceValueDataINTEL.nvalueStr(adr).bool
+//    set(value) = VkPerformanceValueDataINTEL.nvalueBool(adr, value.i)
+
+
+inline var VkPerformanceValueINTEL.type: VkPerformanceValueTypeINTEL
+    get() = VkPerformanceValueTypeINTEL(VkPerformanceValueINTEL.ntype(adr))
+    set(value) = VkPerformanceValueINTEL.ntype(adr, value.i)
+inline var VkPerformanceValueINTEL.data: VkPerformanceValueDataINTEL
+    get() = VkPerformanceValueINTEL.ndata(adr)
+    set(value) = VkPerformanceValueINTEL.ndata(adr, value)
+
+
+inline var VkInitializePerformanceApiInfoINTEL.type: VkStructureType
+    get() = VkStructureType(VkInitializePerformanceApiInfoINTEL.nsType(adr))
+    set(value) = VkInitializePerformanceApiInfoINTEL.nsType(adr, value.i)
+inline var VkInitializePerformanceApiInfoINTEL.next: Ptr
+    get() = VkInitializePerformanceApiInfoINTEL.npNext(adr)
+    set(value) = VkInitializePerformanceApiInfoINTEL.npNext(adr, value)
+inline var VkInitializePerformanceApiInfoINTEL.userData: Ptr
+    get() = VkInitializePerformanceApiInfoINTEL.npUserData(adr)
+    set(value) = VkInitializePerformanceApiInfoINTEL.npUserData(adr, value)
+
+
+inline var VkQueryPoolCreateInfoINTEL.type: VkStructureType
+    get() = VkStructureType(VkQueryPoolCreateInfoINTEL.nsType(adr))
+    set(value) = VkQueryPoolCreateInfoINTEL.nsType(adr, value.i)
+inline var VkQueryPoolCreateInfoINTEL.next: Ptr
+    get() = VkQueryPoolCreateInfoINTEL.npNext(adr)
+    set(value) = VkQueryPoolCreateInfoINTEL.npNext(adr, value)
+inline var VkQueryPoolCreateInfoINTEL.performanceCountersSampling: VkQueryPoolSamplingModeINTEL
+    get() = VkQueryPoolSamplingModeINTEL(VkQueryPoolCreateInfoINTEL.nperformanceCountersSampling(adr))
+    set(value) = VkQueryPoolCreateInfoINTEL.nperformanceCountersSampling(adr, value.i)
+
+
+inline var VkPerformanceMarkerInfoINTEL.type: VkStructureType
+    get() = VkStructureType(VkPerformanceMarkerInfoINTEL.nsType(adr))
+    set(value) = VkPerformanceMarkerInfoINTEL.nsType(adr, value.i)
+inline var VkPerformanceMarkerInfoINTEL.next: Ptr
+    get() = VkPerformanceMarkerInfoINTEL.npNext(adr)
+    set(value) = VkPerformanceMarkerInfoINTEL.npNext(adr, value)
+inline var VkPerformanceMarkerInfoINTEL.marker: Long
+    get() = VkPerformanceMarkerInfoINTEL.nmarker(adr)
+    set(value) = VkPerformanceMarkerInfoINTEL.nmarker(adr, value)
+
+
+inline var VkPerformanceStreamMarkerInfoINTEL.type: VkStructureType
+    get() = VkStructureType(VkPerformanceStreamMarkerInfoINTEL.nsType(adr))
+    set(value) = VkPerformanceStreamMarkerInfoINTEL.nsType(adr, value.i)
+inline var VkPerformanceStreamMarkerInfoINTEL.next: Ptr
+    get() = VkPerformanceStreamMarkerInfoINTEL.npNext(adr)
+    set(value) = VkPerformanceStreamMarkerInfoINTEL.npNext(adr, value)
+inline var VkPerformanceStreamMarkerInfoINTEL.marker: Int
+    get() = VkPerformanceStreamMarkerInfoINTEL.nmarker(adr)
+    set(value) = VkPerformanceStreamMarkerInfoINTEL.nmarker(adr, value)
+
+
+inline var VkPerformanceOverrideInfoINTEL._type: VkStructureType
+    get() = VkStructureType(VkPerformanceOverrideInfoINTEL.nsType(adr))
+    set(value) = VkPerformanceOverrideInfoINTEL.nsType(adr, value.i)
+inline var VkPerformanceOverrideInfoINTEL.next: Ptr
+    get() = VkPerformanceOverrideInfoINTEL.npNext(adr)
+    set(value) = VkPerformanceOverrideInfoINTEL.npNext(adr, value)
+inline var VkPerformanceOverrideInfoINTEL.type: VkPerformanceOverrideTypeINTEL
+    get() = VkPerformanceOverrideTypeINTEL(VkPerformanceOverrideInfoINTEL.ntype(adr))
+    set(value) = VkPerformanceOverrideInfoINTEL.ntype(adr, value.i)
+
+
+inline var VkPerformanceConfigurationAcquireInfoINTEL._type: VkStructureType
+    get() = VkStructureType(VkPerformanceConfigurationAcquireInfoINTEL.nsType(adr))
+    set(value) = VkPerformanceConfigurationAcquireInfoINTEL.nsType(adr, value.i)
+inline var VkPerformanceConfigurationAcquireInfoINTEL.next: Ptr
+    get() = VkPerformanceConfigurationAcquireInfoINTEL.npNext(adr)
+    set(value) = VkPerformanceConfigurationAcquireInfoINTEL.npNext(adr, value)
+inline var VkPerformanceConfigurationAcquireInfoINTEL.type: VkPerformanceConfigurationTypeINTEL
+    get() = VkPerformanceConfigurationTypeINTEL(VkPerformanceConfigurationAcquireInfoINTEL.ntype(adr))
+    set(value) = VkPerformanceConfigurationAcquireInfoINTEL.ntype(adr, value.i)
+
+
 inline var VkPhysicalDevicePCIBusInfoPropertiesEXT.type: VkStructureType
     get() = VkStructureType(VkPhysicalDevicePCIBusInfoPropertiesEXT.nsType(adr))
     set(value) = VkPhysicalDevicePCIBusInfoPropertiesEXT.nsType(adr, value.i)
@@ -1148,6 +1291,23 @@ inline val VkFramebufferMixedSamplesCombinationNV.depthStencilSamples: VkSampleC
     get() = VkFramebufferMixedSamplesCombinationNV.ndepthStencilSamples(adr)
 inline val VkFramebufferMixedSamplesCombinationNV.colorSamples: VkSampleCountFlags
     get() = VkFramebufferMixedSamplesCombinationNV.ncolorSamples(adr)
+
+
+inline var VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT.type: VkStructureType
+    get() = VkStructureType(VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT.nsType(adr))
+    set(value) = VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT.nsType(adr, value.i)
+inline var VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT.next: Ptr
+    get() = VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT.npNext(adr)
+    set(value) = VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT.npNext(adr, value)
+inline var VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT.fragmentShaderSampleInterlock: Boolean
+    get() = VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT.nfragmentShaderSampleInterlock(adr).bool
+    set(value) = VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT.nfragmentShaderSampleInterlock(adr, value.i)
+inline var VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT.fragmentShaderPixelInterlock: Boolean
+    get() = VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT.nfragmentShaderPixelInterlock(adr).bool
+    set(value) = VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT.nfragmentShaderPixelInterlock(adr, value.i)
+inline var VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT.fragmentShaderShadingRateInterlock: Boolean
+    get() = VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT.nfragmentShaderShadingRateInterlock(adr).bool
+    set(value) = VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT.nfragmentShaderShadingRateInterlock(adr, value.i)
 
 
 inline var VkPhysicalDeviceYcbcrImageArraysFeaturesEXT.type: VkStructureType

@@ -23,6 +23,9 @@ fun VkDevice.acquireNextImageKHR(swapchain: VkSwapchainKHR, timeout: Long, semap
 fun VkDevice.acquireNextImage2KHR(acquireInfo: VkAcquireNextImageInfoKHR): Int =
         stak.intAddress { VK_CHECK_RESULT(KHRSwapchain.nvkAcquireNextImage2KHR(this, acquireInfo.adr, it)) }
 
+//fun VkDevice.acquirePerformanceConfigurationINTEL(acquireInfo: VkPerformanceConfigurationAcquireInfoINTEL, configuration: VkPerformanceConfigurationINTEL): VkResult = TODO
+//        stak.intAddress { VK_CHECK_RESULT(KHRSwapchain.nvkAcquireNextImage2KHR(this, acquireInfo.adr, it)) }
+
 inline infix fun <reified T> VkDevice.allocateCommandBuffers(allocateInfo: VkCommandBufferAllocateInfo): T =
         stak {
             val count = allocateInfo.commandBufferCount
@@ -723,6 +726,14 @@ inline fun <reified T> VkDevice.getPastPresentationTimingGOOGLE(swapchain: VkSwa
     else -> throw Exception("[VkDevice::getPastPresentationTimingGOOGLE] Invalid T")
 }
 
+/*
+TODO
+VKAPI_ATTR VkResult VKAPI_CALL vkGetPerformanceParameterINTEL(
+    VkDevice                                    device,
+    VkPerformanceParameterTypeINTEL             parameter,
+    VkPerformanceValueINTEL*                    pValue);
+#endif
+ */
 
 fun VkDevice.getPipelineCacheData(pipelineCache: VkPipelineCache, data: ByteBuffer): VkResult =
         stak.longAddress(data.rem.L) {
@@ -876,6 +887,13 @@ infix fun VkDevice.importSemaphoreWin32HandleKHR(importSemaphoreWin32HandleInfo:
         VkResult(KHRExternalSemaphoreWin32.nvkImportSemaphoreWin32HandleKHR(this, importSemaphoreWin32HandleInfo.adr)).apply { check() }
 
 
+infix fun VkDevice.initializePerformanceApiINTEL(initializeInfo: VkInitializePerformanceApiInfoINTEL): VkResult =
+        VkResult(INTELPerformanceQuery.nvkInitializePerformanceApiINTEL(this, initializeInfo.adr))
+
+fun VkDevice.uninitializePerformanceApiINTEL() =
+        INTELPerformanceQuery.vkUninitializePerformanceApiINTEL(this)
+
+
 infix fun VkDevice.invalidateMappedMemoryRanges(memoryRanges: VkMappedMemoryRange.Buffer): VkResult =
         VkResult(VK10.nvkInvalidateMappedMemoryRanges(this, memoryRanges.rem, memoryRanges.adr)).apply { check() }
 
@@ -912,6 +930,9 @@ fun VkDevice.registerDisplayEventEXT(display: VkDisplayKHR, displayEventInfo: Vk
 //            NVXDeviceGeneratedCommands.nvkRegisterObjectsNVX(this, display.L, displayEventInfo.adr, NULL, it)
 //        })
 
+
+//fun VkDevice.releasePerformanceConfigurationINTEL(configuration: VkPerformanceConfigurationINTEL): VkResult = TODO
+//        VkResult(nreleasePerformanceConfigurationINTEL(this, configuration.adr))
 
 fun VkDevice.resetCommandPool(commandPool: VkCommandPool, flags: VkCommandPoolResetFlags = 0): VkResult =
         VkResult(VK10.vkResetCommandPool(this, commandPool.L, flags)).apply { check() }
@@ -963,8 +984,8 @@ fun VkDevice.updateDescriptorSets(descriptorWrites: VkWriteDescriptorSet.Buffer?
                 ?: NULL, descriptorCopies?.rem ?: 0, descriptorCopies?.adr ?: NULL)
 
 fun VkDevice.updateDescriptorSets(descriptorWrite: VkWriteDescriptorSet? = null, descriptorCopy: VkCopyDescriptorSet? = null) =
-        VK10.nvkUpdateDescriptorSets(this, if(descriptorWrite == null) 0 else 1, descriptorWrite?.adr
-                ?: NULL, if(descriptorCopy == null) 0 else 1, descriptorCopy?.adr ?: NULL)
+        VK10.nvkUpdateDescriptorSets(this, if (descriptorWrite == null) 0 else 1, descriptorWrite?.adr
+                ?: NULL, if (descriptorCopy == null) 0 else 1, descriptorCopy?.adr ?: NULL)
 
 fun VkDevice.waitForFences(fences: VkFence_Buffer, waitAll: Boolean, timeout: NanoSecond): VkResult =
         VkResult(VK10.nvkWaitForFences(this, fences.rem, fences.adr, waitAll.i, timeout.L)).apply { check() }

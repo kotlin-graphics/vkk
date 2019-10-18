@@ -12,7 +12,6 @@ import vkk.entities.*
 import java.nio.Buffer
 import java.nio.FloatBuffer
 import java.nio.IntBuffer
-import kotlin.math.min
 
 
 infix fun VkCommandBuffer.begin(beginInfo: VkCommandBufferBeginInfo): VkResult =
@@ -373,6 +372,15 @@ fun VkCommandBuffer.setExclusiveScissorNV(firstExclusiveScissor: Int, exclusiveS
 
 infix fun VkCommandBuffer.setLineWidth(lineWidth: Float) =
         VK10.vkCmdSetLineWidth(this, lineWidth)
+
+infix fun VkCommandBuffer.setPerformanceMarkerINTEL(markerInfo: VkPerformanceMarkerInfoINTEL): VkResult =
+        VkResult(INTELPerformanceQuery.nvkCmdSetPerformanceMarkerINTEL(this, markerInfo.adr))
+
+infix fun VkCommandBuffer.setPerformanceStreamMarkerINTEL(markerInfo: VkPerformanceStreamMarkerInfoINTEL): VkResult =
+        VkResult(INTELPerformanceQuery.nvkCmdSetPerformanceStreamMarkerINTEL(this, markerInfo.adr))
+
+infix fun VkCommandBuffer.setPerformanceOverrideINTEL(overrideInfo: VkPerformanceOverrideInfoINTEL): VkResult =
+        VkResult(INTELPerformanceQuery.nvkCmdSetPerformanceOverrideINTEL(this, overrideInfo.adr))
 
 infix fun VkCommandBuffer.setSampleLocationsEXT(sampleLocationsInfo: VkSampleLocationsInfoEXT) =
         EXTSampleLocations.nvkCmdSetSampleLocationsEXT(this, sampleLocationsInfo.adr)
