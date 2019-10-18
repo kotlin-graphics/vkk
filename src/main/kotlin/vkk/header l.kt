@@ -1344,3 +1344,41 @@ inline var VkPhysicalDeviceHostQueryResetFeaturesEXT.next: Ptr
 inline var VkPhysicalDeviceHostQueryResetFeaturesEXT.hostQueryReset: Boolean
     get() = VkPhysicalDeviceHostQueryResetFeaturesEXT.nhostQueryReset(adr).bool
     set(value) = VkPhysicalDeviceHostQueryResetFeaturesEXT.nhostQueryReset(adr, value.i)
+
+
+inline var VkPhysicalDeviceShaderDemoteToHelperInvocationFeaturesEXT.type: VkStructureType
+    get() = VkStructureType(VkPhysicalDeviceShaderDemoteToHelperInvocationFeaturesEXT.nsType(adr))
+    set(value) = VkPhysicalDeviceShaderDemoteToHelperInvocationFeaturesEXT.nsType(adr, value.i)
+inline var VkPhysicalDeviceShaderDemoteToHelperInvocationFeaturesEXT.next: Ptr
+    get() = VkPhysicalDeviceShaderDemoteToHelperInvocationFeaturesEXT.npNext(adr)
+    set(value) = VkPhysicalDeviceShaderDemoteToHelperInvocationFeaturesEXT.npNext(adr, value)
+inline var VkPhysicalDeviceShaderDemoteToHelperInvocationFeaturesEXT.shaderDemoteToHelperInvocation: Boolean
+    get() = VkPhysicalDeviceShaderDemoteToHelperInvocationFeaturesEXT.nshaderDemoteToHelperInvocation(adr).bool
+    set(value) = VkPhysicalDeviceShaderDemoteToHelperInvocationFeaturesEXT.nshaderDemoteToHelperInvocation(adr, value.i)
+
+
+inline var VkPhysicalDeviceTexelBufferAlignmentFeaturesEXT.type: VkStructureType
+    get() = VkStructureType(VkPhysicalDeviceTexelBufferAlignmentFeaturesEXT.nsType(adr))
+    set(value) = VkPhysicalDeviceTexelBufferAlignmentFeaturesEXT.nsType(adr, value.i)
+inline var VkPhysicalDeviceTexelBufferAlignmentFeaturesEXT.next: Ptr
+    get() = VkPhysicalDeviceTexelBufferAlignmentFeaturesEXT.npNext(adr)
+    set(value) = VkPhysicalDeviceTexelBufferAlignmentFeaturesEXT.npNext(adr, value)
+inline var VkPhysicalDeviceTexelBufferAlignmentFeaturesEXT.texelBufferAlignment: Boolean
+    get() = VkPhysicalDeviceTexelBufferAlignmentFeaturesEXT.ntexelBufferAlignment(adr).bool
+    set(value) = VkPhysicalDeviceTexelBufferAlignmentFeaturesEXT.ntexelBufferAlignment(adr, value.i)
+
+
+inline var VkPhysicalDeviceTexelBufferAlignmentPropertiesEXT.type: VkStructureType
+    get() = VkStructureType(VkPhysicalDeviceTexelBufferAlignmentPropertiesEXT.nsType(adr))
+    set(value) = VkPhysicalDeviceTexelBufferAlignmentPropertiesEXT.nsType(adr, value.i)
+inline var VkPhysicalDeviceTexelBufferAlignmentPropertiesEXT.next: Ptr
+    get() = VkPhysicalDeviceTexelBufferAlignmentPropertiesEXT.npNext(adr)
+    set(value) = VkPhysicalDeviceTexelBufferAlignmentPropertiesEXT.npNext(adr, value)
+inline val VkPhysicalDeviceTexelBufferAlignmentPropertiesEXT.storageTexelBufferOffsetAlignmentBytes: VkDeviceSize
+    get() = VkDeviceSize(VkPhysicalDeviceTexelBufferAlignmentPropertiesEXT.nstorageTexelBufferOffsetAlignmentBytes(adr))
+inline val VkPhysicalDeviceTexelBufferAlignmentPropertiesEXT.storageTexelBufferOffsetSingleTexelAlignment: Boolean
+    get() = VkPhysicalDeviceTexelBufferAlignmentPropertiesEXT.nstorageTexelBufferOffsetSingleTexelAlignment(adr).bool
+inline val VkPhysicalDeviceTexelBufferAlignmentPropertiesEXT.uniformTexelBufferOffsetAlignmentBytes: VkDeviceSize
+    get() = VkDeviceSize(VkPhysicalDeviceTexelBufferAlignmentPropertiesEXT.nuniformTexelBufferOffsetAlignmentBytes(adr))
+inline val VkPhysicalDeviceTexelBufferAlignmentPropertiesEXT.uniformTexelBufferOffsetSingleTexelAlignment: Boolean
+    get() = VkPhysicalDeviceTexelBufferAlignmentPropertiesEXT.nuniformTexelBufferOffsetSingleTexelAlignment(adr).bool
