@@ -584,6 +584,85 @@ inline var VkPresentRegionsKHR.regions: VkPresentRegionKHR.Buffer?
     set(value) = VkPresentRegionsKHR.npRegions(adr, value)
 
 
+
+inline var VkPhysicalDeviceImagelessFramebufferFeaturesKHR.type: VkStructureType
+    get() = VkStructureType(VkPhysicalDeviceImagelessFramebufferFeaturesKHR.nsType(adr))
+    set(value) = VkPhysicalDeviceImagelessFramebufferFeaturesKHR.nsType(adr, value.i)
+inline var VkPhysicalDeviceImagelessFramebufferFeaturesKHR.next: Ptr
+    get() = VkPhysicalDeviceImagelessFramebufferFeaturesKHR.npNext(adr)
+    set(value) = VkPhysicalDeviceImagelessFramebufferFeaturesKHR.npNext(adr, value)
+inline var VkPhysicalDeviceImagelessFramebufferFeaturesKHR.imagelessFramebuffer: Boolean
+    get() = VkPhysicalDeviceImagelessFramebufferFeaturesKHR.nimagelessFramebuffer(adr).bool
+    set(value) = VkPhysicalDeviceImagelessFramebufferFeaturesKHR.nimagelessFramebuffer(adr, value.i)
+
+
+
+inline var VkFramebufferAttachmentImageInfoKHR.type: VkStructureType
+    get() = VkStructureType(VkFramebufferAttachmentImageInfoKHR.nsType(adr))
+    set(value) = VkFramebufferAttachmentImageInfoKHR.nsType(adr, value.i)
+inline var VkFramebufferAttachmentImageInfoKHR.next: Ptr
+    get() = VkFramebufferAttachmentImageInfoKHR.npNext(adr)
+    set(value) = VkFramebufferAttachmentImageInfoKHR.npNext(adr, value)
+inline var VkFramebufferAttachmentImageInfoKHR.flags: VkImageCreateFlags
+    get() = VkFramebufferAttachmentImageInfoKHR.nflags(adr)
+    set(value) = VkFramebufferAttachmentImageInfoKHR.nflags(adr, value)
+inline var VkFramebufferAttachmentImageInfoKHR.usage: VkImageUsageFlags
+    get() = VkFramebufferAttachmentImageInfoKHR.nusage(adr)
+    set(value) = VkFramebufferAttachmentImageInfoKHR.nusage(adr, value)
+inline var VkFramebufferAttachmentImageInfoKHR.width: Int
+    get() = VkFramebufferAttachmentImageInfoKHR.nwidth(adr)
+    set(value) = VkFramebufferAttachmentImageInfoKHR.nwidth(adr, value)
+inline var VkFramebufferAttachmentImageInfoKHR.height: Int
+    get() = VkFramebufferAttachmentImageInfoKHR.nheight(adr)
+    set(value) = VkFramebufferAttachmentImageInfoKHR.nheight(adr, value)
+/** custom JVM */
+inline var VkFramebufferAttachmentImageInfoKHR.size: Vec2i
+    get() = Vec2i(width, height)
+    set(value) {
+        width = value.x
+        height = value.y
+    }
+inline var VkFramebufferAttachmentImageInfoKHR.layerCount: Int
+    get() = VkFramebufferAttachmentImageInfoKHR.nlayerCount(adr)
+    set(value) = VkFramebufferAttachmentImageInfoKHR.nlayerCount(adr, value)
+inline var VkFramebufferAttachmentImageInfoKHR.viewFormatCount: Int
+    get() = VkFramebufferAttachmentImageInfoKHR.nviewFormatCount(adr)
+    set(value) = VkFramebufferAttachmentImageInfoKHR.nviewFormatCount(adr, value)
+inline var VkFramebufferAttachmentImageInfoKHR.viewFormats: VkFormat_Buffer?
+    get() = VkFramebufferAttachmentImageInfoKHR.npViewFormats(adr)?.let(::VkFormat_Buffer)
+    set(value) = VkFramebufferAttachmentImageInfoKHR.npViewFormats(adr, value?.buffer)
+
+
+inline var VkFramebufferAttachmentsCreateInfoKHR.type: VkStructureType
+    get() = VkStructureType(VkFramebufferAttachmentsCreateInfoKHR.nsType(adr))
+    set(value) = VkFramebufferAttachmentsCreateInfoKHR.nsType(adr, value.i)
+inline var VkFramebufferAttachmentsCreateInfoKHR.next: Ptr
+    get() = VkFramebufferAttachmentsCreateInfoKHR.npNext(adr)
+    set(value) = VkFramebufferAttachmentsCreateInfoKHR.npNext(adr, value)
+@Deprecated("this will be set automatically")
+inline var VkFramebufferAttachmentsCreateInfoKHR.attachmentImageInfoCount: Int
+    get() = VkFramebufferAttachmentsCreateInfoKHR.nattachmentImageInfoCount(adr)
+    set(value) = VkFramebufferAttachmentsCreateInfoKHR.nattachmentImageInfoCount(adr, value)
+inline var VkFramebufferAttachmentsCreateInfoKHR.attachmentImageInfos: VkFramebufferAttachmentImageInfoKHR.Buffer?
+    get() = VkFramebufferAttachmentsCreateInfoKHR.npAttachmentImageInfos(adr)
+    set(value) = VkFramebufferAttachmentsCreateInfoKHR.npAttachmentImageInfos(adr, value)
+
+
+inline var VkRenderPassAttachmentBeginInfoKHR.type: VkStructureType
+    get() = VkStructureType(VkRenderPassAttachmentBeginInfoKHR.nsType(adr))
+    set(value) = VkRenderPassAttachmentBeginInfoKHR.nsType(adr, value.i)
+inline var VkRenderPassAttachmentBeginInfoKHR.next: Ptr
+    get() = VkRenderPassAttachmentBeginInfoKHR.npNext(adr)
+    set(value) = VkRenderPassAttachmentBeginInfoKHR.npNext(adr, value)
+@Deprecated("this will be set automatically")
+inline var VkRenderPassAttachmentBeginInfoKHR.attachmentCount: Int
+    get() = VkRenderPassAttachmentBeginInfoKHR.nattachmentCount(adr)
+    set(value) = VkRenderPassAttachmentBeginInfoKHR.nattachmentCount(adr, value)
+inline var VkRenderPassAttachmentBeginInfoKHR.attachments: VkImageView_Buffer?
+    get() = VkRenderPassAttachmentBeginInfoKHR.npAttachments(adr)?.let(::VkImageView_Buffer)
+    set(value) = VkRenderPassAttachmentBeginInfoKHR.npAttachments(adr, value?.buffer)
+
+
 inline var VkAttachmentDescription2KHR.type: VkStructureType
     get() = VkStructureType(VkAttachmentDescription2KHR.nsType(adr))
     set(value) = VkAttachmentDescription2KHR.nsType(adr, value.i)

@@ -6,6 +6,7 @@ import kool.lib.isNotEmpty
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryStack.stackGet
 import vkk.VkDynamicState
+import vkk.VkFormat
 import vkk.vk
 import java.nio.IntBuffer
 import java.nio.LongBuffer
@@ -66,7 +67,7 @@ inline class VkBuffer_Buffer(val buffer: LongBuffer) {
             buffer.lim = value
         }
 
-    infix fun put(src: VkAccelerationStructureNV_Buffer) {
+    infix fun put(src: VkBuffer_Buffer) {
         buffer.put(src.buffer)
     }
 
@@ -103,7 +104,7 @@ inline class VkBufferView_Buffer(val buffer: LongBuffer) {
             buffer.lim = value
         }
 
-    infix fun put(src: VkAccelerationStructureNV_Buffer) {
+    infix fun put(src: VkBufferView_Buffer) {
         buffer.put(src.buffer)
     }
 
@@ -140,7 +141,7 @@ inline class VkCommandPool_Buffer(val buffer: LongBuffer) {
             buffer.lim = value
         }
 
-    infix fun put(src: VkAccelerationStructureNV_Buffer) {
+    infix fun put(src: VkCommandPool_Buffer) {
         buffer.put(src.buffer)
     }
 
@@ -177,7 +178,7 @@ inline class VkDebugReportCallback_Buffer(val buffer: LongBuffer) {
             buffer.lim = value
         }
 
-    infix fun put(src: VkAccelerationStructureNV_Buffer) {
+    infix fun put(src: VkDebugReportCallback_Buffer) {
         buffer.put(src.buffer)
     }
 
@@ -213,7 +214,7 @@ inline class VkDebugUtilsMessengerEXT_Buffer(val buffer: LongBuffer) {
             buffer.lim = value
         }
 
-    infix fun put(src: VkAccelerationStructureNV_Buffer) {
+    infix fun put(src: VkDebugUtilsMessengerEXT_Buffer) {
         buffer.put(src.buffer)
     }
 
@@ -250,7 +251,7 @@ inline class VkDescriptorPool_Buffer(val buffer: LongBuffer) {
             buffer.lim = value
         }
 
-    infix fun put(src: VkAccelerationStructureNV_Buffer) {
+    infix fun put(src: VkDescriptorPool_Buffer) {
         buffer.put(src.buffer)
     }
 
@@ -287,7 +288,7 @@ inline class VkDescriptorSet_Buffer(val buffer: LongBuffer) {
             buffer.lim = value
         }
 
-    infix fun put(src: VkAccelerationStructureNV_Buffer) {
+    infix fun put(src: VkDescriptorSet_Buffer) {
         buffer.put(src.buffer)
     }
 
@@ -324,7 +325,7 @@ inline class VkDescriptorSetLayout_Buffer(val buffer: LongBuffer) {
             buffer.lim = value
         }
 
-    infix fun put(src: VkAccelerationStructureNV_Buffer) {
+    infix fun put(src: VkDescriptorSetLayout_Buffer) {
         buffer.put(src.buffer)
     }
 
@@ -361,7 +362,7 @@ inline class VkDescriptorUpdateTemplate_Buffer(val buffer: LongBuffer) {
             buffer.lim = value
         }
 
-    infix fun put(src: VkAccelerationStructureNV_Buffer) {
+    infix fun put(src: VkDescriptorUpdateTemplate_Buffer) {
         buffer.put(src.buffer)
     }
 
@@ -398,7 +399,7 @@ inline class VkDeviceMemory_Buffer(val buffer: LongBuffer) {
             buffer.lim = value
         }
 
-    infix fun put(src: VkAccelerationStructureNV_Buffer) {
+    infix fun put(src: VkDeviceMemory_Buffer) {
         buffer.put(src.buffer)
     }
 
@@ -435,7 +436,7 @@ inline class VkDeviceSize_Buffer(val buffer: LongBuffer) {
             buffer.lim = value
         }
 
-    infix fun put(src: VkAccelerationStructureNV_Buffer) {
+    infix fun put(src: VkDeviceSize_Buffer) {
         buffer.put(src.buffer)
     }
 
@@ -472,7 +473,7 @@ inline class VkDisplayKHR_Buffer(val buffer: LongBuffer) {
             buffer.lim = value
         }
 
-    infix fun put(src: VkAccelerationStructureNV_Buffer) {
+    infix fun put(src: VkDisplayKHR_Buffer) {
         buffer.put(src.buffer)
     }
 
@@ -509,7 +510,7 @@ inline class VkDisplayModeKHR_Buffer(val buffer: LongBuffer) {
             buffer.lim = value
         }
 
-    infix fun put(src: VkAccelerationStructureNV_Buffer) {
+    infix fun put(src: VkDisplayModeKHR_Buffer) {
         buffer.put(src.buffer)
     }
 
@@ -546,7 +547,7 @@ inline class VkEvent_Buffer(val buffer: LongBuffer) {
             buffer.lim = value
         }
 
-    infix fun put(src: VkAccelerationStructureNV_Buffer) {
+    infix fun put(src: VkEvent_Buffer) {
         buffer.put(src.buffer)
     }
 
@@ -583,7 +584,7 @@ inline class VkFence_Buffer(val buffer: LongBuffer) {
             buffer.lim = value
         }
 
-    infix fun put(src: VkAccelerationStructureNV_Buffer) {
+    infix fun put(src: VkFence_Buffer) {
         buffer.put(src.buffer)
     }
 
@@ -620,7 +621,7 @@ inline class VkFramebuffer_Buffer(val buffer: LongBuffer) {
             buffer.lim = value
         }
 
-    infix fun put(src: VkAccelerationStructureNV_Buffer) {
+    infix fun put(src: VkFramebuffer_Buffer) {
         buffer.put(src.buffer)
     }
 
@@ -636,6 +637,43 @@ fun VkFramebuffer_Buffer(elements: Collection<VkFramebuffer>) = VkFramebuffer_Bu
 fun vk.Framebuffer_Buffer(size: Int, block: (Int) -> VkFramebuffer) = VkFramebuffer_Buffer(stackGet().LongBuffer(size) { block(it).L })
 fun vk.Framebuffer_Buffer(size: Int) = VkFramebuffer_Buffer(stackGet().LongBuffer(size))
 fun vk.Framebuffer_Buffer(elements: Collection<VkFramebuffer>) = VkFramebuffer_Buffer(stackGet().LongBuffer(elements.size) { elements.elementAt(it).L })
+
+
+inline class VkFormat_Buffer(val buffer: IntBuffer) {
+    operator fun get(index: Int) = VkFormat(buffer[index])
+    operator fun set(index: Int, value: VkFormat) {
+        buffer[index] = value.i
+    }
+
+    val rem get() = buffer.rem
+    val adr get() = buffer.adr
+    var pos
+        get() = buffer.pos
+        set(value) {
+            buffer.pos = value
+        }
+    var lim
+        get() = buffer.lim
+        set(value) {
+            buffer.lim = value
+        }
+
+    infix fun put(src: VkFormat_Buffer) {
+        buffer.put(src.buffer)
+    }
+
+    fun flip() {
+        buffer.flip()
+    }
+}
+
+fun VkFormat_Buffer(size: Int, block: (Int) -> VkFormat) = VkFormat_Buffer(IntBuffer(size) { block(it).i })
+fun VkFormat_Buffer(size: Int) = VkFormat_Buffer(IntBuffer(size))
+fun VkFormat_Buffer(elements: Collection<VkFormat>) = VkFormat_Buffer(IntBuffer(elements.size) { elements.elementAt(it).i })
+
+fun vk.Format_Buffer(size: Int, block: (Int) -> VkFormat) = VkFormat_Buffer(stackGet().IntBuffer(size) { block(it).i })
+fun vk.Format_Buffer(size: Int) = VkFormat_Buffer(stackGet().IntBuffer(size))
+fun vk.Format_Buffer(elements: Collection<VkFormat>) = VkFormat_Buffer(stackGet().IntBuffer(elements.size) { elements.elementAt(it).i })
 
 
 inline class VkImage_Buffer(val buffer: LongBuffer) {
@@ -657,7 +695,7 @@ inline class VkImage_Buffer(val buffer: LongBuffer) {
             buffer.lim = value
         }
 
-    infix fun put(src: VkAccelerationStructureNV_Buffer) {
+    infix fun put(src: VkImage_Buffer) {
         buffer.put(src.buffer)
     }
 
@@ -694,7 +732,7 @@ inline class VkImageView_Buffer(val buffer: LongBuffer) {
             buffer.lim = value
         }
 
-    infix fun put(src: VkAccelerationStructureNV_Buffer) {
+    infix fun put(src: VkImageView_Buffer) {
         buffer.put(src.buffer)
     }
 
@@ -731,7 +769,7 @@ inline class VkIndirectCommandsLayoutNVX_Buffer(val buffer: LongBuffer) {
             buffer.lim = value
         }
 
-    infix fun put(src: VkAccelerationStructureNV_Buffer) {
+    infix fun put(src: VkIndirectCommandsLayoutNVX_Buffer) {
         buffer.put(src.buffer)
     }
 
@@ -768,7 +806,7 @@ inline class VkObjectTableNVX_Buffer(val buffer: LongBuffer) {
             buffer.lim = value
         }
 
-    infix fun put(src: VkAccelerationStructureNV_Buffer) {
+    infix fun put(src: VkObjectTableNVX_Buffer) {
         buffer.put(src.buffer)
     }
 
@@ -805,7 +843,7 @@ inline class VkPipeline_Buffer(val buffer: LongBuffer) {
             buffer.lim = value
         }
 
-    infix fun put(src: VkAccelerationStructureNV_Buffer) {
+    infix fun put(src: VkPipeline_Buffer) {
         buffer.put(src.buffer)
     }
 
@@ -842,7 +880,7 @@ inline class VkPipelineCache_Buffer(val buffer: LongBuffer) {
             buffer.lim = value
         }
 
-    infix fun put(src: VkAccelerationStructureNV_Buffer) {
+    infix fun put(src: VkPipelineCache_Buffer) {
         buffer.put(src.buffer)
     }
 
@@ -879,7 +917,7 @@ inline class VkPipelineLayout_Buffer(val buffer: LongBuffer) {
             buffer.lim = value
         }
 
-    infix fun put(src: VkAccelerationStructureNV_Buffer) {
+    infix fun put(src: VkPipelineLayout_Buffer) {
         buffer.put(src.buffer)
     }
 
@@ -916,7 +954,7 @@ inline class VkQueryPool_Buffer(val buffer: LongBuffer) {
             buffer.lim = value
         }
 
-    infix fun put(src: VkAccelerationStructureNV_Buffer) {
+    infix fun put(src: VkQueryPool_Buffer) {
         buffer.put(src.buffer)
     }
 
@@ -953,7 +991,7 @@ inline class VkRenderPass_Buffer(val buffer: LongBuffer) {
             buffer.lim = value
         }
 
-    infix fun put(src: VkAccelerationStructureNV_Buffer) {
+    infix fun put(src: VkRenderPass_Buffer) {
         buffer.put(src.buffer)
     }
 
@@ -990,7 +1028,7 @@ inline class VkSampler_Buffer(val buffer: LongBuffer) {
             buffer.lim = value
         }
 
-    infix fun put(src: VkAccelerationStructureNV_Buffer) {
+    infix fun put(src: VkSampler_Buffer) {
         buffer.put(src.buffer)
     }
 
@@ -1027,7 +1065,7 @@ inline class VkSamplerYcbcrConversion_Buffer(val buffer: LongBuffer) {
             buffer.lim = value
         }
 
-    infix fun put(src: VkAccelerationStructureNV_Buffer) {
+    infix fun put(src: VkSamplerYcbcrConversion_Buffer) {
         buffer.put(src.buffer)
     }
 
@@ -1064,7 +1102,7 @@ inline class VkSemaphore_Buffer(val buffer: LongBuffer) {
             buffer.lim = value
         }
 
-    infix fun put(src: VkAccelerationStructureNV_Buffer) {
+    infix fun put(src: VkSemaphore_Buffer) {
         buffer.put(src.buffer)
     }
 
@@ -1101,7 +1139,7 @@ inline class VkShaderModule_Buffer(val buffer: LongBuffer) {
             buffer.lim = value
         }
 
-    infix fun put(src: VkAccelerationStructureNV_Buffer) {
+    infix fun put(src: VkShaderModule_Buffer) {
         buffer.put(src.buffer)
     }
 
@@ -1142,7 +1180,7 @@ inline class VkSurfaceKHR_Buffer(val buffer: LongBuffer) {
             buffer.lim = value
         }
 
-    infix fun put(src: VkAccelerationStructureNV_Buffer) {
+    infix fun put(src: VkSurfaceKHR_Buffer) {
         buffer.put(src.buffer)
     }
 
@@ -1179,7 +1217,7 @@ inline class VkSwapchainKHR_Buffer(val buffer: LongBuffer) {
             buffer.lim = value
         }
 
-    infix fun put(src: VkAccelerationStructureNV_Buffer) {
+    infix fun put(src: VkSwapchainKHR_Buffer) {
         buffer.put(src.buffer)
     }
 
@@ -1216,7 +1254,7 @@ inline class VkValidationCacheEXT_Buffer(val buffer: LongBuffer) {
             buffer.lim = value
         }
 
-    infix fun put(src: VkAccelerationStructureNV_Buffer) {
+    infix fun put(src: VkValidationCacheEXT_Buffer) {
         buffer.put(src.buffer)
     }
 

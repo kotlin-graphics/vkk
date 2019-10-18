@@ -674,6 +674,13 @@ inline class VkDescriptorPoolCreate(val i: Int) {
 
 typealias VkDescriptorPoolCreateFlags = VkFlags
 typealias VkDescriptorPoolResetFlags = VkFlags
+
+inline class VkFramebufferCreate(val i: Int) {
+    companion object {
+        val IMAGELESS_BIT_KHR = VkFramebufferCreate(0x00000001)
+    }
+}
+
 typealias VkFramebufferCreateFlags = VkFlags
 typealias VkRenderPassCreateFlags = VkFlags
 
