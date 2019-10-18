@@ -1102,6 +1102,54 @@ inline val VkPhysicalDeviceCooperativeMatrixPropertiesNV.cooperativeMatrixSuppor
     get() = VkPhysicalDeviceCooperativeMatrixPropertiesNV.ncooperativeMatrixSupportedStages(adr)
 
 
+inline class VkCoverageReductionModeNV(val i: Int) {
+    companion object {
+        val MERGE = VkCoverageReductionModeNV(0)
+        val TRUNCATE = VkCoverageReductionModeNV(1)
+    }
+}
+
+typealias VkPipelineCoverageReductionStateCreateFlagsNV = VkFlags
+
+
+inline var VkPhysicalDeviceCoverageReductionModeFeaturesNV.type: VkStructureType
+    get() = VkStructureType(VkPhysicalDeviceCoverageReductionModeFeaturesNV.nsType(adr))
+    set(value) = VkPhysicalDeviceCoverageReductionModeFeaturesNV.nsType(adr, value.i)
+inline var VkPhysicalDeviceCoverageReductionModeFeaturesNV.next: Ptr
+    get() = VkPhysicalDeviceCoverageReductionModeFeaturesNV.npNext(adr)
+    set(value) = VkPhysicalDeviceCoverageReductionModeFeaturesNV.npNext(adr, value)
+inline var VkPhysicalDeviceCoverageReductionModeFeaturesNV.coverageReductionMode: Boolean
+    get() = VkPhysicalDeviceCoverageReductionModeFeaturesNV.ncoverageReductionMode(adr).bool
+    set(value) = VkPhysicalDeviceCoverageReductionModeFeaturesNV.ncoverageReductionMode(adr, value.i)
+
+
+inline var VkPipelineCoverageReductionStateCreateInfoNV.type: VkStructureType
+    get() = VkStructureType(VkPipelineCoverageReductionStateCreateInfoNV.nsType(adr))
+    set(value) = VkPipelineCoverageReductionStateCreateInfoNV.nsType(adr, value.i)
+inline var VkPipelineCoverageReductionStateCreateInfoNV.next: Ptr
+    get() = VkPipelineCoverageReductionStateCreateInfoNV.npNext(adr)
+    set(value) = VkPipelineCoverageReductionStateCreateInfoNV.npNext(adr, value)
+inline var VkPipelineCoverageReductionStateCreateInfoNV.flags: VkPipelineCoverageReductionStateCreateFlagsNV
+    get() = VkPipelineCoverageReductionStateCreateInfoNV.nflags(adr)
+    set(value) = VkPipelineCoverageReductionStateCreateInfoNV.nflags(adr, value)
+
+
+inline var VkFramebufferMixedSamplesCombinationNV.type: VkStructureType
+    get() = VkStructureType(VkFramebufferMixedSamplesCombinationNV.nsType(adr))
+    set(value) = VkFramebufferMixedSamplesCombinationNV.nsType(adr, value.i)
+inline var VkFramebufferMixedSamplesCombinationNV.next: Ptr
+    get() = VkFramebufferMixedSamplesCombinationNV.npNext(adr)
+    set(value) = VkFramebufferMixedSamplesCombinationNV.npNext(adr, value)
+inline val VkFramebufferMixedSamplesCombinationNV.coverageReductionMode: VkCoverageReductionModeNV
+    get() = VkCoverageReductionModeNV(VkFramebufferMixedSamplesCombinationNV.ncoverageReductionMode(adr))
+inline val VkFramebufferMixedSamplesCombinationNV.rasterizationSamples: VkSampleCount
+    get() = VkSampleCount(VkFramebufferMixedSamplesCombinationNV.nrasterizationSamples(adr))
+inline val VkFramebufferMixedSamplesCombinationNV.depthStencilSamples: VkSampleCountFlags
+    get() = VkFramebufferMixedSamplesCombinationNV.ndepthStencilSamples(adr)
+inline val VkFramebufferMixedSamplesCombinationNV.colorSamples: VkSampleCountFlags
+    get() = VkFramebufferMixedSamplesCombinationNV.ncolorSamples(adr)
+
+
 inline var VkPhysicalDeviceYcbcrImageArraysFeaturesEXT.type: VkStructureType
     get() = VkStructureType(VkPhysicalDeviceYcbcrImageArraysFeaturesEXT.nsType(adr))
     set(value) = VkPhysicalDeviceYcbcrImageArraysFeaturesEXT.nsType(adr, value.i)

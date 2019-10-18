@@ -707,6 +707,27 @@ inline infix fun <reified T> VkPhysicalDevice.getSparseImageFormatProperties2KHR
     else -> throw Exception("[VkPhysicalDevice::getSparseImageFormatProperties2KHR] Invalid T")
 }
 
+fun VkPhysicalDevice.getSupportedFramebufferMixedSamplesCombinationsNV(combinations: VkFramebufferMixedSamplesCombinationNV.Buffer) =
+        stak.intAddress(combinations.rem) {
+            NVCoverageReductionMode.nvkGetPhysicalDeviceSupportedFramebufferMixedSamplesCombinationsNV(this, it, combinations.adr)
+        }
+
+inline fun <reified T> VkPhysicalDevice.getSupportedFramebufferMixedSamplesCombinationsNV(): T = when (T::class) {
+    Int::class -> stak.intAddress {
+        NVCoverageReductionMode.nvkGetPhysicalDeviceSupportedFramebufferMixedSamplesCombinationsNV(this, it, NULL)
+    } as T
+    VkFramebufferMixedSamplesCombinationNV.Buffer::class -> {
+        val st = stackGet()
+        val pCombinationsCount = st.nmalloc(4, Int.BYTES)
+        NVCoverageReductionMode.nvkGetPhysicalDeviceSupportedFramebufferMixedSamplesCombinationsNV(this, pCombinationsCount, NULL)
+        val count = memGetInt(pCombinationsCount)
+        st.FramebufferMixedSamplesCombinationNV(count).also {
+            NVCoverageReductionMode.nvkGetPhysicalDeviceSupportedFramebufferMixedSamplesCombinationsNV(this, pCombinationsCount, it.adr)
+        } as T
+    }
+    else -> throw Exception("[VkPhysicalDevice::getSupportedFramebufferMixedSamplesCombinationsNV] Invalid T")
+}
+
 
 fun VkPhysicalDevice.getSurfaceCapabilities2EXT(surface: VkSurfaceKHR, surfaceCapabilities: VkSurfaceCapabilities2EXT): VkResult =
         VkResult(EXTDisplaySurfaceCounter.nvkGetPhysicalDeviceSurfaceCapabilities2EXT(this, surface.L, surfaceCapabilities.adr)).apply { check() }

@@ -338,18 +338,15 @@ inline var VkSurfaceCapabilitiesFullScreenExclusiveEXT.fullScreenExclusiveSuppor
     set(value) = VkSurfaceCapabilitiesFullScreenExclusiveEXT.nfullScreenExclusiveSupported(adr, value.i)
 
 
-// VkPhysicalDeviceSurfaceInfo2KHR is already defined in the header
-
-
-inline var VkSurfaceFullScreenExclusiveWin32InfoEXT .type: VkStructureType
-    get() = VkStructureType(VkSurfaceFullScreenExclusiveWin32InfoEXT .nsType(adr))
-    set(value) = VkSurfaceFullScreenExclusiveWin32InfoEXT .nsType(adr, value.i)
-inline var VkSurfaceFullScreenExclusiveWin32InfoEXT .next: Ptr
-    get() = VkSurfaceFullScreenExclusiveWin32InfoEXT .npNext(adr)
-    set(value) = VkSurfaceFullScreenExclusiveWin32InfoEXT .npNext(adr, value)
-inline var VkSurfaceFullScreenExclusiveWin32InfoEXT .hmonitor: HMONITOR
-    get() = HMONITOR(VkSurfaceFullScreenExclusiveWin32InfoEXT .nhmonitor(adr))
-    set(value) = VkSurfaceFullScreenExclusiveWin32InfoEXT .nhmonitor(adr, value.L)
+inline var VkSurfaceFullScreenExclusiveWin32InfoEXT.type: VkStructureType
+    get() = VkStructureType(VkSurfaceFullScreenExclusiveWin32InfoEXT.nsType(adr))
+    set(value) = VkSurfaceFullScreenExclusiveWin32InfoEXT.nsType(adr, value.i)
+inline var VkSurfaceFullScreenExclusiveWin32InfoEXT.next: Ptr
+    get() = VkSurfaceFullScreenExclusiveWin32InfoEXT.npNext(adr)
+    set(value) = VkSurfaceFullScreenExclusiveWin32InfoEXT.npNext(adr, value)
+inline var VkSurfaceFullScreenExclusiveWin32InfoEXT.hmonitor: HMONITOR
+    get() = HMONITOR(VkSurfaceFullScreenExclusiveWin32InfoEXT.nhmonitor(adr))
+    set(value) = VkSurfaceFullScreenExclusiveWin32InfoEXT.nhmonitor(adr, value.L)
 
 
 // macosx

@@ -996,7 +996,7 @@ inline class VkColorSpaceKHR(val i: Int) {
         val SRGB_NONLINEAR_KHR = VkColorSpaceKHR(0)
         val DISPLAY_P3_NONLINEAR_EXT = VkColorSpaceKHR(1000104001)
         val EXTENDED_SRGB_LINEAR_EXT = VkColorSpaceKHR(1000104002)
-        val DCI_P3_LINEAR_EXT = VkColorSpaceKHR(1000104003)
+        val DISPLAY_P3_LINEAR_EXT = VkColorSpaceKHR(1000104003)
         val DCI_P3_NONLINEAR_EXT = VkColorSpaceKHR(1000104004)
         val BT709_LINEAR_EXT = VkColorSpaceKHR(1000104005)
         val BT709_NONLINEAR_EXT = VkColorSpaceKHR(1000104006)

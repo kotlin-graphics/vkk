@@ -719,6 +719,11 @@ fun MemoryStack.FramebufferCreateInfo(block: VkFramebufferCreateInfo.() -> Unit)
 fun MemoryStack.FramebufferCreateInfo(capacity: Int): VkFramebufferCreateInfo.Buffer = VkFramebufferCreateInfo.callocStack(capacity, this).onEach { it.type = VkStructureType.FRAMEBUFFER_CREATE_INFO }
 fun MemoryStack.FramebufferCreateInfo(capacity: Int, block: VkFramebufferCreateInfo.Buffer.() -> Unit): VkFramebufferCreateInfo.Buffer = FramebufferCreateInfo(capacity).also(block)
 
+fun MemoryStack.FramebufferMixedSamplesCombinationNV(): VkFramebufferMixedSamplesCombinationNV = VkFramebufferMixedSamplesCombinationNV.callocStack(this).apply { type = VkStructureType.FRAMEBUFFER_MIXED_SAMPLES_COMBINATION_NV }
+fun MemoryStack.FramebufferMixedSamplesCombinationNV(block: VkFramebufferMixedSamplesCombinationNV.() -> Unit): VkFramebufferMixedSamplesCombinationNV = FramebufferMixedSamplesCombinationNV().also(block)
+fun MemoryStack.FramebufferMixedSamplesCombinationNV(capacity: Int): VkFramebufferMixedSamplesCombinationNV.Buffer = VkFramebufferMixedSamplesCombinationNV.callocStack(capacity, this).onEach { it.type = VkStructureType.FRAMEBUFFER_MIXED_SAMPLES_COMBINATION_NV }
+fun MemoryStack.FramebufferMixedSamplesCombinationNV(capacity: Int, block: VkFramebufferMixedSamplesCombinationNV.Buffer.() -> Unit): VkFramebufferMixedSamplesCombinationNV.Buffer = FramebufferMixedSamplesCombinationNV(capacity).also(block)
+
 fun MemoryStack.GeometryAABBNV(): VkGeometryAABBNV = VkGeometryAABBNV.callocStack(this).apply { type = VkStructureType.GEOMETRY_AABB_NV }
 fun MemoryStack.GeometryAABBNV(block: VkGeometryAABBNV.() -> Unit): VkGeometryAABBNV = GeometryAABBNV().also(block)
 fun MemoryStack.GeometryAABBNV(capacity: Int): VkGeometryAABBNV.Buffer = VkGeometryAABBNV.callocStack(capacity, this).onEach { it.type = VkStructureType.GEOMETRY_AABB_NV }
