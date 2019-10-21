@@ -1361,6 +1361,83 @@ inline var VkHeadlessSurfaceCreateInfoEXT.flags: VkHeadlessSurfaceCreateFlagsEXT
     set(value) = VkHeadlessSurfaceCreateInfoEXT.nflags(adr, value)
 
 
+inline class VkLineRasterizationModeEXT(val i: Int) {
+    companion object {
+        val DEFAULT_EXT = VkLineRasterizationModeEXT(0)
+        val RECTANGULAR_EXT = VkLineRasterizationModeEXT(1)
+        val BRESENHAM_EXT = VkLineRasterizationModeEXT(2)
+        val RECTANGULAR_SMOOTH_EXT = VkLineRasterizationModeEXT(3)
+    }
+}
+
+
+inline var VkPhysicalDeviceLineRasterizationFeaturesEXT.type: VkStructureType
+    get() = VkStructureType(VkPhysicalDeviceLineRasterizationFeaturesEXT.nsType(adr))
+    set(value) = VkPhysicalDeviceLineRasterizationFeaturesEXT.nsType(adr, value.i)
+inline var VkPhysicalDeviceLineRasterizationFeaturesEXT.next: Ptr
+    get() = VkPhysicalDeviceLineRasterizationFeaturesEXT.npNext(adr)
+    set(value) = VkPhysicalDeviceLineRasterizationFeaturesEXT.npNext(adr, value)
+inline var VkPhysicalDeviceLineRasterizationFeaturesEXT.rectangularLines: Boolean
+    get() = VkPhysicalDeviceLineRasterizationFeaturesEXT.nrectangularLines(adr).bool
+    set(value) = VkPhysicalDeviceLineRasterizationFeaturesEXT.nrectangularLines(adr, value.i)
+inline var VkPhysicalDeviceLineRasterizationFeaturesEXT.bresenhamLines: Boolean
+    get() = VkPhysicalDeviceLineRasterizationFeaturesEXT.nbresenhamLines(adr).bool
+    set(value) = VkPhysicalDeviceLineRasterizationFeaturesEXT.nbresenhamLines(adr, value.i)
+inline var VkPhysicalDeviceLineRasterizationFeaturesEXT.smoothLines: Boolean
+    get() = VkPhysicalDeviceLineRasterizationFeaturesEXT.nsmoothLines(adr).bool
+    set(value) = VkPhysicalDeviceLineRasterizationFeaturesEXT.nsmoothLines(adr, value.i)
+inline var VkPhysicalDeviceLineRasterizationFeaturesEXT.stippledRectangularLines: Boolean
+    get() = VkPhysicalDeviceLineRasterizationFeaturesEXT.nstippledRectangularLines(adr).bool
+    set(value) = VkPhysicalDeviceLineRasterizationFeaturesEXT.nstippledRectangularLines(adr, value.i)
+inline var VkPhysicalDeviceLineRasterizationFeaturesEXT.stippledBresenhamLines: Boolean
+    get() = VkPhysicalDeviceLineRasterizationFeaturesEXT.nstippledBresenhamLines(adr).bool
+    set(value) = VkPhysicalDeviceLineRasterizationFeaturesEXT.nstippledBresenhamLines(adr, value.i)
+inline var VkPhysicalDeviceLineRasterizationFeaturesEXT.stippledSmoothLines: Boolean
+    get() = VkPhysicalDeviceLineRasterizationFeaturesEXT.nstippledSmoothLines(adr).bool
+    set(value) = VkPhysicalDeviceLineRasterizationFeaturesEXT.nstippledSmoothLines(adr, value.i)
+
+
+inline var VkPhysicalDeviceLineRasterizationPropertiesEXT.type: VkStructureType
+    get() = VkStructureType(VkPhysicalDeviceLineRasterizationPropertiesEXT.nsType(adr))
+    set(value) = VkPhysicalDeviceLineRasterizationPropertiesEXT.nsType(adr, value.i)
+inline var VkPhysicalDeviceLineRasterizationPropertiesEXT.next: Ptr
+    get() = VkPhysicalDeviceLineRasterizationPropertiesEXT.npNext(adr)
+    set(value) = VkPhysicalDeviceLineRasterizationPropertiesEXT.npNext(adr, value)
+inline val VkPhysicalDeviceLineRasterizationPropertiesEXT.lineSubPixelPrecisionBits: Int
+    get() = VkPhysicalDeviceLineRasterizationPropertiesEXT.nlineSubPixelPrecisionBits(adr)
+
+
+inline var VkPipelineRasterizationLineStateCreateInfoEXT.type: VkStructureType
+    get() = VkStructureType(VkPipelineRasterizationLineStateCreateInfoEXT.nsType(adr))
+    set(value) = VkPipelineRasterizationLineStateCreateInfoEXT.nsType(adr, value.i)
+inline var VkPipelineRasterizationLineStateCreateInfoEXT.next: Ptr
+    get() = VkPipelineRasterizationLineStateCreateInfoEXT.npNext(adr)
+    set(value) = VkPipelineRasterizationLineStateCreateInfoEXT.npNext(adr, value)
+inline var VkPipelineRasterizationLineStateCreateInfoEXT.lineRasterizationMode: VkLineRasterizationModeEXT
+    get() = VkLineRasterizationModeEXT(VkPipelineRasterizationLineStateCreateInfoEXT.nlineRasterizationMode(adr))
+    set(value) = VkPipelineRasterizationLineStateCreateInfoEXT.nlineRasterizationMode(adr, value.i)
+inline var VkPipelineRasterizationLineStateCreateInfoEXT.stippledLineEnable: Boolean
+    get() = VkPipelineRasterizationLineStateCreateInfoEXT.nstippledLineEnable(adr).bool
+    set(value) = VkPipelineRasterizationLineStateCreateInfoEXT.nstippledLineEnable(adr, value.i)
+inline var VkPipelineRasterizationLineStateCreateInfoEXT.lineStippleFactor: Int
+    get() = VkPipelineRasterizationLineStateCreateInfoEXT.nlineStippleFactor(adr)
+    set(value) = VkPipelineRasterizationLineStateCreateInfoEXT.nlineStippleFactor(adr, value)
+inline var VkPipelineRasterizationLineStateCreateInfoEXT.lineStipplePattern: Short
+    get() = VkPipelineRasterizationLineStateCreateInfoEXT.nlineStipplePattern(adr)
+    set(value) = VkPipelineRasterizationLineStateCreateInfoEXT.nlineStipplePattern(adr, value)
+
+
+inline var VkPhysicalDeviceIndexTypeUint8FeaturesEXT.type: VkStructureType
+    get() = VkStructureType(VkPhysicalDeviceIndexTypeUint8FeaturesEXT.nsType(adr))
+    set(value) = VkPhysicalDeviceIndexTypeUint8FeaturesEXT.nsType(adr, value.i)
+inline var VkPhysicalDeviceIndexTypeUint8FeaturesEXT.next: Ptr
+    get() = VkPhysicalDeviceIndexTypeUint8FeaturesEXT.npNext(adr)
+    set(value) = VkPhysicalDeviceIndexTypeUint8FeaturesEXT.npNext(adr, value)
+inline var VkPhysicalDeviceIndexTypeUint8FeaturesEXT.indexTypeUint8: Boolean
+    get() = VkPhysicalDeviceIndexTypeUint8FeaturesEXT.nindexTypeUint8(adr).bool
+    set(value) = VkPhysicalDeviceIndexTypeUint8FeaturesEXT.nindexTypeUint8(adr, value.i)
+
+
 inline var VkPhysicalDeviceHostQueryResetFeaturesEXT.type: VkStructureType
     get() = VkStructureType(VkPhysicalDeviceHostQueryResetFeaturesEXT.nsType(adr))
     set(value) = VkPhysicalDeviceHostQueryResetFeaturesEXT.nsType(adr, value.i)

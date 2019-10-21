@@ -508,6 +508,17 @@ inline var VkValidationFlagsEXT.disabledValidationChecks: IntBuffer
     set(value) = VkValidationFlagsEXT.npDisabledValidationChecks(adr, value)
 
 
+    inline var VkPhysicalDeviceTextureCompressionASTCHDRFeaturesEXT.type: VkStructureType
+    get() = VkStructureType(VkPhysicalDeviceTextureCompressionASTCHDRFeaturesEXT.nsType(adr))
+    set(value) = VkPhysicalDeviceTextureCompressionASTCHDRFeaturesEXT.nsType(adr, value.i)
+inline var VkPhysicalDeviceTextureCompressionASTCHDRFeaturesEXT.next: Ptr
+    get() = VkPhysicalDeviceTextureCompressionASTCHDRFeaturesEXT.npNext(adr)
+    set(value) = VkPhysicalDeviceTextureCompressionASTCHDRFeaturesEXT.npNext(adr, value)
+inline var VkPhysicalDeviceTextureCompressionASTCHDRFeaturesEXT.textureCompressionASTC_HDR: Boolean
+    get() = VkPhysicalDeviceTextureCompressionASTCHDRFeaturesEXT.ntextureCompressionASTC_HDR(adr).bool
+    set(value) = VkPhysicalDeviceTextureCompressionASTCHDRFeaturesEXT.ntextureCompressionASTC_HDR(adr, value.i)
+
+
 inline var VkImageViewASTCDecodeModeEXT.type: VkStructureType
     get() = VkStructureType(VkImageViewASTCDecodeModeEXT.nsType(adr))
     set(value) = VkImageViewASTCDecodeModeEXT.nsType(adr, value.i)

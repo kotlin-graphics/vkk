@@ -83,6 +83,7 @@ inline class VkDynamicState(val i: Int) {
         val VIEWPORT_SHADING_RATE_PALETTE_NV = VkDynamicState(1000164004)
         val VIEWPORT_COARSE_SAMPLE_ORDER_NV = VkDynamicState(1000164006)
         val EXCLUSIVE_SCISSOR_NV = VkDynamicState(1000205001)
+        val LINE_STIPPLE_EXT = VkDynamicState(1000259000)
     }
 }
 
@@ -178,6 +179,8 @@ inline class VkIndexType(val i: Int) {
     companion object {
         val UINT16 = VkIndexType(0)
         val UINT32 = VkIndexType(1)
+        val NONE_NV = VkIndexType(1000165000)
+        val UINT8_EXT = VkIndexType(1000265000)
     }
 }
 
@@ -808,7 +811,7 @@ inline class VkStencilFace(val i: Int) {
     companion object {
         val FRONT_BIT = VkStencilFace(0x00000001)
         val BACK_BIT = VkStencilFace(0x00000002)
-        val FRONT_AND_BACK = VkStencilFace(0x00000003)
+        val FACE_FRONT_AND_BACK = VkStencilFace(0x00000003)
     }
 }
 typealias VkStencilFaceFlags = VkFlags

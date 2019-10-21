@@ -370,6 +370,9 @@ fun VkCommandBuffer.setEvent(event: VkEvent, stageMask: VkPipelineStageFlags) =
 fun VkCommandBuffer.setExclusiveScissorNV(firstExclusiveScissor: Int, exclusiveScissors: VkRect2D.Buffer) =
         NVScissorExclusive.nvkCmdSetExclusiveScissorNV(this, firstExclusiveScissor, exclusiveScissors.rem, exclusiveScissors.adr)
 
+fun VkCommandBuffer.setLineStippleEXT(lineStippleFactor: Int, lineStipplePattern: Short) =
+        EXTLineRasterization.vkCmdSetLineStippleEXT(this, lineStippleFactor, lineStipplePattern)
+
 infix fun VkCommandBuffer.setLineWidth(lineWidth: Float) =
         VK10.vkCmdSetLineWidth(this, lineWidth)
 
