@@ -1,5 +1,6 @@
 package vkk
 
+import glm_.L
 import glm_.bool
 import glm_.i
 import glm_.vec2.Vec2
@@ -97,6 +98,100 @@ inline var VkPhysicalDeviceUniformBufferStandardLayoutFeaturesKHR.next: Ptr
 inline var VkPhysicalDeviceUniformBufferStandardLayoutFeaturesKHR.uniformBufferStandardLayout: Boolean
     get() = VkPhysicalDeviceUniformBufferStandardLayoutFeaturesKHR.nuniformBufferStandardLayout(adr).bool
     set(value) = VkPhysicalDeviceUniformBufferStandardLayoutFeaturesKHR.nuniformBufferStandardLayout(adr, value.i)
+
+
+inline class VkPipelineExecutableStatisticFormatKHR(val i: Int) {
+    companion object {
+        val BOOL32_KHR = VkPipelineExecutableStatisticFormatKHR(0)
+        val INT64_KHR = VkPipelineExecutableStatisticFormatKHR(1)
+        val UINT64_KHR = VkPipelineExecutableStatisticFormatKHR(2)
+        val FLOAT64_KHR = VkPipelineExecutableStatisticFormatKHR(3)
+    }
+}
+
+
+inline var VkPhysicalDevicePipelineExecutablePropertiesFeaturesKHR.type: VkStructureType
+    get() = VkStructureType(VkPhysicalDevicePipelineExecutablePropertiesFeaturesKHR.nsType(adr))
+    set(value) = VkPhysicalDevicePipelineExecutablePropertiesFeaturesKHR.nsType(adr, value.i)
+inline var VkPhysicalDevicePipelineExecutablePropertiesFeaturesKHR.next: Ptr
+    get() = VkPhysicalDevicePipelineExecutablePropertiesFeaturesKHR.npNext(adr)
+    set(value) = VkPhysicalDevicePipelineExecutablePropertiesFeaturesKHR.npNext(adr, value)
+inline var VkPhysicalDevicePipelineExecutablePropertiesFeaturesKHR.pipelineExecutableInfo: Boolean
+    get() = VkPhysicalDevicePipelineExecutablePropertiesFeaturesKHR.npipelineExecutableInfo(adr).bool
+    set(value) = VkPhysicalDevicePipelineExecutablePropertiesFeaturesKHR.npipelineExecutableInfo(adr, value.i)
+
+
+inline var VkPipelineInfoKHR.type: VkStructureType
+    get() = VkStructureType(VkPipelineInfoKHR.nsType(adr))
+    set(value) = VkPipelineInfoKHR.nsType(adr, value.i)
+inline var VkPipelineInfoKHR.next: Ptr
+    get() = VkPipelineInfoKHR.npNext(adr)
+    set(value) = VkPipelineInfoKHR.npNext(adr, value)
+inline var VkPipelineInfoKHR.pipeline: VkPipeline
+    get() = VkPipeline(VkPipelineInfoKHR.npipeline(adr))
+    set(value) = VkPipelineInfoKHR.npipeline(adr, value.L)
+
+
+inline var VkPipelineExecutablePropertiesKHR.type: VkStructureType
+    get() = VkStructureType(VkPipelineExecutablePropertiesKHR.nsType(adr))
+    set(value) = VkPipelineExecutablePropertiesKHR.nsType(adr, value.i)
+inline var VkPipelineExecutablePropertiesKHR.next: Ptr
+    get() = VkPipelineExecutablePropertiesKHR.npNext(adr)
+    set(value) = VkPipelineExecutablePropertiesKHR.npNext(adr, value)
+inline val VkPipelineExecutablePropertiesKHR.stages: VkShaderStageFlags
+    get() = VkPipelineExecutablePropertiesKHR.nstages(adr)
+inline val VkPipelineExecutablePropertiesKHR.name: String
+    get() = VkPipelineExecutablePropertiesKHR.nnameString(adr)
+inline val VkPipelineExecutablePropertiesKHR.description: String
+    get() = VkPipelineExecutablePropertiesKHR.ndescriptionString(adr)
+inline val VkPipelineExecutablePropertiesKHR.subgroupSize: Int
+    get() = VkPipelineExecutablePropertiesKHR.nsubgroupSize(adr)
+
+
+inline val VkPipelineExecutableStatisticValueKHR.b32: Boolean
+    get() = VkPipelineExecutableStatisticValueKHR.nb32(adr).bool
+inline val VkPipelineExecutableStatisticValueKHR.i64: Long
+    get() = VkPipelineExecutableStatisticValueKHR.ni64(adr)
+inline val VkPipelineExecutableStatisticValueKHR.u64: Long
+    get() = VkPipelineExecutableStatisticValueKHR.nu64(adr)
+inline val VkPipelineExecutableStatisticValueKHR.f64: Double
+    get() = VkPipelineExecutableStatisticValueKHR.nf64(adr)
+
+
+inline var VkPipelineExecutableStatisticKHR.type: VkStructureType
+    get() = VkStructureType(VkPipelineExecutableStatisticKHR.nsType(adr))
+    set(value) = VkPipelineExecutableStatisticKHR.nsType(adr, value.i)
+inline var VkPipelineExecutableStatisticKHR.next: Ptr
+    get() = VkPipelineExecutableStatisticKHR.npNext(adr)
+    set(value) = VkPipelineExecutableStatisticKHR.npNext(adr, value)
+inline val VkPipelineExecutableStatisticKHR.name: String
+    get() = VkPipelineExecutableStatisticKHR.nnameString(adr)
+inline val VkPipelineExecutableStatisticKHR.description: String
+    get() = VkPipelineExecutableStatisticKHR.ndescriptionString(adr)
+inline val VkPipelineExecutableStatisticKHR.format: VkPipelineExecutableStatisticFormatKHR
+    get() = VkPipelineExecutableStatisticFormatKHR(VkPipelineExecutableStatisticKHR.nformat(adr))
+inline val VkPipelineExecutableStatisticKHR.value: VkPipelineExecutableStatisticValueKHR
+    get() = VkPipelineExecutableStatisticKHR.nvalue(adr)
+
+
+inline var VkPipelineExecutableInternalRepresentationKHR.type: VkStructureType
+    get() = VkStructureType(VkPipelineExecutableInternalRepresentationKHR.nsType(adr))
+    set(value) = VkPipelineExecutableInternalRepresentationKHR.nsType(adr, value.i)
+inline var VkPipelineExecutableInternalRepresentationKHR.next: Ptr
+    get() = VkPipelineExecutableInternalRepresentationKHR.npNext(adr)
+    set(value) = VkPipelineExecutableInternalRepresentationKHR.npNext(adr, value)
+inline var VkPipelineExecutableInternalRepresentationKHR.name: String
+    get() = VkPipelineExecutableInternalRepresentationKHR.nnameString(adr)
+    set(value) = stak.asciiBuffer(value) { VkPipelineExecutableInternalRepresentationKHR.nname(adr, it) }
+inline var VkPipelineExecutableInternalRepresentationKHR.description: String
+    get() = VkPipelineExecutableInternalRepresentationKHR.ndescriptionString(adr)
+    set(value) = stak.asciiBuffer(value) { VkPipelineExecutableInternalRepresentationKHR.ndescription(adr, it) }
+inline var VkPipelineExecutableInternalRepresentationKHR.isText: Boolean
+    get() = VkPipelineExecutableInternalRepresentationKHR.nisText(adr).bool
+    set(value) = VkPipelineExecutableInternalRepresentationKHR.nisText(adr, value.i)
+inline var VkPipelineExecutableInternalRepresentationKHR.dataSize: Int
+    get() = VkPipelineExecutableInternalRepresentationKHR.ndataSize(adr).i
+    set(value) = VkPipelineExecutableInternalRepresentationKHR.ndataSize(adr, value.L)
 
 
 inline class VkDebugReportObjectTypeEXT(val i: Int) {
@@ -508,7 +603,7 @@ inline var VkValidationFlagsEXT.disabledValidationChecks: IntBuffer
     set(value) = VkValidationFlagsEXT.npDisabledValidationChecks(adr, value)
 
 
-    inline var VkPhysicalDeviceTextureCompressionASTCHDRFeaturesEXT.type: VkStructureType
+inline var VkPhysicalDeviceTextureCompressionASTCHDRFeaturesEXT.type: VkStructureType
     get() = VkStructureType(VkPhysicalDeviceTextureCompressionASTCHDRFeaturesEXT.nsType(adr))
     set(value) = VkPhysicalDeviceTextureCompressionASTCHDRFeaturesEXT.nsType(adr, value.i)
 inline var VkPhysicalDeviceTextureCompressionASTCHDRFeaturesEXT.next: Ptr

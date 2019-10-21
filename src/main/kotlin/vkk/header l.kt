@@ -496,6 +496,20 @@ inline val VkPhysicalDeviceExternalMemoryHostPropertiesEXT.minImportedHostPointe
     get() = VkDeviceSize(VkPhysicalDeviceExternalMemoryHostPropertiesEXT.nminImportedHostPointerAlignment(adr))
 
 
+typealias VkPipelineCompilerControlFlagsAMD = VkFlags
+
+
+inline var VkPipelineCompilerControlCreateInfoAMD.type: VkStructureType
+    get() = VkStructureType(VkPipelineCompilerControlCreateInfoAMD.nsType(adr))
+    set(value) = VkPipelineCompilerControlCreateInfoAMD.nsType(adr, value.i)
+inline var VkPipelineCompilerControlCreateInfoAMD.next: Ptr
+    get() = VkPipelineCompilerControlCreateInfoAMD.npNext(adr)
+    set(value) = VkPipelineCompilerControlCreateInfoAMD.npNext(adr, value)
+inline var VkPipelineCompilerControlCreateInfoAMD.compilerControlFlags: VkPipelineCompilerControlFlagsAMD
+    get() = VkPipelineCompilerControlCreateInfoAMD.ncompilerControlFlags(adr)
+    set(value) = VkPipelineCompilerControlCreateInfoAMD.ncompilerControlFlags(adr, value)
+
+
 inline class VkTimeDomainEXT(val i: Int) {
     companion object {
         val DEVICE = VkTimeDomainEXT(0)
@@ -1025,6 +1039,20 @@ inline var VkPhysicalDeviceScalarBlockLayoutFeaturesEXT.scalarBlockLayout: Boole
     set(value) = VkPhysicalDeviceScalarBlockLayoutFeaturesEXT.nscalarBlockLayout(adr, value.i)
 
 
+inline var VkPhysicalDeviceSubgroupSizeControlFeaturesEXT.type: VkStructureType
+    get() = VkStructureType(VkPhysicalDeviceSubgroupSizeControlFeaturesEXT.nsType(adr))
+    set(value) = VkPhysicalDeviceSubgroupSizeControlFeaturesEXT.nsType(adr, value.i)
+inline var VkPhysicalDeviceSubgroupSizeControlFeaturesEXT.next: Ptr
+    get() = VkPhysicalDeviceSubgroupSizeControlFeaturesEXT.npNext(adr)
+    set(value) = VkPhysicalDeviceSubgroupSizeControlFeaturesEXT.npNext(adr, value)
+inline var VkPhysicalDeviceSubgroupSizeControlFeaturesEXT.subgroupSizeControl: Boolean
+    get() = VkPhysicalDeviceSubgroupSizeControlFeaturesEXT.nsubgroupSizeControl(adr).bool
+    set(value) = VkPhysicalDeviceSubgroupSizeControlFeaturesEXT.nsubgroupSizeControl(adr, value.i)
+inline var VkPhysicalDeviceSubgroupSizeControlFeaturesEXT.computeFullSubgroups: Boolean
+    get() = VkPhysicalDeviceSubgroupSizeControlFeaturesEXT.ncomputeFullSubgroups(adr).bool
+    set(value) = VkPhysicalDeviceSubgroupSizeControlFeaturesEXT.ncomputeFullSubgroups(adr, value.i)
+
+
 inline var VkPhysicalDeviceSubgroupSizeControlPropertiesEXT.type: VkStructureType
     get() = VkStructureType(VkPhysicalDeviceSubgroupSizeControlPropertiesEXT.nsType(adr))
     set(value) = VkPhysicalDeviceSubgroupSizeControlPropertiesEXT.nsType(adr, value.i)
@@ -1049,6 +1077,21 @@ inline var VkPipelineShaderStageRequiredSubgroupSizeCreateInfoEXT.next: Ptr
     set(value) = VkPipelineShaderStageRequiredSubgroupSizeCreateInfoEXT.npNext(adr, value)
 inline val VkPipelineShaderStageRequiredSubgroupSizeCreateInfoEXT.requiredSubgroupSize: Int
     get() = VkPipelineShaderStageRequiredSubgroupSizeCreateInfoEXT.nrequiredSubgroupSize(adr)
+
+
+typealias VkShaderCorePropertiesFlagsAMD = VkFlags
+
+
+inline var VkPhysicalDeviceShaderCoreProperties2AMD.type: VkStructureType
+    get() = VkStructureType(VkPhysicalDeviceShaderCoreProperties2AMD.nsType(adr))
+    set(value) = VkPhysicalDeviceShaderCoreProperties2AMD.nsType(adr, value.i)
+inline var VkPhysicalDeviceShaderCoreProperties2AMD.next: Ptr
+    get() = VkPhysicalDeviceShaderCoreProperties2AMD.npNext(adr)
+    set(value) = VkPhysicalDeviceShaderCoreProperties2AMD.npNext(adr, value)
+inline val VkPhysicalDeviceShaderCoreProperties2AMD.shaderCoreFeatures: VkShaderCorePropertiesFlagsAMD
+    get() = VkPhysicalDeviceShaderCoreProperties2AMD.nshaderCoreFeatures(adr)
+inline val VkPhysicalDeviceShaderCoreProperties2AMD.activeComputeUnitCount: Int
+    get() = VkPhysicalDeviceShaderCoreProperties2AMD.nactiveComputeUnitCount(adr)
 
 
 inline var VkPhysicalDeviceMemoryBudgetPropertiesEXT.type: VkStructureType

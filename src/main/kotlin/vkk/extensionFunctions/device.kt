@@ -762,6 +762,89 @@ inline fun <reified T> VkDevice.getPipelineCacheData(pipelineCache: VkPipelineCa
 }
 
 
+fun VkDevice.getPipelineExecutablePropertiesKHR(pipelineInfo: VkPipelineInfoKHR, properties: VkPipelineExecutablePropertiesKHR.Buffer): VkResult =
+        stak.intAddress(properties.rem) {
+            VkResult(KHRPipelineExecutableProperties.nvkGetPipelineExecutablePropertiesKHR(this, pipelineInfo.adr, it, properties.adr))
+        }.apply { check() }
+
+inline fun <reified T> VkDevice.getPipelineExecutablePropertiesKHR(pipelineInfo: VkPipelineInfoKHR): T = when (T::class) {
+    Int::class -> stak.longAddress {
+        VK_CHECK_RESULT(KHRPipelineExecutableProperties.nvkGetPipelineExecutablePropertiesKHR(this, pipelineInfo.adr, it, NULL))
+    }.i as T
+    VkPipelineExecutablePropertiesKHR.Buffer::class -> stak {
+        lateinit var properties: VkPipelineExecutablePropertiesKHR.Buffer
+        val pPropertiesCount = it.nmalloc(4, Int.BYTES)
+        var result: VkResult
+        do {
+            result = VkResult(KHRPipelineExecutableProperties.nvkGetPipelineExecutablePropertiesKHR(this, pipelineInfo.adr, pPropertiesCount, NULL))
+            val propertiesCount = memGetInt(pPropertiesCount)
+            if (result == VkResult.SUCCESS && propertiesCount != 0) {
+                properties = it.PipelineExecutablePropertiesKHR(propertiesCount)
+                result = VkResult(KHRPipelineExecutableProperties.nvkGetPipelineExecutablePropertiesKHR(this, pipelineInfo.adr, pPropertiesCount, properties.adr))
+            }
+        } while (result == VkResult.INCOMPLETE)
+        properties as T
+    }
+    else -> throw Exception("[VkDevice::getPipelineExecutablePropertiesKHR] Invalid T")
+}
+
+
+fun VkDevice.getPipelineExecutableStatisticKHR(executableInfo: VkPipelineExecutableInfoKHR, statistics: VkPipelineExecutableStatisticKHR.Buffer): VkResult =
+        stak.intAddress(statistics.rem) {
+            VkResult(KHRPipelineExecutableProperties.nvkGetPipelineExecutableStatisticsKHR(this, executableInfo.adr, it, statistics.adr))
+        }.apply { check() }
+
+infix inline fun <reified T> VkDevice.getPipelineExecutableStatisticKHR(executableInfo: VkPipelineExecutableInfoKHR): T = when (T::class) {
+    Int::class -> stak.longAddress {
+        VK_CHECK_RESULT(KHRPipelineExecutableProperties.nvkGetPipelineExecutableStatisticsKHR(this, executableInfo.adr, it, NULL))
+    }.i as T
+    VkPipelineExecutableStatisticKHR.Buffer::class -> stak {
+        lateinit var statistics: VkPipelineExecutableStatisticKHR.Buffer
+        val pStatisticsCount = it.nmalloc(4, Int.BYTES)
+        var result: VkResult
+        do {
+            result = VkResult(KHRPipelineExecutableProperties.nvkGetPipelineExecutableStatisticsKHR(this, executableInfo.adr, pStatisticsCount, NULL))
+            val statisticsCount = memGetInt(pStatisticsCount)
+            if (result == VkResult.SUCCESS && statisticsCount != 0) {
+                statistics = it.PipelineExecutableStatisticKHR(statisticsCount)
+                result = VkResult(KHRPipelineExecutableProperties.nvkGetPipelineExecutableStatisticsKHR(this, executableInfo.adr, pStatisticsCount, statistics.adr))
+            }
+        } while (result == VkResult.INCOMPLETE)
+        statistics as T
+    }
+    else -> throw Exception("[VkDevice::getPipelineExecutableStatisticKHR] Invalid T")
+}
+
+
+
+fun VkDevice.getPipelineExecutableInternalRepresentationsKHR(executableInfo: VkPipelineExecutableInfoKHR, representations: VkPipelineExecutableStatisticKHR.Buffer): VkResult =
+        stak.intAddress(representations.rem) {
+            VkResult(KHRPipelineExecutableProperties.nvkGetPipelineExecutableInternalRepresentationsKHR(this, executableInfo.adr, it, representations.adr))
+        }.apply { check() }
+
+infix inline fun <reified T> VkDevice.getPipelineExecutableInternalRepresentationsKHR(executableInfo: VkPipelineExecutableInfoKHR): T = when (T::class) {
+    Int::class -> stak.longAddress {
+        VK_CHECK_RESULT(KHRPipelineExecutableProperties.nvkGetPipelineExecutableInternalRepresentationsKHR(this, executableInfo.adr, it, NULL))
+    }.i as T
+    VkPipelineExecutableInternalRepresentationKHR.Buffer::class -> stak {
+        lateinit var representations: VkPipelineExecutableInternalRepresentationKHR.Buffer
+        val pRepresentationsCount = it.nmalloc(4, Int.BYTES)
+        var result: VkResult
+        do {
+            result = VkResult(KHRPipelineExecutableProperties.nvkGetPipelineExecutableInternalRepresentationsKHR(this, executableInfo.adr, pRepresentationsCount, NULL))
+            val representationsCount = memGetInt(pRepresentationsCount)
+            if (result == VkResult.SUCCESS && representationsCount != 0) {
+                representations = it.PipelineExecutableInternalRepresentationKHR(representationsCount)
+                result = VkResult(KHRPipelineExecutableProperties.nvkGetPipelineExecutableInternalRepresentationsKHR(this, executableInfo.adr, pRepresentationsCount, representations.adr))
+            }
+        } while (result == VkResult.INCOMPLETE)
+        representations as T
+    }
+    else -> throw Exception("[VkDevice::getPipelineExecutableInternalRepresentationsKHR] Invalid T")
+}
+
+
+
 fun VkDevice.getQueryPoolResults(queryPool: VkQueryPool, firstQuery: Int, queryCount: Int, data: IntBuffer, stride: VkDeviceSize = VkDeviceSize(0), flags: VkQueryResultFlags = 0): VkResult =
         VkResult(VK10.nvkGetQueryPoolResults(this, queryPool.L, firstQuery, queryCount, data.rem.L, data.adr, stride.L, flags)).apply { check() }
 

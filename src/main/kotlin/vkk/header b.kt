@@ -578,6 +578,8 @@ inline class VkPipelineCreate(val i: Int) {
         val VIEW_INDEX_FROM_DEVICE_INDEX_BIT = VkPipelineCreate(0x00000008)
         val DISPATCH_BASE = VkPipelineCreate(0x00000010)
         val DEFER_COMPILE_BIT_NV = VkPipelineCreate(0x00000020)
+        val CAPTURE_STATISTICS_BIT_KHR = VkPipelineCreate(0x00000040)
+        val CAPTURE_INTERNAL_REPRESENTATIONS_BIT_KHR = VkPipelineCreate(0x00000080)
         val VIEW_INDEX_FROM_DEVICE_INDEX_BIT_KHR = VkPipelineCreate.VIEW_INDEX_FROM_DEVICE_INDEX_BIT
         val DISPATCH_BASE_KHR = VkPipelineCreate.DISPATCH_BASE
     }
