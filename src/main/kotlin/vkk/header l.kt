@@ -1095,6 +1095,17 @@ inline val VkPhysicalDeviceShaderCoreProperties2AMD.activeComputeUnitCount: Int
     get() = VkPhysicalDeviceShaderCoreProperties2AMD.nactiveComputeUnitCount(adr)
 
 
+inline var VkPhysicalDeviceCoherentMemoryFeaturesAMD.type: VkStructureType
+    get() = VkStructureType(VkPhysicalDeviceCoherentMemoryFeaturesAMD.nsType(adr))
+    set(value) = VkPhysicalDeviceCoherentMemoryFeaturesAMD.nsType(adr, value.i)
+inline var VkPhysicalDeviceCoherentMemoryFeaturesAMD.next: Ptr
+    get() = VkPhysicalDeviceCoherentMemoryFeaturesAMD.npNext(adr)
+    set(value) = VkPhysicalDeviceCoherentMemoryFeaturesAMD.npNext(adr, value)
+inline var VkPhysicalDeviceCoherentMemoryFeaturesAMD.deviceCoherentMemory: Boolean
+    get() = VkPhysicalDeviceCoherentMemoryFeaturesAMD.ndeviceCoherentMemory(adr).bool
+    set(value) = VkPhysicalDeviceCoherentMemoryFeaturesAMD.ndeviceCoherentMemory(adr, value.i)
+
+
 inline var VkPhysicalDeviceMemoryBudgetPropertiesEXT.type: VkStructureType
     get() = VkStructureType(VkPhysicalDeviceMemoryBudgetPropertiesEXT.nsType(adr))
     set(value) = VkPhysicalDeviceMemoryBudgetPropertiesEXT.nsType(adr, value.i)

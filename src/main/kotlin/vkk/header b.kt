@@ -382,6 +382,8 @@ inline class VkMemoryProperty(val i: Int) {
         val HOST_CACHED_BIT = VkMemoryProperty(0x00000008)
         val LAZILY_ALLOCATED_BIT = VkMemoryProperty(0x00000010)
         val PROTECTED_BIT = VkMemoryProperty(0x00000020)
+        val DEVICE_COHERENT_BIT_AMD = VkMemoryProperty(0x00000040)
+        val DEVICE_UNCACHED_BIT_AMD = VkMemoryProperty(0x00000080)
     }
 
     infix fun or(b: VkMemoryProperty): VkMemoryPropertyFlags = i or b.i
