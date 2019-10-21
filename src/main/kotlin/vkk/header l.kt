@@ -87,48 +87,49 @@ inline var VkPipelineViewportCoarseSampleOrderStateCreateInfoNV.customSampleOrde
     set(value) = VkPipelineViewportCoarseSampleOrderStateCreateInfoNV.npCustomSampleOrders(adr, value)
 
 
+inline class VkAccelerationStructureTypeNV(val i: Int) {
+    companion object {
+        val TOP_LEVEL = VkAccelerationStructureTypeNV(0)
+        val BOTTOM_LEVEL = VkAccelerationStructureTypeNV(1)
+    }
+}
+
+
 inline class VkRayTracingShaderGroupTypeNV(val i: Int) {
     companion object {
-        val GENERAL_NV = VkRayTracingShaderGroupTypeNV(0)
-        val TRIANGLES_HIT_GROUP_NV = VkRayTracingShaderGroupTypeNV(1)
-        val PROCEDURAL_HIT_GROUP_NV = VkRayTracingShaderGroupTypeNV(2)
+        val GENERAL = VkRayTracingShaderGroupTypeNV(0)
+        val TRIANGLES_HIT_GROUP = VkRayTracingShaderGroupTypeNV(1)
+        val PROCEDURAL_HIT_GROUP = VkRayTracingShaderGroupTypeNV(2)
     }
 }
 
 inline class VkGeometryTypeNV(val i: Int) {
     companion object {
-        val TRIANGLES_NV = VkGeometryTypeNV(0)
-        val AABBS_NV = VkGeometryTypeNV(1)
-    }
-}
-
-inline class VkAccelerationStructureTypeNV(val i: Int) {
-    companion object {
-        val TOP_LEVEL_NV = VkAccelerationStructureTypeNV(0)
-        val BOTTOM_LEVEL_NV = VkAccelerationStructureTypeNV(1)
+        val TRIANGLES = VkGeometryTypeNV(0)
+        val AABBS = VkGeometryTypeNV(1)
     }
 }
 
 inline class VkCopyAccelerationStructureModeNV(val i: Int) {
     companion object {
-        val CLONE_NV = VkCopyAccelerationStructureModeNV(0)
-        val COMPACT_NV = VkCopyAccelerationStructureModeNV(1)
+        val CLONE = VkCopyAccelerationStructureModeNV(0)
+        val COMPACT = VkCopyAccelerationStructureModeNV(1)
     }
 }
 
 inline class VkAccelerationStructureMemoryRequirementsTypeNV(val i: Int) {
     companion object {
-        val OBJECT_NV = VkAccelerationStructureMemoryRequirementsTypeNV(0)
-        val BUILD_SCRATCH_NV = VkAccelerationStructureMemoryRequirementsTypeNV(1)
-        val UPDATE_SCRATCH_NV = VkAccelerationStructureMemoryRequirementsTypeNV(2)
+        val OBJECT = VkAccelerationStructureMemoryRequirementsTypeNV(0)
+        val BUILD_SCRATCH = VkAccelerationStructureMemoryRequirementsTypeNV(1)
+        val UPDATE_SCRATCH = VkAccelerationStructureMemoryRequirementsTypeNV(2)
     }
 }
 
 
 inline class VkGeometryFlagNV(val i: Int) {
     companion object {
-        val OPAQUE_BIT_NV = VkGeometryFlagNV(0x00000001)
-        val NO_DUPLICATE_ANY_HIT_INVOCATION_BIT_NV = VkGeometryFlagNV(0x00000002)
+        val OPAQUE_BIT = VkGeometryFlagNV(0x00000001)
+        val NO_DUPLICATE_ANY_HIT_INVOCATION_BIT = VkGeometryFlagNV(0x00000002)
     }
 }
 
@@ -136,10 +137,10 @@ typealias VkGeometryFlagsNV = VkFlags
 
 inline class VkGeometryInstanceNV(val i: Int) {
     companion object {
-        val TRIANGLE_CULL_DISABLE_BIT_NV = VkGeometryInstanceNV(0x00000001)
-        val TRIANGLE_FRONT_COUNTERCLOCKWISE_BIT_NV = VkGeometryInstanceNV(0x00000002)
-        val FORCE_OPAQUE_BIT_NV = VkGeometryInstanceNV(0x00000004)
-        val FORCE_NO_OPAQUE_BIT_NV = VkGeometryInstanceNV(0x00000008)
+        val TRIANGLE_CULL_DISABLE_BIT = VkGeometryInstanceNV(0x00000001)
+        val TRIANGLE_FRONT_COUNTERCLOCKWISE_BIT = VkGeometryInstanceNV(0x00000002)
+        val FORCE_OPAQUE_BIT = VkGeometryInstanceNV(0x00000004)
+        val FORCE_NO_OPAQUE_BIT = VkGeometryInstanceNV(0x00000008)
     }
 }
 
@@ -147,11 +148,11 @@ typealias VkGeometryInstanceFlagsNV = VkFlags
 
 inline class VkBuildAccelerationStructureNV(val i: Int) {
     companion object {
-        val ALLOW_UPDATE_BIT_NV = VkBuildAccelerationStructureNV(0x00000001)
-        val ALLOW_COMPACTION_BIT_NV = VkBuildAccelerationStructureNV(0x00000002)
-        val PREFER_FAST_TRACE_BIT_NV = VkBuildAccelerationStructureNV(0x00000004)
-        val PREFER_FAST_BUILD_BIT_NV = VkBuildAccelerationStructureNV(0x00000008)
-        val LOW_MEMORY_BIT_NV = VkBuildAccelerationStructureNV(0x00000010)
+        val ALLOW_UPDATE_BIT = VkBuildAccelerationStructureNV(0x00000001)
+        val ALLOW_COMPACTION_BIT = VkBuildAccelerationStructureNV(0x00000002)
+        val PREFER_FAST_TRACE_BIT = VkBuildAccelerationStructureNV(0x00000004)
+        val PREFER_FAST_BUILD_BIT = VkBuildAccelerationStructureNV(0x00000008)
+        val LOW_MEMORY_BIT = VkBuildAccelerationStructureNV(0x00000010)
     }
 }
 
@@ -1193,6 +1194,7 @@ inline class VkValidationFeatureEnableEXT(val i: Int) {
     companion object {
         val GPU_ASSISTED = VkValidationFeatureEnableEXT(0)
         val GPU_ASSISTED_RESERVE_BINDING_SLOT = VkValidationFeatureEnableEXT(1)
+        val BEST_PRACTICES_EXT = VkValidationFeatureEnableEXT(2)
     }
 }
 
@@ -1233,27 +1235,27 @@ inline var VkValidationFeaturesEXT.disabledValidationFeatures: VkValidationFeatu
 
 inline class VkComponentTypeNV(val i: Int) {
     companion object {
-        val FLOAT16_NV = VkComponentTypeNV(0)
-        val FLOAT32_NV = VkComponentTypeNV(1)
-        val FLOAT64_NV = VkComponentTypeNV(2)
-        val SINT8_NV = VkComponentTypeNV(3)
-        val SINT16_NV = VkComponentTypeNV(4)
-        val SINT32_NV = VkComponentTypeNV(5)
-        val SINT64_NV = VkComponentTypeNV(6)
-        val UINT8_NV = VkComponentTypeNV(7)
-        val UINT16_NV = VkComponentTypeNV(8)
-        val UINT32_NV = VkComponentTypeNV(9)
-        val UINT64_NV = VkComponentTypeNV(10)
+        val FLOAT16 = VkComponentTypeNV(0)
+        val FLOAT32 = VkComponentTypeNV(1)
+        val FLOAT64 = VkComponentTypeNV(2)
+        val SINT8 = VkComponentTypeNV(3)
+        val SINT16 = VkComponentTypeNV(4)
+        val SINT32 = VkComponentTypeNV(5)
+        val SINT64 = VkComponentTypeNV(6)
+        val UINT8 = VkComponentTypeNV(7)
+        val UINT16 = VkComponentTypeNV(8)
+        val UINT32 = VkComponentTypeNV(9)
+        val UINT64 = VkComponentTypeNV(10)
     }
 }
 
 
 inline class VkScopeNV(val i: Int) {
     companion object {
-        val DEVICE_NV = VkScopeNV(1)
-        val WORKGROUP_NV = VkScopeNV(2)
-        val SUBGROUP_NV = VkScopeNV(3)
-        val QUEUE_FAMILY_NV = VkScopeNV(5)
+        val DEVICE = VkScopeNV(1)
+        val WORKGROUP = VkScopeNV(2)
+        val SUBGROUP = VkScopeNV(3)
+        val QUEUE_FAMILY = VkScopeNV(5)
     }
 }
 
