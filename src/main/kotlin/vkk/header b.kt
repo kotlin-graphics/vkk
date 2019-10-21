@@ -580,6 +580,16 @@ inline class VkPipelineCreate(val i: Int) {
     }
 }
 typealias VkPipelineCreateFlags = VkFlags
+
+
+inline class VkPipelineShaderStageCreate(val i: Int) {
+    companion object {
+        val ALLOW_VARYING_SUBGROUP_SIZE_BIT_EXT = VkPipelineShaderStageCreate(0x00000001)
+        val REQUIRE_FULL_SUBGROUPS_BIT_EXT = VkPipelineShaderStageCreate(0x00000002)
+    }
+}
+
+
 typealias VkPipelineShaderStageCreateFlags = VkFlags
 
 inline class VkShaderStage(val i: Int) {

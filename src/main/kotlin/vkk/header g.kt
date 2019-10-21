@@ -584,7 +584,6 @@ inline var VkPresentRegionsKHR.regions: VkPresentRegionKHR.Buffer?
     set(value) = VkPresentRegionsKHR.npRegions(adr, value)
 
 
-
 inline var VkPhysicalDeviceImagelessFramebufferFeaturesKHR.type: VkStructureType
     get() = VkStructureType(VkPhysicalDeviceImagelessFramebufferFeaturesKHR.nsType(adr))
     set(value) = VkPhysicalDeviceImagelessFramebufferFeaturesKHR.nsType(adr, value.i)
@@ -594,7 +593,6 @@ inline var VkPhysicalDeviceImagelessFramebufferFeaturesKHR.next: Ptr
 inline var VkPhysicalDeviceImagelessFramebufferFeaturesKHR.imagelessFramebuffer: Boolean
     get() = VkPhysicalDeviceImagelessFramebufferFeaturesKHR.nimagelessFramebuffer(adr).bool
     set(value) = VkPhysicalDeviceImagelessFramebufferFeaturesKHR.nimagelessFramebuffer(adr, value.i)
-
 
 
 inline var VkFramebufferAttachmentImageInfoKHR.type: VkStructureType
@@ -1071,16 +1069,25 @@ inline val VkPhysicalDeviceDriverPropertiesKHR.conformanceVersion: VkConformance
     get() = VkPhysicalDeviceDriverPropertiesKHR.nconformanceVersion(adr)
 
 
+inline class VkShaderFloatControlsIndependenceKHR(val i: Int) {
+    companion object {
+        val _32_BIT_ONLY = VkShaderFloatControlsIndependenceKHR(0)
+        val ALL = VkShaderFloatControlsIndependenceKHR(1)
+        val NONE = VkShaderFloatControlsIndependenceKHR(2)
+    }
+}
+
+
 inline var VkPhysicalDeviceFloatControlsPropertiesKHR.type: VkStructureType
     get() = VkStructureType(VkPhysicalDeviceFloatControlsPropertiesKHR.nsType(adr))
     set(value) = VkPhysicalDeviceFloatControlsPropertiesKHR.nsType(adr, value.i)
 inline var VkPhysicalDeviceFloatControlsPropertiesKHR.next: Ptr
     get() = VkPhysicalDeviceFloatControlsPropertiesKHR.npNext(adr)
     set(value) = VkPhysicalDeviceFloatControlsPropertiesKHR.npNext(adr, value)
-//inline val VkPhysicalDeviceFloatControlsPropertiesKHR.separateDenormSettings: Boolean TODO
-//    get() = VkPhysicalDeviceFloatControlsPropertiesKHR.nseparateDenormSettings(adr).bool
-//inline val VkPhysicalDeviceFloatControlsPropertiesKHR.separateRoundingModeSettings: Boolean
-//    get() = VkPhysicalDeviceFloatControlsPropertiesKHR.nseparateRoundingModeSettings(adr).bool
+inline val VkPhysicalDeviceFloatControlsPropertiesKHR.denormBehaviorIndependence: VkShaderFloatControlsIndependenceKHR
+    get() = VkShaderFloatControlsIndependenceKHR(VkPhysicalDeviceFloatControlsPropertiesKHR.ndenormBehaviorIndependence(adr))
+inline val VkPhysicalDeviceFloatControlsPropertiesKHR.roundingModeIndependence: VkShaderFloatControlsIndependenceKHR
+    get() = VkShaderFloatControlsIndependenceKHR(VkPhysicalDeviceFloatControlsPropertiesKHR.nroundingModeIndependence(adr))
 inline val VkPhysicalDeviceFloatControlsPropertiesKHR.shaderSignedZeroInfNanPreserveFloat16: Boolean
     get() = VkPhysicalDeviceFloatControlsPropertiesKHR.nshaderSignedZeroInfNanPreserveFloat16(adr).bool
 inline val VkPhysicalDeviceFloatControlsPropertiesKHR.shaderSignedZeroInfNanPreserveFloat32: Boolean

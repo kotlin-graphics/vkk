@@ -1025,6 +1025,32 @@ inline var VkPhysicalDeviceScalarBlockLayoutFeaturesEXT.scalarBlockLayout: Boole
     set(value) = VkPhysicalDeviceScalarBlockLayoutFeaturesEXT.nscalarBlockLayout(adr, value.i)
 
 
+inline var VkPhysicalDeviceSubgroupSizeControlPropertiesEXT.type: VkStructureType
+    get() = VkStructureType(VkPhysicalDeviceSubgroupSizeControlPropertiesEXT.nsType(adr))
+    set(value) = VkPhysicalDeviceSubgroupSizeControlPropertiesEXT.nsType(adr, value.i)
+inline var VkPhysicalDeviceSubgroupSizeControlPropertiesEXT.next: Ptr
+    get() = VkPhysicalDeviceSubgroupSizeControlPropertiesEXT.npNext(adr)
+    set(value) = VkPhysicalDeviceSubgroupSizeControlPropertiesEXT.npNext(adr, value)
+inline val VkPhysicalDeviceSubgroupSizeControlPropertiesEXT.minSubgroupSize: Int
+    get() = VkPhysicalDeviceSubgroupSizeControlPropertiesEXT.nminSubgroupSize(adr)
+inline val VkPhysicalDeviceSubgroupSizeControlPropertiesEXT.maxSubgroupSize: Int
+    get() = VkPhysicalDeviceSubgroupSizeControlPropertiesEXT.nmaxSubgroupSize(adr)
+inline val VkPhysicalDeviceSubgroupSizeControlPropertiesEXT.maxComputeWorkgroupSubgroups: Int
+    get() = VkPhysicalDeviceSubgroupSizeControlPropertiesEXT.nmaxComputeWorkgroupSubgroups(adr)
+inline val VkPhysicalDeviceSubgroupSizeControlPropertiesEXT.requiredSubgroupSizeStages: VkShaderStageFlags
+    get() = VkPhysicalDeviceSubgroupSizeControlPropertiesEXT.nrequiredSubgroupSizeStages(adr)
+
+
+inline var VkPipelineShaderStageRequiredSubgroupSizeCreateInfoEXT.type: VkStructureType
+    get() = VkStructureType(VkPipelineShaderStageRequiredSubgroupSizeCreateInfoEXT.nsType(adr))
+    set(value) = VkPipelineShaderStageRequiredSubgroupSizeCreateInfoEXT.nsType(adr, value.i)
+inline var VkPipelineShaderStageRequiredSubgroupSizeCreateInfoEXT.next: Ptr
+    get() = VkPipelineShaderStageRequiredSubgroupSizeCreateInfoEXT.npNext(adr)
+    set(value) = VkPipelineShaderStageRequiredSubgroupSizeCreateInfoEXT.npNext(adr, value)
+inline val VkPipelineShaderStageRequiredSubgroupSizeCreateInfoEXT.requiredSubgroupSize: Int
+    get() = VkPipelineShaderStageRequiredSubgroupSizeCreateInfoEXT.nrequiredSubgroupSize(adr)
+
+
 inline var VkPhysicalDeviceMemoryBudgetPropertiesEXT.type: VkStructureType
     get() = VkStructureType(VkPhysicalDeviceMemoryBudgetPropertiesEXT.nsType(adr))
     set(value) = VkPhysicalDeviceMemoryBudgetPropertiesEXT.nsType(adr, value.i)
