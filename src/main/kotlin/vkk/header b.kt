@@ -831,10 +831,13 @@ inline var VkApplicationInfo.applicationName: String?
     set(value) = VkApplicationInfo.npApplicationName(adr, value?.toUtf8Stack())
 inline var VkApplicationInfo.applicationVersion: Int
     get() = VkApplicationInfo.napplicationVersion(adr)
-    set(value) = VkApplicationInfo.napiVersion(adr, value)
+    set(value) = VkApplicationInfo.napplicationVersion(adr, value)
 inline var VkApplicationInfo.engineName: String?
     get() = VkApplicationInfo.npEngineNameString(adr)
     set(value) = VkApplicationInfo.npEngineName(adr, value?.toUtf8Stack())
+inline var VkApplicationInfo.engineVersion: Int
+    get() = VkApplicationInfo.nengineVersion(adr)
+    set(value) = VkApplicationInfo.nengineVersion(adr, value)
 inline var VkApplicationInfo.apiVersion: Int
     get() = VkApplicationInfo.napiVersion(adr)
     set(value) = VkApplicationInfo.napiVersion(adr, value)
