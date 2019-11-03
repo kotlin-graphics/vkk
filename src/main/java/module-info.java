@@ -4,6 +4,7 @@ module com.github.kotlin_graphics.vkk {
     requires kotlin.reflect;
 
     requires java.management;
+    requires java.compiler;
 
     requires org.lwjgl;
     requires org.lwjgl.vulkan;
@@ -13,6 +14,7 @@ module com.github.kotlin_graphics.vkk {
     requires com.github.kotlin_graphics.glm;
     requires com.github.kotlin_graphics.kool;
     requires com.github.kotlin_graphics.kotlin_unsigned;
+    requires jsr305;
 
     exports vkk;
     exports vkk.entities;
