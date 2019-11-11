@@ -248,7 +248,7 @@ inline var VkAttachmentDescription.format: VkFormat
     get() = VkFormat(VkAttachmentDescription.nformat(adr))
     set(value) = VkAttachmentDescription.nformat(adr, value.i)
 inline var VkAttachmentDescription.samples: VkSampleCount
-    get() = VkSampleCount(VkAttachmentDescription.nsamples(adr))
+    get() = VkSampleCount(VkSampleCountFlags(VkAttachmentDescription.nsamples(adr)))
     set(value) = VkAttachmentDescription.nsamples(adr, value.i)
 inline var VkAttachmentDescription.loadOp: VkAttachmentLoadOp
     get() = VkAttachmentLoadOp(VkAttachmentDescription.nloadOp(adr))

@@ -1040,7 +1040,7 @@ inline val VkSurfaceCapabilities2EXT.currentTransform: VkSurfaceTransformKHR
 inline val VkSurfaceCapabilities2EXT.supportedCompositeAlpha: VkCompositeAlphaFlagsKHR
     get() = VkSurfaceCapabilities2EXT.nsupportedCompositeAlpha(adr)
 inline val VkSurfaceCapabilities2EXT.supportedUsageFlags: VkImageUsageFlags
-    get() = VkSurfaceCapabilities2EXT.nsupportedUsageFlags(adr)
+    get() = VkImageUsageFlags(VkSurfaceCapabilities2EXT.nsupportedUsageFlags(adr))
 inline val VkSurfaceCapabilities2EXT.supportedSurfaceCounters: VkSurfaceCounterFlagsEXT
     get() = VkSurfaceCapabilities2EXT.nsupportedSurfaceCounters(adr)
 

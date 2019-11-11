@@ -477,7 +477,7 @@ inline var VkSampleLocationsInfoEXT.next: Ptr
     get() = VkSampleLocationsInfoEXT.npNext(adr)
     set(value) = VkSampleLocationsInfoEXT.npNext(adr, value)
 inline var VkSampleLocationsInfoEXT.sampleLocationsPerPixel: VkSampleCount
-    get() = VkSampleCount(VkSampleLocationsInfoEXT.nsampleLocationsPerPixel(adr))
+    get() = VkSampleCount(VkSampleCountFlags(VkSampleLocationsInfoEXT.nsampleLocationsPerPixel(adr)))
     set(value) = VkSampleLocationsInfoEXT.nsampleLocationsPerPixel(adr, value.i)
 inline var VkSampleLocationsInfoEXT.sampleLocationGridSize: VkExtent2D
     get() = VkSampleLocationsInfoEXT.nsampleLocationGridSize(adr)
@@ -550,7 +550,7 @@ inline var VkPhysicalDeviceSampleLocationsPropertiesEXT.next: Ptr
     get() = VkPhysicalDeviceSampleLocationsPropertiesEXT.npNext(adr)
     set(value) = VkPhysicalDeviceSampleLocationsPropertiesEXT.npNext(adr, value)
 inline val VkPhysicalDeviceSampleLocationsPropertiesEXT.sampleLocationSampleCounts: VkSampleCountFlags
-    get() = VkPhysicalDeviceSampleLocationsPropertiesEXT.nsampleLocationSampleCounts(adr)
+    get() = VkSampleCountFlags(VkPhysicalDeviceSampleLocationsPropertiesEXT.nsampleLocationSampleCounts(adr))
 inline val VkPhysicalDeviceSampleLocationsPropertiesEXT.maxSampleLocationGridSize: VkExtent2D
     get() = VkPhysicalDeviceSampleLocationsPropertiesEXT.nmaxSampleLocationGridSize(adr)
 inline val VkPhysicalDeviceSampleLocationsPropertiesEXT.sampleLocationCoordinateRange: FloatBuffer
@@ -712,7 +712,7 @@ inline val VkDrmFormatModifierPropertiesEXT.drmFormatModifier: Long
 inline val VkDrmFormatModifierPropertiesEXT.drmFormatModifierPlaneCount: Int
     get() = VkDrmFormatModifierPropertiesEXT.ndrmFormatModifierPlaneCount(adr)
 inline val VkDrmFormatModifierPropertiesEXT.drmFormatModifierTilingFeatures: VkFormatFeatureFlags
-    get() = VkDrmFormatModifierPropertiesEXT.ndrmFormatModifierTilingFeatures(adr)
+    get() = VkFormatFeatureFlags(VkDrmFormatModifierPropertiesEXT.ndrmFormatModifierTilingFeatures(adr))
 
 
 inline var VkDrmFormatModifierPropertiesListEXT.type: VkStructureType

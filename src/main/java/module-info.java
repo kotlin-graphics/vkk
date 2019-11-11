@@ -15,6 +15,7 @@ module com.github.kotlin_graphics.vkk {
     requires com.github.kotlin_graphics.kool;
     requires com.github.kotlin_graphics.kotlin_unsigned;
     requires jsr305;
+    requires spirvcrossj;
 
     exports vkk;
     exports vkk.entities;

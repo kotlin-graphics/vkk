@@ -79,7 +79,7 @@ inline val VkSurfaceCapabilitiesKHR.currentTransform: VkSurfaceTransformKHR
 inline val VkSurfaceCapabilitiesKHR.supportedCompositeAlpha: VkCompositeAlphaFlagsKHR
     get() = VkSurfaceCapabilitiesKHR.nsupportedCompositeAlpha(adr)
 inline val VkSurfaceCapabilitiesKHR.supportedUsageFlags: VkImageUsageFlags
-    get() = VkSurfaceCapabilitiesKHR.nsupportedUsageFlags(adr)
+    get() = VkImageUsageFlags(VkSurfaceCapabilitiesKHR.nsupportedUsageFlags(adr))
 
 
 inline var VkSurfaceFormatKHR.format: VkFormat
@@ -154,8 +154,8 @@ inline var VkSwapchainCreateInfoKHR.imageArrayLayers: Int
     get() = VkSwapchainCreateInfoKHR.nimageArrayLayers(adr)
     set(value) = VkSwapchainCreateInfoKHR.nimageArrayLayers(adr, value)
 inline var VkSwapchainCreateInfoKHR.imageUsage: VkImageUsageFlags
-    get() = VkSwapchainCreateInfoKHR.nimageUsage(adr)
-    set(value) = VkSwapchainCreateInfoKHR.nimageUsage(adr, value)
+    get() = VkImageUsageFlags(VkSwapchainCreateInfoKHR.nimageUsage(adr))
+    set(value) = VkSwapchainCreateInfoKHR.nimageUsage(adr, value.i)
 inline var VkSwapchainCreateInfoKHR.imageSharingMode: VkSharingMode
     get() = VkSharingMode(VkSwapchainCreateInfoKHR.nimageSharingMode(adr))
     set(value) = VkSwapchainCreateInfoKHR.nimageSharingMode(adr, value.i)
@@ -602,11 +602,11 @@ inline var VkFramebufferAttachmentImageInfoKHR.next: Ptr
     get() = VkFramebufferAttachmentImageInfoKHR.npNext(adr)
     set(value) = VkFramebufferAttachmentImageInfoKHR.npNext(adr, value)
 inline var VkFramebufferAttachmentImageInfoKHR.flags: VkImageCreateFlags
-    get() = VkFramebufferAttachmentImageInfoKHR.nflags(adr)
-    set(value) = VkFramebufferAttachmentImageInfoKHR.nflags(adr, value)
+    get() = VkImageCreateFlags(VkFramebufferAttachmentImageInfoKHR.nflags(adr))
+    set(value) = VkFramebufferAttachmentImageInfoKHR.nflags(adr, value.i)
 inline var VkFramebufferAttachmentImageInfoKHR.usage: VkImageUsageFlags
-    get() = VkFramebufferAttachmentImageInfoKHR.nusage(adr)
-    set(value) = VkFramebufferAttachmentImageInfoKHR.nusage(adr, value)
+    get() = VkImageUsageFlags(VkFramebufferAttachmentImageInfoKHR.nusage(adr))
+    set(value) = VkFramebufferAttachmentImageInfoKHR.nusage(adr, value.i)
 inline var VkFramebufferAttachmentImageInfoKHR.width: Int
     get() = VkFramebufferAttachmentImageInfoKHR.nwidth(adr)
     set(value) = VkFramebufferAttachmentImageInfoKHR.nwidth(adr, value)
@@ -674,7 +674,7 @@ inline var VkAttachmentDescription2KHR.format: VkFormat
     get() = VkFormat(VkAttachmentDescription2KHR.nformat(adr))
     set(value) = VkAttachmentDescription2KHR.nformat(adr, value.i)
 inline var VkAttachmentDescription2KHR.samples: VkSampleCount
-    get() = VkSampleCount(VkAttachmentDescription2KHR.nsamples(adr))
+    get() = VkSampleCount(VkSampleCountFlags(VkAttachmentDescription2KHR.nsamples(adr)))
     set(value) = VkAttachmentDescription2KHR.nsamples(adr, value.i)
 inline var VkAttachmentDescription2KHR.loadOp: VkAttachmentLoadOp
     get() = VkAttachmentLoadOp(VkAttachmentDescription2KHR.nloadOp(adr))

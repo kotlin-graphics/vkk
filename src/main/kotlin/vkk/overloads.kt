@@ -665,7 +665,7 @@ inline fun vkGetPhysicalDeviceSparseImageFormatProperties(
         usage: VkImageUsageFlags,
         tiling: VkImageTiling,
         pPropertyCount: IntBuffer,
-        pProperties: VkSparseImageFormatProperties.Buffer) = VK10.vkGetPhysicalDeviceSparseImageFormatProperties(physicalDevice, format.i, type.i, samples.i, usage, tiling.i, pPropertyCount, pProperties)
+        pProperties: VkSparseImageFormatProperties.Buffer) = VK10.vkGetPhysicalDeviceSparseImageFormatProperties(physicalDevice, format.i, type.i, samples.i, usage.i, tiling.i, pPropertyCount, pProperties)
 
 inline fun vkGetPhysicalDeviceSparseImageFormatProperties(
         physicalDevice: VkPhysicalDevice,
@@ -675,7 +675,7 @@ inline fun vkGetPhysicalDeviceSparseImageFormatProperties(
         usage: VkImageUsageFlags,
         tiling: VkImageTiling,
         pPropertyCount: IntArray,
-        pProperties: VkSparseImageFormatProperties.Buffer) = VK10.vkGetPhysicalDeviceSparseImageFormatProperties(physicalDevice, format.i, type.i, samples.i, usage, tiling.i, pPropertyCount, pProperties)
+        pProperties: VkSparseImageFormatProperties.Buffer) = VK10.vkGetPhysicalDeviceSparseImageFormatProperties(physicalDevice, format.i, type.i, samples.i, usage.i, tiling.i, pPropertyCount, pProperties)
 
 inline fun vkGetImageSparseMemoryRequirements(
         device: VkDevice,

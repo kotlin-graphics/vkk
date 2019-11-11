@@ -9,6 +9,95 @@ import org.lwjgl.vulkan.VkInstanceCreateInfo
 import org.lwjgl.vulkan.VkPhysicalDeviceFeatures
 
 
+inline class VkPolygonMode(val i: Int) {
+    companion object {
+        val FILL = VkPolygonMode(0)
+        val LINE = VkPolygonMode(1)
+        val POINT = VkPolygonMode(2)
+        val FILL_RECTANGLE_NV = VkPolygonMode(1000153000)
+    }
+}
+
+inline class VkFrontFace(val i: Int) {
+    companion object {
+        val COUNTER_CLOCKWISE = VkFrontFace(0)
+        val CLOCKWISE = VkFrontFace(1)
+    }
+}
+
+
+inline class VkCompareOp(val i: Int) {
+    companion object {
+        val NEVER = VkCompareOp(0)
+        val LESS = VkCompareOp(1)
+        val EQUAL = VkCompareOp(2)
+        val LESS_OR_EQUAL = VkCompareOp(3)
+        val GREATER = VkCompareOp(4)
+        val NOT_EQUAL = VkCompareOp(5)
+        val GREATER_OR_EQUAL = VkCompareOp(6)
+        val ALWAYS = VkCompareOp(7)
+    }
+}
+
+inline class VkStencilOp(val i: Int) {
+    companion object {
+        val KEEP = VkStencilOp(0)
+        val ZERO = VkStencilOp(1)
+        val REPLACE = VkStencilOp(2)
+        val INCREMENT_AND_CLAMP = VkStencilOp(3)
+        val DECREMENT_AND_CLAMP = VkStencilOp(4)
+        val INVERT = VkStencilOp(5)
+        val INCREMENT_AND_WRAP = VkStencilOp(6)
+        val DECREMENT_AND_WRAP = VkStencilOp(7)
+    }
+}
+
+
+inline class VkLogicOp(val i: Int) {
+    companion object {
+        val CLEAR = VkLogicOp(0)
+        val AND = VkLogicOp(1)
+        val AND_REVERSE = VkLogicOp(2)
+        val COPY = VkLogicOp(3)
+        val AND_INVERTED = VkLogicOp(4)
+        val NO_OP = VkLogicOp(5)
+        val XOR = VkLogicOp(6)
+        val OR = VkLogicOp(7)
+        val NOR = VkLogicOp(8)
+        val EQUIVALENT = VkLogicOp(9)
+        val INVERT = VkLogicOp(10)
+        val OR_REVERSE = VkLogicOp(11)
+        val COPY_INVERTED = VkLogicOp(12)
+        val OR_INVERTED = VkLogicOp(13)
+        val NAND = VkLogicOp(14)
+        val SET = VkLogicOp(15)
+    }
+}
+
+inline class VkBlendFactor(val i: Int) {
+    companion object {
+        val ZERO = VkBlendFactor(0)
+        val ONE = VkBlendFactor(1)
+        val SRC_COLOR = VkBlendFactor(2)
+        val ONE_MINUS_SRC_COLOR = VkBlendFactor(3)
+        val DST_COLOR = VkBlendFactor(4)
+        val ONE_MINUS_DST_COLOR = VkBlendFactor(5)
+        val SRC_ALPHA = VkBlendFactor(6)
+        val ONE_MINUS_SRC_ALPHA = VkBlendFactor(7)
+        val DST_ALPHA = VkBlendFactor(8)
+        val ONE_MINUS_DST_ALPHA = VkBlendFactor(9)
+        val CONSTANT_COLOR = VkBlendFactor(10)
+        val ONE_MINUS_CONSTANT_COLOR = VkBlendFactor(11)
+        val CONSTANT_ALPHA = VkBlendFactor(12)
+        val ONE_MINUS_CONSTANT_ALPHA = VkBlendFactor(13)
+        val SRC_ALPHA_SATURATE = VkBlendFactor(14)
+        val SRC1_COLOR = VkBlendFactor(15)
+        val ONE_MINUS_SRC1_COLOR = VkBlendFactor(16)
+        val SRC1_ALPHA = VkBlendFactor(17)
+        val ONE_MINUS_SRC1_ALPHA = VkBlendFactor(18)
+    }
+}
+
 inline class VkBlendOp(val i: Int) {
     companion object {
         val ADD = VkBlendOp(0)
@@ -248,90 +337,147 @@ inline class VkVendorId(val i: Int) {
 
 typealias VkInstanceCreateFlags = VkFlags
 
-inline class VkFormatFeature(val i: Int) {
+inline class VkFormatFeature(val flagBit: VkFormatFeatureFlags) {
+
+    val i get() = flagBit.i
+
+    infix fun and(b: VkFormatFeature) = VkFormatFeatureFlags(flagBit.i and b.flagBit.i)
+    infix fun or(b: VkFormatFeature) = VkFormatFeatureFlags(flagBit.i or b.flagBit.i)
+    fun inv() = VkFormatFeature(VkFormatFeatureFlags(flagBit.i.inv()))
+
+    operator fun plus(b: VkFormatFeature): VkFormatFeatureFlags = flagBit + b
+    operator fun minus(b: VkFormatFeature): VkFormatFeatureFlags = flagBit - b
+
     companion object {
-        val SAMPLED_IMAGE_BIT = VkFormatFeature(0x00000001)
-        val STORAGE_IMAGE_BIT = VkFormatFeature(0x00000002)
-        val STORAGE_IMAGE_ATOMIC_BIT = VkFormatFeature(0x00000004)
-        val UNIFORM_TEXEL_BUFFER_BIT = VkFormatFeature(0x00000008)
-        val STORAGE_TEXEL_BUFFER_BIT = VkFormatFeature(0x00000010)
-        val STORAGE_TEXEL_BUFFER_ATOMIC_BIT = VkFormatFeature(0x00000020)
-        val VERTEX_BUFFER_BIT = VkFormatFeature(0x00000040)
-        val COLOR_ATTACHMENT_BIT = VkFormatFeature(0x00000080)
-        val COLOR_ATTACHMENT_BLEND_BIT = VkFormatFeature(0x00000100)
-        val DEPTH_STENCIL_ATTACHMENT_BIT = VkFormatFeature(0x00000200)
-        val BLIT_SRC_BIT = VkFormatFeature(0x00000400)
-        val BLIT_DST_BIT = VkFormatFeature(0x00000800)
-        val SAMPLED_IMAGE_FILTER_LINEAR_BIT = VkFormatFeature(0x00001000)
-        val TRANSFER_SRC_BIT = VkFormatFeature(0x00004000)
-        val TRANSFER_DST_BIT = VkFormatFeature(0x00008000)
-        val MIDPOINT_CHROMA_SAMPLES_BIT = VkFormatFeature(0x00020000)
-        val SAMPLED_IMAGE_YCBCR_CONVERSION_LINEAR_FILTER_BIT = VkFormatFeature(0x00040000)
-        val SAMPLED_IMAGE_YCBCR_CONVERSION_SEPARATE_RECONSTRUCTION_FILTER_BIT = VkFormatFeature(0x00080000)
-        val SAMPLED_IMAGE_YCBCR_CONVERSION_CHROMA_RECONSTRUCTION_EXPLICIT_BIT = VkFormatFeature(0x00100000)
-        val SAMPLED_IMAGE_YCBCR_CONVERSION_CHROMA_RECONSTRUCTION_EXPLICIT_FORCEABLE_BIT = VkFormatFeature(0x00200000)
-        val DISJOINT_BIT = VkFormatFeature(0x00400000)
-        val COSITED_CHROMA_SAMPLES_BIT = VkFormatFeature(0x00800000)
-        val SAMPLED_IMAGE_FILTER_CUBIC_BIT_IMG = VkFormatFeature(0x00002000)
-        val SAMPLED_IMAGE_FILTER_MINMAX_BIT_EXT = VkFormatFeature(0x00010000)
-        val FRAGMENT_DENSITY_MAP_BIT_EXT = VkFormatFeature(0x01000000)
-        val TRANSFER_SRC_BIT_KHR = VkFormatFeature.TRANSFER_SRC_BIT
-        val TRANSFER_DST_BIT_KHR = VkFormatFeature.TRANSFER_DST_BIT
-        val MIDPOINT_CHROMA_SAMPLES_BIT_KHR = VkFormatFeature.MIDPOINT_CHROMA_SAMPLES_BIT
-        val SAMPLED_IMAGE_YCBCR_CONVERSION_LINEAR_FILTER_BIT_KHR = VkFormatFeature.SAMPLED_IMAGE_YCBCR_CONVERSION_LINEAR_FILTER_BIT
-        val SAMPLED_IMAGE_YCBCR_CONVERSION_SEPARATE_RECONSTRUCTION_FILTER_BIT_KHR = VkFormatFeature.SAMPLED_IMAGE_YCBCR_CONVERSION_SEPARATE_RECONSTRUCTION_FILTER_BIT
-        val SAMPLED_IMAGE_YCBCR_CONVERSION_CHROMA_RECONSTRUCTION_EXPLICIT_BIT_KHR = VkFormatFeature.SAMPLED_IMAGE_YCBCR_CONVERSION_CHROMA_RECONSTRUCTION_EXPLICIT_BIT
-        val SAMPLED_IMAGE_YCBCR_CONVERSION_CHROMA_RECONSTRUCTION_EXPLICIT_FORCEABLE_BIT_KHR = VkFormatFeature.SAMPLED_IMAGE_YCBCR_CONVERSION_CHROMA_RECONSTRUCTION_EXPLICIT_FORCEABLE_BIT
-        val DISJOINT_BIT_KHR = VkFormatFeature.DISJOINT_BIT
-        val COSITED_CHROMA_SAMPLES_BIT_KHR = VkFormatFeature.COSITED_CHROMA_SAMPLES_BIT
-        val SAMPLED_IMAGE_FILTER_CUBIC_BIT_EXT = VkFormatFeature.SAMPLED_IMAGE_FILTER_CUBIC_BIT_IMG
+        val SAMPLED_IMAGE_BIT = VkFormatFeature(VkFormatFeatureFlags(0x00000001))
+        val STORAGE_IMAGE_BIT = VkFormatFeature(VkFormatFeatureFlags(0x00000002))
+        val STORAGE_IMAGE_ATOMIC_BIT = VkFormatFeature(VkFormatFeatureFlags(0x00000004))
+        val UNIFORM_TEXEL_BUFFER_BIT = VkFormatFeature(VkFormatFeatureFlags(0x00000008))
+        val STORAGE_TEXEL_BUFFER_BIT = VkFormatFeature(VkFormatFeatureFlags(0x00000010))
+        val STORAGE_TEXEL_BUFFER_ATOMIC_BIT = VkFormatFeature(VkFormatFeatureFlags(0x00000020))
+        val VERTEX_BUFFER_BIT = VkFormatFeature(VkFormatFeatureFlags(0x00000040))
+        val COLOR_ATTACHMENT_BIT = VkFormatFeature(VkFormatFeatureFlags(0x00000080))
+        val COLOR_ATTACHMENT_BLEND_BIT = VkFormatFeature(VkFormatFeatureFlags(0x00000100))
+        val DEPTH_STENCIL_ATTACHMENT_BIT = VkFormatFeature(VkFormatFeatureFlags(0x00000200))
+        val BLIT_SRC_BIT = VkFormatFeature(VkFormatFeatureFlags(0x00000400))
+        val BLIT_DST_BIT = VkFormatFeature(VkFormatFeatureFlags(0x00000800))
+        val SAMPLED_IMAGE_FILTER_LINEAR_BIT = VkFormatFeature(VkFormatFeatureFlags(0x00001000))
+        val TRANSFER_SRC_BIT = VkFormatFeature(VkFormatFeatureFlags(0x00004000))
+        val TRANSFER_DST_BIT = VkFormatFeature(VkFormatFeatureFlags(0x00008000))
+        val MIDPOINT_CHROMA_SAMPLES_BIT = VkFormatFeature(VkFormatFeatureFlags(0x00020000))
+        val SAMPLED_IMAGE_YCBCR_CONVERSION_LINEAR_FILTER_BIT = VkFormatFeature(VkFormatFeatureFlags(0x00040000))
+        val SAMPLED_IMAGE_YCBCR_CONVERSION_SEPARATE_RECONSTRUCTION_FILTER_BIT = VkFormatFeature(VkFormatFeatureFlags(0x00080000))
+        val SAMPLED_IMAGE_YCBCR_CONVERSION_CHROMA_RECONSTRUCTION_EXPLICIT_BIT = VkFormatFeature(VkFormatFeatureFlags(0x00100000))
+        val SAMPLED_IMAGE_YCBCR_CONVERSION_CHROMA_RECONSTRUCTION_EXPLICIT_FORCEABLE_BIT = VkFormatFeature(VkFormatFeatureFlags(0x00200000))
+        val DISJOINT_BIT = VkFormatFeature(VkFormatFeatureFlags(0x00400000))
+        val COSITED_CHROMA_SAMPLES_BIT = VkFormatFeature(VkFormatFeatureFlags(0x00800000))
+        val SAMPLED_IMAGE_FILTER_CUBIC_BIT_IMG = VkFormatFeature(VkFormatFeatureFlags(0x00002000))
+        val SAMPLED_IMAGE_FILTER_MINMAX_BIT_EXT = VkFormatFeature(VkFormatFeatureFlags(0x00010000))
+        val FRAGMENT_DENSITY_MAP_BIT_EXT = VkFormatFeature(VkFormatFeatureFlags(0x01000000))
+        val TRANSFER_SRC_BIT_KHR = TRANSFER_SRC_BIT
+        val TRANSFER_DST_BIT_KHR = TRANSFER_DST_BIT
+        val MIDPOINT_CHROMA_SAMPLES_BIT_KHR = MIDPOINT_CHROMA_SAMPLES_BIT
+        val SAMPLED_IMAGE_YCBCR_CONVERSION_LINEAR_FILTER_BIT_KHR = SAMPLED_IMAGE_YCBCR_CONVERSION_LINEAR_FILTER_BIT
+        val SAMPLED_IMAGE_YCBCR_CONVERSION_SEPARATE_RECONSTRUCTION_FILTER_BIT_KHR = SAMPLED_IMAGE_YCBCR_CONVERSION_SEPARATE_RECONSTRUCTION_FILTER_BIT
+        val SAMPLED_IMAGE_YCBCR_CONVERSION_CHROMA_RECONSTRUCTION_EXPLICIT_BIT_KHR = SAMPLED_IMAGE_YCBCR_CONVERSION_CHROMA_RECONSTRUCTION_EXPLICIT_BIT
+        val SAMPLED_IMAGE_YCBCR_CONVERSION_CHROMA_RECONSTRUCTION_EXPLICIT_FORCEABLE_BIT_KHR = SAMPLED_IMAGE_YCBCR_CONVERSION_CHROMA_RECONSTRUCTION_EXPLICIT_FORCEABLE_BIT
+        val DISJOINT_BIT_KHR = DISJOINT_BIT
+        val COSITED_CHROMA_SAMPLES_BIT_KHR = COSITED_CHROMA_SAMPLES_BIT
+        val SAMPLED_IMAGE_FILTER_CUBIC_BIT_EXT = SAMPLED_IMAGE_FILTER_CUBIC_BIT_IMG
     }
 }
 
-infix fun Int.has(f: VkFormatFeature) = and(f.i) != 0
-infix fun Int.hasnt(f: VkFormatFeature) = and(f.i) == 0
+//infix fun Int.has(f: VkFormatFeature) = and(f.i) != 0
+//infix fun Int.hasnt(f: VkFormatFeature) = and(f.i) == 0
 
-typealias VkFormatFeatureFlags = VkFlags
+inline class VkFormatFeatureFlags(val i: Int) {
 
-inline class VkImageUsage(val i: Int) {
-    companion object {
-        val TRANSFER_SRC_BIT = VkImageUsage(0x00000001)
-        val TRANSFER_DST_BIT = VkImageUsage(0x00000002)
-        val SAMPLED_BIT = VkImageUsage(0x00000004)
-        val STORAGE_BIT = VkImageUsage(0x00000008)
-        val COLOR_ATTACHMENT_BIT = VkImageUsage(0x00000010)
-        val DEPTH_STENCIL_ATTACHMENT_BIT = VkImageUsage(0x00000020)
-        val TRANSIENT_ATTACHMENT_BIT = VkImageUsage(0x00000040)
-        val INPUT_ATTACHMENT_BIT = VkImageUsage(0x00000080)
-        val SHADING_RATE_IMAGE_BIT_NV = VkImageUsage(0x00000100)
-        val FRAGMENT_DENSITY_MAP_BIT_EXT = VkImageUsage(0x00000200)
-    }
+    infix fun and(flag: VkFormatFeature) = VkFormatFeatureFlags(i and flag.flagBit.i)
+    infix fun or(flag: VkFormatFeature) = VkFormatFeatureFlags(i or flag.flagBit.i)
+    infix fun wo(flag: VkFormatFeature) = and(flag.inv())
 
-    infix fun or(b: VkImageUsage): VkImageUsageFlags = i or b.i
+    operator fun plus(flag: VkFormatFeature): VkFormatFeatureFlags = or(flag)
+    operator fun minus(flag: VkFormatFeature): VkFormatFeatureFlags = wo(flag)
+
+    infix fun has(flag: VkFormatFeature) = and(flag).i != 0
+    infix fun hasAll(flag: VkFormatFeature) = and(flag).i == flag.flagBit.i
+    infix fun hasnt(flag: VkFormatFeature) = and(flag).i == 0
+
+    operator fun contains(flag: VkFormatFeature) = has(flag)
 }
 
-infix fun Int.or(b: VkImageUsage): VkImageUsageFlags = or(b.i)
-infix fun Int.has(b: VkImageUsage): Boolean = and(b.i) != 0
-infix fun Int.hasnt(b: VkImageUsage): Boolean = and(b.i) == 0
+inline class VkImageUsage(val flagBit: VkImageUsageFlags) {
 
-typealias VkImageUsageFlags = VkFlags
+    val i get() = flagBit.i
 
-inline class VkImageCreate(val i: Int) {
+    infix fun and(b: VkImageUsage) = VkImageUsageFlags(flagBit.i and b.flagBit.i)
+    infix fun or(b: VkImageUsage) = VkImageUsageFlags(flagBit.i or b.flagBit.i)
+    fun inv() = VkImageUsage(VkImageUsageFlags(flagBit.i.inv()))
+
+    operator fun plus(b: VkImageUsage): VkImageUsageFlags = flagBit + b
+    operator fun minus(b: VkImageUsage): VkImageUsageFlags = flagBit - b
+
     companion object {
-        val SPARSE_BINDING_BIT = VkImageCreate(0x00000001)
-        val SPARSE_RESIDENCY_BIT = VkImageCreate(0x00000002)
-        val SPARSE_ALIASED_BIT = VkImageCreate(0x00000004)
-        val MUTABLE_FORMAT_BIT = VkImageCreate(0x00000008)
-        val CUBE_COMPATIBLE_BIT = VkImageCreate(0x00000010)
-        val ALIAS_BIT = VkImageCreate(0x00000400)
-        val SPLIT_INSTANCE_BIND_REGIONS_BIT = VkImageCreate(0x00000040)
-        val _2D_ARRAY_COMPATIBLE_BIT = VkImageCreate(0x00000020)
-        val BLOCK_TEXEL_VIEW_COMPATIBLE_BIT = VkImageCreate(0x00000080)
-        val EXTENDED_USAGE_BIT = VkImageCreate(0x00000100)
-        val PROTECTED_BIT = VkImageCreate(0x00000800)
-        val DISJOINT_BIT = VkImageCreate(0x00000200)
-        val SAMPLE_LOCATIONS_COMPATIBLE_DEPTH_BIT_EXT = VkImageCreate(0x00001000)
-        val SUBSAMPLED_BIT_EXT = VkImageCreate(0x00004000)
+        val TRANSFER_SRC_BIT = VkImageUsage(VkImageUsageFlags(0x00000001))
+        val TRANSFER_DST_BIT = VkImageUsage(VkImageUsageFlags(0x00000002))
+        val SAMPLED_BIT = VkImageUsage(VkImageUsageFlags(0x00000004))
+        val STORAGE_BIT = VkImageUsage(VkImageUsageFlags(0x00000008))
+        val COLOR_ATTACHMENT_BIT = VkImageUsage(VkImageUsageFlags(0x00000010))
+        val DEPTH_STENCIL_ATTACHMENT_BIT = VkImageUsage(VkImageUsageFlags(0x00000020))
+        val TRANSIENT_ATTACHMENT_BIT = VkImageUsage(VkImageUsageFlags(0x00000040))
+        val INPUT_ATTACHMENT_BIT = VkImageUsage(VkImageUsageFlags(0x00000080))
+        val SHADING_RATE_IMAGE_BIT_NV = VkImageUsage(VkImageUsageFlags(0x00000100))
+        val FRAGMENT_DENSITY_MAP_BIT_EXT = VkImageUsage(VkImageUsageFlags(0x00000200))
+    }
+}
+
+//infix fun Int.or(b: VkImageUsage): VkImageUsageFlags = or(b.i)
+//infix fun Int.has(b: VkImageUsage): Boolean = and(b.i) != 0
+//infix fun Int.hasnt(b: VkImageUsage): Boolean = and(b.i) == 0
+
+inline class VkImageUsageFlags(val i: Int) {
+
+    infix fun and(flag: VkImageUsage) = VkImageUsageFlags(i and flag.flagBit.i)
+    infix fun or(flag: VkImageUsage) = VkImageUsageFlags(i or flag.flagBit.i)
+    infix fun wo(flag: VkImageUsage) = and(flag.inv())
+
+    operator fun plus(flag: VkImageUsage): VkImageUsageFlags = or(flag)
+    operator fun minus(flag: VkImageUsage): VkImageUsageFlags = wo(flag)
+
+    infix fun has(flag: VkImageUsage) = and(flag).i != 0
+    infix fun hasAll(flag: VkImageUsage) = and(flag).i == flag.flagBit.i
+    infix fun hasnt(flag: VkImageUsage) = and(flag).i == 0
+
+    operator fun contains(flag: VkImageUsage) = has(flag)
+}
+
+
+inline class VkImageCreate(val flagBit: VkImageCreateFlags) {
+
+    val i get() = flagBit.i
+
+    infix fun and(b: VkImageCreate) = VkImageCreateFlags(flagBit.i and b.flagBit.i)
+    infix fun or(b: VkImageCreate) = VkImageCreateFlags(flagBit.i or b.flagBit.i)
+    fun inv() = VkImageCreate(VkImageCreateFlags(flagBit.i.inv()))
+
+    operator fun plus(b: VkImageCreate): VkImageCreateFlags = flagBit + b
+    operator fun minus(b: VkImageCreate): VkImageCreateFlags = flagBit - b
+
+    companion object {
+        val SPARSE_BINDING_BIT = VkImageCreate(VkImageCreateFlags(0x00000001))
+        val SPARSE_RESIDENCY_BIT = VkImageCreate(VkImageCreateFlags(0x00000002))
+        val SPARSE_ALIASED_BIT = VkImageCreate(VkImageCreateFlags(0x00000004))
+        val MUTABLE_FORMAT_BIT = VkImageCreate(VkImageCreateFlags(0x00000008))
+        val CUBE_COMPATIBLE_BIT = VkImageCreate(VkImageCreateFlags(0x00000010))
+        val ALIAS_BIT = VkImageCreate(VkImageCreateFlags(0x00000400))
+        val SPLIT_INSTANCE_BIND_REGIONS_BIT = VkImageCreate(VkImageCreateFlags(0x00000040))
+        val _2D_ARRAY_COMPATIBLE_BIT = VkImageCreate(VkImageCreateFlags(0x00000020))
+        val BLOCK_TEXEL_VIEW_COMPATIBLE_BIT = VkImageCreate(VkImageCreateFlags(0x00000080))
+        val EXTENDED_USAGE_BIT = VkImageCreate(VkImageCreateFlags(0x00000100))
+        val PROTECTED_BIT = VkImageCreate(VkImageCreateFlags(0x00000800))
+        val DISJOINT_BIT = VkImageCreate(VkImageCreateFlags(0x00000200))
+        val SAMPLE_LOCATIONS_COMPATIBLE_DEPTH_BIT_EXT = VkImageCreate(VkImageCreateFlags(0x00001000))
+        val SUBSAMPLED_BIT_EXT = VkImageCreate(VkImageCreateFlags(0x00004000))
         val VK_IMAGE_CREATE_SPLIT_INSTANCE_BIND_REGIONS_BIT_KHR = VkImageCreate.SPLIT_INSTANCE_BIND_REGIONS_BIT
         val VK_IMAGE_CREATE_2D_ARRAY_COMPATIBLE_BIT_KHR = VkImageCreate._2D_ARRAY_COMPATIBLE_BIT
         val VK_IMAGE_CREATE_BLOCK_TEXEL_VIEW_COMPATIBLE_BIT_KHR = VkImageCreate.BLOCK_TEXEL_VIEW_COMPATIBLE_BIT
@@ -341,21 +487,59 @@ inline class VkImageCreate(val i: Int) {
     }
 }
 
-typealias VkImageCreateFlags = VkFlags
+inline class VkImageCreateFlags(val i: Int) {
 
-inline class VkSampleCount(val i: Int) {
+    infix fun and(flag: VkImageCreate) = VkImageCreateFlags(i and flag.flagBit.i)
+    infix fun or(flag: VkImageCreate) = VkImageCreateFlags(i or flag.flagBit.i)
+    infix fun wo(flag: VkImageCreate) = and(flag.inv())
+
+    operator fun plus(flag: VkImageCreate): VkImageCreateFlags = or(flag)
+    operator fun minus(flag: VkImageCreate): VkImageCreateFlags = wo(flag)
+
+    infix fun has(flag: VkImageCreate) = and(flag).i != 0
+    infix fun hasAll(flag: VkImageCreate) = and(flag).i == flag.flagBit.i
+    infix fun hasnt(flag: VkImageCreate) = and(flag).i == 0
+
+    operator fun contains(flag: VkImageCreate) = has(flag)
+}
+
+inline class VkSampleCount(val flagBit: VkSampleCountFlags) {
+
+    val i get() = flagBit.i
+
+    infix fun and(b: VkSampleCount) = VkSampleCountFlags(flagBit.i and b.flagBit.i)
+    infix fun or(b: VkSampleCount) = VkSampleCountFlags(flagBit.i or b.flagBit.i)
+    fun inv() = VkSampleCount(VkSampleCountFlags(flagBit.i.inv()))
+
+    operator fun plus(b: VkSampleCount): VkSampleCountFlags = flagBit + b
+    operator fun minus(b: VkSampleCount): VkSampleCountFlags = flagBit - b
+
     companion object {
-        val _1_BIT = VkSampleCount(0x00000001)
-        val _2_BIT = VkSampleCount(0x00000002)
-        val _4_BIT = VkSampleCount(0x00000004)
-        val _8_BIT = VkSampleCount(0x00000008)
-        val _16_BIT = VkSampleCount(0x00000010)
-        val _32_BIT = VkSampleCount(0x00000020)
-        val _64_BIT = VkSampleCount(0x00000040)
+        val _1_BIT = VkSampleCount(VkSampleCountFlags(0x00000001))
+        val _2_BIT = VkSampleCount(VkSampleCountFlags(0x00000002))
+        val _4_BIT = VkSampleCount(VkSampleCountFlags(0x00000004))
+        val _8_BIT = VkSampleCount(VkSampleCountFlags(0x00000008))
+        val _16_BIT = VkSampleCount(VkSampleCountFlags(0x00000010))
+        val _32_BIT = VkSampleCount(VkSampleCountFlags(0x00000020))
+        val _64_BIT = VkSampleCount(VkSampleCountFlags(0x00000040))
     }
 }
 
-typealias VkSampleCountFlags = VkFlags
+inline class VkSampleCountFlags(val i: Int) {
+
+    infix fun and(flag: VkSampleCount) = VkSampleCountFlags(i and flag.flagBit.i)
+    infix fun or(flag: VkSampleCount) = VkSampleCountFlags(i or flag.flagBit.i)
+    infix fun wo(flag: VkSampleCount) = and(flag.inv())
+
+    operator fun plus(flag: VkSampleCount): VkSampleCountFlags = or(flag)
+    operator fun minus(flag: VkSampleCount): VkSampleCountFlags = wo(flag)
+
+    infix fun has(flag: VkSampleCount) = and(flag).i != 0
+    infix fun hasAll(flag: VkSampleCount) = and(flag).i == flag.flagBit.i
+    infix fun hasnt(flag: VkSampleCount) = and(flag).i == 0
+
+    operator fun contains(flag: VkSampleCount) = has(flag)
+}
 
 inline class VkQueueFlag(val i: Int) {
     companion object {

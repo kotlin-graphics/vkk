@@ -391,7 +391,7 @@ fun VkPhysicalDevice.getExternalFencePropertiesKHR(externalFenceInfo: VkPhysical
 
 
 fun VkPhysicalDevice.getExternalImageFormatPropertiesNV(format: VkFormat, type: VkImageType, tiling: VkImageTiling, usage: VkImageUsageFlags, flags: VkImageCreateFlags, externalHandleType: VkExternalMemoryHandleTypeFlagsNV, externalImageFormatProperties: VkExternalImageFormatPropertiesNV = vk.ExternalImageFormatPropertiesNV()): VkExternalImageFormatPropertiesNV =
-        externalImageFormatProperties.also { VK_CHECK_RESULT(NVExternalMemoryCapabilities.nvkGetPhysicalDeviceExternalImageFormatPropertiesNV(this, format.i, type.i, tiling.i, usage, flags, externalHandleType, externalImageFormatProperties.adr)) }
+        externalImageFormatProperties.also { VK_CHECK_RESULT(NVExternalMemoryCapabilities.nvkGetPhysicalDeviceExternalImageFormatPropertiesNV(this, format.i, type.i, tiling.i, usage.i, flags.i, externalHandleType, externalImageFormatProperties.adr)) }
 
 
 fun VkPhysicalDevice.getExternalSemaphoreProperties(externalSemaphoreInfo: VkPhysicalDeviceExternalSemaphoreInfo, externalSemaphoreProperties: VkExternalSemaphoreProperties = vk.ExternalSemaphoreProperties()): VkExternalSemaphoreProperties =
@@ -429,7 +429,7 @@ fun VkPhysicalDevice.getGeneratedCommandsPropertiesNVX(features: VkDeviceGenerat
 
 
 fun VkPhysicalDevice.getImageFormatProperties(format: VkFormat, type: VkImageType, tiling: VkImageTiling, usage: VkImageUsageFlags, flags: VkImageCreateFlags, imageFormatProperties: VkImageFormatProperties = vk.ImageFormatProperties()): VkImageFormatProperties =
-        imageFormatProperties.also { VK_CHECK_RESULT(VK10.nvkGetPhysicalDeviceImageFormatProperties(this, format.i, type.i, tiling.i, usage, flags, imageFormatProperties.adr)) }
+        imageFormatProperties.also { VK_CHECK_RESULT(VK10.nvkGetPhysicalDeviceImageFormatProperties(this, format.i, type.i, tiling.i, usage.i, flags.i, imageFormatProperties.adr)) }
 
 
 fun VkPhysicalDevice.getImageFormatProperties2(imageFormatInfo: VkPhysicalDeviceImageFormatInfo2, imageFormatProperties: VkImageFormatProperties2): VkImageFormatProperties2 =
@@ -617,12 +617,12 @@ inline val VkPhysicalDevice.queueFamilyProperties2KHR: ArrayList<VkQueueFamilyPr
 
 fun VkPhysicalDevice.getSparseImageFormatProperties(format: VkFormat, type: VkImageType, samples: VkSampleCount, usage: VkImageUsageFlags, tiling: VkImageTiling, properties: VkSparseImageFormatProperties.Buffer) =
         stak.intAddress(properties.rem) {
-            VK10.nvkGetPhysicalDeviceSparseImageFormatProperties(this, format.i, type.i, samples.i, usage, tiling.i, it, properties.adr)
+            VK10.nvkGetPhysicalDeviceSparseImageFormatProperties(this, format.i, type.i, samples.i, usage.i, tiling.i, it, properties.adr)
         }
 
 inline fun <reified T> VkPhysicalDevice.getSparseImageFormatProperties(format: VkFormat, type: VkImageType, samples: VkSampleCount, usage: VkImageUsageFlags, tiling: VkImageTiling): T = when (T::class) {
     Int::class -> stak.intAddress {
-        VK10.nvkGetPhysicalDeviceSparseImageFormatProperties(this, format.i, type.i, samples.i, usage, tiling.i, it, NULL)
+        VK10.nvkGetPhysicalDeviceSparseImageFormatProperties(this, format.i, type.i, samples.i, usage.i, tiling.i, it, NULL)
     } as T
 //    ArrayList::class -> {
 //        val st = stackGet()
@@ -636,10 +636,10 @@ inline fun <reified T> VkPhysicalDevice.getSparseImageFormatProperties(format: V
     VkSparseImageFormatProperties.Buffer::class -> {
         val st = stackGet()
         val pPropertyCount = st.nmalloc(4, Int.BYTES)
-        VK10.nvkGetPhysicalDeviceSparseImageFormatProperties(this, format.i, type.i, samples.i, usage, tiling.i, pPropertyCount, NULL)
+        VK10.nvkGetPhysicalDeviceSparseImageFormatProperties(this, format.i, type.i, samples.i, usage.i, tiling.i, pPropertyCount, NULL)
         val count = memGetInt(pPropertyCount)
         st.SparseImageFormatProperties(count).also {
-            VK10.nvkGetPhysicalDeviceSparseImageFormatProperties(this, format.i, type.i, samples.i, usage, tiling.i, pPropertyCount, it.adr)
+            VK10.nvkGetPhysicalDeviceSparseImageFormatProperties(this, format.i, type.i, samples.i, usage.i, tiling.i, pPropertyCount, it.adr)
         } as T
     }
     else -> throw Exception("[VkPhysicalDevice::getSparseImageFormatProperties] Invalid T")

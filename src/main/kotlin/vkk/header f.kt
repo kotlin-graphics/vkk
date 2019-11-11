@@ -406,11 +406,11 @@ inline var VkPhysicalDeviceImageFormatInfo2.tiling: VkImageTiling
     get() = VkImageTiling(VkPhysicalDeviceImageFormatInfo2.ntiling(adr))
     set(value) = VkPhysicalDeviceImageFormatInfo2.ntiling(adr, value.i)
 inline var VkPhysicalDeviceImageFormatInfo2.usage: VkImageUsageFlags
-    get() = VkPhysicalDeviceImageFormatInfo2.nusage(adr)
-    set(value) = VkPhysicalDeviceImageFormatInfo2.nusage(adr, value)
+    get() = VkImageUsageFlags(VkPhysicalDeviceImageFormatInfo2.nusage(adr))
+    set(value) = VkPhysicalDeviceImageFormatInfo2.nusage(adr, value.i)
 inline var VkPhysicalDeviceImageFormatInfo2.flags: VkImageCreateFlags
-    get() = VkPhysicalDeviceImageFormatInfo2.nflags(adr)
-    set(value) = VkPhysicalDeviceImageFormatInfo2.nflags(adr, value)
+    get() = VkImageCreateFlags(VkPhysicalDeviceImageFormatInfo2.nflags(adr))
+    set(value) = VkPhysicalDeviceImageFormatInfo2.nflags(adr, value.i)
 
 
 inline var VkQueueFamilyProperties2.type: VkStructureType
@@ -456,11 +456,11 @@ inline var VkPhysicalDeviceSparseImageFormatInfo2.type: VkImageType
     get() = VkImageType(VkPhysicalDeviceSparseImageFormatInfo2.ntype(adr))
     set(value) = VkPhysicalDeviceSparseImageFormatInfo2.ntype(adr, value.i)
 inline var VkPhysicalDeviceSparseImageFormatInfo2.samples: VkSampleCount
-    get() = VkSampleCount(VkPhysicalDeviceSparseImageFormatInfo2.nsamples(adr))
+    get() = VkSampleCount(VkSampleCountFlags(VkPhysicalDeviceSparseImageFormatInfo2.nsamples(adr)))
     set(value) = VkPhysicalDeviceSparseImageFormatInfo2.nsamples(adr, value.i)
 inline var VkPhysicalDeviceSparseImageFormatInfo2.usage: VkImageUsageFlags
-    get() = VkPhysicalDeviceSparseImageFormatInfo2.nusage(adr)
-    set(value) = VkPhysicalDeviceSparseImageFormatInfo2.nusage(adr, value)
+    get() = VkImageUsageFlags(VkPhysicalDeviceSparseImageFormatInfo2.nusage(adr))
+    set(value) = VkPhysicalDeviceSparseImageFormatInfo2.nusage(adr, value.i)
 inline var VkPhysicalDeviceSparseImageFormatInfo2.tiling: VkImageTiling
     get() = VkImageTiling(VkPhysicalDeviceSparseImageFormatInfo2.ntiling(adr))
     set(value) = VkPhysicalDeviceSparseImageFormatInfo2.ntiling(adr, value.i)
@@ -505,8 +505,8 @@ inline var VkImageViewUsageCreateInfo.next: Ptr
     get() = VkImageViewUsageCreateInfo.npNext(adr)
     set(value) = VkImageViewUsageCreateInfo.npNext(adr, value)
 inline var VkImageViewUsageCreateInfo.usage: VkImageUsageFlags
-    get() = VkImageViewUsageCreateInfo.nusage(adr)
-    set(value) = VkImageViewUsageCreateInfo.nusage(adr, value)
+    get() = VkImageUsageFlags(VkImageViewUsageCreateInfo.nusage(adr))
+    set(value) = VkImageViewUsageCreateInfo.nusage(adr, value.i)
 
 
 inline var VkPipelineTessellationDomainOriginStateCreateInfo.type: VkStructureType
