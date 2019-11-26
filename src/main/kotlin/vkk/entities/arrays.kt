@@ -1,5 +1,13 @@
 package vkk.entities
 
+import glm_.BYTES
+import kool.Adr
+import kool.mLong
+import org.lwjgl.system.MemoryStack
+import org.lwjgl.system.MemoryUtil
+import vkk.VkPresentModeKHR
+import vkk.VkResult
+
 
 inline class VkAccelerationStructureNV_Array(val array: LongArray) {
 
@@ -11,6 +19,13 @@ inline class VkAccelerationStructureNV_Array(val array: LongArray) {
 
     inline fun forEach(action: (VkAccelerationStructureNV) -> Unit) {
         for (element in array) action(VkAccelerationStructureNV(element))
+    }
+
+    fun native(stack: MemoryStack): Adr {
+        val p = stack.mLong(size)
+        for(i in indices)
+            p[i] = get(i).L
+        return p.adr
     }
 }
 
@@ -471,6 +486,25 @@ fun VkPipelineLayout_Array(elements: Collection<VkPipelineLayout>) = VkPipelineL
 fun VkPipelineLayout_Array() = VkPipelineLayout_Array(LongArray(0))
 
 
+inline class VkPresentModeKHR_Array(val array: IntArray) {
+
+    operator fun get(index: Int) = VkPresentModeKHR(array[index])
+    operator fun set(index: Int, result: VkPresentModeKHR) = array.set(index, result.i)
+
+    val size get() = array.size
+    val indices get() = array.indices
+
+    inline fun forEach(action: (VkPresentModeKHR) -> Unit) {
+        for (element in array) action(VkPresentModeKHR(element))
+    }
+}
+
+fun VkPresentModeKHR_Array(size: Int, block: (Int) -> VkPresentModeKHR) = VkPresentModeKHR_Array(IntArray(size) { block(it).i })
+fun VkPresentModeKHR_Array(size: Int) = VkPresentModeKHR_Array(IntArray(size))
+fun VkPresentModeKHR_Array(elements: Collection<VkPresentModeKHR>) = VkPresentModeKHR_Array(IntArray(elements.size) { elements.elementAt(it).i })
+fun VkPresentModeKHR_Array() = VkPresentModeKHR_Array(IntArray(0))
+
+
 inline class VkQueryPool_Array(val array: LongArray) {
 
     operator fun get(index: Int) = VkQueryPool(array[index])
@@ -507,6 +541,25 @@ fun VkRenderPass_Array(size: Int, block: (Int) -> VkRenderPass) = VkRenderPass_A
 fun VkRenderPass_Array(size: Int) = VkRenderPass_Array(LongArray(size))
 fun VkRenderPass_Array(elements: Collection<VkRenderPass>) = VkRenderPass_Array(LongArray(elements.size) { elements.elementAt(it).L })
 fun VkRenderPass_Array() = VkRenderPass_Array(LongArray(0))
+
+
+inline class VkResult_Array(val array: IntArray) {
+
+    operator fun get(index: Int) = VkResult(array[index])
+    operator fun set(index: Int, result: VkResult) = array.set(index, result.i)
+
+    val size get() = array.size
+    val indices get() = array.indices
+
+    inline fun forEach(action: (VkResult) -> Unit) {
+        for (element in array) action(VkResult(element))
+    }
+}
+
+fun VkResult_Array(size: Int, block: (Int) -> VkResult) = VkResult_Array(IntArray(size) { block(it).i })
+fun VkResult_Array(size: Int) = VkResult_Array(IntArray(size))
+fun VkResult_Array(elements: Collection<VkResult>) = VkResult_Array(IntArray(elements.size) { elements.elementAt(it).i })
+fun VkResult_Array() = VkResult_Array(IntArray(0))
 
 
 inline class VkSampler_Array(val array: LongArray) {

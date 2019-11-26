@@ -2,7 +2,11 @@ package vkk.entities
 
 import glm_.L
 import glm_.i
+import kool.rem
+import kool.remSize
 import org.lwjgl.vulkan.VK10.VK_NULL_HANDLE
+import java.nio.Buffer
+import java.nio.ByteBuffer
 
 
 inline class VkAccelerationStructureNV(val L: Long = VK_NULL_HANDLE) {
@@ -130,6 +134,7 @@ inline class VkDeviceMemory(val L: Long = VK_NULL_HANDLE) {
     }
 }
 
+fun VkDeviceSize(buffer: Buffer): VkDeviceSize = VkDeviceSize(buffer.remSize)
 fun VkDeviceSize(int: Int): VkDeviceSize = VkDeviceSize(int.L)
 inline class VkDeviceSize(val L: Long = VK_NULL_HANDLE) {
 
