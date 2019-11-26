@@ -1,8 +1,8 @@
 package classes
 
 import glm_.vec2.Vec2i
+import kool.IntPtr
 import kool.Ptr
-import org.lwjgl.vulkan.VkExtent2D
 import org.lwjgl.vulkan.VkExtent2D.*
 
 /**
@@ -29,7 +29,7 @@ class Extent2D(
 ) {
 
     constructor(size: Vec2i) : this(size.x, size.y)
-    constructor(ptr: Ptr) : this(nwidth(ptr), nheight(ptr))
+    constructor(intPtr: IntPtr) : this(intPtr[0], intPtr[1])
 
     var size: Vec2i
         get() = Vec2i(width, height)

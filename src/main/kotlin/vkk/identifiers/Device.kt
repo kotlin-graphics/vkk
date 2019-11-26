@@ -2,9 +2,7 @@ package identifiers
 
 import classes.*
 import glm_.BYTES
-import kool.Ptr
-import kool.adr
-import kool.longAdr
+import kool.*
 import org.lwjgl.system.APIUtil.apiLog
 import org.lwjgl.system.Checks
 import org.lwjgl.system.FunctionProvider
@@ -12,7 +10,6 @@ import org.lwjgl.system.JNI.*
 import org.lwjgl.system.MemoryUtil.*
 import org.lwjgl.system.Pointer
 import org.lwjgl.vulkan.*
-import util.*
 import vkk.*
 import vkk.entities.*
 
@@ -37,14 +34,14 @@ class Device(
         VkResult(callPPPI(adr, pAllocateInfo, pCommandBuffers, capabilities.vkAllocateCommandBuffers))
 
     infix fun allocateCommandBuffer(allocateInfo: CommandBufferAllocateInfo): CommandBuffer = stak { s ->
-        CommandBuffer(s.pointerAddress { nAllocateCommandBuffers(allocateInfo.write(s), it).check() }, this)
+        CommandBuffer(s.pointerAdr { nAllocateCommandBuffers(allocateInfo.write(s), it).check() }, this)
     }
 
     infix fun allocateCommandBuffers(allocateInfo: CommandBufferAllocateInfo): Array<CommandBuffer> = stak { s ->
-        val pCommandBuffers = s.nmallocPointer(allocateInfo.commandBufferCount)
-        nAllocateCommandBuffers(allocateInfo.write(s), pCommandBuffers)
+        val pCommandBuffers = s.mPointer(allocateInfo.commandBufferCount)
+        nAllocateCommandBuffers(allocateInfo.write(s), pCommandBuffers.adr)
         Array(allocateInfo.commandBufferCount) {
-            CommandBuffer(memGetAddress(pCommandBuffers + Pointer.POINTER_SIZE * it), this)
+            CommandBuffer(memGetAddress(pCommandBuffers[it]), this)
         }
     }
 
@@ -74,20 +71,20 @@ class Device(
         VkResult(callPPPPI(adr, createInfo, NULL, framebuffer, capabilities.vkCreateFramebuffer))
 
     infix fun createFramebuffer(createInfo: FramebufferCreateInfo): VkFramebuffer = stak { s ->
-        VkFramebuffer(s.longAdr { nCreateFramebuffer(createInfo.run { s.native }, it).check() })
+        VkFramebuffer(s.longAdr { nCreateFramebuffer(createInfo.write(s), it).check() })
     }
 
     // JVM
     fun createFramebufferArray(createInfo: FramebufferCreateInfo, imageViews: VkImageView_Array): VkFramebuffer_Array = stak { s ->
-        val pCreateInfo = createInfo.run { s.native }
+        val pCreateInfo = createInfo.write(s)
         VkFramebufferCreateInfo.nattachmentCount(pCreateInfo, 1)
-        val pAttachment = s.nmallocLong()
-        memPutAddress(pCreateInfo + VkFramebufferCreateInfo.PATTACHMENTS, pAttachment)
-        val pFramebuffer = s.nmallocLong()
+        val pAttachment = s.mLong()
+        memPutAddress(pCreateInfo + VkFramebufferCreateInfo.PATTACHMENTS, pAttachment.adr)
+        val pFramebuffer = s.mLong()
         VkFramebuffer_Array(imageViews.size) { i ->
-            memPutLong(pAttachment, imageViews[i].L)
-            nCreateFramebuffer(pCreateInfo, pFramebuffer).check()
-            VkFramebuffer(memGetLong(pFramebuffer))
+            pAttachment[0] = imageViews[i].L
+            nCreateFramebuffer(pCreateInfo, pFramebuffer.adr).check()
+            VkFramebuffer(pFramebuffer[0])
         }
     }
 
@@ -98,7 +95,7 @@ class Device(
     fun createGraphicsPipeline(pipelineCache: VkPipelineCache, createInfo: GraphicsPipelineCreateInfo): VkPipeline =
         VkPipeline(stak { s ->
             s.longAdr {
-                callPJPPPI(adr, pipelineCache.L, 1, createInfo.run { s.native }, NULL, it, capabilities.vkCreateGraphicsPipelines)
+                callPJPPPI(adr, pipelineCache.L, 1, createInfo.write(s), NULL, it, capabilities.vkCreateGraphicsPipelines)
             }
         })
 
@@ -107,17 +104,17 @@ class Device(
         VkResult(callPPPPI(adr, createInfo, NULL, imageView, capabilities.vkCreateImageView))
 
     infix fun createImageView(createInfo: ImageViewCreateInfo): VkImageView = stak { s ->
-        VkImageView(s.longAdr { nCreateImageView(createInfo.run { s.native }, it).check() })
+        VkImageView(s.longAdr { nCreateImageView(createInfo.write(s), it).check() })
     }
 
     // JVM
     fun createImageViewArray(createInfo: ImageViewCreateInfo, images: VkImage_Array): VkImageView_Array = stak { s ->
-        val pCreateInfo = createInfo.run { s.native }
-        val pImageView = s.nmallocLong()
+        val pCreateInfo = createInfo.write(s)
+        val pImageView = s.mLong()
         VkImageView_Array(images.size) { i ->
             VkImageViewCreateInfo.nimage(pCreateInfo, images[i].L)
-            nCreateImageView(pCreateInfo, pImageView)
-            VkImageView(memGetLong(pImageView))
+            nCreateImageView(pCreateInfo, pImageView.adr)
+            VkImageView(pImageView[0])
         }
     }
 
@@ -164,7 +161,9 @@ class Device(
     // --- [ vkGetBufferMemoryRequirements ] ---
 
     infix fun getBufferMemoryRequirements(buffer: VkBuffer): MemoryRequirements = stak { s ->
-        MemoryRequirements.fromNative(s) { callPJPV(adr, buffer.L, it, capabilities.vkGetBufferMemoryRequirements) }
+        MemoryRequirements.read(s) {
+            callPJPV(adr, buffer.L, it, capabilities.vkGetBufferMemoryRequirements)
+        }
     }
 
     // --- [ vkGetDeviceQueue ] ---
@@ -222,9 +221,9 @@ private fun getDeviceCapabilities(handle: Ptr, physicalDevice: PhysicalDevice, c
                 VK.globalCommands!!.vkGetInstanceProcAddr
             )
 
-            val props = VkPhysicalDeviceProperties.callocStack(s)
-            callPPV(physicalDevice.adr, props.adr, GetPhysicalDeviceProperties)
-            apiVersion = props.apiVersion()
+            val props = PhysicalDeviceProperties.calloc(s)
+            callPPV(physicalDevice.adr, props, GetPhysicalDeviceProperties)
+            apiVersion = memGetInt(props)
             if (apiVersion == 0)  // vkGetPhysicalDeviceProperties failed?
                 apiVersion = physicalDevice.instance.capabilities.apiVersion
         }

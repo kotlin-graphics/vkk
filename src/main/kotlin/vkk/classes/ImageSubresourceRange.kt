@@ -75,7 +75,7 @@ class ImageSubresourceRange(
     var layerCount: Int = 0
 ) {
 
-    infix fun toPtr(ptr: Ptr) {
+    infix fun write(ptr: Ptr) {
         naspectMask(ptr, aspectMask)
         nbaseMipLevel(ptr, baseMipLevel)
         nlevelCount(ptr, levelCount)

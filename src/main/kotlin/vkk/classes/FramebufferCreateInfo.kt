@@ -1,6 +1,7 @@
 package classes
 
 import glm_.vec3.Vec3i
+import kool.Adr
 import kool.Ptr
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.NULL
@@ -9,7 +10,6 @@ import org.lwjgl.vulkan.VkFramebufferCreateInfo.*
 import util.native
 import vkk.VkFramebufferCreateFlags
 import vkk.VkStructureType
-import vkk.entities.VkImageView
 import vkk.entities.VkImageView_Array
 import vkk.entities.VkRenderPass
 
@@ -119,11 +119,11 @@ import vkk.entities.VkRenderPass
  * }</code></pre>
  */
 class FramebufferCreateInfo(
-    var flags: VkFramebufferCreateFlags = 0,
-    var renderPass: VkRenderPass,
-    var attachments: VkImageView_Array? = null,
-    var dimension: Vec3i,
-    var next: Ptr = NULL
+        var flags: VkFramebufferCreateFlags = 0,
+        var renderPass: VkRenderPass,
+        var attachments: VkImageView_Array? = null,
+        var dimension: Vec3i,
+        var next: Ptr = NULL
 ) {
     val type get() = VkStructureType.FRAMEBUFFER_CREATE_INFO
 
@@ -134,16 +134,17 @@ class FramebufferCreateInfo(
 //            else -> attachments?.set(0, value) ?: run { attachments = VkImageView_Array(1) { value } }
 //        }
 
-    val MemoryStack.native: Ptr
-        get() = ncalloc(ALIGNOF, 1, SIZEOF).also { ptr ->
-            nsType(ptr, type.i)
-            npNext(ptr, next)
-            nflags(ptr, flags)
-            nrenderPass(ptr, renderPass.L)
-            attachments?.let {
-                nattachmentCount(ptr, it.size)
-                memPutAddress(ptr + PATTACHMENTS, it.native(this))
-            }
-            dimension.to(ptr + WIDTH)
+    fun write(stack: MemoryStack): Adr {
+        val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
+        nsType(adr, type.i)
+        npNext(adr, next)
+        nflags(adr, flags)
+        nrenderPass(adr, renderPass.L)
+        attachments?.let {
+            nattachmentCount(adr, it.size)
+            memPutAddress(adr + PATTACHMENTS, it.array.toLongAdr(stack))
         }
+        dimension.to(adr + WIDTH)
+        return adr
+    }
 }

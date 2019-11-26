@@ -1,5 +1,10 @@
 package classes
 
+import kool.Adr
+import org.lwjgl.system.MemoryStack
+import org.lwjgl.vulkan.VkPhysicalDeviceProperties
+import org.lwjgl.vulkan.VkPhysicalDeviceProperties.ALIGNOF
+import org.lwjgl.vulkan.VkPhysicalDeviceProperties.SIZEOF
 import vkk.VkPhysicalDeviceType
 
 /**
@@ -80,4 +85,8 @@ class PhysicalDeviceProperties(
     var sparseProperties: PhysicalDeviceSparseProperties
 ) {
 
+    companion object {
+
+        fun calloc(stack: MemoryStack): Adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
+    }
 }

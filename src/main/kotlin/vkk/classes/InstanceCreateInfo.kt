@@ -1,9 +1,9 @@
 package classes
 
+import kool.Adr
+import kool.PointerAdr
 import kool.Ptr
-import kool.adr
 import org.lwjgl.system.MemoryStack
-import org.lwjgl.system.MemoryUtil
 import org.lwjgl.system.MemoryUtil.*
 import org.lwjgl.vulkan.*
 import org.lwjgl.vulkan.VkInstanceCreateInfo.*
@@ -58,10 +58,10 @@ import vkk.VkStructureType
  * }`</pre>
  */
 class InstanceCreateInfo(
-    var applicationInfo: ApplicationInfo? = null,
-    var enabledLayerNames: List<String>? = null,
-    var enabledExtensionNames: List<String>? = null,
-    var next: Ptr = NULL
+        var applicationInfo: ApplicationInfo? = null,
+        var enabledLayerNames: List<String>? = null,
+        var enabledExtensionNames: List<String>? = null,
+        var next: Ptr = NULL
 ) {
 
     val type get() = VkStructureType.INSTANCE_CREATE_INFO
@@ -76,12 +76,19 @@ class InstanceCreateInfo(
         return this
     }
 
-    val MemoryStack.native: Ptr
-        get() = ncalloc(ALIGNOF, 1, SIZEOF).also {
-            nsType(it, type.i)
-            npNext(it, next)
-            memPutAddress(it + PAPPLICATIONINFO, applicationInfo?.run { native } ?: NULL)
-            nppEnabledLayerNames(it, PointerBuffer(enabledLayerNames))
-            nppEnabledExtensionNames(it, PointerBuffer(enabledExtensionNames))
+    fun write(stack: MemoryStack): Adr {
+        val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
+        nsType(adr, type.i)
+        npNext(adr, next)
+        applicationInfo?.let { memPutAddress(adr + PAPPLICATIONINFO, it.write(stack)) }
+        enabledLayerNames?.let {
+            nenabledLayerCount(adr, it.size)
+            memPutAddress(adr + PPENABLEDLAYERNAMES, stack.PointerAdr(it))
         }
+        enabledExtensionNames?.let {
+            nenabledExtensionCount(adr, it.size)
+            memPutAddress(adr + PPENABLEDEXTENSIONNAMES, stack.PointerAdr(it))
+        }
+        return adr
+    }
 }

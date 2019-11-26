@@ -1,12 +1,12 @@
 package classes
 
+import kool.Adr
+import kool.IntPtr
 import kool.Ptr
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.vulkan.VkMemoryHeap
-import org.lwjgl.vulkan.VkMemoryRequirements
 import org.lwjgl.vulkan.VkMemoryType
 import org.lwjgl.vulkan.VkPhysicalDeviceMemoryProperties.*
-import vkk.entities.VkDeviceSize
 
 /**
  * Structure specifying physical device memory properties.
@@ -130,20 +130,15 @@ class PhysicalDeviceMemoryProperties(
 ) {
 
     constructor(ptr: Ptr) : this(
-        Array(nmemoryTypeCount(ptr)) { MemoryType(ptr + MEMORYTYPES + VkMemoryType.SIZEOF * it) },
+        Array(nmemoryTypeCount(ptr)) { MemoryType(IntPtr(ptr + MEMORYTYPES + VkMemoryType.SIZEOF * it)) },
         Array(nmemoryHeapCount(ptr)) { MemoryHeap(ptr + MEMORYHEAPS + VkMemoryHeap.SIZEOF * it) })
 
     companion object {
 
-        fun ncalloc(stack: MemoryStack, num: Int = 1): Ptr = stack.ncalloc(ALIGNOF, num, SIZEOF)
-
-        fun <R> fromNative(stack: MemoryStack, block: (Ptr) -> R): PhysicalDeviceMemoryProperties {
-            val native = ncalloc(stack)
-            block(native)
-            return PhysicalDeviceMemoryProperties(
-                Array(nmemoryTypeCount(native)) { MemoryType(native + MEMORYTYPES + VkMemoryType.SIZEOF * it) },
-                Array(nmemoryHeapCount(native)) { MemoryHeap(native + MEMORYHEAPS + VkMemoryType.SIZEOF * it) }
-            )
+        fun <R> read(stack: MemoryStack, block: (Adr) -> R): PhysicalDeviceMemoryProperties {
+            val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
+            block(adr)
+            return PhysicalDeviceMemoryProperties(adr)
         }
     }
 }

@@ -1,5 +1,6 @@
 package classes
 
+import kool.IntPtr
 import kool.Ptr
 import org.lwjgl.vulkan.VkExtent3D.*
 
@@ -29,5 +30,5 @@ class Extent3D(
     var depth: Int
 ) {
 
-    constructor(ptr: Ptr) : this(nwidth(ptr), nheight(ptr), ndepth(ptr))
+    constructor(intPtr: IntPtr) : this(intPtr[0], intPtr[1], intPtr[2])
 }

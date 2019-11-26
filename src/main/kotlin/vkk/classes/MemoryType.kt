@@ -1,5 +1,6 @@
 package classes
 
+import kool.IntPtr
 import kool.Ptr
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.vulkan.VkMemoryType
@@ -29,5 +30,5 @@ class MemoryType(
     var heapIndex: Int
 ) {
 
-    constructor(ptr: Ptr) : this(npropertyFlags(ptr), nheapIndex(ptr))
+    constructor(intPtr: IntPtr) : this(intPtr[0], intPtr[1])
 }

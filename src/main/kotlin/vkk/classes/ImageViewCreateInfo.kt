@@ -1,5 +1,6 @@
 package classes
 
+import kool.Adr
 import kool.Ptr
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.NULL
@@ -139,25 +140,26 @@ import vkk.entities.VkImage
  * }</code></pre>
  */
 class ImageViewCreateInfo(
-    var flags: VkImageViewCreateFlags = 0,
-    var image: VkImage = VkImage.NULL,
-    var viewType: VkImageViewType,
-    var format: VkFormat,
-    var components: ComponentMapping = ComponentMapping(),
-    var subresourceRange: ImageSubresourceRange,
-    var next: Ptr = NULL
+        var flags: VkImageViewCreateFlags = 0,
+        var image: VkImage = VkImage.NULL,
+        var viewType: VkImageViewType,
+        var format: VkFormat,
+        var components: ComponentMapping = ComponentMapping(),
+        var subresourceRange: ImageSubresourceRange,
+        var next: Ptr = NULL
 ) {
     val type get() = VkStructureType.IMAGE_VIEW_CREATE_INFO
 
-    val MemoryStack.native: Ptr
-        get() = ncalloc(ALIGNOF, 1, SIZEOF).also {
-            nsType(it, type.i)
-            npNext(it, next)
-            nflags(it, flags)
-            nimage(it, image.L)
-            nviewType(it, viewType.i)
-            nformat(it, format.i)
-            components.write(it + COMPONENTS)
-            subresourceRange.toPtr(it + SUBRESOURCERANGE)
-        }
+    fun write(stack: MemoryStack): Adr {
+        val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
+        nsType(adr, type.i)
+        npNext(adr, next)
+        nflags(adr, flags)
+        nimage(adr, image.L)
+        nviewType(adr, viewType.i)
+        nformat(adr, format.i)
+        components.write(adr + COMPONENTS)
+        subresourceRange.write(adr + SUBRESOURCERANGE)
+        return adr
+    }
 }

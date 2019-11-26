@@ -17,10 +17,10 @@ ext{
     kotlin = 'org.jetbrains.kotlin:kotlin'
     kotlin_version = '1.3.50'
 //    gln_version = '342bb4e960cec016dcf23228ef6510cc6ed96aee'
-    gli_version = 'a86ebdc7af27a52f93aacea7910bc1c726313d53'
-    glm_version = 'ce6c8247b325f8c4a54c6ecc51de3323465a8856'
+    gli_version = '9bf439471fe007c8a7a898f986e5db062661a78d'
+    glm_version = 'f0e92e37663fe735b58efcc56298f7fc71ce48ae'
     unsigned_version = 'c81c2e39fb9e10403650c1b371b8573fc745bfb4'
-    kool_version = '9aa78d4977'
+    kool_version = '5dad416cbfc3f0f8a8dbc20fdb6d91f0f37c8495'
     lwjgl_version = "3.2.3"
     lwjgl_natives = current() == WINDOWS ? "windows" : current() == LINUX ? "linux" : "macos"
     sprivCross_version = "0.5.0-1.1.85"

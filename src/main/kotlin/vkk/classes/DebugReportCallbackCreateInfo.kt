@@ -75,7 +75,7 @@ class DebugReportCallbackCreateInfo(
         nsType(adr, type.i)
         npNext(adr, next)
         nflags(adr, flags)
-        npfnCallback(adr, DebugReportCallback.native)
+        npfnCallback(adr, DebugReportCallback.native) // TODO
         npUserData(adr, userData)
     }
 }

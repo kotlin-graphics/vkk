@@ -101,7 +101,7 @@ class BufferCreateInfo(
         nsharingMode(adr, sharingMode.i)
         queueFamilyIndices?.let {
             nqueueFamilyIndexCount(adr, it.size)
-            memPutAddress(adr, it.toIntBuffer(stack).adr)
+            memPutAddress(adr + PQUEUEFAMILYINDICES, it.toIntBuffer(stack).adr)
         }
         return adr
     }

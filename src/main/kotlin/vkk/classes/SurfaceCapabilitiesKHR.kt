@@ -1,5 +1,6 @@
 package classes
 
+import kool.IntPtr
 import kool.Ptr
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.vulkan.VkSurfaceCapabilitiesKHR.*
@@ -80,9 +81,9 @@ class SurfaceCapabilitiesKHR(
             return SurfaceCapabilitiesKHR(
                 nminImageCount(ptr),
                 nmaxImageCount(ptr),
-                Extent2D(ptr + CURRENTEXTENT),
-                Extent2D(ptr + MINIMAGEEXTENT),
-                Extent2D(ptr + MAXIMAGEEXTENT),
+                Extent2D(IntPtr(ptr + CURRENTEXTENT)),
+                Extent2D(IntPtr(ptr + MINIMAGEEXTENT)),
+                Extent2D(IntPtr(ptr + MAXIMAGEEXTENT)),
                 nmaxImageArrayLayers(ptr),
                 nsupportedTransforms(ptr),
                 VkSurfaceTransformKHR(ncurrentTransform(ptr)),

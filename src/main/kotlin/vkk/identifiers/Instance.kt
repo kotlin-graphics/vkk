@@ -34,8 +34,8 @@ private constructor(handle: Ptr, ci: InstanceCreateInfo) :
 
     constructor(createInfo: InstanceCreateInfo) : this(
         stak { s ->
-            s.pointerAddress {
-                VK_CHECK_RESULT(callPPPI(createInfo.run { s.native }, NULL, it, VK.globalCommands!!.vkCreateInstance))
+            s.pointerAdr {
+                VK_CHECK_RESULT(callPPPI(createInfo.write(s), NULL, it, VK.globalCommands!!.vkCreateInstance))
             }
         }, createInfo
     )

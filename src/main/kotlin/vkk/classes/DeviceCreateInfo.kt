@@ -98,7 +98,7 @@ class DeviceCreateInfo(
         nqueueCreateInfoCount(adr, queueCreateInfos.size)
         memPutAddress(adr + PQUEUECREATEINFOS, queueCreateInfos.write(stack))
         nenabledExtensionCount(adr, enabledExtensionNames.size)
-        memPutAddress(adr, stack.PointerAdr(enabledExtensionNames))
+        memPutAddress(adr + PPENABLEDEXTENSIONNAMES, stack.PointerAdr(enabledExtensionNames))
         enabledFeatures?.let { memPutAddress(adr + PENABLEDFEATURES, it.write(stack)) }
         return adr
     }

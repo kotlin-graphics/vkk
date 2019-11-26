@@ -5,6 +5,7 @@ import kool.Ptr
 import kool.toFloatBuffer
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.NULL
+import org.lwjgl.system.MemoryUtil.memPutAddress
 import org.lwjgl.vulkan.*
 import org.lwjgl.vulkan.VkDeviceQueueCreateInfo.*
 import vkk.VkDeviceQueueCreateFlags
@@ -86,13 +87,14 @@ class DeviceQueueCreateInfo(
         nsType(adr, type.i)
         nflags(adr, flags)
         nqueueFamilyIndex(adr, queueFamilyIndex)
-        npQueuePriorities(adr, queuePriorities.toFloatBuffer(stack))
+        nqueueCount(adr, queuePriorities.size)
+        memPutAddress(adr + PQUEUEPRIORITIES, queuePriorities.toFloatAdr(stack))
     }
 }
 
 fun Array<DeviceQueueCreateInfo>.write(stack: MemoryStack): Ptr {
     val natives = stack.ncalloc(ALIGNOF, size, SIZEOF)
     for (i in indices)
-        this[i].toPtr(natives + SIZEOF * i, stack)
+        this[i].write(natives + SIZEOF * i, stack)
     return natives
 }

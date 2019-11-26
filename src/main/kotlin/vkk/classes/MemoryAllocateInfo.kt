@@ -1,9 +1,9 @@
 package classes
 
+import kool.Adr
 import kool.Ptr
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.NULL
-import org.lwjgl.vulkan.VkMemoryAllocateInfo
 import org.lwjgl.vulkan.VkMemoryAllocateInfo.*
 import vkk.VkStructureType
 import vkk.entities.VkDeviceSize
@@ -82,20 +82,19 @@ import vkk.entities.VkDeviceSize
  * }</code></pre>
  */
 class MemoryAllocateInfo(
-    var allocationSize: VkDeviceSize = VkDeviceSize.NULL,
-    var memoryTypeIndex: Int = 0,
-    var next: Ptr = NULL
+        var allocationSize: VkDeviceSize = VkDeviceSize.NULL,
+        var memoryTypeIndex: Int = 0,
+        var next: Ptr = NULL
 ) {
 
     val type get() = VkStructureType.MEMORY_ALLOCATE_INFO
 
-    val MemoryStack.native: Ptr
-        get() = ncalloc(ALIGNOF, 1, SIZEOF).also { toPtr(it) }
-
-    infix fun MemoryStack.toPtr(ptr: Ptr) {
-        nsType(ptr, type.i)
-        npNext(ptr, next)
-        nallocationSize(ptr, allocationSize.L)
-        nmemoryTypeIndex(ptr, memoryTypeIndex)
+    fun write(stack: MemoryStack): Adr {
+        val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
+        nsType(adr, type.i)
+        npNext(adr, next)
+        nallocationSize(adr, allocationSize.L)
+        nmemoryTypeIndex(adr, memoryTypeIndex)
+        return adr
     }
 }

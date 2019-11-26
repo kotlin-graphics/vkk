@@ -1,5 +1,6 @@
 package classes
 
+import kool.Adr
 import kool.Ptr
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.vulkan.VkMemoryRequirements.*
@@ -26,22 +27,23 @@ import vkk.entities.VkDeviceSize
  * }</code></pre>
  */
 class MemoryRequirements(
-    var size: VkDeviceSize = VkDeviceSize(0),
-    var alignment: VkDeviceSize = VkDeviceSize(0),
-    var memoryTypeBits: Int = 0
+        var size: VkDeviceSize = VkDeviceSize(0),
+        var alignment: VkDeviceSize = VkDeviceSize(0),
+        var memoryTypeBits: Int = 0
 ) {
 
-    companion object {
-        fun ncalloc(stack: MemoryStack, num: Int = 1): Ptr = stack.ncalloc(ALIGNOF, num, SIZEOF)
+    constructor(ptr: Ptr) : this(
+            VkDeviceSize(nsize(ptr)),
+            VkDeviceSize(nalignment(ptr)),
+            nmemoryTypeBits(ptr)
+    )
 
-        fun <R> fromNative(stack: MemoryStack, block: (Ptr) -> R): MemoryRequirements {
-            val native = ncalloc(stack)
-            block(native)
-            return MemoryRequirements(
-                VkDeviceSize(nsize(native)),
-                VkDeviceSize(nalignment(native)),
-                memoryTypeBits = nmemoryTypeBits(native)
-            )
+    companion object {
+
+        fun <R> read(stack: MemoryStack, block: (Adr) -> R): MemoryRequirements {
+            val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
+            block(adr)
+            return MemoryRequirements(adr)
         }
     }
 }

@@ -1,5 +1,6 @@
 package classes
 
+import kool.Adr
 import kool.Ptr
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.NULL
@@ -164,46 +165,47 @@ import vkk.entities.VkRenderPass
  * }</code></pre>
  */
 class GraphicsPipelineCreateInfo(
-    var flags: VkPipelineCreateFlags = 0,
-    var stages: Array<PipelineShaderStageCreateInfo>,
-    var vertexInputState: PipelineVertexInputStateCreateInfo? = null,
-    var inputAssemblyState: PipelineInputAssemblyStateCreateInfo? = null,
-    var tessellationState: PipelineTessellationStateCreateInfo? = null,
-    var viewportState: PipelineViewportStateCreateInfo? = null,
-    var rasterizationState: PipelineRasterizationStateCreateInfo,
-    var multisampleState: PipelineMultisampleStateCreateInfo? = null,
-    var depthStencilState: PipelineDepthStencilStateCreateInfo? = null,
-    var colorBlendState: PipelineColorBlendStateCreateInfo? = null,
-    var dynamicState: PipelineDynamicStateCreateInfo? = null,
-    var layout: VkPipelineLayout,
-    var renderPass: VkRenderPass,
-    var subpass: Int = 0,
-    var basePipelineHandle: VkPipeline = VkPipeline.NULL,
-    var basePipelineIndex: Int = 0,
-    var next: Ptr = NULL
+        var flags: VkPipelineCreateFlags = 0,
+        var stages: Array<PipelineShaderStageCreateInfo>,
+        var vertexInputState: PipelineVertexInputStateCreateInfo? = null,
+        var inputAssemblyState: PipelineInputAssemblyStateCreateInfo? = null,
+        var tessellationState: PipelineTessellationStateCreateInfo? = null,
+        var viewportState: PipelineViewportStateCreateInfo? = null,
+        var rasterizationState: PipelineRasterizationStateCreateInfo,
+        var multisampleState: PipelineMultisampleStateCreateInfo? = null,
+        var depthStencilState: PipelineDepthStencilStateCreateInfo? = null,
+        var colorBlendState: PipelineColorBlendStateCreateInfo? = null,
+        var dynamicState: PipelineDynamicStateCreateInfo? = null,
+        var layout: VkPipelineLayout,
+        var renderPass: VkRenderPass,
+        var subpass: Int = 0,
+        var basePipelineHandle: VkPipeline = VkPipeline.NULL,
+        var basePipelineIndex: Int = 0,
+        var next: Ptr = NULL
 ) {
 
     val type get() = VkStructureType.GRAPHICS_PIPELINE_CREATE_INFO
 
-    val MemoryStack.native: Ptr
-        get() = ncalloc(ALIGNOF, 1, SIZEOF).also { ptr ->
-            nsType(ptr, type.i)
-            npNext(ptr, next)
-            nflags(ptr, flags)
-            memPutAddress(ptr + PSTAGES, stages.write(this)); nstageCount(ptr, stages.size)
-            vertexInputState?.let { memPutAddress(ptr + PVERTEXINPUTSTATE, it.run { native }) }
-            inputAssemblyState?.let { memPutAddress(ptr + PINPUTASSEMBLYSTATE, it.run { native }) }
-            tessellationState?.let { memPutAddress(ptr + PTESSELLATIONSTATE, it.run { native }) }
-            viewportState?.let { memPutAddress(ptr + PVIEWPORTSTATE, it.run { native }) }
-            memPutAddress(ptr + PRASTERIZATIONSTATE, rasterizationState.run { native })
-            multisampleState?.let { memPutAddress(ptr + PMULTISAMPLESTATE, it.run { native }) }
-            depthStencilState?.let { memPutAddress(ptr + PDEPTHSTENCILSTATE, it.run { native }) }
-            colorBlendState?.let { memPutAddress(ptr + PCOLORBLENDSTATE, it.run { native }) }
-            dynamicState?.let { memPutAddress(ptr + PDYNAMICSTATE, it.run { native }) }
-            nlayout(ptr, layout.L)
-            nrenderPass(ptr, renderPass.L)
-            nsubpass(ptr, subpass)
-            nbasePipelineHandle(ptr, basePipelineHandle.L)
-            nbasePipelineIndex(ptr, basePipelineIndex)
-        }
+    fun write(stack: MemoryStack): Adr {
+        val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
+        nsType(adr, type.i)
+        npNext(adr, next)
+        nflags(adr, flags)
+        memPutAddress(adr + PSTAGES, stages.write(stack)); nstageCount(adr, stages.size)
+        vertexInputState?.let { memPutAddress(adr + PVERTEXINPUTSTATE, it.write(stack)) }
+        inputAssemblyState?.let { memPutAddress(adr + PINPUTASSEMBLYSTATE, it.write(stack)) }
+        tessellationState?.let { memPutAddress(adr + PTESSELLATIONSTATE, it.write(stack)) }
+        viewportState?.let { memPutAddress(adr + PVIEWPORTSTATE, it.write(stack)) }
+        memPutAddress(adr + PRASTERIZATIONSTATE, rasterizationState.write(stack))
+        multisampleState?.let { memPutAddress(adr + PMULTISAMPLESTATE, it.write(stack)) }
+        depthStencilState?.let { memPutAddress(adr + PDEPTHSTENCILSTATE, it.write(stack)) }
+        colorBlendState?.let { memPutAddress(adr + PCOLORBLENDSTATE, it.write(stack)) }
+        dynamicState?.let { memPutAddress(adr + PDYNAMICSTATE, it.write(stack)) }
+        nlayout(adr, layout.L)
+        nrenderPass(adr, renderPass.L)
+        nsubpass(adr, subpass)
+        nbasePipelineHandle(adr, basePipelineHandle.L)
+        nbasePipelineIndex(adr, basePipelineIndex)
+        return adr
+    }
 }

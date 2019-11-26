@@ -1,5 +1,6 @@
 package classes
 
+import kool.IntPtr
 import kool.Ptr
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.vulkan.VkQueueFamilyProperties.*
@@ -74,7 +75,7 @@ class QueueFamilyProperties(
         nqueueFlags(ptr),
         nqueueCount(ptr),
         ntimestampValidBits(ptr),
-        Extent3D(ptr + MINIMAGETRANSFERGRANULARITY)
+        Extent3D(IntPtr(ptr + MINIMAGETRANSFERGRANULARITY))
     )
 
     companion object {

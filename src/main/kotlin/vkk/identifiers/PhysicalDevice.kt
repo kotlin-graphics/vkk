@@ -1,7 +1,6 @@
 package identifiers
 
 import classes.*
-import glm_.BYTES
 import kool.Adr
 import kool.Ptr
 import kool.adr
@@ -72,7 +71,7 @@ class PhysicalDevice
     // --- [ vkGetPhysicalDeviceMemoryProperties ] ---
     inline val memoryProperties: PhysicalDeviceMemoryProperties
         get() = stak { s ->
-            PhysicalDeviceMemoryProperties.fromNative(s) {
+            PhysicalDeviceMemoryProperties.read(s) {
                 callPPV(adr, it, capabilities.vkGetPhysicalDeviceMemoryProperties)
             }
         }
