@@ -343,7 +343,7 @@ inline var VkPipelineMultisampleStateCreateInfo.flags: VkPipelineMultisampleStat
     get() = VkPipelineMultisampleStateCreateInfo.nflags(adr)
     set(value) = VkPipelineMultisampleStateCreateInfo.nflags(adr, value)
 inline var VkPipelineMultisampleStateCreateInfo.rasterizationSamples: VkSampleCount
-    get() = VkSampleCount(VkPipelineMultisampleStateCreateInfo.nrasterizationSamples(adr))
+    get() = VkSampleCount(VkSampleCountFlags(VkPipelineMultisampleStateCreateInfo.nrasterizationSamples(adr)))
     set(value) = VkPipelineMultisampleStateCreateInfo.nrasterizationSamples(adr, value.i)
 inline var VkPipelineMultisampleStateCreateInfo.sampleShadingEnable: Boolean
     get() = VkPipelineMultisampleStateCreateInfo.nsampleShadingEnable(adr).bool

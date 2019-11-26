@@ -175,3 +175,27 @@ infix fun Buffer.copyFrom(ptr: Ptr) = MemoryUtil.memCopy(ptr, adr, remSize.L)
 //}
 
 val VK_WHOLE_SIZE = VkDeviceSize(VK10.VK_WHOLE_SIZE)
+
+
+//inline class GenericFlags(val i: Int) {
+//
+//    infix fun and(b: GenericFlags): GenericFlags = GenericFlags(i and b.i)
+//    infix fun or(b: GenericFlags): GenericFlags = GenericFlags(i or b.i)
+//    infix fun xor(b: GenericFlags): GenericFlags = GenericFlags(i xor b.i)
+//}
+//
+//fun VkGeneric(i: Int) = Generic(GenericFlags(i))
+//
+//inline class Generic(val i: GenericFlags) {
+//
+//    infix fun and(b: Generic) = GenericFlags(i.i and b.i.i)
+//    infix fun or(b: Generic) = GenericFlags(i.i or b.i.i)
+//
+//    companion object {
+//        val SAMPLED_IMAGE_BIT = VkGeneric(0x00000001)
+//        val STORAGE_IMAGE_BIT = VkGeneric(0x00000002)
+//    }
+//}
+//
+//val a: Generic = Generic.SAMPLED_IMAGE_BIT
+//val b: GenericFlags = Generic.SAMPLED_IMAGE_BIT or Generic.STORAGE_IMAGE_BIT

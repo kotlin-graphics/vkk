@@ -1197,8 +1197,8 @@ inline var VkImageStencilUsageCreateInfoEXT.next: Ptr
     get() = VkImageStencilUsageCreateInfoEXT.npNext(adr)
     set(value) = VkImageStencilUsageCreateInfoEXT.npNext(adr, value)
 inline var VkImageStencilUsageCreateInfoEXT.stencilUsage: VkImageUsageFlags
-    get() = VkImageStencilUsageCreateInfoEXT.nstencilUsage(adr)
-    set(value) = VkImageStencilUsageCreateInfoEXT.nstencilUsage(adr, value)
+    get() = VkImageUsageFlags(VkImageStencilUsageCreateInfoEXT.nstencilUsage(adr))
+    set(value) = VkImageStencilUsageCreateInfoEXT.nstencilUsage(adr, value.i)
 
 
 inline class VkValidationFeatureEnableEXT(val i: Int) {
@@ -1229,16 +1229,16 @@ inline var VkValidationFeaturesEXT.next: Ptr
     get() = VkValidationFeaturesEXT.npNext(adr)
     set(value) = VkValidationFeaturesEXT.npNext(adr, value)
 inline var VkValidationFeaturesEXT.enabledValidationFeatureCount: VkImageUsageFlags
-    get() = VkValidationFeaturesEXT.nenabledValidationFeatureCount(adr)
+    get() = VkImageUsageFlags(VkValidationFeaturesEXT.nenabledValidationFeatureCount(adr))
     @Deprecated("this will be set automatically")
-    set(value) = VkValidationFeaturesEXT.nenabledValidationFeatureCount(adr, value)
+    set(value) = VkValidationFeaturesEXT.nenabledValidationFeatureCount(adr, value.i)
 inline var VkValidationFeaturesEXT.enabledValidationFeatures: VkValidationFeatureEnableEXT_Buffer?
     get() = VkValidationFeaturesEXT.npEnabledValidationFeatures(adr)?.let(::VkValidationFeatureEnableEXT_Buffer)
     set(value) = VkValidationFeaturesEXT.npEnabledValidationFeatures(adr, value?.buffer)
 inline var VkValidationFeaturesEXT.disabledValidationFeatureCount: VkImageUsageFlags
-    get() = VkValidationFeaturesEXT.ndisabledValidationFeatureCount(adr)
+    get() = VkImageUsageFlags(VkValidationFeaturesEXT.ndisabledValidationFeatureCount(adr))
     @Deprecated("this will be set automatically")
-    set(value) = VkValidationFeaturesEXT.ndisabledValidationFeatureCount(adr, value)
+    set(value) = VkValidationFeaturesEXT.ndisabledValidationFeatureCount(adr, value.i)
 inline var VkValidationFeaturesEXT.disabledValidationFeatures: VkValidationFeatureEnableEXT_Buffer?
     get() = VkValidationFeaturesEXT.npDisabledValidationFeatures(adr)?.let(::VkValidationFeatureEnableEXT_Buffer)
     set(value) = VkValidationFeaturesEXT.npDisabledValidationFeatures(adr, value?.buffer)
@@ -1368,11 +1368,11 @@ inline var VkFramebufferMixedSamplesCombinationNV.next: Ptr
 inline val VkFramebufferMixedSamplesCombinationNV.coverageReductionMode: VkCoverageReductionModeNV
     get() = VkCoverageReductionModeNV(VkFramebufferMixedSamplesCombinationNV.ncoverageReductionMode(adr))
 inline val VkFramebufferMixedSamplesCombinationNV.rasterizationSamples: VkSampleCount
-    get() = VkSampleCount(VkFramebufferMixedSamplesCombinationNV.nrasterizationSamples(adr))
+    get() = VkSampleCount(VkSampleCountFlags(VkFramebufferMixedSamplesCombinationNV.nrasterizationSamples(adr)))
 inline val VkFramebufferMixedSamplesCombinationNV.depthStencilSamples: VkSampleCountFlags
-    get() = VkFramebufferMixedSamplesCombinationNV.ndepthStencilSamples(adr)
+    get() = VkSampleCountFlags(VkFramebufferMixedSamplesCombinationNV.ndepthStencilSamples(adr))
 inline val VkFramebufferMixedSamplesCombinationNV.colorSamples: VkSampleCountFlags
-    get() = VkFramebufferMixedSamplesCombinationNV.ncolorSamples(adr)
+    get() = VkSampleCountFlags(VkFramebufferMixedSamplesCombinationNV.ncolorSamples(adr))
 
 
 inline var VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT.type: VkStructureType

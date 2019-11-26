@@ -18,27 +18,27 @@ import java.nio.IntBuffer
 
 inline class VkPresentModeKHR(val i: Int) {
     companion object {
-        val IMMEDIATE_KHR = VkPresentModeKHR(0)
-        val MAILBOX_KHR = VkPresentModeKHR(1)
-        val FIFO_KHR = VkPresentModeKHR(2)
-        val FIFO_RELAXED_KHR = VkPresentModeKHR(3)
-        val SHARED_DEMAND_REFRESH_KHR = VkPresentModeKHR(1000111000)
-        val SHARED_CONTINUOUS_REFRESH_KHR = VkPresentModeKHR(1000111001)
+        val IMMEDIATE = VkPresentModeKHR(0)
+        val MAILBOX = VkPresentModeKHR(1)
+        val FIFO = VkPresentModeKHR(2)
+        val FIFO_RELAXED = VkPresentModeKHR(3)
+        val SHARED_DEMAND_REFRESH = VkPresentModeKHR(1000111000)
+        val SHARED_CONTINUOUS_REFRESH = VkPresentModeKHR(1000111001)
     }
 }
 
 
 inline class VkSurfaceTransformKHR(val i: Int) {
     companion object {
-        val IDENTITY_BIT_KHR = VkSurfaceTransformKHR(0x00000001)
-        val ROTATE_90_BIT_KHR = VkSurfaceTransformKHR(0x00000002)
-        val ROTATE_180_BIT_KHR = VkSurfaceTransformKHR(0x00000004)
-        val ROTATE_270_BIT_KHR = VkSurfaceTransformKHR(0x00000008)
-        val HORIZONTAL_MIRROR_BIT_KHR = VkSurfaceTransformKHR(0x00000010)
-        val HORIZONTAL_MIRROR_ROTATE_90_BIT_KHR = VkSurfaceTransformKHR(0x00000020)
-        val HORIZONTAL_MIRROR_ROTATE_180_BIT_KHR = VkSurfaceTransformKHR(0x00000040)
-        val HORIZONTAL_MIRROR_ROTATE_270_BIT_KHR = VkSurfaceTransformKHR(0x00000080)
-        val INHERIT_BIT_KHR = VkSurfaceTransformKHR(0x00000100)
+        val IDENTITY_BIT = VkSurfaceTransformKHR(0x00000001)
+        val ROTATE_90_BIT = VkSurfaceTransformKHR(0x00000002)
+        val ROTATE_180_BIT = VkSurfaceTransformKHR(0x00000004)
+        val ROTATE_270_BIT = VkSurfaceTransformKHR(0x00000008)
+        val HORIZONTAL_MIRROR_BIT = VkSurfaceTransformKHR(0x00000010)
+        val HORIZONTAL_MIRROR_ROTATE_90_BIT = VkSurfaceTransformKHR(0x00000020)
+        val HORIZONTAL_MIRROR_ROTATE_180_BIT = VkSurfaceTransformKHR(0x00000040)
+        val HORIZONTAL_MIRROR_ROTATE_270_BIT = VkSurfaceTransformKHR(0x00000080)
+        val INHERIT_BIT = VkSurfaceTransformKHR(0x00000100)
     }
 }
 
@@ -48,10 +48,10 @@ typealias VkSurfaceTransformFlagsKHR = VkFlags
 
 inline class VkCompositeAlphaKHR(val i: Int) {
     companion object {
-        val OPAQUE_BIT_KHR = VkCompositeAlphaKHR(0x00000001)
-        val PRE_MULTIPLIED_BIT_KHR = VkCompositeAlphaKHR(0x00000002)
-        val POST_MULTIPLIED_BIT_KHR = VkCompositeAlphaKHR(0x00000004)
-        val INHERIT_BIT_KHR = VkCompositeAlphaKHR(0x00000008)
+        val OPAQUE_BIT = VkCompositeAlphaKHR(0x00000001)
+        val PRE_MULTIPLIED_BIT = VkCompositeAlphaKHR(0x00000002)
+        val POST_MULTIPLIED_BIT = VkCompositeAlphaKHR(0x00000004)
+        val INHERIT_BIT = VkCompositeAlphaKHR(0x00000008)
     }
 }
 
@@ -79,7 +79,7 @@ inline val VkSurfaceCapabilitiesKHR.currentTransform: VkSurfaceTransformKHR
 inline val VkSurfaceCapabilitiesKHR.supportedCompositeAlpha: VkCompositeAlphaFlagsKHR
     get() = VkSurfaceCapabilitiesKHR.nsupportedCompositeAlpha(adr)
 inline val VkSurfaceCapabilitiesKHR.supportedUsageFlags: VkImageUsageFlags
-    get() = VkSurfaceCapabilitiesKHR.nsupportedUsageFlags(adr)
+    get() = VkImageUsageFlags(VkSurfaceCapabilitiesKHR.nsupportedUsageFlags(adr))
 
 
 inline var VkSurfaceFormatKHR.format: VkFormat
@@ -98,9 +98,9 @@ operator fun VkSurfaceFormatKHR.invoke(surfaceFormatKHR: VkSurfaceFormatKHR) {
 
 inline class VkSwapchainCreateKHR(val i: Int) {
     companion object {
-        val SPLIT_INSTANCE_BIND_REGIONS_BIT_KHR = VkSwapchainCreateKHR(0x00000001)
-        val PROTECTED_BIT_KHR = VkSwapchainCreateKHR(0x00000002)
-        val MUTABLE_FORMAT_BIT_KHR = VkSwapchainCreateKHR(0x00000004)
+        val SPLIT_INSTANCE_BIND_REGIONS_BIT = VkSwapchainCreateKHR(0x00000001)
+        val PROTECTED_BIT = VkSwapchainCreateKHR(0x00000002)
+        val MUTABLE_FORMAT_BIT = VkSwapchainCreateKHR(0x00000004)
     }
 }
 
@@ -109,10 +109,10 @@ typealias VkSwapchainCreateFlagsKHR = VkFlags
 
 inline class VkDeviceGroupPresentModeKHR(val i: Int) {
     companion object {
-        val LOCAL_BIT_KHR = VkDeviceGroupPresentModeKHR(0x00000001)
-        val REMOTE_BIT_KHR = VkDeviceGroupPresentModeKHR(0x00000002)
-        val SUM_BIT_KHR = VkDeviceGroupPresentModeKHR(0x00000004)
-        val LOCAL_MULTI_DEVICE_BIT_KHR = VkDeviceGroupPresentModeKHR(0x00000008)
+        val LOCAL_BIT = VkDeviceGroupPresentModeKHR(0x00000001)
+        val REMOTE_BIT = VkDeviceGroupPresentModeKHR(0x00000002)
+        val SUM_BIT = VkDeviceGroupPresentModeKHR(0x00000004)
+        val LOCAL_MULTI_DEVICE_BIT = VkDeviceGroupPresentModeKHR(0x00000008)
     }
 }
 
@@ -154,8 +154,8 @@ inline var VkSwapchainCreateInfoKHR.imageArrayLayers: Int
     get() = VkSwapchainCreateInfoKHR.nimageArrayLayers(adr)
     set(value) = VkSwapchainCreateInfoKHR.nimageArrayLayers(adr, value)
 inline var VkSwapchainCreateInfoKHR.imageUsage: VkImageUsageFlags
-    get() = VkSwapchainCreateInfoKHR.nimageUsage(adr)
-    set(value) = VkSwapchainCreateInfoKHR.nimageUsage(adr, value)
+    get() = VkImageUsageFlags(VkSwapchainCreateInfoKHR.nimageUsage(adr))
+    set(value) = VkSwapchainCreateInfoKHR.nimageUsage(adr, value.i)
 inline var VkSwapchainCreateInfoKHR.imageSharingMode: VkSharingMode
     get() = VkSharingMode(VkSwapchainCreateInfoKHR.nimageSharingMode(adr))
     set(value) = VkSwapchainCreateInfoKHR.nimageSharingMode(adr, value.i)
@@ -322,10 +322,10 @@ inline var VkDeviceGroupSwapchainCreateInfoKHR.modes: VkDeviceGroupPresentModeFl
 inline class VkDisplayPlaneAlphaKHR(val i: Int) {
 
     companion object {
-        val OPAQUE_BIT_KHR = VkDisplayPlaneAlphaKHR(0x00000001)
-        val GLOBAL_BIT_KHR = VkDisplayPlaneAlphaKHR(0x00000002)
-        val PER_PIXEL_BIT_KHR = VkDisplayPlaneAlphaKHR(0x00000004)
-        val PER_PIXEL_PREMULTIPLIED_BIT_KHR = VkDisplayPlaneAlphaKHR(0x00000008)
+        val OPAQUE_BIT = VkDisplayPlaneAlphaKHR(0x00000001)
+        val GLOBAL_BIT = VkDisplayPlaneAlphaKHR(0x00000002)
+        val PER_PIXEL_BIT = VkDisplayPlaneAlphaKHR(0x00000004)
+        val PER_PIXEL_PREMULTIPLIED_BIT = VkDisplayPlaneAlphaKHR(0x00000008)
     }
 }
 
@@ -602,11 +602,11 @@ inline var VkFramebufferAttachmentImageInfoKHR.next: Ptr
     get() = VkFramebufferAttachmentImageInfoKHR.npNext(adr)
     set(value) = VkFramebufferAttachmentImageInfoKHR.npNext(adr, value)
 inline var VkFramebufferAttachmentImageInfoKHR.flags: VkImageCreateFlags
-    get() = VkFramebufferAttachmentImageInfoKHR.nflags(adr)
-    set(value) = VkFramebufferAttachmentImageInfoKHR.nflags(adr, value)
+    get() = VkImageCreateFlags(VkFramebufferAttachmentImageInfoKHR.nflags(adr))
+    set(value) = VkFramebufferAttachmentImageInfoKHR.nflags(adr, value.i)
 inline var VkFramebufferAttachmentImageInfoKHR.usage: VkImageUsageFlags
-    get() = VkFramebufferAttachmentImageInfoKHR.nusage(adr)
-    set(value) = VkFramebufferAttachmentImageInfoKHR.nusage(adr, value)
+    get() = VkImageUsageFlags(VkFramebufferAttachmentImageInfoKHR.nusage(adr))
+    set(value) = VkFramebufferAttachmentImageInfoKHR.nusage(adr, value.i)
 inline var VkFramebufferAttachmentImageInfoKHR.width: Int
     get() = VkFramebufferAttachmentImageInfoKHR.nwidth(adr)
     set(value) = VkFramebufferAttachmentImageInfoKHR.nwidth(adr, value)
@@ -674,7 +674,7 @@ inline var VkAttachmentDescription2KHR.format: VkFormat
     get() = VkFormat(VkAttachmentDescription2KHR.nformat(adr))
     set(value) = VkAttachmentDescription2KHR.nformat(adr, value.i)
 inline var VkAttachmentDescription2KHR.samples: VkSampleCount
-    get() = VkSampleCount(VkAttachmentDescription2KHR.nsamples(adr))
+    get() = VkSampleCount(VkSampleCountFlags(VkAttachmentDescription2KHR.nsamples(adr)))
     set(value) = VkAttachmentDescription2KHR.nsamples(adr, value.i)
 inline var VkAttachmentDescription2KHR.loadOp: VkAttachmentLoadOp
     get() = VkAttachmentLoadOp(VkAttachmentDescription2KHR.nloadOp(adr))
@@ -1023,18 +1023,18 @@ inline var VkPhysicalDeviceShaderAtomicInt64FeaturesKHR.shaderSharedInt64Atomics
 
 inline class VkDriverIdKHR(val i: Int) {
     companion object {
-        val AMD_PROPRIETARY_KHR = VkDriverIdKHR(1)
-        val AMD_OPEN_SOURCE_KHR = VkDriverIdKHR(2)
-        val MESA_RADV_KHR = VkDriverIdKHR(3)
-        val NVIDIA_PROPRIETARY_KHR = VkDriverIdKHR(4)
-        val INTEL_PROPRIETARY_WINDOWS_KHR = VkDriverIdKHR(5)
-        val INTEL_OPEN_SOURCE_MESA_KHR = VkDriverIdKHR(6)
-        val IMAGINATION_PROPRIETARY_KHR = VkDriverIdKHR(7)
-        val QUALCOMM_PROPRIETARY_KHR = VkDriverIdKHR(8)
-        val ARM_PROPRIETARY_KHR = VkDriverIdKHR(9)
-        val GOOGLE_SWIFTSHADER_KHR = VkDriverIdKHR(10)
-        val GGP_PROPRIETARY_KHR = VkDriverIdKHR(11)
-        val BROADCOM_PROPRIETARY_KHR = VkDriverIdKHR(12)
+        val AMD_PROPRIETARY = VkDriverIdKHR(1)
+        val AMD_OPEN_SOURCE = VkDriverIdKHR(2)
+        val MESA_RADV = VkDriverIdKHR(3)
+        val NVIDIA_PROPRIETARY = VkDriverIdKHR(4)
+        val INTEL_PROPRIETARY_WINDOWS = VkDriverIdKHR(5)
+        val INTEL_OPEN_SOURCE_MESA = VkDriverIdKHR(6)
+        val IMAGINATION_PROPRIETARY = VkDriverIdKHR(7)
+        val QUALCOMM_PROPRIETARY = VkDriverIdKHR(8)
+        val ARM_PROPRIETARY = VkDriverIdKHR(9)
+        val GOOGLE_SWIFTSHADER = VkDriverIdKHR(10)
+        val GGP_PROPRIETARY = VkDriverIdKHR(11)
+        val BROADCOM_PROPRIETARY = VkDriverIdKHR(12)
     }
 }
 

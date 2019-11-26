@@ -16,6 +16,7 @@ ext {
     moduleName = "${group}.vkk"
     kotlin = 'org.jetbrains.kotlin:kotlin'
     kotlin_version = '1.3.50'
+    uno_version = '3275c3ce3045be19c84288609d9f1631d631a743'
     gli_version = '336a02f5acd5db7f5c34cb673512714f1856577e'
     glm_version = '3d3aea6d420bace96ced057cddeca023129d7c41'
     unsigned_version = 'c81c2e39fb9e10403650c1b371b8573fc745bfb4'
@@ -47,6 +48,14 @@ dependencies {
     implementation spirvCross
     runtime "$spirvCross:natives-$lwjgl_natives"
 
+    // https://mvnrepository.com/artifact/com.google.code.findbugs/jsr305
+    implementation "com.google.code.findbugs:jsr305:3.0.2"
+
+//    ["core", "gl", "vk"].each {
+//        testImplementation "${kx}.uno-sdk:uno-$it:$uno_version"
+//    }
+
+    testImplementation 'io.github.microutils:kotlin-logging:1.7.6'
 //    compile group: 'org.jetbrains.kotlin.kapt', name: 'org.jetbrains.kotlin.kapt.gradle.plugin', version: '1.3.0-rc-146'
 }
 

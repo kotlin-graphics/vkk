@@ -22,11 +22,11 @@ import java.nio.IntBuffer
 
 
 inline val VkFormatProperties.linearTilingFeatures: VkFormatFeatureFlags
-    get() = VkFormatProperties.nlinearTilingFeatures(adr)
+    get() = VkFormatFeatureFlags(VkFormatProperties.nlinearTilingFeatures(adr))
 inline val VkFormatProperties.optimalTilingFeatures: VkFormatFeatureFlags
-    get() = VkFormatProperties.noptimalTilingFeatures(adr)
+    get() = VkFormatFeatureFlags(VkFormatProperties.noptimalTilingFeatures(adr))
 inline val VkFormatProperties.bufferFeatures: VkFormatFeatureFlags
-    get() = VkFormatProperties.nbufferFeatures(adr)
+    get() = VkFormatFeatureFlags(VkFormatProperties.nbufferFeatures(adr))
 
 
 inline var VkExtent3D.width: Int
@@ -61,7 +61,7 @@ inline val VkImageFormatProperties.maxMipLevels: Int
 inline val VkImageFormatProperties.maxArrayLayers: Int
     get() = VkImageFormatProperties.nmaxArrayLayers(adr)
 inline val VkImageFormatProperties.sampleCounts: VkSampleCountFlags
-    get() = VkImageFormatProperties.nsampleCounts(adr)
+    get() = VkSampleCountFlags(VkImageFormatProperties.nsampleCounts(adr))
 inline val VkImageFormatProperties.maxResourceSize: VkDeviceSize
     get() = VkDeviceSize(VkImageFormatProperties.nmaxResourceSize(adr))
 
@@ -227,25 +227,25 @@ inline val VkPhysicalDeviceLimits.maxFramebufferHeight: Int
 inline val VkPhysicalDeviceLimits.maxFramebufferLayers: Int
     get() = VkPhysicalDeviceLimits.nmaxFramebufferLayers(adr)
 inline val VkPhysicalDeviceLimits.framebufferColorSampleCounts: VkSampleCountFlags
-    get() = VkPhysicalDeviceLimits.nframebufferColorSampleCounts(adr)
+    get() = VkSampleCountFlags(VkPhysicalDeviceLimits.nframebufferColorSampleCounts(adr))
 inline val VkPhysicalDeviceLimits.framebufferDepthSampleCounts: VkSampleCountFlags
-    get() = VkPhysicalDeviceLimits.nframebufferDepthSampleCounts(adr)
+    get() = VkSampleCountFlags(VkPhysicalDeviceLimits.nframebufferDepthSampleCounts(adr))
 inline val VkPhysicalDeviceLimits.framebufferStencilSampleCounts: VkSampleCountFlags
-    get() = VkPhysicalDeviceLimits.nframebufferStencilSampleCounts(adr)
+    get() = VkSampleCountFlags(VkPhysicalDeviceLimits.nframebufferStencilSampleCounts(adr))
 inline val VkPhysicalDeviceLimits.framebufferNoAttachmentsSampleCounts: VkSampleCountFlags
-    get() = VkPhysicalDeviceLimits.nframebufferNoAttachmentsSampleCounts(adr)
+    get() = VkSampleCountFlags(VkPhysicalDeviceLimits.nframebufferNoAttachmentsSampleCounts(adr))
 inline val VkPhysicalDeviceLimits.maxColorAttachments: Int
     get() = VkPhysicalDeviceLimits.nmaxColorAttachments(adr)
 inline val VkPhysicalDeviceLimits.sampledImageColorSampleCounts: VkSampleCountFlags
-    get() = VkPhysicalDeviceLimits.nsampledImageColorSampleCounts(adr)
+    get() = VkSampleCountFlags(VkPhysicalDeviceLimits.nsampledImageColorSampleCounts(adr))
 inline val VkPhysicalDeviceLimits.sampledImageIntegerSampleCounts: VkSampleCountFlags
-    get() = VkPhysicalDeviceLimits.nsampledImageIntegerSampleCounts(adr)
+    get() = VkSampleCountFlags(VkPhysicalDeviceLimits.nsampledImageIntegerSampleCounts(adr))
 inline val VkPhysicalDeviceLimits.sampledImageDepthSampleCounts: VkSampleCountFlags
-    get() = VkPhysicalDeviceLimits.nsampledImageDepthSampleCounts(adr)
+    get() = VkSampleCountFlags(VkPhysicalDeviceLimits.nsampledImageDepthSampleCounts(adr))
 inline val VkPhysicalDeviceLimits.sampledImageStencilSampleCounts: VkSampleCountFlags
-    get() = VkPhysicalDeviceLimits.nsampledImageStencilSampleCounts(adr)
+    get() = VkSampleCountFlags(VkPhysicalDeviceLimits.nsampledImageStencilSampleCounts(adr))
 inline val VkPhysicalDeviceLimits.storageImageSampleCounts: VkSampleCountFlags
-    get() = VkPhysicalDeviceLimits.nstorageImageSampleCounts(adr)
+    get() = VkSampleCountFlags(VkPhysicalDeviceLimits.nstorageImageSampleCounts(adr))
 inline val VkPhysicalDeviceLimits.maxSampleMaskWords: Int
     get() = VkPhysicalDeviceLimits.nmaxSampleMaskWords(adr)
 inline val VkPhysicalDeviceLimits.timestampComputeAndGraphics: Boolean
@@ -823,8 +823,8 @@ inline var VkImageCreateInfo.flag: VkImageCreate
     get() = throw Exception("Invalid")
     set(value) = VkImageCreateInfo.nflags(adr, value.i)
 inline var VkImageCreateInfo.flags: VkImageCreateFlags
-    get() = VkImageCreateInfo.nflags(adr)
-    set(value) = VkImageCreateInfo.nflags(adr, value)
+    get() = VkImageCreateFlags(VkImageCreateInfo.nflags(adr))
+    set(value) = VkImageCreateInfo.nflags(adr, value.i)
 inline var VkImageCreateInfo.imageType: VkImageType
     get() = VkImageType(VkImageCreateInfo.nimageType(adr))
     set(value) = VkImageCreateInfo.nimageType(adr, value.i)
@@ -848,14 +848,14 @@ inline var VkImageCreateInfo.arrayLayers: Int
     get() = VkImageCreateInfo.narrayLayers(adr)
     set(value) = VkImageCreateInfo.narrayLayers(adr, value)
 inline var VkImageCreateInfo.samples: VkSampleCount
-    get() = VkSampleCount(VkImageCreateInfo.nsamples(adr))
+    get() = VkSampleCount(VkSampleCountFlags(VkImageCreateInfo.nsamples(adr)))
     set(value) = VkImageCreateInfo.nsamples(adr, value.i)
 inline var VkImageCreateInfo.tiling: VkImageTiling
     get() = VkImageTiling(VkImageCreateInfo.ntiling(adr))
     set(value) = VkImageCreateInfo.ntiling(adr, value.i)
 inline var VkImageCreateInfo.usage: VkImageUsageFlags
-    get() = VkImageCreateInfo.nusage(adr)
-    set(value) = VkImageCreateInfo.nusage(adr, value)
+    get() = VkImageUsageFlags(VkImageCreateInfo.nusage(adr))
+    set(value) = VkImageCreateInfo.nusage(adr, value.i)
 inline var VkImageCreateInfo.sharingMode: VkSharingMode
     get() = VkSharingMode(VkImageCreateInfo.nsharingMode(adr))
     set(value) = VkImageCreateInfo.nsharingMode(adr, value.i)

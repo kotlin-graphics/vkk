@@ -816,7 +816,6 @@ infix inline fun <reified T> VkDevice.getPipelineExecutableStatisticKHR(executab
 }
 
 
-
 fun VkDevice.getPipelineExecutableInternalRepresentationsKHR(executableInfo: VkPipelineExecutableInfoKHR, representations: VkPipelineExecutableStatisticKHR.Buffer): VkResult =
         stak.intAddress(representations.rem) {
             VkResult(KHRPipelineExecutableProperties.nvkGetPipelineExecutableInternalRepresentationsKHR(this, executableInfo.adr, it, representations.adr))
@@ -842,7 +841,6 @@ infix inline fun <reified T> VkDevice.getPipelineExecutableInternalRepresentatio
     }
     else -> throw Exception("[VkDevice::getPipelineExecutableInternalRepresentationsKHR] Invalid T")
 }
-
 
 
 fun VkDevice.getQueryPoolResults(queryPool: VkQueryPool, firstQuery: Int, queryCount: Int, data: IntBuffer, stride: VkDeviceSize = VkDeviceSize(0), flags: VkQueryResultFlags = 0): VkResult =
@@ -921,6 +919,20 @@ inline fun <reified T> VkDevice.getSwapchainImagesKHR(swapchain: VkSwapchainKHR)
             }
         } while (result == VkResult.INCOMPLETE)
         VkImage_Buffer(swapchainImages) as T
+    }
+    VkImage_Array::class -> stak {
+        lateinit var swapchainImages: LongBuffer
+        val pSwapchainImageCount = it.nmalloc(4, Int.BYTES)
+        var result: VkResult
+        do {
+            result = VkResult(KHRSwapchain.nvkGetSwapchainImagesKHR(this, swapchain.L, pSwapchainImageCount, NULL))
+            val swapchainImageCount = memGetInt(pSwapchainImageCount)
+            if (result == VkResult.SUCCESS && swapchainImageCount != 0) {
+                swapchainImages = it.LongBuffer(swapchainImageCount)
+                result = VkResult(KHRSwapchain.nvkGetSwapchainImagesKHR(this, swapchain.L, pSwapchainImageCount, swapchainImages.adr))
+            }
+        } while (result == VkResult.INCOMPLETE)
+        VkImage_Array(swapchainImages.rem) { VkImage(swapchainImages[it]) } as T
     }
     else -> throw Exception("[VkDevice::getSwapchainImagesKHR] Invalid T")
 }

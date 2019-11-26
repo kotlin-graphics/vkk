@@ -1,0 +1,491 @@
+package main;
+
+import java.nio.*;
+
+import org.lwjgl.*;
+import org.lwjgl.system.*;
+import javax.annotation.*;
+
+import static org.lwjgl.system.Checks.*;
+import static org.lwjgl.system.MemoryUtil.*;
+import static org.lwjgl.system.MemoryStack.*;
+
+/**
+ * Structure specifying application info.
+ *
+ * <h5>Description</h5>
+ *
+ * <p>Vulkan 1.0 implementations were required to return {@link VK10#VK_ERROR_INCOMPATIBLE_DRIVER ERROR_INCOMPATIBLE_DRIVER} if {@code apiVersion} was larger than 1.0. Implementations that support Vulkan 1.1 or later <b>must</b> not return {@link VK10#VK_ERROR_INCOMPATIBLE_DRIVER ERROR_INCOMPATIBLE_DRIVER} for any value of {@code apiVersion}.</p>
+ *
+ * <div style="margin-left: 26px; border-left: 1px solid gray; padding-left: 14px;"><h5>Note</h5>
+ *
+ * <p>Because Vulkan 1.0 implementations <b>may</b> fail with {@link VK10#VK_ERROR_INCOMPATIBLE_DRIVER ERROR_INCOMPATIBLE_DRIVER}, applications <b>should</b> determine the version of Vulkan available before calling {@link VK10#vkCreateInstance CreateInstance}. If the {@link VK10#vkGetInstanceProcAddr GetInstanceProcAddr} returns {@code NULL} for {@link VK11#vkEnumerateInstanceVersion EnumerateInstanceVersion}, it is a Vulkan 1.0 implementation. Otherwise, the application <b>can</b> call {@link VK11#vkEnumerateInstanceVersion EnumerateInstanceVersion} to determine the version of Vulkan.</p>
+ * </div>
+ *
+ * <p>As long as the instance supports at least Vulkan 1.1, an application <b>can</b> use different versions of Vulkan with an instance than it does with a device or physical device.</p>
+ *
+ * <div style="margin-left: 26px; border-left: 1px solid gray; padding-left: 14px;"><h5>Note</h5>
+ *
+ * <p>The Khronos validation layers will treat {@code apiVersion} as the highest API version the application targets, and will validate API usage against the minimum of that version and the implementation version (instance or device, depending on context). If an application tries to use functionality from a greater version than this, a validation error will be triggered.</p>
+ *
+ * <p>For example, if the instance supports Vulkan 1.1 and three physical devices support Vulkan 1.0, Vulkan 1.1, and a hypothetical Vulkan 1.2, respectively, and if the application sets {@code apiVersion} to 1.2, the application <b>can</b> use the following versions of Vulkan:</p>
+ *
+ * <ul>
+ * <li>Vulkan 1.0 <b>can</b> be used with the instance and with all physical devices.</li>
+ * <li>Vulkan 1.1 <b>can</b> be used with the instance and with the physical devices that support Vulkan 1.1 and Vulkan 1.2.</li>
+ * <li>Vulkan 1.2 <b>can</b> be used with the physical device that supports Vulkan 1.2.</li>
+ * </ul>
+ *
+ * <p>If we modify the above example so that the application sets {@code apiVersion} to 1.1, then the application <b>must</b> not use Vulkan 1.2 functionality on the physical device that supports Vulkan 1.2.</p>
+ * </div>
+ *
+ * <p>Implicit layers <b>must</b> be disabled if they do not support a version at least as high as {@code apiVersion}. See the <a target="_blank" href="https://www.khronos.org/registry/vulkan/specs/1.1-extensions/html/vkspec.html#LoaderAndLayerInterface">Vulkan Loader Specification and Architecture Overview</a> document for additional information.</p>
+ *
+ * <div style="margin-left: 26px; border-left: 1px solid gray; padding-left: 14px;"><h5>Note</h5>
+ *
+ * <p>Providing a {@code NULL} {@link VkInstanceCreateInfo}{@code ::pApplicationInfo} or providing an {@code apiVersion} of 0 is equivalent to providing an {@code apiVersion} of {@code VK_MAKE_VERSION(1,0,0)}.</p>
+ * </div>
+ *
+ * <h5>Valid Usage (Implicit)</h5>
+ *
+ * <ul>
+ * <li>{@code sType} <b>must</b> be {@link VK10#VK_STRUCTURE_TYPE_APPLICATION_INFO STRUCTURE_TYPE_APPLICATION_INFO}</li>
+ * <li>{@code pNext} <b>must</b> be {@code NULL}</li>
+ * <li>If {@code pApplicationName} is not {@code NULL}, {@code pApplicationName} <b>must</b> be a null-terminated UTF-8 string</li>
+ * <li>If {@code pEngineName} is not {@code NULL}, {@code pEngineName} <b>must</b> be a null-terminated UTF-8 string</li>
+ * </ul>
+ *
+ * <h5>See Also</h5>
+ *
+ * <p>{@link VkInstanceCreateInfo}</p>
+ *
+ * <h3>Member documentation</h3>
+ *
+ * <ul>
+ * <li>{@code sType} &ndash; the type of this structure.</li>
+ * <li>{@code pNext} &ndash; {@code NULL} or a pointer to an extension-specific structure.</li>
+ * <li>{@code pApplicationName} &ndash; {@code NULL} or is a pointer to a null-terminated UTF-8 string containing the name of the application.</li>
+ * <li>{@code applicationVersion} &ndash; an unsigned integer variable containing the developer-supplied version number of the application.</li>
+ * <li>{@code pEngineName} &ndash; {@code NULL} or is a pointer to a null-terminated UTF-8 string containing the name of the engine (if any) used to create the application.</li>
+ * <li>{@code engineVersion} &ndash; an unsigned integer variable containing the developer-supplied version number of the engine used to create the application.</li>
+ * <li>{@code apiVersion} &ndash; <b>must</b> be the highest version of Vulkan that the application is designed to use, encoded as described in <a target="_blank" href="https://www.khronos.org/registry/vulkan/specs/1.1-extensions/html/vkspec.html#extendingvulkan-coreversions-versionnumbers">Version Numbers</a>. The patch version number specified in {@code apiVersion} is ignored when creating an instance object. Only the major and minor versions of the instance <b>must</b> match those requested in {@code apiVersion}.</li>
+ * </ul>
+ *
+ * <h3>Layout</h3>
+ *
+ * <pre><code>
+ * struct VkApplicationInfo {
+ *     VkStructureType sType;
+ *     void const * pNext;
+ *     char const * pApplicationName;
+ *     uint32_t applicationVersion;
+ *     char const * pEngineName;
+ *     uint32_t engineVersion;
+ *     uint32_t apiVersion;
+ * }</code></pre>
+ */
+public class vsApplicationInfo extends Struct implements NativeResource {
+
+    /** The struct size in bytes. */
+    public static final int SIZEOF;
+
+    /** The struct alignment in bytes. */
+    public static final int ALIGNOF;
+
+    /** The struct member offsets. */
+    public static final int
+            STYPE,
+            PNEXT,
+            PAPPLICATIONNAME,
+            APPLICATIONVERSION,
+            PENGINENAME,
+            ENGINEVERSION,
+            APIVERSION;
+
+    static {
+        Layout layout = __struct(
+                __member(4),
+                __member(POINTER_SIZE),
+                __member(POINTER_SIZE),
+                __member(4),
+                __member(POINTER_SIZE),
+                __member(4),
+                __member(4)
+        );
+
+        SIZEOF = layout.getSize();
+        ALIGNOF = layout.getAlignment();
+
+        STYPE = layout.offsetof(0);
+        PNEXT = layout.offsetof(1);
+        PAPPLICATIONNAME = layout.offsetof(2);
+        APPLICATIONVERSION = layout.offsetof(3);
+        PENGINENAME = layout.offsetof(4);
+        ENGINEVERSION = layout.offsetof(5);
+        APIVERSION = layout.offsetof(6);
+    }
+
+    /**
+     * Creates a {@code VkApplicationInfo} instance at the current position of the specified {@link ByteBuffer} container. Changes to the buffer's content will be
+     * visible to the struct instance and vice versa.
+     *
+     * <p>The created instance holds a strong reference to the container object.</p>
+     */
+    public vsApplicationInfo(ByteBuffer container) {
+        super(memAddress(container), __checkContainer(container, SIZEOF));
+    }
+
+    @Override
+    public int sizeof() { return SIZEOF; }
+
+    /** Returns the value of the {@code sType} field. */
+    @NativeType("VkStructureType")
+    public int sType() { return nsType(address()); }
+    /** Returns the value of the {@code pNext} field. */
+    @NativeType("void const *")
+    public long pNext() { return npNext(address()); }
+    /** Returns a {@link ByteBuffer} view of the null-terminated string pointed to by the {@code pApplicationName} field. */
+    @Nullable
+    @NativeType("char const *")
+    public ByteBuffer pApplicationName() { return npApplicationName(address()); }
+    /** Decodes the null-terminated string pointed to by the {@code pApplicationName} field. */
+    @Nullable
+    @NativeType("char const *")
+    public String pApplicationNameString() { return npApplicationNameString(address()); }
+    /** Returns the value of the {@code applicationVersion} field. */
+    @NativeType("uint32_t")
+    public int applicationVersion() { return napplicationVersion(address()); }
+    /** Returns a {@link ByteBuffer} view of the null-terminated string pointed to by the {@code pEngineName} field. */
+    @Nullable
+    @NativeType("char const *")
+    public ByteBuffer pEngineName() { return npEngineName(address()); }
+    /** Decodes the null-terminated string pointed to by the {@code pEngineName} field. */
+    @Nullable
+    @NativeType("char const *")
+    public String pEngineNameString() { return npEngineNameString(address()); }
+    /** Returns the value of the {@code engineVersion} field. */
+    @NativeType("uint32_t")
+    public int engineVersion() { return nengineVersion(address()); }
+    /** Returns the value of the {@code apiVersion} field. */
+    @NativeType("uint32_t")
+    public int apiVersion() { return napiVersion(address()); }
+
+    /** Sets the specified value to the {@code sType} field. */
+    public vsApplicationInfo sType(@NativeType("VkStructureType") int value) { nsType(address(), value); return this; }
+    /** Sets the specified value to the {@code pNext} field. */
+    public vsApplicationInfo pNext(@NativeType("void const *") long value) { npNext(address(), value); return this; }
+    /** Sets the address of the specified encoded string to the {@code pApplicationName} field. */
+    public vsApplicationInfo pApplicationName(@Nullable @NativeType("char const *") ByteBuffer value) { npApplicationName(address(), value); return this; }
+    /** Sets the specified value to the {@code applicationVersion} field. */
+    public vsApplicationInfo applicationVersion(@NativeType("uint32_t") int value) { napplicationVersion(address(), value); return this; }
+    /** Sets the address of the specified encoded string to the {@code pEngineName} field. */
+    public vsApplicationInfo pEngineName(@Nullable @NativeType("char const *") ByteBuffer value) { npEngineName(address(), value); return this; }
+    /** Sets the specified value to the {@code engineVersion} field. */
+    public vsApplicationInfo engineVersion(@NativeType("uint32_t") int value) { nengineVersion(address(), value); return this; }
+    /** Sets the specified value to the {@code apiVersion} field. */
+    public vsApplicationInfo apiVersion(@NativeType("uint32_t") int value) { napiVersion(address(), value); return this; }
+
+    /** Initializes this struct with the specified values. */
+    public vsApplicationInfo set(
+            int sType,
+            long pNext,
+            @Nullable ByteBuffer pApplicationName,
+            int applicationVersion,
+            @Nullable ByteBuffer pEngineName,
+            int engineVersion,
+            int apiVersion
+    ) {
+        sType(sType);
+        pNext(pNext);
+        pApplicationName(pApplicationName);
+        applicationVersion(applicationVersion);
+        pEngineName(pEngineName);
+        engineVersion(engineVersion);
+        apiVersion(apiVersion);
+
+        return this;
+    }
+
+    /**
+     * Copies the specified struct data to this struct.
+     *
+     * @param src the source struct
+     *
+     * @return this struct
+     */
+    public vsApplicationInfo set(vsApplicationInfo src) {
+        memCopy(src.address(), address(), SIZEOF);
+        return this;
+    }
+
+    // -----------------------------------
+
+    /** Returns a new {@code VkApplicationInfo} instance allocated with {@link MemoryUtil#memAlloc memAlloc}. The instance must be explicitly freed. */
+    public static vsApplicationInfo malloc() {
+        return wrap(vsApplicationInfo.class, nmemAllocChecked(SIZEOF));
+    }
+
+    /** Returns a new {@code VkApplicationInfo} instance allocated with {@link MemoryUtil#memCalloc memCalloc}. The instance must be explicitly freed. */
+    public static vsApplicationInfo calloc() {
+        return wrap(vsApplicationInfo.class, nmemCallocChecked(1, SIZEOF));
+    }
+
+    /** Returns a new {@code VkApplicationInfo} instance allocated with {@link BufferUtils}. */
+    public static vsApplicationInfo create() {
+        ByteBuffer container = BufferUtils.createByteBuffer(SIZEOF);
+        return wrap(vsApplicationInfo.class, memAddress(container), container);
+    }
+
+    /** Returns a new {@code VkApplicationInfo} instance for the specified memory address. */
+    public static vsApplicationInfo create(long address) {
+        return wrap(vsApplicationInfo.class, address);
+    }
+
+    /** Like {@link #create(long) create}, but returns {@code null} if {@code address} is {@code NULL}. */
+    @Nullable
+    public static vsApplicationInfo createSafe(long address) {
+        return address == NULL ? null : wrap(vsApplicationInfo.class, address);
+    }
+
+    /**
+     * Returns a new {@link vsApplicationInfo.Buffer} instance allocated with {@link MemoryUtil#memAlloc memAlloc}. The instance must be explicitly freed.
+     *
+     * @param capacity the buffer capacity
+     */
+    public static vsApplicationInfo.Buffer malloc(int capacity) {
+        return wrap(Buffer.class, nmemAllocChecked(__checkMalloc(capacity, SIZEOF)), capacity);
+    }
+
+    /**
+     * Returns a new {@link vsApplicationInfo.Buffer} instance allocated with {@link MemoryUtil#memCalloc memCalloc}. The instance must be explicitly freed.
+     *
+     * @param capacity the buffer capacity
+     */
+    public static vsApplicationInfo.Buffer calloc(int capacity) {
+        return wrap(Buffer.class, nmemCallocChecked(capacity, SIZEOF), capacity);
+    }
+
+    /**
+     * Returns a new {@link vsApplicationInfo.Buffer} instance allocated with {@link BufferUtils}.
+     *
+     * @param capacity the buffer capacity
+     */
+    public static vsApplicationInfo.Buffer create(int capacity) {
+        ByteBuffer container = __create(capacity, SIZEOF);
+        return wrap(Buffer.class, memAddress(container), capacity, container);
+    }
+
+    /**
+     * Create a {@link vsApplicationInfo.Buffer} instance at the specified memory.
+     *
+     * @param address  the memory address
+     * @param capacity the buffer capacity
+     */
+    public static vsApplicationInfo.Buffer create(long address, int capacity) {
+        return wrap(Buffer.class, address, capacity);
+    }
+
+    /** Like {@link #create(long, int) create}, but returns {@code null} if {@code address} is {@code NULL}. */
+    @Nullable
+    public static vsApplicationInfo.Buffer createSafe(long address, int capacity) {
+        return address == NULL ? null : wrap(Buffer.class, address, capacity);
+    }
+
+    // -----------------------------------
+
+    /** Returns a new {@code VkApplicationInfo} instance allocated on the thread-local {@link MemoryStack}. */
+    public static vsApplicationInfo mallocStack() {
+        return mallocStack(stackGet());
+    }
+
+    /** Returns a new {@code VkApplicationInfo} instance allocated on the thread-local {@link MemoryStack} and initializes all its bits to zero. */
+    public static vsApplicationInfo callocStack() {
+        return callocStack(stackGet());
+    }
+
+    /**
+     * Returns a new {@code VkApplicationInfo} instance allocated on the specified {@link MemoryStack}.
+     *
+     * @param stack the stack from which to allocate
+     */
+    public static vsApplicationInfo mallocStack(MemoryStack stack) {
+        return wrap(vsApplicationInfo.class, stack.nmalloc(ALIGNOF, SIZEOF));
+    }
+
+    /**
+     * Returns a new {@code VkApplicationInfo} instance allocated on the specified {@link MemoryStack} and initializes all its bits to zero.
+     *
+     * @param stack the stack from which to allocate
+     */
+    public static vsApplicationInfo callocStack(MemoryStack stack) {
+        return wrap(vsApplicationInfo.class, stack.ncalloc(ALIGNOF, 1, SIZEOF));
+    }
+
+    /**
+     * Returns a new {@link vsApplicationInfo.Buffer} instance allocated on the thread-local {@link MemoryStack}.
+     *
+     * @param capacity the buffer capacity
+     */
+    public static vsApplicationInfo.Buffer mallocStack(int capacity) {
+        return mallocStack(capacity, stackGet());
+    }
+
+    /**
+     * Returns a new {@link vsApplicationInfo.Buffer} instance allocated on the thread-local {@link MemoryStack} and initializes all its bits to zero.
+     *
+     * @param capacity the buffer capacity
+     */
+    public static vsApplicationInfo.Buffer callocStack(int capacity) {
+        return callocStack(capacity, stackGet());
+    }
+
+    /**
+     * Returns a new {@link vsApplicationInfo.Buffer} instance allocated on the specified {@link MemoryStack}.
+     *
+     * @param stack the stack from which to allocate
+     * @param capacity the buffer capacity
+     */
+    public static vsApplicationInfo.Buffer mallocStack(int capacity, MemoryStack stack) {
+        return wrap(Buffer.class, stack.nmalloc(ALIGNOF, capacity * SIZEOF), capacity);
+    }
+
+    /**
+     * Returns a new {@link vsApplicationInfo.Buffer} instance allocated on the specified {@link MemoryStack} and initializes all its bits to zero.
+     *
+     * @param stack the stack from which to allocate
+     * @param capacity the buffer capacity
+     */
+    public static vsApplicationInfo.Buffer callocStack(int capacity, MemoryStack stack) {
+        return wrap(Buffer.class, stack.ncalloc(ALIGNOF, capacity, SIZEOF), capacity);
+    }
+
+    // -----------------------------------
+
+    /** Unsafe version of {@link #sType}. */
+    public static int nsType(long struct) { return UNSAFE.getInt(null, struct + vsApplicationInfo.STYPE); }
+    /** Unsafe version of {@link #pNext}. */
+    public static long npNext(long struct) { return memGetAddress(struct + vsApplicationInfo.PNEXT); }
+    /** Unsafe version of {@link #pApplicationName}. */
+    @Nullable public static ByteBuffer npApplicationName(long struct) { return memByteBufferNT1Safe(memGetAddress(struct + vsApplicationInfo.PAPPLICATIONNAME)); }
+    /** Unsafe version of {@link #pApplicationNameString}. */
+    @Nullable public static String npApplicationNameString(long struct) { return memUTF8Safe(memGetAddress(struct + vsApplicationInfo.PAPPLICATIONNAME)); }
+    /** Unsafe version of {@link #applicationVersion}. */
+    public static int napplicationVersion(long struct) { return UNSAFE.getInt(null, struct + vsApplicationInfo.APPLICATIONVERSION); }
+    /** Unsafe version of {@link #pEngineName}. */
+    @Nullable public static ByteBuffer npEngineName(long struct) { return memByteBufferNT1Safe(memGetAddress(struct + vsApplicationInfo.PENGINENAME)); }
+    /** Unsafe version of {@link #pEngineNameString}. */
+    @Nullable public static String npEngineNameString(long struct) { return memUTF8Safe(memGetAddress(struct + vsApplicationInfo.PENGINENAME)); }
+    /** Unsafe version of {@link #engineVersion}. */
+    public static int nengineVersion(long struct) { return UNSAFE.getInt(null, struct + vsApplicationInfo.ENGINEVERSION); }
+    /** Unsafe version of {@link #apiVersion}. */
+    public static int napiVersion(long struct) { return UNSAFE.getInt(null, struct + vsApplicationInfo.APIVERSION); }
+
+    /** Unsafe version of {@link #sType(int) sType}. */
+    public static void nsType(long struct, int value) { UNSAFE.putInt(null, struct + vsApplicationInfo.STYPE, value); }
+    /** Unsafe version of {@link #pNext(long) pNext}. */
+    public static void npNext(long struct, long value) { memPutAddress(struct + vsApplicationInfo.PNEXT, value); }
+    /** Unsafe version of {@link #pApplicationName(ByteBuffer) pApplicationName}. */
+    public static void npApplicationName(long struct, @Nullable ByteBuffer value) {
+        if (CHECKS) { checkNT1Safe(value); }
+        memPutAddress(struct + vsApplicationInfo.PAPPLICATIONNAME, memAddressSafe(value));
+    }
+    /** Unsafe version of {@link #applicationVersion(int) applicationVersion}. */
+    public static void napplicationVersion(long struct, int value) { UNSAFE.putInt(null, struct + vsApplicationInfo.APPLICATIONVERSION, value); }
+    /** Unsafe version of {@link #pEngineName(ByteBuffer) pEngineName}. */
+    public static void npEngineName(long struct, @Nullable ByteBuffer value) {
+        if (CHECKS) { checkNT1Safe(value); }
+        memPutAddress(struct + vsApplicationInfo.PENGINENAME, memAddressSafe(value));
+    }
+    /** Unsafe version of {@link #engineVersion(int) engineVersion}. */
+    public static void nengineVersion(long struct, int value) { UNSAFE.putInt(null, struct + vsApplicationInfo.ENGINEVERSION, value); }
+    /** Unsafe version of {@link #apiVersion(int) apiVersion}. */
+    public static void napiVersion(long struct, int value) { UNSAFE.putInt(null, struct + vsApplicationInfo.APIVERSION, value); }
+
+    // -----------------------------------
+
+    /** An array of {@link vsApplicationInfo} structs. */
+    public static class Buffer extends StructBuffer<vsApplicationInfo, Buffer> implements NativeResource {
+
+        private static final vsApplicationInfo ELEMENT_FACTORY = vsApplicationInfo.create(-1L);
+
+        /**
+         * Creates a new {@code VkApplicationInfo.Buffer} instance backed by the specified container.
+         *
+         * Changes to the container's content will be visible to the struct buffer instance and vice versa. The two buffers' position, limit, and mark values
+         * will be independent. The new buffer's position will be zero, its capacity and its limit will be the number of bytes remaining in this buffer divided
+         * by {@link vsApplicationInfo#SIZEOF}, and its mark will be undefined.
+         *
+         * <p>The created buffer instance holds a strong reference to the container object.</p>
+         */
+        public Buffer(ByteBuffer container) {
+            super(container, container.remaining() / SIZEOF);
+        }
+
+        public Buffer(long address, int cap) {
+            super(address, null, -1, 0, cap, cap);
+        }
+
+        Buffer(long address, @Nullable ByteBuffer container, int mark, int pos, int lim, int cap) {
+            super(address, container, mark, pos, lim, cap);
+        }
+
+        @Override
+        protected Buffer self() {
+            return this;
+        }
+
+        @Override
+        protected vsApplicationInfo getElementFactory() {
+            return ELEMENT_FACTORY;
+        }
+
+        /** Returns the value of the {@code sType} field. */
+        @NativeType("VkStructureType")
+        public int sType() { return vsApplicationInfo.nsType(address()); }
+        /** Returns the value of the {@code pNext} field. */
+        @NativeType("void const *")
+        public long pNext() { return vsApplicationInfo.npNext(address()); }
+        /** Returns a {@link ByteBuffer} view of the null-terminated string pointed to by the {@code pApplicationName} field. */
+        @Nullable
+        @NativeType("char const *")
+        public ByteBuffer pApplicationName() { return vsApplicationInfo.npApplicationName(address()); }
+        /** Decodes the null-terminated string pointed to by the {@code pApplicationName} field. */
+        @Nullable
+        @NativeType("char const *")
+        public String pApplicationNameString() { return vsApplicationInfo.npApplicationNameString(address()); }
+        /** Returns the value of the {@code applicationVersion} field. */
+        @NativeType("uint32_t")
+        public int applicationVersion() { return vsApplicationInfo.napplicationVersion(address()); }
+        /** Returns a {@link ByteBuffer} view of the null-terminated string pointed to by the {@code pEngineName} field. */
+        @Nullable
+        @NativeType("char const *")
+        public ByteBuffer pEngineName() { return vsApplicationInfo.npEngineName(address()); }
+        /** Decodes the null-terminated string pointed to by the {@code pEngineName} field. */
+        @Nullable
+        @NativeType("char const *")
+        public String pEngineNameString() { return vsApplicationInfo.npEngineNameString(address()); }
+        /** Returns the value of the {@code engineVersion} field. */
+        @NativeType("uint32_t")
+        public int engineVersion() { return vsApplicationInfo.nengineVersion(address()); }
+        /** Returns the value of the {@code apiVersion} field. */
+        @NativeType("uint32_t")
+        public int apiVersion() { return vsApplicationInfo.napiVersion(address()); }
+
+        /** Sets the specified value to the {@code sType} field. */
+        public vsApplicationInfo.Buffer sType(@NativeType("VkStructureType") int value) { vsApplicationInfo.nsType(address(), value); return this; }
+        /** Sets the specified value to the {@code pNext} field. */
+        public vsApplicationInfo.Buffer pNext(@NativeType("void const *") long value) { vsApplicationInfo.npNext(address(), value); return this; }
+        /** Sets the address of the specified encoded string to the {@code pApplicationName} field. */
+        public vsApplicationInfo.Buffer pApplicationName(@Nullable @NativeType("char const *") ByteBuffer value) { vsApplicationInfo.npApplicationName(address(), value); return this; }
+        /** Sets the specified value to the {@code applicationVersion} field. */
+        public vsApplicationInfo.Buffer applicationVersion(@NativeType("uint32_t") int value) { vsApplicationInfo.napplicationVersion(address(), value); return this; }
+        /** Sets the address of the specified encoded string to the {@code pEngineName} field. */
+        public vsApplicationInfo.Buffer pEngineName(@Nullable @NativeType("char const *") ByteBuffer value) { vsApplicationInfo.npEngineName(address(), value); return this; }
+        /** Sets the specified value to the {@code engineVersion} field. */
+        public vsApplicationInfo.Buffer engineVersion(@NativeType("uint32_t") int value) { vsApplicationInfo.nengineVersion(address(), value); return this; }
+        /** Sets the specified value to the {@code apiVersion} field. */
+        public vsApplicationInfo.Buffer apiVersion(@NativeType("uint32_t") int value) { vsApplicationInfo.napiVersion(address(), value); return this; }
+
+    }
+
+}
