@@ -1,5 +1,6 @@
 package identifiers
 
+import kool.Adr
 import kool.Ptr
 import org.lwjgl.system.FunctionProvider
 import org.lwjgl.system.MemoryUtil.NULL
@@ -13,332 +14,332 @@ class CapabilitiesDevice internal constructor(
         ext: Set<String>
 ) {
     // VK10
-    val vkGetDeviceProcAddr: Long
-    val vkDestroyDevice: Long
-    val vkGetDeviceQueue: Long
-    val vkQueueSubmit: Long
-    val vkQueueWaitIdle: Long
-    val vkDeviceWaitIdle: Long
-    val vkAllocateMemory: Long
-    val vkFreeMemory: Long
-    val vkMapMemory: Long
-    val vkUnmapMemory: Long
-    val vkFlushMappedMemoryRanges: Long
-    val vkInvalidateMappedMemoryRanges: Long
-    val vkGetDeviceMemoryCommitment: Long
-    val vkBindBufferMemory: Long
-    val vkBindImageMemory: Long
-    val vkGetBufferMemoryRequirements: Long
-    val vkGetImageMemoryRequirements: Long
-    val vkGetImageSparseMemoryRequirements: Long
-    val vkQueueBindSparse: Long
-    val vkCreateFence: Long
-    val vkDestroyFence: Long
-    val vkResetFences: Long
-    val vkGetFenceStatus: Long
-    val vkWaitForFences: Long
-    val vkCreateSemaphore: Long
-    val vkDestroySemaphore: Long
-    val vkCreateEvent: Long
-    val vkDestroyEvent: Long
-    val vkGetEventStatus: Long
-    val vkSetEvent: Long
-    val vkResetEvent: Long
-    val vkCreateQueryPool: Long
-    val vkDestroyQueryPool: Long
-    val vkGetQueryPoolResults: Long
-    val vkCreateBuffer: Long
-    val vkDestroyBuffer: Long
-    val vkCreateBufferView: Long
-    val vkDestroyBufferView: Long
-    val vkCreateImage: Long
-    val vkDestroyImage: Long
-    val vkGetImageSubresourceLayout: Long
-    val vkCreateImageView: Long
-    val vkDestroyImageView: Long
-    val vkCreateShaderModule: Long
-    val vkDestroyShaderModule: Long
-    val vkCreatePipelineCache: Long
-    val vkDestroyPipelineCache: Long
-    val vkGetPipelineCacheData: Long
-    val vkMergePipelineCaches: Long
-    val vkCreateGraphicsPipelines: Long
-    val vkCreateComputePipelines: Long
-    val vkDestroyPipeline: Long
-    val vkCreatePipelineLayout: Long
-    val vkDestroyPipelineLayout: Long
-    val vkCreateSampler: Long
-    val vkDestroySampler: Long
-    val vkCreateDescriptorSetLayout: Long
-    val vkDestroyDescriptorSetLayout: Long
-    val vkCreateDescriptorPool: Long
-    val vkDestroyDescriptorPool: Long
-    val vkResetDescriptorPool: Long
-    val vkAllocateDescriptorSets: Long
-    val vkFreeDescriptorSets: Long
-    val vkUpdateDescriptorSets: Long
-    val vkCreateFramebuffer: Long
-    val vkDestroyFramebuffer: Long
-    val vkCreateRenderPass: Long
-    val vkDestroyRenderPass: Long
-    val vkGetRenderAreaGranularity: Long
-    val vkCreateCommandPool: Long
-    val vkDestroyCommandPool: Long
-    val vkResetCommandPool: Long
-    val vkAllocateCommandBuffers: Long
-    val vkFreeCommandBuffers: Long
-    val vkBeginCommandBuffer: Long
-    val vkEndCommandBuffer: Long
-    val vkResetCommandBuffer: Long
-    val vkCmdBindPipeline: Long
-    val vkCmdSetViewport: Long
-    val vkCmdSetScissor: Long
-    val vkCmdSetLineWidth: Long
-    val vkCmdSetDepthBias: Long
-    val vkCmdSetBlendConstants: Long
-    val vkCmdSetDepthBounds: Long
-    val vkCmdSetStencilCompareMask: Long
-    val vkCmdSetStencilWriteMask: Long
-    val vkCmdSetStencilReference: Long
-    val vkCmdBindDescriptorSets: Long
-    val vkCmdBindIndexBuffer: Long
-    val vkCmdBindVertexBuffers: Long
-    val vkCmdDraw: Long
-    val vkCmdDrawIndexed: Long
-    val vkCmdDrawIndirect: Long
-    val vkCmdDrawIndexedIndirect: Long
-    val vkCmdDispatch: Long
-    val vkCmdDispatchIndirect: Long
-    val vkCmdCopyBuffer: Long
-    val vkCmdCopyImage: Long
-    val vkCmdBlitImage: Long
-    val vkCmdCopyBufferToImage: Long
-    val vkCmdCopyImageToBuffer: Long
-    val vkCmdUpdateBuffer: Long
-    val vkCmdFillBuffer: Long
-    val vkCmdClearColorImage: Long
-    val vkCmdClearDepthStencilImage: Long
-    val vkCmdClearAttachments: Long
-    val vkCmdResolveImage: Long
-    val vkCmdSetEvent: Long
-    val vkCmdResetEvent: Long
-    val vkCmdWaitEvents: Long
-    val vkCmdPipelineBarrier: Long
-    val vkCmdBeginQuery: Long
-    val vkCmdEndQuery: Long
-    val vkCmdResetQueryPool: Long
-    val vkCmdWriteTimestamp: Long
-    val vkCmdCopyQueryPoolResults: Long
-    val vkCmdPushConstants: Long
-    val vkCmdBeginRenderPass: Long
-    val vkCmdNextSubpass: Long
-    val vkCmdEndRenderPass: Long
-    val vkCmdExecuteCommands: Long
+    val vkGetDeviceProcAddr: Adr
+    val vkDestroyDevice: Adr
+    val vkGetDeviceQueue: Adr
+    val vkQueueSubmit: Adr
+    val vkQueueWaitIdle: Adr
+    val vkDeviceWaitIdle: Adr
+    val vkAllocateMemory: Adr
+    val vkFreeMemory: Adr
+    val vkMapMemory: Adr
+    val vkUnmapMemory: Adr
+    val vkFlushMappedMemoryRanges: Adr
+    val vkInvalidateMappedMemoryRanges: Adr
+    val vkGetDeviceMemoryCommitment: Adr
+    val vkBindBufferMemory: Adr
+    val vkBindImageMemory: Adr
+    val vkGetBufferMemoryRequirements: Adr
+    val vkGetImageMemoryRequirements: Adr
+    val vkGetImageSparseMemoryRequirements: Adr
+    val vkQueueBindSparse: Adr
+    val vkCreateFence: Adr
+    val vkDestroyFence: Adr
+    val vkResetFences: Adr
+    val vkGetFenceStatus: Adr
+    val vkWaitForFences: Adr
+    val vkCreateSemaphore: Adr
+    val vkDestroySemaphore: Adr
+    val vkCreateEvent: Adr
+    val vkDestroyEvent: Adr
+    val vkGetEventStatus: Adr
+    val vkSetEvent: Adr
+    val vkResetEvent: Adr
+    val vkCreateQueryPool: Adr
+    val vkDestroyQueryPool: Adr
+    val vkGetQueryPoolResults: Adr
+    val vkCreateBuffer: Adr
+    val vkDestroyBuffer: Adr
+    val vkCreateBufferView: Adr
+    val vkDestroyBufferView: Adr
+    val vkCreateImage: Adr
+    val vkDestroyImage: Adr
+    val vkGetImageSubresourceLayout: Adr
+    val vkCreateImageView: Adr
+    val vkDestroyImageView: Adr
+    val vkCreateShaderModule: Adr
+    val vkDestroyShaderModule: Adr
+    val vkCreatePipelineCache: Adr
+    val vkDestroyPipelineCache: Adr
+    val vkGetPipelineCacheData: Adr
+    val vkMergePipelineCaches: Adr
+    val vkCreateGraphicsPipelines: Adr
+    val vkCreateComputePipelines: Adr
+    val vkDestroyPipeline: Adr
+    val vkCreatePipelineLayout: Adr
+    val vkDestroyPipelineLayout: Adr
+    val vkCreateSampler: Adr
+    val vkDestroySampler: Adr
+    val vkCreateDescriptorSetLayout: Adr
+    val vkDestroyDescriptorSetLayout: Adr
+    val vkCreateDescriptorPool: Adr
+    val vkDestroyDescriptorPool: Adr
+    val vkResetDescriptorPool: Adr
+    val vkAllocateDescriptorSets: Adr
+    val vkFreeDescriptorSets: Adr
+    val vkUpdateDescriptorSets: Adr
+    val vkCreateFramebuffer: Adr
+    val vkDestroyFramebuffer: Adr
+    val vkCreateRenderPass: Adr
+    val vkDestroyRenderPass: Adr
+    val vkGetRenderAreaGranularity: Adr
+    val vkCreateCommandPool: Adr
+    val vkDestroyCommandPool: Adr
+    val vkResetCommandPool: Adr
+    val vkAllocateCommandBuffers: Adr
+    val vkFreeCommandBuffers: Adr
+    val vkBeginCommandBuffer: Adr
+    val vkEndCommandBuffer: Adr
+    val vkResetCommandBuffer: Adr
+    val vkCmdBindPipeline: Adr
+    val vkCmdSetViewport: Adr
+    val vkCmdSetScissor: Adr
+    val vkCmdSetLineWidth: Adr
+    val vkCmdSetDepthBias: Adr
+    val vkCmdSetBlendConstants: Adr
+    val vkCmdSetDepthBounds: Adr
+    val vkCmdSetStencilCompareMask: Adr
+    val vkCmdSetStencilWriteMask: Adr
+    val vkCmdSetStencilReference: Adr
+    val vkCmdBindDescriptorSets: Adr
+    val vkCmdBindIndexBuffer: Adr
+    val vkCmdBindVertexBuffers: Adr
+    val vkCmdDraw: Adr
+    val vkCmdDrawIndexed: Adr
+    val vkCmdDrawIndirect: Adr
+    val vkCmdDrawIndexedIndirect: Adr
+    val vkCmdDispatch: Adr
+    val vkCmdDispatchIndirect: Adr
+    val vkCmdCopyBuffer: Adr
+    val vkCmdCopyImage: Adr
+    val vkCmdBlitImage: Adr
+    val vkCmdCopyBufferToImage: Adr
+    val vkCmdCopyImageToBuffer: Adr
+    val vkCmdUpdateBuffer: Adr
+    val vkCmdFillBuffer: Adr
+    val vkCmdClearColorImage: Adr
+    val vkCmdClearDepthStencilImage: Adr
+    val vkCmdClearAttachments: Adr
+    val vkCmdResolveImage: Adr
+    val vkCmdSetEvent: Adr
+    val vkCmdResetEvent: Adr
+    val vkCmdWaitEvents: Adr
+    val vkCmdPipelineBarrier: Adr
+    val vkCmdBeginQuery: Adr
+    val vkCmdEndQuery: Adr
+    val vkCmdResetQueryPool: Adr
+    val vkCmdWriteTimestamp: Adr
+    val vkCmdCopyQueryPoolResults: Adr
+    val vkCmdPushConstants: Adr
+    val vkCmdBeginRenderPass: Adr
+    val vkCmdNextSubpass: Adr
+    val vkCmdEndRenderPass: Adr
+    val vkCmdExecuteCommands: Adr
     // VK11
-    val vkBindBufferMemory2: Long
-    val vkBindImageMemory2: Long
-    val vkGetDeviceGroupPeerMemoryFeatures: Long
-    val vkCmdSetDeviceMask: Long
-    val vkCmdDispatchBase: Long
-    val vkGetImageMemoryRequirements2: Long
-    val vkGetBufferMemoryRequirements2: Long
-    val vkGetImageSparseMemoryRequirements2: Long
-    val vkTrimCommandPool: Long
-    val vkGetDeviceQueue2: Long
-    val vkCreateSamplerYcbcrConversion: Long
-    val vkDestroySamplerYcbcrConversion: Long
-    val vkCreateDescriptorUpdateTemplate: Long
-    val vkDestroyDescriptorUpdateTemplate: Long
-    val vkUpdateDescriptorSetWithTemplate: Long
-    val vkGetDescriptorSetLayoutSupport: Long
+    val vkBindBufferMemory2: Adr
+    val vkBindImageMemory2: Adr
+    val vkGetDeviceGroupPeerMemoryFeatures: Adr
+    val vkCmdSetDeviceMask: Adr
+    val vkCmdDispatchBase: Adr
+    val vkGetImageMemoryRequirements2: Adr
+    val vkGetBufferMemoryRequirements2: Adr
+    val vkGetImageSparseMemoryRequirements2: Adr
+    val vkTrimCommandPool: Adr
+    val vkGetDeviceQueue2: Adr
+    val vkCreateSamplerYcbcrConversion: Adr
+    val vkDestroySamplerYcbcrConversion: Adr
+    val vkCreateDescriptorUpdateTemplate: Adr
+    val vkDestroyDescriptorUpdateTemplate: Adr
+    val vkUpdateDescriptorSetWithTemplate: Adr
+    val vkGetDescriptorSetLayoutSupport: Adr
     // AMD_buffer_marker
-    val vkCmdWriteBufferMarkerAMD: Long
+    val vkCmdWriteBufferMarkerAMD: Adr
     // AMD_display_native_hdr
-    val vkSetLocalDimmingAMD: Long
+    val vkSetLocalDimmingAMD: Adr
     // AMD_draw_indirect_count
-    val vkCmdDrawIndirectCountAMD: Long
-    val vkCmdDrawIndexedIndirectCountAMD: Long
+    val vkCmdDrawIndirectCountAMD: Adr
+    val vkCmdDrawIndexedIndirectCountAMD: Adr
     // AMD_shader_info
-    val vkGetShaderInfoAMD: Long
+    val vkGetShaderInfoAMD: Adr
     // EXT_buffer_device_address
-    val vkGetBufferDeviceAddressEXT: Long
+    val vkGetBufferDeviceAddressEXT: Adr
     // EXT_calibrated_timestamps
-    val vkGetCalibratedTimestampsEXT: Long
+    val vkGetCalibratedTimestampsEXT: Adr
     // EXT_conditional_rendering
-    val vkCmdBeginConditionalRenderingEXT: Long
-    val vkCmdEndConditionalRenderingEXT: Long
+    val vkCmdBeginConditionalRenderingEXT: Adr
+    val vkCmdEndConditionalRenderingEXT: Adr
     // EXT_debug_marker
-    val vkDebugMarkerSetObjectTagEXT: Long
-    val vkDebugMarkerSetObjectNameEXT: Long
-    val vkCmdDebugMarkerBeginEXT: Long
-    val vkCmdDebugMarkerEndEXT: Long
-    val vkCmdDebugMarkerInsertEXT: Long
+    val vkDebugMarkerSetObjectTagEXT: Adr
+    val vkDebugMarkerSetObjectNameEXT: Adr
+    val vkCmdDebugMarkerBeginEXT: Adr
+    val vkCmdDebugMarkerEndEXT: Adr
+    val vkCmdDebugMarkerInsertEXT: Adr
     // EXT_debug_utils
-    val vkSetDebugUtilsObjectNameEXT: Long
-    val vkSetDebugUtilsObjectTagEXT: Long
-    val vkQueueBeginDebugUtilsLabelEXT: Long
-    val vkQueueEndDebugUtilsLabelEXT: Long
-    val vkQueueInsertDebugUtilsLabelEXT: Long
-    val vkCmdBeginDebugUtilsLabelEXT: Long
-    val vkCmdEndDebugUtilsLabelEXT: Long
-    val vkCmdInsertDebugUtilsLabelEXT: Long
+    val vkSetDebugUtilsObjectNameEXT: Adr
+    val vkSetDebugUtilsObjectTagEXT: Adr
+    val vkQueueBeginDebugUtilsLabelEXT: Adr
+    val vkQueueEndDebugUtilsLabelEXT: Adr
+    val vkQueueInsertDebugUtilsLabelEXT: Adr
+    val vkCmdBeginDebugUtilsLabelEXT: Adr
+    val vkCmdEndDebugUtilsLabelEXT: Adr
+    val vkCmdInsertDebugUtilsLabelEXT: Adr
     // EXT_discard_rectangles
-    val vkCmdSetDiscardRectangleEXT: Long
+    val vkCmdSetDiscardRectangleEXT: Adr
     // EXT_display_control
-    val vkDisplayPowerControlEXT: Long
-    val vkRegisterDeviceEventEXT: Long
-    val vkRegisterDisplayEventEXT: Long
-    val vkGetSwapchainCounterEXT: Long
+    val vkDisplayPowerControlEXT: Adr
+    val vkRegisterDeviceEventEXT: Adr
+    val vkRegisterDisplayEventEXT: Adr
+    val vkGetSwapchainCounterEXT: Adr
     // EXT_external_memory_host
-    val vkGetMemoryHostPointerPropertiesEXT: Long
+    val vkGetMemoryHostPointerPropertiesEXT: Adr
     // EXT_full_screen_exclusive
-    val vkAcquireFullScreenExclusiveModeEXT: Long
-    val vkReleaseFullScreenExclusiveModeEXT: Long
-    val vkGetDeviceGroupSurfacePresentModes2EXT: Long
+    val vkAcquireFullScreenExclusiveModeEXT: Adr
+    val vkReleaseFullScreenExclusiveModeEXT: Adr
+    val vkGetDeviceGroupSurfacePresentModes2EXT: Adr
     // EXT_hdr_metadata
-    val vkSetHdrMetadataEXT: Long
+    val vkSetHdrMetadataEXT: Adr
     // EXT_host_query_reset
-    val vkResetQueryPoolEXT: Long
+    val vkResetQueryPoolEXT: Adr
     // EXT_image_drm_format_modifier
-    val vkGetImageDrmFormatModifierPropertiesEXT: Long
+    val vkGetImageDrmFormatModifierPropertiesEXT: Adr
     // EXT_line_rasterization
-    val vkCmdSetLineStippleEXT: Long
+    val vkCmdSetLineStippleEXT: Adr
     // EXT_sample_locations
-    val vkCmdSetSampleLocationsEXT: Long
+    val vkCmdSetSampleLocationsEXT: Adr
     // EXT_transform_feedback
-    val vkCmdBindTransformFeedbackBuffersEXT: Long
-    val vkCmdBeginTransformFeedbackEXT: Long
-    val vkCmdEndTransformFeedbackEXT: Long
-    val vkCmdBeginQueryIndexedEXT: Long
-    val vkCmdEndQueryIndexedEXT: Long
-    val vkCmdDrawIndirectByteCountEXT: Long
+    val vkCmdBindTransformFeedbackBuffersEXT: Adr
+    val vkCmdBeginTransformFeedbackEXT: Adr
+    val vkCmdEndTransformFeedbackEXT: Adr
+    val vkCmdBeginQueryIndexedEXT: Adr
+    val vkCmdEndQueryIndexedEXT: Adr
+    val vkCmdDrawIndirectByteCountEXT: Adr
     // EXT_validation_cache
-    val vkCreateValidationCacheEXT: Long
-    val vkDestroyValidationCacheEXT: Long
-    val vkMergeValidationCachesEXT: Long
-    val vkGetValidationCacheDataEXT: Long
+    val vkCreateValidationCacheEXT: Adr
+    val vkDestroyValidationCacheEXT: Adr
+    val vkMergeValidationCachesEXT: Adr
+    val vkGetValidationCacheDataEXT: Adr
     // GOOGLE_display_timing
-    val vkGetRefreshCycleDurationGOOGLE: Long
-    val vkGetPastPresentationTimingGOOGLE: Long
+    val vkGetRefreshCycleDurationGOOGLE: Adr
+    val vkGetPastPresentationTimingGOOGLE: Adr
     // INTEL_performance_query
-    val vkInitializePerformanceApiINTEL: Long
-    val vkUninitializePerformanceApiINTEL: Long
-    val vkCmdSetPerformanceMarkerINTEL: Long
-    val vkCmdSetPerformanceStreamMarkerINTEL: Long
-    val vkCmdSetPerformanceOverrideINTEL: Long
-    val vkAcquirePerformanceConfigurationINTEL: Long
-    val vkReleasePerformanceConfigurationINTEL: Long
-    val vkQueueSetPerformanceConfigurationINTEL: Long
-    val vkGetPerformanceParameterINTEL: Long
+    val vkInitializePerformanceApiINTEL: Adr
+    val vkUninitializePerformanceApiINTEL: Adr
+    val vkCmdSetPerformanceMarkerINTEL: Adr
+    val vkCmdSetPerformanceStreamMarkerINTEL: Adr
+    val vkCmdSetPerformanceOverrideINTEL: Adr
+    val vkAcquirePerformanceConfigurationINTEL: Adr
+    val vkReleasePerformanceConfigurationINTEL: Adr
+    val vkQueueSetPerformanceConfigurationINTEL: Adr
+    val vkGetPerformanceParameterINTEL: Adr
     // KHR_bind_memory2
-    val vkBindBufferMemory2KHR: Long
-    val vkBindImageMemory2KHR: Long
+    val vkBindBufferMemory2KHR: Adr
+    val vkBindImageMemory2KHR: Adr
     // KHR_create_renderpass2
-    val vkCreateRenderPass2KHR: Long
-    val vkCmdBeginRenderPass2KHR: Long
-    val vkCmdNextSubpass2KHR: Long
-    val vkCmdEndRenderPass2KHR: Long
+    val vkCreateRenderPass2KHR: Adr
+    val vkCmdBeginRenderPass2KHR: Adr
+    val vkCmdNextSubpass2KHR: Adr
+    val vkCmdEndRenderPass2KHR: Adr
     // KHR_descriptor_update_template
-    val vkCreateDescriptorUpdateTemplateKHR: Long
-    val vkDestroyDescriptorUpdateTemplateKHR: Long
-    val vkUpdateDescriptorSetWithTemplateKHR: Long
-    val vkCmdPushDescriptorSetWithTemplateKHR: Long
+    val vkCreateDescriptorUpdateTemplateKHR: Adr
+    val vkDestroyDescriptorUpdateTemplateKHR: Adr
+    val vkUpdateDescriptorSetWithTemplateKHR: Adr
+    val vkCmdPushDescriptorSetWithTemplateKHR: Adr
     // KHR_device_group
-    val vkGetDeviceGroupPeerMemoryFeaturesKHR: Long
-    val vkCmdSetDeviceMaskKHR: Long
-    val vkCmdDispatchBaseKHR: Long
-    val vkGetDeviceGroupPresentCapabilitiesKHR: Long
-    val vkGetDeviceGroupSurfacePresentModesKHR: Long
-    val vkAcquireNextImage2KHR: Long
+    val vkGetDeviceGroupPeerMemoryFeaturesKHR: Adr
+    val vkCmdSetDeviceMaskKHR: Adr
+    val vkCmdDispatchBaseKHR: Adr
+    val vkGetDeviceGroupPresentCapabilitiesKHR: Adr
+    val vkGetDeviceGroupSurfacePresentModesKHR: Adr
+    val vkAcquireNextImage2KHR: Adr
     // KHR_display_swapchain
-    val vkCreateSharedSwapchainsKHR: Long
+    val vkCreateSharedSwapchainsKHR: Adr
     // KHR_draw_indirect_count
-    val vkCmdDrawIndirectCountKHR: Long
-    val vkCmdDrawIndexedIndirectCountKHR: Long
+    val vkCmdDrawIndirectCountKHR: Adr
+    val vkCmdDrawIndexedIndirectCountKHR: Adr
     // KHR_external_fence_fd
-    val vkImportFenceFdKHR: Long
-    val vkGetFenceFdKHR: Long
+    val vkImportFenceFdKHR: Adr
+    val vkGetFenceFdKHR: Adr
     // KHR_external_fence_win32
-    val vkImportFenceWin32HandleKHR: Long
-    val vkGetFenceWin32HandleKHR: Long
+    val vkImportFenceWin32HandleKHR: Adr
+    val vkGetFenceWin32HandleKHR: Adr
     // KHR_external_memory_fd
-    val vkGetMemoryFdKHR: Long
-    val vkGetMemoryFdPropertiesKHR: Long
+    val vkGetMemoryFdKHR: Adr
+    val vkGetMemoryFdPropertiesKHR: Adr
     // KHR_external_memory_win32
-    val vkGetMemoryWin32HandleKHR: Long
-    val vkGetMemoryWin32HandlePropertiesKHR: Long
+    val vkGetMemoryWin32HandleKHR: Adr
+    val vkGetMemoryWin32HandlePropertiesKHR: Adr
     // KHR_external_semaphore_fd
-    val vkImportSemaphoreFdKHR: Long
-    val vkGetSemaphoreFdKHR: Long
+    val vkImportSemaphoreFdKHR: Adr
+    val vkGetSemaphoreFdKHR: Adr
     // KHR_external_semaphore_win32
-    val vkImportSemaphoreWin32HandleKHR: Long
-    val vkGetSemaphoreWin32HandleKHR: Long
+    val vkImportSemaphoreWin32HandleKHR: Adr
+    val vkGetSemaphoreWin32HandleKHR: Adr
     // KHR_get_memory_requirements2
-    val vkGetImageMemoryRequirements2KHR: Long
-    val vkGetBufferMemoryRequirements2KHR: Long
-    val vkGetImageSparseMemoryRequirements2KHR: Long
+    val vkGetImageMemoryRequirements2KHR: Adr
+    val vkGetBufferMemoryRequirements2KHR: Adr
+    val vkGetImageSparseMemoryRequirements2KHR: Adr
     // KHR_maintenance1
-    val vkTrimCommandPoolKHR: Long
+    val vkTrimCommandPoolKHR: Adr
     // KHR_maintenance3
-    val vkGetDescriptorSetLayoutSupportKHR: Long
+    val vkGetDescriptorSetLayoutSupportKHR: Adr
     // KHR_pipeline_executable_properties
-    val vkGetPipelineExecutablePropertiesKHR: Long
-    val vkGetPipelineExecutableStatisticsKHR: Long
-    val vkGetPipelineExecutableInternalRepresentationsKHR: Long
+    val vkGetPipelineExecutablePropertiesKHR: Adr
+    val vkGetPipelineExecutableStatisticsKHR: Adr
+    val vkGetPipelineExecutableInternalRepresentationsKHR: Adr
     // KHR_push_descriptor
-    val vkCmdPushDescriptorSetKHR: Long
+    val vkCmdPushDescriptorSetKHR: Adr
     // KHR_sampler_ycbcr_conversion
-    val vkCreateSamplerYcbcrConversionKHR: Long
-    val vkDestroySamplerYcbcrConversionKHR: Long
+    val vkCreateSamplerYcbcrConversionKHR: Adr
+    val vkDestroySamplerYcbcrConversionKHR: Adr
     // KHR_shared_presentable_image
-    val vkGetSwapchainStatusKHR: Long
+    val vkGetSwapchainStatusKHR: Adr
     // KHR_swapchain
-    val vkCreateSwapchainKHR: Long
-    val vkDestroySwapchainKHR: Long
-    val vkGetSwapchainImagesKHR: Long
-    val vkAcquireNextImageKHR: Long
-    val vkQueuePresentKHR: Long
+    val vkCreateSwapchainKHR: Adr
+    val vkDestroySwapchainKHR: Adr
+    val vkGetSwapchainImagesKHR: Adr
+    val vkAcquireNextImageKHR: Adr
+    val vkQueuePresentKHR: Adr
     // NV_clip_space_w_scaling
-    val vkCmdSetViewportWScalingNV: Long
+    val vkCmdSetViewportWScalingNV: Adr
     // NV_device_diagnostic_checkpoints
-    val vkCmdSetCheckpointNV: Long
-    val vkGetQueueCheckpointDataNV: Long
+    val vkCmdSetCheckpointNV: Adr
+    val vkGetQueueCheckpointDataNV: Adr
     // NV_external_memory_win32
-    val vkGetMemoryWin32HandleNV: Long
+    val vkGetMemoryWin32HandleNV: Adr
     // NV_mesh_shader
-    val vkCmdDrawMeshTasksNV: Long
-    val vkCmdDrawMeshTasksIndirectNV: Long
-    val vkCmdDrawMeshTasksIndirectCountNV: Long
+    val vkCmdDrawMeshTasksNV: Adr
+    val vkCmdDrawMeshTasksIndirectNV: Adr
+    val vkCmdDrawMeshTasksIndirectCountNV: Adr
     // NV_ray_tracing
-    val vkCreateAccelerationStructureNV: Long
-    val vkDestroyAccelerationStructureNV: Long
-    val vkGetAccelerationStructureMemoryRequirementsNV: Long
-    val vkBindAccelerationStructureMemoryNV: Long
-    val vkCmdBuildAccelerationStructureNV: Long
-    val vkCmdCopyAccelerationStructureNV: Long
-    val vkCmdTraceRaysNV: Long
-    val vkCreateRayTracingPipelinesNV: Long
-    val vkGetRayTracingShaderGroupHandlesNV: Long
-    val vkGetAccelerationStructureHandleNV: Long
-    val vkCmdWriteAccelerationStructuresPropertiesNV: Long
-    val vkCompileDeferredNV: Long
+    val vkCreateAccelerationStructureNV: Adr
+    val vkDestroyAccelerationStructureNV: Adr
+    val vkGetAccelerationStructureMemoryRequirementsNV: Adr
+    val vkBindAccelerationStructureMemoryNV: Adr
+    val vkCmdBuildAccelerationStructureNV: Adr
+    val vkCmdCopyAccelerationStructureNV: Adr
+    val vkCmdTraceRaysNV: Adr
+    val vkCreateRayTracingPipelinesNV: Adr
+    val vkGetRayTracingShaderGroupHandlesNV: Adr
+    val vkGetAccelerationStructureHandleNV: Adr
+    val vkCmdWriteAccelerationStructuresPropertiesNV: Adr
+    val vkCompileDeferredNV: Adr
     // NV_scissor_exclusive
-    val vkCmdSetExclusiveScissorNV: Long
+    val vkCmdSetExclusiveScissorNV: Adr
     // NV_shading_rate_image
-    val vkCmdBindShadingRateImageNV: Long
-    val vkCmdSetViewportShadingRatePaletteNV: Long
-    val vkCmdSetCoarseSampleOrderNV: Long
+    val vkCmdBindShadingRateImageNV: Adr
+    val vkCmdSetViewportShadingRatePaletteNV: Adr
+    val vkCmdSetCoarseSampleOrderNV: Adr
     // NVX_device_generated_commands
-    val vkCmdProcessCommandsNVX: Long
-    val vkCmdReserveSpaceForCommandsNVX: Long
-    val vkCreateIndirectCommandsLayoutNVX: Long
-    val vkDestroyIndirectCommandsLayoutNVX: Long
-    val vkCreateObjectTableNVX: Long
-    val vkDestroyObjectTableNVX: Long
-    val vkRegisterObjectsNVX: Long
-    val vkUnregisterObjectsNVX: Long
+    val vkCmdProcessCommandsNVX: Adr
+    val vkCmdReserveSpaceForCommandsNVX: Adr
+    val vkCreateIndirectCommandsLayoutNVX: Adr
+    val vkDestroyIndirectCommandsLayoutNVX: Adr
+    val vkCreateObjectTableNVX: Adr
+    val vkDestroyObjectTableNVX: Adr
+    val vkRegisterObjectsNVX: Adr
+    val vkUnregisterObjectsNVX: Adr
     // NVX_image_view_handle
-    val vkGetImageViewHandleNVX: Long
+    val vkGetImageViewHandleNVX: Adr
     /** The Vulkan API version number.  */
     val apiVersion: Int
     /** When true, [VK10] is supported.  */
@@ -653,12 +654,25 @@ class CapabilitiesDevice internal constructor(
         apiVersion = capsInstance.apiVersion
         val caps = HashMap<String, Ptr>(274)
         operator fun String.invoke(): Ptr = caps[this] ?: NULL
-        operator fun String.invoke(vararg exts: String): Boolean = this in ext && VK.checkExtension(this, provider.areSupported(caps, *exts))
-        Vulkan10 = provider.checkCapsDeviceVK10(caps, ext)
-        Vulkan11 = provider.checkCapsDeviceVK11(caps, ext)
+        operator fun String.invoke(vararg functions: String): Boolean = this in ext && VK.checkExtension(this, provider.areSupported(caps, *functions))
+        fun areSupported(vararg functions: String): Boolean = provider.areSupported(caps, *functions)
+        fun isSupported(function: String, satisfiedDependency: Boolean): Boolean = provider.isSupported(function, caps, satisfiedDependency)
+        Vulkan10 = "Vulkan10"("vkGetDeviceProcAddr", "vkDestroyDevice", "vkGetDeviceQueue", "vkQueueSubmit", "vkQueueWaitIdle", "vkDeviceWaitIdle", "vkAllocateMemory", "vkFreeMemory", "vkMapMemory", "vkUnmapMemory", "vkFlushMappedMemoryRanges", "vkInvalidateMappedMemoryRanges",
+                "vkGetDeviceMemoryCommitment", "vkBindBufferMemory", "vkBindImageMemory", "vkGetBufferMemoryRequirements", "vkGetImageMemoryRequirements", "vkGetImageSparseMemoryRequirements", "vkQueueBindSparse", "vkCreateFence", "vkDestroyFence", "vkResetFences", "vkGetFenceStatus",
+                "vkWaitForFences", "vkCreateSemaphore", "vkDestroySemaphore", "vkCreateEvent", "vkDestroyEvent", "vkGetEventStatus", "vkSetEvent", "vkResetEvent", "vkCreateQueryPool", "vkDestroyQueryPool", "vkGetQueryPoolResults", "vkCreateBuffer", "vkDestroyBuffer", "vkCreateBufferView",
+                "vkDestroyBufferView", "vkCreateImage", "vkDestroyImage", "vkGetImageSubresourceLayout", "vkCreateImageView", "vkDestroyImageView", "vkCreateShaderModule", "vkDestroyShaderModule", "vkCreatePipelineCache", "vkDestroyPipelineCache", "vkGetPipelineCacheData", "vkMergePipelineCaches",
+                "vkCreateGraphicsPipelines", "vkCreateComputePipelines", "vkDestroyPipeline", "vkCreatePipelineLayout", "vkDestroyPipelineLayout", "vkCreateSampler", "vkDestroySampler", "vkCreateDescriptorSetLayout", "vkDestroyDescriptorSetLayout", "vkCreateDescriptorPool", "vkDestroyDescriptorPool",
+                "vkResetDescriptorPool", "vkAllocateDescriptorSets", "vkFreeDescriptorSets", "vkUpdateDescriptorSets", "vkCreateFramebuffer", "vkDestroyFramebuffer", "vkCreateRenderPass", "vkDestroyRenderPass", "vkGetRenderAreaGranularity", "vkCreateCommandPool", "vkDestroyCommandPool",
+                "vkResetCommandPool", "vkAllocateCommandBuffers", "vkFreeCommandBuffers", "vkBeginCommandBuffer", "vkEndCommandBuffer", "vkResetCommandBuffer", "vkCmdBindPipeline", "vkCmdSetViewport", "vkCmdSetScissor", "vkCmdSetLineWidth", "vkCmdSetDepthBias", "vkCmdSetBlendConstants",
+                "vkCmdSetDepthBounds", "vkCmdSetStencilCompareMask", "vkCmdSetStencilWriteMask", "vkCmdSetStencilReference", "vkCmdBindDescriptorSets", "vkCmdBindIndexBuffer", "vkCmdBindVertexBuffers", "vkCmdDraw", "vkCmdDrawIndexed", "vkCmdDrawIndirect", "vkCmdDrawIndexedIndirect", "vkCmdDispatch",
+                "vkCmdDispatchIndirect", "vkCmdCopyBuffer", "vkCmdCopyImage", "vkCmdBlitImage", "vkCmdCopyBufferToImage", "vkCmdCopyImageToBuffer", "vkCmdUpdateBuffer", "vkCmdFillBuffer", "vkCmdClearColorImage", "vkCmdClearDepthStencilImage", "vkCmdClearAttachments", "vkCmdResolveImage",
+                "vkCmdSetEvent", "vkCmdResetEvent", "vkCmdWaitEvents", "vkCmdPipelineBarrier", "vkCmdBeginQuery", "vkCmdEndQuery", "vkCmdResetQueryPool", "vkCmdWriteTimestamp", "vkCmdCopyQueryPoolResults", "vkCmdPushConstants", "vkCmdBeginRenderPass", "vkCmdNextSubpass", "vkCmdEndRenderPass",
+                "vkCmdExecuteCommands")
+        Vulkan11 = "Vulkan11"("vkBindBufferMemory2", "vkBindImageMemory2", "vkGetDeviceGroupPeerMemoryFeatures", "vkCmdSetDeviceMask", "vkCmdDispatchBase", "vkGetImageMemoryRequirements2", "vkGetBufferMemoryRequirements2", "vkGetImageSparseMemoryRequirements2", "vkTrimCommandPool",
+                "vkGetDeviceQueue2", "vkCreateSamplerYcbcrConversion", "vkDestroySamplerYcbcrConversion", "vkCreateDescriptorUpdateTemplate", "vkDestroyDescriptorUpdateTemplate", "vkUpdateDescriptorSetWithTemplate", "vkGetDescriptorSetLayoutSupport")
         VK_AMD_buffer_marker = "VK_AMD_buffer_marker"("vkCmdWriteBufferMarkerAMD")
         VK_AMD_device_coherent_memory = "VK_AMD_device_coherent_memory" in ext
-        VK_AMD_display_native_hdr = "VK_AMD_display_native_hdr"( "vkSetLocalDimmingAMD")
+        VK_AMD_display_native_hdr = "VK_AMD_display_native_hdr"("vkSetLocalDimmingAMD")
         VK_AMD_draw_indirect_count = "VK_AMD_draw_indirect_count"("vkCmdDrawIndirectCountAMD", "vkCmdDrawIndexedIndirectCountAMD")
         VK_AMD_gcn_shader = "VK_AMD_gcn_shader" in ext
         VK_AMD_gpu_shader_half_float = "VK_AMD_gpu_shader_half_float" in ext
@@ -691,559 +705,404 @@ class CapabilitiesDevice internal constructor(
         VK_EXT_discard_rectangles = "VK_EXT_discard_rectangles"("vkCmdSetDiscardRectangleEXT")
         VK_EXT_display_control = "VK_EXT_display_control"("vkDisplayPowerControlEXT", "vkRegisterDeviceEventEXT", "vkRegisterDisplayEventEXT", "vkGetSwapchainCounterEXT")
         VK_EXT_external_memory_dma_buf = "VK_EXT_external_memory_dma_buf" in ext
-        VK_EXT_external_memory_host = EXTExternalMemoryHost.checkCapsDevice(provider, caps, ext)
-        VK_EXT_filter_cubic = ext.contains("VK_EXT_filter_cubic")
-        VK_EXT_fragment_density_map = ext.contains("VK_EXT_fragment_density_map")
-        VK_EXT_fragment_shader_interlock = ext.contains("VK_EXT_fragment_shader_interlock")
-        VK_EXT_full_screen_exclusive = EXTFullScreenExclusive.checkCapsDevice(provider, caps, ext)
-        VK_EXT_global_priority = ext.contains("VK_EXT_global_priority")
-        VK_EXT_hdr_metadata = EXTHdrMetadata.checkCapsDevice(provider, caps, ext)
-        VK_EXT_host_query_reset = EXTHostQueryReset.checkCapsDevice(provider, caps, ext)
-        VK_EXT_image_drm_format_modifier = EXTImageDrmFormatModifier.checkCapsDevice(provider, caps, ext)
-        VK_EXT_index_type_uint8 = ext.contains("VK_EXT_index_type_uint8")
-        VK_EXT_inline_uniform_block = ext.contains("VK_EXT_inline_uniform_block")
-        VK_EXT_line_rasterization = EXTLineRasterization.checkCapsDevice(provider, caps, ext)
-        VK_EXT_memory_budget = ext.contains("VK_EXT_memory_budget")
-        VK_EXT_memory_priority = ext.contains("VK_EXT_memory_priority")
-        VK_EXT_pci_bus_info = ext.contains("VK_EXT_pci_bus_info")
-        VK_EXT_pipeline_creation_feedback = ext.contains("VK_EXT_pipeline_creation_feedback")
-        VK_EXT_post_depth_coverage = ext.contains("VK_EXT_post_depth_coverage")
-        VK_EXT_queue_family_foreign = ext.contains("VK_EXT_queue_family_foreign")
-//        VK_EXT_sample_locations = EXTSampleLocations.checkCapsDevice(provider, caps, ext)
-//        VK_EXT_sampler_filter_minmax = ext.contains("VK_EXT_sampler_filter_minmax")
-//        VK_EXT_scalar_block_layout = ext.contains("VK_EXT_scalar_block_layout")
-//        VK_EXT_separate_stencil_usage = ext.contains("VK_EXT_separate_stencil_usage")
-//        VK_EXT_shader_demote_to_helper_invocation = ext.contains("VK_EXT_shader_demote_to_helper_invocation")
-//        VK_EXT_shader_stencil_export = ext.contains("VK_EXT_shader_stencil_export")
-//        VK_EXT_shader_subgroup_ballot = ext.contains("VK_EXT_shader_subgroup_ballot")
-//        VK_EXT_shader_subgroup_vote = ext.contains("VK_EXT_shader_subgroup_vote")
-//        VK_EXT_shader_viewport_index_layer = ext.contains("VK_EXT_shader_viewport_index_layer")
-//        VK_EXT_subgroup_size_control = ext.contains("VK_EXT_subgroup_size_control")
-//        VK_EXT_texel_buffer_alignment = ext.contains("VK_EXT_texel_buffer_alignment")
-//        VK_EXT_texture_compression_astc_hdr = ext.contains("VK_EXT_texture_compression_astc_hdr")
-//        VK_EXT_transform_feedback = EXTTransformFeedback.checkCapsDevice(provider, caps, ext)
-//        VK_EXT_validation_cache = EXTValidationCache.checkCapsDevice(provider, caps, ext)
-//        VK_EXT_vertex_attribute_divisor = ext.contains("VK_EXT_vertex_attribute_divisor")
-//        VK_EXT_ycbcr_image_arrays = ext.contains("VK_EXT_ycbcr_image_arrays")
-//        VK_GOOGLE_decorate_string = ext.contains("VK_GOOGLE_decorate_string")
-//        VK_GOOGLE_display_timing = GOOGLEDisplayTiming.checkCapsDevice(provider, caps, ext)
-//        VK_GOOGLE_hlsl_functionality1 = ext.contains("VK_GOOGLE_hlsl_functionality1")
-//        VK_IMG_filter_cubic = ext.contains("VK_IMG_filter_cubic")
-//        VK_IMG_format_pvrtc = ext.contains("VK_IMG_format_pvrtc")
-//        VK_INTEL_performance_query = INTELPerformanceQuery.checkCapsDevice(provider, caps, ext)
-//        VK_INTEL_shader_integer_functions2 = ext.contains("VK_INTEL_shader_integer_functions2")
-//        VK_KHR_16bit_storage = ext.contains("VK_KHR_16bit_storage")
-//        VK_KHR_8bit_storage = ext.contains("VK_KHR_8bit_storage")
-//        VK_KHR_bind_memory2 = KHRBindMemory2.checkCapsDevice(provider, caps, ext)
-//        VK_KHR_create_renderpass2 = KHRCreateRenderpass2.checkCapsDevice(provider, caps, ext)
-//        VK_KHR_dedicated_allocation = ext.contains("VK_KHR_dedicated_allocation")
-//        VK_KHR_depth_stencil_resolve = ext.contains("VK_KHR_depth_stencil_resolve")
-//        VK_KHR_descriptor_update_template = KHRDescriptorUpdateTemplate.checkCapsDevice(provider, caps, ext)
-//        VK_KHR_device_group = KHRDeviceGroup.checkCapsDevice(provider, caps, ext)
-//        VK_KHR_display_swapchain = KHRDisplaySwapchain.checkCapsDevice(provider, caps, ext)
-//        VK_KHR_draw_indirect_count = KHRDrawIndirectCount.checkCapsDevice(provider, caps, ext)
-//        VK_KHR_driver_properties = ext.contains("VK_KHR_driver_properties")
-//        VK_KHR_external_fence = ext.contains("VK_KHR_external_fence")
-//        VK_KHR_external_fence_fd = KHRExternalFenceFd.checkCapsDevice(provider, caps, ext)
-//        VK_KHR_external_fence_win32 = KHRExternalFenceWin32.checkCapsDevice(provider, caps, ext)
-//        VK_KHR_external_memory = ext.contains("VK_KHR_external_memory")
-//        VK_KHR_external_memory_fd = KHRExternalMemoryFd.checkCapsDevice(provider, caps, ext)
-//        VK_KHR_external_memory_win32 = KHRExternalMemoryWin32.checkCapsDevice(provider, caps, ext)
-//        VK_KHR_external_semaphore = ext.contains("VK_KHR_external_semaphore")
-//        VK_KHR_external_semaphore_fd = KHRExternalSemaphoreFd.checkCapsDevice(provider, caps, ext)
-//        VK_KHR_external_semaphore_win32 = KHRExternalSemaphoreWin32.checkCapsDevice(provider, caps, ext)
-//        VK_KHR_get_memory_requirements2 = KHRGetMemoryRequirements2.checkCapsDevice(provider, caps, ext)
-//        VK_KHR_image_format_list = ext.contains("VK_KHR_image_format_list")
-//        VK_KHR_imageless_framebuffer = ext.contains("VK_KHR_imageless_framebuffer")
-//        VK_KHR_incremental_present = ext.contains("VK_KHR_incremental_present")
-//        VK_KHR_maintenance1 = KHRMaintenance1.checkCapsDevice(provider, caps, ext)
-//        VK_KHR_maintenance2 = ext.contains("VK_KHR_maintenance2")
-//        VK_KHR_maintenance3 = KHRMaintenance3.checkCapsDevice(provider, caps, ext)
-//        VK_KHR_multiview = ext.contains("VK_KHR_multiview")
-//        VK_KHR_pipeline_executable_properties = KHRPipelineExecutableProperties.checkCapsDevice(provider, caps, ext)
-//        VK_KHR_push_descriptor = KHRPushDescriptor.checkCapsDevice(provider, caps, ext)
-//        VK_KHR_relaxed_block_layout = ext.contains("VK_KHR_relaxed_block_layout")
-//        VK_KHR_sampler_mirror_clamp_to_edge = ext.contains("VK_KHR_sampler_mirror_clamp_to_edge")
-//        VK_KHR_sampler_ycbcr_conversion = KHRSamplerYcbcrConversion.checkCapsDevice(provider, caps, ext)
-//        VK_KHR_shader_atomic_int64 = ext.contains("VK_KHR_shader_atomic_int64")
-//        VK_KHR_shader_draw_parameters = ext.contains("VK_KHR_shader_draw_parameters")
-//        VK_KHR_shader_float16_int8 = ext.contains("VK_KHR_shader_float16_int8")
-//        VK_KHR_shader_float_controls = ext.contains("VK_KHR_shader_float_controls")
-//        VK_KHR_shared_presentable_image = KHRSharedPresentableImage.checkCapsDevice(provider, caps, ext)
-//        VK_KHR_storage_buffer_storage_class = ext.contains("VK_KHR_storage_buffer_storage_class")
-        VK_KHR_swapchain = "VK_KHR_swapchain" in ext && VK.checkExtension(
-                "VK_KHR_swapchain",
-                provider.isSupported("vkCreateSwapchainKHR", caps)
-                        && provider.isSupported("vkDestroySwapchainKHR", caps)
-                        && provider.isSupported("vkGetSwapchainImagesKHR", caps)
-                        && provider.isSupported("vkAcquireNextImageKHR", caps)
-                        && provider.isSupported("vkQueuePresentKHR", caps)
-                        && provider.isSupported("vkGetDeviceGroupPresentCapabilitiesKHR", caps, "Vulkan11" in ext)
-                        && provider.isSupported("vkGetDeviceGroupSurfacePresentModesKHR", caps, "Vulkan11" in ext)
-                        && provider.isSupported("vkAcquireNextImage2KHR", caps, "Vulkan11" in ext)
-        )
-//        VK_KHR_swapchain_mutable_format = ext.contains("VK_KHR_swapchain_mutable_format")
-//        VK_KHR_uniform_buffer_standard_layout = ext.contains("VK_KHR_uniform_buffer_standard_layout")
-//        VK_KHR_variable_pointers = ext.contains("VK_KHR_variable_pointers")
-//        VK_KHR_vulkan_memory_model = ext.contains("VK_KHR_vulkan_memory_model")
-//        VK_KHR_win32_keyed_mutex = ext.contains("VK_KHR_win32_keyed_mutex")
-//        VK_NV_clip_space_w_scaling = NVClipSpaceWScaling.checkCapsDevice(provider, caps, ext)
-//        VK_NV_compute_shader_derivatives = ext.contains("VK_NV_compute_shader_derivatives")
-//        VK_NV_cooperative_matrix = ext.contains("VK_NV_cooperative_matrix")
-//        VK_NV_corner_sampled_image = ext.contains("VK_NV_corner_sampled_image")
-//        VK_NV_coverage_reduction_mode = ext.contains("VK_NV_coverage_reduction_mode")
-//        VK_NV_dedicated_allocation = ext.contains("VK_NV_dedicated_allocation")
-//        VK_NV_dedicated_allocation_image_aliasing = ext.contains("VK_NV_dedicated_allocation_image_aliasing")
-//        VK_NV_device_diagnostic_checkpoints = NVDeviceDiagnosticCheckpoints.checkCapsDevice(provider, caps, ext)
-//        VK_NV_external_memory = ext.contains("VK_NV_external_memory")
-//        VK_NV_external_memory_win32 = NVExternalMemoryWin32.checkCapsDevice(provider, caps, ext)
-//        VK_NV_fill_rectangle = ext.contains("VK_NV_fill_rectangle")
-//        VK_NV_fragment_coverage_to_color = ext.contains("VK_NV_fragment_coverage_to_color")
-//        VK_NV_fragment_shader_barycentric = ext.contains("VK_NV_fragment_shader_barycentric")
-//        VK_NV_framebuffer_mixed_samples = ext.contains("VK_NV_framebuffer_mixed_samples")
-//        VK_NV_geometry_shader_passthrough = ext.contains("VK_NV_geometry_shader_passthrough")
-//        VK_NV_glsl_shader = ext.contains("VK_NV_glsl_shader")
-//        VK_NV_mesh_shader = NVMeshShader.checkCapsDevice(provider, caps, ext)
-//        VK_NV_ray_tracing = NVRayTracing.checkCapsDevice(provider, caps, ext)
-//        VK_NV_representative_fragment_test = ext.contains("VK_NV_representative_fragment_test")
-//        VK_NV_sample_mask_override_coverage = ext.contains("VK_NV_sample_mask_override_coverage")
-//        VK_NV_scissor_exclusive = NVScissorExclusive.checkCapsDevice(provider, caps, ext)
-//        VK_NV_shader_image_footprint = ext.contains("VK_NV_shader_image_footprint")
-//        VK_NV_shader_sm_builtins = ext.contains("VK_NV_shader_sm_builtins")
-//        VK_NV_shader_subgroup_partitioned = ext.contains("VK_NV_shader_subgroup_partitioned")
-//        VK_NV_shading_rate_image = NVShadingRateImage.checkCapsDevice(provider, caps, ext)
-//        VK_NV_viewport_array2 = ext.contains("VK_NV_viewport_array2")
-//        VK_NV_viewport_swizzle = ext.contains("VK_NV_viewport_swizzle")
-//        VK_NV_win32_keyed_mutex = ext.contains("VK_NV_win32_keyed_mutex")
-//        VK_NVX_device_generated_commands = NVXDeviceGeneratedCommands.checkCapsDevice(provider, caps, ext)
-//        VK_NVX_image_view_handle = NVXImageViewHandle.checkCapsDevice(provider, caps, ext)
-//        VK_NVX_multiview_per_view_attributes = ext.contains("VK_NVX_multiview_per_view_attributes")
-//        vkGetDeviceProcAddr = VK.get(caps, "vkGetDeviceProcAddr")
-//        vkDestroyDevice = VK.get(caps, "vkDestroyDevice")
+        VK_EXT_external_memory_host = "VK_EXT_external_memory_host"("vkGetMemoryHostPointerPropertiesEXT")
+        VK_EXT_filter_cubic = "VK_EXT_filter_cubic" in ext
+        VK_EXT_fragment_density_map = "VK_EXT_fragment_density_map" in ext
+        VK_EXT_fragment_shader_interlock = "VK_EXT_fragment_shader_interlock" in ext
+        VK_EXT_full_screen_exclusive = "VK_EXT_full_screen_exclusive" in ext && VK.checkExtension("VK_EXT_full_screen_exclusive", areSupported("vkAcquireFullScreenExclusiveModeEXT", "vkReleaseFullScreenExclusiveModeEXT")
+                && isSupported("vkGetDeviceGroupSurfacePresentModes2EXT", "Vulkan11" in ext || "VK_KHR_device_group" in ext))
+        VK_EXT_global_priority = "VK_EXT_global_priority" in ext
+        VK_EXT_hdr_metadata = "VK_EXT_hdr_metadata"("vkSetHdrMetadataEXT")
+        VK_EXT_host_query_reset = "VK_EXT_host_query_reset"("vkResetQueryPoolEXT")
+        VK_EXT_image_drm_format_modifier = "VK_EXT_image_drm_format_modifier"("vkGetImageDrmFormatModifierPropertiesEXT")
+        VK_EXT_index_type_uint8 = "VK_EXT_index_type_uint8" in ext
+        VK_EXT_inline_uniform_block = "VK_EXT_inline_uniform_block" in ext
+        VK_EXT_line_rasterization = "VK_EXT_line_rasterization"("vkCmdSetLineStippleEXT")
+        VK_EXT_memory_budget = "VK_EXT_memory_budget" in ext
+        VK_EXT_memory_priority = "VK_EXT_memory_priority" in ext
+        VK_EXT_pci_bus_info = "VK_EXT_pci_bus_info" in ext
+        VK_EXT_pipeline_creation_feedback = "VK_EXT_pipeline_creation_feedback" in ext
+        VK_EXT_post_depth_coverage = "VK_EXT_post_depth_coverage" in ext
+        VK_EXT_queue_family_foreign = "VK_EXT_queue_family_foreign" in ext
+        VK_EXT_sample_locations = "VK_EXT_sample_locations"("vkCmdSetSampleLocationsEXT")
+        VK_EXT_sampler_filter_minmax = "VK_EXT_sampler_filter_minmax" in ext
+        VK_EXT_scalar_block_layout = "VK_EXT_scalar_block_layout" in ext
+        VK_EXT_separate_stencil_usage = "VK_EXT_separate_stencil_usage" in ext
+        VK_EXT_shader_demote_to_helper_invocation = "VK_EXT_shader_demote_to_helper_invocation" in ext
+        VK_EXT_shader_stencil_export = "VK_EXT_shader_stencil_export" in ext
+        VK_EXT_shader_subgroup_ballot = "VK_EXT_shader_subgroup_ballot" in ext
+        VK_EXT_shader_subgroup_vote = "VK_EXT_shader_subgroup_vote" in ext
+        VK_EXT_shader_viewport_index_layer = "VK_EXT_shader_viewport_index_layer" in ext
+        VK_EXT_subgroup_size_control = "VK_EXT_subgroup_size_control" in ext
+        VK_EXT_texel_buffer_alignment = "VK_EXT_texel_buffer_alignment" in ext
+        VK_EXT_texture_compression_astc_hdr = "VK_EXT_texture_compression_astc_hdr" in ext
+        VK_EXT_transform_feedback = "VK_EXT_transform_feedback"("vkCmdBindTransformFeedbackBuffersEXT", "vkCmdBeginTransformFeedbackEXT", "vkCmdEndTransformFeedbackEXT", "vkCmdBeginQueryIndexedEXT", "vkCmdEndQueryIndexedEXT", "vkCmdDrawIndirectByteCountEXT")
+        VK_EXT_validation_cache = "VK_EXT_validation_cache"("vkCreateValidationCacheEXT", "vkDestroyValidationCacheEXT", "vkMergeValidationCachesEXT", "vkGetValidationCacheDataEXT")
+        VK_EXT_vertex_attribute_divisor = "VK_EXT_vertex_attribute_divisor" in ext
+        VK_EXT_ycbcr_image_arrays = "VK_EXT_ycbcr_image_arrays" in ext
+        VK_GOOGLE_decorate_string = "VK_GOOGLE_decorate_string" in ext
+        VK_GOOGLE_display_timing = "VK_GOOGLE_display_timing"("vkGetRefreshCycleDurationGOOGLE", "vkGetPastPresentationTimingGOOGLE")
+        VK_GOOGLE_hlsl_functionality1 = "VK_GOOGLE_hlsl_functionality1" in ext
+        VK_IMG_filter_cubic = "VK_IMG_filter_cubic" in ext
+        VK_IMG_format_pvrtc = "VK_IMG_format_pvrtc" in ext
+        VK_INTEL_performance_query = "VK_INTEL_performance_query"("vkInitializePerformanceApiINTEL", "vkUninitializePerformanceApiINTEL", "vkCmdSetPerformanceMarkerINTEL", "vkCmdSetPerformanceStreamMarkerINTEL", "vkCmdSetPerformanceOverrideINTEL", "vkAcquirePerformanceConfigurationINTEL",
+                "vkReleasePerformanceConfigurationINTEL", "vkQueueSetPerformanceConfigurationINTEL", "vkGetPerformanceParameterINTEL")
+        VK_INTEL_shader_integer_functions2 = "VK_INTEL_shader_integer_functions2" in ext
+        VK_KHR_16bit_storage = "VK_KHR_16bit_storage" in ext
+        VK_KHR_8bit_storage = "VK_KHR_8bit_storage" in ext
+        VK_KHR_bind_memory2 = "VK_KHR_bind_memory2"("vkBindBufferMemory2KHR", "vkBindImageMemory2KHR")
+        VK_KHR_create_renderpass2 = "VK_KHR_create_renderpass2"("vkCreateRenderPass2KHR", "vkCmdBeginRenderPass2KHR", "vkCmdNextSubpass2KHR", "vkCmdEndRenderPass2KHR")
+        VK_KHR_dedicated_allocation = "VK_KHR_dedicated_allocation" in ext
+        VK_KHR_depth_stencil_resolve = "VK_KHR_depth_stencil_resolve" in ext
+        VK_KHR_descriptor_update_template = "VK_KHR_descriptor_update_template" in ext && VK.checkExtension("VK_KHR_descriptor_update_template", areSupported("vkCreateDescriptorUpdateTemplateKHR", "vkDestroyDescriptorUpdateTemplateKHR", "vkUpdateDescriptorSetWithTemplateKHR")
+                && isSupported("vkCmdPushDescriptorSetWithTemplateKHR", "VK_KHR_push_descriptor" in ext))
+        VK_KHR_device_group = "VK_KHR_device_group" in ext && VK.checkExtension("VK_KHR_device_group", areSupported("vkGetDeviceGroupPeerMemoryFeaturesKHR", "vkCmdSetDeviceMaskKHR", "vkCmdDispatchBaseKHR")
+                && isSupported("vkGetDeviceGroupPresentCapabilitiesKHR", "VK_KHR_surface" in ext) && isSupported("vkGetDeviceGroupSurfacePresentModesKHR", "VK_KHR_surface" in ext)
+                && isSupported("vkAcquireNextImage2KHR", "VK_KHR_swapchain" in ext))
+        VK_KHR_display_swapchain = "VK_KHR_display_swapchain"("vkCreateSharedSwapchainsKHR")
+        VK_KHR_draw_indirect_count = "VK_KHR_draw_indirect_count"("vkCmdDrawIndirectCountKHR", "vkCmdDrawIndexedIndirectCountKHR")
+        VK_KHR_driver_properties = "VK_KHR_driver_properties" in ext
+        VK_KHR_external_fence = "VK_KHR_external_fence" in ext
+        VK_KHR_external_fence_fd = "VK_KHR_external_fence_fd"("vkImportFenceFdKHR", "vkGetFenceFdKHR")
+        VK_KHR_external_fence_win32 = "VK_KHR_external_fence_win32"("vkImportFenceWin32HandleKHR", "vkGetFenceWin32HandleKHR")
+        VK_KHR_external_memory = "VK_KHR_external_memory" in ext
+        VK_KHR_external_memory_fd = "VK_KHR_external_memory_fd"("vkGetMemoryFdKHR", "vkGetMemoryFdPropertiesKHR")
+        VK_KHR_external_memory_win32 = "VK_KHR_external_memory_win32"("vkGetMemoryWin32HandleKHR", "vkGetMemoryWin32HandlePropertiesKHR")
+        VK_KHR_external_semaphore = "VK_KHR_external_semaphore" in ext
+        VK_KHR_external_semaphore_fd = "VK_KHR_external_semaphore_fd"("vkImportSemaphoreFdKHR", "vkGetSemaphoreFdKHR")
+        VK_KHR_external_semaphore_win32 = "VK_KHR_external_semaphore_win32"("vkImportSemaphoreWin32HandleKHR", "vkGetSemaphoreWin32HandleKHR")
+        VK_KHR_get_memory_requirements2 = "VK_KHR_get_memory_requirements2"("vkGetImageMemoryRequirements2KHR", "vkGetBufferMemoryRequirements2KHR", "vkGetImageSparseMemoryRequirements2KHR")
+        VK_KHR_image_format_list = "VK_KHR_image_format_list" in ext
+        VK_KHR_imageless_framebuffer = "VK_KHR_imageless_framebuffer" in ext
+        VK_KHR_incremental_present = "VK_KHR_incremental_present" in ext
+        VK_KHR_maintenance1 = "VK_KHR_maintenance1"("vkTrimCommandPoolKHR")
+        VK_KHR_maintenance2 = "VK_KHR_maintenance2" in ext
+        VK_KHR_maintenance3 = "VK_KHR_maintenance3"("vkGetDescriptorSetLayoutSupportKHR", "VK_KHR_multiview")
+        VK_KHR_multiview = "VK_KHR_multiview" in ext
+        VK_KHR_pipeline_executable_properties = "VK_KHR_pipeline_executable_properties"("vkGetPipelineExecutablePropertiesKHR", "vkGetPipelineExecutableStatisticsKHR", "vkGetPipelineExecutableInternalRepresentationsKHR")
+        VK_KHR_push_descriptor = "VK_KHR_push_descriptor" in ext && VK.checkExtension("VK_KHR_push_descriptor", areSupported("vkCmdPushDescriptorSetKHR") && isSupported("vkCmdPushDescriptorSetWithTemplateKHR", "Vulkan11" in ext))
+        VK_KHR_relaxed_block_layout = "VK_KHR_relaxed_block_layout" in ext
+        VK_KHR_sampler_mirror_clamp_to_edge = "VK_KHR_sampler_mirror_clamp_to_edge" in ext
+        VK_KHR_sampler_ycbcr_conversion = "VK_KHR_sampler_ycbcr_conversion"("vkCreateSamplerYcbcrConversionKHR", "vkDestroySamplerYcbcrConversionKHR")
+        VK_KHR_shader_atomic_int64 = "VK_KHR_shader_atomic_int64" in ext
+        VK_KHR_shader_draw_parameters = "VK_KHR_shader_draw_parameters" in ext
+        VK_KHR_shader_float16_int8 = "VK_KHR_shader_float16_int8" in ext
+        VK_KHR_shader_float_controls = "VK_KHR_shader_float_controls" in ext
+        VK_KHR_shared_presentable_image = "VK_KHR_shared_presentable_image"("vkGetSwapchainStatusKHR")
+        VK_KHR_storage_buffer_storage_class = "VK_KHR_storage_buffer_storage_class" in ext
+        VK_KHR_swapchain = "VK_KHR_swapchain" in ext && VK.checkExtension("VK_KHR_swapchain", areSupported("vkCreateSwapchainKHR", "vkDestroySwapchainKHR", "vkGetSwapchainImagesKHR", "vkAcquireNextImageKHR", "vkQueuePresentKHR")
+                && isSupported("vkGetDeviceGroupPresentCapabilitiesKHR", "Vulkan11" in ext) && isSupported("vkGetDeviceGroupSurfacePresentModesKHR", "Vulkan11" in ext) && isSupported("vkAcquireNextImage2KHR", "Vulkan11" in ext))
+        VK_KHR_swapchain_mutable_format = "VK_KHR_swapchain_mutable_format" in ext
+        VK_KHR_uniform_buffer_standard_layout = "VK_KHR_uniform_buffer_standard_layout" in ext
+        VK_KHR_variable_pointers = "VK_KHR_variable_pointers" in ext
+        VK_KHR_vulkan_memory_model = "VK_KHR_vulkan_memory_model" in ext
+        VK_KHR_win32_keyed_mutex = "VK_KHR_win32_keyed_mutex" in ext
+        VK_NV_clip_space_w_scaling = "VK_NV_clip_space_w_scaling"("vkCmdSetViewportWScalingNV")
+        VK_NV_compute_shader_derivatives = "VK_NV_compute_shader_derivatives" in ext
+        VK_NV_cooperative_matrix = "VK_NV_cooperative_matrix" in ext
+        VK_NV_corner_sampled_image = "VK_NV_corner_sampled_image" in ext
+        VK_NV_coverage_reduction_mode = "VK_NV_coverage_reduction_mode" in ext
+        VK_NV_dedicated_allocation = "VK_NV_dedicated_allocation" in ext
+        VK_NV_dedicated_allocation_image_aliasing = "VK_NV_dedicated_allocation_image_aliasing" in ext
+        VK_NV_device_diagnostic_checkpoints = "VK_NV_device_diagnostic_checkpoints"("vkCmdSetCheckpointNV", "vkGetQueueCheckpointDataNV")
+        VK_NV_external_memory = "VK_NV_external_memory" in ext
+        VK_NV_external_memory_win32 = "VK_NV_external_memory_win32"("vkGetMemoryWin32HandleNV")
+        VK_NV_fill_rectangle = "VK_NV_fill_rectangle" in ext
+        VK_NV_fragment_coverage_to_color = "VK_NV_fragment_coverage_to_color" in ext
+        VK_NV_fragment_shader_barycentric = "VK_NV_fragment_shader_barycentric" in ext
+        VK_NV_framebuffer_mixed_samples = "VK_NV_framebuffer_mixed_samples" in ext
+        VK_NV_geometry_shader_passthrough = "VK_NV_geometry_shader_passthrough" in ext
+        VK_NV_glsl_shader = "VK_NV_glsl_shader" in ext
+        VK_NV_mesh_shader = "VK_NV_mesh_shader"("vkCmdDrawMeshTasksNV", "vkCmdDrawMeshTasksIndirectNV", "vkCmdDrawMeshTasksIndirectCountNV")
+        VK_NV_ray_tracing = "VK_NV_ray_tracing"("vkCreateAccelerationStructureNV", "vkDestroyAccelerationStructureNV", "vkGetAccelerationStructureMemoryRequirementsNV", "vkBindAccelerationStructureMemoryNV", "vkCmdBuildAccelerationStructureNV", "vkCmdCopyAccelerationStructureNV",
+                "vkCmdTraceRaysNV", "vkCreateRayTracingPipelinesNV", "vkGetRayTracingShaderGroupHandlesNV", "vkGetAccelerationStructureHandleNV", "vkCmdWriteAccelerationStructuresPropertiesNV", "vkCompileDeferredNV")
+        VK_NV_representative_fragment_test = ext.contains("VK_NV_representative_fragment_test")
+        VK_NV_sample_mask_override_coverage = ext.contains("VK_NV_sample_mask_override_coverage")
+        VK_NV_scissor_exclusive = "VK_NV_scissor_exclusive"("vkCmdSetExclusiveScissorNV")
+        VK_NV_shader_image_footprint = "VK_NV_shader_image_footprint" in ext
+        VK_NV_shader_sm_builtins = "VK_NV_shader_sm_builtins" in ext
+        VK_NV_shader_subgroup_partitioned = "VK_NV_shader_subgroup_partitioned" in ext
+        VK_NV_shading_rate_image = "VK_NV_shading_rate_image"("vkCmdBindShadingRateImageNV", "vkCmdSetViewportShadingRatePaletteNV", "vkCmdSetCoarseSampleOrderNV")
+        VK_NV_viewport_array2 = "VK_NV_viewport_array2" in ext
+        VK_NV_viewport_swizzle = "VK_NV_viewport_swizzle" in ext
+        VK_NV_win32_keyed_mutex = "VK_NV_win32_keyed_mutex" in ext
+        VK_NVX_device_generated_commands = "VK_NVX_device_generated_commands"("vkCmdProcessCommandsNVX", "vkCmdReserveSpaceForCommandsNVX", "vkCreateIndirectCommandsLayoutNVX", "vkDestroyIndirectCommandsLayoutNVX", "vkCreateObjectTableNVX", "vkDestroyObjectTableNVX", "vkRegisterObjectsNVX",
+                "vkUnregisterObjectsNVX")
+        VK_NVX_image_view_handle = "VK_NVX_image_view_handle"("vkGetImageViewHandleNVX")
+        VK_NVX_multiview_per_view_attributes = "VK_NVX_multiview_per_view_attributes" in ext
+        vkGetDeviceProcAddr = "vkGetDeviceProcAddr"()
+        vkDestroyDevice = "vkDestroyDevice"()
         vkGetDeviceQueue = "vkGetDeviceQueue"()
         vkQueueSubmit = "vkQueueSubmit"()
         vkQueueWaitIdle = "vkQueueWaitIdle"()
-//        vkDeviceWaitIdle = VK.get(caps, "vkDeviceWaitIdle")
+        vkDeviceWaitIdle = "vkDeviceWaitIdle"()
         vkAllocateMemory = "vkAllocateMemory"()
-//        vkFreeMemory = VK.get(caps, "vkFreeMemory")
+        vkFreeMemory = "vkFreeMemory"()
         vkMapMemory = "vkMapMemory"()
         vkUnmapMemory = "vkUnmapMemory"()
-//        vkFlushMappedMemoryRanges = VK.get(caps, "vkFlushMappedMemoryRanges")
-//        vkInvalidateMappedMemoryRanges = VK.get(caps, "vkInvalidateMappedMemoryRanges")
-//        vkGetDeviceMemoryCommitment = VK.get(caps, "vkGetDeviceMemoryCommitment")
+        vkFlushMappedMemoryRanges = "vkFlushMappedMemoryRanges"()
+        vkInvalidateMappedMemoryRanges = "vkInvalidateMappedMemoryRanges"()
+        vkGetDeviceMemoryCommitment = "vkGetDeviceMemoryCommitment"()
         vkBindBufferMemory = "vkBindBufferMemory"()
-//        vkBindImageMemory = VK.get(caps, "vkBindImageMemory")
+        vkBindImageMemory = "vkBindImageMemory"()
         vkGetBufferMemoryRequirements = "vkGetBufferMemoryRequirements"()
-//        vkGetImageMemoryRequirements = VK.get(caps, "vkGetImageMemoryRequirements")
-//        vkGetImageSparseMemoryRequirements = VK.get(caps, "vkGetImageSparseMemoryRequirements")
-//        vkQueueBindSparse = VK.get(caps, "vkQueueBindSparse")
-//        vkCreateFence = VK.get(caps, "vkCreateFence")
-//        vkDestroyFence = VK.get(caps, "vkDestroyFence")
-//        vkResetFences = VK.get(caps, "vkResetFences")
-//        vkGetFenceStatus = VK.get(caps, "vkGetFenceStatus")
-//        vkWaitForFences = VK.get(caps, "vkWaitForFences")
+        vkGetImageMemoryRequirements = "vkGetImageMemoryRequirements"()
+        vkGetImageSparseMemoryRequirements = "vkGetImageSparseMemoryRequirements"()
+        vkQueueBindSparse = "vkQueueBindSparse"()
+        vkCreateFence = "vkCreateFence"()
+        vkDestroyFence = "vkDestroyFence"()
+        vkResetFences = "vkResetFences"()
+        vkGetFenceStatus = "vkGetFenceStatus"()
+        vkWaitForFences = "vkWaitForFences"()
         vkCreateSemaphore = "vkCreateSemaphore"()
         vkDestroySemaphore = "vkDestroySemaphore"()
-//        vkCreateEvent = VK.get(caps, "vkCreateEvent")
-//        vkDestroyEvent = VK.get(caps, "vkDestroyEvent")
-//        vkGetEventStatus = VK.get(caps, "vkGetEventStatus")
-//        vkSetEvent = VK.get(caps, "vkSetEvent")
-//        vkResetEvent = VK.get(caps, "vkResetEvent")
-//        vkCreateQueryPool = VK.get(caps, "vkCreateQueryPool")
-//        vkDestroyQueryPool = VK.get(caps, "vkDestroyQueryPool")
-//        vkGetQueryPoolResults = VK.get(caps, "vkGetQueryPoolResults")
+        vkCreateEvent = "vkCreateEvent"()
+        vkDestroyEvent = "vkDestroyEvent"()
+        vkGetEventStatus = "vkGetEventStatus"()
+        vkSetEvent = "vkSetEvent"()
+        vkResetEvent = "vkResetEvent"()
+        vkCreateQueryPool = "vkCreateQueryPool"()
+        vkDestroyQueryPool = "vkDestroyQueryPool"()
+        vkGetQueryPoolResults = "vkGetQueryPoolResults"()
         vkCreateBuffer = "vkCreateBuffer"()
-//        vkDestroyBuffer = VK.get(caps, "vkDestroyBuffer")
-//        vkCreateBufferView = VK.get(caps, "vkCreateBufferView")
-//        vkDestroyBufferView = VK.get(caps, "vkDestroyBufferView")
-//        vkCreateImage = VK.get(caps, "vkCreateImage")
-//        vkDestroyImage = VK.get(caps, "vkDestroyImage")
-//        vkGetImageSubresourceLayout = VK.get(caps, "vkGetImageSubresourceLayout")
+        vkDestroyBuffer = "vkDestroyBuffer"()
+        vkCreateBufferView = "vkCreateBufferView"()
+        vkDestroyBufferView = "vkDestroyBufferView"()
+        vkCreateImage = "vkCreateImage"()
+        vkDestroyImage = "vkDestroyImage"()
+        vkGetImageSubresourceLayout = "vkGetImageSubresourceLayout"()
         vkCreateImageView = "vkCreateImageView"()
-//        vkDestroyImageView = VK.get(caps, "vkDestroyImageView")
+        vkDestroyImageView = "vkDestroyImageView"()
         vkCreateShaderModule = "vkCreateShaderModule"()
-//        vkDestroyShaderModule = VK.get(caps, "vkDestroyShaderModule")
-//        vkCreatePipelineCache = VK.get(caps, "vkCreatePipelineCache")
-//        vkDestroyPipelineCache = VK.get(caps, "vkDestroyPipelineCache")
-//        vkGetPipelineCacheData = VK.get(caps, "vkGetPipelineCacheData")
-//        vkMergePipelineCaches = VK.get(caps, "vkMergePipelineCaches")
+        vkDestroyShaderModule = "vkDestroyShaderModule"()
+        vkCreatePipelineCache = "vkCreatePipelineCache"()
+        vkDestroyPipelineCache = "vkDestroyPipelineCache"()
+        vkGetPipelineCacheData = "vkGetPipelineCacheData"()
+        vkMergePipelineCaches = "vkMergePipelineCaches"()
         vkCreateGraphicsPipelines = "vkCreateGraphicsPipelines"()
-//        vkCreateComputePipelines = VK.get(caps, "vkCreateComputePipelines")
-//        vkDestroyPipeline = VK.get(caps, "vkDestroyPipeline")
+        vkCreateComputePipelines = "vkCreateComputePipelines"()
+        vkDestroyPipeline = "vkDestroyPipeline"()
         vkCreatePipelineLayout = "vkCreatePipelineLayout"()
-//        vkDestroyPipelineLayout = VK.get(caps, "vkDestroyPipelineLayout")
-//        vkCreateSampler = VK.get(caps, "vkCreateSampler")
-//        vkDestroySampler = VK.get(caps, "vkDestroySampler")
-//        vkCreateDescriptorSetLayout = VK.get(caps, "vkCreateDescriptorSetLayout")
-//        vkDestroyDescriptorSetLayout = VK.get(caps, "vkDestroyDescriptorSetLayout")
-//        vkCreateDescriptorPool = VK.get(caps, "vkCreateDescriptorPool")
-//        vkDestroyDescriptorPool = VK.get(caps, "vkDestroyDescriptorPool")
-//        vkResetDescriptorPool = VK.get(caps, "vkResetDescriptorPool")
-//        vkAllocateDescriptorSets = VK.get(caps, "vkAllocateDescriptorSets")
-//        vkFreeDescriptorSets = VK.get(caps, "vkFreeDescriptorSets")
-//        vkUpdateDescriptorSets = VK.get(caps, "vkUpdateDescriptorSets")
+        vkDestroyPipelineLayout = "vkDestroyPipelineLayout"()
+        vkCreateSampler = "vkCreateSampler"()
+        vkDestroySampler = "vkDestroySampler"()
+        vkCreateDescriptorSetLayout = "vkCreateDescriptorSetLayout"()
+        vkDestroyDescriptorSetLayout = "vkDestroyDescriptorSetLayout"()
+        vkCreateDescriptorPool = "vkCreateDescriptorPool"()
+        vkDestroyDescriptorPool = "vkDestroyDescriptorPool"()
+        vkResetDescriptorPool = "vkResetDescriptorPool"()
+        vkAllocateDescriptorSets = "vkAllocateDescriptorSets"()
+        vkFreeDescriptorSets = "vkFreeDescriptorSets"()
+        vkUpdateDescriptorSets = "vkUpdateDescriptorSets"()
         vkCreateFramebuffer = "vkCreateFramebuffer"()
         vkDestroyFramebuffer = "vkDestroyFramebuffer"()
         vkCreateRenderPass = "vkCreateRenderPass"()
-//        vkDestroyRenderPass = VK.get(caps, "vkDestroyRenderPass")
-//        vkGetRenderAreaGranularity = VK.get(caps, "vkGetRenderAreaGranularity")
+        vkDestroyRenderPass = "vkDestroyRenderPass"()
+        vkGetRenderAreaGranularity = "vkGetRenderAreaGranularity"()
         vkCreateCommandPool = "vkCreateCommandPool"()
-//        vkDestroyCommandPool = VK.get(caps, "vkDestroyCommandPool")
+        vkDestroyCommandPool = "vkDestroyCommandPool"()
         vkResetCommandPool = "vkResetCommandPool"()
         vkAllocateCommandBuffers = "vkAllocateCommandBuffers"()
-//        vkFreeCommandBuffers = VK.get(caps, "vkFreeCommandBuffers")
+        vkFreeCommandBuffers = "vkFreeCommandBuffers"()
         vkBeginCommandBuffer = "vkBeginCommandBuffer"()
         vkEndCommandBuffer = "vkEndCommandBuffer"()
-//        vkResetCommandBuffer = VK.get(caps, "vkResetCommandBuffer")
+        vkResetCommandBuffer = "vkResetCommandBuffer"()
         vkCmdBindPipeline = "vkCmdBindPipeline"()
         vkCmdSetViewport = "vkCmdSetViewport"()
         vkCmdSetScissor = "vkCmdSetScissor"()
-//        vkCmdSetLineWidth = VK.get(caps, "vkCmdSetLineWidth")
-//        vkCmdSetDepthBias = VK.get(caps, "vkCmdSetDepthBias")
-//        vkCmdSetBlendConstants = VK.get(caps, "vkCmdSetBlendConstants")
-//        vkCmdSetDepthBounds = VK.get(caps, "vkCmdSetDepthBounds")
-//        vkCmdSetStencilCompareMask = VK.get(caps, "vkCmdSetStencilCompareMask")
-//        vkCmdSetStencilWriteMask = VK.get(caps, "vkCmdSetStencilWriteMask")
-//        vkCmdSetStencilReference = VK.get(caps, "vkCmdSetStencilReference")
-//        vkCmdBindDescriptorSets = VK.get(caps, "vkCmdBindDescriptorSets")
-//        vkCmdBindIndexBuffer = VK.get(caps, "vkCmdBindIndexBuffer")
+        vkCmdSetLineWidth = "vkCmdSetLineWidth"()
+        vkCmdSetDepthBias = "vkCmdSetDepthBias"()
+        vkCmdSetBlendConstants = "vkCmdSetBlendConstants"()
+        vkCmdSetDepthBounds = "vkCmdSetDepthBounds"()
+        vkCmdSetStencilCompareMask = "vkCmdSetStencilCompareMask"()
+        vkCmdSetStencilWriteMask = "vkCmdSetStencilWriteMask"()
+        vkCmdSetStencilReference = "vkCmdSetStencilReference"()
+        vkCmdBindDescriptorSets = "vkCmdBindDescriptorSets"()
+        vkCmdBindIndexBuffer = "vkCmdBindIndexBuffer"()
         vkCmdBindVertexBuffers = "vkCmdBindVertexBuffers"()
         vkCmdDraw = "vkCmdDraw"()
-//        vkCmdDrawIndexed = VK.get(caps, "vkCmdDrawIndexed")
-//        vkCmdDrawIndirect = VK.get(caps, "vkCmdDrawIndirect")
-//        vkCmdDrawIndexedIndirect = VK.get(caps, "vkCmdDrawIndexedIndirect")
-//        vkCmdDispatch = VK.get(caps, "vkCmdDispatch")
-//        vkCmdDispatchIndirect = VK.get(caps, "vkCmdDispatchIndirect")
-//        vkCmdCopyBuffer = VK.get(caps, "vkCmdCopyBuffer")
-//        vkCmdCopyImage = VK.get(caps, "vkCmdCopyImage")
-//        vkCmdBlitImage = VK.get(caps, "vkCmdBlitImage")
-//        vkCmdCopyBufferToImage = VK.get(caps, "vkCmdCopyBufferToImage")
-//        vkCmdCopyImageToBuffer = VK.get(caps, "vkCmdCopyImageToBuffer")
-//        vkCmdUpdateBuffer = VK.get(caps, "vkCmdUpdateBuffer")
-//        vkCmdFillBuffer = VK.get(caps, "vkCmdFillBuffer")
-//        vkCmdClearColorImage = VK.get(caps, "vkCmdClearColorImage")
-//        vkCmdClearDepthStencilImage = VK.get(caps, "vkCmdClearDepthStencilImage")
-//        vkCmdClearAttachments = VK.get(caps, "vkCmdClearAttachments")
-//        vkCmdResolveImage = VK.get(caps, "vkCmdResolveImage")
-//        vkCmdSetEvent = VK.get(caps, "vkCmdSetEvent")
-//        vkCmdResetEvent = VK.get(caps, "vkCmdResetEvent")
-//        vkCmdWaitEvents = VK.get(caps, "vkCmdWaitEvents")
-//        vkCmdPipelineBarrier = VK.get(caps, "vkCmdPipelineBarrier")
-//        vkCmdBeginQuery = VK.get(caps, "vkCmdBeginQuery")
-//        vkCmdEndQuery = VK.get(caps, "vkCmdEndQuery")
-//        vkCmdResetQueryPool = VK.get(caps, "vkCmdResetQueryPool")
-//        vkCmdWriteTimestamp = VK.get(caps, "vkCmdWriteTimestamp")
-//        vkCmdCopyQueryPoolResults = VK.get(caps, "vkCmdCopyQueryPoolResults")
-//        vkCmdPushConstants = VK.get(caps, "vkCmdPushConstants")
+        vkCmdDrawIndexed = "vkCmdDrawIndexed"()
+        vkCmdDrawIndirect = "vkCmdDrawIndirect"()
+        vkCmdDrawIndexedIndirect = "vkCmdDrawIndexedIndirect"()
+        vkCmdDispatch = "vkCmdDispatch"()
+        vkCmdDispatchIndirect = "vkCmdDispatchIndirect"()
+        vkCmdCopyBuffer = "vkCmdCopyBuffer"()
+        vkCmdCopyImage = "vkCmdCopyImage"()
+        vkCmdBlitImage = "vkCmdBlitImage"()
+        vkCmdCopyBufferToImage = "vkCmdCopyBufferToImage"()
+        vkCmdCopyImageToBuffer = "vkCmdCopyImageToBuffer"()
+        vkCmdUpdateBuffer = "vkCmdUpdateBuffer"()
+        vkCmdFillBuffer = "vkCmdFillBuffer"()
+        vkCmdClearColorImage = "vkCmdClearColorImage"()
+        vkCmdClearDepthStencilImage = "vkCmdClearDepthStencilImage"()
+        vkCmdClearAttachments = "vkCmdClearAttachments"()
+        vkCmdResolveImage = "vkCmdResolveImage"()
+        vkCmdSetEvent = "vkCmdSetEvent"()
+        vkCmdResetEvent = "vkCmdResetEvent"()
+        vkCmdWaitEvents = "vkCmdWaitEvents"()
+        vkCmdPipelineBarrier = "vkCmdPipelineBarrier"()
+        vkCmdBeginQuery = "vkCmdBeginQuery"()
+        vkCmdEndQuery = "vkCmdEndQuery"()
+        vkCmdResetQueryPool = "vkCmdResetQueryPool"()
+        vkCmdWriteTimestamp = "vkCmdWriteTimestamp"()
+        vkCmdCopyQueryPoolResults = "vkCmdCopyQueryPoolResults"()
+        vkCmdPushConstants = "vkCmdPushConstants"()
         vkCmdBeginRenderPass = "vkCmdBeginRenderPass"()
-//        vkCmdNextSubpass = VK.get(caps, "vkCmdNextSubpass")
+        vkCmdNextSubpass = "vkCmdNextSubpass"()
         vkCmdEndRenderPass = "vkCmdEndRenderPass"()
-//        vkCmdExecuteCommands = VK.get(caps, "vkCmdExecuteCommands")
-//        vkBindBufferMemory2 = VK.get(caps, "vkBindBufferMemory2")
-//        vkBindImageMemory2 = VK.get(caps, "vkBindImageMemory2")
-//        vkGetDeviceGroupPeerMemoryFeatures = VK.get(caps, "vkGetDeviceGroupPeerMemoryFeatures")
-//        vkCmdSetDeviceMask = VK.get(caps, "vkCmdSetDeviceMask")
-//        vkCmdDispatchBase = VK.get(caps, "vkCmdDispatchBase")
-//        vkGetImageMemoryRequirements2 = VK.get(caps, "vkGetImageMemoryRequirements2")
-//        vkGetBufferMemoryRequirements2 = VK.get(caps, "vkGetBufferMemoryRequirements2")
-//        vkGetImageSparseMemoryRequirements2 = VK.get(caps, "vkGetImageSparseMemoryRequirements2")
-//        vkTrimCommandPool = VK.get(caps, "vkTrimCommandPool")
-//        vkGetDeviceQueue2 = VK.get(caps, "vkGetDeviceQueue2")
-//        vkCreateSamplerYcbcrConversion = VK.get(caps, "vkCreateSamplerYcbcrConversion")
-//        vkDestroySamplerYcbcrConversion = VK.get(caps, "vkDestroySamplerYcbcrConversion")
-//        vkCreateDescriptorUpdateTemplate = VK.get(caps, "vkCreateDescriptorUpdateTemplate")
-//        vkDestroyDescriptorUpdateTemplate = VK.get(caps, "vkDestroyDescriptorUpdateTemplate")
-//        vkUpdateDescriptorSetWithTemplate = VK.get(caps, "vkUpdateDescriptorSetWithTemplate")
-//        vkGetDescriptorSetLayoutSupport = VK.get(caps, "vkGetDescriptorSetLayoutSupport")
-//        vkCmdWriteBufferMarkerAMD = VK.get(caps, "vkCmdWriteBufferMarkerAMD")
-//        vkSetLocalDimmingAMD = VK.get(caps, "vkSetLocalDimmingAMD")
-//        vkCmdDrawIndirectCountAMD = VK.get(caps, "vkCmdDrawIndirectCountAMD")
-//        vkCmdDrawIndexedIndirectCountAMD = VK.get(caps, "vkCmdDrawIndexedIndirectCountAMD")
-//        vkGetShaderInfoAMD = VK.get(caps, "vkGetShaderInfoAMD")
-//        vkGetBufferDeviceAddressEXT = VK.get(caps, "vkGetBufferDeviceAddressEXT")
-//        vkGetCalibratedTimestampsEXT = VK.get(caps, "vkGetCalibratedTimestampsEXT")
-//        vkCmdBeginConditionalRenderingEXT = VK.get(caps, "vkCmdBeginConditionalRenderingEXT")
-//        vkCmdEndConditionalRenderingEXT = VK.get(caps, "vkCmdEndConditionalRenderingEXT")
-//        vkDebugMarkerSetObjectTagEXT = VK.get(caps, "vkDebugMarkerSetObjectTagEXT")
-//        vkDebugMarkerSetObjectNameEXT = VK.get(caps, "vkDebugMarkerSetObjectNameEXT")
-//        vkCmdDebugMarkerBeginEXT = VK.get(caps, "vkCmdDebugMarkerBeginEXT")
-//        vkCmdDebugMarkerEndEXT = VK.get(caps, "vkCmdDebugMarkerEndEXT")
-//        vkCmdDebugMarkerInsertEXT = VK.get(caps, "vkCmdDebugMarkerInsertEXT")
-//        vkSetDebugUtilsObjectNameEXT = VK.get(caps, "vkSetDebugUtilsObjectNameEXT")
-//        vkSetDebugUtilsObjectTagEXT = VK.get(caps, "vkSetDebugUtilsObjectTagEXT")
-//        vkQueueBeginDebugUtilsLabelEXT = VK.get(caps, "vkQueueBeginDebugUtilsLabelEXT")
-//        vkQueueEndDebugUtilsLabelEXT = VK.get(caps, "vkQueueEndDebugUtilsLabelEXT")
-//        vkQueueInsertDebugUtilsLabelEXT = VK.get(caps, "vkQueueInsertDebugUtilsLabelEXT")
-//        vkCmdBeginDebugUtilsLabelEXT = VK.get(caps, "vkCmdBeginDebugUtilsLabelEXT")
-//        vkCmdEndDebugUtilsLabelEXT = VK.get(caps, "vkCmdEndDebugUtilsLabelEXT")
-//        vkCmdInsertDebugUtilsLabelEXT = VK.get(caps, "vkCmdInsertDebugUtilsLabelEXT")
-//        vkCmdSetDiscardRectangleEXT = VK.get(caps, "vkCmdSetDiscardRectangleEXT")
-//        vkDisplayPowerControlEXT = VK.get(caps, "vkDisplayPowerControlEXT")
-//        vkRegisterDeviceEventEXT = VK.get(caps, "vkRegisterDeviceEventEXT")
-//        vkRegisterDisplayEventEXT = VK.get(caps, "vkRegisterDisplayEventEXT")
-//        vkGetSwapchainCounterEXT = VK.get(caps, "vkGetSwapchainCounterEXT")
-//        vkGetMemoryHostPointerPropertiesEXT = VK.get(caps, "vkGetMemoryHostPointerPropertiesEXT")
-//        vkAcquireFullScreenExclusiveModeEXT = VK.get(caps, "vkAcquireFullScreenExclusiveModeEXT")
-//        vkReleaseFullScreenExclusiveModeEXT = VK.get(caps, "vkReleaseFullScreenExclusiveModeEXT")
-//        vkGetDeviceGroupSurfacePresentModes2EXT =
-//            VK.get(caps, "vkGetDeviceGroupSurfacePresentModes2EXT")
-//        vkSetHdrMetadataEXT = VK.get(caps, "vkSetHdrMetadataEXT")
-//        vkResetQueryPoolEXT = VK.get(caps, "vkResetQueryPoolEXT")
-//        vkGetImageDrmFormatModifierPropertiesEXT =
-//            VK.get(caps, "vkGetImageDrmFormatModifierPropertiesEXT")
-//        vkCmdSetLineStippleEXT = VK.get(caps, "vkCmdSetLineStippleEXT")
-//        vkCmdSetSampleLocationsEXT = VK.get(caps, "vkCmdSetSampleLocationsEXT")
-//        vkCmdBindTransformFeedbackBuffersEXT = VK.get(caps, "vkCmdBindTransformFeedbackBuffersEXT")
-//        vkCmdBeginTransformFeedbackEXT = VK.get(caps, "vkCmdBeginTransformFeedbackEXT")
-//        vkCmdEndTransformFeedbackEXT = VK.get(caps, "vkCmdEndTransformFeedbackEXT")
-//        vkCmdBeginQueryIndexedEXT = VK.get(caps, "vkCmdBeginQueryIndexedEXT")
-//        vkCmdEndQueryIndexedEXT = VK.get(caps, "vkCmdEndQueryIndexedEXT")
-//        vkCmdDrawIndirectByteCountEXT = VK.get(caps, "vkCmdDrawIndirectByteCountEXT")
-//        vkCreateValidationCacheEXT = VK.get(caps, "vkCreateValidationCacheEXT")
-//        vkDestroyValidationCacheEXT = VK.get(caps, "vkDestroyValidationCacheEXT")
-//        vkMergeValidationCachesEXT = VK.get(caps, "vkMergeValidationCachesEXT")
-//        vkGetValidationCacheDataEXT = VK.get(caps, "vkGetValidationCacheDataEXT")
-//        vkGetRefreshCycleDurationGOOGLE = VK.get(caps, "vkGetRefreshCycleDurationGOOGLE")
-//        vkGetPastPresentationTimingGOOGLE = VK.get(caps, "vkGetPastPresentationTimingGOOGLE")
-//        vkInitializePerformanceApiINTEL = VK.get(caps, "vkInitializePerformanceApiINTEL")
-//        vkUninitializePerformanceApiINTEL = VK.get(caps, "vkUninitializePerformanceApiINTEL")
-//        vkCmdSetPerformanceMarkerINTEL = VK.get(caps, "vkCmdSetPerformanceMarkerINTEL")
-//        vkCmdSetPerformanceStreamMarkerINTEL = VK.get(caps, "vkCmdSetPerformanceStreamMarkerINTEL")
-//        vkCmdSetPerformanceOverrideINTEL = VK.get(caps, "vkCmdSetPerformanceOverrideINTEL")
-//        vkAcquirePerformanceConfigurationINTEL = VK.get(caps, "vkAcquirePerformanceConfigurationINTEL")
-//        vkReleasePerformanceConfigurationINTEL = VK.get(caps, "vkReleasePerformanceConfigurationINTEL")
-//        vkQueueSetPerformanceConfigurationINTEL =
-//            VK.get(caps, "vkQueueSetPerformanceConfigurationINTEL")
-//        vkGetPerformanceParameterINTEL = VK.get(caps, "vkGetPerformanceParameterINTEL")
-//        vkBindBufferMemory2KHR = VK.get(caps, "vkBindBufferMemory2KHR")
-//        vkBindImageMemory2KHR = VK.get(caps, "vkBindImageMemory2KHR")
-//        vkCreateRenderPass2KHR = VK.get(caps, "vkCreateRenderPass2KHR")
-//        vkCmdBeginRenderPass2KHR = VK.get(caps, "vkCmdBeginRenderPass2KHR")
-//        vkCmdNextSubpass2KHR = VK.get(caps, "vkCmdNextSubpass2KHR")
-//        vkCmdEndRenderPass2KHR = VK.get(caps, "vkCmdEndRenderPass2KHR")
-//        vkCreateDescriptorUpdateTemplateKHR = VK.get(caps, "vkCreateDescriptorUpdateTemplateKHR")
-//        vkDestroyDescriptorUpdateTemplateKHR = VK.get(caps, "vkDestroyDescriptorUpdateTemplateKHR")
-//        vkUpdateDescriptorSetWithTemplateKHR = VK.get(caps, "vkUpdateDescriptorSetWithTemplateKHR")
-//        vkCmdPushDescriptorSetWithTemplateKHR = VK.get(caps, "vkCmdPushDescriptorSetWithTemplateKHR")
-//        vkGetDeviceGroupPeerMemoryFeaturesKHR = VK.get(caps, "vkGetDeviceGroupPeerMemoryFeaturesKHR")
-//        vkCmdSetDeviceMaskKHR = VK.get(caps, "vkCmdSetDeviceMaskKHR")
-//        vkCmdDispatchBaseKHR = VK.get(caps, "vkCmdDispatchBaseKHR")
-//        vkGetDeviceGroupPresentCapabilitiesKHR = VK.get(caps, "vkGetDeviceGroupPresentCapabilitiesKHR")
-//        vkGetDeviceGroupSurfacePresentModesKHR = VK.get(caps, "vkGetDeviceGroupSurfacePresentModesKHR")
-//        vkAcquireNextImage2KHR = VK.get(caps, "vkAcquireNextImage2KHR")
-//        vkCreateSharedSwapchainsKHR = VK.get(caps, "vkCreateSharedSwapchainsKHR")
-//        vkCmdDrawIndirectCountKHR = VK.get(caps, "vkCmdDrawIndirectCountKHR")
-//        vkCmdDrawIndexedIndirectCountKHR = VK.get(caps, "vkCmdDrawIndexedIndirectCountKHR")
-//        vkImportFenceFdKHR = VK.get(caps, "vkImportFenceFdKHR")
-//        vkGetFenceFdKHR = VK.get(caps, "vkGetFenceFdKHR")
-//        vkImportFenceWin32HandleKHR = VK.get(caps, "vkImportFenceWin32HandleKHR")
-//        vkGetFenceWin32HandleKHR = VK.get(caps, "vkGetFenceWin32HandleKHR")
-//        vkGetMemoryFdKHR = VK.get(caps, "vkGetMemoryFdKHR")
-//        vkGetMemoryFdPropertiesKHR = VK.get(caps, "vkGetMemoryFdPropertiesKHR")
-//        vkGetMemoryWin32HandleKHR = VK.get(caps, "vkGetMemoryWin32HandleKHR")
-//        vkGetMemoryWin32HandlePropertiesKHR = VK.get(caps, "vkGetMemoryWin32HandlePropertiesKHR")
-//        vkImportSemaphoreFdKHR = VK.get(caps, "vkImportSemaphoreFdKHR")
-//        vkGetSemaphoreFdKHR = VK.get(caps, "vkGetSemaphoreFdKHR")
-//        vkImportSemaphoreWin32HandleKHR = VK.get(caps, "vkImportSemaphoreWin32HandleKHR")
-//        vkGetSemaphoreWin32HandleKHR = VK.get(caps, "vkGetSemaphoreWin32HandleKHR")
-//        vkGetImageMemoryRequirements2KHR = VK.get(caps, "vkGetImageMemoryRequirements2KHR")
-//        vkGetBufferMemoryRequirements2KHR = VK.get(caps, "vkGetBufferMemoryRequirements2KHR")
-//        vkGetImageSparseMemoryRequirements2KHR = VK.get(caps, "vkGetImageSparseMemoryRequirements2KHR")
-//        vkTrimCommandPoolKHR = VK.get(caps, "vkTrimCommandPoolKHR")
-//        vkGetDescriptorSetLayoutSupportKHR = VK.get(caps, "vkGetDescriptorSetLayoutSupportKHR")
-//        vkGetPipelineExecutablePropertiesKHR = VK.get(caps, "vkGetPipelineExecutablePropertiesKHR")
-//        vkGetPipelineExecutableStatisticsKHR = VK.get(caps, "vkGetPipelineExecutableStatisticsKHR")
-//        vkGetPipelineExecutableInternalRepresentationsKHR =
-//            VK.get(caps, "vkGetPipelineExecutableInternalRepresentationsKHR")
-//        vkCmdPushDescriptorSetKHR = VK.get(caps, "vkCmdPushDescriptorSetKHR")
-//        vkCreateSamplerYcbcrConversionKHR = VK.get(caps, "vkCreateSamplerYcbcrConversionKHR")
-//        vkDestroySamplerYcbcrConversionKHR = VK.get(caps, "vkDestroySamplerYcbcrConversionKHR")
-//        vkGetSwapchainStatusKHR = VK.get(caps, "vkGetSwapchainStatusKHR")
+        vkCmdExecuteCommands = "vkCmdExecuteCommands"()
+        vkBindBufferMemory2 = "vkBindBufferMemory2"()
+        vkBindImageMemory2 = "vkBindImageMemory2"()
+        vkGetDeviceGroupPeerMemoryFeatures = "vkGetDeviceGroupPeerMemoryFeatures"()
+        vkCmdSetDeviceMask = "vkCmdSetDeviceMask"()
+        vkCmdDispatchBase = "vkCmdDispatchBase"()
+        vkGetImageMemoryRequirements2 = "vkGetImageMemoryRequirements2"()
+        vkGetBufferMemoryRequirements2 = "vkGetBufferMemoryRequirements2"()
+        vkGetImageSparseMemoryRequirements2 = "vkGetImageSparseMemoryRequirements2"()
+        vkTrimCommandPool = "vkTrimCommandPool"()
+        vkGetDeviceQueue2 = "vkGetDeviceQueue2"()
+        vkCreateSamplerYcbcrConversion = "vkCreateSamplerYcbcrConversion"()
+        vkDestroySamplerYcbcrConversion = "vkDestroySamplerYcbcrConversion"()
+        vkCreateDescriptorUpdateTemplate = "vkCreateDescriptorUpdateTemplate"()
+        vkDestroyDescriptorUpdateTemplate = "vkDestroyDescriptorUpdateTemplate"()
+        vkUpdateDescriptorSetWithTemplate = "vkUpdateDescriptorSetWithTemplate"()
+        vkGetDescriptorSetLayoutSupport = "vkGetDescriptorSetLayoutSupport"()
+        vkCmdWriteBufferMarkerAMD = "vkCmdWriteBufferMarkerAMD"()
+        vkSetLocalDimmingAMD = "vkSetLocalDimmingAMD"()
+        vkCmdDrawIndirectCountAMD = "vkCmdDrawIndirectCountAMD"()
+        vkCmdDrawIndexedIndirectCountAMD = "vkCmdDrawIndexedIndirectCountAMD"()
+        vkGetShaderInfoAMD = "vkGetShaderInfoAMD"()
+        vkGetBufferDeviceAddressEXT = "vkGetBufferDeviceAddressEXT"()
+        vkGetCalibratedTimestampsEXT = "vkGetCalibratedTimestampsEXT"()
+        vkCmdBeginConditionalRenderingEXT = "vkCmdBeginConditionalRenderingEXT"()
+        vkCmdEndConditionalRenderingEXT = "vkCmdEndConditionalRenderingEXT"()
+        vkDebugMarkerSetObjectTagEXT = "vkDebugMarkerSetObjectTagEXT"()
+        vkDebugMarkerSetObjectNameEXT = "vkDebugMarkerSetObjectNameEXT"()
+        vkCmdDebugMarkerBeginEXT = "vkCmdDebugMarkerBeginEXT"()
+        vkCmdDebugMarkerEndEXT = "vkCmdDebugMarkerEndEXT"()
+        vkCmdDebugMarkerInsertEXT = "vkCmdDebugMarkerInsertEXT"()
+        vkSetDebugUtilsObjectNameEXT = "vkSetDebugUtilsObjectNameEXT"()
+        vkSetDebugUtilsObjectTagEXT = "vkSetDebugUtilsObjectTagEXT"()
+        vkQueueBeginDebugUtilsLabelEXT = "vkQueueBeginDebugUtilsLabelEXT"()
+        vkQueueEndDebugUtilsLabelEXT = "vkQueueEndDebugUtilsLabelEXT"()
+        vkQueueInsertDebugUtilsLabelEXT = "vkQueueInsertDebugUtilsLabelEXT"()
+        vkCmdBeginDebugUtilsLabelEXT = "vkCmdBeginDebugUtilsLabelEXT"()
+        vkCmdEndDebugUtilsLabelEXT = "vkCmdEndDebugUtilsLabelEXT"()
+        vkCmdInsertDebugUtilsLabelEXT = "vkCmdInsertDebugUtilsLabelEXT"()
+        vkCmdSetDiscardRectangleEXT = "vkCmdSetDiscardRectangleEXT"()
+        vkDisplayPowerControlEXT = "vkDisplayPowerControlEXT"()
+        vkRegisterDeviceEventEXT = "vkRegisterDeviceEventEXT"()
+        vkRegisterDisplayEventEXT = "vkRegisterDisplayEventEXT"()
+        vkGetSwapchainCounterEXT = "vkGetSwapchainCounterEXT"()
+        vkGetMemoryHostPointerPropertiesEXT = "vkGetMemoryHostPointerPropertiesEXT"()
+        vkAcquireFullScreenExclusiveModeEXT = "vkAcquireFullScreenExclusiveModeEXT"()
+        vkReleaseFullScreenExclusiveModeEXT = "vkReleaseFullScreenExclusiveModeEXT"()
+        vkGetDeviceGroupSurfacePresentModes2EXT = "vkGetDeviceGroupSurfacePresentModes2EXT"()
+        vkSetHdrMetadataEXT = "vkSetHdrMetadataEXT"()
+        vkResetQueryPoolEXT = "vkResetQueryPoolEXT"()
+        vkGetImageDrmFormatModifierPropertiesEXT = "vkGetImageDrmFormatModifierPropertiesEXT"()
+        vkCmdSetLineStippleEXT = "vkCmdSetLineStippleEXT"()
+        vkCmdSetSampleLocationsEXT = "vkCmdSetSampleLocationsEXT"()
+        vkCmdBindTransformFeedbackBuffersEXT = "vkCmdBindTransformFeedbackBuffersEXT"()
+        vkCmdBeginTransformFeedbackEXT = "vkCmdBeginTransformFeedbackEXT"()
+        vkCmdEndTransformFeedbackEXT = "vkCmdEndTransformFeedbackEXT"()
+        vkCmdBeginQueryIndexedEXT = "vkCmdBeginQueryIndexedEXT"()
+        vkCmdEndQueryIndexedEXT = "vkCmdEndQueryIndexedEXT"()
+        vkCmdDrawIndirectByteCountEXT = "vkCmdDrawIndirectByteCountEXT"()
+        vkCreateValidationCacheEXT = "vkCreateValidationCacheEXT"()
+        vkDestroyValidationCacheEXT = "vkDestroyValidationCacheEXT"()
+        vkMergeValidationCachesEXT = "vkMergeValidationCachesEXT"()
+        vkGetValidationCacheDataEXT = "vkGetValidationCacheDataEXT"()
+        vkGetRefreshCycleDurationGOOGLE = "vkGetRefreshCycleDurationGOOGLE"()
+        vkGetPastPresentationTimingGOOGLE = "vkGetPastPresentationTimingGOOGLE"()
+        vkInitializePerformanceApiINTEL = "vkInitializePerformanceApiINTEL"()
+        vkUninitializePerformanceApiINTEL = "vkUninitializePerformanceApiINTEL"()
+        vkCmdSetPerformanceMarkerINTEL = "vkCmdSetPerformanceMarkerINTEL"()
+        vkCmdSetPerformanceStreamMarkerINTEL = "vkCmdSetPerformanceStreamMarkerINTEL"()
+        vkCmdSetPerformanceOverrideINTEL = "vkCmdSetPerformanceOverrideINTEL"()
+        vkAcquirePerformanceConfigurationINTEL = "vkAcquirePerformanceConfigurationINTEL"()
+        vkReleasePerformanceConfigurationINTEL = "vkReleasePerformanceConfigurationINTEL"()
+        vkQueueSetPerformanceConfigurationINTEL = "vkQueueSetPerformanceConfigurationINTEL"()
+        vkGetPerformanceParameterINTEL = "vkGetPerformanceParameterINTEL"()
+        vkBindBufferMemory2KHR = "vkBindBufferMemory2KHR"()
+        vkBindImageMemory2KHR = "vkBindImageMemory2KHR"()
+        vkCreateRenderPass2KHR = "vkCreateRenderPass2KHR"()
+        vkCmdBeginRenderPass2KHR = "vkCmdBeginRenderPass2KHR"()
+        vkCmdNextSubpass2KHR = "vkCmdNextSubpass2KHR"()
+        vkCmdEndRenderPass2KHR = "vkCmdEndRenderPass2KHR"()
+        vkCreateDescriptorUpdateTemplateKHR = "vkCreateDescriptorUpdateTemplateKHR"()
+        vkDestroyDescriptorUpdateTemplateKHR = "vkDestroyDescriptorUpdateTemplateKHR"()
+        vkUpdateDescriptorSetWithTemplateKHR = "vkUpdateDescriptorSetWithTemplateKHR"()
+        vkCmdPushDescriptorSetWithTemplateKHR = "vkCmdPushDescriptorSetWithTemplateKHR"()
+        vkGetDeviceGroupPeerMemoryFeaturesKHR = "vkGetDeviceGroupPeerMemoryFeaturesKHR"()
+        vkCmdSetDeviceMaskKHR = "vkCmdSetDeviceMaskKHR"()
+        vkCmdDispatchBaseKHR = "vkCmdDispatchBaseKHR"()
+        vkGetDeviceGroupPresentCapabilitiesKHR = "vkGetDeviceGroupPresentCapabilitiesKHR"()
+        vkGetDeviceGroupSurfacePresentModesKHR = "vkGetDeviceGroupSurfacePresentModesKHR"()
+        vkAcquireNextImage2KHR = "vkAcquireNextImage2KHR"()
+        vkCreateSharedSwapchainsKHR = "vkCreateSharedSwapchainsKHR"()
+        vkCmdDrawIndirectCountKHR = "vkCmdDrawIndirectCountKHR"()
+        vkCmdDrawIndexedIndirectCountKHR = "vkCmdDrawIndexedIndirectCountKHR"()
+        vkImportFenceFdKHR = "vkImportFenceFdKHR"()
+        vkGetFenceFdKHR = "vkGetFenceFdKHR"()
+        vkImportFenceWin32HandleKHR = "vkImportFenceWin32HandleKHR"()
+        vkGetFenceWin32HandleKHR = "vkGetFenceWin32HandleKHR"()
+        vkGetMemoryFdKHR = "vkGetMemoryFdKHR"()
+        vkGetMemoryFdPropertiesKHR = "vkGetMemoryFdPropertiesKHR"()
+        vkGetMemoryWin32HandleKHR = "vkGetMemoryWin32HandleKHR"()
+        vkGetMemoryWin32HandlePropertiesKHR = "vkGetMemoryWin32HandlePropertiesKHR"()
+        vkImportSemaphoreFdKHR = "vkImportSemaphoreFdKHR"()
+        vkGetSemaphoreFdKHR = "vkGetSemaphoreFdKHR"()
+        vkImportSemaphoreWin32HandleKHR = "vkImportSemaphoreWin32HandleKHR"()
+        vkGetSemaphoreWin32HandleKHR = "vkGetSemaphoreWin32HandleKHR"()
+        vkGetImageMemoryRequirements2KHR = "vkGetImageMemoryRequirements2KHR"()
+        vkGetBufferMemoryRequirements2KHR = "vkGetBufferMemoryRequirements2KHR"()
+        vkGetImageSparseMemoryRequirements2KHR = "vkGetImageSparseMemoryRequirements2KHR"()
+        vkTrimCommandPoolKHR = "vkTrimCommandPoolKHR"()
+        vkGetDescriptorSetLayoutSupportKHR = "vkGetDescriptorSetLayoutSupportKHR"()
+        vkGetPipelineExecutablePropertiesKHR = "vkGetPipelineExecutablePropertiesKHR"()
+        vkGetPipelineExecutableStatisticsKHR = "vkGetPipelineExecutableStatisticsKHR"()
+        vkGetPipelineExecutableInternalRepresentationsKHR = "vkGetPipelineExecutableInternalRepresentationsKHR"()
+        vkCmdPushDescriptorSetKHR = "vkCmdPushDescriptorSetKHR"()
+        vkCreateSamplerYcbcrConversionKHR = "vkCreateSamplerYcbcrConversionKHR"()
+        vkDestroySamplerYcbcrConversionKHR = "vkDestroySamplerYcbcrConversionKHR"()
+        vkGetSwapchainStatusKHR = "vkGetSwapchainStatusKHR"()
         vkCreateSwapchainKHR = "vkCreateSwapchainKHR"()
         vkDestroySwapchainKHR = "vkDestroySwapchainKHR"()
         vkGetSwapchainImagesKHR = "vkGetSwapchainImagesKHR"()
         vkAcquireNextImageKHR = "vkAcquireNextImageKHR"()
         vkQueuePresentKHR = "vkQueuePresentKHR"()
-//        vkCmdSetViewportWScalingNV = VK.get(caps, "vkCmdSetViewportWScalingNV")
-//        vkCmdSetCheckpointNV = VK.get(caps, "vkCmdSetCheckpointNV")
-//        vkGetQueueCheckpointDataNV = VK.get(caps, "vkGetQueueCheckpointDataNV")
-//        vkGetMemoryWin32HandleNV = VK.get(caps, "vkGetMemoryWin32HandleNV")
-//        vkCmdDrawMeshTasksNV = VK.get(caps, "vkCmdDrawMeshTasksNV")
-//        vkCmdDrawMeshTasksIndirectNV = VK.get(caps, "vkCmdDrawMeshTasksIndirectNV")
-//        vkCmdDrawMeshTasksIndirectCountNV = VK.get(caps, "vkCmdDrawMeshTasksIndirectCountNV")
-//        vkCreateAccelerationStructureNV = VK.get(caps, "vkCreateAccelerationStructureNV")
-//        vkDestroyAccelerationStructureNV = VK.get(caps, "vkDestroyAccelerationStructureNV")
-//        vkGetAccelerationStructureMemoryRequirementsNV =
-//            VK.get(caps, "vkGetAccelerationStructureMemoryRequirementsNV")
-//        vkBindAccelerationStructureMemoryNV = VK.get(caps, "vkBindAccelerationStructureMemoryNV")
-//        vkCmdBuildAccelerationStructureNV = VK.get(caps, "vkCmdBuildAccelerationStructureNV")
-//        vkCmdCopyAccelerationStructureNV = VK.get(caps, "vkCmdCopyAccelerationStructureNV")
-//        vkCmdTraceRaysNV = VK.get(caps, "vkCmdTraceRaysNV")
-//        vkCreateRayTracingPipelinesNV = VK.get(caps, "vkCreateRayTracingPipelinesNV")
-//        vkGetRayTracingShaderGroupHandlesNV = VK.get(caps, "vkGetRayTracingShaderGroupHandlesNV")
-//        vkGetAccelerationStructureHandleNV = VK.get(caps, "vkGetAccelerationStructureHandleNV")
-//        vkCmdWriteAccelerationStructuresPropertiesNV =
-//            VK.get(caps, "vkCmdWriteAccelerationStructuresPropertiesNV")
-//        vkCompileDeferredNV = VK.get(caps, "vkCompileDeferredNV")
-//        vkCmdSetExclusiveScissorNV = VK.get(caps, "vkCmdSetExclusiveScissorNV")
-//        vkCmdBindShadingRateImageNV = VK.get(caps, "vkCmdBindShadingRateImageNV")
-//        vkCmdSetViewportShadingRatePaletteNV = VK.get(caps, "vkCmdSetViewportShadingRatePaletteNV")
-//        vkCmdSetCoarseSampleOrderNV = VK.get(caps, "vkCmdSetCoarseSampleOrderNV")
-//        vkCmdProcessCommandsNVX = VK.get(caps, "vkCmdProcessCommandsNVX")
-//        vkCmdReserveSpaceForCommandsNVX = VK.get(caps, "vkCmdReserveSpaceForCommandsNVX")
-//        vkCreateIndirectCommandsLayoutNVX = VK.get(caps, "vkCreateIndirectCommandsLayoutNVX")
-//        vkDestroyIndirectCommandsLayoutNVX = VK.get(caps, "vkDestroyIndirectCommandsLayoutNVX")
-//        vkCreateObjectTableNVX = VK.get(caps, "vkCreateObjectTableNVX")
-//        vkDestroyObjectTableNVX = VK.get(caps, "vkDestroyObjectTableNVX")
-//        vkRegisterObjectsNVX = VK.get(caps, "vkRegisterObjectsNVX")
-//        vkUnregisterObjectsNVX = VK.get(caps, "vkUnregisterObjectsNVX")
-//        vkGetImageViewHandleNVX = VK.get(caps, "vkGetImageViewHandleNVX")
+        vkCmdSetViewportWScalingNV = "vkCmdSetViewportWScalingNV"()
+        vkCmdSetCheckpointNV = "vkCmdSetCheckpointNV"()
+        vkGetQueueCheckpointDataNV = "vkGetQueueCheckpointDataNV"()
+        vkGetMemoryWin32HandleNV = "vkGetMemoryWin32HandleNV"()
+        vkCmdDrawMeshTasksNV = "vkCmdDrawMeshTasksNV"()
+        vkCmdDrawMeshTasksIndirectNV = "vkCmdDrawMeshTasksIndirectNV"()
+        vkCmdDrawMeshTasksIndirectCountNV = "vkCmdDrawMeshTasksIndirectCountNV"()
+        vkCreateAccelerationStructureNV = "vkCreateAccelerationStructureNV"()
+        vkDestroyAccelerationStructureNV = "vkDestroyAccelerationStructureNV"()
+        vkGetAccelerationStructureMemoryRequirementsNV = "vkGetAccelerationStructureMemoryRequirementsNV"()
+        vkBindAccelerationStructureMemoryNV = "vkBindAccelerationStructureMemoryNV"()
+        vkCmdBuildAccelerationStructureNV = "vkCmdBuildAccelerationStructureNV"()
+        vkCmdCopyAccelerationStructureNV = "vkCmdCopyAccelerationStructureNV"()
+        vkCmdTraceRaysNV = "vkCmdTraceRaysNV"()
+        vkCreateRayTracingPipelinesNV = "vkCreateRayTracingPipelinesNV"()
+        vkGetRayTracingShaderGroupHandlesNV = "vkGetRayTracingShaderGroupHandlesNV"()
+        vkGetAccelerationStructureHandleNV = "vkGetAccelerationStructureHandleNV"()
+        vkCmdWriteAccelerationStructuresPropertiesNV = "vkCmdWriteAccelerationStructuresPropertiesNV"()
+        vkCompileDeferredNV = "vkCompileDeferredNV"()
+        vkCmdSetExclusiveScissorNV = "vkCmdSetExclusiveScissorNV"()
+        vkCmdBindShadingRateImageNV = "vkCmdBindShadingRateImageNV"()
+        vkCmdSetViewportShadingRatePaletteNV = "vkCmdSetViewportShadingRatePaletteNV"()
+        vkCmdSetCoarseSampleOrderNV = "vkCmdSetCoarseSampleOrderNV"()
+        vkCmdProcessCommandsNVX = "vkCmdProcessCommandsNVX"()
+        vkCmdReserveSpaceForCommandsNVX = "vkCmdReserveSpaceForCommandsNVX"()
+        vkCreateIndirectCommandsLayoutNVX = "vkCreateIndirectCommandsLayoutNVX"()
+        vkDestroyIndirectCommandsLayoutNVX = "vkDestroyIndirectCommandsLayoutNVX"()
+        vkCreateObjectTableNVX = "vkCreateObjectTableNVX"()
+        vkDestroyObjectTableNVX = "vkDestroyObjectTableNVX"()
+        vkRegisterObjectsNVX = "vkRegisterObjectsNVX"()
+        vkUnregisterObjectsNVX = "vkUnregisterObjectsNVX"()
+        vkGetImageViewHandleNVX = "vkGetImageViewHandleNVX"()
     }
 }
-
-fun FunctionProvider.checkCapsDeviceVK10(caps: MutableMap<String, Ptr>, ext: Set<String>): Boolean =
-        "Vulkan10" in ext && VK.checkExtension(
-                "Vulkan10",
-                isSupported("vkGetDeviceProcAddr", caps)
-                        && isSupported("vkDestroyDevice", caps)
-                        && isSupported("vkGetDeviceQueue", caps)
-                        && isSupported("vkQueueSubmit", caps)
-                        && isSupported("vkQueueWaitIdle", caps)
-                        && isSupported("vkDeviceWaitIdle", caps)
-                        && isSupported("vkAllocateMemory", caps)
-                        && isSupported("vkFreeMemory", caps)
-                        && isSupported("vkMapMemory", caps)
-                        && isSupported("vkUnmapMemory", caps)
-                        && isSupported("vkFlushMappedMemoryRanges", caps)
-                        && isSupported("vkInvalidateMappedMemoryRanges", caps)
-                        && isSupported("vkGetDeviceMemoryCommitment", caps)
-                        && isSupported("vkBindBufferMemory", caps)
-                        && isSupported("vkBindImageMemory", caps)
-                        && isSupported("vkGetBufferMemoryRequirements", caps)
-                        && isSupported("vkGetImageMemoryRequirements", caps)
-                        && isSupported("vkGetImageSparseMemoryRequirements", caps)
-                        && isSupported("vkQueueBindSparse", caps)
-                        && isSupported("vkCreateFence", caps)
-                        && isSupported("vkDestroyFence", caps)
-                        && isSupported("vkResetFences", caps)
-                        && isSupported("vkGetFenceStatus", caps)
-                        && isSupported("vkWaitForFences", caps)
-                        && isSupported("vkCreateSemaphore", caps)
-                        && isSupported("vkDestroySemaphore", caps)
-                        && isSupported("vkCreateEvent", caps)
-                        && isSupported("vkDestroyEvent", caps)
-                        && isSupported("vkGetEventStatus", caps)
-                        && isSupported("vkSetEvent", caps)
-                        && isSupported("vkResetEvent", caps)
-                        && isSupported("vkCreateQueryPool", caps)
-                        && isSupported("vkDestroyQueryPool", caps)
-                        && isSupported("vkGetQueryPoolResults", caps)
-                        && isSupported("vkCreateBuffer", caps)
-                        && isSupported("vkDestroyBuffer", caps)
-                        && isSupported("vkCreateBufferView", caps)
-                        && isSupported("vkDestroyBufferView", caps)
-                        && isSupported("vkCreateImage", caps)
-                        && isSupported("vkDestroyImage", caps)
-                        && isSupported("vkGetImageSubresourceLayout", caps)
-                        && isSupported("vkCreateImageView", caps)
-                        && isSupported("vkDestroyImageView", caps)
-                        && isSupported("vkCreateShaderModule", caps)
-                        && isSupported("vkDestroyShaderModule", caps)
-                        && isSupported("vkCreatePipelineCache", caps)
-                        && isSupported("vkDestroyPipelineCache", caps)
-                        && isSupported("vkGetPipelineCacheData", caps)
-                        && isSupported("vkMergePipelineCaches", caps)
-                        && isSupported("vkCreateGraphicsPipelines", caps)
-                        && isSupported("vkCreateComputePipelines", caps)
-                        && isSupported("vkDestroyPipeline", caps)
-                        && isSupported("vkCreatePipelineLayout", caps)
-                        && isSupported("vkDestroyPipelineLayout", caps)
-                        && isSupported("vkCreateSampler", caps)
-                        && isSupported("vkDestroySampler", caps)
-                        && isSupported("vkCreateDescriptorSetLayout", caps)
-                        && isSupported("vkDestroyDescriptorSetLayout", caps)
-                        && isSupported("vkCreateDescriptorPool", caps)
-                        && isSupported("vkDestroyDescriptorPool", caps)
-                        && isSupported("vkResetDescriptorPool", caps)
-                        && isSupported("vkAllocateDescriptorSets", caps)
-                        && isSupported("vkFreeDescriptorSets", caps)
-                        && isSupported("vkUpdateDescriptorSets", caps)
-                        && isSupported("vkCreateFramebuffer", caps)
-                        && isSupported("vkDestroyFramebuffer", caps)
-                        && isSupported("vkCreateRenderPass", caps)
-                        && isSupported("vkDestroyRenderPass", caps)
-                        && isSupported("vkGetRenderAreaGranularity", caps)
-                        && isSupported("vkCreateCommandPool", caps)
-                        && isSupported("vkDestroyCommandPool", caps)
-                        && isSupported("vkResetCommandPool", caps)
-                        && isSupported("vkAllocateCommandBuffers", caps)
-                        && isSupported("vkFreeCommandBuffers", caps)
-                        && isSupported("vkBeginCommandBuffer", caps)
-                        && isSupported("vkEndCommandBuffer", caps)
-                        && isSupported("vkResetCommandBuffer", caps)
-                        && isSupported("vkCmdBindPipeline", caps)
-                        && isSupported("vkCmdSetViewport", caps)
-                        && isSupported("vkCmdSetScissor", caps)
-                        && isSupported("vkCmdSetLineWidth", caps)
-                        && isSupported("vkCmdSetDepthBias", caps)
-                        && isSupported("vkCmdSetBlendConstants", caps)
-                        && isSupported("vkCmdSetDepthBounds", caps)
-                        && isSupported("vkCmdSetStencilCompareMask", caps)
-                        && isSupported("vkCmdSetStencilWriteMask", caps)
-                        && isSupported("vkCmdSetStencilReference", caps)
-                        && isSupported("vkCmdBindDescriptorSets", caps)
-                        && isSupported("vkCmdBindIndexBuffer", caps)
-                        && isSupported("vkCmdBindVertexBuffers", caps)
-                        && isSupported("vkCmdDraw", caps)
-                        && isSupported("vkCmdDrawIndexed", caps)
-                        && isSupported("vkCmdDrawIndirect", caps)
-                        && isSupported("vkCmdDrawIndexedIndirect", caps)
-                        && isSupported("vkCmdDispatch", caps)
-                        && isSupported("vkCmdDispatchIndirect", caps)
-                        && isSupported("vkCmdCopyBuffer", caps)
-                        && isSupported("vkCmdCopyImage", caps)
-                        && isSupported("vkCmdBlitImage", caps)
-                        && isSupported("vkCmdCopyBufferToImage", caps)
-                        && isSupported("vkCmdCopyImageToBuffer", caps)
-                        && isSupported("vkCmdUpdateBuffer", caps)
-                        && isSupported("vkCmdFillBuffer", caps)
-                        && isSupported("vkCmdClearColorImage", caps)
-                        && isSupported("vkCmdClearDepthStencilImage", caps)
-                        && isSupported("vkCmdClearAttachments", caps)
-                        && isSupported("vkCmdResolveImage", caps)
-                        && isSupported("vkCmdSetEvent", caps)
-                        && isSupported("vkCmdResetEvent", caps)
-                        && isSupported("vkCmdWaitEvents", caps)
-                        && isSupported("vkCmdPipelineBarrier", caps)
-                        && isSupported("vkCmdBeginQuery", caps)
-                        && isSupported("vkCmdEndQuery", caps)
-                        && isSupported("vkCmdResetQueryPool", caps)
-                        && isSupported("vkCmdWriteTimestamp", caps)
-                        && isSupported("vkCmdCopyQueryPoolResults", caps)
-                        && isSupported("vkCmdPushConstants", caps)
-                        && isSupported("vkCmdBeginRenderPass", caps)
-                        && isSupported("vkCmdNextSubpass", caps)
-                        && isSupported("vkCmdEndRenderPass", caps)
-                        && isSupported("vkCmdExecuteCommands", caps)
-        )
-
-fun FunctionProvider.checkCapsDeviceVK11(caps: MutableMap<String, Ptr>, ext: Set<String>): Boolean =
-        "Vulkan11" in ext && VK.checkExtension(
-                "Vulkan11",
-                isSupported("vkBindBufferMemory2", caps)
-                        && isSupported("vkBindImageMemory2", caps)
-                        && isSupported("vkGetDeviceGroupPeerMemoryFeatures", caps)
-                        && isSupported("vkCmdSetDeviceMask", caps)
-                        && isSupported("vkCmdDispatchBase", caps)
-                        && isSupported("vkGetImageMemoryRequirements2", caps)
-                        && isSupported("vkGetBufferMemoryRequirements2", caps)
-                        && isSupported("vkGetImageSparseMemoryRequirements2", caps)
-                        && isSupported("vkTrimCommandPool", caps)
-                        && isSupported("vkGetDeviceQueue2", caps)
-                        && isSupported("vkCreateSamplerYcbcrConversion", caps)
-                        && isSupported("vkDestroySamplerYcbcrConversion", caps)
-                        && isSupported("vkCreateDescriptorUpdateTemplate", caps)
-                        && isSupported("vkDestroyDescriptorUpdateTemplate", caps)
-                        && isSupported("vkUpdateDescriptorSetWithTemplate", caps)
-                        && isSupported("vkGetDescriptorSetLayoutSupport", caps)
-        )
