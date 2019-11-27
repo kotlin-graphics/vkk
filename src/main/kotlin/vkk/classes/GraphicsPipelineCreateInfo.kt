@@ -191,16 +191,16 @@ class GraphicsPipelineCreateInfo(
         nsType(adr, type.i)
         npNext(adr, next)
         nflags(adr, flags)
-        memPutAddress(adr + PSTAGES, stages.write(stack)); nstageCount(adr, stages.size)
-        vertexInputState?.let { memPutAddress(adr + PVERTEXINPUTSTATE, it.write(stack)) }
-        inputAssemblyState?.let { memPutAddress(adr + PINPUTASSEMBLYSTATE, it.write(stack)) }
-        tessellationState?.let { memPutAddress(adr + PTESSELLATIONSTATE, it.write(stack)) }
-        viewportState?.let { memPutAddress(adr + PVIEWPORTSTATE, it.write(stack)) }
-        memPutAddress(adr + PRASTERIZATIONSTATE, rasterizationState.write(stack))
-        multisampleState?.let { memPutAddress(adr + PMULTISAMPLESTATE, it.write(stack)) }
-        depthStencilState?.let { memPutAddress(adr + PDEPTHSTENCILSTATE, it.write(stack)) }
-        colorBlendState?.let { memPutAddress(adr + PCOLORBLENDSTATE, it.write(stack)) }
-        dynamicState?.let { memPutAddress(adr + PDYNAMICSTATE, it.write(stack)) }
+        memPutAddress(adr + PSTAGES, stages write stack); nstageCount(adr, stages.size)
+        vertexInputState?.let { memPutAddress(adr + PVERTEXINPUTSTATE, it write stack) }
+        inputAssemblyState?.let { memPutAddress(adr + PINPUTASSEMBLYSTATE, it write stack) }
+        tessellationState?.let { memPutAddress(adr + PTESSELLATIONSTATE, it write stack) }
+        viewportState?.let { memPutAddress(adr + PVIEWPORTSTATE, it write stack) }
+        memPutAddress(adr + PRASTERIZATIONSTATE, rasterizationState write stack)
+        multisampleState?.let { memPutAddress(adr + PMULTISAMPLESTATE, it write stack) }
+        depthStencilState?.let { memPutAddress(adr + PDEPTHSTENCILSTATE, it write stack) }
+        colorBlendState?.let { memPutAddress(adr + PCOLORBLENDSTATE, it write stack) }
+        dynamicState?.let { memPutAddress(adr + PDYNAMICSTATE, it write stack) }
         nlayout(adr, layout.L)
         nrenderPass(adr, renderPass.L)
         nsubpass(adr, subpass)

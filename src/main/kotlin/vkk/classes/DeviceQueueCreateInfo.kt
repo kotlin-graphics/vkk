@@ -2,6 +2,7 @@ package classes
 
 import kool.Adr
 import kool.Ptr
+import kool.toFloatAdr
 import kool.toFloatBuffer
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.NULL
@@ -88,11 +89,11 @@ class DeviceQueueCreateInfo(
         nflags(adr, flags)
         nqueueFamilyIndex(adr, queueFamilyIndex)
         nqueueCount(adr, queuePriorities.size)
-        memPutAddress(adr + PQUEUEPRIORITIES, queuePriorities.toFloatAdr(stack))
+        memPutAddress(adr + PQUEUEPRIORITIES, queuePriorities.toFloatAdr(stack).adr)
     }
 }
 
-fun Array<DeviceQueueCreateInfo>.write(stack: MemoryStack): Ptr {
+infix fun Array<DeviceQueueCreateInfo>.write(stack: MemoryStack): Ptr {
     val natives = stack.ncalloc(ALIGNOF, size, SIZEOF)
     for (i in indices)
         this[i].write(natives + SIZEOF * i, stack)

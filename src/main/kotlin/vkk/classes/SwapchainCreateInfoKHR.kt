@@ -1,9 +1,7 @@
 package classes
 
 import glm_.i
-import kool.Ptr
-import kool.adr
-import kool.toBuffer
+import kool.*
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.NULL
 import org.lwjgl.system.MemoryUtil.memPutAddress
@@ -117,47 +115,48 @@ import vkk.entities.VkSwapchainKHR
  * }</code></pre>
  */
 class SwapchainCreateInfoKHR(
-    var flags: VkSwapchainCreateFlagsKHR = 0,
-    var surface: VkSurfaceKHR,
-    var minImageCount: Int,
-    var imageFormat: VkFormat,
-    var imageColorSpace: VkColorSpaceKHR,
-    var imageExtent: Extent2D = Extent2D(0, 0),
-    var imageArrayLayers: Int,
-    var imageUsage: VkImageUsageFlags,
-    var imageSharingMode: VkSharingMode,
-    var queueFamilyIndices: IntArray? = null,
-    var preTransform: VkSurfaceTransformKHR,
-    var compositeAlpha: VkCompositeAlphaKHR,
-    var presentMode: VkPresentModeKHR,
-    var clipped: Boolean,
-    var oldSwapchain: VkSwapchainKHR,
-    var next: Ptr = NULL
+        var flags: VkSwapchainCreateFlagsKHR = 0,
+        var surface: VkSurfaceKHR,
+        var minImageCount: Int,
+        var imageFormat: VkFormat,
+        var imageColorSpace: VkColorSpaceKHR,
+        var imageExtent: Extent2D = Extent2D(0, 0),
+        var imageArrayLayers: Int,
+        var imageUsage: VkImageUsageFlags,
+        var imageSharingMode: VkSharingMode,
+        var queueFamilyIndices: IntArray? = null,
+        var preTransform: VkSurfaceTransformKHR,
+        var compositeAlpha: VkCompositeAlphaKHR,
+        var presentMode: VkPresentModeKHR,
+        var clipped: Boolean,
+        var oldSwapchain: VkSwapchainKHR,
+        var next: Ptr = NULL
 ) {
 
     val type get() = VkStructureType.SWAPCHAIN_CREATE_INFO_KHR
 
-    val MemoryStack.native: Ptr
-        get() = ncalloc(ALIGNOF, 1, SIZEOF).also { ptr ->
-            nsType(ptr, type.i)
-            npNext(ptr, next)
-            nflags(ptr, flags)
-            nsurface(ptr, surface.L)
-            nminImageCount(ptr, minImageCount)
-            nimageFormat(ptr, imageFormat.i)
-            nimageColorSpace(ptr, imageColorSpace.i)
-            imageExtent.toPtr(ptr + IMAGEEXTENT)
-            nimageArrayLayers(ptr, imageArrayLayers)
-            nimageUsage(ptr, imageUsage)
-            nimageSharingMode(ptr, imageSharingMode.i)
-            queueFamilyIndices?.let {
-                nqueueFamilyIndexCount(ptr, it.size)
-                memPutAddress(ptr + PQUEUEFAMILYINDICES, it.toBuffer(this).adr) // TODO nToBuffer
-            }
-            npreTransform(ptr, preTransform.i)
-            ncompositeAlpha(ptr, compositeAlpha.i)
-            npresentMode(ptr, presentMode.i)
-            nclipped(ptr, clipped.i)
-            noldSwapchain(ptr, oldSwapchain.L)
+    fun write(stack: MemoryStack): Adr {
+        val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
+        nsType(adr, type.i)
+        npNext(adr, next)
+        nflags(adr, flags)
+        nsurface(adr, surface.L)
+        nminImageCount(adr, minImageCount)
+        nimageFormat(adr, imageFormat.i)
+        nimageColorSpace(adr, imageColorSpace.i)
+        imageExtent.write(adr + IMAGEEXTENT)
+        nimageArrayLayers(adr, imageArrayLayers)
+        nimageUsage(adr, imageUsage)
+        nimageSharingMode(adr, imageSharingMode.i)
+        queueFamilyIndices?.let {
+            nqueueFamilyIndexCount(adr, it.size)
+            memPutAddress(adr + PQUEUEFAMILYINDICES, it.toAdr(stack).adr)
         }
+        npreTransform(adr, preTransform.i)
+        ncompositeAlpha(adr, compositeAlpha.i)
+        npresentMode(adr, presentMode.i)
+        nclipped(adr, clipped.i)
+        noldSwapchain(adr, oldSwapchain.L)
+        return adr
+    }
 }

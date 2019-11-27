@@ -1,10 +1,9 @@
 package classes
 
+import kool.Adr
 import kool.Ptr
 import org.lwjgl.system.MemoryStack
-import org.lwjgl.system.MemoryUtil
 import org.lwjgl.system.MemoryUtil.NULL
-import org.lwjgl.vulkan.VkShaderModuleCreateInfo
 import org.lwjgl.vulkan.VkShaderModuleCreateInfo.*
 import vkk.VkShaderModuleCreateFlags
 import vkk.VkStructureType
@@ -61,20 +60,21 @@ import java.nio.ByteBuffer
  * }</code></pre>
  */
 class ShaderModuleCreateInfo(
-    var flags: VkShaderModuleCreateFlags = 0,
-    var codeSize: Long,
-    var code: ByteBuffer,
-    var next: Ptr = NULL
+        var flags: VkShaderModuleCreateFlags = 0,
+        var codeSize: Long,
+        var code: ByteBuffer,
+        var next: Ptr = NULL
 ) {
 
     val type get() = VkStructureType.SHADER_MODULE_CREATE_INFO
 
-    val MemoryStack.native: Ptr
-        get() = ncalloc(ALIGNOF, 1, SIZEOF).also {
-            nsType(it, type.i)
-            npNext(it, next)
-            nflags(it, flags)
-            ncodeSize(it, codeSize)
-            npCode(it, code)
-        }
+    infix fun write(stack: MemoryStack): Adr {
+        val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
+        nsType(adr, type.i)
+        npNext(adr, next)
+        nflags(adr, flags)
+        ncodeSize(adr, codeSize)
+        npCode(adr, code)
+        return adr
+    }
 }

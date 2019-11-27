@@ -1,6 +1,6 @@
 package classes
 
-import kool.Ptr
+import kool.Adr
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.vulkan.VkStencilOpState.*
 import vkk.VkCompareOp
@@ -48,25 +48,26 @@ import vkk.VkStencilOp
  * }</code></pre>
  */
 class StencilOpState(
-    var failOp: VkStencilOp = VkStencilOp.KEEP,
-    var passOp: VkStencilOp = VkStencilOp.KEEP,
-    var depthFailOp: VkStencilOp = VkStencilOp.KEEP,
-    var compareOp: VkCompareOp = VkCompareOp.NEVER,
-    var compareMask: Int = 0,
-    var writeMask: Int = 0,
-    var reference: Int = 0
+        var failOp: VkStencilOp = VkStencilOp.KEEP,
+        var passOp: VkStencilOp = VkStencilOp.KEEP,
+        var depthFailOp: VkStencilOp = VkStencilOp.KEEP,
+        var compareOp: VkCompareOp = VkCompareOp.NEVER,
+        var compareMask: Int = 0,
+        var writeMask: Int = 0,
+        var reference: Int = 0
 ) {
 
-    val MemoryStack.native: Ptr
-        get() = ncalloc(ALIGNOF, 1, SIZEOF).also { toPtr(it) }
+    fun write(stack: MemoryStack): Adr =
+            stack.ncalloc(ALIGNOF, 1, SIZEOF).also { write(it) }
 
-    infix fun toPtr(ptr: Ptr) {
-        nfailOp(ptr, failOp.i)
-        npassOp(ptr, passOp.i)
-        ndepthFailOp(ptr, depthFailOp.i)
-        ncompareOp(ptr, compareOp.i)
-        ncompareMask(ptr, compareMask)
-        nwriteMask(ptr, writeMask)
-        nreference(ptr, reference)
+    infix fun write(adr: Adr): Adr {
+        nfailOp(adr, failOp.i)
+        npassOp(adr, passOp.i)
+        ndepthFailOp(adr, depthFailOp.i)
+        ncompareOp(adr, compareOp.i)
+        ncompareMask(adr, compareMask)
+        nwriteMask(adr, writeMask)
+        nreference(adr, reference)
+        return adr
     }
 }

@@ -13,10 +13,6 @@ import org.lwjgl.system.MemoryUtil.*
 import org.lwjgl.vulkan.VK10.VK_NULL_HANDLE
 import org.lwjgl.vulkan.VK10.VK_SUCCESS
 import org.lwjgl.vulkan.VkExtensionProperties
-import util.longAddress
-import util.nUtf8
-import util.nmallocInt
-import util.pointerAddress
 import vkk.*
 import vkk.entities.VkDebugReportCallback
 import java.util.*
@@ -54,8 +50,8 @@ private constructor(handle: Ptr, ci: InstanceCreateInfo) :
         location: Long, messageCode: Int, pLayerPrefix: String, pMessage: String
     ) = stak { s ->
         callPJPPPV(
-            adr, flags, objectType.i, `object`, location, messageCode, s.nUtf8(pLayerPrefix),
-            s.nUtf8(pMessage), capabilities.vkCreateDebugReportCallbackEXT
+            adr, flags, objectType.i, `object`, location, messageCode, s.utf8Adr(pLayerPrefix),
+            s.utf8Adr(pMessage), capabilities.vkCreateDebugReportCallbackEXT
         )
     }
 
@@ -70,15 +66,15 @@ private constructor(handle: Ptr, ci: InstanceCreateInfo) :
     val enumeratePhysicalDevices: Array<PhysicalDevice>
         get() = stak {
             lateinit var physicalDevices: PointerBuffer
-            val pPhysicalDeviceGroupCount = it.nmallocInt()
+            val pPhysicalDeviceGroupCount = it.mInt()
             var physicalDeviceCount: Int
             var result: VkResult
             do {
-                result = nEnumeratePhysicalDevices(pPhysicalDeviceGroupCount, NULL).apply { check() }
-                physicalDeviceCount = memGetInt(pPhysicalDeviceGroupCount)
+                result = nEnumeratePhysicalDevices(pPhysicalDeviceGroupCount.adr, NULL).apply { check() }
+                physicalDeviceCount = pPhysicalDeviceGroupCount[0]
                 if (result == VkResult.SUCCESS && physicalDeviceCount != 0) {
                     physicalDevices = it.PointerBuffer(physicalDeviceCount)
-                    result = nEnumeratePhysicalDevices(pPhysicalDeviceGroupCount, physicalDevices.adr)
+                    result = nEnumeratePhysicalDevices(pPhysicalDeviceGroupCount.adr, physicalDevices.adr)
                 }
             } while (result == VkResult.INCOMPLETE)
             Array(physicalDeviceCount) { PhysicalDevice(physicalDevices[0], this) }

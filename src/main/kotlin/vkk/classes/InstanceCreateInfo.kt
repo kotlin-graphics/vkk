@@ -7,7 +7,6 @@ import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.*
 import org.lwjgl.vulkan.*
 import org.lwjgl.vulkan.VkInstanceCreateInfo.*
-import util.PointerBuffer
 import vkk.VkStructureType
 
 /**

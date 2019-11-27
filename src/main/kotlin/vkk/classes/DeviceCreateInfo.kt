@@ -96,10 +96,10 @@ class DeviceCreateInfo(
         npNext(adr, next)
         nflags(adr, flags)
         nqueueCreateInfoCount(adr, queueCreateInfos.size)
-        memPutAddress(adr + PQUEUECREATEINFOS, queueCreateInfos.write(stack))
+        memPutAddress(adr + PQUEUECREATEINFOS, queueCreateInfos write stack)
         nenabledExtensionCount(adr, enabledExtensionNames.size)
         memPutAddress(adr + PPENABLEDEXTENSIONNAMES, stack.PointerAdr(enabledExtensionNames))
-        enabledFeatures?.let { memPutAddress(adr + PENABLEDFEATURES, it.write(stack)) }
+        enabledFeatures?.let { memPutAddress(adr + PENABLEDFEATURES, it write stack) }
         return adr
     }
 }

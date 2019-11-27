@@ -3,8 +3,6 @@ package classes
 import glm_.i
 import kool.Ptr
 import org.lwjgl.system.MemoryStack
-import org.lwjgl.vulkan.VkDeviceQueueCreateInfo
-import org.lwjgl.vulkan.VkPipelineColorBlendAttachmentState
 import org.lwjgl.vulkan.VkPipelineColorBlendAttachmentState.*
 import vkk.VkBlendFactor
 import vkk.VkBlendOp
@@ -81,7 +79,7 @@ class PipelineColorBlendAttachmentState(
     var colorWriteMask: VkColorComponentFlags = 0
 ) {
 
-    infix fun toPtr(ptr: Ptr) {
+    infix fun write(ptr: Ptr) {
         nblendEnable(ptr, blendEnable.i)
         nsrcColorBlendFactor(ptr, srcColorBlendFactor.i)
         ndstColorBlendFactor(ptr, dstColorBlendFactor.i)
@@ -93,9 +91,9 @@ class PipelineColorBlendAttachmentState(
     }
 }
 
-fun Array<PipelineColorBlendAttachmentState>.write(stack: MemoryStack): Ptr {
+infix fun Array<PipelineColorBlendAttachmentState>.write(stack: MemoryStack): Ptr {
     val natives = stack.ncalloc(ALIGNOF, size, SIZEOF)
     for (i in indices)
-        this[i].toPtr(natives + SIZEOF * i)
+        this[i].write(natives + SIZEOF * i)
     return natives
 }

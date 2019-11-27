@@ -1,5 +1,6 @@
 package classes
 
+import kool.Adr
 import kool.Ptr
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.NULL
@@ -40,14 +41,15 @@ import vkk.VkStructureType
  * }</code></pre>
  */
 class SemaphoreCreateInfo(
-    var next: Ptr = NULL
+        var next: Ptr = NULL
 ) {
 
     val type get() = VkStructureType.SEMAPHORE_CREATE_INFO
 
-    val MemoryStack.native: Ptr
-        get() = ncalloc(ALIGNOF, 1, SIZEOF).also {
-            nsType(it, type.i)
-            npNext(it, next)
-        }
+    infix fun write(stack: MemoryStack): Adr {
+        val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
+        nsType(adr, type.i)
+        npNext(adr, next)
+        return adr
+    }
 }

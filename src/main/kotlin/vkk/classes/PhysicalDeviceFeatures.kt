@@ -323,10 +323,10 @@ class PhysicalDeviceFeatures(
         var inheritedQueries: Boolean = false
 ) {
 
-    fun write(stack: MemoryStack): Adr =
+    infix fun write(stack: MemoryStack): Adr =
             stack.ncalloc(ALIGNOF, 1, SIZEOF).also { write(it) }
 
-    fun write(adr: Adr) {
+    infix fun write(adr: Adr) {
         nrobustBufferAccess(adr, robustBufferAccess.i)
         nfullDrawIndexUint32(adr, fullDrawIndexUint32.i)
         nimageCubeArray(adr, imageCubeArray.i)

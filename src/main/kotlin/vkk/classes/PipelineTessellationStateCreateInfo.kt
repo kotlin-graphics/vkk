@@ -1,10 +1,9 @@
 package classes
 
+import kool.Adr
 import kool.Ptr
 import org.lwjgl.system.MemoryStack
-import org.lwjgl.system.MemoryUtil
 import org.lwjgl.system.MemoryUtil.NULL
-import org.lwjgl.vulkan.VkPipelineTessellationStateCreateInfo
 import org.lwjgl.vulkan.VkPipelineTessellationStateCreateInfo.*
 import vkk.VkStructureType
 
@@ -49,16 +48,17 @@ import vkk.VkStructureType
  * }</code></pre>
  */
 class PipelineTessellationStateCreateInfo(
-    var patchControlPoints: Int,
-    var next: Ptr = NULL
+        var patchControlPoints: Int,
+        var next: Ptr = NULL
 ) {
 
     val type get() = VkStructureType.PIPELINE_TESSELLATION_STATE_CREATE_INFO
 
-    val MemoryStack.native: Ptr
-        get() = ncalloc(ALIGNOF, 1, SIZEOF).also {
-            nsType(it, type.i)
-            npNext(it, next)
-            npatchControlPoints(it, patchControlPoints)
-        }
+    infix fun write(stack: MemoryStack): Adr {
+        val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
+        nsType(adr, type.i)
+        npNext(adr, next)
+        npatchControlPoints(adr, patchControlPoints)
+        return adr
+    }
 }

@@ -1,11 +1,11 @@
 package classes
 
-import kool.Ptr
+import kool.Adr
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.memPutAddress
 import org.lwjgl.vulkan.VkPipelineLayoutCreateInfo.*
 import vkk.VkStructureType
-import vkk.entities.VkDescriptorSetLayout_Buffer
+import vkk.entities.VkDescriptorSetLayout_Array
 
 /**
  * Structure specifying the parameters of a newly created pipeline layout object.
@@ -96,19 +96,23 @@ import vkk.entities.VkDescriptorSetLayout_Buffer
  * }</code></pre>
  */
 class PipelineLayoutCreateInfo(
-    var setLayouts: VkDescriptorSetLayout_Buffer? = null,
-    var pushConstantRanges: Array<PushConstantRange>? = null
+        var setLayouts: VkDescriptorSetLayout_Array? = null,
+        var pushConstantRanges: Array<PushConstantRange>? = null
 ) {
 
     val type get() = VkStructureType.PIPELINE_LAYOUT_CREATE_INFO
 
-    val MemoryStack.native: Ptr
-        get() = ncalloc(ALIGNOF, 1, SIZEOF).also { p ->
-            nsType(p, type.i)
-            npSetLayouts(p, setLayouts?.buffer)
-            pushConstantRanges?.let {
-                memPutAddress(p + PPUSHCONSTANTRANGES, it.write(this))
-                npushConstantRangeCount(p, it.size)
-            }
+    fun write(stack: MemoryStack): Adr {
+        val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
+        nsType(adr, type.i)
+        setLayouts?.let {
+            nsetLayoutCount(adr, it.size)
+            memPutAddress(adr + PSETLAYOUTS, it write stack)
         }
+        pushConstantRanges?.let {
+            npushConstantRangeCount(adr, it.size)
+            memPutAddress(adr + PPUSHCONSTANTRANGES, it write stack)
+        }
+        return adr
+    }
 }

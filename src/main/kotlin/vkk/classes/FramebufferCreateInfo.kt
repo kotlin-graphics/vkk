@@ -3,11 +3,11 @@ package classes
 import glm_.vec3.Vec3i
 import kool.Adr
 import kool.Ptr
+import kool.toLongAdr
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.NULL
 import org.lwjgl.system.MemoryUtil.memPutAddress
 import org.lwjgl.vulkan.VkFramebufferCreateInfo.*
-import util.native
 import vkk.VkFramebufferCreateFlags
 import vkk.VkStructureType
 import vkk.entities.VkImageView_Array
@@ -142,9 +142,9 @@ class FramebufferCreateInfo(
         nrenderPass(adr, renderPass.L)
         attachments?.let {
             nattachmentCount(adr, it.size)
-            memPutAddress(adr + PATTACHMENTS, it.array.toLongAdr(stack))
+            memPutAddress(adr + PATTACHMENTS, it.array.toLongAdr(stack).adr)
         }
-        dimension.to(adr + WIDTH)
+        dimension to (adr + WIDTH)
         return adr
     }
 }

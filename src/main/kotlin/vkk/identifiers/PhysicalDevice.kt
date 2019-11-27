@@ -1,19 +1,16 @@
 package identifiers
 
 import classes.*
-import kool.Adr
-import kool.Ptr
-import kool.adr
+import glm_.bool
+import kool.*
 import org.lwjgl.system.JNI.*
 import org.lwjgl.system.MemoryUtil.*
 import org.lwjgl.vulkan.VkQueueFamilyProperties
 import org.lwjgl.vulkan.VkSurfaceFormatKHR
-import util.VkPresentModeKHR_Array
-import util.nmallocInt
-import util.pointerAddress
 import vkk.VK_CHECK_RESULT
 import vkk.VkPresentModeKHR
 import vkk.VkResult
+import vkk.entities.VkPresentModeKHR_Array
 import vkk.entities.VkSurfaceKHR
 import vkk.stak
 
@@ -25,16 +22,16 @@ class PhysicalDevice
  * @param handle   the native `VkDevice` handle
  * @param instance the Vulkan instance from which the physical device was enumerated
  */(
-    handle: Adr,
-    /** Returns the Vulkan instance from which this physical device was enumerated.  */
-    val instance: Instance
+        handle: Adr,
+        /** Returns the Vulkan instance from which this physical device was enumerated.  */
+        val instance: Instance
 ) : Dispatchable(handle, instance.capabilities) {
 
     // --- [ vkCreateDevice ] ---
     infix fun createDevice(createInfo: DeviceCreateInfo): Device = stak { s ->
-        val handle = s.pointerAddress {
+        val handle = s.pointerAdr {
             VK_CHECK_RESULT(
-                callPPPPI(adr, createInfo.run { s.native }, NULL, it, capabilities.vkCreateDevice)
+                    callPPPPI(adr, createInfo.write(s), NULL, it, capabilities.vkCreateDevice)
             )
         }
         Device(handle, this, createInfo)
@@ -42,29 +39,29 @@ class PhysicalDevice
 
     // --- [ vkGetPhysicalDeviceSurfaceFormatsKHR ] ---
     inline fun nGetSurfaceFormatsKHR(surface: VkSurfaceKHR, pSurfaceFormatCount: Ptr, pSurfaceFormats: Ptr = NULL): VkResult =
-        VkResult(callPJPPI(adr, surface.L, pSurfaceFormatCount, pSurfaceFormats, capabilities.vkGetPhysicalDeviceSurfaceFormatsKHR))
+            VkResult(callPJPPI(adr, surface.L, pSurfaceFormatCount, pSurfaceFormats, capabilities.vkGetPhysicalDeviceSurfaceFormatsKHR))
 
     infix fun getSurfaceFormatsKHR(surface: VkSurfaceKHR): MutableList<SurfaceFormatKHR> =
-        stak { s ->
-            val pCount = s.nmallocInt()
-            nGetSurfaceFormatsKHR(surface, pCount).check()
-            val count = memGetInt(pCount)
-            assert(count > 0)
-            val pSurfaceFormats = SurfaceFormatKHR.ncalloc(s, count)
-            nGetSurfaceFormatsKHR(surface, pCount, pSurfaceFormats)
-            return MutableList(count) { SurfaceFormatKHR(pSurfaceFormats + VkSurfaceFormatKHR.SIZEOF * it) }
-        }
+            stak { s ->
+                val pCount = s.mInt()
+                nGetSurfaceFormatsKHR(surface, pCount.adr).check()
+                val count = pCount[0]
+                assert(count > 0)
+                val pSurfaceFormats = SurfaceFormatKHR.ncalloc(s, count)
+                nGetSurfaceFormatsKHR(surface, pCount.adr, pSurfaceFormats)
+                return MutableList(count) { SurfaceFormatKHR(IntPtr(pSurfaceFormats + VkSurfaceFormatKHR.SIZEOF * it)) }
+            }
 
     // --- [ vkGetPhysicalDeviceSurfaceSupportKHR ] ---
 
     fun getSurfaceSupportKHR(
-        queueFamilyProperties: Collection<QueueFamilyProperties>,
-        surface: VkSurfaceKHR
+            queueFamilyProperties: Collection<QueueFamilyProperties>,
+            surface: VkSurfaceKHR
     ): BooleanArray = stak { s ->
-        val supported = s.nmallocInt()
+        val supported = s.mInt()
         BooleanArray(queueFamilyProperties.size) {
-            callPJPI(adr, it, surface.L, supported, capabilities.vkGetPhysicalDeviceSurfaceSupportKHR)
-            memGetBoolean(supported)
+            callPJPI(adr, it, surface.L, supported.adr, capabilities.vkGetPhysicalDeviceSurfaceSupportKHR)
+            supported[0].bool
         }
     }
 
@@ -78,49 +75,47 @@ class PhysicalDevice
 
     // --- [ vkGetPhysicalDeviceQueueFamilyProperties ] ---
     inline fun nGetQueueFamilyProperties(pQueueFamilyPropertyCount: Ptr, pQueueFamilyProperties: Ptr = NULL) =
-        callPPPV(
-            adr,
-            pQueueFamilyPropertyCount,
-            pQueueFamilyProperties,
-            capabilities.vkGetPhysicalDeviceQueueFamilyProperties
-        )
+            callPPPV(
+                    adr,
+                    pQueueFamilyPropertyCount,
+                    pQueueFamilyProperties,
+                    capabilities.vkGetPhysicalDeviceQueueFamilyProperties
+            )
 
     val queueFamilyProperties: MutableList<QueueFamilyProperties>
         get() = stak { s ->
-            val pCount = s.nmallocInt()
-            nGetQueueFamilyProperties(pCount)
-            val count = memGetInt(pCount)
+            val pCount = s.mInt()
+            nGetQueueFamilyProperties(pCount.adr)
+            val count = pCount[0]
             val pQueueFamilyProperties = QueueFamilyProperties.ncalloc(s, count)
-            nGetQueueFamilyProperties(pCount, pQueueFamilyProperties)
+            nGetQueueFamilyProperties(pCount.adr, pQueueFamilyProperties)
             MutableList(count) { QueueFamilyProperties(pQueueFamilyProperties + VkQueueFamilyProperties.SIZEOF * it) }
         }
 
     // --- [ vkGetPhysicalDeviceSurfaceCapabilitiesKHR ] ---
     infix fun getSurfaceCapabilitiesKHR(surface: VkSurfaceKHR): SurfaceCapabilitiesKHR = stak { s ->
-        SurfaceCapabilitiesKHR.fromNative(s) {
+        SurfaceCapabilitiesKHR.read(s) {
             VK_CHECK_RESULT(callPJPI(adr, surface.L, it, capabilities.vkGetPhysicalDeviceSurfaceCapabilitiesKHR))
         }
     }
 
     // --- [ vkGetPhysicalDeviceSurfacePresentModesKHR ] ---
     inline fun nGetSurfacePresentModesKHR(surface: VkSurfaceKHR, pPresentModeCount: Ptr, pPresentModes: Ptr = NULL): VkResult =
-        VkResult(callPJPPI(adr, surface.L, pPresentModeCount, pPresentModes, capabilities.vkGetPhysicalDeviceSurfacePresentModesKHR))
+            VkResult(callPJPPI(adr, surface.L, pPresentModeCount, pPresentModes, capabilities.vkGetPhysicalDeviceSurfacePresentModesKHR))
 
     infix fun getSurfacePresentModesKHR(surface: VkSurfaceKHR): VkPresentModeKHR_Array = stak { s ->
-        val pPresentModeCount = s.nmallocInt()
+        val pPresentModeCount = s.mInt()
         var propertyCount: Int
         var result: VkResult
-        var pPresentModes: Ptr = NULL
+        var pPresentModes = IntPtr.NULL
         do {
-            result = nGetSurfacePresentModesKHR(surface, pPresentModeCount)
-            propertyCount = memGetInt(pPresentModeCount)
+            result = nGetSurfacePresentModesKHR(surface, pPresentModeCount.adr)
+            propertyCount = pPresentModeCount[0]
             if (result == VkResult.SUCCESS && propertyCount != 0) {
-                pPresentModes = s.nmallocInt(propertyCount)
-                nGetSurfacePresentModesKHR(surface, pPresentModeCount, pPresentModes).check()
+                pPresentModes = s.mInt(propertyCount)
+                nGetSurfacePresentModesKHR(surface, pPresentModeCount.adr, pPresentModes.adr).check()
             }
         } while (result == VkResult.INCOMPLETE)
-        VkPresentModeKHR_Array(propertyCount) {
-            VkPresentModeKHR(memGetInt(pPresentModes + Int.BYTES * it))
-        }
+        VkPresentModeKHR_Array(propertyCount) { VkPresentModeKHR(pPresentModes[it]) }
     }
 }

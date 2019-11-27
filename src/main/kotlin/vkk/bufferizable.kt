@@ -6,10 +6,7 @@ import glm_.mat4x4.Mat4
 import glm_.vec2.Vec2
 import glm_.vec3.Vec3
 import glm_.vec4.Vec4
-import kool.Adr
-import kool.Buffer
-import kool.IntBuffer
-import kool.Ptr
+import kool.*
 import org.lwjgl.system.MemoryUtil.*
 import java.nio.ByteBuffer
 import kotlin.reflect.KProperty1

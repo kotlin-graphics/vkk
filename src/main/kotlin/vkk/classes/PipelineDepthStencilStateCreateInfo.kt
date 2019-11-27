@@ -1,11 +1,9 @@
 package classes
 
 import glm_.i
-import kool.Ptr
+import kool.Adr
 import org.lwjgl.system.MemoryStack
-import org.lwjgl.vulkan.VkPipelineDepthStencilStateCreateInfo
 import org.lwjgl.vulkan.VkPipelineDepthStencilStateCreateInfo.*
-import org.lwjgl.vulkan.VkStencilOpState
 import vkk.VkCompareOp
 import vkk.VkStructureType
 
@@ -69,30 +67,31 @@ import vkk.VkStructureType
  * }</code></pre>
  */
 class PipelineDepthStencilStateCreateInfo(
-    var depthTestEnable: Boolean = false,
-    var depthWriteEnable: Boolean = false,
-    var depthCompareOp: VkCompareOp = VkCompareOp.NEVER,
-    var depthBoundsTestEnable: Boolean = false,
-    var stencilTestEnable: Boolean = false,
-    var front: StencilOpState = StencilOpState(),
-    var back: StencilOpState = front,
-    var minDepthBounds: Float = 0f,
-    var maxDepthBounds: Float = 0f
+        var depthTestEnable: Boolean = false,
+        var depthWriteEnable: Boolean = false,
+        var depthCompareOp: VkCompareOp = VkCompareOp.NEVER,
+        var depthBoundsTestEnable: Boolean = false,
+        var stencilTestEnable: Boolean = false,
+        var front: StencilOpState = StencilOpState(),
+        var back: StencilOpState = front,
+        var minDepthBounds: Float = 0f,
+        var maxDepthBounds: Float = 0f
 ) {
 
     val type get() = VkStructureType.PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO
 
-    val MemoryStack.native: Ptr
-        get() = ncalloc(ALIGNOF, 1, SIZEOF).also {
-            nsType(it, type.i)
-            ndepthTestEnable(it, depthTestEnable.i)
-            ndepthWriteEnable(it, depthWriteEnable.i)
-            ndepthCompareOp(it, depthCompareOp.i)
-            ndepthBoundsTestEnable(it, depthBoundsTestEnable.i)
-            nstencilTestEnable(it, stencilTestEnable.i)
-            front.toPtr(it + FRONT)
-            back.toPtr(it + BACK)
-            nminDepthBounds(it, minDepthBounds)
-            nmaxDepthBounds(it, maxDepthBounds)
-        }
+    infix fun write(stack: MemoryStack): Adr {
+        val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
+        nsType(adr, type.i)
+        ndepthTestEnable(adr, depthTestEnable.i)
+        ndepthWriteEnable(adr, depthWriteEnable.i)
+        ndepthCompareOp(adr, depthCompareOp.i)
+        ndepthBoundsTestEnable(adr, depthBoundsTestEnable.i)
+        nstencilTestEnable(adr, stencilTestEnable.i)
+        front write (adr + FRONT)
+        back write (adr + BACK)
+        nminDepthBounds(adr, minDepthBounds)
+        nmaxDepthBounds(adr, maxDepthBounds)
+        return adr
+    }
 }

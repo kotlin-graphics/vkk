@@ -2,6 +2,7 @@ package classes
 
 import glm_.i
 import glm_.vec4.Vec4
+import kool.Adr
 import kool.Ptr
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.NULL
@@ -66,32 +67,33 @@ import vkk.VkStructureType
  * }</code></pre>
  */
 class PipelineColorBlendStateCreateInfo(
-    var logicOpEnable: Boolean = false,
-    var logicOp: VkLogicOp = VkLogicOp.CLEAR,
-    var attachments: Array<PipelineColorBlendAttachmentState>? = null,
-    var blendConstants: Vec4 = Vec4(0f),
-    var next: Ptr = NULL
+        var logicOpEnable: Boolean = false,
+        var logicOp: VkLogicOp = VkLogicOp.CLEAR,
+        var attachments: Array<PipelineColorBlendAttachmentState>? = null,
+        var blendConstants: Vec4 = Vec4(0f),
+        var next: Ptr = NULL
 ) {
     constructor(
-        logicOpEnable: Boolean = false,
-        logicOp: VkLogicOp = VkLogicOp.CLEAR,
-        attachment: PipelineColorBlendAttachmentState,
-        blendConstants: Vec4 = Vec4(0f)
+            logicOpEnable: Boolean = false,
+            logicOp: VkLogicOp = VkLogicOp.CLEAR,
+            attachment: PipelineColorBlendAttachmentState,
+            blendConstants: Vec4 = Vec4(0f)
     ) : this(logicOpEnable, logicOp, arrayOf(attachment), blendConstants)
 
     val type get() = VkStructureType.PIPELINE_COLOR_BLEND_STATE_CREATE_INFO
 
-    val MemoryStack.native: Ptr
-        get() = ncalloc(ALIGNOF, 1, SIZEOF).also { ptr ->
-            nsType(ptr, type.i)
-            npNext(ptr, next)
-            nlogicOpEnable(ptr, logicOpEnable.i)
-            nlogicOp(ptr, logicOp.i)
-            attachments?.let {
-                memPutAddress(ptr + PATTACHMENTS, it.write(this))
-                nattachmentCount(ptr, it.size)
-            }
-            blendConstants.to(ptr + BLENDCONSTANTS)
+    infix fun write(stack: MemoryStack): Adr {
+        val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
+        nsType(adr, type.i)
+        npNext(adr, next)
+        nlogicOpEnable(adr, logicOpEnable.i)
+        nlogicOp(adr, logicOp.i)
+        attachments?.let {
+            nattachmentCount(adr, it.size)
+            memPutAddress(adr + PATTACHMENTS, it write stack)
         }
+        blendConstants to (adr + BLENDCONSTANTS)
+        return adr
+    }
 }
 

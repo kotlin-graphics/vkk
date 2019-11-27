@@ -1,5 +1,6 @@
 package classes
 
+import kool.IntPtr
 import kool.Ptr
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.vulkan.VkSurfaceFormatKHR
@@ -30,7 +31,7 @@ class SurfaceFormatKHR(
     var colorSpace: VkColorSpaceKHR
 ) {
 
-    constructor(ptr: Ptr) : this(VkFormat(nformat(ptr)), VkColorSpaceKHR(ncolorSpace(ptr)))
+    constructor(intPtr: IntPtr) : this(VkFormat(intPtr[0]), VkColorSpaceKHR(intPtr[1]))
 
     companion object {
         inline fun ncalloc(stack: MemoryStack, num: Int = 1) = stack.ncalloc(ALIGNOF, num, SIZEOF)

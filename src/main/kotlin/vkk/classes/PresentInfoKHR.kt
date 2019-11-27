@@ -1,23 +1,12 @@
 package classes
 
-import glm_.BYTES
-import kool.Ptr
-import kool.adr
-import kool.toBuffer
+import kool.*
 import org.lwjgl.system.MemoryStack
-import org.lwjgl.system.MemoryUtil
 import org.lwjgl.system.MemoryUtil.*
-import org.lwjgl.vulkan.VkPresentInfoKHR
 import org.lwjgl.vulkan.VkPresentInfoKHR.*
-import util.VkResult_Array
-import util.native
-import util.nmallocInt
 import vkk.VkResult
 import vkk.VkStructureType
-import vkk.entities.VkSemaphore
-import vkk.entities.VkSemaphore_Array
-import vkk.entities.VkSwapchainKHR
-import vkk.entities.VkSwapchainKHR_Array
+import vkk.entities.*
 
 /**
  * Structure describing parameters of a queue presentation.
@@ -83,23 +72,23 @@ import vkk.entities.VkSwapchainKHR_Array
  * }</code></pre>
  */
 class PresentInfoKHR(
-    var waitSemaphores: VkSemaphore_Array? = null,
-    var swapchains: VkSwapchainKHR_Array,
-    var imageIndices: IntArray,
-    var results: VkResult_Array? = null,
-    var next: Ptr = NULL
+        var waitSemaphores: VkSemaphore_Array? = null,
+        var swapchains: VkSwapchainKHR_Array,
+        var imageIndices: IntArray,
+        var results: VkResult_Array? = null,
+        var next: Ptr = NULL
 ) {
 
     constructor(
-        waitSemaphore: VkSemaphore,
-        swapchain: VkSwapchainKHR = VkSwapchainKHR.NULL,
-        imageIndex: Int,
-        result: VkResult_Array? = null
+            waitSemaphore: VkSemaphore,
+            swapchain: VkSwapchainKHR = VkSwapchainKHR.NULL,
+            imageIndex: Int,
+            result: VkResult_Array? = null
     ) : this(
-        VkSemaphore_Array(1) { waitSemaphore },
-        VkSwapchainKHR_Array(1) { swapchain },
-        intArrayOf(imageIndex),
-        result
+            VkSemaphore_Array(1) { waitSemaphore },
+            VkSwapchainKHR_Array(1) { swapchain },
+            intArrayOf(imageIndex),
+            result
     )
 
     val type get() = VkStructureType.PRESENT_INFO_KHR
@@ -116,25 +105,26 @@ class PresentInfoKHR(
             imageIndices[0] = value
         }
 
+    // write and maybe read
     fun <R> native(stack: MemoryStack, block: (Ptr) -> R): R {
-        val ptr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
-        nsType(ptr, type.i)
-        npNext(ptr, next)
+        val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
+        nsType(adr, type.i)
+        npNext(adr, next)
         waitSemaphores?.let {
-            nwaitSemaphoreCount(ptr, it.size)
-            memPutAddress(ptr + PWAITSEMAPHORES, it.native(stack))
+            nwaitSemaphoreCount(adr, it.size)
+            memPutAddress(adr + PWAITSEMAPHORES, it.write(stack))
         }
-        nswapchainCount(ptr, swapchains.size)
-        memPutAddress(ptr + PSWAPCHAINS, swapchains.native(stack))
-        memPutAddress(ptr + PIMAGEINDICES, imageIndices.toBuffer(stack).adr)
-        return when(val results = results) {
-            null -> block(ptr)
+        nswapchainCount(adr, swapchains.size)
+        memPutAddress(adr + PSWAPCHAINS, swapchains.write(stack))
+        memPutAddress(adr + PIMAGEINDICES, imageIndices.toAdr(stack).adr)
+        return when (val results = results) {
+            null -> block(adr)
             else -> {
-                val pResults = stack.nmallocInt(swapchains.size)
-                memPutAddress(ptr + PRESULTS, pResults)
-                block(ptr).also {
+                val pResults = stack.mInt(swapchains.size)
+                memPutAddress(adr + PRESULTS, pResults.adr)
+                block(adr).also {
                     for (i in results.indices)
-                        results[i] = VkResult(memGetInt(pResults + i * Int.BYTES))
+                        results[i] = VkResult(pResults[i])
                 }
             }
         }

@@ -1,5 +1,6 @@
 package classes
 
+import kool.Adr
 import kool.Ptr
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.NULL
@@ -72,19 +73,19 @@ class PipelineVertexInputStateCreateInfo(
 
     val type get() = VkStructureType.PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO
 
-    val MemoryStack.native: Ptr
-        get() = ncalloc(ALIGNOF, 1, SIZEOF).also { toPtr(it, this) }
+    infix fun write(stack: MemoryStack): Adr =
+            stack.ncalloc(ALIGNOF, 1, SIZEOF).also { write(it, stack) }
 
-    fun toPtr(ptr: Ptr, stack: MemoryStack) {
+    fun write(ptr: Ptr, stack: MemoryStack) {
         nsType(ptr, type.i)
         npNext(ptr, next)
         vertexBindingDescriptions?.let {
-            memPutAddress(ptr + PVERTEXBINDINGDESCRIPTIONS, it.write(stack))
             nvertexBindingDescriptionCount(ptr, it.size)
+            memPutAddress(ptr + PVERTEXBINDINGDESCRIPTIONS, it write stack)
         }
         vertexAttributeDescriptions?.let {
-            memPutAddress(ptr + PVERTEXATTRIBUTEDESCRIPTIONS, it.write(stack))
             nvertexAttributeDescriptionCount(ptr, it.size)
+            memPutAddress(ptr + PVERTEXATTRIBUTEDESCRIPTIONS, it write stack)
         }
     }
 }

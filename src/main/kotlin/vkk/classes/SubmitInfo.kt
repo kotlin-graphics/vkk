@@ -1,15 +1,12 @@
 package classes
 
 import identifiers.CommandBuffer
-import identifiers.native
-import kool.Ptr
-import kool.adr
-import kool.toBuffer
+import identifiers.write
+import kool.*
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.NULL
 import org.lwjgl.system.MemoryUtil.memPutAddress
 import org.lwjgl.vulkan.VkSubmitInfo.*
-import util.native
 import vkk.VkStructureType
 import vkk.entities.VkSemaphore
 import vkk.entities.VkSemaphore_Array
@@ -80,17 +77,13 @@ import vkk.entities.VkSemaphore_Array
  * }</code></pre>
  */
 class SubmitInfo(
-    var waitSemaphoreCount: Int = 0,
-    var waitSemaphores: VkSemaphore_Array? = null,
-    var waitDstStageMask: IntArray? = null,
-    var commandBuffers: Array<CommandBuffer>? = null,
-    var signalSemaphores: VkSemaphore_Array? = null,
-    var next: Ptr = NULL,
-    commandBuffer: CommandBuffer? = null
+        var waitSemaphoreCount: Int = 0,
+        var waitSemaphores: VkSemaphore_Array? = null,
+        var waitDstStageMask: IntArray? = null,
+        var commandBuffers: Array<CommandBuffer>? = null,
+        var signalSemaphores: VkSemaphore_Array? = null,
+        var next: Ptr = NULL
 ) {
-    init {
-        commandBuffer?.let { commandBuffers = arrayOf(it) }
-    }
 
     val type get() = VkStructureType.SUBMIT_INFO
 
@@ -107,32 +100,33 @@ class SubmitInfo(
         }
 
     constructor(
-        waitSemaphore: VkSemaphore,
-        waitDstStageMask: Int,
-        commandBuffer: CommandBuffer? = null,
-        signalSemaphore: VkSemaphore
+            waitSemaphore: VkSemaphore,
+            waitDstStageMask: Int,
+            commandBuffer: CommandBuffer? = null,
+            signalSemaphore: VkSemaphore
     ) : this(
-        1,
-        VkSemaphore_Array(1) { waitSemaphore },
-        intArrayOf(waitDstStageMask),
-        commandBuffer?.let { arrayOf(it) },
-        VkSemaphore_Array(1) { signalSemaphore }
+            1,
+            VkSemaphore_Array(1) { waitSemaphore },
+            intArrayOf(waitDstStageMask),
+            commandBuffer?.let { arrayOf(it) },
+            VkSemaphore_Array(1) { signalSemaphore }
     )
 
-    val MemoryStack.native: Ptr
-        get() = ncalloc(ALIGNOF, 1, SIZEOF).also { p ->
-            nsType(p, type.i)
-            npNext(p, next)
-            nwaitSemaphoreCount(p, waitSemaphoreCount)
-            waitSemaphores?.let { memPutAddress(p + PWAITSEMAPHORES, it.native(this)) }
-            waitDstStageMask?.let { memPutAddress(p + PWAITDSTSTAGEMASK, it.toBuffer(this).adr) }
-            commandBuffers?.let {
-                memPutAddress(p + PCOMMANDBUFFERS, it.native(this))
-                ncommandBufferCount(p, it.size)
-            }
-            signalSemaphores?.let {
-                memPutAddress(p + PSIGNALSEMAPHORES, it.native(this))
-                nsignalSemaphoreCount(p, it.size)
-            }
+    infix fun write(stack: MemoryStack): Adr {
+        val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
+        nsType(adr, type.i)
+        npNext(adr, next)
+        nwaitSemaphoreCount(adr, waitSemaphoreCount)
+        waitSemaphores?.let { memPutAddress(adr + PWAITSEMAPHORES, it.write(stack)) }
+        waitDstStageMask?.let { memPutAddress(adr + PWAITDSTSTAGEMASK, it.toAdr(stack).adr) }
+        commandBuffers?.let {
+            ncommandBufferCount(adr, it.size)
+            memPutAddress(adr + PCOMMANDBUFFERS, it.write(stack))
         }
+        signalSemaphores?.let {
+            nsignalSemaphoreCount(adr, it.size)
+            memPutAddress(adr + PSIGNALSEMAPHORES, it.write(stack))
+        }
+        return adr
+    }
 }

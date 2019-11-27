@@ -4,6 +4,7 @@ import kool.Ptr
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil
 import org.lwjgl.system.MemoryUtil.NULL
+import org.lwjgl.system.MemoryUtil.memPutAddress
 import org.lwjgl.vulkan.VkPipelineShaderStageCreateInfo
 import org.lwjgl.vulkan.VkPipelineShaderStageCreateInfo.*
 import org.lwjgl.vulkan.VkPushConstantRange
@@ -108,11 +109,11 @@ class PipelineShaderStageCreateInfo(
         nstage(ptr, stage.i)
         nmodule(ptr, module.L)
         npName(ptr, stack.UTF8(name))
-        specializationInfo?.toPtr(ptr + PSPECIALIZATIONINFO, stack)
+        specializationInfo?.let { memPutAddress(ptr + PSPECIALIZATIONINFO, it.write(stack)) }
     }
 }
 
-fun Array<PipelineShaderStageCreateInfo>.write(stack: MemoryStack): Ptr {
+infix fun Array<PipelineShaderStageCreateInfo>.write(stack: MemoryStack): Ptr {
     val natives = stack.ncalloc(ALIGNOF, size, SIZEOF)
     for (i in indices)
         this[i].toPtr(natives + i * SIZEOF, stack)

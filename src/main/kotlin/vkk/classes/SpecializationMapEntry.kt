@@ -1,8 +1,8 @@
 package classes
 
+import kool.Adr
 import kool.Ptr
 import org.lwjgl.system.MemoryStack
-import org.lwjgl.vulkan.VkSpecializationMapEntry
 import org.lwjgl.vulkan.VkSpecializationMapEntry.*
 
 /**
@@ -45,16 +45,16 @@ class SpecializationMapEntry(
     var size: Long
 ) {
 
-    infix fun toPtr(ptr: Ptr) {
-        nconstantID(ptr, constantID)
-        noffset(ptr, offset)
-        nsize(ptr, size)
+    infix fun write(adr: Adr) {
+        nconstantID(adr, constantID)
+        noffset(adr, offset)
+        nsize(adr, size)
     }
 }
 
-fun Array<SpecializationMapEntry>.write(stack: MemoryStack): Ptr {
+infix fun Array<SpecializationMapEntry>.write(stack: MemoryStack): Ptr {
     val natives = stack.ncalloc(ALIGNOF, size, SIZEOF)
     for (i in indices)
-        this[i] toPtr (natives + i * SIZEOF)
+        this[i] write (natives + i * SIZEOF)
     return natives
 }

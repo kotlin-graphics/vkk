@@ -1,5 +1,6 @@
 package classes
 
+import kool.Adr
 import kool.Ptr
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.NULL
@@ -84,12 +85,12 @@ import vkk.entities.VkRenderPass
  * }</code></pre>
  */
 class RenderPassBeginInfo(
-    var renderPass: VkRenderPass,
-    var framebuffer: VkFramebuffer = VkFramebuffer.NULL,
-    var renderArea: Rect2D,
-    var clearValues: Array<ClearValue>? = null,
-    var next: Ptr = NULL,
-    clearValue: ClearValue? = null
+        var renderPass: VkRenderPass,
+        var framebuffer: VkFramebuffer = VkFramebuffer.NULL,
+        var renderArea: Rect2D,
+        var clearValues: Array<ClearValue>? = null,
+        var next: Ptr = NULL,
+        clearValue: ClearValue? = null
 ) {
     init {
         clearValue?.let { clearValues = arrayOf(it) }
@@ -97,16 +98,17 @@ class RenderPassBeginInfo(
 
     val type get() = VkStructureType.RENDER_PASS_BEGIN_INFO
 
-    val MemoryStack.native: Ptr
-        get() = ncalloc(ALIGNOF, 1, SIZEOF).also { ptr ->
-            nsType(ptr, type.i)
-            npNext(ptr, next)
-            nrenderPass(ptr, renderPass.L)
-            nframebuffer(ptr, framebuffer.L)
-            renderArea.toPtr(ptr + RENDERAREA)
-            clearValues?.let {
-                nclearValueCount(ptr, it.size)
-                memPutAddress(ptr + PCLEARVALUES, it.write(this))
-            }
+    infix fun write(stack: MemoryStack): Adr {
+        val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
+        nsType(adr, type.i)
+        npNext(adr, next)
+        nrenderPass(adr, renderPass.L)
+        nframebuffer(adr, framebuffer.L)
+        renderArea write (adr + RENDERAREA)
+        clearValues?.let {
+            nclearValueCount(adr, it.size)
+            memPutAddress(adr + PCLEARVALUES, it write stack)
         }
+        return adr
+    }
 }

@@ -1,9 +1,6 @@
 package classes
 
-import kool.Adr
-import kool.Ptr
-import kool.adr
-import kool.toIntBuffer
+import kool.*
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.NULL
 import org.lwjgl.system.MemoryUtil.memPutAddress
@@ -101,7 +98,7 @@ class BufferCreateInfo(
         nsharingMode(adr, sharingMode.i)
         queueFamilyIndices?.let {
             nqueueFamilyIndexCount(adr, it.size)
-            memPutAddress(adr + PQUEUEFAMILYINDICES, it.toIntBuffer(stack).adr)
+            memPutAddress(adr + PQUEUEFAMILYINDICES, it.toIntAdr(stack).adr)
         }
         return adr
     }

@@ -1,11 +1,10 @@
 package classes
 
 import glm_.i
+import kool.Adr
 import kool.Ptr
 import org.lwjgl.system.MemoryStack
-import org.lwjgl.system.MemoryUtil
 import org.lwjgl.system.MemoryUtil.NULL
-import org.lwjgl.vulkan.VkPipelineRasterizationStateCreateInfo
 import org.lwjgl.vulkan.VkPipelineRasterizationStateCreateInfo.*
 import vkk.VkCullModeFlags
 import vkk.VkFrontFace
@@ -81,34 +80,35 @@ import vkk.VkStructureType
  * }</code></pre>
  */
 class PipelineRasterizationStateCreateInfo(
-    var depthClampEnable: Boolean = false,
-    var rasterizerDiscardEnable: Boolean = false,
-    var polygonMode: VkPolygonMode = VkPolygonMode.FILL,
-    var cullMode: VkCullModeFlags,
-    var frontFace: VkFrontFace,
-    var depthBiasEnable: Boolean = false,
-    var depthBiasConstantFactor: Float = 0f,
-    var depthBiasClamp: Float = 0f,
-    var depthBiasSlopeFactor: Float = 0f,
-    var lineWidth: Float = 1f,
-    var next: Ptr = NULL
+        var depthClampEnable: Boolean = false,
+        var rasterizerDiscardEnable: Boolean = false,
+        var polygonMode: VkPolygonMode = VkPolygonMode.FILL,
+        var cullMode: VkCullModeFlags,
+        var frontFace: VkFrontFace,
+        var depthBiasEnable: Boolean = false,
+        var depthBiasConstantFactor: Float = 0f,
+        var depthBiasClamp: Float = 0f,
+        var depthBiasSlopeFactor: Float = 0f,
+        var lineWidth: Float = 1f,
+        var next: Ptr = NULL
 ) {
 
     val type get() = VkStructureType.PIPELINE_RASTERIZATION_STATE_CREATE_INFO
 
-    val MemoryStack.native: Ptr
-        get() = ncalloc(ALIGNOF, 1, SIZEOF).also {
-            nsType(it, type.i)
-            npNext(it, next)
-            ndepthClampEnable(it, depthClampEnable.i)
-            nrasterizerDiscardEnable(it, rasterizerDiscardEnable.i)
-            npolygonMode(it, polygonMode.i)
-            ncullMode(it, cullMode)
-            nfrontFace(it, frontFace.i)
-            ndepthBiasEnable(it, depthBiasEnable.i)
-            ndepthBiasConstantFactor(it, depthBiasConstantFactor)
-            ndepthBiasClamp(it, depthBiasClamp)
-            ndepthBiasSlopeFactor(it, depthBiasSlopeFactor)
-            nlineWidth(it, lineWidth)
-        }
+    infix fun write(stack: MemoryStack): Adr {
+        val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
+        nsType(adr, type.i)
+        npNext(adr, next)
+        ndepthClampEnable(adr, depthClampEnable.i)
+        nrasterizerDiscardEnable(adr, rasterizerDiscardEnable.i)
+        npolygonMode(adr, polygonMode.i)
+        ncullMode(adr, cullMode)
+        nfrontFace(adr, frontFace.i)
+        ndepthBiasEnable(adr, depthBiasEnable.i)
+        ndepthBiasConstantFactor(adr, depthBiasConstantFactor)
+        ndepthBiasClamp(adr, depthBiasClamp)
+        ndepthBiasSlopeFactor(adr, depthBiasSlopeFactor)
+        nlineWidth(adr, lineWidth)
+        return adr
+    }
 }

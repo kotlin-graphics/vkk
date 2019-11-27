@@ -1,14 +1,10 @@
 package classes
 
 import glm_.i
-import kool.Ptr
-import kool.adr
-import kool.toBuffer
+import kool.*
 import org.lwjgl.system.MemoryStack
-import org.lwjgl.system.MemoryUtil
 import org.lwjgl.system.MemoryUtil.NULL
 import org.lwjgl.system.MemoryUtil.memPutAddress
-import org.lwjgl.vulkan.VkPipelineMultisampleStateCreateInfo
 import org.lwjgl.vulkan.VkPipelineMultisampleStateCreateInfo.*
 import vkk.VkSampleCount
 import vkk.VkStructureType
@@ -70,26 +66,27 @@ import vkk.VkStructureType
  * }</code></pre>
  */
 class PipelineMultisampleStateCreateInfo(
-    var rasterizationSamples: VkSampleCount = VkSampleCount._1_BIT,
-    var sampleShadingEnable: Boolean = false,
-    var minSampleShading: Float = 0f,
-    var sampleMask: IntArray? = null,
-    var alphaToCoverageEnable: Boolean = false,
-    var alphaToOneEnable: Boolean = false,
-    var next: Ptr = NULL
+        var rasterizationSamples: VkSampleCount = VkSampleCount._1_BIT,
+        var sampleShadingEnable: Boolean = false,
+        var minSampleShading: Float = 0f,
+        var sampleMask: IntArray? = null,
+        var alphaToCoverageEnable: Boolean = false,
+        var alphaToOneEnable: Boolean = false,
+        var next: Ptr = NULL
 ) {
 
     val type get() = VkStructureType.PIPELINE_MULTISAMPLE_STATE_CREATE_INFO
 
-    val MemoryStack.native: Ptr
-        get() = ncalloc(ALIGNOF, 1, SIZEOF).also { ptr ->
-            nsType(ptr, type.i)
-            npNext(ptr, next)
-            nrasterizationSamples(ptr, rasterizationSamples.i)
-            nsampleShadingEnable(ptr, sampleShadingEnable.i)
-            nminSampleShading(ptr, minSampleShading)
-            sampleMask?.let { memPutAddress(ptr + PSAMPLEMASK, it.toBuffer(this).adr)  }
-            nalphaToCoverageEnable(ptr, alphaToCoverageEnable.i)
-            nalphaToOneEnable(ptr, alphaToOneEnable.i)
-        }
+    infix fun write(stack: MemoryStack): Adr {
+        val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
+        nsType(adr, type.i)
+        npNext(adr, next)
+        nrasterizationSamples(adr, rasterizationSamples.i)
+        nsampleShadingEnable(adr, sampleShadingEnable.i)
+        nminSampleShading(adr, minSampleShading)
+        sampleMask?.let { memPutAddress(adr + PSAMPLEMASK, it.toAdr(stack).adr) }
+        nalphaToCoverageEnable(adr, alphaToCoverageEnable.i)
+        nalphaToOneEnable(adr, alphaToOneEnable.i)
+        return adr
+    }
 }

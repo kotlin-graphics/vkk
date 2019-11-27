@@ -1,11 +1,10 @@
 package classes
 
 import glm_.vec2.Vec2i
+import kool.Adr
 import kool.Ptr
 import org.lwjgl.system.MemoryStack
-import org.lwjgl.vulkan.VkRect2D
 import org.lwjgl.vulkan.VkRect2D.*
-import org.lwjgl.vulkan.VkViewport
 
 /**
  * Structure specifying a two-dimensional subregion.
@@ -32,21 +31,18 @@ class Rect2D(
 
     constructor(size: Vec2i) : this(extent = Extent2D(size))
 
-    fun toPtr(ptr: Ptr) {
-        offset toPtr ptr
-        extent.toPtr(ptr + EXTENT)
-    }
+    infix fun write(stack: MemoryStack): Adr =
+        stack.ncalloc(ALIGNOF, 1, SIZEOF).also { write(it) }
 
-    val MemoryStack.native: Ptr
-        get() = ncalloc(ALIGNOF, 1, SIZEOF).also { ptr ->
-            offset.toPtr(ptr + OFFSET)
-            extent.toPtr(ptr + EXTENT)
-        }
+    infix fun write(ptr: Ptr) {
+        offset toPtr ptr
+        extent.write(ptr + EXTENT)
+    }
 }
 
-fun Array<Rect2D>.write(stack: MemoryStack): Ptr {
+infix fun Array<Rect2D>.write(stack: MemoryStack): Ptr {
     val natives = stack.ncalloc(ALIGNOF, size, SIZEOF)
     for (i in indices)
-        this[i].toPtr(natives + i * SIZEOF)
+        this[i] write (natives + i * SIZEOF)
     return natives
 }

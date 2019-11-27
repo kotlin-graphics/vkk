@@ -1,17 +1,15 @@
 package classes
 
-import glm_.BYTES
 import glm_.asRawIntBits
 import glm_.bitsAsFloat
 import glm_.vec4.Vec4
 import glm_.vec4.Vec4i
 import glm_.vec4.Vec4ui
+import kool.Adr
+import kool.IntPtr
 import kool.Ptr
 import org.lwjgl.system.MemoryStack
-import org.lwjgl.system.MemoryUtil
 import org.lwjgl.system.MemoryUtil.memPutInt
-import org.lwjgl.vulkan.VkAttachmentReference
-import org.lwjgl.vulkan.VkClearValue
 import org.lwjgl.vulkan.VkClearValue.ALIGNOF
 import org.lwjgl.vulkan.VkClearValue.SIZEOF
 
@@ -42,7 +40,7 @@ import org.lwjgl.vulkan.VkClearValue.SIZEOF
  * }</code></pre>
  */
 class ClearValue(
-    val union: IntArray = IntArray(4)
+        val union: IntArray = IntArray(4)
 ) {
     constructor(r: Float, g: Float, b: Float, a: Float) :
             this(intArrayOf(r.asRawIntBits, g.asRawIntBits, b.asRawIntBits, a.asRawIntBits))
@@ -78,17 +76,15 @@ class ClearValue(
             union[0] = value
         }
 
-    infix fun toPtr(ptr: Ptr) {
-        memPutInt(ptr, union[0])
-        memPutInt(ptr + Int.BYTES, union[1])
-        memPutInt(ptr + Int.BYTES * 2, union[2])
-        memPutInt(ptr + Int.BYTES * 3, union[3])
+    infix fun write(intPtr: IntPtr) {
+        for (i in 0..3)
+            intPtr[i] = union[i]
     }
 }
 
-fun Array<ClearValue>.write(stack: MemoryStack): Ptr {
+infix fun Array<ClearValue>.write(stack: MemoryStack): Ptr {
     val natives = stack.ncalloc(ALIGNOF, size, SIZEOF)
     for (i in indices)
-        this[i] toPtr (natives + i * SIZEOF)
+        this[i] write IntPtr(natives + i * SIZEOF)
     return natives
 }

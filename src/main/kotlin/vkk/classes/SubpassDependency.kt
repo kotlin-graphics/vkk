@@ -1,8 +1,8 @@
 package classes
 
+import kool.Adr
 import kool.Ptr
 import org.lwjgl.system.MemoryStack
-import org.lwjgl.vulkan.VkSubpassDependency
 import org.lwjgl.vulkan.VkSubpassDependency.*
 import vkk.VkAccessFlags
 import vkk.VkDependencyFlags
@@ -110,23 +110,23 @@ class SubpassDependency(
     var dependencyFlags: VkDependencyFlags = 0
 ) {
 
-    val MemoryStack.native: Ptr
-        get() = ncalloc(ALIGNOF, 1, SIZEOF).also { toPtr(it) }
+    fun write(stack: MemoryStack): Adr =
+        stack.ncalloc(ALIGNOF, 1, SIZEOF).also { write(it) }
 
-    infix fun toPtr(ptr: Ptr) {
-        nsrcSubpass(ptr, srcSubpass)
-        ndstSubpass(ptr, dstSubpass)
-        nsrcStageMask(ptr, srcStageMask)
-        ndstStageMask(ptr, dstStageMask)
-        nsrcAccessMask(ptr, srcAccessMask)
-        ndstAccessMask(ptr, dstAccessMask)
-        ndependencyFlags(ptr, dependencyFlags)
+    infix fun write(adr: Adr) {
+        nsrcSubpass(adr, srcSubpass)
+        ndstSubpass(adr, dstSubpass)
+        nsrcStageMask(adr, srcStageMask)
+        ndstStageMask(adr, dstStageMask)
+        nsrcAccessMask(adr, srcAccessMask)
+        ndstAccessMask(adr, dstAccessMask)
+        ndependencyFlags(adr, dependencyFlags)
     }
 }
 
-fun Array<SubpassDependency>.write(stack: MemoryStack): Ptr {
+infix fun Array<SubpassDependency>.write(stack: MemoryStack): Ptr {
     val natives = stack.ncalloc(ALIGNOF, size, SIZEOF)
     for (i in indices)
-        this[i] toPtr (natives + i * SIZEOF)
+        this[i] write (natives + i * SIZEOF)
     return natives
 }

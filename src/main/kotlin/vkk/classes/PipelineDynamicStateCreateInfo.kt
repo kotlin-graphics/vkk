@@ -1,14 +1,12 @@
 package classes
 
-import glm_.BYTES
-import kool.Ptr
+import kool.Adr
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.memPutAddress
-import org.lwjgl.system.MemoryUtil.memPutInt
 import org.lwjgl.vulkan.VkPipelineDynamicStateCreateInfo.*
-import util.nmallocInt
 import vkk.VkDynamicState
 import vkk.VkStructureType
+import vkk.write
 
 /**
  * Structure specifying parameters of a newly created pipeline dynamic state.
@@ -54,22 +52,20 @@ import vkk.VkStructureType
  * }</code></pre>
  */
 class PipelineDynamicStateCreateInfo(
-    var dynamicStates: Array<VkDynamicState>? = null
+        var dynamicStates: Array<VkDynamicState>? = null
 ) {
     constructor(dynamicState: VkDynamicState) : this(arrayOf(dynamicState))
     constructor(dynamicState0: VkDynamicState, dynamicState1: VkDynamicState) : this(arrayOf(dynamicState0, dynamicState1))
 
     val type get() = VkStructureType.PIPELINE_DYNAMIC_STATE_CREATE_INFO
 
-    val MemoryStack.native: Ptr
-        get() = ncalloc(ALIGNOF, 1, SIZEOF).also { ptr ->
-            nsType(ptr, type.i)
-            dynamicStates?.let {
-                val states = nmallocInt(it.size)
-                for(i in it.indices)
-                    memPutInt(states + i * Int.BYTES, it[i].i)
-                memPutAddress(ptr + PDYNAMICSTATES, states)
-                ndynamicStateCount(ptr, it.size)
-            }
+    infix fun write(stack: MemoryStack): Adr {
+        val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
+        nsType(adr, type.i)
+        dynamicStates?.let {
+            ndynamicStateCount(adr, it.size)
+            memPutAddress(adr + PDYNAMICSTATES, it.write(stack))
         }
+        return adr
+    }
 }

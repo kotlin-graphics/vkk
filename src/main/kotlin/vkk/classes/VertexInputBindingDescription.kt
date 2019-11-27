@@ -2,8 +2,6 @@ package classes
 
 import kool.Ptr
 import org.lwjgl.system.MemoryStack
-import org.lwjgl.vulkan.VkPipelineShaderStageCreateInfo
-import org.lwjgl.vulkan.VkVertexInputBindingDescription
 import org.lwjgl.vulkan.VkVertexInputBindingDescription.*
 import vkk.VkVertexInputRate
 
@@ -50,16 +48,16 @@ class VertexInputBindingDescription(
     var inputRate: VkVertexInputRate
 ) {
 
-    infix fun toPtr(ptr: Ptr) {
+    infix fun write(ptr: Ptr) {
         nbinding(ptr, binding)
         nstride(ptr, stride)
         ninputRate(ptr, inputRate.i)
     }
 }
 
-fun Array<VertexInputBindingDescription>.write(stack: MemoryStack): Ptr {
+infix fun Array<VertexInputBindingDescription>.write(stack: MemoryStack): Ptr {
     val natives = stack.ncalloc(ALIGNOF, size, SIZEOF)
     for (i in indices)
-        this[i].toPtr(natives + i * SIZEOF)
+        this[i] write (natives + i * SIZEOF)
     return natives
 }

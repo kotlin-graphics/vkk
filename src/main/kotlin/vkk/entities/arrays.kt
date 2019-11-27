@@ -2,6 +2,8 @@ package vkk.entities
 
 import glm_.BYTES
 import kool.Adr
+import kool.IntPtr
+import kool.LongPtr
 import kool.mLong
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil
@@ -21,12 +23,7 @@ inline class VkAccelerationStructureNV_Array(val array: LongArray) {
         for (element in array) action(VkAccelerationStructureNV(element))
     }
 
-    fun native(stack: MemoryStack): Adr {
-        val p = stack.mLong(size)
-        for(i in indices)
-            p[i] = get(i).L
-        return p.adr
-    }
+    infix fun write(stack: MemoryStack): Adr = stack.LongPtr(size) { get(it).L }.adr
 }
 
 fun VkAccelerationStructureNV_Array(size: Int, block: (Int) -> VkAccelerationStructureNV) = VkAccelerationStructureNV_Array(LongArray(size) { block(it).L })
@@ -46,6 +43,8 @@ inline class VkBuffer_Array(val array: LongArray) {
     inline fun forEach(action: (VkBuffer) -> Unit) {
         for (element in array) action(VkBuffer(element))
     }
+
+    infix fun write(stack: MemoryStack): Adr = stack.LongPtr(size) { get(it).L }.adr
 }
 
 fun VkBuffer_Array(size: Int, block: (Int) -> VkBuffer) = VkBuffer_Array(LongArray(size) { block(it).L })
@@ -65,6 +64,8 @@ inline class VkBufferView_Array(val array: LongArray) {
     inline fun forEach(action: (VkBufferView) -> Unit) {
         for (element in array) action(VkBufferView(element))
     }
+
+    infix fun write(stack: MemoryStack): Adr = stack.LongPtr(size) { get(it).L }.adr
 }
 
 fun VkBufferView_Array(size: Int, block: (Int) -> VkBufferView) = VkBufferView_Array(LongArray(size) { block(it).L })
@@ -84,6 +85,8 @@ inline class VkCommandPool_Array(val array: LongArray) {
     inline fun forEach(action: (VkCommandPool) -> Unit) {
         for (element in array) action(VkCommandPool(element))
     }
+
+    infix fun write(stack: MemoryStack): Adr = stack.LongPtr(size) { get(it).L }.adr
 }
 
 fun VkCommandPool_Array(size: Int, block: (Int) -> VkCommandPool) = VkCommandPool_Array(LongArray(size) { block(it).L })
@@ -103,6 +106,8 @@ inline class VkDebugReportCallback_Array(val array: LongArray) {
     inline fun forEach(action: (VkDebugReportCallback) -> Unit) {
         for (element in array) action(VkDebugReportCallback(element))
     }
+
+    infix fun write(stack: MemoryStack): Adr = stack.LongPtr(size) { get(it).L }.adr
 }
 
 fun VkDebugReportCallback_Array(size: Int, block: (Int) -> VkDebugReportCallback) = VkDebugReportCallback_Array(LongArray(size) { block(it).L })
@@ -122,6 +127,8 @@ inline class VkDebugUtilsMessengerEXT_Array(val array: LongArray) {
     inline fun forEach(action: (VkDebugUtilsMessengerEXT) -> Unit) {
         for (element in array) action(VkDebugUtilsMessengerEXT(element))
     }
+
+    infix fun write(stack: MemoryStack): Adr = stack.LongPtr(size) { get(it).L }.adr
 }
 
 fun VkDebugUtilsMessengerEXT_Array(size: Int, block: (Int) -> VkDebugUtilsMessengerEXT) = VkDebugUtilsMessengerEXT_Array(LongArray(size) { block(it).L })
@@ -141,6 +148,8 @@ inline class VkDescriptorPool_Array(val array: LongArray) {
     inline fun forEach(action: (VkDescriptorPool) -> Unit) {
         for (element in array) action(VkDescriptorPool(element))
     }
+
+    infix fun write(stack: MemoryStack): Adr = stack.LongPtr(size) { get(it).L }.adr
 }
 
 fun VkDescriptorPool_Array(size: Int, block: (Int) -> VkDescriptorPool) = VkDescriptorPool_Array(LongArray(size) { block(it).L })
@@ -160,6 +169,8 @@ inline class VkDescriptorSet_Array(val array: LongArray) {
     inline fun forEach(action: (VkDescriptorSet) -> Unit) {
         for (element in array) action(VkDescriptorSet(element))
     }
+
+    infix fun write(stack: MemoryStack): Adr = stack.LongPtr(size) { get(it).L }.adr
 }
 
 fun VkDescriptorSet_Array(size: Int, block: (Int) -> VkDescriptorSet) = VkDescriptorSet_Array(LongArray(size) { block(it).L })
@@ -179,6 +190,8 @@ inline class VkDescriptorSetLayout_Array(val array: LongArray) {
     inline fun forEach(action: (VkDescriptorSetLayout) -> Unit) {
         for (element in array) action(VkDescriptorSetLayout(element))
     }
+
+    infix fun write(stack: MemoryStack): Adr = stack.LongPtr(size) { get(it).L }.adr
 }
 
 fun VkDescriptorSetLayout_Array(size: Int, block: (Int) -> VkDescriptorSetLayout) = VkDescriptorSetLayout_Array(LongArray(size) { block(it).L })
@@ -198,6 +211,8 @@ inline class VkDescriptorUpdateTemplate_Array(val array: LongArray) {
     inline fun forEach(action: (VkDescriptorUpdateTemplate) -> Unit) {
         for (element in array) action(VkDescriptorUpdateTemplate(element))
     }
+
+    infix fun write(stack: MemoryStack): Adr = stack.LongPtr(size) { get(it).L }.adr
 }
 
 fun VkDescriptorUpdateTemplate_Array(size: Int, block: (Int) -> VkDescriptorUpdateTemplate) = VkDescriptorUpdateTemplate_Array(LongArray(size) { block(it).L })
@@ -217,6 +232,8 @@ inline class VkDeviceMemory_Array(val array: LongArray) {
     inline fun forEach(action: (VkDeviceMemory) -> Unit) {
         for (element in array) action(VkDeviceMemory(element))
     }
+
+    infix fun write(stack: MemoryStack): Adr = stack.LongPtr(size) { get(it).L }.adr
 }
 
 fun VkDeviceMemory_Array(size: Int, block: (Int) -> VkDeviceMemory) = VkDeviceMemory_Array(LongArray(size) { block(it).L })
@@ -236,6 +253,8 @@ inline class VkDeviceSize_Array(val array: LongArray) {
     inline fun forEach(action: (VkDeviceSize) -> Unit) {
         for (element in array) action(VkDeviceSize(element))
     }
+
+    infix fun write(stack: MemoryStack): Adr = stack.LongPtr(size) { get(it).L }.adr
 }
 
 fun VkDeviceSize_Array(size: Int, block: (Int) -> VkDeviceSize) = VkDeviceSize_Array(LongArray(size) { block(it).L })
@@ -255,6 +274,8 @@ inline class VkDisplayKHR_Array(val array: LongArray) {
     inline fun forEach(action: (VkDisplayKHR) -> Unit) {
         for (element in array) action(VkDisplayKHR(element))
     }
+
+    infix fun write(stack: MemoryStack): Adr = stack.LongPtr(size) { get(it).L }.adr
 }
 
 fun VkDisplayKHR_Array(size: Int, block: (Int) -> VkDisplayKHR) = VkDisplayKHR_Array(LongArray(size) { block(it).L })
@@ -274,6 +295,8 @@ inline class VkDisplayModeKHR_Array(val array: LongArray) {
     inline fun forEach(action: (VkDisplayModeKHR) -> Unit) {
         for (element in array) action(VkDisplayModeKHR(element))
     }
+
+    infix fun write(stack: MemoryStack): Adr = stack.LongPtr(size) { get(it).L }.adr
 }
 
 fun VkDisplayModeKHR_Array(size: Int, block: (Int) -> VkDisplayModeKHR) = VkDisplayModeKHR_Array(LongArray(size) { block(it).L })
@@ -293,6 +316,8 @@ inline class VkEvent_Array(val array: LongArray) {
     inline fun forEach(action: (VkEvent) -> Unit) {
         for (element in array) action(VkEvent(element))
     }
+
+    infix fun write(stack: MemoryStack): Adr = stack.LongPtr(size) { get(it).L }.adr
 }
 
 fun VkEvent_Array(size: Int, block: (Int) -> VkEvent) = VkEvent_Array(LongArray(size) { block(it).L })
@@ -326,6 +351,8 @@ inline class VkFence_Array(val array: LongArray) {
     inline fun forEach(action: (VkFence) -> Unit) {
         for (element in array) action(VkFence(element))
     }
+
+    infix fun write(stack: MemoryStack): Adr = stack.LongPtr(size) { get(it).L }.adr
 }
 
 fun VkFence_Array(size: Int, block: (Int) -> VkFence) = VkFence_Array(LongArray(size) { block(it).L })
@@ -345,6 +372,8 @@ inline class VkFramebuffer_Array(val array: LongArray) {
     inline fun forEach(action: (VkFramebuffer) -> Unit) {
         for (element in array) action(VkFramebuffer(element))
     }
+
+    infix fun write(stack: MemoryStack): Adr = stack.LongPtr(size) { get(it).L }.adr
 }
 
 fun VkFramebuffer_Array(size: Int, block: (Int) -> VkFramebuffer) = VkFramebuffer_Array(LongArray(size) { block(it).L })
@@ -364,6 +393,8 @@ inline class VkImage_Array(val array: LongArray) {
     inline fun forEach(action: (VkImage) -> Unit) {
         for (element in array) action(VkImage(element))
     }
+
+    infix fun write(stack: MemoryStack): Adr = stack.LongPtr(size) { get(it).L }.adr
 }
 
 fun VkImage_Array(size: Int, block: (Int) -> VkImage) = VkImage_Array(LongArray(size) { block(it).L })
@@ -383,6 +414,8 @@ inline class VkImageView_Array(val array: LongArray) {
     inline fun forEach(action: (VkImageView) -> Unit) {
         for (element in array) action(VkImageView(element))
     }
+
+    infix fun write(stack: MemoryStack): Adr = stack.LongPtr(size) { get(it).L }.adr
 }
 
 fun VkImageView_Array(size: Int, block: (Int) -> VkImageView) = VkImageView_Array(LongArray(size) { block(it).L })
@@ -402,6 +435,8 @@ inline class VkIndirectCommandsLayoutNVX_Array(val array: LongArray) {
     inline fun forEach(action: (VkIndirectCommandsLayoutNVX) -> Unit) {
         for (element in array) action(VkIndirectCommandsLayoutNVX(element))
     }
+
+    infix fun write(stack: MemoryStack): Adr = stack.LongPtr(size) { get(it).L }.adr
 }
 
 fun VkIndirectCommandsLayoutNVX_Array(size: Int, block: (Int) -> VkIndirectCommandsLayoutNVX) = VkIndirectCommandsLayoutNVX_Array(LongArray(size) { block(it).L })
@@ -421,6 +456,8 @@ inline class VkObjectTableNVX_Array(val array: LongArray) {
     inline fun forEach(action: (VkObjectTableNVX) -> Unit) {
         for (element in array) action(VkObjectTableNVX(element))
     }
+
+    infix fun write(stack: MemoryStack): Adr = stack.LongPtr(size) { get(it).L }.adr
 }
 
 fun VkObjectTableNVX_Array(size: Int, block: (Int) -> VkObjectTableNVX) = VkObjectTableNVX_Array(LongArray(size) { block(it).L })
@@ -440,6 +477,8 @@ inline class VkPipeline_Array(val array: LongArray) {
     inline fun forEach(action: (VkPipeline) -> Unit) {
         for (element in array) action(VkPipeline(element))
     }
+
+    infix fun write(stack: MemoryStack): Adr = stack.LongPtr(size) { get(it).L }.adr
 }
 
 fun VkPipeline_Array(size: Int, block: (Int) -> VkPipeline) = VkPipeline_Array(LongArray(size) { block(it).L })
@@ -459,6 +498,8 @@ inline class VkPipelineCache_Array(val array: LongArray) {
     inline fun forEach(action: (VkPipelineCache) -> Unit) {
         for (element in array) action(VkPipelineCache(element))
     }
+
+    infix fun write(stack: MemoryStack): Adr = stack.LongPtr(size) { get(it).L }.adr
 }
 
 fun VkPipelineCache_Array(size: Int, block: (Int) -> VkPipelineCache) = VkPipelineCache_Array(LongArray(size) { block(it).L })
@@ -478,6 +519,8 @@ inline class VkPipelineLayout_Array(val array: LongArray) {
     inline fun forEach(action: (VkPipelineLayout) -> Unit) {
         for (element in array) action(VkPipelineLayout(element))
     }
+
+    infix fun write(stack: MemoryStack): Adr = stack.LongPtr(size) { get(it).L }.adr
 }
 
 fun VkPipelineLayout_Array(size: Int, block: (Int) -> VkPipelineLayout) = VkPipelineLayout_Array(LongArray(size) { block(it).L })
@@ -497,6 +540,8 @@ inline class VkPresentModeKHR_Array(val array: IntArray) {
     inline fun forEach(action: (VkPresentModeKHR) -> Unit) {
         for (element in array) action(VkPresentModeKHR(element))
     }
+
+    infix fun write(stack: MemoryStack): Adr = stack.IntPtr(size) { get(it).i }.adr
 }
 
 fun VkPresentModeKHR_Array(size: Int, block: (Int) -> VkPresentModeKHR) = VkPresentModeKHR_Array(IntArray(size) { block(it).i })
@@ -516,6 +561,8 @@ inline class VkQueryPool_Array(val array: LongArray) {
     inline fun forEach(action: (VkQueryPool) -> Unit) {
         for (element in array) action(VkQueryPool(element))
     }
+
+    infix fun write(stack: MemoryStack): Adr = stack.LongPtr(size) { get(it).L }.adr
 }
 
 fun VkQueryPool_Array(size: Int, block: (Int) -> VkQueryPool) = VkQueryPool_Array(LongArray(size) { block(it).L })
@@ -535,6 +582,8 @@ inline class VkRenderPass_Array(val array: LongArray) {
     inline fun forEach(action: (VkRenderPass) -> Unit) {
         for (element in array) action(VkRenderPass(element))
     }
+
+    infix fun write(stack: MemoryStack): Adr = stack.LongPtr(size) { get(it).L }.adr
 }
 
 fun VkRenderPass_Array(size: Int, block: (Int) -> VkRenderPass) = VkRenderPass_Array(LongArray(size) { block(it).L })
@@ -554,6 +603,8 @@ inline class VkResult_Array(val array: IntArray) {
     inline fun forEach(action: (VkResult) -> Unit) {
         for (element in array) action(VkResult(element))
     }
+
+    infix fun write(stack: MemoryStack): Adr = stack.IntPtr(size) { get(it).i }.adr
 }
 
 fun VkResult_Array(size: Int, block: (Int) -> VkResult) = VkResult_Array(IntArray(size) { block(it).i })
@@ -573,6 +624,8 @@ inline class VkSampler_Array(val array: LongArray) {
     inline fun forEach(action: (VkSampler) -> Unit) {
         for (element in array) action(VkSampler(element))
     }
+
+    infix fun write(stack: MemoryStack): Adr = stack.LongPtr(size) { get(it).L }.adr
 }
 
 fun VkSampler_Array(size: Int, block: (Int) -> VkSampler) = VkSampler_Array(LongArray(size) { block(it).L })
@@ -592,6 +645,8 @@ inline class VkSamplerYcbcrConversion_Array(val array: LongArray) {
     inline fun forEach(action: (VkSamplerYcbcrConversion) -> Unit) {
         for (element in array) action(VkSamplerYcbcrConversion(element))
     }
+
+    infix fun write(stack: MemoryStack): Adr = stack.LongPtr(size) { get(it).L }.adr
 }
 
 fun VkSamplerYcbcrConversion_Array(size: Int, block: (Int) -> VkSamplerYcbcrConversion) = VkSamplerYcbcrConversion_Array(LongArray(size) { block(it).L })
@@ -611,6 +666,8 @@ inline class VkSemaphore_Array(val array: LongArray) {
     inline fun forEach(action: (VkSemaphore) -> Unit) {
         for (element in array) action(VkSemaphore(element))
     }
+
+    infix fun write(stack: MemoryStack): Adr = stack.LongPtr(size) { get(it).L }.adr
 }
 
 fun VkSemaphore_Array(size: Int, block: (Int) -> VkSemaphore) = VkSemaphore_Array(LongArray(size) { block(it).L })
@@ -630,6 +687,8 @@ inline class VkShaderModule_Array(val array: LongArray) {
     inline fun forEach(action: (VkShaderModule) -> Unit) {
         for (element in array) action(VkShaderModule(element))
     }
+
+    infix fun write(stack: MemoryStack): Adr = stack.LongPtr(size) { get(it).L }.adr
 }
 
 fun VkShaderModule_Array(size: Int, block: (Int) -> VkShaderModule) = VkShaderModule_Array(LongArray(size) { block(it).L })
@@ -649,6 +708,8 @@ inline class VkSurfaceKHR_Array(val array: LongArray) {
     inline fun forEach(action: (VkSurfaceKHR) -> Unit) {
         for (element in array) action(VkSurfaceKHR(element))
     }
+
+    infix fun write(stack: MemoryStack): Adr = stack.LongPtr(size) { get(it).L }.adr
 }
 
 fun VkSurfaceKHR_Array(size: Int, block: (Int) -> VkSurfaceKHR) = VkSurfaceKHR_Array(LongArray(size) { block(it).L })
@@ -668,6 +729,8 @@ inline class VkSwapchainKHR_Array(val array: LongArray) {
     inline fun forEach(action: (VkSwapchainKHR) -> Unit) {
         for (element in array) action(VkSwapchainKHR(element))
     }
+
+    infix fun write(stack: MemoryStack): Adr = stack.LongPtr(size) { get(it).L }.adr
 }
 
 fun VkSwapchainKHR_Array(size: Int, block: (Int) -> VkSwapchainKHR) = VkSwapchainKHR_Array(LongArray(size) { block(it).L })
@@ -687,6 +750,8 @@ inline class VkValidationCacheEXT_Array(val array: LongArray) {
     inline fun forEach(action: (VkValidationCacheEXT) -> Unit) {
         for (element in array) action(VkValidationCacheEXT(element))
     }
+
+    infix fun write(stack: MemoryStack): Adr = stack.LongPtr(size) { get(it).L }.adr
 }
 
 fun VkValidationCacheEXT_Array(size: Int, block: (Int) -> VkValidationCacheEXT) = VkValidationCacheEXT_Array(LongArray(size) { block(it).L })

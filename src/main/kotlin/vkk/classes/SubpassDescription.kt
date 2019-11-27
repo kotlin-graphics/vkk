@@ -1,8 +1,6 @@
 package classes
 
-import kool.Ptr
-import kool.adr
-import kool.toIntBuffer
+import kool.*
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.memPutAddress
 import org.lwjgl.vulkan.*
@@ -149,32 +147,32 @@ class SubpassDescription(
 //            resolveAttachments = arrayOf(value)
 //        }
 
-    val MemoryStack.native: Ptr
-        get() = ncalloc(ALIGNOF, 1, SIZEOF).also { toPtr(it, this) }
+    fun write(stack: MemoryStack): Adr =
+        stack.ncalloc(ALIGNOF, 1, SIZEOF).also { write(it, stack) }
 
-    fun toPtr(ptr: Ptr, stack: MemoryStack) {
+    fun write(ptr: Ptr, stack: MemoryStack) {
         nflags(ptr, flags)
         npipelineBindPoint(ptr, pipelineBindPoint.i)
         inputAttachments?.let {
             ninputAttachmentCount(ptr, it.size)
-            memPutAddress(ptr + PINPUTATTACHMENTS, it.write(stack))
+            memPutAddress(ptr + PINPUTATTACHMENTS, it write stack)
         }
         colorAttachments?.let {
             ncolorAttachmentCount(ptr, it.size)
-            memPutAddress(ptr + PCOLORATTACHMENTS, it.write(stack))
+            memPutAddress(ptr + PCOLORATTACHMENTS, it write stack)
         }
-        resolveAttachments?.let { memPutAddress(ptr + PRESOLVEATTACHMENTS, it.write(stack)) }
-        depthStencilAttachment?.let { memPutAddress(ptr + PDEPTHSTENCILATTACHMENT, it.write(stack)) }
+        resolveAttachments?.let { memPutAddress(ptr + PRESOLVEATTACHMENTS, it write stack) }
+        depthStencilAttachment?.let { memPutAddress(ptr + PDEPTHSTENCILATTACHMENT, it write stack) }
         preserveAttachments?.let {
-            memPutAddress(ptr + PPRESERVEATTACHMENTS, it.toIntBuffer(stack).adr)
             npreserveAttachmentCount(ptr, it.size)
+            memPutAddress(ptr + PPRESERVEATTACHMENTS, it.toIntAdr(stack).adr)
         }
     }
 }
 
-fun Array<SubpassDescription>.write(stack: MemoryStack): Ptr {
+infix fun Array<SubpassDescription>.write(stack: MemoryStack): Ptr {
     val natives = stack.ncalloc(ALIGNOF, size, SIZEOF)
     for (i in indices)
-        this[i].toPtr(natives + i * SIZEOF, stack)
+        this[i].write(natives + i * SIZEOF, stack)
     return natives
 }

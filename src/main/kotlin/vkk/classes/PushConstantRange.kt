@@ -2,9 +2,7 @@ package classes
 
 import kool.Ptr
 import org.lwjgl.system.MemoryStack
-import org.lwjgl.vulkan.VkPushConstantRange
 import org.lwjgl.vulkan.VkPushConstantRange.*
-import org.lwjgl.vulkan.VkSubpassDependency
 import vkk.VkShaderStageFlags
 
 /**
@@ -54,16 +52,16 @@ class PushConstantRange(
     var size: Int
 ) {
 
-    infix fun toPtr(ptr: Ptr) {
+    infix fun write(ptr: Ptr) {
         nstageFlags(ptr, stageFlags)
         noffset(ptr, offset)
         nsize(ptr, size)
     }
 }
 
-fun Array<PushConstantRange>.write(stack: MemoryStack): Ptr {
-    val natives = stack.ncalloc(ALIGNOF, size, SIZEOF)
+infix fun Array<PushConstantRange>.write(stack: MemoryStack): Ptr {
+    val ranges = stack.ncalloc(ALIGNOF, size, SIZEOF)
     for (i in indices)
-        this[i] toPtr (natives + i * SIZEOF)
-    return natives
+        this[i] write (ranges + i * SIZEOF)
+    return ranges
 }

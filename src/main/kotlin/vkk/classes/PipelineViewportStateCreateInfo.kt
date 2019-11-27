@@ -1,5 +1,6 @@
 package classes
 
+import kool.Adr
 import kool.Ptr
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.NULL
@@ -62,26 +63,27 @@ import vkk.VkStructureType
  * }</code></pre>
  */
 class PipelineViewportStateCreateInfo(
-    var viewports: Array<Viewport>? = null,
-    var scissors: Array<Rect2D>? = null,
-    var next: Ptr = NULL
+        var viewports: Array<Viewport>? = null,
+        var scissors: Array<Rect2D>? = null,
+        var next: Ptr = NULL
 ) {
 
     constructor(viewport: Viewport, scissor: Rect2D) : this(arrayOf(viewport), arrayOf(scissor))
 
     val type get() = VkStructureType.PIPELINE_VIEWPORT_STATE_CREATE_INFO
 
-    val MemoryStack.native: Ptr
-        get() = ncalloc(ALIGNOF, 1, SIZEOF).also {p ->
-            nsType(p, type.i)
-            npNext(p, next)
-            viewports?.let {
-                memPutAddress(p + PVIEWPORTS, it.write(this))
-                nviewportCount(p, it.size)
-            }
-            scissors?.let {
-                memPutAddress(p + PSCISSORS, it.write(this))
-                nscissorCount(p, it.size)
-            }
+    infix fun write(stack: MemoryStack): Adr {
+        val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
+        nsType(adr, type.i)
+        npNext(adr, next)
+        viewports?.let {
+            nviewportCount(adr, it.size)
+            memPutAddress(adr + PVIEWPORTS, it write stack)
         }
+        scissors?.let {
+            nscissorCount(adr, it.size)
+            memPutAddress(adr + PSCISSORS, it write stack)
+        }
+        return adr
+    }
 }

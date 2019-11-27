@@ -38,7 +38,7 @@ class Extent2D(
             height = value.y
         }
 
-    infix fun toPtr(ptr: Ptr) {
+    infix fun write(ptr: Ptr) {
         nwidth(ptr, width)
         nheight(ptr, height)
     }

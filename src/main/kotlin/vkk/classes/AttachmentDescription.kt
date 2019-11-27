@@ -116,7 +116,7 @@ class AttachmentDescription(
     }
 }
 
-fun Array<AttachmentDescription>.write(stack: MemoryStack): Ptr {
+infix fun Array<AttachmentDescription>.write(stack: MemoryStack): Ptr {
     val natives = stack.ncalloc(ALIGNOF, size, SIZEOF)
     for (i in indices)
         this[i] write (natives + i * SIZEOF)

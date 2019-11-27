@@ -1,9 +1,8 @@
 package classes
 
 import glm_.i
-import kool.Ptr
+import kool.Adr
 import org.lwjgl.system.MemoryStack
-import org.lwjgl.vulkan.VkPipelineInputAssemblyStateCreateInfo
 import org.lwjgl.vulkan.VkPipelineInputAssemblyStateCreateInfo.*
 import vkk.VkPrimitiveTopology
 import vkk.VkStructureType
@@ -58,16 +57,17 @@ import vkk.VkStructureType
  * }</code></pre>
  */
 class PipelineInputAssemblyStateCreateInfo(
-    var topology: VkPrimitiveTopology,
-    var primitiveRestartEnable: Boolean = false
+        var topology: VkPrimitiveTopology,
+        var primitiveRestartEnable: Boolean = false
 ) {
 
     val type get() = VkStructureType.PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO
 
-    val MemoryStack.native: Ptr
-        get() = ncalloc(ALIGNOF, 1, SIZEOF).also {
-            nsType(it, type.i)
-            ntopology(it, topology.i)
-            nprimitiveRestartEnable(it, primitiveRestartEnable.i)
-        }
+    infix fun write(stack: MemoryStack): Adr {
+        val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
+        nsType(adr, type.i)
+        ntopology(adr, topology.i)
+        nprimitiveRestartEnable(adr, primitiveRestartEnable.i)
+        return adr
+    }
 }

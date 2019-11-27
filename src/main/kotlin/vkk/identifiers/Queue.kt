@@ -38,7 +38,7 @@ class Queue
 
     // --- [ vkQueueSubmit ] ---
     fun submit(submit: SubmitInfo, fence: VkFence = VkFence.NULL): VkResult = stak { s ->
-        VkResult(callPPJI(adr, 1, submit.run { s.native }, fence.L, capabilities.vkQueueSubmit)).apply { check() }
+        VkResult(callPPJI(adr, 1, submit write s, fence.L, capabilities.vkQueueSubmit)).apply { check() }
     }
 
     // --- [ vkQueueWaitIdle ] ---

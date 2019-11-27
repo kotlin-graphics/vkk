@@ -73,10 +73,9 @@ class SurfaceCapabilitiesKHR(
 ) {
 
     companion object {
-        fun ncalloc(stack: MemoryStack, num: Int = 1): Ptr = stack.ncalloc(ALIGNOF, num, SIZEOF)
 
-        fun <R> fromNative(stack: MemoryStack, block: (Ptr) -> R): SurfaceCapabilitiesKHR {
-            val ptr = ncalloc(stack)
+        fun <R> read(stack: MemoryStack, block: (Ptr) -> R): SurfaceCapabilitiesKHR {
+            val ptr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
             block(ptr)
             return SurfaceCapabilitiesKHR(
                 nminImageCount(ptr),

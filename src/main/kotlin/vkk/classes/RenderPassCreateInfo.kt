@@ -1,5 +1,6 @@
 package classes
 
+import kool.Adr
 import kool.Ptr
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.NULL
@@ -90,32 +91,36 @@ import vkk.VkStructureType
  * }</code></pre>
  */
 class RenderPassCreateInfo(
-    var flags: VkRenderPassCreateFlags = 0,
-    var attachments: Array<AttachmentDescription>? = null,
-    var subpasses: Array<SubpassDescription>,
-    var dependencies: Array<SubpassDependency>? = null
+        var flags: VkRenderPassCreateFlags = 0,
+        var attachments: Array<AttachmentDescription>? = null,
+        var subpasses: Array<SubpassDescription>,
+        var dependencies: Array<SubpassDependency>? = null
 ) {
 
     constructor(
-        flags: VkRenderPassCreateFlags = 0,
-        attachment: AttachmentDescription? = null,
-        subpass: SubpassDescription,
-        dependency: SubpassDependency? = null
+            flags: VkRenderPassCreateFlags = 0,
+            attachment: AttachmentDescription? = null,
+            subpass: SubpassDescription,
+            dependency: SubpassDependency? = null
     ) : this(flags, attachment?.let { arrayOf(it) }, arrayOf(subpass), dependency?.let { arrayOf(it) })
 
     val type get() = VkStructureType.RENDER_PASS_CREATE_INFO
 
-    val MemoryStack.native: Ptr
-        get() = ncalloc(ALIGNOF, 1, SIZEOF).also { toPtr(it) }
+    fun write(stack: MemoryStack): Adr =
+        stack.ncalloc(ALIGNOF, 1, SIZEOF).also { write(it, stack) }
 
-    infix fun MemoryStack.toPtr(ptr: Ptr) {
-        nsType(ptr, type.i)
-        nflags(ptr, flags)
-        nattachmentCount(ptr, attachments?.size ?: 0)
-        memPutAddress(ptr + PATTACHMENTS, attachments?.run { write(this@toPtr) } ?: NULL)
-        nsubpassCount(ptr, subpasses.size)
-        memPutAddress(ptr + PSUBPASSES, subpasses.run { write(this@toPtr) })
-        ndependencyCount(ptr, dependencies?.size ?: 0)
-        memPutAddress(ptr + PDEPENDENCIES, dependencies?.run { write(this@toPtr) } ?: NULL)
+    fun write(adr: Adr, stack: MemoryStack) {
+        nsType(adr, type.i)
+        nflags(adr, flags)
+        attachments?.let {
+            nattachmentCount(adr, it.size)
+            memPutAddress(adr + PATTACHMENTS, it write stack)
+        }
+        nsubpassCount(adr, subpasses.size)
+        memPutAddress(adr + PSUBPASSES, subpasses write stack)
+        dependencies?.let {
+            ndependencyCount(adr, it.size)
+            memPutAddress(adr + PDEPENDENCIES, it write stack)
+        }
     }
 }

@@ -2,9 +2,7 @@ package classes
 
 import kool.Ptr
 import org.lwjgl.system.MemoryStack
-import org.lwjgl.vulkan.VkVertexInputAttributeDescription
 import org.lwjgl.vulkan.VkVertexInputAttributeDescription.*
-import org.lwjgl.vulkan.VkVertexInputBindingDescription
 import vkk.VkFormat
 
 /**
@@ -55,7 +53,7 @@ class VertexInputAttributeDescription(
     var offset: Int = 0
 ) {
 
-    infix fun toPtr(ptr: Ptr) {
+    infix fun write(ptr: Ptr) {
         nlocation(ptr, location)
         nbinding(ptr, binding)
         nformat(ptr, format.i)
@@ -63,9 +61,9 @@ class VertexInputAttributeDescription(
     }
 }
 
-fun Array<VertexInputAttributeDescription>.write(stack: MemoryStack): Ptr {
+infix fun Array<VertexInputAttributeDescription>.write(stack: MemoryStack): Ptr {
     val natives = stack.ncalloc(ALIGNOF, size, SIZEOF)
     for (i in indices)
-        this[i].toPtr(natives + i * SIZEOF)
+        this[i] write (natives + i * SIZEOF)
     return natives
 }
