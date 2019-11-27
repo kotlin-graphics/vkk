@@ -1,16 +1,15 @@
 package identifiers
 
 import classes.*
-import glm_.BYTES
 import kool.*
 import org.lwjgl.system.APIUtil.apiLog
 import org.lwjgl.system.Checks
 import org.lwjgl.system.FunctionProvider
 import org.lwjgl.system.JNI.*
 import org.lwjgl.system.MemoryUtil.*
-import org.lwjgl.system.Pointer
 import org.lwjgl.vulkan.*
 import vkk.*
+import vkk.classes.FramebufferCreateInfo
 import vkk.entities.*
 
 /** Wraps a Vulkan device dispatchable handle. */

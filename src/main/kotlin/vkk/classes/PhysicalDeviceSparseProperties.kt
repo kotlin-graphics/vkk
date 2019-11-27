@@ -1,4 +1,4 @@
-package classes
+package vkk.classes
 
 /**
  * Structure specifying physical device sparse memory properties.

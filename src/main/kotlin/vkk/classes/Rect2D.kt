@@ -1,4 +1,4 @@
-package classes
+package vkk.classes
 
 import glm_.vec2.Vec2i
 import kool.Adr

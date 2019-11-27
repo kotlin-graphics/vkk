@@ -1,4 +1,4 @@
-package classes
+package vkk.classes
 
 import glm_.i
 import glm_.vec4.Vec4

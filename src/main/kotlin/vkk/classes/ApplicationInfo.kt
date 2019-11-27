@@ -1,4 +1,4 @@
-package classes
+package vkk.classes
 
 import kool.Ptr
 import kool.utf8Adr

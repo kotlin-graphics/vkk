@@ -1,4 +1,4 @@
-package classes
+package vkk.classes
 
 import kool.Adr
 import org.lwjgl.system.MemoryStack

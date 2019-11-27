@@ -1,4 +1,4 @@
-package classes
+package vkk.classes
 
 import identifiers.CommandBuffer
 import identifiers.write

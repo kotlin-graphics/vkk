@@ -1,4 +1,4 @@
-package classes
+package vkk.classes
 
 import glm_.i
 import kool.Ptr
