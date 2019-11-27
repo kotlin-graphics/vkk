@@ -1,6 +1,7 @@
 package identifiers
 
 import glm_.min
+import kool.Adr
 import kool.Ptr
 import kool.adr
 import org.lwjgl.system.*
@@ -144,7 +145,7 @@ object VK {
         val minorVersion = VK_VERSION_MINOR(apiVersion)
 
         val VK_VERSIONS = intArrayOf(
-            1 // Vulkan 1.0 to 1.1
+                1 // Vulkan 1.0 to 1.1
         )
 
         val maxMajor = majorVersion min VK_VERSIONS.size
@@ -170,14 +171,17 @@ object VK {
     }
 }
 
-fun FunctionProvider.isSupported(
-    functionName: String,
-    caps: MutableMap<String, Long>,
-    satisfiedDependency: Boolean
-): Boolean =
-    !satisfiedDependency || isSupported(functionName, caps)
+fun FunctionProvider.isSupported(functionName: String, caps: MutableMap<String, Adr>, satisfiedDependency: Boolean): Boolean =
+        !satisfiedDependency || isSupported(functionName, caps)
 
-fun FunctionProvider.isSupported(functionName: String, caps: MutableMap<String, Long>): Boolean {
+fun FunctionProvider.areSupported(caps: MutableMap<String, Adr>, vararg functionNames: String): Boolean {
+    var result = true
+    for (functionName in functionNames)
+        result = isSupported(functionName, caps) && result
+    return result
+}
+
+fun FunctionProvider.isSupported(functionName: String, caps: MutableMap<String, Adr>): Boolean {
     val address = getFunctionAddress(functionName)
     if (address != NULL) {
         caps[functionName] = address
