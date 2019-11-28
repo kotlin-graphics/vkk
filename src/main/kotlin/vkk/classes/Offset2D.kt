@@ -1,5 +1,7 @@
 package vkk.classes
 
+import glm_.vec2.Vec2i
+import glm_.vec3.Vec3i
 import kool.Ptr
 import org.lwjgl.vulkan.VkOffset2D
 import org.lwjgl.vulkan.VkOffset2D.nx
@@ -28,7 +30,9 @@ class Offset2D(
     var y: Int = 0
 ) {
 
-    infix fun toPtr(ptr: Ptr) {
+    constructor(v: Vec2i) : this(v.x, v.y)
+
+    infix fun write(ptr: Ptr) {
         nx(ptr, x)
         ny(ptr, y)
     }

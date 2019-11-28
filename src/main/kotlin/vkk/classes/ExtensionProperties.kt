@@ -1,5 +1,12 @@
 package vkk.classes
 
+import kool.Adr
+import kool.Ptr
+import org.lwjgl.system.MemoryStack
+import org.lwjgl.system.MemoryUtil
+import org.lwjgl.vulkan.VkExtensionProperties
+import org.lwjgl.vulkan.VkExtensionProperties.*
+
 /**
  * Structure specifying an extension properties.
  *
@@ -19,6 +26,16 @@ package vkk.classes
  * }</code></pre>
  */
 class ExtensionProperties(
-    var extensionName: String,
-    var specVersion: Int
-)
+        var extensionName: String,
+        var specVersion: Int
+) {
+
+    inline fun <R> read(stack: MemoryStack, block: (Ptr) -> R): ExtensionProperties {
+        val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
+        block(adr)
+        return ExtensionProperties(
+                MemoryUtil.memUTF8(adr + EXTENSIONNAME),
+                nspecVersion(adr)
+        )
+    }
+}

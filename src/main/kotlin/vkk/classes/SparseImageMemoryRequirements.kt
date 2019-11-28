@@ -1,5 +1,10 @@
 package vkk.classes
 
+import kool.Adr
+import kool.BytePtr
+import org.lwjgl.system.MemoryStack
+import org.lwjgl.vulkan.VkSparseImageMemoryRequirements
+import org.lwjgl.vulkan.VkSparseImageMemoryRequirements.*
 import vkk.entities.VkDeviceSize
 
 /**
@@ -39,6 +44,19 @@ import vkk.entities.VkDeviceSize
 class SparseImageMemoryRequirements(
         var formatProperties: SparseImageFormatProperties,
         var imageMipTailFirstLod: Int,
-        var imageMipTailSize: VkDeviceSize
+        var imageMipTailSize: VkDeviceSize,
+        var imageMipTailOffset: VkDeviceSize,
+        var imageMipTailStride: VkDeviceSize
 ) {
+
+    constructor(ptr: BytePtr) : this(
+            SparseImageFormatProperties(BytePtr(ptr.adr + FORMATPROPERTIES)),
+            nimageMipTailFirstLod(ptr.adr),
+            VkDeviceSize(nimageMipTailSize(ptr.adr)),
+            VkDeviceSize(nimageMipTailOffset(ptr.adr)),
+            VkDeviceSize(nimageMipTailStride(ptr.adr))
+    )
+
+    fun <R> read(stack: MemoryStack, block: (Adr) -> R): SparseImageMemoryRequirements =
+            SparseImageMemoryRequirements(BytePtr(stack.ncalloc(ALIGNOF, 1, SIZEOF)))
 }

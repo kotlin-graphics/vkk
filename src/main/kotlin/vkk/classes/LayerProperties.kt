@@ -1,5 +1,12 @@
 package vkk.classes
 
+import kool.Adr
+import org.lwjgl.system.MemoryStack
+import org.lwjgl.system.MemoryUtil
+import org.lwjgl.system.MemoryUtil.memUTF8
+import org.lwjgl.vulkan.VkLayerProperties
+import org.lwjgl.vulkan.VkLayerProperties.*
+
 /**
  * Structure specifying layer properties.
  *
@@ -28,4 +35,15 @@ class LayerProperties(
         var implementationVersion: Int,
         var description: String
 ) {
+
+    inline fun <R>read(stack: MemoryStack, block: (Adr) -> R): LayerProperties {
+        val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
+        block(adr)
+        return LayerProperties(
+                memUTF8(adr + LAYERNAME),
+                nspecVersion(adr),
+                nimplementationVersion(adr),
+                memUTF8(adr + DESCRIPTION)
+        )
+    }
 }

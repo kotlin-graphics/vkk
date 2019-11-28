@@ -1,5 +1,10 @@
 package vkk.classes
 
+import kool.Adr
+import kool.BytePtr
+import kool.IntPtr
+import org.lwjgl.system.MemoryStack
+import org.lwjgl.vulkan.VkSparseImageFormatProperties.*
 import vkk.VkImageAspectFlags
 import vkk.VkSparseImageFormatFlags
 
@@ -28,4 +33,16 @@ class SparseImageFormatProperties(
         var imageGranularity: Extent3D,
         var flags: VkSparseImageFormatFlags
 ) {
+
+    constructor(ptr: BytePtr) : this(
+            naspectMask(ptr.adr),
+            Extent3D(IntPtr(ptr.adr + IMAGEGRANULARITY)),
+            nflags(ptr.adr)
+    )
+
+    fun <R> read(stack: MemoryStack, block: (Adr) -> R): SparseImageFormatProperties {
+        val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
+        block(adr)
+        return SparseImageFormatProperties(BytePtr(adr))
+    }
 }

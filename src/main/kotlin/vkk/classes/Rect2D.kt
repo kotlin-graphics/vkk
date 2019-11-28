@@ -35,7 +35,7 @@ class Rect2D(
         stack.ncalloc(ALIGNOF, 1, SIZEOF).also { write(it) }
 
     infix fun write(ptr: Ptr) {
-        offset toPtr ptr
+        offset write ptr
         extent.write(ptr + EXTENT)
     }
 }

@@ -1,5 +1,9 @@
 package vkk.classes
 
+import kool.Adr
+import org.lwjgl.system.MemoryStack
+import org.lwjgl.vulkan.VkMappedMemoryRange
+import org.lwjgl.vulkan.VkMappedMemoryRange.*
 import vkk.VkStructureType
 import vkk.entities.VkDeviceMemory
 import vkk.entities.VkDeviceSize
@@ -59,5 +63,12 @@ class MappedMemoryRange(
 
     val type get() = VkStructureType.MAPPED_MEMORY_RANGE
 
-
+    infix fun write(stack: MemoryStack): Adr {
+        val adr = stack.ncalloc(ALIGNOF, 1, VkMappedMemoryRange.SIZEOF)
+        nsType(adr, type.i)
+        nmemory(adr, memory.L)
+        noffset(adr, offset.L)
+        nsize(adr, size.L)
+        return adr
+    }
 }

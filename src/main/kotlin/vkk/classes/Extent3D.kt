@@ -1,7 +1,10 @@
 package vkk.classes
 
+import kool.Adr
 import kool.IntPtr
 import kool.Ptr
+import org.lwjgl.system.MemoryStack
+import org.lwjgl.vulkan.VkExtent3D
 import org.lwjgl.vulkan.VkExtent3D.*
 
 /**
@@ -31,4 +34,13 @@ class Extent3D(
 ) {
 
     constructor(intPtr: IntPtr) : this(intPtr[0], intPtr[1], intPtr[2])
+
+    infix fun write(stack: MemoryStack): Adr =
+            stack.ncalloc(ALIGNOF, 1, SIZEOF).also { write(it) }
+
+    infix fun write(adr: Adr) {
+        nwidth(adr, width)
+        nheight(adr, height)
+        ndepth(adr, depth)
+    }
 }
