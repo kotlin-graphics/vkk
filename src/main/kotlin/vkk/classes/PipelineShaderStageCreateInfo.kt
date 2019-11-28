@@ -2,12 +2,9 @@ package vkk.classes
 
 import kool.Ptr
 import org.lwjgl.system.MemoryStack
-import org.lwjgl.system.MemoryUtil
 import org.lwjgl.system.MemoryUtil.NULL
 import org.lwjgl.system.MemoryUtil.memPutAddress
-import org.lwjgl.vulkan.VkPipelineShaderStageCreateInfo
 import org.lwjgl.vulkan.VkPipelineShaderStageCreateInfo.*
-import org.lwjgl.vulkan.VkPushConstantRange
 import vkk.VkPipelineShaderStageCreateFlags
 import vkk.VkShaderStage
 import vkk.VkStructureType
@@ -102,7 +99,7 @@ class PipelineShaderStageCreateInfo(
 
     val type get() = VkStructureType.PIPELINE_SHADER_STAGE_CREATE_INFO
 
-    fun toPtr(ptr: Ptr, stack: MemoryStack) {
+    fun write(ptr: Ptr, stack: MemoryStack) {
         nsType(ptr, type.i)
         npNext(ptr, next)
         nflags(ptr, flags)
@@ -116,6 +113,6 @@ class PipelineShaderStageCreateInfo(
 infix fun Array<PipelineShaderStageCreateInfo>.write(stack: MemoryStack): Ptr {
     val natives = stack.ncalloc(ALIGNOF, size, SIZEOF)
     for (i in indices)
-        this[i].toPtr(natives + i * SIZEOF, stack)
+        this[i].write(natives + i * SIZEOF, stack)
     return natives
 }

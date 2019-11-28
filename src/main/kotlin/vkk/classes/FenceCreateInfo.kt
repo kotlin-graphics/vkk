@@ -1,5 +1,15 @@
 package vkk.classes
 
+import kool.Adr
+import kool.Ptr
+import org.lwjgl.system.MemoryStack
+import org.lwjgl.system.MemoryUtil
+import org.lwjgl.system.MemoryUtil.NULL
+import org.lwjgl.vulkan.VkFenceCreateInfo
+import org.lwjgl.vulkan.VkFenceCreateInfo.*
+import vkk.VkFenceCreateFlags
+import vkk.VkStructureType
+
 /**
  * Structure specifying parameters of a newly created fence.
  *
@@ -33,5 +43,18 @@ package vkk.classes
  *     VkFenceCreateFlags flags;
  * }</code></pre>
  */
-class FenceCreateInfo {
+class FenceCreateInfo(
+        var flags: VkFenceCreateFlags,
+        var next: Ptr = NULL
+) {
+
+    val type get() = VkStructureType.FENCE_CREATE_INFO
+
+    infix fun write(stack: MemoryStack): Adr{
+        val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
+        nsType(adr, type.i)
+        npNext(adr, next)
+        nflags(adr, flags)
+        return adr
+    }
 }
