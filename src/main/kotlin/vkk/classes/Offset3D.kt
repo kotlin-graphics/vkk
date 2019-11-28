@@ -2,7 +2,10 @@ package vkk.classes
 
 import glm_.vec3.Vec3i
 import kool.Adr
+import kool.IntPtr
 import kool.Ptr
+import org.lwjgl.system.MemoryStack
+import org.lwjgl.vulkan.VkClearValue
 import org.lwjgl.vulkan.VkOffset3D.*
 
 /**
@@ -38,4 +41,12 @@ class Offset3D(
         ny(adr, y)
         nz(adr, z)
     }
+}
+
+infix fun Array<Offset3D>.write(stack: MemoryStack): Ptr =
+    stack.ncalloc(ALIGNOF, size, SIZEOF).also { write(it) }
+
+infix fun Array<Offset3D>.write(adr: Adr) {
+    for (i in indices)
+        this[i] write (adr + i * SIZEOF)
 }
