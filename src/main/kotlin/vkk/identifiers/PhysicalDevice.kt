@@ -1,6 +1,6 @@
 package identifiers
 
-import classes.*
+import vkk.classes.*
 import glm_.bool
 import kool.*
 import org.lwjgl.system.JNI.*

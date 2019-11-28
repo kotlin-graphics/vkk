@@ -1,17 +1,11 @@
 package identifiers
 
-import classes.PresentInfoKHR
-import classes.SubmitInfo
 import kool.Ptr
 import kool.adr
-import org.lwjgl.system.Checks
-import org.lwjgl.system.JNI
 import org.lwjgl.system.JNI.*
-import org.lwjgl.system.MemoryUtil
-import org.lwjgl.vulkan.VkPresentInfoKHR
-import org.lwjgl.vulkan.VkQueue
-import org.lwjgl.vulkan.VkSubmitInfo
 import vkk.VkResult
+import vkk.classes.PresentInfoKHR
+import vkk.classes.SubmitInfo
 import vkk.entities.VkFence
 import vkk.stak
 

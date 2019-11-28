@@ -1,7 +1,7 @@
 package identifiers
 
-import classes.DebugReportCallbackCreateInfo
-import classes.InstanceCreateInfo
+import vkk.classes.DebugReportCallbackCreateInfo
+import vkk.classes.InstanceCreateInfo
 import kool.*
 import org.lwjgl.PointerBuffer
 import org.lwjgl.system.APIUtil.apiLog

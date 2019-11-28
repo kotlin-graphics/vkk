@@ -1,6 +1,6 @@
 package identifiers
 
-import classes.*
+import vkk.classes.*
 import kool.*
 import org.lwjgl.system.APIUtil.apiLog
 import org.lwjgl.system.Checks
