@@ -28,6 +28,7 @@ class Instance
 private constructor(handle: Ptr, ci: InstanceCreateInfo) :
     Dispatchable(handle, getInstanceCapabilities(handle, ci)) {
 
+    // --- [ vkCreateInstance ] ---
     constructor(createInfo: InstanceCreateInfo) : this(
         stak { s ->
             s.pointerAdr {
@@ -58,6 +59,10 @@ private constructor(handle: Ptr, ci: InstanceCreateInfo) :
     // --- [ vkDestroyDebugReportCallbackEXT ] ---
     infix fun destroy(debugReportCallback: VkDebugReportCallback) =
         callPJPV(adr, debugReportCallback.L, NULL, capabilities.vkDestroyDebugReportCallbackEXT)
+
+    // --- [ vkDestroyInstance ] ---
+    fun destroy() =
+        callPPV(adr, NULL, capabilities.vkDestroyInstance)
 
     // --- [ vkEnumeratePhysicalDevices ] ---
     inline fun nEnumeratePhysicalDevices(pPhysicalDeviceCount: Ptr, pPhysicalDevices: Ptr): VkResult =
