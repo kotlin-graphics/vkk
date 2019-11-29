@@ -2,10 +2,16 @@ package identifiers
 
 import kool.Ptr
 import kool.adr
+import org.lwjgl.system.Checks
 import org.lwjgl.system.JNI.*
+import org.lwjgl.system.MemoryUtil
+import org.lwjgl.vulkan.VkBindSparseInfo
+import org.lwjgl.vulkan.VkQueue
 import vkk.VkResult
+import vkk.classes.BindSparseInfo
 import vkk.classes.PresentInfoKHR
 import vkk.classes.SubmitInfo
+import vkk.classes.write
 import vkk.entities.VkFence
 import vkk.stak
 
@@ -22,6 +28,10 @@ class Queue
     val device: Device
 ) : DispatchableHandleDevice(handle, device.capabilities) {
 
+    // --- [ vkQueueBindSparse ] ---
+    fun bindSparse(bindInfos: Array<BindSparseInfo>, fence: VkFence = VkFence.NULL): VkResult = stak { s ->
+        VkResult(callPPJI(adr, bindInfos.size, bindInfos write s, fence.L, capabilities.vkQueueBindSparse))
+    }
 
     // --- [ vkQueuePresentKHR ] ---
     infix fun presentKHR(presentInfo: PresentInfoKHR): VkResult = stak { s ->

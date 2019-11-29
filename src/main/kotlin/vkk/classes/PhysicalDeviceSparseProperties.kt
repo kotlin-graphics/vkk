@@ -1,5 +1,9 @@
 package vkk.classes
 
+import glm_.bool
+import kool.BytePtr
+import org.lwjgl.vulkan.VkPhysicalDeviceSparseProperties.*
+
 /**
  * Structure specifying physical device sparse memory properties.
  *
@@ -25,12 +29,18 @@ package vkk.classes
  * }</code></pre>
  */
 class PhysicalDeviceSparseProperties(
-    var residencyStandard2DBlockShape: Boolean,
-    var residencyStandard2DMultisampleBlockShape: Boolean,
-    var residencyStandard3DBlockShape: Boolean,
-    var residencyAlignedMipSize: Boolean,
-    var residencyNonResidentStrict: Boolean
+        var residencyStandard2DBlockShape: Boolean,
+        var residencyStandard2DMultisampleBlockShape: Boolean,
+        var residencyStandard3DBlockShape: Boolean,
+        var residencyAlignedMipSize: Boolean,
+        var residencyNonResidentStrict: Boolean
 ) {
 
-
+    constructor(ptr: BytePtr) : this(
+            nresidencyStandard2DBlockShape(ptr.adr).bool,
+            nresidencyStandard2DMultisampleBlockShape(ptr.adr).bool,
+            nresidencyStandard3DBlockShape(ptr.adr).bool,
+            nresidencyAlignedMipSize(ptr.adr).bool,
+            nresidencyNonResidentStrict(ptr.adr).bool
+    )
 }

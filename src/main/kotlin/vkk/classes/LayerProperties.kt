@@ -1,6 +1,7 @@
 package vkk.classes
 
 import kool.Adr
+import kool.BytePtr
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil
 import org.lwjgl.system.MemoryUtil.memUTF8
@@ -36,14 +37,10 @@ class LayerProperties(
         var description: String
 ) {
 
-    inline fun <R>read(stack: MemoryStack, block: (Adr) -> R): LayerProperties {
-        val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
-        block(adr)
-        return LayerProperties(
-                memUTF8(adr + LAYERNAME),
-                nspecVersion(adr),
-                nimplementationVersion(adr),
-                memUTF8(adr + DESCRIPTION)
-        )
-    }
+    constructor(ptr: BytePtr) : this (
+            memUTF8(ptr.adr + LAYERNAME),
+            nspecVersion(ptr.adr),
+            nimplementationVersion(ptr.adr),
+            memUTF8(ptr.adr + DESCRIPTION)
+    )
 }

@@ -7,6 +7,7 @@ import org.lwjgl.system.MemoryStack
 import org.lwjgl.vulkan.VkMemoryHeap
 import org.lwjgl.vulkan.VkMemoryType
 import org.lwjgl.vulkan.VkPhysicalDeviceMemoryProperties.*
+import vkk.stak
 
 /**
  * Structure specifying physical device memory properties.
@@ -125,17 +126,17 @@ import org.lwjgl.vulkan.VkPhysicalDeviceMemoryProperties.*
  * }</code></pre>
  */
 class PhysicalDeviceMemoryProperties(
-    var memoryTypes: Array<MemoryType>,
-    var memoryHeaps: Array<MemoryHeap>
+        var memoryTypes: Array<MemoryType>,
+        var memoryHeaps: Array<MemoryHeap>
 ) {
 
     constructor(ptr: Ptr) : this(
-        Array(nmemoryTypeCount(ptr)) { MemoryType(IntPtr(ptr + MEMORYTYPES + VkMemoryType.SIZEOF * it)) },
-        Array(nmemoryHeapCount(ptr)) { MemoryHeap(ptr + MEMORYHEAPS + VkMemoryHeap.SIZEOF * it) })
+            Array(nmemoryTypeCount(ptr)) { MemoryType(IntPtr(ptr + MEMORYTYPES + VkMemoryType.SIZEOF * it)) },
+            Array(nmemoryHeapCount(ptr)) { MemoryHeap(ptr + MEMORYHEAPS + VkMemoryHeap.SIZEOF * it) })
 
     companion object {
-
-        fun <R> read(stack: MemoryStack, block: (Adr) -> R): PhysicalDeviceMemoryProperties {
+        inline infix fun <R> read(block: (Adr) -> R): PhysicalDeviceMemoryProperties = stak { read(it, block) }
+        inline fun <R> read(stack: MemoryStack, block: (Adr) -> R): PhysicalDeviceMemoryProperties {
             val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
             block(adr)
             return PhysicalDeviceMemoryProperties(adr)

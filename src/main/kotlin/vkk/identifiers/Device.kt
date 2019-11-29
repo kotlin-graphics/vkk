@@ -1,6 +1,6 @@
 package identifiers
 
-import vkk.classes.*
+import glm_.i
 import kool.*
 import org.lwjgl.system.APIUtil.apiLog
 import org.lwjgl.system.Checks
@@ -9,7 +9,7 @@ import org.lwjgl.system.JNI.*
 import org.lwjgl.system.MemoryUtil.*
 import org.lwjgl.vulkan.*
 import vkk.*
-import vkk.classes.FramebufferCreateInfo
+import vkk.classes.*
 import vkk.entities.*
 
 /** Wraps a Vulkan device dispatchable handle. */
@@ -55,6 +55,10 @@ class Device(
     fun bindBufferMemory(buffer: VkBuffer, memory: VkDeviceMemory, memoryOffset: VkDeviceSize = VkDeviceSize(0)): VkResult =
             VkResult(callPJJJI(adr, buffer.L, memory.L, memoryOffset.L, capabilities.vkBindBufferMemory)).apply { check() }
 
+    // --- [ vkBindImageMemory ] ---
+    fun bindImageMemory(image: VkImage, memory: VkDeviceMemory, memoryOffset: VkDeviceSize): VkResult =
+            VkResult(callPJJJI(adr, image.L, memory.L, memoryOffset.L, capabilities.vkBindImageMemory))
+
     // --- [ vkCreateBuffer ] ---
     infix fun createBuffer(createInfo: BufferCreateInfo): VkBuffer = stak { s ->
         VkBuffer(s.longAdr { callPPPPI(adr, createInfo.write(s), NULL, it, capabilities.vkCreateBuffer) })
@@ -63,6 +67,13 @@ class Device(
     // --- [ vkCreateCommandPool ] ---
     infix fun createCommandPool(createInfo: CommandPoolCreateInfo): VkCommandPool = stak { s ->
         VkCommandPool(s.longAdr { callPPPPI(adr, createInfo.write(s), NULL, it, capabilities.vkCreateCommandPool) })
+    }
+
+    // --- [ vkCreateFence ] ---
+    infix fun createFence(createInfo: FenceCreateInfo): VkFence = stak { s ->
+        VkFence(s.longAdr {
+            callPPPPI(adr, createInfo write s, NULL, it, capabilities.vkCreateFence)
+        })
     }
 
     // --- [ vkCreateFramebuffer ] ---
@@ -145,6 +156,13 @@ class Device(
         })
     }
 
+    // --- [ vkDestroyDevice ] ---
+    fun destroy() = callPPV(adr, NULL, capabilities.vkDestroyDevice)
+
+    // --- [ vkDestroyFence ] ---
+    infix fun destroy(fence: VkFence) =
+            callPJPV(adr, fence.L, NULL, capabilities.vkDestroyFence)
+
     // --- [ vkDestroyFramebuffer ] ---
     infix fun destroy(framebuffer: VkFramebuffer) =
             callPJPV(adr, framebuffer.L, NULL, capabilities.vkDestroyFramebuffer)
@@ -157,11 +175,44 @@ class Device(
     infix fun destroy(swapchain: VkSwapchainKHR) =
             callPJPV(adr, swapchain.L, NULL, capabilities.vkDestroySwapchainKHR)
 
+    // --- [ vkDeviceWaitIdle ] ---
+    fun waitIdle(): VkResult =
+            VkResult(callPI(adr, capabilities.vkDeviceWaitIdle))
+
+    // --- [ vkFlushMappedMemoryRanges ] ---
+    infix fun flushMappedMemoryRanges(memoryRanges: Array<MappedMemoryRange>): VkResult = stak { s ->
+        VkResult(callPPI(adr, memoryRanges.size, memoryRanges write s, capabilities.vkFlushMappedMemoryRanges))
+    }
+
+    // --- [ vkFreeMemory ] ---
+    fun freeMemory(memory: VkDeviceMemory) =
+            callPJPV(adr, memory.L, NULL, capabilities.vkFreeMemory)
+
     // --- [ vkGetBufferMemoryRequirements ] ---
 
-    infix fun getBufferMemoryRequirements(buffer: VkBuffer): MemoryRequirements = stak { s ->
-        MemoryRequirements.read(s) {
-            callPJPV(adr, buffer.L, it, capabilities.vkGetBufferMemoryRequirements)
+    infix fun getBufferMemoryRequirements(buffer: VkBuffer): MemoryRequirements =
+            MemoryRequirements.read { callPJPV(adr, buffer.L, it, capabilities.vkGetBufferMemoryRequirements) }
+
+    // --- [ vkGetFenceStatus ] ---
+    fun getFenceStatus(fence: VkFence): VkResult =
+            VkResult(callPJI(adr, fence.L, capabilities.vkGetFenceStatus))
+
+    // --- [ vkGetImageMemoryRequirements ] ---
+    infix fun getImageMemoryRequirements(image: VkImage): MemoryRequirements =
+            MemoryRequirements.read { callPJPV(adr, image.L, it, capabilities.vkGetImageMemoryRequirements) }
+
+    // --- [ vkGetImageSparseMemoryRequirements ] ---
+    inline fun nGetImageSparseMemoryRequirements(image: VkImage, pSparseMemoryRequirementCount: IntPtr, pSparseMemoryRequirements: Ptr = NULL) =
+            callPJPPV(adr, image.L, pSparseMemoryRequirementCount.adr, pSparseMemoryRequirements, capabilities.vkGetImageSparseMemoryRequirements)
+
+    infix fun getImageSparseMemoryRequirements(image: VkImage): Array<SparseImageMemoryRequirements> = stak { s ->
+        val pSparseMemoryRequirementCount = s.mInt()
+        nGetImageSparseMemoryRequirements(image, pSparseMemoryRequirementCount)
+        val sparseMemoryRequirementCount = pSparseMemoryRequirementCount[0]
+        val sparseMemoryRequirements = s.ncalloc(VkSparseImageMemoryRequirements.ALIGNOF, sparseMemoryRequirementCount, VkSparseImageMemoryRequirements.SIZEOF)
+        nGetImageSparseMemoryRequirements(image, pSparseMemoryRequirementCount, sparseMemoryRequirements)
+        Array(sparseMemoryRequirementCount) {
+            SparseImageMemoryRequirements(BytePtr(sparseMemoryRequirements + it * VkSparseImageMemoryRequirements.SIZEOF))
         }
     }
 
@@ -169,10 +220,10 @@ class Device(
     fun getQueue(queueFamilyIndex: Int, queueIndex: Int = 0): Queue =
             Queue(stak.pointerAdr { callPPV(adr, queueFamilyIndex, queueIndex, it, capabilities.vkGetDeviceQueue) }, this)
 
-
     // --- [ vkGetSwapchainImagesKHR ] ---
     inline fun nGetSwapchainImagesKHR(swapchain: VkSwapchainKHR, pSwapchainImageCount: Ptr, pSwapchainImages: Ptr = NULL): VkResult =
             VkResult(callPJPPI(adr, swapchain.L, pSwapchainImageCount, pSwapchainImages, capabilities.vkGetSwapchainImagesKHR))
+
 
     infix fun getSwapchainImagesKHR(swapchain: VkSwapchainKHR): VkImage_Array = stak { s ->
         var pSwapchainImages = LongPtr.NULL
@@ -190,6 +241,16 @@ class Device(
         VkImage_Array(swapchainImageCount) { VkImage(pSwapchainImages[it]) }
     }
 
+    // --- [ vkInvalidateMappedMemoryRanges ] ---
+    fun invalidateMappedMemoryRanges(memoryRanges: Array<MappedMemoryRange>): VkResult = stak { s ->
+        VkResult(callPPI(adr, memoryRanges.size, memoryRanges write s, capabilities.vkInvalidateMappedMemoryRanges))
+    }
+
+    // --- [ vkGetDeviceMemoryCommitment ] ---
+    infix fun getMemoryCommitment(memory: VkDeviceMemory): VkDeviceSize = stak { s ->
+        VkDeviceSize(s.longAdr { callPJPV(adr, memory.L, it, capabilities.vkGetDeviceMemoryCommitment) })
+    }
+
     // --- [ vkMapMemory ] ---
     fun mapMemory(memory: VkDeviceMemory, offset: VkDeviceSize, size: VkDeviceSize, flags: VkMemoryMapFlags = 0): Ptr =
             stak.pointerAdr { callPJJJPI(adr, memory.L, offset.L, size.L, flags, it, capabilities.vkMapMemory) }
@@ -198,13 +259,30 @@ class Device(
     fun resetCommandPool(commandPool: VkCommandPool, flags: VkCommandPoolResetFlags = 0): VkResult =
             VkResult(callPJI(adr, commandPool.L, flags, capabilities.vkResetCommandPool)).apply { check() }
 
+    // --- [ vkResetFences ] ---
+    fun resetFences(fences: VkFence_Array): VkResult = stak { s ->
+        VkResult(callPPI(adr, fences.size, fences write s, capabilities.vkResetFences))
+    }
+
+    fun resetFences(fence: VkFence): VkResult = stak.longAdr(fence.L) {
+        VkResult(callPPI(adr, 1, it, capabilities.vkResetFences))
+    }
+
     // --- [ vkUnmapMemory ] ---
     infix fun unmapMemory(memory: VkDeviceMemory) = callPJV(adr, memory.L, capabilities.vkUnmapMemory)
 
-    // JVM custom
-    inline fun <R> mappedMemory(
-            memory: VkDeviceMemory, offset: VkDeviceSize, size: VkDeviceSize, flags: VkMemoryMapFlags = 0, block: (Ptr) -> R
-    ): R =
+    // --- [ vkWaitForFences ] ---
+    fun waitForFences(fences: VkFence_Array, waitAll: Boolean, timeout: NanoSecond): VkResult = stak { s ->
+        VkResult(callPPJI(adr, fences.size, fences write s, waitAll.i, timeout, capabilities.vkWaitForFences))
+    }
+
+    fun waitForFences(fence: VkFence, waitAll: Boolean, timeout: NanoSecond): VkResult = stak.longAdr(fence.L) {
+        VkResult(callPPJI(adr, 1, it, waitAll.i, timeout, capabilities.vkWaitForFences))
+    }
+
+    // JVM custom: vkMapMemory + vkUnmapMemory
+    inline fun <R> mappedMemory(memory: VkDeviceMemory, offset: VkDeviceSize, size: VkDeviceSize,
+                                flags: VkMemoryMapFlags = 0, block: (Ptr) -> R): R =
             block(mapMemory(memory, offset, size, flags)).also {
                 unmapMemory(memory)
             }
@@ -219,8 +297,7 @@ private fun getDeviceCapabilities(handle: Ptr, physicalDevice: PhysicalDevice, c
                     s.asciiAdr("vkGetPhysicalDeviceProperties"),
                     VK.globalCommands!!.vkGetInstanceProcAddr
             )
-
-            val props = PhysicalDeviceProperties.calloc(s)
+            val props = s.ncalloc(VkPhysicalDeviceProperties.ALIGNOF, 1, VkPhysicalDeviceProperties.SIZEOF)
             callPPV(physicalDevice.adr, props, GetPhysicalDeviceProperties)
             apiVersion = memGetInt(props)
             if (apiVersion == 0)  // vkGetPhysicalDeviceProperties failed?

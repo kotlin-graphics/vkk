@@ -1,10 +1,13 @@
 package vkk.classes
 
+import glm_.bool
 import glm_.i
 import kool.Adr
+import kool.BytePtr
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.vulkan.*
 import org.lwjgl.vulkan.VkPhysicalDeviceFeatures.*
+import vkk.stak
 
 /**
  * Structure describing the fine-grained features that can be supported by an implementation.
@@ -323,6 +326,64 @@ class PhysicalDeviceFeatures(
         var inheritedQueries: Boolean = false
 ) {
 
+    constructor(ptr: BytePtr) : this(
+            nrobustBufferAccess(ptr.adr).bool,
+            nfullDrawIndexUint32(ptr.adr).bool,
+            nimageCubeArray(ptr.adr).bool,
+            nindependentBlend(ptr.adr).bool,
+            ngeometryShader(ptr.adr).bool,
+            ntessellationShader(ptr.adr).bool,
+            nsampleRateShading(ptr.adr).bool,
+            ndualSrcBlend(ptr.adr).bool,
+            nlogicOp(ptr.adr).bool,
+            nmultiDrawIndirect(ptr.adr).bool,
+            ndrawIndirectFirstInstance(ptr.adr).bool,
+            ndepthClamp(ptr.adr).bool,
+            ndepthBiasClamp(ptr.adr).bool,
+            nfillModeNonSolid(ptr.adr).bool,
+            ndepthBounds(ptr.adr).bool,
+            nwideLines(ptr.adr).bool,
+            nlargePoints(ptr.adr).bool,
+            nalphaToOne(ptr.adr).bool,
+            nmultiViewport(ptr.adr).bool,
+            nsamplerAnisotropy(ptr.adr).bool,
+            ntextureCompressionETC2(ptr.adr).bool,
+            ntextureCompressionASTC_LDR(ptr.adr).bool,
+            ntextureCompressionBC(ptr.adr).bool,
+            nocclusionQueryPrecise(ptr.adr).bool,
+            npipelineStatisticsQuery(ptr.adr).bool,
+            nvertexPipelineStoresAndAtomics(ptr.adr).bool,
+            nfragmentStoresAndAtomics(ptr.adr).bool,
+            nshaderTessellationAndGeometryPointSize(ptr.adr).bool,
+            nshaderImageGatherExtended(ptr.adr).bool,
+            nshaderStorageImageExtendedFormats(ptr.adr).bool,
+            nshaderStorageImageMultisample(ptr.adr).bool,
+            nshaderStorageImageReadWithoutFormat(ptr.adr).bool,
+            nshaderStorageImageWriteWithoutFormat(ptr.adr).bool,
+            nshaderUniformBufferArrayDynamicIndexing(ptr.adr).bool,
+            nshaderSampledImageArrayDynamicIndexing(ptr.adr).bool,
+            nshaderStorageBufferArrayDynamicIndexing(ptr.adr).bool,
+            nshaderStorageImageArrayDynamicIndexing(ptr.adr).bool,
+            nshaderClipDistance(ptr.adr).bool,
+            nshaderCullDistance(ptr.adr).bool,
+            nshaderFloat64(ptr.adr).bool,
+            nshaderInt64(ptr.adr).bool,
+            nshaderInt16(ptr.adr).bool,
+            nshaderResourceResidency(ptr.adr).bool,
+            nshaderResourceMinLod(ptr.adr).bool,
+            nsparseBinding(ptr.adr).bool,
+            nsparseResidencyBuffer(ptr.adr).bool,
+            nsparseResidencyImage2D(ptr.adr).bool,
+            nsparseResidencyImage3D(ptr.adr).bool,
+            nsparseResidency2Samples(ptr.adr).bool,
+            nsparseResidency4Samples(ptr.adr).bool,
+            nsparseResidency8Samples(ptr.adr).bool,
+            nsparseResidency16Samples(ptr.adr).bool,
+            nsparseResidencyAliased(ptr.adr).bool,
+            nvariableMultisampleRate(ptr.adr).bool,
+            ninheritedQueries(ptr.adr).bool
+    )
+
     infix fun write(stack: MemoryStack): Adr =
             stack.ncalloc(ALIGNOF, 1, SIZEOF).also { write(it) }
 
@@ -382,5 +443,14 @@ class PhysicalDeviceFeatures(
         nsparseResidencyAliased(adr, sparseResidencyAliased.i)
         nvariableMultisampleRate(adr, variableMultisampleRate.i)
         ninheritedQueries(adr, inheritedQueries.i)
+    }
+
+    companion object {
+        inline infix fun <R> read(block: (Adr) -> R): PhysicalDeviceFeatures = stak { read(it, block) }
+        inline fun <R> read(stack: MemoryStack, block: (Adr) -> R): PhysicalDeviceFeatures {
+            val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
+            block(adr)
+            return PhysicalDeviceFeatures(BytePtr(adr))
+        }
     }
 }

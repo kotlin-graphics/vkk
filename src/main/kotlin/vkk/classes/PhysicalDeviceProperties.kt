@@ -1,11 +1,14 @@
 package vkk.classes
 
 import kool.Adr
+import kool.BytePtr
+import kool.lib.toByteArray
 import org.lwjgl.system.MemoryStack
+import org.lwjgl.vulkan.VkPhysicalDeviceFeatures
 import org.lwjgl.vulkan.VkPhysicalDeviceProperties
-import org.lwjgl.vulkan.VkPhysicalDeviceProperties.ALIGNOF
-import org.lwjgl.vulkan.VkPhysicalDeviceProperties.SIZEOF
+import org.lwjgl.vulkan.VkPhysicalDeviceProperties.*
 import vkk.VkPhysicalDeviceType
+import vkk.stak
 
 /**
  * Structure specifying physical device properties.
@@ -85,8 +88,24 @@ class PhysicalDeviceProperties(
     var sparseProperties: PhysicalDeviceSparseProperties
 ) {
 
-    companion object {
+    constructor(ptr: BytePtr) : this(
+            napiVersion(ptr.adr),
+            ndriverVersion(ptr.adr),
+            nvendorID(ptr.adr),
+            ndeviceID(ptr.adr),
+            VkPhysicalDeviceType(ndeviceType(ptr.adr)),
+            ndeviceNameString(ptr.adr),
+            npipelineCacheUUID(ptr.adr).toByteArray(),
+            PhysicalDeviceLimits(ptr + LIMITS),
+            PhysicalDeviceSparseProperties(ptr + SPARSEPROPERTIES)
+    )
 
-        fun calloc(stack: MemoryStack): Adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
+    companion object {
+        inline infix fun <R> read(block: (Adr) -> R): PhysicalDeviceProperties = stak { read(it, block) }
+        inline fun <R> read(stack: MemoryStack, block: (Adr) -> R): PhysicalDeviceProperties {
+            val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
+            block(adr)
+            return PhysicalDeviceProperties(BytePtr(adr))
+        }
     }
 }

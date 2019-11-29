@@ -65,24 +65,24 @@ private constructor(handle: Ptr, ci: InstanceCreateInfo) :
         callPPV(adr, NULL, capabilities.vkDestroyInstance)
 
     // --- [ vkEnumeratePhysicalDevices ] ---
-    inline fun nEnumeratePhysicalDevices(pPhysicalDeviceCount: Ptr, pPhysicalDevices: Ptr): VkResult =
+    inline fun nEnumeratePhysicalDevices(pPhysicalDeviceCount: Ptr, pPhysicalDevices: Ptr = NULL): VkResult =
         VkResult(callPPPI(adr, pPhysicalDeviceCount, pPhysicalDevices, capabilities.vkEnumeratePhysicalDevices))
 
     val enumeratePhysicalDevices: Array<PhysicalDevice>
         get() = stak {
-            lateinit var physicalDevices: PointerBuffer
+            var physicalDevices: PointerBuffer? = null
             val pPhysicalDeviceGroupCount = it.mInt()
             var physicalDeviceCount: Int
             var result: VkResult
             do {
-                result = nEnumeratePhysicalDevices(pPhysicalDeviceGroupCount.adr, NULL).apply { check() }
+                result = nEnumeratePhysicalDevices(pPhysicalDeviceGroupCount.adr)
                 physicalDeviceCount = pPhysicalDeviceGroupCount[0]
                 if (result == VkResult.SUCCESS && physicalDeviceCount != 0) {
-                    physicalDevices = it.PointerBuffer(physicalDeviceCount)
+                    physicalDevices = it.resize(physicalDevices, physicalDeviceCount)
                     result = nEnumeratePhysicalDevices(pPhysicalDeviceGroupCount.adr, physicalDevices.adr)
                 }
             } while (result == VkResult.INCOMPLETE)
-            Array(physicalDeviceCount) { PhysicalDevice(physicalDevices[0], this) }
+            Array(physicalDeviceCount) { PhysicalDevice(physicalDevices!![0], this) }
         }
 }
 

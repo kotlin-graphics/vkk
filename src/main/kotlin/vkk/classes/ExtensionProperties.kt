@@ -1,9 +1,11 @@
 package vkk.classes
 
 import kool.Adr
+import kool.BytePtr
 import kool.Ptr
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil
+import org.lwjgl.system.MemoryUtil.memUTF8
 import org.lwjgl.vulkan.VkExtensionProperties
 import org.lwjgl.vulkan.VkExtensionProperties.*
 
@@ -30,12 +32,8 @@ class ExtensionProperties(
         var specVersion: Int
 ) {
 
-    inline fun <R> read(stack: MemoryStack, block: (Ptr) -> R): ExtensionProperties {
-        val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
-        block(adr)
-        return ExtensionProperties(
-                MemoryUtil.memUTF8(adr + EXTENSIONNAME),
-                nspecVersion(adr)
-        )
-    }
+    constructor(ptr: BytePtr) : this(
+            memUTF8(ptr.adr + EXTENSIONNAME),
+            nspecVersion(ptr.adr)
+    )
 }

@@ -1,21 +1,15 @@
 package vkk
 
-import glm_.BYTES
-import glm_.L
-import glm_.f
-import glm_.vec2.Vec2i
-import kool.adr
-import kool.set
-import org.lwjgl.system.MemoryUtil
-import org.lwjgl.system.MemoryUtil.*
-import org.lwjgl.system.Pointer
-import org.lwjgl.system.Struct
-import org.lwjgl.vulkan.*
-import vkk.entities.*
 //import java.lang.ref.Cleaner
-import java.nio.ByteBuffer
-import java.nio.LongBuffer
-import kotlin.reflect.KMutableProperty0
+import identifiers.VK
+import kool.*
+import org.lwjgl.system.JNI
+import org.lwjgl.system.JNI.callPPI
+import org.lwjgl.system.MemoryUtil.NULL
+import org.lwjgl.vulkan.VkExtensionProperties
+import org.lwjgl.vulkan.VkLayerProperties
+import vkk.classes.ExtensionProperties
+import vkk.classes.LayerProperties
 
 
 //fun main() {
@@ -24,7 +18,52 @@ import kotlin.reflect.KMutableProperty0
 
 object vk {
 
-//    val cleaner by lazy { Cleaner.create() }
+    //    val cleaner by lazy { Cleaner.create() }
+
+    // --- [ vkEnumerateInstanceExtensionProperties ] ---
+    inline fun nEnumerateInstanceExtensionProperties(pLayerName: Ptr, pPropertyCount: IntPtr, pProperties: Ptr = NULL): VkResult =
+            VkResult(JNI.callPPPI(pLayerName, pPropertyCount.adr, pProperties, VK.globalCommands!!.vkEnumerateInstanceExtensionProperties))
+
+    infix fun enumerateInstanceExtensionProperties(layerName: String?): Array<ExtensionProperties> = stak { s ->
+        val pLayerName = layerName?.let { s.utf8Adr(layerName) } ?: NULL
+        var properties: Ptr = NULL
+        val pPropertyCount = s.mInt()
+        var propertyCount: Int
+        var result: VkResult
+        do {
+            result = nEnumerateInstanceExtensionProperties(pLayerName, pPropertyCount)
+            propertyCount = pPropertyCount[0]
+            if (result == VkResult.SUCCESS && propertyCount != 0) {
+                properties = s.ncalloc(VkExtensionProperties.ALIGNOF, propertyCount, VkExtensionProperties.SIZEOF)
+                result = nEnumerateInstanceExtensionProperties(pLayerName, pPropertyCount, properties)
+            }
+        } while (result == VkResult.INCOMPLETE)
+        return Array(propertyCount) {
+            ExtensionProperties(BytePtr(properties + it * VkExtensionProperties.SIZEOF))
+        }
+    }
+
+    // --- [ vkEnumerateInstanceLayerProperties ] ---
+    inline fun nEnumerateInstanceLayerProperties(pPropertyCount: IntPtr, pProperties: Ptr = NULL): VkResult =
+            VkResult(callPPI(pPropertyCount.adr, pProperties, VK.globalCommands!!.vkEnumerateInstanceLayerProperties))
+
+    fun enumerateInstanceLayerProperties(): Array<LayerProperties> = stak { s ->
+        var properties: Ptr = NULL
+        val pPropertyCount = s.mInt()
+        var propertyCount: Int
+        var result: VkResult
+        do {
+            result = nEnumerateInstanceLayerProperties(pPropertyCount)
+            propertyCount = pPropertyCount[0]
+            if (result == VkResult.SUCCESS && propertyCount != 0) {
+                properties = s.ncalloc(VkLayerProperties.ALIGNOF, 1, VkLayerProperties.SIZEOF)
+                result = nEnumerateInstanceLayerProperties(pPropertyCount, properties)
+            }
+        } while (result == VkResult.INCOMPLETE)
+        return Array(propertyCount) {
+            LayerProperties(BytePtr(properties + it * VkLayerProperties.SIZEOF))
+        }
+    }
 
     /*  Function Constructors     */
 

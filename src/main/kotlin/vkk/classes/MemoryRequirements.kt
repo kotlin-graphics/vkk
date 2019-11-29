@@ -5,6 +5,7 @@ import kool.Ptr
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.vulkan.VkMemoryRequirements.*
 import vkk.entities.VkDeviceSize
+import vkk.stak
 
 /**
  * Structure specifying memory requirements.
@@ -39,8 +40,8 @@ class MemoryRequirements(
     )
 
     companion object {
-
-        fun <R> read(stack: MemoryStack, block: (Adr) -> R): MemoryRequirements {
+        inline fun <R> read(block: (Adr) -> R): MemoryRequirements = stak { read(it, block) }
+        inline fun <R> read(stack: MemoryStack, block: (Adr) -> R): MemoryRequirements {
             val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
             block(adr)
             return MemoryRequirements(adr)

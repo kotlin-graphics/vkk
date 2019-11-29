@@ -2,9 +2,11 @@ package vkk.classes
 
 import kool.Adr
 import kool.BytePtr
+import kool.Ptr
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.vulkan.VkSparseImageMemoryRequirements
 import org.lwjgl.vulkan.VkSparseImageMemoryRequirements.*
+import org.lwjgl.vulkan.VkVertexInputAttributeDescription
 import vkk.entities.VkDeviceSize
 
 /**

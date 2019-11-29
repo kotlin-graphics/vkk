@@ -1,9 +1,11 @@
 package vkk.classes
 
 import kool.Adr
+import kool.Ptr
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.vulkan.VkMappedMemoryRange
 import org.lwjgl.vulkan.VkMappedMemoryRange.*
+import org.lwjgl.vulkan.VkVertexInputAttributeDescription
 import vkk.VkStructureType
 import vkk.entities.VkDeviceMemory
 import vkk.entities.VkDeviceSize
@@ -63,12 +65,20 @@ class MappedMemoryRange(
 
     val type get() = VkStructureType.MAPPED_MEMORY_RANGE
 
-    infix fun write(stack: MemoryStack): Adr {
-        val adr = stack.ncalloc(ALIGNOF, 1, VkMappedMemoryRange.SIZEOF)
+    infix fun write(stack: MemoryStack): Adr =
+        stack.ncalloc(ALIGNOF, 1, SIZEOF).also { write(it) }
+
+    infix fun write(adr: Adr) {
         nsType(adr, type.i)
         nmemory(adr, memory.L)
         noffset(adr, offset.L)
         nsize(adr, size.L)
-        return adr
     }
+}
+
+infix fun Array<MappedMemoryRange>.write(stack: MemoryStack): Ptr {
+    val natives = stack.ncalloc(ALIGNOF, size, SIZEOF)
+    for (i in indices)
+        this[i] write (natives + i * SIZEOF)
+    return natives
 }

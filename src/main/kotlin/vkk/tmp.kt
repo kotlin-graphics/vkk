@@ -1,8 +1,9 @@
 package vkk
 
 import glm_.i
-import kool.Ptr
-import kool.Stack
+import kool.*
+import org.lwjgl.PointerBuffer
+import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil
 import org.lwjgl.vulkan.VkCommandBuffer
 import vkk.entities.VkDeviceSize
@@ -48,3 +49,9 @@ inline class HMONITOR(val L: Long)
 typealias NanoSecond = Long
 
 typealias stak = Stack
+
+fun MemoryStack.resize(src: PointerBuffer?, newSize: Int): PointerBuffer = when {
+    src == null -> this.PointerBuffer(newSize)
+    newSize > src.cap -> this.PointerBuffer(newSize).also { for (i in src.indices) it[i] = src[i] }
+    else -> src.apply { lim = newSize }
+}
