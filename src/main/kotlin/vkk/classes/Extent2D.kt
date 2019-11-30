@@ -1,9 +1,13 @@
 package vkk.classes
 
 import glm_.vec2.Vec2i
+import kool.BytePtr
 import kool.IntPtr
 import kool.Ptr
+import org.lwjgl.system.MemoryStack
 import org.lwjgl.vulkan.VkExtent2D.*
+import org.lwjgl.vulkan.VkSurfaceCapabilitiesKHR
+import vkk.stak
 
 /**
  * Structure specifying a two-dimensional extent.
@@ -41,5 +45,14 @@ class Extent2D(
     infix fun write(ptr: Ptr) {
         nwidth(ptr, width)
         nheight(ptr, height)
+    }
+
+    companion object {
+        inline fun <R> read(block: (Ptr) -> R): Extent2D = stak { read(it, block) }
+        inline fun <R> read(stack: MemoryStack, block: (Ptr) -> R): Extent2D {
+            val ptr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
+            block(ptr)
+            return Extent2D(IntPtr(ptr))
+        }
     }
 }

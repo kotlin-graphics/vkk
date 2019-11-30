@@ -61,7 +61,7 @@ class CommandBufferAllocateInfo(
 
     val type get() = VkStructureType.COMMAND_BUFFER_ALLOCATE_INFO
 
-    fun write(stack: MemoryStack): Ptr =
+    infix fun write(stack: MemoryStack): Ptr =
             stack.ncalloc(ALIGNOF, 1, SIZEOF).also { write(it) }
 
     fun write(adr: Adr) {

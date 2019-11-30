@@ -1,13 +1,11 @@
 package vkk.classes
 
+import kool.BytePtr
 import kool.IntPtr
 import kool.Ptr
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.vulkan.VkSurfaceCapabilitiesKHR.*
-import vkk.VkCompositeAlphaFlagsKHR
-import vkk.VkImageUsageFlags
-import vkk.VkSurfaceTransformFlagsKHR
-import vkk.VkSurfaceTransformKHR
+import vkk.*
 
 /**
  * Structure describing capabilities of a surface.
@@ -60,35 +58,37 @@ import vkk.VkSurfaceTransformKHR
  * }</code></pre>
  */
 class SurfaceCapabilitiesKHR(
-    var minImageCount: Int,
-    var maxImageCount: Int,
-    var currentExtent: Extent2D,
-    var minImageExtent: Extent2D,
-    var maxImageExtent: Extent2D,
-    var maxImageArrayLayers: Int,
-    var supportedTransforms: VkSurfaceTransformFlagsKHR,
-    var currentTransform: VkSurfaceTransformKHR,
-    var supportedCompositeAlpha: VkCompositeAlphaFlagsKHR,
-    var supportedUsageFlags: VkImageUsageFlags
+        var minImageCount: Int,
+        var maxImageCount: Int,
+        var currentExtent: Extent2D,
+        var minImageExtent: Extent2D,
+        var maxImageExtent: Extent2D,
+        var maxImageArrayLayers: Int,
+        var supportedTransforms: VkSurfaceTransformFlagsKHR,
+        var currentTransform: VkSurfaceTransformKHR,
+        var supportedCompositeAlpha: VkCompositeAlphaFlagsKHR,
+        var supportedUsageFlags: VkImageUsageFlags
 ) {
 
-    companion object {
+    constructor(ptr: BytePtr) : this(
+            nminImageCount(ptr.adr),
+            nmaxImageCount(ptr.adr),
+            Extent2D(IntPtr(ptr + CURRENTEXTENT)),
+            Extent2D(IntPtr(ptr + MINIMAGEEXTENT)),
+            Extent2D(IntPtr(ptr + MAXIMAGEEXTENT)),
+            nmaxImageArrayLayers(ptr.adr),
+            nsupportedTransforms(ptr.adr),
+            VkSurfaceTransformKHR(ncurrentTransform(ptr.adr)),
+            nsupportedCompositeAlpha(ptr.adr),
+            nsupportedUsageFlags(ptr.adr)
+    )
 
-        fun <R> read(stack: MemoryStack, block: (Ptr) -> R): SurfaceCapabilitiesKHR {
+    companion object {
+        inline fun <R> read(block: (Ptr) -> R): SurfaceCapabilitiesKHR = stak { read(it, block) }
+        inline fun <R> read(stack: MemoryStack, block: (Ptr) -> R): SurfaceCapabilitiesKHR {
             val ptr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
             block(ptr)
-            return SurfaceCapabilitiesKHR(
-                nminImageCount(ptr),
-                nmaxImageCount(ptr),
-                Extent2D(IntPtr(ptr + CURRENTEXTENT)),
-                Extent2D(IntPtr(ptr + MINIMAGEEXTENT)),
-                Extent2D(IntPtr(ptr + MAXIMAGEEXTENT)),
-                nmaxImageArrayLayers(ptr),
-                nsupportedTransforms(ptr),
-                VkSurfaceTransformKHR(ncurrentTransform(ptr)),
-                nsupportedCompositeAlpha(ptr),
-                nsupportedUsageFlags(ptr)
-            )
+            return SurfaceCapabilitiesKHR(BytePtr(ptr))
         }
     }
 }

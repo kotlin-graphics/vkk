@@ -102,7 +102,7 @@ class PipelineLayoutCreateInfo(
 
     val type get() = VkStructureType.PIPELINE_LAYOUT_CREATE_INFO
 
-    fun write(stack: MemoryStack): Adr {
+    infix fun write(stack: MemoryStack): Adr {
         val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
         nsType(adr, type.i)
         setLayouts?.let {

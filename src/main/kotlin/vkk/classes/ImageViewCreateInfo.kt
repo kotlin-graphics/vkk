@@ -150,7 +150,7 @@ class ImageViewCreateInfo(
 ) {
     val type get() = VkStructureType.IMAGE_VIEW_CREATE_INFO
 
-    fun write(stack: MemoryStack): Adr {
+    infix fun write(stack: MemoryStack): Adr {
         val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
         nsType(adr, type.i)
         npNext(adr, next)

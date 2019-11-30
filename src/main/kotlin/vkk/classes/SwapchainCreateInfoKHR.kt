@@ -135,7 +135,7 @@ class SwapchainCreateInfoKHR(
 
     val type get() = VkStructureType.SWAPCHAIN_CREATE_INFO_KHR
 
-    fun write(stack: MemoryStack): Adr {
+    infix fun write(stack: MemoryStack): Adr {
         val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
         nsType(adr, type.i)
         npNext(adr, next)

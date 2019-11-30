@@ -30,7 +30,7 @@ class CommandBuffer
     // --- [ vkBeginCommandBuffer ] ---
 
     infix fun begin(beginInfo: CommandBufferBeginInfo): VkResult =
-            stak { s -> VkResult(callPPI(adr, beginInfo.write(s), capabilities.vkBeginCommandBuffer)) }
+            stak { s -> VkResult(callPPI(adr, beginInfo write s, capabilities.vkBeginCommandBuffer)) }
 
     // --- [ vkCmdBeginRenderPass ] ---
     fun beginRenderPass(renderPassBegin: RenderPassBeginInfo, contents: VkSubpassContents = VkSubpassContents.INLINE) = stak { s ->

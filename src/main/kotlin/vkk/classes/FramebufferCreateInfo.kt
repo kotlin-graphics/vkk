@@ -134,7 +134,7 @@ class FramebufferCreateInfo(
 //            else -> attachments?.set(0, value) ?: run { attachments = VkImageView_Array(1) { value } }
 //        }
 
-    fun write(stack: MemoryStack): Adr {
+    infix fun write(stack: MemoryStack): Adr {
         val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
         nsType(adr, type.i)
         npNext(adr, next)

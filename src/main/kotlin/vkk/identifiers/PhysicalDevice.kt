@@ -27,7 +27,7 @@ class PhysicalDevice
     infix fun createDevice(createInfo: DeviceCreateInfo): Device = stak { s ->
         val handle = s.pointerAdr {
             VK_CHECK_RESULT(
-                    callPPPPI(adr, createInfo.write(s), NULL, it, capabilities.vkCreateDevice)
+                    callPPPPI(adr, createInfo write s, NULL, it, capabilities.vkCreateDevice)
             )
         }
         Device(handle, this, createInfo)

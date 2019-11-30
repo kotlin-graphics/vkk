@@ -1,7 +1,5 @@
 package identifiers
 
-import vkk.classes.DebugReportCallbackCreateInfo
-import vkk.classes.InstanceCreateInfo
 import kool.*
 import org.lwjgl.PointerBuffer
 import org.lwjgl.system.APIUtil.apiLog
@@ -14,7 +12,11 @@ import org.lwjgl.vulkan.VK10.VK_NULL_HANDLE
 import org.lwjgl.vulkan.VK10.VK_SUCCESS
 import org.lwjgl.vulkan.VkExtensionProperties
 import vkk.*
+import vkk.classes.DebugReportCallbackCreateInfo
+import vkk.classes.EventCreateInfo
+import vkk.classes.InstanceCreateInfo
 import vkk.entities.VkDebugReportCallback
+import vkk.entities.VkEvent
 import java.util.*
 
 /** Wraps a Vulkan instance handle. */
@@ -26,47 +28,47 @@ class Instance
  * @param ci     the {@link VkInstanceCreateInfo} structured used to create the {@code VkInstance}.
  */
 private constructor(handle: Ptr, ci: InstanceCreateInfo) :
-    Dispatchable(handle, getInstanceCapabilities(handle, ci)) {
+        Dispatchable(handle, getInstanceCapabilities(handle, ci)) {
 
     // --- [ vkCreateInstance ] ---
     constructor(createInfo: InstanceCreateInfo) : this(
-        stak { s ->
-            s.pointerAdr {
-                VK_CHECK_RESULT(callPPPI(createInfo.write(s), NULL, it, VK.globalCommands!!.vkCreateInstance))
-            }
-        }, createInfo
+            stak { s ->
+                s.pointerAdr {
+                    VK_CHECK_RESULT(callPPPI(createInfo write s, NULL, it, VK.globalCommands!!.vkCreateInstance))
+                }
+            }, createInfo
     )
 
     // --- [ vkCreateDebugReportCallbackEXT ] ---
     infix fun createDebugReportCallbackEXT(createInfo: DebugReportCallbackCreateInfo): VkDebugReportCallback =
-        stak { s ->
-            VkDebugReportCallback(s.longAdr {
-                VK_CHECK_RESULT(callPPPPI(adr, createInfo.write(s), NULL, it, capabilities.vkCreateDebugReportCallbackEXT))
-            })
-        }
+            stak { s ->
+                VkDebugReportCallback(s.longAdr {
+                    VK_CHECK_RESULT(callPPPPI(adr, createInfo write s, NULL, it, capabilities.vkCreateDebugReportCallbackEXT))
+                })
+            }
 
     // --- [ vkDebugReportMessageEXT ] ---
     fun debugReportMessageEXT(
-        flags: VkDebugReportFlagsEXT, objectType: VkDebugReportObjectTypeEXT, `object`: Long = VK_NULL_HANDLE,
-        location: Long, messageCode: Int, pLayerPrefix: String, pMessage: String
+            flags: VkDebugReportFlagsEXT, objectType: VkDebugReportObjectTypeEXT, `object`: Long = VK_NULL_HANDLE,
+            location: Long, messageCode: Int, pLayerPrefix: String, pMessage: String
     ) = stak { s ->
         callPJPPPV(
-            adr, flags, objectType.i, `object`, location, messageCode, s.utf8Adr(pLayerPrefix),
-            s.utf8Adr(pMessage), capabilities.vkCreateDebugReportCallbackEXT
+                adr, flags, objectType.i, `object`, location, messageCode, s.utf8Adr(pLayerPrefix),
+                s.utf8Adr(pMessage), capabilities.vkCreateDebugReportCallbackEXT
         )
     }
 
     // --- [ vkDestroyDebugReportCallbackEXT ] ---
     infix fun destroy(debugReportCallback: VkDebugReportCallback) =
-        callPJPV(adr, debugReportCallback.L, NULL, capabilities.vkDestroyDebugReportCallbackEXT)
+            callPJPV(adr, debugReportCallback.L, NULL, capabilities.vkDestroyDebugReportCallbackEXT)
 
     // --- [ vkDestroyInstance ] ---
     fun destroy() =
-        callPPV(adr, NULL, capabilities.vkDestroyInstance)
+            callPPV(adr, NULL, capabilities.vkDestroyInstance)
 
     // --- [ vkEnumeratePhysicalDevices ] ---
     inline fun nEnumeratePhysicalDevices(pPhysicalDeviceCount: Ptr, pPhysicalDevices: Ptr = NULL): VkResult =
-        VkResult(callPPPI(adr, pPhysicalDeviceCount, pPhysicalDevices, capabilities.vkEnumeratePhysicalDevices))
+            VkResult(callPPPI(adr, pPhysicalDeviceCount, pPhysicalDevices, capabilities.vkEnumeratePhysicalDevices))
 
     val enumeratePhysicalDevices: Array<PhysicalDevice>
         get() = stak {
@@ -91,15 +93,15 @@ private fun getInstanceCapabilities(handle: Ptr, ci: InstanceCreateInfo): Capabi
     val apiVersion = ci.applicationInfo?.apiVersion ?: VK.instanceVersionSupported
 
     return CapabilitiesInstance(
-        FunctionProvider { functionName ->
-            callPPP(handle, functionName.adr, VK.globalCommands!!.vkGetInstanceProcAddr).also {
-                if (it == NULL && Checks.DEBUG_FUNCTIONS)
-                    apiLog("Failed to locate address for VK instance function " + memASCII(functionName))
-            }
-        },
-        apiVersion,
-        VK.getEnabledExtensionSet(apiVersion, ci.enabledExtensionNames),
-        getAvailableDeviceExtensions(handle)
+            FunctionProvider { functionName ->
+                callPPP(handle, functionName.adr, VK.globalCommands!!.vkGetInstanceProcAddr).also {
+                    if (it == NULL && Checks.DEBUG_FUNCTIONS)
+                        apiLog("Failed to locate address for VK instance function " + memASCII(functionName))
+                }
+            },
+            apiVersion,
+            VK.getEnabledExtensionSet(apiVersion, ci.enabledExtensionNames),
+            getAvailableDeviceExtensions(handle)
     )
 }
 
@@ -115,7 +117,7 @@ private fun getAvailableDeviceExtensions(instance: Ptr): Set<String> {
     val GetInstanceProcAddr = VK.globalCommands!!.vkGetInstanceProcAddr
     val EnumeratePhysicalDevices = callPPP(instance, stack.ASCII("vkEnumeratePhysicalDevices").adr, GetInstanceProcAddr)
     val EnumerateDeviceExtensionProperties =
-        callPPP(instance, stack.ASCII("vkEnumerateDeviceExtensionProperties").adr, GetInstanceProcAddr)
+            callPPP(instance, stack.ASCII("vkEnumerateDeviceExtensionProperties").adr, GetInstanceProcAddr)
     if (EnumeratePhysicalDevices == NULL || EnumerateDeviceExtensionProperties == NULL)
         return extensions.also { stack.pop() }
 

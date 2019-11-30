@@ -1,12 +1,9 @@
 package vkk.entities
 
-import glm_.BYTES
 import kool.Adr
 import kool.IntPtr
 import kool.LongPtr
-import kool.mLong
 import org.lwjgl.system.MemoryStack
-import org.lwjgl.system.MemoryUtil
 import vkk.VkPresentModeKHR
 import vkk.VkResult
 

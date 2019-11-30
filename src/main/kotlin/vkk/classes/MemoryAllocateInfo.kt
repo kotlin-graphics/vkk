@@ -89,7 +89,7 @@ class MemoryAllocateInfo(
 
     val type get() = VkStructureType.MEMORY_ALLOCATE_INFO
 
-    fun write(stack: MemoryStack): Adr {
+    infix fun write(stack: MemoryStack): Adr {
         val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
         nsType(adr, type.i)
         npNext(adr, next)

@@ -49,7 +49,7 @@ class CommandPoolCreateInfo(
 
     val type get() = VkStructureType.COMMAND_POOL_CREATE_INFO
 
-    fun write(stack: MemoryStack): Adr =
+    infix fun write(stack: MemoryStack): Adr =
             stack.ncalloc(ALIGNOF, 1, SIZEOF).also { write(it) }
 
     fun write(adr: Adr) {

@@ -186,8 +186,10 @@ class GraphicsPipelineCreateInfo(
 
     val type get() = VkStructureType.GRAPHICS_PIPELINE_CREATE_INFO
 
-    fun write(stack: MemoryStack): Adr {
-        val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
+    infix fun write(stack: MemoryStack): Adr =
+            stack.ncalloc(ALIGNOF, 1, SIZEOF).also { write(it, stack) }
+
+    fun write(adr: Adr, stack: MemoryStack) {
         nsType(adr, type.i)
         npNext(adr, next)
         nflags(adr, flags)
@@ -206,6 +208,12 @@ class GraphicsPipelineCreateInfo(
         nsubpass(adr, subpass)
         nbasePipelineHandle(adr, basePipelineHandle.L)
         nbasePipelineIndex(adr, basePipelineIndex)
-        return adr
     }
+}
+
+infix fun Array<GraphicsPipelineCreateInfo>.write(stack: MemoryStack): Ptr {
+    val natives = stack.ncalloc(ALIGNOF, size, SIZEOF)
+    for (i in indices)
+        this[i].write(natives + SIZEOF * i, stack)
+    return natives
 }

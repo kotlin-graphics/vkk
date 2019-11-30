@@ -106,7 +106,7 @@ class RenderPassCreateInfo(
 
     val type get() = VkStructureType.RENDER_PASS_CREATE_INFO
 
-    fun write(stack: MemoryStack): Adr =
+    infix fun write(stack: MemoryStack): Adr =
         stack.ncalloc(ALIGNOF, 1, SIZEOF).also { write(it, stack) }
 
     fun write(adr: Adr, stack: MemoryStack) {

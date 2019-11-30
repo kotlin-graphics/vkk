@@ -90,7 +90,7 @@ class DeviceCreateInfo(
             next: Ptr = NULL
     ) : this(flags, arrayOf(queueCreateInfo), enabledExtensionNames, enabledFeatures, next)
 
-    fun write(stack: MemoryStack): Adr {
+    infix fun write(stack: MemoryStack): Adr {
         val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
         nsType(adr, type.i)
         npNext(adr, next)

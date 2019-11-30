@@ -58,7 +58,7 @@ class CommandBufferBeginInfo(
 
     val type get() = VkStructureType.COMMAND_BUFFER_BEGIN_INFO
 
-    fun write(stack: MemoryStack): Ptr =
+    infix fun write(stack: MemoryStack): Ptr =
             stack.ncalloc(ALIGNOF, 1, SIZEOF).also { ptr ->
                 nsType(ptr, type.i)
                 npNext(ptr, next)
