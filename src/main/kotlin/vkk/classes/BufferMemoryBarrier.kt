@@ -1,8 +1,10 @@
 package vkk.classes
 
 import kool.Adr
+import kool.Ptr
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.vulkan.VkBufferMemoryBarrier.*
+import org.lwjgl.vulkan.VkViewport
 import vkk.VkAccessFlags
 import vkk.VkStructureType
 import vkk.entities.VkBuffer
@@ -91,8 +93,10 @@ class BufferMemoryBarrier(
 
     val type get() = VkStructureType.BUFFER_MEMORY_BARRIER
 
-    infix fun write(stack: MemoryStack): Adr {
-        val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
+    infix fun write(stack: MemoryStack): Adr =
+        stack.ncalloc(ALIGNOF, 1, SIZEOF).also { write(it) }
+
+    infix fun write(adr: Adr) {
         nsType(adr, type.i)
         nsrcAccessMask(adr, srcAccessMask)
         ndstAccessMask(adr, dstAccessMask)
@@ -101,6 +105,12 @@ class BufferMemoryBarrier(
         nbuffer(adr, buffer.L)
         noffset(adr, offset.L)
         nsize(adr, size.L)
-        return adr
     }
+}
+
+infix fun Array<BufferMemoryBarrier>.write(stack: MemoryStack): Ptr {
+    val natives = stack.ncalloc(ALIGNOF, size, SIZEOF)
+    for (i in indices)
+        this[i] write (natives + i * SIZEOF)
+    return natives
 }

@@ -2,9 +2,11 @@ package vkk.classes
 
 import kool.Adr
 import kool.IntPtr
+import kool.Ptr
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.vulkan.VkClearAttachment
 import org.lwjgl.vulkan.VkClearAttachment.*
+import org.lwjgl.vulkan.VkViewport
 import vkk.VkImageAspectFlags
 
 /**
@@ -61,11 +63,19 @@ class ClearAttachment(
         var clearValue: ClearValue
 ) {
 
-    infix fun write(stack: MemoryStack): Adr {
-        val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
+    infix fun write(stack: MemoryStack): Adr =
+        stack.ncalloc(ALIGNOF, 1, SIZEOF).also { write(it) }
+
+    infix fun write(adr: Adr) {
         naspectMask(adr, aspectMask)
         ncolorAttachment(adr, colorAttachment)
         clearValue write IntPtr(adr + CLEARVALUE)
-        return adr
     }
+}
+
+infix fun Array<ClearAttachment>.write(stack: MemoryStack): Ptr {
+    val natives = stack.ncalloc(ALIGNOF, size, SIZEOF)
+    for (i in indices)
+        this[i] write (natives + i * SIZEOF)
+    return natives
 }

@@ -4,6 +4,9 @@ import glm_.asRawIntBits
 import glm_.bitsAsFloat
 import glm_.vec4.Vec4
 import glm_.vec4.Vec4ui
+import kool.Adr
+import kool.mInt
+import org.lwjgl.system.MemoryStack
 
 /**
  * Structure specifying a clear color value.
@@ -52,4 +55,11 @@ class ClearColorValue(
 
     val int32: IntArray
         get() = value
+
+    infix fun write(stack: MemoryStack): Adr {
+        val ptr = stack.mInt(4)
+        for (i in 0..3)
+            ptr[i] = value[i]
+        return ptr.adr
+    }
 }

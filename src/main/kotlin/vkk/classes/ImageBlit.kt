@@ -1,8 +1,10 @@
 package vkk.classes
 
 import kool.Adr
+import kool.Ptr
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.vulkan.VkImageBlit.*
+import org.lwjgl.vulkan.VkViewport
 
 /**
  * Structure specifying an image blit operation.
@@ -68,12 +70,20 @@ class ImageBlit(
         var dstOffsets: Array<Offset3D>
 ) {
 
-    infix fun write(stack: MemoryStack): Adr {
-        val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
+    infix fun write(stack: MemoryStack): Adr =
+        stack.ncalloc(ALIGNOF, 1, SIZEOF).also { write(it) }
+
+    infix fun write(adr: Adr) {
         srcSubresource write (adr + SRCSUBRESOURCE)
         srcOffsets write (adr + SRCOFFSETS)
         dstSubresource write (adr + DSTSUBRESOURCE)
         dstOffsets write (adr + DSTOFFSETS)
-        return adr
     }
+}
+
+infix fun Array<ImageBlit>.write(stack: MemoryStack): Ptr {
+    val natives = stack.ncalloc(ALIGNOF, size, SIZEOF)
+    for (i in indices)
+        this[i] write (natives + i * SIZEOF)
+    return natives
 }

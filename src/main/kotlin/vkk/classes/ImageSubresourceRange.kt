@@ -1,7 +1,8 @@
 package vkk.classes
 
+import kool.Adr
 import kool.Ptr
-import org.lwjgl.vulkan.VkImageSubresourceRange
+import org.lwjgl.system.MemoryStack
 import org.lwjgl.vulkan.VkImageSubresourceRange.*
 import vkk.VkImageAspectFlags
 
@@ -75,11 +76,21 @@ class ImageSubresourceRange(
     var layerCount: Int = 0
 ) {
 
-    infix fun write(ptr: Ptr) {
-        naspectMask(ptr, aspectMask)
-        nbaseMipLevel(ptr, baseMipLevel)
-        nlevelCount(ptr, levelCount)
-        nbaseArrayLayer(ptr, baseArrayLayer)
-        nlayerCount(ptr, layerCount)
+    infix fun write(stack: MemoryStack): Adr =
+            stack.ncalloc(ALIGNOF, 1, SIZEOF).also { write(it) }
+
+    infix fun write(adr: Adr) {
+        naspectMask(adr, aspectMask)
+        nbaseMipLevel(adr, baseMipLevel)
+        nlevelCount(adr, levelCount)
+        nbaseArrayLayer(adr, baseArrayLayer)
+        nlayerCount(adr, layerCount)
     }
+}
+
+infix fun Array<ImageSubresourceRange>.write(stack: MemoryStack): Ptr {
+    val natives = stack.ncalloc(ALIGNOF, size, SIZEOF)
+    for (i in indices)
+        this[i] write (natives + i * SIZEOF)
+    return natives
 }

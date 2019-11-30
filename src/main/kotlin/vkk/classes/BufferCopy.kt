@@ -1,9 +1,11 @@
 package vkk.classes
 
 import kool.Adr
+import kool.Ptr
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.vulkan.VkBufferCopy
 import org.lwjgl.vulkan.VkBufferCopy.*
+import org.lwjgl.vulkan.VkViewport
 import vkk.entities.VkDeviceSize
 
 /**
@@ -42,11 +44,19 @@ class BufferCopy(
         var size: VkDeviceSize
 ) {
 
-    infix fun write(stack: MemoryStack): Adr {
-        val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
+    infix fun write(stack: MemoryStack): Adr =
+        stack.ncalloc(ALIGNOF, 1, SIZEOF).also { write(it) }
+
+    infix fun write(adr: Adr) {
         nsrcOffset(adr, srcOffset.L)
         ndstOffset(adr, dstOffset.L)
         nsize(adr, size.L)
-        return adr
     }
+}
+
+infix fun Array<BufferCopy>.write(stack: MemoryStack): Ptr {
+    val natives = stack.ncalloc(ALIGNOF, size, SIZEOF)
+    for (i in indices)
+        this[i] write (natives + i * SIZEOF)
+    return natives
 }

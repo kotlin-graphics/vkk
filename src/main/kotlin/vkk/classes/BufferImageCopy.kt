@@ -1,9 +1,11 @@
 package vkk.classes
 
 import kool.Adr
+import kool.Ptr
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.vulkan.VkBufferImageCopy
 import org.lwjgl.vulkan.VkBufferImageCopy.*
+import org.lwjgl.vulkan.VkViewport
 import vkk.entities.VkDeviceSize
 
 /**
@@ -99,14 +101,22 @@ class BufferImageCopy(
         var imageExtent: Extent3D
 ) {
 
-    infix fun write(stack: MemoryStack): Adr {
-        val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
+    infix fun write(stack: MemoryStack): Adr =
+        stack.ncalloc(ALIGNOF, 1, SIZEOF).also { write(it) }
+
+    infix fun write(adr: Adr) {
         nbufferOffset(adr, bufferOffset.L)
         nbufferRowLength(adr, bufferRowLength)
         nbufferImageHeight(adr, bufferImageHeight)
         imageSubresource write (adr + IMAGESUBRESOURCE)
         imageOffset write (adr + IMAGEOFFSET)
         imageExtent write (adr + IMAGEEXTENT)
-        return adr
     }
+}
+
+infix fun Array<BufferImageCopy>.write(stack: MemoryStack): Ptr {
+    val natives = stack.ncalloc(ALIGNOF, size, SIZEOF)
+    for (i in indices)
+        this[i] write (natives + i * SIZEOF)
+    return natives
 }

@@ -2,6 +2,13 @@ package vkk.classes
 
 import glm_.asRawIntBits
 import glm_.bitsAsFloat
+import kool.Adr
+import org.lwjgl.system.MemoryStack
+import org.lwjgl.system.MemoryUtil
+import org.lwjgl.system.MemoryUtil.memPutInt
+import org.lwjgl.vulkan.VkClearDepthStencilValue
+import org.lwjgl.vulkan.VkClearDepthStencilValue.ALIGNOF
+import org.lwjgl.vulkan.VkClearDepthStencilValue.SIZEOF
 
 /**
  * Structure specifying a clear depth stencil value.
@@ -45,4 +52,10 @@ class ClearDepthStencilValue(
         set(value) {
             this.value = value
         }
+
+    infix fun write(stack: MemoryStack): Adr =
+            stack.ncalloc(ALIGNOF, 1, SIZEOF).also { write(it) }
+
+    infix fun write(adr: Adr) =
+            memPutInt(adr, value)
 }

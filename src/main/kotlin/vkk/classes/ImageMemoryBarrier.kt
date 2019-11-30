@@ -5,6 +5,7 @@ import kool.Ptr
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil
 import org.lwjgl.system.MemoryUtil.NULL
+import org.lwjgl.vulkan.VkBufferMemoryBarrier
 import org.lwjgl.vulkan.VkImageMemoryBarrier
 import org.lwjgl.vulkan.VkImageMemoryBarrier.*
 import vkk.VkAccessFlags
@@ -128,8 +129,10 @@ class ImageMemoryBarrier(
 
     val type get() = VkStructureType.IMAGE_MEMORY_BARRIER
 
-    infix fun write(stack: MemoryStack): Adr {
-        val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
+    infix fun write(stack: MemoryStack): Adr =
+        stack.ncalloc(ALIGNOF, 1, SIZEOF).also { write(it) }
+
+    infix fun write(adr: Adr) {
         nsType(adr, type.i)
         npNext(adr, next)
         nsrcAccessMask(adr, srcAccessMask)
@@ -140,6 +143,12 @@ class ImageMemoryBarrier(
         ndstQueueFamilyIndex(adr, dstQueueFamilyIndex)
         nimage(adr, image.L)
         subresourceRange write (adr + SUBRESOURCERANGE)
-        return adr
     }
+}
+
+infix fun Array<ImageMemoryBarrier>.write(stack: MemoryStack): Ptr {
+    val natives = stack.ncalloc(ALIGNOF, size, SIZEOF)
+    for (i in indices)
+        this[i] write (natives + i * SIZEOF)
+    return natives
 }
