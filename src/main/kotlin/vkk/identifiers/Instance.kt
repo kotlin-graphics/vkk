@@ -12,8 +12,8 @@ import org.lwjgl.vulkan.VK10.VK_NULL_HANDLE
 import org.lwjgl.vulkan.VK10.VK_SUCCESS
 import org.lwjgl.vulkan.VkExtensionProperties
 import vkk.*
-import vkk._10.DebugReportCallbackCreateInfo
-import vkk._10.InstanceCreateInfo
+import vkk._10.structs.DebugReportCallbackCreateInfo
+import vkk._10.structs.InstanceCreateInfo
 import vkk.entities.VkDebugReportCallback
 import java.util.*
 

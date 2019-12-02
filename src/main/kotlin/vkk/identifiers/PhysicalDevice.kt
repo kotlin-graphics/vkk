@@ -6,7 +6,7 @@ import org.lwjgl.system.JNI.*
 import org.lwjgl.system.MemoryUtil.NULL
 import org.lwjgl.vulkan.*
 import vkk.*
-import vkk._10.*
+import vkk._10.structs.*
 import vkk.entities.VkPresentModeKHR_Array
 import vkk.entities.VkSurfaceKHR
 

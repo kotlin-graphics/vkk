@@ -4,10 +4,10 @@ import kool.Ptr
 import kool.adr
 import org.lwjgl.system.JNI.*
 import vkk.VkResult
-import vkk._10.BindSparseInfo
-import vkk._10.PresentInfoKHR
-import vkk._10.SubmitInfo
-import vkk._10.write
+import vkk._10.structs.BindSparseInfo
+import vkk._10.structs.PresentInfoKHR
+import vkk._10.structs.SubmitInfo
+import vkk._10.structs.write
 import vkk.entities.VkFence
 import vkk.stak
 

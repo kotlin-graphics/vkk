@@ -8,8 +8,8 @@ import org.lwjgl.system.JNI.callPPI
 import org.lwjgl.system.MemoryUtil.NULL
 import org.lwjgl.vulkan.VkExtensionProperties
 import org.lwjgl.vulkan.VkLayerProperties
-import vkk._10.ExtensionProperties
-import vkk._10.LayerProperties
+import vkk._10.structs.ExtensionProperties
+import vkk._10.structs.LayerProperties
 
 
 //fun main() {

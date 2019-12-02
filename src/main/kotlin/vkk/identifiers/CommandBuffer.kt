@@ -1,12 +1,14 @@
 package identifiers
 
 import glm_.vec3.Vec3i
+import identifiers.write
 import kool.*
 import org.lwjgl.system.JNI.*
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.NULL
 import vkk.*
 import vkk._10.*
+import vkk._10.structs.*
 import vkk.entities.*
 
 /** Wraps a Vulkan command buffer handle.  */

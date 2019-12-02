@@ -57,7 +57,7 @@ import vkk.VkStructureType
  * }`</pre>
  */
 class InstanceCreateInfo(
-        var applicationInfo: _root_ide_package_.vkk._10.structs.ApplicationInfo? = null,
+        var applicationInfo: ApplicationInfo? = null,
         var enabledLayerNames: List<String>? = null,
         var enabledExtensionNames: List<String>? = null,
         var next: Ptr = NULL
