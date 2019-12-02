@@ -3,7 +3,9 @@ package vkk
 //import java.lang.ref.Cleaner
 import identifiers.VK
 import kool.*
+import org.lwjgl.system.Checks
 import org.lwjgl.system.JNI
+import org.lwjgl.system.JNI.callPI
 import org.lwjgl.system.JNI.callPPI
 import org.lwjgl.system.MemoryUtil.NULL
 import org.lwjgl.vulkan.VkExtensionProperties
@@ -64,6 +66,12 @@ object vk {
             LayerProperties(BytePtr(properties + it * VkLayerProperties.SIZEOF))
         }
     }
+
+    // --- [ vkEnumerateInstanceVersion ] ---
+    val enumerateInstanceVersion: Int
+        get() = stak.intAdr {
+            VK_CHECK_RESULT(callPI(it, VK.globalCommands!!.vkEnumerateInstanceVersion))
+        }
 
     /*  Function Constructors     */
 

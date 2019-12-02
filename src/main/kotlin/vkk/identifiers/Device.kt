@@ -11,6 +11,9 @@ import org.lwjgl.system.MemoryUtil.*
 import org.lwjgl.vulkan.*
 import vkk.*
 import vkk._10.structs.*
+import vkk._11.structs.BindBufferMemoryInfo
+import vkk._11.structs.BindImageMemoryInfo
+import vkk._11.structs.write
 import vkk.entities.*
 
 /** Wraps a Vulkan device dispatchable handle. */
@@ -71,6 +74,30 @@ class Device(
     // --- [ vkBindBufferMemory ] ---
     fun bindBufferMemory(buffer: VkBuffer, memory: VkDeviceMemory, memoryOffset: VkDeviceSize = VkDeviceSize(0)): VkResult =
             VkResult(callPJJJI(adr, buffer.L, memory.L, memoryOffset.L, capabilities.vkBindBufferMemory)).apply { check() }
+
+    // --- [ vkBindBufferMemory2 ] ---
+    inline fun nBindBufferMemory2(bindInfoCount: Int, pBindInfos: Ptr): VkResult =
+            VkResult(callPPI(adr, bindInfoCount, pBindInfos, capabilities.vkBindBufferMemory2))
+
+    infix fun bindBufferMemory2(bindInfos: Array<BindBufferMemoryInfo>): VkResult = stak { s ->
+        nBindBufferMemory2(bindInfos.size, bindInfos write s).apply { check() }
+    }
+
+    infix fun bindBufferMemory2(bindInfo: BindBufferMemoryInfo): VkResult = stak { s ->
+        nBindBufferMemory2(1, bindInfo write s).apply { check() }
+    }
+
+    // --- [ vkBindImageMemory2 ] ---
+    inline fun nBindImageMemory2(bindInfoCount: Int, pBindInfos: Ptr): VkResult =
+            VkResult(callPPI(adr, bindInfoCount, pBindInfos, capabilities.vkBindImageMemory2))
+
+    infix fun bindImageMemory2(bindInfos: Array<BindImageMemoryInfo>): VkResult = stak { s ->
+            nBindImageMemory2(bindInfos.size, bindInfos write s).apply { check() }
+    }
+
+    infix fun bindImageMemory2(bindInfo: BindImageMemoryInfo): VkResult = stak { s ->
+            nBindImageMemory2(1, bindInfo write s).apply { check() }
+    }
 
     // --- [ vkBindImageMemory ] ---
     fun bindImageMemory(image: VkImage, memory: VkDeviceMemory, memoryOffset: VkDeviceSize): VkResult =
@@ -327,10 +354,10 @@ class Device(
 
     // --- [ vkFreeCommandBuffers ] ---
     inline fun nFreeCommandBuffers(commandPool: VkCommandPool, commandBufferCount: Int, pCommandBuffers: Ptr) =
-        callPJPV(adr, commandPool.L, commandBufferCount, pCommandBuffers, capabilities.vkFreeCommandBuffers)
+            callPJPV(adr, commandPool.L, commandBufferCount, pCommandBuffers, capabilities.vkFreeCommandBuffers)
 
     fun freeCommandBuffers(commandPool: VkCommandPool, commandBufferCount: Int, pCommandBuffers: Ptr) =
-        callPJPV(adr, commandPool.L, commandBufferCount, pCommandBuffers, capabilities.vkFreeCommandBuffers)
+            callPJPV(adr, commandPool.L, commandBufferCount, pCommandBuffers, capabilities.vkFreeCommandBuffers)
 
     // --- [ vkFreeMemory ] ---
     fun freeMemory(memory: VkDeviceMemory) =
