@@ -844,7 +844,7 @@ typealias VkStencilFaceFlags = VkFlags
 
 enum class VkVendor { AMD, Nvidia, Intel, Unknown }
 
-// ...
+// #define VK_VERSION_1_1
 
 inline class VkPointClippingBehavior(val i: Int) {
     companion object {

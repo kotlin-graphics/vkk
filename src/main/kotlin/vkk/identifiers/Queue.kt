@@ -2,16 +2,12 @@ package identifiers
 
 import kool.Ptr
 import kool.adr
-import org.lwjgl.system.Checks
 import org.lwjgl.system.JNI.*
-import org.lwjgl.system.MemoryUtil
-import org.lwjgl.vulkan.VkBindSparseInfo
-import org.lwjgl.vulkan.VkQueue
 import vkk.VkResult
-import vkk.classes.BindSparseInfo
-import vkk.classes.PresentInfoKHR
-import vkk.classes.SubmitInfo
-import vkk.classes.write
+import vkk._10.BindSparseInfo
+import vkk._10.PresentInfoKHR
+import vkk._10.SubmitInfo
+import vkk._10.write
 import vkk.entities.VkFence
 import vkk.stak
 

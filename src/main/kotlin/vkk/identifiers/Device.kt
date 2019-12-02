@@ -10,7 +10,7 @@ import org.lwjgl.system.JNI.*
 import org.lwjgl.system.MemoryUtil.*
 import org.lwjgl.vulkan.*
 import vkk.*
-import vkk.classes.*
+import vkk._10.*
 import vkk.entities.*
 
 /** Wraps a Vulkan device dispatchable handle. */

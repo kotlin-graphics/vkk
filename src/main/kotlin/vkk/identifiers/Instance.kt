@@ -12,11 +12,9 @@ import org.lwjgl.vulkan.VK10.VK_NULL_HANDLE
 import org.lwjgl.vulkan.VK10.VK_SUCCESS
 import org.lwjgl.vulkan.VkExtensionProperties
 import vkk.*
-import vkk.classes.DebugReportCallbackCreateInfo
-import vkk.classes.EventCreateInfo
-import vkk.classes.InstanceCreateInfo
+import vkk._10.DebugReportCallbackCreateInfo
+import vkk._10.InstanceCreateInfo
 import vkk.entities.VkDebugReportCallback
-import vkk.entities.VkEvent
 import java.util.*
 
 /** Wraps a Vulkan instance handle. */

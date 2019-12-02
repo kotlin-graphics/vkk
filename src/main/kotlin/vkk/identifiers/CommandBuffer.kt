@@ -6,7 +6,7 @@ import org.lwjgl.system.JNI.*
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.NULL
 import vkk.*
-import vkk.classes.*
+import vkk._10.*
 import vkk.entities.*
 
 /** Wraps a Vulkan command buffer handle.  */
