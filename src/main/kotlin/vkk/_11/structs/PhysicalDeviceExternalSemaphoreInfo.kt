@@ -1,7 +1,10 @@
 package vkk._11.structs
 
+import kool.Adr
 import kool.Ptr
+import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.NULL
+import org.lwjgl.vulkan.VkPhysicalDeviceExternalSemaphoreInfo.*
 import vkk.VkExternalSemaphoreHandleType
 import vkk.VkStructureType
 
@@ -38,9 +41,17 @@ import vkk.VkStructureType
  * }</code></pre>
  */
 class PhysicalDeviceExternalSemaphoreInfo(
-    var handleType: VkExternalSemaphoreHandleType,
-    var next: Ptr = NULL
+        var handleType: VkExternalSemaphoreHandleType,
+        var next: Ptr = NULL
 ) {
 
     val type get() = VkStructureType.PHYSICAL_DEVICE_EXTERNAL_SEMAPHORE_INFO
+
+    infix fun write(stack: MemoryStack): Adr {
+        val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
+        nsType(adr, type.i)
+        npNext(adr, next)
+        nhandleType(adr, handleType.i)
+        return adr
+    }
 }

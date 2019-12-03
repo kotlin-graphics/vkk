@@ -1,5 +1,8 @@
 package vkk._11.structs
 
+import kool.BytePtr
+import org.lwjgl.vulkan.VkExternalMemoryProperties
+import org.lwjgl.vulkan.VkExternalMemoryProperties.*
 import vkk.VkExternalMemoryFeatureFlags
 import vkk.VkExternalMemoryHandleTypeFlags
 
@@ -36,4 +39,10 @@ class ExternalMemoryProperties(
         var exportFromImportedHandleTypes: VkExternalMemoryHandleTypeFlags,
         var compatibleHandleTypes: VkExternalMemoryHandleTypeFlags
 ) {
+
+    constructor(ptr: BytePtr): this(
+            nexternalMemoryFeatures(ptr.adr),
+            nexportFromImportedHandleTypes(ptr.adr),
+            ncompatibleHandleTypes(ptr.adr)
+    )
 }

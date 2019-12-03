@@ -1,6 +1,11 @@
 package vkk._11.structs
 
+import kool.BytePtr
+import kool.Ptr
+import org.lwjgl.system.MemoryStack
+import org.lwjgl.vulkan.VkExternalBufferProperties.*
 import vkk.VkStructureType
+import vkk.stak
 
 /**
  * Structure specifying supported external handle capabilities.
@@ -38,4 +43,17 @@ class ExternalBufferProperties(
 ) {
 
     val type get() = VkStructureType.EXTERNAL_BUFFER_PROPERTIES
+
+    constructor(ptr: BytePtr): this(
+            ExternalMemoryProperties(ptr + EXTERNALMEMORYPROPERTIES)
+    )
+
+    companion object {
+        inline fun <R> read(block: (Ptr) -> R): ExternalBufferProperties = stak { read(it, block) }
+        inline fun <R> read(stack: MemoryStack, block: (Ptr) -> R): ExternalBufferProperties {
+            val ptr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
+            block(ptr)
+            return ExternalBufferProperties(BytePtr(ptr))
+        }
+    }
 }

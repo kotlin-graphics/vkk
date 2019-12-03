@@ -544,6 +544,31 @@ class Device(
         nBindImageMemory2(1, bindInfo write s).apply { check() }
     }
 
+    // --- [ vkCreateDescriptorUpdateTemplate ] ---
+    fun createDescriptorUpdateTemplate(createInfo: DescriptorUpdateTemplateCreateInfo): VkDescriptorUpdateTemplate = stak { s ->
+        VkDescriptorUpdateTemplate(s.longAdr { callPPPPI(adr, createInfo write s, NULL, it, capabilities.vkCreateDescriptorUpdateTemplate) })
+    }
+
+    // --- [ vkCreateSamplerYcbcrConversion ] ---
+    fun createSamplerYcbcrConversion(createInfo: SamplerYcbcrConversionCreateInfo): VkSamplerYcbcrConversion = stak { s ->
+        VkSamplerYcbcrConversion(s.longAdr { callPPPPI(adr, createInfo write s, NULL, it, capabilities.vkCreateSamplerYcbcrConversion) })
+    }
+
+    // --- [ vkDestroyDescriptorUpdateTemplate ] ---
+    infix fun destroy(descriptorUpdateTemplate: VkDescriptorUpdateTemplate) =
+            callPJPV(adr, descriptorUpdateTemplate.L, NULL, capabilities.vkDestroyDescriptorUpdateTemplate)
+
+    // --- [ vkDestroySamplerYcbcrConversion ] ---
+    infix fun destroy(ycbcrConversion: VkSamplerYcbcrConversion) =
+            callPJPV(adr, ycbcrConversion.L, NULL, capabilities.vkDestroySamplerYcbcrConversion)
+
+    // --- [ vkGetDescriptorSetLayoutSupport ] ---
+    infix fun getDescriptorSetLayoutSupport(createInfo: DescriptorSetLayoutCreateInfo): DescriptorSetLayoutSupport = stak { s ->
+        DescriptorSetLayoutSupport.read(s) {
+            callPPPV(adr, createInfo write s, it, capabilities.vkGetDescriptorSetLayoutSupport)
+        }
+    }
+
     // --- [ vkGetDeviceGroupPeerMemoryFeatures ] ---
     fun getGroupPeerMemoryFeatures(heapIndex: Int, localDeviceIndex: Int, remoteDeviceIndex: Int): VkPeerMemoryFeatureFlags =
             stak.intAdr {
@@ -590,6 +615,10 @@ class Device(
     // --- [ vkTrimCommandPool ] ---
     fun trimCommandPool(commandPool: VkCommandPool, flags: VkCommandPoolTrimFlags = 0) =
             callPJV(adr, commandPool.L, flags, capabilities.vkTrimCommandPool)
+
+    // --- [ vkUpdateDescriptorSetWithTemplate ] ---
+    fun updateDescriptorSetWithTemplate(descriptorSet: VkDescriptorSet, descriptorUpdateTemplate: VkDescriptorUpdateTemplate, pData: Ptr) =
+            callPJJPV(adr, descriptorSet.L, descriptorUpdateTemplate.L, pData, capabilities.vkUpdateDescriptorSetWithTemplate)
 }
 
 private fun getDeviceCapabilities(handle: Ptr, physicalDevice: PhysicalDevice, ci: DeviceCreateInfo, apiVersion_: Int): CapabilitiesDevice {

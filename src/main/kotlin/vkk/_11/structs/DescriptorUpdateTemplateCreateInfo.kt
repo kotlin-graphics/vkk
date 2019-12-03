@@ -1,5 +1,9 @@
 package vkk._11.structs
 
+import kool.Adr
+import org.lwjgl.system.MemoryStack
+import org.lwjgl.system.MemoryUtil.memPutAddress
+import org.lwjgl.vulkan.VkDescriptorUpdateTemplateCreateInfo.*
 import vkk.VkDescriptorUpdateTemplateType
 import vkk.VkPipelineBindPoint
 import vkk.VkStructureType
@@ -76,4 +80,17 @@ class DescriptorUpdateTemplateCreateInfo(
 ) {
 
     val type get() = VkStructureType.DESCRIPTOR_UPDATE_TEMPLATE_CREATE_INFO
+
+    infix fun write(stack: MemoryStack): Adr {
+        val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
+        nsType(adr, type.i)
+        ndescriptorUpdateEntryCount(adr, descriptorUpdateEntries.size)
+        memPutAddress(adr + PDESCRIPTORUPDATEENTRIES, descriptorUpdateEntries write stack)
+        ntemplateType(adr, templateType.i)
+        ndescriptorSetLayout(adr, descriptorSetLayout.L)
+        npipelineBindPoint(adr, pipelineBindPoint.i)
+        npipelineLayout(adr, pipelineLayout.L)
+        nset(adr, set)
+        return adr
+    }
 }

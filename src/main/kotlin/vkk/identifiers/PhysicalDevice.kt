@@ -206,6 +206,27 @@ class PhysicalDevice
     // ---------------------------------------------- VK11 -------------------------------------------------------------
 
 
+    // --- [ vkGetPhysicalDeviceExternalBufferProperties ] ---
+    infix fun getExternalBufferProperties(externalBufferInfo: PhysicalDeviceExternalBufferInfo): ExternalBufferProperties = stak { s ->
+        ExternalBufferProperties.read(s) {
+            callPPPV(adr, externalBufferInfo write s, it, capabilities.vkGetPhysicalDeviceExternalBufferProperties)
+        }
+    }
+
+    // --- [ vkGetPhysicalDeviceExternalFenceProperties ] ---
+    infix fun getExternalFenceProperties(externalFenceInfo: PhysicalDeviceExternalFenceInfo): ExternalFenceProperties = stak { s ->
+        ExternalFenceProperties.read(s) {
+            callPPPV(adr, externalFenceInfo write s, it, capabilities.vkGetPhysicalDeviceExternalFenceProperties)
+        }
+    }
+
+    // --- [ vkGetPhysicalDeviceExternalSemaphoreProperties ] ---
+    infix fun getExternalSemaphoreProperties(externalSemaphoreInfo: PhysicalDeviceExternalSemaphoreInfo): ExternalSemaphoreProperties = stak { s ->
+        ExternalSemaphoreProperties.read(s) {
+            callPPPV(adr, externalSemaphoreInfo write s, it, capabilities.vkGetPhysicalDeviceExternalSemaphoreProperties)
+        }
+    }
+
     // --- [ vkGetPhysicalDeviceFeatures2 ] ---
     val features2: PhysicalDeviceFeatures2
         get() = PhysicalDeviceFeatures2.read { callPPV(adr, it, capabilities.vkGetPhysicalDeviceFeatures2) }

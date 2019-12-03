@@ -1,8 +1,13 @@
 package vkk._11.structs
 
+import glm_.bool
+import kool.BytePtr
 import kool.Ptr
+import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.NULL
+import org.lwjgl.vulkan.VkDescriptorSetLayoutSupport.*
 import vkk.VkStructureType
+import vkk.stak
 
 /**
  * Structure returning information about whether a descriptor set layout can be supported.
@@ -45,4 +50,18 @@ class DescriptorSetLayoutSupport(
 ) {
 
     val type get() = VkStructureType.DESCRIPTOR_SET_LAYOUT_SUPPORT
+
+    constructor(ptr: BytePtr) : this(
+            nsupported(ptr.adr).bool,
+            npNext(ptr.adr)
+    )
+
+    companion object {
+        inline fun <R> read(block: (Ptr) -> R): DescriptorSetLayoutSupport = stak { read(it, block) }
+        inline fun <R> read(stack: MemoryStack, block: (Ptr) -> R): DescriptorSetLayoutSupport {
+            val ptr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
+            block(ptr)
+            return DescriptorSetLayoutSupport(BytePtr(ptr))
+        }
+    }
 }
