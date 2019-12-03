@@ -1,6 +1,7 @@
 package vkk._10.structs
 
 import kool.Adr
+import kool.BytePtr
 import kool.Ptr
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.vulkan.VkMemoryRequirements.*
@@ -33,10 +34,10 @@ class MemoryRequirements(
         var memoryTypeBits: Int = 0
 ) {
 
-    constructor(ptr: Ptr) : this(
-            VkDeviceSize(nsize(ptr)),
-            VkDeviceSize(nalignment(ptr)),
-            nmemoryTypeBits(ptr)
+    constructor(ptr: BytePtr) : this(
+            VkDeviceSize(nsize(ptr.adr)),
+            VkDeviceSize(nalignment(ptr.adr)),
+            nmemoryTypeBits(ptr.adr)
     )
 
     companion object {
@@ -44,7 +45,7 @@ class MemoryRequirements(
         inline fun <R> read(stack: MemoryStack, block: (Adr) -> R): MemoryRequirements {
             val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
             block(adr)
-            return MemoryRequirements(adr)
+            return MemoryRequirements(BytePtr(adr))
         }
     }
 }

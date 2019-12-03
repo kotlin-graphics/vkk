@@ -11,9 +11,12 @@ import org.lwjgl.system.MemoryUtil.*
 import org.lwjgl.vulkan.VK10.VK_NULL_HANDLE
 import org.lwjgl.vulkan.VK10.VK_SUCCESS
 import org.lwjgl.vulkan.VkExtensionProperties
+import org.lwjgl.vulkan.VkInstance
+import org.lwjgl.vulkan.VkPhysicalDeviceGroupProperties
 import vkk.*
 import vkk._10.structs.DebugReportCallbackCreateInfo
 import vkk._10.structs.InstanceCreateInfo
+import vkk._11.structs.PhysicalDeviceGroupProperties
 import vkk.entities.VkDebugReportCallback
 import java.util.*
 
@@ -27,6 +30,8 @@ class Instance
  */
 private constructor(handle: Ptr, ci: InstanceCreateInfo) :
         Dispatchable(handle, getInstanceCapabilities(handle, ci)) {
+
+    // ---------------------------------------------- VK10 -------------------------------------------------------------
 
     // --- [ vkCreateInstance ] ---
     constructor(createInfo: InstanceCreateInfo) : this(
@@ -83,6 +88,32 @@ private constructor(handle: Ptr, ci: InstanceCreateInfo) :
                 }
             } while (result == VkResult.INCOMPLETE)
             Array(physicalDeviceCount) { PhysicalDevice(physicalDevices!![0], this) }
+        }
+
+    // ---------------------------------------------- VK11 -------------------------------------------------------------
+
+    // --- [ vkEnumeratePhysicalDeviceGroups ] ---
+    inline fun nEnumeratePhysicalDeviceGroups(pPhysicalDeviceGroupCount: IntPtr, pPhysicalDeviceGroupProperties: Ptr = NULL): VkResult =
+            VkResult(callPPPI(adr, pPhysicalDeviceGroupCount.adr, pPhysicalDeviceGroupProperties, capabilities.vkEnumeratePhysicalDeviceGroups))
+
+    val enumeratePhysicalDeviceGroups: Array<PhysicalDeviceGroupProperties>
+        get() = stak { s ->
+            var physicalDeviceGroupProperties: Ptr = NULL
+            var physicalDeviceGroupCount: Int
+            val pPhysicalDeviceGroupCount = s.mInt()
+            var result: VkResult
+            do {
+                result = nEnumeratePhysicalDeviceGroups(pPhysicalDeviceGroupCount)
+                physicalDeviceGroupCount = pPhysicalDeviceGroupCount[0]
+                if (result == VkResult.SUCCESS && physicalDeviceGroupCount != 0) {
+                    physicalDeviceGroupProperties = s.ncalloc(VkPhysicalDeviceGroupProperties.ALIGNOF, physicalDeviceGroupCount, VkPhysicalDeviceGroupProperties.SIZEOF)
+                    result = nEnumeratePhysicalDeviceGroups(pPhysicalDeviceGroupCount, physicalDeviceGroupProperties)
+                }
+            } while (result == VkResult.INCOMPLETE)
+            assert(physicalDeviceGroupProperties != NULL) // TODO others
+            return Array(physicalDeviceGroupCount) {
+                PhysicalDeviceGroupProperties(physicalDeviceGroupProperties + it * VkPhysicalDeviceGroupProperties.SIZEOF, this)
+            }
         }
 }
 

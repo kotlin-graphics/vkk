@@ -1,13 +1,14 @@
 package identifiers
 
 import glm_.vec3.Vec3i
-import identifiers.write
 import kool.*
+import org.lwjgl.system.Checks
 import org.lwjgl.system.JNI.*
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.NULL
+import org.lwjgl.system.NativeType
+import org.lwjgl.vulkan.VkCommandBuffer
 import vkk.*
-import vkk._10.*
 import vkk._10.structs.*
 import vkk.entities.*
 
@@ -26,6 +27,8 @@ class CommandBuffer
 
     val isValid get() = adr != NULL
     val isInvalid get() = adr == NULL
+
+    // ---------------------------------------------- VK10 -------------------------------------------------------------
 
     // --- [ vkBeginCommandBuffer ] ---
 
@@ -389,6 +392,19 @@ class CommandBuffer
         beginRenderPass(renderPassBegin, contents)
         return block().also { endRenderPass() }
     }
+
+    // ---------------------------------------------- VK11 -------------------------------------------------------------
+
+    // --- [ vkCmdSetDeviceMask ] ---
+    infix fun setDeviceMask(deviceMask: Int) =
+            callPV(adr, deviceMask, capabilities.vkCmdSetDeviceMask)
+
+    // --- [ vkCmdDispatchBase ] ---
+    fun dispatchBase(baseGroupX: Int, baseGroupY: Int, baseGroupZ: Int, groupCountX: Int, groupCountY: Int, groupCountZ: Int) =
+            callPV(adr, baseGroupX, baseGroupY, baseGroupZ, groupCountX, groupCountY, groupCountZ, capabilities.vkCmdDispatchBase)
+
+    fun dispatchBase(baseGroup: Vec3i, groupCount: Vec3i) =
+            callPV(adr, baseGroup.x, baseGroup.y, baseGroup.z, groupCount.x, groupCount.y, groupCount.z, capabilities.vkCmdDispatchBase)
 }
 
 infix fun Array<CommandBuffer>.write(stack: MemoryStack): Ptr = stack.PointerAdr(size) { this[it].adr }

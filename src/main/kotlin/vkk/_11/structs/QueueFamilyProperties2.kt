@@ -1,8 +1,12 @@
 package vkk._11.structs
 
+import kool.BytePtr
 import kool.Ptr
 import org.lwjgl.system.MemoryUtil
 import org.lwjgl.system.MemoryUtil.NULL
+import org.lwjgl.vulkan.VkQueueFamilyProperties2
+import org.lwjgl.vulkan.VkQueueFamilyProperties2.QUEUEFAMILYPROPERTIES
+import org.lwjgl.vulkan.VkQueueFamilyProperties2.npNext
 import vkk.VkStructureType
 import vkk._10.structs.QueueFamilyProperties
 
@@ -38,9 +42,14 @@ import vkk._10.structs.QueueFamilyProperties
  * }</code></pre>
  */
 class QueueFamilyProperties2(
-    var queueFamilyProperties: QueueFamilyProperties,
-    var next: Ptr = NULL
+        var queueFamilyProperties: QueueFamilyProperties,
+        var next: Ptr = NULL
 ) {
 
     val type get() = VkStructureType.QUEUE_FAMILY_PROPERTIES_2
+
+    constructor(ptr: BytePtr) : this(
+            QueueFamilyProperties(ptr + QUEUEFAMILYPROPERTIES),
+            npNext(ptr.adr)
+    )
 }

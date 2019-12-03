@@ -1,5 +1,6 @@
 package vkk._10.structs
 
+import kool.BytePtr
 import kool.IntPtr
 import kool.Ptr
 import org.lwjgl.system.MemoryStack
@@ -71,10 +72,10 @@ class QueueFamilyProperties(
     var minImageTransferGranularity: Extent3D
 ) {
 
-    constructor(ptr: Ptr) : this(
-        nqueueFlags(ptr),
-        nqueueCount(ptr),
-        ntimestampValidBits(ptr),
+    constructor(ptr: BytePtr) : this(
+        nqueueFlags(ptr.adr),
+        nqueueCount(ptr.adr),
+        ntimestampValidBits(ptr.adr),
         Extent3D(IntPtr(ptr + MINIMAGETRANSFERGRANULARITY))
     )
 

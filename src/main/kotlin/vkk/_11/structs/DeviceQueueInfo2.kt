@@ -1,5 +1,9 @@
 package vkk._11.structs
 
+import kool.Adr
+import org.lwjgl.system.MemoryStack
+import org.lwjgl.vulkan.VkDeviceQueueInfo2
+import org.lwjgl.vulkan.VkDeviceQueueInfo2.*
 import vkk.VkDeviceQueueCreateFlags
 import vkk.VkStructureType
 
@@ -52,10 +56,19 @@ import vkk.VkStructureType
  * }</code></pre>
  */
 class DeviceQueueInfo2(
-    var flags: VkDeviceQueueCreateFlags,
-    var queueFamilyIndex: Int,
-    var queueIndex: Int
+        var flags: VkDeviceQueueCreateFlags,
+        var queueFamilyIndex: Int,
+        var queueIndex: Int
 ) {
 
     val type get() = VkStructureType.DEVICE_QUEUE_INFO_2
+
+    infix fun write(stack: MemoryStack): Adr {
+        val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
+        nsType(adr, type.i)
+        nflags(adr, flags)
+        nqueueFamilyIndex(adr, queueFamilyIndex)
+        nqueueIndex(adr, queueIndex)
+        return adr
+    }
 }

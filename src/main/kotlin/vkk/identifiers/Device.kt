@@ -11,9 +11,7 @@ import org.lwjgl.system.MemoryUtil.*
 import org.lwjgl.vulkan.*
 import vkk.*
 import vkk._10.structs.*
-import vkk._11.structs.BindBufferMemoryInfo
-import vkk._11.structs.BindImageMemoryInfo
-import vkk._11.structs.write
+import vkk._11.structs.*
 import vkk.entities.*
 
 /** Wraps a Vulkan device dispatchable handle. */
@@ -21,6 +19,8 @@ class Device(
         handle: Ptr,
         val physicalDevice: PhysicalDevice, ci: DeviceCreateInfo, apiVersion: Int = 0
 ) : DispatchableHandleDevice(handle, getDeviceCapabilities(handle, physicalDevice, ci, apiVersion)) {
+
+    // ---------------------------------------------- VK10 -------------------------------------------------------------
 
     // --- [ vkAcquireNextImageKHR ] ---
     fun acquireNextImageKHR(swapchain: VkSwapchainKHR, timeout: Long = -1L, semaphore: VkSemaphore, fence: VkFence = VkFence(NULL)): Int =
@@ -74,30 +74,6 @@ class Device(
     // --- [ vkBindBufferMemory ] ---
     fun bindBufferMemory(buffer: VkBuffer, memory: VkDeviceMemory, memoryOffset: VkDeviceSize = VkDeviceSize(0)): VkResult =
             VkResult(callPJJJI(adr, buffer.L, memory.L, memoryOffset.L, capabilities.vkBindBufferMemory)).apply { check() }
-
-    // --- [ vkBindBufferMemory2 ] ---
-    inline fun nBindBufferMemory2(bindInfoCount: Int, pBindInfos: Ptr): VkResult =
-            VkResult(callPPI(adr, bindInfoCount, pBindInfos, capabilities.vkBindBufferMemory2))
-
-    infix fun bindBufferMemory2(bindInfos: Array<BindBufferMemoryInfo>): VkResult = stak { s ->
-        nBindBufferMemory2(bindInfos.size, bindInfos write s).apply { check() }
-    }
-
-    infix fun bindBufferMemory2(bindInfo: BindBufferMemoryInfo): VkResult = stak { s ->
-        nBindBufferMemory2(1, bindInfo write s).apply { check() }
-    }
-
-    // --- [ vkBindImageMemory2 ] ---
-    inline fun nBindImageMemory2(bindInfoCount: Int, pBindInfos: Ptr): VkResult =
-            VkResult(callPPI(adr, bindInfoCount, pBindInfos, capabilities.vkBindImageMemory2))
-
-    infix fun bindImageMemory2(bindInfos: Array<BindImageMemoryInfo>): VkResult = stak { s ->
-            nBindImageMemory2(bindInfos.size, bindInfos write s).apply { check() }
-    }
-
-    infix fun bindImageMemory2(bindInfo: BindImageMemoryInfo): VkResult = stak { s ->
-            nBindImageMemory2(1, bindInfo write s).apply { check() }
-    }
 
     // --- [ vkBindImageMemory ] ---
     fun bindImageMemory(image: VkImage, memory: VkDeviceMemory, memoryOffset: VkDeviceSize): VkResult =
@@ -541,6 +517,79 @@ class Device(
             block(mapMemory(memory, offset, size, flags)).also {
                 unmapMemory(memory)
             }
+
+    // ---------------------------------------------- VK11 -------------------------------------------------------------
+
+    // --- [ vkBindBufferMemory2 ] ---
+    inline fun nBindBufferMemory2(bindInfoCount: Int, pBindInfos: Ptr): VkResult =
+            VkResult(callPPI(adr, bindInfoCount, pBindInfos, capabilities.vkBindBufferMemory2))
+
+    infix fun bindBufferMemory2(bindInfos: Array<BindBufferMemoryInfo>): VkResult = stak { s ->
+        nBindBufferMemory2(bindInfos.size, bindInfos write s).apply { check() }
+    }
+
+    infix fun bindBufferMemory2(bindInfo: BindBufferMemoryInfo): VkResult = stak { s ->
+        nBindBufferMemory2(1, bindInfo write s).apply { check() }
+    }
+
+    // --- [ vkBindImageMemory2 ] ---
+    inline fun nBindImageMemory2(bindInfoCount: Int, pBindInfos: Ptr): VkResult =
+            VkResult(callPPI(adr, bindInfoCount, pBindInfos, capabilities.vkBindImageMemory2))
+
+    infix fun bindImageMemory2(bindInfos: Array<BindImageMemoryInfo>): VkResult = stak { s ->
+        nBindImageMemory2(bindInfos.size, bindInfos write s).apply { check() }
+    }
+
+    infix fun bindImageMemory2(bindInfo: BindImageMemoryInfo): VkResult = stak { s ->
+        nBindImageMemory2(1, bindInfo write s).apply { check() }
+    }
+
+    // --- [ vkGetDeviceGroupPeerMemoryFeatures ] ---
+    fun getGroupPeerMemoryFeatures(heapIndex: Int, localDeviceIndex: Int, remoteDeviceIndex: Int): VkPeerMemoryFeatureFlags =
+            stak.intAdr {
+                callPPV(adr, heapIndex, localDeviceIndex, remoteDeviceIndex, it, capabilities.vkGetDeviceGroupPeerMemoryFeatures)
+            }
+
+    // --- [ vkGetDeviceQueue2 ] ---
+    infix fun getQueue2(queueInfo: DeviceQueueInfo2): Queue = stak { s ->
+        Queue(s.longAdr {
+            callPPPV(adr, queueInfo write s, it, capabilities.vkGetDeviceQueue2)
+        }, this)
+    }
+
+    // --- [ vkGetImageMemoryRequirements2 ] ---
+    infix fun getImageMemoryRequirements2(info: ImageMemoryRequirementsInfo2): MemoryRequirements2 = stak { s ->
+        MemoryRequirements2.read {
+            callPPPV(adr, info write s, it, capabilities.vkGetImageMemoryRequirements2)
+        }
+    }
+
+    // --- [ vkGetBufferMemoryRequirements2 ] ---
+    fun getBufferMemoryRequirements2(info: BufferMemoryRequirementsInfo2): MemoryRequirements2 = stak { s ->
+        MemoryRequirements2.read {
+            callPPPV(adr, info write s, it, capabilities.vkGetBufferMemoryRequirements2)
+        }
+    }
+
+    // --- [ vkGetImageSparseMemoryRequirements2 ] ---
+    inline fun nGetImageSparseMemoryRequirements2(pInfo: Ptr, pSparseMemoryRequirementCount: IntPtr, pSparseMemoryRequirements: Ptr = NULL) =
+            callPPPPV(adr, pInfo, pSparseMemoryRequirementCount.adr, pSparseMemoryRequirements, capabilities.vkGetImageSparseMemoryRequirements2)
+
+    infix fun getImageSparseMemoryRequirements2(info: ImageSparseMemoryRequirementsInfo2): Array<SparseImageMemoryRequirements2> = stak { s ->
+        val pSparseMemoryRequirementCount = s.mInt()
+        val pInfo = info write s
+        nGetImageSparseMemoryRequirements2(pInfo, pSparseMemoryRequirementCount)
+        val sparseMemoryRequirementCount = pSparseMemoryRequirementCount[0]
+        val sparseMemoryRequirements = s.ncalloc(VkSparseImageMemoryRequirements2.ALIGNOF, sparseMemoryRequirementCount, VkSparseImageMemoryRequirements2.SIZEOF)
+        nGetImageSparseMemoryRequirements2(pInfo, pSparseMemoryRequirementCount, sparseMemoryRequirements)
+        return Array(sparseMemoryRequirementCount) {
+            SparseImageMemoryRequirements2(BytePtr(sparseMemoryRequirements + it * VkSparseImageMemoryRequirements2.SIZEOF))
+        }
+    }
+
+    // --- [ vkTrimCommandPool ] ---
+    fun trimCommandPool(commandPool: VkCommandPool, flags: VkCommandPoolTrimFlags = 0) =
+            callPJV(adr, commandPool.L, flags, capabilities.vkTrimCommandPool)
 }
 
 private fun getDeviceCapabilities(handle: Ptr, physicalDevice: PhysicalDevice, ci: DeviceCreateInfo, apiVersion_: Int): CapabilitiesDevice {

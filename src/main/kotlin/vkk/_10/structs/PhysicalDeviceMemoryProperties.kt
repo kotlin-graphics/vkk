@@ -1,6 +1,7 @@
 package vkk._10.structs
 
 import kool.Adr
+import kool.BytePtr
 import kool.IntPtr
 import kool.Ptr
 import org.lwjgl.system.MemoryStack
@@ -130,16 +131,16 @@ class PhysicalDeviceMemoryProperties(
         var memoryHeaps: Array<MemoryHeap>
 ) {
 
-    constructor(ptr: Ptr) : this(
-            Array(nmemoryTypeCount(ptr)) { MemoryType(IntPtr(ptr + MEMORYTYPES + VkMemoryType.SIZEOF * it)) },
-            Array(nmemoryHeapCount(ptr)) { MemoryHeap(ptr + MEMORYHEAPS + VkMemoryHeap.SIZEOF * it) })
+    constructor(ptr: BytePtr) : this(
+            Array(nmemoryTypeCount(ptr.adr)) { MemoryType(IntPtr(ptr + MEMORYTYPES + VkMemoryType.SIZEOF * it)) },
+            Array(nmemoryHeapCount(ptr.adr)) { MemoryHeap(ptr + MEMORYHEAPS + VkMemoryHeap.SIZEOF * it) })
 
     companion object {
         inline infix fun <R> read(block: (Adr) -> R): PhysicalDeviceMemoryProperties = stak { read(it, block) }
         inline fun <R> read(stack: MemoryStack, block: (Adr) -> R): PhysicalDeviceMemoryProperties {
             val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
             block(adr)
-            return PhysicalDeviceMemoryProperties(adr)
+            return PhysicalDeviceMemoryProperties(BytePtr(adr))
         }
     }
 }

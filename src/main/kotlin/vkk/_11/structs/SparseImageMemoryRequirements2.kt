@@ -1,8 +1,12 @@
 package vkk._11.structs
 
+import kool.BytePtr
 import kool.Ptr
 import org.lwjgl.system.MemoryUtil
 import org.lwjgl.system.MemoryUtil.NULL
+import org.lwjgl.vulkan.VkSparseImageMemoryRequirements2
+import org.lwjgl.vulkan.VkSparseImageMemoryRequirements2.MEMORYREQUIREMENTS
+import org.lwjgl.vulkan.VkSparseImageMemoryRequirements2.npNext
 import vkk.VkStructureType
 import vkk._10.structs.SparseImageMemoryRequirements
 
@@ -43,4 +47,9 @@ class SparseImageMemoryRequirements2(
 ) {
 
     val type get() = VkStructureType.SPARSE_IMAGE_MEMORY_REQUIREMENTS_2
+
+    constructor(ptr: BytePtr) : this(
+            SparseImageMemoryRequirements(ptr + MEMORYREQUIREMENTS),
+            npNext(ptr.adr)
+    )
 }

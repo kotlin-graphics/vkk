@@ -2,11 +2,13 @@ package identifiers
 
 import glm_.bool
 import kool.*
+import org.lwjgl.system.Checks
 import org.lwjgl.system.JNI.*
 import org.lwjgl.system.MemoryUtil.NULL
 import org.lwjgl.vulkan.*
 import vkk.*
 import vkk._10.structs.*
+import vkk._11.structs.*
 import vkk.entities.VkPresentModeKHR_Array
 import vkk.entities.VkSurfaceKHR
 
@@ -22,6 +24,10 @@ class PhysicalDevice
         /** Returns the Vulkan instance from which this physical device was enumerated.  */
         val instance: Instance
 ) : Dispatchable(handle, instance.capabilities) {
+
+
+    // ---------------------------------------------- VK10 -------------------------------------------------------------
+
 
     // --- [ vkCreateDevice ] ---
     infix fun createDevice(createInfo: DeviceCreateInfo): Device = stak { s ->
@@ -157,15 +163,15 @@ class PhysicalDevice
                     capabilities.vkGetPhysicalDeviceQueueFamilyProperties
             )
 
-    val queueFamilyProperties: MutableList<QueueFamilyProperties>
+    val queueFamilyProperties: Array<QueueFamilyProperties>
         get() = stak { s ->
             val pCount = s.mInt()
             nGetQueueFamilyProperties(pCount.adr)
             val count = pCount[0]
             val pQueueFamilyProperties = QueueFamilyProperties.ncalloc(s, count)
             nGetQueueFamilyProperties(pCount.adr, pQueueFamilyProperties)
-            MutableList(count) {
-                QueueFamilyProperties(pQueueFamilyProperties + VkQueueFamilyProperties.SIZEOF * it)
+            Array(count) {
+                QueueFamilyProperties(BytePtr(pQueueFamilyProperties + VkQueueFamilyProperties.SIZEOF * it))
             }
         }
 
@@ -194,5 +200,64 @@ class PhysicalDevice
             }
         } while (result == VkResult.INCOMPLETE)
         VkPresentModeKHR_Array(propertyCount) { VkPresentModeKHR(pPresentModes[it]) }
+    }
+
+
+    // ---------------------------------------------- VK11 -------------------------------------------------------------
+
+
+    // --- [ vkGetPhysicalDeviceFeatures2 ] ---
+    val features2: PhysicalDeviceFeatures2
+        get() = PhysicalDeviceFeatures2.read { callPPV(adr, it, capabilities.vkGetPhysicalDeviceFeatures2) }
+
+    // --- [ vkGetPhysicalDeviceFormatProperties2 ] ---
+    infix fun getFormatProperties2(format: VkFormat): FormatProperties2 =
+            FormatProperties2.read { callPPV(adr, format.i, it, capabilities.vkGetPhysicalDeviceFormatProperties2) }
+
+    // --- [ vkGetPhysicalDeviceImageFormatProperties2 ] ---
+    infix fun getImageFormatProperties2(imageFormatInfo: PhysicalDeviceImageFormatInfo2): ImageFormatProperties2 = stak { s ->
+        ImageFormatProperties2.read(s) {
+            VK_CHECK_RESULT(callPPPI(adr, imageFormatInfo write s, it, capabilities.vkGetPhysicalDeviceImageFormatProperties2))
+        }
+    }
+
+    // --- [ vkGetPhysicalDeviceMemoryProperties2 ] ---
+    val memoryProperties2: PhysicalDeviceMemoryProperties2
+        get() = PhysicalDeviceMemoryProperties2.read { callPPV(adr, it, capabilities.vkGetPhysicalDeviceMemoryProperties2) }
+
+    // --- [ vkGetPhysicalDeviceProperties2 ] ---
+    val properties2: PhysicalDeviceProperties2
+        get() = PhysicalDeviceProperties2.read { callPPV(adr, it, capabilities.vkGetPhysicalDeviceProperties2) }
+
+    // --- [ vkGetPhysicalDeviceQueueFamilyProperties2 ] ---
+    inline fun nGetQueueFamilyProperties2(pQueueFamilyPropertyCount: IntPtr, pQueueFamilyProperties: Ptr = NULL) =
+            callPPPV(adr, pQueueFamilyPropertyCount.adr, pQueueFamilyProperties, capabilities.vkGetPhysicalDeviceQueueFamilyProperties2)
+
+    val queueFamilyProperties2: Array<QueueFamilyProperties2>
+        get() = stak { s ->
+            val pQueueFamilyPropertyCount = s.mInt()
+            nGetQueueFamilyProperties2(pQueueFamilyPropertyCount)
+            val queueFamilyPropertyCount = pQueueFamilyPropertyCount[0]
+            val queueFamilyProperties = s.ncalloc(VkQueueFamilyProperties2.ALIGNOF, queueFamilyPropertyCount, VkQueueFamilyProperties2.SIZEOF)
+            nGetQueueFamilyProperties2(pQueueFamilyPropertyCount, queueFamilyProperties)
+            Array(queueFamilyPropertyCount) {
+                QueueFamilyProperties2(BytePtr(queueFamilyProperties + it * VkQueueFamilyProperties2.SIZEOF))
+            }
+        }
+
+    // --- [ vkGetPhysicalDeviceSparseImageFormatProperties2 ] ---
+    inline fun nGetSparseImageFormatProperties2(pFormatInfo: Ptr, pPropertyCount: IntPtr, pProperties: Ptr = NULL) =
+            callPPPPV(adr, pFormatInfo, pPropertyCount.adr, pProperties, capabilities.vkGetPhysicalDeviceSparseImageFormatProperties2)
+
+    fun getSparseImageFormatProperties2(formatInfo: PhysicalDeviceSparseImageFormatInfo2): Array<SparseImageFormatProperties2> = stak { s ->
+        val pPropertyCount = s.mInt()
+        val pFormatInfo = formatInfo write s
+        nGetSparseImageFormatProperties2(pFormatInfo, pPropertyCount)
+        val propertyCount = pPropertyCount[0]
+        val properties = s.ncalloc(VkSparseImageFormatProperties2.ALIGNOF, propertyCount, VkSparseImageFormatProperties2.SIZEOF)
+        nGetSparseImageFormatProperties2(pFormatInfo, pPropertyCount, properties)
+        return Array(propertyCount) {
+            SparseImageFormatProperties2(BytePtr(properties + it * VkSparseImageFormatProperties2.SIZEOF))
+        }
     }
 }

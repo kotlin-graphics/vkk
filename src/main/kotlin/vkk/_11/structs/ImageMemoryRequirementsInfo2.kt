@@ -1,8 +1,12 @@
 package vkk._11.structs
 
+import kool.Adr
 import kool.Ptr
+import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil
 import org.lwjgl.system.MemoryUtil.NULL
+import org.lwjgl.vulkan.VkImageMemoryRequirementsInfo2
+import org.lwjgl.vulkan.VkImageMemoryRequirementsInfo2.*
 import vkk.VkStructureType
 import vkk.entities.VkImage
 
@@ -53,4 +57,12 @@ class ImageMemoryRequirementsInfo2(
 ) {
 
     val type get() = VkStructureType.IMAGE_MEMORY_REQUIREMENTS_INFO_2
+
+    infix fun write(stack: MemoryStack): Adr {
+        val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
+        nsType(adr, type.i)
+        npNext(adr, next)
+        nimage(adr, image.L)
+        return adr
+    }
 }

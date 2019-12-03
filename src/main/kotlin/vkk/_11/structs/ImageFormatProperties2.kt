@@ -1,10 +1,17 @@
 package vkk._11.structs
 
+import kool.Adr
+import kool.BytePtr
 import kool.Ptr
+import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil
 import org.lwjgl.system.MemoryUtil.NULL
+import org.lwjgl.vulkan.VkFormatProperties2
+import org.lwjgl.vulkan.VkImageFormatProperties2
+import org.lwjgl.vulkan.VkImageFormatProperties2.*
 import vkk.VkStructureType
 import vkk._10.structs.ImageFormatProperties
+import vkk.stak
 
 /**
  * Structure specifying an image format properties.
@@ -48,9 +55,23 @@ import vkk._10.structs.ImageFormatProperties
  * }</code></pre>
  */
 class ImageFormatProperties2(
-    var imageFormatProperties: ImageFormatProperties,
-    var next: Ptr = NULL
+        var imageFormatProperties: ImageFormatProperties,
+        var next: Ptr = NULL
 ) {
 
     val type get() = VkStructureType.IMAGE_FORMAT_PROPERTIES_2
+
+    constructor(ptr: BytePtr) : this(
+            ImageFormatProperties(ptr + IMAGEFORMATPROPERTIES),
+            npNext(ptr.adr)
+    )
+
+    companion object {
+        inline infix fun <R> read(block: (Adr) -> R): ImageFormatProperties2 = stak { read(it, block) }
+        inline fun <R> read(stack: MemoryStack, block: (Adr) -> R): ImageFormatProperties2 {
+            val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
+            block(adr)
+            return ImageFormatProperties2(BytePtr(adr))
+        }
+    }
 }

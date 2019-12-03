@@ -1,10 +1,18 @@
 package vkk._11.structs
 
+import kool.Adr
+import kool.BytePtr
 import kool.Ptr
+import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil
 import org.lwjgl.system.MemoryUtil.NULL
+import org.lwjgl.vulkan.VkPhysicalDeviceFeatures2
+import org.lwjgl.vulkan.VkPhysicalDeviceFeatures2.*
+import org.lwjgl.vulkan.VkPhysicalDeviceMemoryProperties
 import vkk.VkStructureType
 import vkk._10.structs.PhysicalDeviceFeatures
+import vkk._10.structs.PhysicalDeviceMemoryProperties
+import vkk.stak
 
 /**
  * Structure describing the fine-grained features that can be supported by an implementation.
@@ -46,4 +54,18 @@ class PhysicalDeviceFeatures2(
 ) {
 
     val type get() = VkStructureType.PHYSICAL_DEVICE_FEATURES_2
+
+    constructor(ptr: BytePtr) : this(
+            PhysicalDeviceFeatures(ptr + FEATURES),
+            npNext(ptr.adr)
+    )
+
+    companion object {
+        inline infix fun <R> read(block: (Adr) -> R): PhysicalDeviceFeatures2 = stak { read(it, block) }
+        inline fun <R> read(stack: MemoryStack, block: (Adr) -> R): PhysicalDeviceFeatures2 {
+            val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
+            block(adr)
+            return PhysicalDeviceFeatures2(BytePtr(adr))
+        }
+    }
 }

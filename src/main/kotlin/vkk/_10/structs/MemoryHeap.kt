@@ -1,5 +1,6 @@
 package vkk._10.structs
 
+import kool.BytePtr
 import kool.Ptr
 import org.lwjgl.vulkan.VkMemoryHeap.*
 import vkk.VkMemoryHeapFlags
@@ -28,5 +29,8 @@ class MemoryHeap(
     var flags: VkMemoryHeapFlags
 ) {
 
-    constructor(ptr: Ptr) : this(VkDeviceSize(nsize(ptr)), nflags(ptr))
+    constructor(ptr: BytePtr) : this(
+            VkDeviceSize(nsize(ptr.adr)),
+            nflags(ptr.adr)
+    )
 }

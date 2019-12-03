@@ -1,8 +1,12 @@
 package vkk._11.structs
 
+import kool.Adr
 import kool.Ptr
+import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil
 import org.lwjgl.system.MemoryUtil.NULL
+import org.lwjgl.vulkan.VkPhysicalDeviceImageFormatInfo2
+import org.lwjgl.vulkan.VkPhysicalDeviceImageFormatInfo2.*
 import vkk.*
 
 /**
@@ -63,13 +67,25 @@ import vkk.*
  * }</code></pre>
  */
 class PhysicalDeviceImageFormatInfo2(
-    var format: VkFormat,
-    var type: VkImageType,
-    var tiling: VkImageTiling,
-    var usage: VkImageUsageFlags,
-    var flags: VkImageCreateFlags,
-    var next: Ptr = NULL
+        var format: VkFormat,
+        var type: VkImageType,
+        var tiling: VkImageTiling,
+        var usage: VkImageUsageFlags,
+        var flags: VkImageCreateFlags,
+        var next: Ptr = NULL
 ) {
 
     val type_ get() = VkStructureType.PHYSICAL_DEVICE_IMAGE_FORMAT_INFO_2
+
+    infix fun write(stack: MemoryStack): Adr {
+        val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
+        nsType(adr, type_.i)
+        npNext(adr, next)
+        nformat(adr, format.i)
+        ntype(adr, type.i)
+        ntiling(adr, tiling.i)
+        nusage(adr, usage)
+        nflags(adr, flags)
+        return adr
+    }
 }

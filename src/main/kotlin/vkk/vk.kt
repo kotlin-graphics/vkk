@@ -22,6 +22,8 @@ object vk {
 
     //    val cleaner by lazy { Cleaner.create() }
 
+    // ---------------------------------------------- VK10 -------------------------------------------------------------
+
     // --- [ vkEnumerateInstanceExtensionProperties ] ---
     inline fun nEnumerateInstanceExtensionProperties(pLayerName: Ptr, pPropertyCount: IntPtr, pProperties: Ptr = NULL): VkResult =
             VkResult(JNI.callPPPI(pLayerName, pPropertyCount.adr, pProperties, VK.globalCommands!!.vkEnumerateInstanceExtensionProperties))
@@ -66,6 +68,8 @@ object vk {
             LayerProperties(BytePtr(properties + it * VkLayerProperties.SIZEOF))
         }
     }
+
+    // ---------------------------------------------- VK11 -------------------------------------------------------------
 
     // --- [ vkEnumerateInstanceVersion ] ---
     val enumerateInstanceVersion: Int

@@ -1,8 +1,12 @@
 package vkk._11.structs
 
+import kool.BytePtr
 import kool.Ptr
 import org.lwjgl.system.MemoryUtil
 import org.lwjgl.system.MemoryUtil.NULL
+import org.lwjgl.vulkan.VkSparseImageFormatProperties2
+import org.lwjgl.vulkan.VkSparseImageFormatProperties2.PROPERTIES
+import org.lwjgl.vulkan.VkSparseImageFormatProperties2.npNext
 import vkk.VkStructureType
 import vkk._10.structs.SparseImageFormatProperties
 
@@ -43,4 +47,9 @@ class SparseImageFormatProperties2(
 ) {
 
     val type get() = VkStructureType.SPARSE_IMAGE_FORMAT_PROPERTIES_2
+
+    constructor(ptr: BytePtr) : this(
+            SparseImageFormatProperties(ptr + PROPERTIES),
+            npNext(ptr.adr)
+    )
 }

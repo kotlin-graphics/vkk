@@ -1,9 +1,17 @@
 package vkk._11.structs
 
+import kool.Adr
+import kool.BytePtr
 import kool.Ptr
+import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.NULL
+import org.lwjgl.vulkan.VkFormatProperties
+import org.lwjgl.vulkan.VkMemoryRequirements2
+import org.lwjgl.vulkan.VkMemoryRequirements2.*
 import vkk.VkStructureType
+import vkk._10.structs.FormatProperties
 import vkk._10.structs.MemoryRequirements
+import vkk.stak
 
 /**
  * Structure specifying memory requirements.
@@ -42,4 +50,15 @@ class MemoryRequirements2(
 ) {
 
     val type get() = VkStructureType.MEMORY_REQUIREMENTS_2
+
+    constructor(ptr: BytePtr) : this(MemoryRequirements(ptr + MEMORYREQUIREMENTS))
+
+    companion object {
+        inline infix fun <R> read(block: (Adr) -> R): MemoryRequirements2 = stak { read(it, block) }
+        inline fun <R> read(stack: MemoryStack, block: (Adr) -> R): MemoryRequirements2 {
+            val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
+            block(adr)
+            return MemoryRequirements2(BytePtr(adr))
+        }
+    }
 }

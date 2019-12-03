@@ -1,10 +1,18 @@
 package vkk._11.structs
 
+import kool.Adr
+import kool.BytePtr
 import kool.Ptr
+import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil
 import org.lwjgl.system.MemoryUtil.NULL
+import org.lwjgl.vulkan.VkFormatProperties
+import org.lwjgl.vulkan.VkPhysicalDeviceMemoryProperties2
+import org.lwjgl.vulkan.VkPhysicalDeviceMemoryProperties2.*
 import vkk.VkStructureType
+import vkk._10.structs.FormatProperties
 import vkk._10.structs.PhysicalDeviceMemoryProperties
+import vkk.stak
 
 /**
  * Structure specifying physical device memory properties.
@@ -43,4 +51,18 @@ class PhysicalDeviceMemoryProperties2(
 ) {
 
     val type get() = VkStructureType.PHYSICAL_DEVICE_MEMORY_PROPERTIES_2
+
+    constructor(ptr: BytePtr): this(
+            PhysicalDeviceMemoryProperties(ptr + MEMORYPROPERTIES),
+            npNext(ptr.adr)
+    )
+
+    companion object {
+        inline infix fun <R> read(block: (Adr) -> R): PhysicalDeviceMemoryProperties2 = stak { read(it, block) }
+        inline fun <R> read(stack: MemoryStack, block: (Adr) -> R): PhysicalDeviceMemoryProperties2 {
+            val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
+            block(adr)
+            return PhysicalDeviceMemoryProperties2(BytePtr(adr))
+        }
+    }
 }
