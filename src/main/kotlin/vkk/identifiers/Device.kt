@@ -324,8 +324,15 @@ class Device(
             VkResult(callPI(adr, capabilities.vkDeviceWaitIdle))
 
     // --- [ vkFlushMappedMemoryRanges ] ---
+    inline fun flushMappedMemoryRanges(memoryRangeCount: Int, pMemoryRanges: Ptr): VkResult =
+        VkResult(callPPI(adr, memoryRangeCount, pMemoryRanges, capabilities.vkFlushMappedMemoryRanges))
+
     infix fun flushMappedMemoryRanges(memoryRanges: Array<MappedMemoryRange>): VkResult = stak { s ->
-        VkResult(callPPI(adr, memoryRanges.size, memoryRanges write s, capabilities.vkFlushMappedMemoryRanges))
+        flushMappedMemoryRanges(memoryRanges.size, memoryRanges write s)
+    }
+
+    infix fun flushMappedMemoryRanges(memoryRange: MappedMemoryRange): VkResult = stak { s ->
+        flushMappedMemoryRanges(1, memoryRange write s)
     }
 
     // --- [ vkFreeCommandBuffers ] ---
