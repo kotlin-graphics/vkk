@@ -52,7 +52,7 @@ import vkk.entities.VkSampler
  * }</code></pre>
  */
 class DescriptorImageInfo(
-        val sampler: VkSampler,
+        var sampler: VkSampler,
         var imageView: VkImageView,
         var imageLayout: VkImageLayout
 ) {
