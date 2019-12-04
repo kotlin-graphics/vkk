@@ -43,7 +43,7 @@ class PhysicalDevice
     inline fun nEnumerateDeviceExtensionProperties(pLayerName: Ptr, pPropertyCount: IntPtr, pProperties: Ptr = NULL): VkResult =
             VkResult(callPPPPI(adr, pLayerName, pPropertyCount.adr, pProperties, capabilities.vkEnumerateDeviceExtensionProperties))
 
-    infix fun enumerateDeviceExtensionProperties(layerName: String?): Array<ExtensionProperties> = stak { s ->
+    fun enumerateDeviceExtensionProperties(layerName: String? = null): Array<ExtensionProperties> = stak { s ->
         val pLayerName = layerName?.let { s.utf8Adr(it) } ?: NULL
         var properties: Ptr = NULL
         val pPropertyCount = s.mInt()
