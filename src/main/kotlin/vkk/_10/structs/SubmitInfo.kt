@@ -2,7 +2,9 @@ package vkk._10.structs
 
 import identifiers.CommandBuffer
 import identifiers.write
-import kool.*
+import kool.Adr
+import kool.Ptr
+import kool.toAdr
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.NULL
 import org.lwjgl.system.MemoryUtil.memPutAddress
@@ -86,6 +88,21 @@ class SubmitInfo(
 ) {
 
     val type get() = VkStructureType.SUBMIT_INFO
+
+    constructor(
+            waitSemaphore: VkSemaphore? = null,
+            waitDstStageMask: Int? = null,
+            commandBuffer: CommandBuffer? = null,
+            signalSemaphore: VkSemaphore? = null,
+            next: Ptr = NULL
+    ) : this(
+            1,
+            waitSemaphore?.let { waitSem -> VkSemaphore_Array(1) { waitSem } },
+            waitDstStageMask?.let { intArrayOf(it) },
+            commandBuffer?.let { arrayOf(it) },
+            signalSemaphore?.let { sigSem -> VkSemaphore_Array(1) { sigSem } },
+            next
+    )
 
     var commandBuffer: CommandBuffer?
         get() = commandBuffers?.get(0)
