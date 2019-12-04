@@ -249,7 +249,7 @@ class ImageCreateInfo(
         var format: VkFormat,
         var extent: Extent3D,
         var mipLevels: Int,
-        var arrayLevels: Int,
+        var arrayLayers: Int,
         var samples: VkSampleCount,
         var tiling: VkImageTiling,
         var usage: VkImageUsageFlags,
