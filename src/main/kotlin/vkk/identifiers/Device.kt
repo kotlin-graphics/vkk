@@ -454,10 +454,10 @@ class Device(
     inline fun nInvalidateMappedMemoryRanges(memoryRangeCount: Int, pMemoryRanges: Ptr): VkResult =
             VkResult(callPPI(adr, memoryRangeCount, pMemoryRanges, capabilities.vkInvalidateMappedMemoryRanges))
 
-    fun invalidateMappedMemoryRanges(memoryRanges: Array<MappedMemoryRange>): VkResult =
+    infix fun invalidateMappedMemoryRanges(memoryRanges: Array<MappedMemoryRange>): VkResult =
             stak { nInvalidateMappedMemoryRanges(memoryRanges.size, memoryRanges write it) }
 
-    fun invalidateMappedMemoryRanges(memoryRange: MappedMemoryRange): VkResult =
+    infix fun invalidateMappedMemoryRanges(memoryRange: MappedMemoryRange): VkResult =
             stak { nInvalidateMappedMemoryRanges(1, memoryRange write it) }
 
     // --- [ vkGetDeviceMemoryCommitment ] ---
