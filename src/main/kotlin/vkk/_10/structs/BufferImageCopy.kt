@@ -91,11 +91,11 @@ import vkk.entities.VkDeviceSize
  * }</code></pre>
  */
 class BufferImageCopy(
-        var bufferOffset: VkDeviceSize,
-        var bufferRowLength: Int,
-        var bufferImageHeight: Int,
+        var bufferOffset: VkDeviceSize = VkDeviceSize(0),
+        var bufferRowLength: Int = 0,
+        var bufferImageHeight: Int = 0,
         var imageSubresource: ImageSubresourceLayers,
-        var imageOffset: Offset3D,
+        var imageOffset: Offset3D = Offset3D(),
         var imageExtent: Extent3D
 ) {
 
