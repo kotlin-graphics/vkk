@@ -113,12 +113,12 @@ import vkk.entities.VkImage
  * }</code></pre>
  */
 class ImageMemoryBarrier(
-        var srcAccessMask: VkAccessFlags,
-        var dstAccessMask: VkAccessFlags,
+        var srcAccessMask: VkAccessFlags = 0,
+        var dstAccessMask: VkAccessFlags = 0,
         var oldLayout: VkImageLayout,
         var newLayout: VkImageLayout,
-        var srcQueueFamilyIndex: Int,
-        var dstQueueFamilyIndex: Int,
+        var srcQueueFamilyIndex: Int = 0,
+        var dstQueueFamilyIndex: Int = 0,
         var image: VkImage,
         var subresourceRange: ImageSubresourceRange,
         var next: Ptr = NULL
