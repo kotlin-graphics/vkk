@@ -141,42 +141,43 @@ import vkk.*
  * }</code></pre>
  */
 class SamplerCreateInfo(
-        var flags: VkSamplerCreateFlags,
+        var flags: VkSamplerCreateFlags = 0,
         var magFilter: VkFilter,
         var minFilter: VkFilter,
         var mipmapMode: VkSamplerMipmapMode,
         var addressModeU: VkSamplerAddressMode,
         var addressModeV: VkSamplerAddressMode,
         var addressModeW: VkSamplerAddressMode,
-        var mipLodBias: Float,
-        var anisotropyEnable: Boolean,
-        var maxAnisotropy: Float,
-        var compareEnable: Boolean,
-        var minLod: Float,
-        var maxLod: Float,
+        var mipLodBias: Float = 0f,
+        var anisotropyEnable: Boolean = false,
+        var maxAnisotropy: Float = 0f,
+        var compareEnable: Boolean = false,
+        var minLod: Float = 0f,
+        var maxLod: Float = 0f,
         var borderColor: VkBorderColor,
-        var unnormalizedCoordinates: Boolean,
+        var unnormalizedCoordinates: Boolean = false,
         var next: Ptr = NULL
 ) {
 
     constructor(
-            flags: VkSamplerCreateFlags,
+            flags: VkSamplerCreateFlags = 0,
             magMinFilter: VkFilter,
             mipmapMode: VkSamplerMipmapMode,
             addressModeUVW: VkSamplerAddressMode,
-            mipLodBias: Float,
-            anisotropyEnable: Boolean,
-            maxAnisotropy: Float,
-            compareEnable: Boolean,
-            minLod: Float,
-            maxLod: Float,
+            mipLodBias: Float = 0f,
+            anisotropyEnable: Boolean = false,
+            maxAnisotropy: Float = 0f,
+            compareEnable: Boolean = false,
+            minLod: Float = 0f,
+            maxLod: Float = 0f,
             borderColor: VkBorderColor,
-            unnormalizedCoordinates: Boolean,
+            unnormalizedCoordinates: Boolean = false,
             next: Ptr = NULL
     ) : this(flags, magMinFilter, magMinFilter, mipmapMode,
             addressModeUVW, addressModeUVW, addressModeUVW,
             mipLodBias, anisotropyEnable, maxAnisotropy,
-            compareEnable, minLod, maxLod, borderColor, unnormalizedCoordinates)
+            compareEnable, minLod, maxLod, borderColor,
+            unnormalizedCoordinates, next)
 
     val type get() = VkStructureType.SAMPLER_CREATE_INFO
 
