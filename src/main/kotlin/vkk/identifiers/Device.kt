@@ -76,7 +76,7 @@ class Device(
             VkResult(callPJJJI(adr, buffer.L, memory.L, memoryOffset.L, capabilities.vkBindBufferMemory)).apply { check() }
 
     // --- [ vkBindImageMemory ] ---
-    fun bindImageMemory(image: VkImage, memory: VkDeviceMemory, memoryOffset: VkDeviceSize): VkResult =
+    fun bindImageMemory(image: VkImage, memory: VkDeviceMemory, memoryOffset: VkDeviceSize = VkDeviceSize(0)): VkResult =
             VkResult(callPJJJI(adr, image.L, memory.L, memoryOffset.L, capabilities.vkBindImageMemory))
 
     // --- [ vkCreateBuffer ] ---
