@@ -270,7 +270,7 @@ class ImageCreateInfo(
         nformat(adr, format.i)
         extent write (adr + EXTENT)
         nmipLevels(adr, mipLevels)
-        narrayLayers(adr, arrayLevels)
+        narrayLayers(adr, arrayLayers)
         nsamples(adr, samples.i)
         ntiling(adr, tiling.i)
         nusage(adr, usage)
