@@ -244,7 +244,7 @@ import vkk.*
  * }</code></pre>
  */
 class ImageCreateInfo(
-        var flags: VkImageCreateFlags,
+        var flags: VkImageCreateFlags = 0,
         var imageType: VkImageType,
         var format: VkFormat,
         var extent: Extent3D,
@@ -254,7 +254,7 @@ class ImageCreateInfo(
         var tiling: VkImageTiling,
         var usage: VkImageUsageFlags,
         var sharingMode: VkSharingMode,
-        var queueFamilyIndices: IntArray,
+        var queueFamilyIndices: IntArray? = null,
         var initialLayout: VkImageLayout,
         var next: Ptr = NULL
 ) {
@@ -275,8 +275,10 @@ class ImageCreateInfo(
         ntiling(adr, tiling.i)
         nusage(adr, usage)
         nsharingMode(adr, sharingMode.i)
-        nqueueFamilyIndexCount(adr, queueFamilyIndices.size)
-        memPutAddress(adr + PQUEUEFAMILYINDICES, queueFamilyIndices.toAdr(stack).adr)
+        queueFamilyIndices?.let {
+            nqueueFamilyIndexCount(adr, it.size)
+            memPutAddress(adr + PQUEUEFAMILYINDICES, it.toAdr(stack).adr)
+        }
         ninitialLayout(adr, initialLayout.i)
         return adr
     }
