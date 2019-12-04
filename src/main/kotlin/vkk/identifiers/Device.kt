@@ -343,7 +343,7 @@ class Device(
             callPJPV(adr, commandPool.L, commandBufferCount, pCommandBuffers, capabilities.vkFreeCommandBuffers)
 
     // --- [ vkFreeMemory ] ---
-    fun freeMemory(memory: VkDeviceMemory) =
+    infix fun freeMemory(memory: VkDeviceMemory) =
             callPJPV(adr, memory.L, NULL, capabilities.vkFreeMemory)
 
     // --- [ vkGetBufferMemoryRequirements ] ---
@@ -483,20 +483,20 @@ class Device(
             VkResult(callPJI(adr, descriptorPool.L, flags, capabilities.vkResetDescriptorPool)).apply { check() }
 
     // --- [ vkResetEvent ] ---
-    fun resetEvent(event: VkEvent): VkResult =
+    infix fun resetEvent(event: VkEvent): VkResult =
             VkResult(callPJI(adr, event.L, capabilities.vkResetEvent))
 
     // --- [ vkResetFences ] ---
-    fun resetFences(fences: VkFence_Array): VkResult = stak { s ->
+    infix fun resetFences(fences: VkFence_Array): VkResult = stak { s ->
         VkResult(callPPI(adr, fences.size, fences write s, capabilities.vkResetFences))
     }
 
-    fun resetFences(fence: VkFence): VkResult = stak.longAdr(fence.L) {
+    infix fun resetFences(fence: VkFence): VkResult = stak.longAdr(fence.L) {
         VkResult(callPPI(adr, 1, it, capabilities.vkResetFences))
     }
 
     // --- [ vkSetEvent ] ---
-    fun setEvent(event: VkEvent): VkResult =
+    infix fun setEvent(event: VkEvent): VkResult =
             VkResult(callPJI(adr, event.L, capabilities.vkSetEvent))
 
     // --- [ vkUnmapMemory ] ---
