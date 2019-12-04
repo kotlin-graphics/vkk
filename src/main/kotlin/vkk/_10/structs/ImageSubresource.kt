@@ -39,7 +39,7 @@ import vkk.VkImageAspectFlags
 class ImageSubresource(
         var aspectMask: VkImageAspectFlags,
         var mipLevel: Int,
-        var arrayLevel: Int
+        var arrayLayer: Int = 0
 ) {
 
     infix fun write(stack: MemoryStack): Adr =
@@ -48,6 +48,6 @@ class ImageSubresource(
     infix fun write(adr: Adr) {
         naspectMask(adr, aspectMask)
         nmipLevel(adr, mipLevel)
-        narrayLayer(adr, arrayLevel)
+        narrayLayer(adr, arrayLayer)
     }
 }
