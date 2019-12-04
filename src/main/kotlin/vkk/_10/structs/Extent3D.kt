@@ -1,5 +1,6 @@
 package vkk._10.structs
 
+import glm_.vec2.Vec2i
 import kool.Adr
 import kool.IntPtr
 import org.lwjgl.system.MemoryStack
@@ -32,6 +33,7 @@ class Extent3D(
 ) {
 
     constructor(intPtr: IntPtr) : this(intPtr[0], intPtr[1], intPtr[2])
+    constructor(xy: Vec2i, z: Int) : this(xy.x, xy.y, z)
 
     infix fun write(stack: MemoryStack): Adr =
             stack.ncalloc(ALIGNOF, 1, SIZEOF).also { write(it) }
