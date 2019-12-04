@@ -325,7 +325,7 @@ class Device(
 
     // --- [ vkFlushMappedMemoryRanges ] ---
     inline fun flushMappedMemoryRanges(memoryRangeCount: Int, pMemoryRanges: Ptr): VkResult =
-        VkResult(callPPI(adr, memoryRangeCount, pMemoryRanges, capabilities.vkFlushMappedMemoryRanges))
+            VkResult(callPPI(adr, memoryRangeCount, pMemoryRanges, capabilities.vkFlushMappedMemoryRanges))
 
     infix fun flushMappedMemoryRanges(memoryRanges: Array<MappedMemoryRange>): VkResult = stak { s ->
         flushMappedMemoryRanges(memoryRanges.size, memoryRanges write s)
@@ -451,9 +451,14 @@ class Device(
     }
 
     // --- [ vkInvalidateMappedMemoryRanges ] ---
-    fun invalidateMappedMemoryRanges(memoryRanges: Array<MappedMemoryRange>): VkResult = stak { s ->
-        VkResult(callPPI(adr, memoryRanges.size, memoryRanges write s, capabilities.vkInvalidateMappedMemoryRanges))
-    }
+    inline fun nInvalidateMappedMemoryRanges(memoryRangeCount: Int, pMemoryRanges: Ptr): VkResult =
+            VkResult(callPPI(adr, memoryRangeCount, pMemoryRanges, capabilities.vkInvalidateMappedMemoryRanges))
+
+    fun invalidateMappedMemoryRanges(memoryRanges: Array<MappedMemoryRange>): VkResult =
+            stak { nInvalidateMappedMemoryRanges(memoryRanges.size, memoryRanges write it) }
+
+    fun invalidateMappedMemoryRanges(memoryRange: MappedMemoryRange): VkResult =
+            stak { nInvalidateMappedMemoryRanges(1, memoryRange write it) }
 
     // --- [ vkGetDeviceMemoryCommitment ] ---
     infix fun getMemoryCommitment(memory: VkDeviceMemory): VkDeviceSize = stak { s ->
