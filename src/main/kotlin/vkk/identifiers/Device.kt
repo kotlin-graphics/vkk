@@ -284,7 +284,7 @@ class Device(
             callPJPV(adr, image.L, NULL, capabilities.vkDestroyImage)
 
     // --- [ vkDestroyImageView ] ---
-    infix fun destroyImageView(imageView: VkImageView) =
+    infix fun destroy(imageView: VkImageView) =
             callPJPV(adr, imageView.L, NULL, capabilities.vkDestroyImageView)
 
     // --- [ vkDestroyPipelineCache ] ---
