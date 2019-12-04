@@ -75,7 +75,7 @@ import vkk.VkStructureType
 class DeviceCreateInfo(
         var flags: VkDeviceCreateFlags = 0,
         var queueCreateInfos: Array<DeviceQueueCreateInfo>,
-        var enabledExtensionNames: Collection<String>,
+        var enabledExtensionNames: Collection<String>? = null,
         var enabledFeatures: PhysicalDeviceFeatures? = null,
         var next: Ptr = NULL
 ) {
@@ -85,7 +85,7 @@ class DeviceCreateInfo(
     constructor(
             flags: VkDeviceCreateFlags = 0,
             queueCreateInfo: DeviceQueueCreateInfo,
-            enabledExtensionNames: Collection<String>,
+            enabledExtensionNames: Collection<String>? = null,
             enabledFeatures: PhysicalDeviceFeatures? = null,
             next: Ptr = NULL
     ) : this(flags, arrayOf(queueCreateInfo), enabledExtensionNames, enabledFeatures, next)
@@ -97,8 +97,10 @@ class DeviceCreateInfo(
         nflags(adr, flags)
         nqueueCreateInfoCount(adr, queueCreateInfos.size)
         memPutAddress(adr + PQUEUECREATEINFOS, queueCreateInfos write stack)
-        nenabledExtensionCount(adr, enabledExtensionNames.size)
-        memPutAddress(adr + PPENABLEDEXTENSIONNAMES, stack.PointerAdr(enabledExtensionNames))
+        enabledExtensionNames?.let {
+            nenabledExtensionCount(adr, it.size)
+            memPutAddress(adr + PPENABLEDEXTENSIONNAMES, stack.PointerAdr(it))
+        }
         enabledFeatures?.let { memPutAddress(adr + PENABLEDFEATURES, it write stack) }
         return adr
     }
