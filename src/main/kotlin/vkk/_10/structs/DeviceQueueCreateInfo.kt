@@ -92,9 +92,9 @@ class DeviceQueueCreateInfo(
     }
 }
 
-infix fun Array<DeviceQueueCreateInfo>.write(stack: MemoryStack): Ptr {
-    val natives = stack.ncalloc(ALIGNOF, size, SIZEOF)
-    for (i in indices)
-        this[i].write(natives + SIZEOF * i, stack)
-    return natives
-}
+//infix fun Array<DeviceQueueCreateInfo>.write(stack: MemoryStack): Ptr {
+//    val natives = stack.ncalloc(ALIGNOF, size, SIZEOF)
+//    for (i in indices)
+//        this[i].write(natives + SIZEOF * i, stack)
+//    return natives
+//}

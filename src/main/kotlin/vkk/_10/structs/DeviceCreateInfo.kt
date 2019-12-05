@@ -74,7 +74,7 @@ import vkk.VkStructureType
  */
 class DeviceCreateInfo(
         var flags: VkDeviceCreateFlags = 0,
-        var queueCreateInfos: Array<DeviceQueueCreateInfo>,
+        var queueCreateInfos: Collection<DeviceQueueCreateInfo>,
         var enabledExtensionNames: Collection<String>? = null,
         var enabledFeatures: PhysicalDeviceFeatures? = null,
         var next: Ptr = NULL
@@ -88,15 +88,20 @@ class DeviceCreateInfo(
             enabledExtensionNames: Collection<String>? = null,
             enabledFeatures: PhysicalDeviceFeatures? = null,
             next: Ptr = NULL
-    ) : this(flags, arrayOf(queueCreateInfo), enabledExtensionNames, enabledFeatures, next)
+    ) : this(flags, listOf(queueCreateInfo), enabledExtensionNames, enabledFeatures, next)
 
     infix fun write(stack: MemoryStack): Adr {
         val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
         nsType(adr, type.i)
         npNext(adr, next)
         nflags(adr, flags)
-        nqueueCreateInfoCount(adr, queueCreateInfos.size)
-        memPutAddress(adr + PQUEUECREATEINFOS, queueCreateInfos write stack)
+        run {
+            nqueueCreateInfoCount(adr, queueCreateInfos.size)
+            val pQueueCreateInfos = stack.ncalloc(VkDeviceQueueCreateInfo.ALIGNOF, queueCreateInfos.size, VkDeviceQueueCreateInfo.SIZEOF)
+            for(i in queueCreateInfos.indices)
+                queueCreateInfos.elementAt(i).write(pQueueCreateInfos + i * VkDeviceQueueCreateInfo.SIZEOF, stack)
+            memPutAddress(adr + PQUEUECREATEINFOS, pQueueCreateInfos)
+        }
         enabledExtensionNames?.let {
             nenabledExtensionCount(adr, it.size)
             memPutAddress(adr + PPENABLEDEXTENSIONNAMES, stack.PointerAdr(it))
