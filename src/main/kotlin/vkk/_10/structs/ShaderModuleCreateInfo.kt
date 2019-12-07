@@ -1,7 +1,9 @@
 package vkk._10.structs
 
+import glm_.L
 import kool.Adr
 import kool.Ptr
+import kool.rem
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.NULL
 import org.lwjgl.vulkan.VkShaderModuleCreateInfo.*
@@ -61,7 +63,6 @@ import java.nio.ByteBuffer
  */
 class ShaderModuleCreateInfo(
         var flags: VkShaderModuleCreateFlags = 0,
-        var codeSize: Long,
         var code: ByteBuffer,
         var next: Ptr = NULL
 ) {
@@ -73,7 +74,7 @@ class ShaderModuleCreateInfo(
         nsType(adr, type.i)
         npNext(adr, next)
         nflags(adr, flags)
-        ncodeSize(adr, codeSize)
+        ncodeSize(adr, code.rem.L)
         npCode(adr, code)
         return adr
     }
