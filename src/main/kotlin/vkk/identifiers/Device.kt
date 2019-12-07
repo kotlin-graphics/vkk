@@ -339,8 +339,12 @@ class Device(
     inline fun nFreeCommandBuffers(commandPool: VkCommandPool, commandBufferCount: Int, pCommandBuffers: Ptr) =
             callPJPV(adr, commandPool.L, commandBufferCount, pCommandBuffers, capabilities.vkFreeCommandBuffers)
 
-    fun freeCommandBuffers(commandPool: VkCommandPool, commandBufferCount: Int, pCommandBuffers: Ptr) =
-            callPJPV(adr, commandPool.L, commandBufferCount, pCommandBuffers, capabilities.vkFreeCommandBuffers)
+    fun freeCommandBuffers(commandPool: VkCommandPool, commandBuffer: CommandBuffer) =
+            stak.longAdr(commandBuffer.adr) { nFreeCommandBuffers(commandPool, 1, it) }
+
+    fun freeCommandBuffers(commandPool: VkCommandPool, commandBuffers: Array<CommandBuffer>) = stak { s ->
+        nFreeCommandBuffers(commandPool, commandBuffers.size, s.LongPtr(commandBuffers.size) { commandBuffers[it].adr }.adr)
+    }
 
     // --- [ vkFreeMemory ] ---
     infix fun freeMemory(memory: VkDeviceMemory) =
