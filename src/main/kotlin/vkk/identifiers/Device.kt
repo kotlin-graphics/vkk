@@ -201,7 +201,7 @@ class Device(
     }
 
     // --- [ vkCreatePipelineCache ] ---
-    fun createPipelineCache(createInfo: PipelineCacheCreateInfo): VkPipelineCache = stak { s ->
+    infix fun createPipelineCache(createInfo: PipelineCacheCreateInfo): VkPipelineCache = stak { s ->
         VkPipelineCache(s.longAdr { callPPPPI(adr, createInfo write s, NULL, it, capabilities.vkCreatePipelineCache) })
     }
 
@@ -211,7 +211,7 @@ class Device(
     }
 
     // --- [ vkCreateQueryPool ] ---
-    fun createQueryPool(createInfo: QueryPoolCreateInfo): VkQueryPool = stak { s ->
+    infix fun createQueryPool(createInfo: QueryPoolCreateInfo): VkQueryPool = stak { s ->
         VkQueryPool(s.longAdr { callPPPPI(adr, createInfo write s, NULL, it, capabilities.vkCreateQueryPool) })
     }
 
