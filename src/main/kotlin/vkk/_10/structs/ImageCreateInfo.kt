@@ -255,7 +255,7 @@ class ImageCreateInfo(
         var usage: VkImageUsageFlags,
         var sharingMode: VkSharingMode = VkSharingMode.EXCLUSIVE,
         var queueFamilyIndices: IntArray? = null,
-        var initialLayout: VkImageLayout,
+        var initialLayout: VkImageLayout = VkImageLayout.UNDEFINED,
         var next: Ptr = NULL
 ) {
 
