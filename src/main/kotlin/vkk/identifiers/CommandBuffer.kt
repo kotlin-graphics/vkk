@@ -2,12 +2,9 @@ package identifiers
 
 import glm_.vec3.Vec3i
 import kool.*
-import org.lwjgl.system.Checks
 import org.lwjgl.system.JNI.*
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.NULL
-import org.lwjgl.system.NativeType
-import org.lwjgl.vulkan.VkCommandBuffer
 import vkk.*
 import vkk._10.structs.*
 import vkk.entities.*
@@ -260,10 +257,21 @@ class CommandBuffer
             callPPPPV(adr, srcStageMask, dstStageMask, dependencyFlags, memoryBarrierCount, pMemoryBarriers, bufferMemoryBarrierCount, pBufferMemoryBarriers, imageMemoryBarrierCount, pImageMemoryBarriers, capabilities.vkCmdPipelineBarrier)
 
     fun pipelineBarrier(srcStageMask: VkPipelineStageFlags, dstStageMask: VkPipelineStageFlags, dependencyFlags: VkDependencyFlags,
-                        memoryBarriers: Array<MemoryBarrier>, bufferMemoryBarriers: Array<BufferMemoryBarrier>,
-                        imageMemoryBarriers: Array<ImageMemoryBarrier>) = stak { s ->
-        nPipelineBarrier(srcStageMask, dstStageMask, dependencyFlags, memoryBarriers.size, memoryBarriers write s,
-                bufferMemoryBarriers.size, bufferMemoryBarriers write s, imageMemoryBarriers.size, imageMemoryBarriers write s)
+                        memoryBarriers: Array<MemoryBarrier>? = null, bufferMemoryBarriers: Array<BufferMemoryBarrier>? = null,
+                        imageMemoryBarriers: Array<ImageMemoryBarrier>? = null) = stak { s ->
+        nPipelineBarrier(srcStageMask, dstStageMask, dependencyFlags,
+                memoryBarriers?.size ?: 0, memoryBarriers?.write(s) ?: NULL,
+                bufferMemoryBarriers?.size ?: 0, bufferMemoryBarriers?.write(s) ?: NULL,
+                imageMemoryBarriers?.size ?: 0, imageMemoryBarriers?.write(s) ?: NULL)
+    }
+
+    fun pipelineBarrier(srcStageMask: VkPipelineStageFlags, dstStageMask: VkPipelineStageFlags, dependencyFlags: VkDependencyFlags,
+                        memoryBarrier: MemoryBarrier? = null, bufferMemoryBarrier: BufferMemoryBarrier? = null,
+                        imageMemoryBarrier: ImageMemoryBarrier? = null) = stak { s ->
+        nPipelineBarrier(srcStageMask, dstStageMask, dependencyFlags,
+                if (memoryBarrier != null) 1 else 0, memoryBarrier?.write(s) ?: NULL,
+                if (bufferMemoryBarrier != null) 1 else 0, bufferMemoryBarrier?.write(s) ?: NULL,
+                if (imageMemoryBarrier != null) 1 else 0, imageMemoryBarrier?.write(s) ?: NULL)
     }
 
     // --- [ vkCmdPushConstants ] ---
