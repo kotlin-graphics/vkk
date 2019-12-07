@@ -42,7 +42,7 @@ import vkk.VkStructureType
  * }</code></pre>
  */
 class FenceCreateInfo(
-        var flags: VkFenceCreateFlags,
+        var flags: VkFenceCreateFlags = 0,
         var next: Ptr = NULL
 ) {
 

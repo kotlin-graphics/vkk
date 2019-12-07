@@ -530,6 +530,13 @@ class Device(
                 unmapMemory(memory)
             }
 
+    inline fun <R> withFence(flags: VkFenceCreateFlags = 0, block: (VkFence) -> R): R {
+        val fence = createFence(FenceCreateInfo(flags))
+        return block(fence).also {
+            destroy(fence)
+        }
+    }
+
     // ---------------------------------------------- VK11 -------------------------------------------------------------
 
     // --- [ vkBindBufferMemory2 ] ---
