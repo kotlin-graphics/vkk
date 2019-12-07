@@ -1,5 +1,6 @@
 package vkk._10.structs
 
+import glm_.vec2.Vec2i
 import glm_.vec3.Vec3i
 import kool.Adr
 import kool.Ptr
@@ -122,10 +123,28 @@ class FramebufferCreateInfo(
         var flags: VkFramebufferCreateFlags = 0,
         var renderPass: VkRenderPass,
         var attachments: VkImageView_Array? = null,
-        var dimension: Vec3i,
+        var width: Int,
+        var height: Int,
+        var layers: Int,
         var next: Ptr = NULL
 ) {
     val type get() = VkStructureType.FRAMEBUFFER_CREATE_INFO
+
+    constructor(
+            flags: VkFramebufferCreateFlags = 0,
+            renderPass: VkRenderPass,
+            attachments: VkImageView_Array? = null,
+            dimension: Vec3i,
+            next: Ptr = NULL
+    ) : this(flags, renderPass, attachments, dimension.x, dimension.y, dimension.z, next)
+
+    constructor(
+            flags: VkFramebufferCreateFlags = 0,
+            renderPass: VkRenderPass,
+            attachments: VkImageView_Array? = null,
+            dimension: Vec2i,
+            next: Ptr = NULL
+    ) : this(flags, renderPass, attachments, dimension.x, dimension.y, 1, next)
 
 //    var attachment: VkImageView? TODO
 //        get() = attachments?.get(0)
@@ -144,7 +163,9 @@ class FramebufferCreateInfo(
             nattachmentCount(adr, it.size)
             memPutAddress(adr + PATTACHMENTS, it.array.toLongAdr(stack).adr)
         }
-        dimension to (adr + WIDTH)
+        nwidth(adr, width)
+        nheight(adr, height)
+        nlayers(adr, layers)
         return adr
     }
 }
