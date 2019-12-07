@@ -253,7 +253,7 @@ class ImageCreateInfo(
         var samples: VkSampleCount,
         var tiling: VkImageTiling,
         var usage: VkImageUsageFlags,
-        var sharingMode: VkSharingMode,
+        var sharingMode: VkSharingMode = VkSharingMode.EXCLUSIVE,
         var queueFamilyIndices: IntArray? = null,
         var initialLayout: VkImageLayout,
         var next: Ptr = NULL
