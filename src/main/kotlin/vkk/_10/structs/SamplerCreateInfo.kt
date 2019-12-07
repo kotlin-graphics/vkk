@@ -152,6 +152,7 @@ class SamplerCreateInfo(
         var anisotropyEnable: Boolean = false,
         var maxAnisotropy: Float = 0f,
         var compareEnable: Boolean = false,
+        var compareOp: VkCompareOp = VkCompareOp.NEVER,
         var minLod: Float = 0f,
         var maxLod: Float = 0f,
         var borderColor: VkBorderColor,
@@ -168,6 +169,7 @@ class SamplerCreateInfo(
             anisotropyEnable: Boolean = false,
             maxAnisotropy: Float = 0f,
             compareEnable: Boolean = false,
+            compareOp: VkCompareOp = VkCompareOp.NEVER,
             minLod: Float = 0f,
             maxLod: Float = 0f,
             borderColor: VkBorderColor,
@@ -176,8 +178,8 @@ class SamplerCreateInfo(
     ) : this(flags, magMinFilter, magMinFilter, mipmapMode,
             addressModeUVW, addressModeUVW, addressModeUVW,
             mipLodBias, anisotropyEnable, maxAnisotropy,
-            compareEnable, minLod, maxLod, borderColor,
-            unnormalizedCoordinates, next)
+            compareEnable, compareOp, minLod, maxLod,
+            borderColor, unnormalizedCoordinates, next)
 
     val type get() = VkStructureType.SAMPLER_CREATE_INFO
 
@@ -196,6 +198,7 @@ class SamplerCreateInfo(
         nanisotropyEnable(adr, anisotropyEnable.i)
         nmaxAnisotropy(adr, maxAnisotropy)
         ncompareEnable(adr, compareEnable.i)
+        ncompareOp(adr, compareOp.i)
         nminLod(adr, minLod)
         nmaxLod(adr, maxLod)
         nborderColor(adr, borderColor.i)
