@@ -90,18 +90,33 @@ class SubmitInfo(
     val type get() = VkStructureType.SUBMIT_INFO
 
     constructor(
+            waitSemaphoreCount: Int,
             waitSemaphore: VkSemaphore? = null,
             waitDstStageMask: Int? = null,
             commandBuffer: CommandBuffer? = null,
             signalSemaphore: VkSemaphore? = null,
             next: Ptr = NULL
     ) : this(
-            1,
+            waitSemaphoreCount,
             waitSemaphore?.let { waitSem -> VkSemaphore_Array(1) { waitSem } },
             waitDstStageMask?.let { intArrayOf(it) },
             commandBuffer?.let { arrayOf(it) },
             signalSemaphore?.let { sigSem -> VkSemaphore_Array(1) { sigSem } },
             next
+    )
+
+    constructor(
+            waitSemaphoreCount: Int,
+            waitSemaphore: VkSemaphore,
+            waitDstStageMask: Int,
+            commandBuffer: CommandBuffer? = null,
+            signalSemaphore: VkSemaphore
+    ) : this(
+            waitSemaphoreCount,
+            VkSemaphore_Array(1) { waitSemaphore },
+            intArrayOf(waitDstStageMask),
+            commandBuffer?.let { arrayOf(it) },
+            VkSemaphore_Array(1) { signalSemaphore }
     )
 
     var commandBuffer: CommandBuffer?
@@ -115,19 +130,6 @@ class SubmitInfo(
                 }
             }
         }
-
-    constructor(
-            waitSemaphore: VkSemaphore,
-            waitDstStageMask: Int,
-            commandBuffer: CommandBuffer? = null,
-            signalSemaphore: VkSemaphore
-    ) : this(
-            1,
-            VkSemaphore_Array(1) { waitSemaphore },
-            intArrayOf(waitDstStageMask),
-            commandBuffer?.let { arrayOf(it) },
-            VkSemaphore_Array(1) { signalSemaphore }
-    )
 
     infix fun write(stack: MemoryStack): Adr {
         val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
