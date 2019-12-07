@@ -90,7 +90,7 @@ class SubmitInfo(
     val type get() = VkStructureType.SUBMIT_INFO
 
     constructor(
-            waitSemaphoreCount: Int,
+            waitSemaphoreCount: Int = 0,
             waitSemaphore: VkSemaphore? = null,
             waitDstStageMask: Int? = null,
             commandBuffer: CommandBuffer? = null,
