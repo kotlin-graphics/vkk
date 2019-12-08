@@ -53,7 +53,7 @@ import vkk.VkStructureType
  * }</code></pre>
  */
 class PipelineCacheCreateInfo(
-        var initialData: ByteArray
+        var initialData: ByteArray? = null
 ) {
 
     val type get() = VkStructureType.PIPELINE_CACHE_CREATE_INFO
@@ -61,8 +61,10 @@ class PipelineCacheCreateInfo(
     infix fun write(stack: MemoryStack): Adr {
         val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
         nsType(adr, type.i)
-        ninitialDataSize(adr, initialData.size.L)
-        memPutAddress(adr + PINITIALDATA, initialData.toAdr(stack).adr)
+        initialData?.let {
+            ninitialDataSize(adr, it.size.L)
+            memPutAddress(adr + PINITIALDATA, it.toAdr(stack).adr)
+        }
         return adr
     }
 }

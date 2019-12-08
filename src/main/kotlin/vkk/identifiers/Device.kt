@@ -201,7 +201,7 @@ class Device(
     }
 
     // --- [ vkCreatePipelineCache ] ---
-    infix fun createPipelineCache(createInfo: PipelineCacheCreateInfo): VkPipelineCache = stak { s ->
+    fun createPipelineCache(createInfo: PipelineCacheCreateInfo = PipelineCacheCreateInfo()): VkPipelineCache = stak { s ->
         VkPipelineCache(s.longAdr { callPPPPI(adr, createInfo write s, NULL, it, capabilities.vkCreatePipelineCache) })
     }
 
