@@ -49,7 +49,7 @@ class ExternalBufferProperties(
     )
 
     companion object {
-        inline fun <R> read(block: (Ptr) -> R): ExternalBufferProperties = stak { read(it, block) }
+//        inline fun <R> read(block: (Ptr) -> R): ExternalBufferProperties = stak { read(it, block) }
         inline fun <R> read(stack: MemoryStack, block: (Ptr) -> R): ExternalBufferProperties {
             val ptr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
             block(ptr)

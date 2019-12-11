@@ -78,8 +78,4 @@ class QueueFamilyProperties(
         ntimestampValidBits(ptr.adr),
         Extent3D(IntPtr(ptr + MINIMAGETRANSFERGRANULARITY))
     )
-
-    companion object {
-        inline fun ncalloc(stack: MemoryStack, num: Int = 1): Ptr = stack.ncalloc(ALIGNOF, num, SIZEOF)
-    }
 }

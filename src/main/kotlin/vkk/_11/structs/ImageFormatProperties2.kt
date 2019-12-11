@@ -67,7 +67,7 @@ class ImageFormatProperties2(
     )
 
     companion object {
-        inline infix fun <R> read(block: (Adr) -> R): ImageFormatProperties2 = stak { read(it, block) }
+//        inline infix fun <R> read(block: (Adr) -> R): ImageFormatProperties2 = stak { read(it, block) }
         inline fun <R> read(stack: MemoryStack, block: (Adr) -> R): ImageFormatProperties2 {
             val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
             block(adr)

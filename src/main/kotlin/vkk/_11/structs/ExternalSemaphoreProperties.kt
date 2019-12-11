@@ -61,7 +61,7 @@ class ExternalSemaphoreProperties(
     )
 
     companion object {
-        inline fun <R> read(block: (Ptr) -> R): ExternalSemaphoreProperties = stak { read(it, block) }
+//        inline fun <R> read(block: (Ptr) -> R): ExternalSemaphoreProperties = stak { read(it, block) }
         inline fun <R> read(stack: MemoryStack, block: (Ptr) -> R): ExternalSemaphoreProperties {
             val ptr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
             block(ptr)

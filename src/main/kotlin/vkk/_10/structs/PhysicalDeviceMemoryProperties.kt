@@ -136,7 +136,6 @@ class PhysicalDeviceMemoryProperties(
             Array(nmemoryHeapCount(ptr.adr)) { MemoryHeap(ptr + MEMORYHEAPS + VkMemoryHeap.SIZEOF * it) })
 
     companion object {
-        inline infix fun <R> read(block: (Adr) -> R): PhysicalDeviceMemoryProperties = stak { read(it, block) }
         inline fun <R> read(stack: MemoryStack, block: (Adr) -> R): PhysicalDeviceMemoryProperties {
             val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
             block(adr)

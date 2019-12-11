@@ -30,8 +30,4 @@ class SurfaceFormatKHR(
 ) {
 
     constructor(intPtr: IntPtr) : this(VkFormat(intPtr[0]), VkColorSpaceKHR(intPtr[1]))
-
-    companion object {
-        inline fun ncalloc(stack: MemoryStack, num: Int = 1) = stack.ncalloc(ALIGNOF, num, SIZEOF)
-    }
 }

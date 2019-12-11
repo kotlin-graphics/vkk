@@ -57,7 +57,7 @@ class FormatProperties2(
     )
 
     companion object {
-        inline infix fun <R> read(block: (Adr) -> R): FormatProperties2 = stak { read(it, block) }
+//        inline infix fun <R> read(block: (Adr) -> R): FormatProperties2 = stak { read(it, block) }
         inline fun <R> read(stack: MemoryStack, block: (Adr) -> R): FormatProperties2 {
             val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
             block(adr)
