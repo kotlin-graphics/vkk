@@ -9,50 +9,6 @@ import org.lwjgl.vulkan.VkInstanceCreateInfo
 import org.lwjgl.vulkan.VkPhysicalDeviceFeatures
 
 
-inline class VkPolygonMode(val i: Int) {
-    companion object {
-        val FILL = VkPolygonMode(0)
-        val LINE = VkPolygonMode(1)
-        val POINT = VkPolygonMode(2)
-        val FILL_RECTANGLE_NV = VkPolygonMode(1000153000)
-    }
-}
-
-inline class VkFrontFace(val i: Int) {
-    companion object {
-        val COUNTER_CLOCKWISE = VkFrontFace(0)
-        val CLOCKWISE = VkFrontFace(1)
-    }
-}
-
-
-inline class VkCompareOp(val i: Int) {
-    companion object {
-        val NEVER = VkCompareOp(0)
-        val LESS = VkCompareOp(1)
-        val EQUAL = VkCompareOp(2)
-        val LESS_OR_EQUAL = VkCompareOp(3)
-        val GREATER = VkCompareOp(4)
-        val NOT_EQUAL = VkCompareOp(5)
-        val GREATER_OR_EQUAL = VkCompareOp(6)
-        val ALWAYS = VkCompareOp(7)
-    }
-}
-
-inline class VkStencilOp(val i: Int) {
-    companion object {
-        val KEEP = VkStencilOp(0)
-        val ZERO = VkStencilOp(1)
-        val REPLACE = VkStencilOp(2)
-        val INCREMENT_AND_CLAMP = VkStencilOp(3)
-        val DECREMENT_AND_CLAMP = VkStencilOp(4)
-        val INVERT = VkStencilOp(5)
-        val INCREMENT_AND_WRAP = VkStencilOp(6)
-        val DECREMENT_AND_WRAP = VkStencilOp(7)
-    }
-}
-
-
 inline class VkLogicOp(val i: Int) {
     companion object {
         val CLEAR = VkLogicOp(0)
@@ -172,7 +128,6 @@ inline class VkDynamicState(val i: Int) {
         val VIEWPORT_SHADING_RATE_PALETTE_NV = VkDynamicState(1000164004)
         val VIEWPORT_COARSE_SAMPLE_ORDER_NV = VkDynamicState(1000164006)
         val EXCLUSIVE_SCISSOR_NV = VkDynamicState(1000205001)
-        val LINE_STIPPLE_EXT = VkDynamicState(1000259000)
     }
 }
 
@@ -268,8 +223,6 @@ inline class VkIndexType(val i: Int) {
     companion object {
         val UINT16 = VkIndexType(0)
         val UINT32 = VkIndexType(1)
-        val NONE_NV = VkIndexType(1000165000)
-        val UINT8_EXT = VkIndexType(1000265000)
     }
 }
 
@@ -321,7 +274,6 @@ inline class VkObjectType(val i: Int) {
         val DEBUG_UTILS_MESSENGER_EXT = VkObjectType(1000128000)
         val VALIDATION_CACHE_EXT = VkObjectType(1000160000)
         val ACCELERATION_STRUCTURE_NV = VkObjectType(1000165000)
-        val PERFORMANCE_CONFIGURATION_INTEL = VkObjectType(1000210000)
         val DESCRIPTOR_UPDATE_TEMPLATE_KHR = VkObjectType.DESCRIPTOR_UPDATE_TEMPLATE
         val SAMPLER_YCBCR_CONVERSION_KHR = VkObjectType.SAMPLER_YCBCR_CONVERSION
     }
@@ -337,147 +289,90 @@ inline class VkVendorId(val i: Int) {
 
 typealias VkInstanceCreateFlags = VkFlags
 
-inline class VkFormatFeature(val flagBit: VkFormatFeatureFlags) {
-
-    val i get() = flagBit.i
-
-    infix fun and(b: VkFormatFeature) = VkFormatFeatureFlags(flagBit.i and b.flagBit.i)
-    infix fun or(b: VkFormatFeature) = VkFormatFeatureFlags(flagBit.i or b.flagBit.i)
-    fun inv() = VkFormatFeature(VkFormatFeatureFlags(flagBit.i.inv()))
-
-    operator fun plus(b: VkFormatFeature): VkFormatFeatureFlags = flagBit + b
-    operator fun minus(b: VkFormatFeature): VkFormatFeatureFlags = flagBit - b
-
+inline class VkFormatFeature(val i: Int) {
     companion object {
-        val SAMPLED_IMAGE_BIT = VkFormatFeature(VkFormatFeatureFlags(0x00000001))
-        val STORAGE_IMAGE_BIT = VkFormatFeature(VkFormatFeatureFlags(0x00000002))
-        val STORAGE_IMAGE_ATOMIC_BIT = VkFormatFeature(VkFormatFeatureFlags(0x00000004))
-        val UNIFORM_TEXEL_BUFFER_BIT = VkFormatFeature(VkFormatFeatureFlags(0x00000008))
-        val STORAGE_TEXEL_BUFFER_BIT = VkFormatFeature(VkFormatFeatureFlags(0x00000010))
-        val STORAGE_TEXEL_BUFFER_ATOMIC_BIT = VkFormatFeature(VkFormatFeatureFlags(0x00000020))
-        val VERTEX_BUFFER_BIT = VkFormatFeature(VkFormatFeatureFlags(0x00000040))
-        val COLOR_ATTACHMENT_BIT = VkFormatFeature(VkFormatFeatureFlags(0x00000080))
-        val COLOR_ATTACHMENT_BLEND_BIT = VkFormatFeature(VkFormatFeatureFlags(0x00000100))
-        val DEPTH_STENCIL_ATTACHMENT_BIT = VkFormatFeature(VkFormatFeatureFlags(0x00000200))
-        val BLIT_SRC_BIT = VkFormatFeature(VkFormatFeatureFlags(0x00000400))
-        val BLIT_DST_BIT = VkFormatFeature(VkFormatFeatureFlags(0x00000800))
-        val SAMPLED_IMAGE_FILTER_LINEAR_BIT = VkFormatFeature(VkFormatFeatureFlags(0x00001000))
-        val TRANSFER_SRC_BIT = VkFormatFeature(VkFormatFeatureFlags(0x00004000))
-        val TRANSFER_DST_BIT = VkFormatFeature(VkFormatFeatureFlags(0x00008000))
-        val MIDPOINT_CHROMA_SAMPLES_BIT = VkFormatFeature(VkFormatFeatureFlags(0x00020000))
-        val SAMPLED_IMAGE_YCBCR_CONVERSION_LINEAR_FILTER_BIT = VkFormatFeature(VkFormatFeatureFlags(0x00040000))
-        val SAMPLED_IMAGE_YCBCR_CONVERSION_SEPARATE_RECONSTRUCTION_FILTER_BIT = VkFormatFeature(VkFormatFeatureFlags(0x00080000))
-        val SAMPLED_IMAGE_YCBCR_CONVERSION_CHROMA_RECONSTRUCTION_EXPLICIT_BIT = VkFormatFeature(VkFormatFeatureFlags(0x00100000))
-        val SAMPLED_IMAGE_YCBCR_CONVERSION_CHROMA_RECONSTRUCTION_EXPLICIT_FORCEABLE_BIT = VkFormatFeature(VkFormatFeatureFlags(0x00200000))
-        val DISJOINT_BIT = VkFormatFeature(VkFormatFeatureFlags(0x00400000))
-        val COSITED_CHROMA_SAMPLES_BIT = VkFormatFeature(VkFormatFeatureFlags(0x00800000))
-        val SAMPLED_IMAGE_FILTER_CUBIC_BIT_IMG = VkFormatFeature(VkFormatFeatureFlags(0x00002000))
-        val SAMPLED_IMAGE_FILTER_MINMAX_BIT_EXT = VkFormatFeature(VkFormatFeatureFlags(0x00010000))
-        val FRAGMENT_DENSITY_MAP_BIT_EXT = VkFormatFeature(VkFormatFeatureFlags(0x01000000))
-        val TRANSFER_SRC_BIT_KHR = TRANSFER_SRC_BIT
-        val TRANSFER_DST_BIT_KHR = TRANSFER_DST_BIT
-        val MIDPOINT_CHROMA_SAMPLES_BIT_KHR = MIDPOINT_CHROMA_SAMPLES_BIT
-        val SAMPLED_IMAGE_YCBCR_CONVERSION_LINEAR_FILTER_BIT_KHR = SAMPLED_IMAGE_YCBCR_CONVERSION_LINEAR_FILTER_BIT
-        val SAMPLED_IMAGE_YCBCR_CONVERSION_SEPARATE_RECONSTRUCTION_FILTER_BIT_KHR = SAMPLED_IMAGE_YCBCR_CONVERSION_SEPARATE_RECONSTRUCTION_FILTER_BIT
-        val SAMPLED_IMAGE_YCBCR_CONVERSION_CHROMA_RECONSTRUCTION_EXPLICIT_BIT_KHR = SAMPLED_IMAGE_YCBCR_CONVERSION_CHROMA_RECONSTRUCTION_EXPLICIT_BIT
-        val SAMPLED_IMAGE_YCBCR_CONVERSION_CHROMA_RECONSTRUCTION_EXPLICIT_FORCEABLE_BIT_KHR = SAMPLED_IMAGE_YCBCR_CONVERSION_CHROMA_RECONSTRUCTION_EXPLICIT_FORCEABLE_BIT
-        val DISJOINT_BIT_KHR = DISJOINT_BIT
-        val COSITED_CHROMA_SAMPLES_BIT_KHR = COSITED_CHROMA_SAMPLES_BIT
-        val SAMPLED_IMAGE_FILTER_CUBIC_BIT_EXT = SAMPLED_IMAGE_FILTER_CUBIC_BIT_IMG
+        val SAMPLED_IMAGE_BIT = VkFormatFeature(0x00000001)
+        val STORAGE_IMAGE_BIT = VkFormatFeature(0x00000002)
+        val STORAGE_IMAGE_ATOMIC_BIT = VkFormatFeature(0x00000004)
+        val UNIFORM_TEXEL_BUFFER_BIT = VkFormatFeature(0x00000008)
+        val STORAGE_TEXEL_BUFFER_BIT = VkFormatFeature(0x00000010)
+        val STORAGE_TEXEL_BUFFER_ATOMIC_BIT = VkFormatFeature(0x00000020)
+        val VERTEX_BUFFER_BIT = VkFormatFeature(0x00000040)
+        val COLOR_ATTACHMENT_BIT = VkFormatFeature(0x00000080)
+        val COLOR_ATTACHMENT_BLEND_BIT = VkFormatFeature(0x00000100)
+        val DEPTH_STENCIL_ATTACHMENT_BIT = VkFormatFeature(0x00000200)
+        val BLIT_SRC_BIT = VkFormatFeature(0x00000400)
+        val BLIT_DST_BIT = VkFormatFeature(0x00000800)
+        val SAMPLED_IMAGE_FILTER_LINEAR_BIT = VkFormatFeature(0x00001000)
+        val TRANSFER_SRC_BIT = VkFormatFeature(0x00004000)
+        val TRANSFER_DST_BIT = VkFormatFeature(0x00008000)
+        val MIDPOINT_CHROMA_SAMPLES_BIT = VkFormatFeature(0x00020000)
+        val SAMPLED_IMAGE_YCBCR_CONVERSION_LINEAR_FILTER_BIT = VkFormatFeature(0x00040000)
+        val SAMPLED_IMAGE_YCBCR_CONVERSION_SEPARATE_RECONSTRUCTION_FILTER_BIT = VkFormatFeature(0x00080000)
+        val SAMPLED_IMAGE_YCBCR_CONVERSION_CHROMA_RECONSTRUCTION_EXPLICIT_BIT = VkFormatFeature(0x00100000)
+        val SAMPLED_IMAGE_YCBCR_CONVERSION_CHROMA_RECONSTRUCTION_EXPLICIT_FORCEABLE_BIT = VkFormatFeature(0x00200000)
+        val DISJOINT_BIT = VkFormatFeature(0x00400000)
+        val COSITED_CHROMA_SAMPLES_BIT = VkFormatFeature(0x00800000)
+        val SAMPLED_IMAGE_FILTER_CUBIC_BIT_IMG = VkFormatFeature(0x00002000)
+        val SAMPLED_IMAGE_FILTER_MINMAX_BIT_EXT = VkFormatFeature(0x00010000)
+        val FRAGMENT_DENSITY_MAP_BIT_EXT = VkFormatFeature(0x01000000)
+        val TRANSFER_SRC_BIT_KHR = VkFormatFeature.TRANSFER_SRC_BIT
+        val TRANSFER_DST_BIT_KHR = VkFormatFeature.TRANSFER_DST_BIT
+        val MIDPOINT_CHROMA_SAMPLES_BIT_KHR = VkFormatFeature.MIDPOINT_CHROMA_SAMPLES_BIT
+        val SAMPLED_IMAGE_YCBCR_CONVERSION_LINEAR_FILTER_BIT_KHR = VkFormatFeature.SAMPLED_IMAGE_YCBCR_CONVERSION_LINEAR_FILTER_BIT
+        val SAMPLED_IMAGE_YCBCR_CONVERSION_SEPARATE_RECONSTRUCTION_FILTER_BIT_KHR = VkFormatFeature.SAMPLED_IMAGE_YCBCR_CONVERSION_SEPARATE_RECONSTRUCTION_FILTER_BIT
+        val SAMPLED_IMAGE_YCBCR_CONVERSION_CHROMA_RECONSTRUCTION_EXPLICIT_BIT_KHR = VkFormatFeature.SAMPLED_IMAGE_YCBCR_CONVERSION_CHROMA_RECONSTRUCTION_EXPLICIT_BIT
+        val SAMPLED_IMAGE_YCBCR_CONVERSION_CHROMA_RECONSTRUCTION_EXPLICIT_FORCEABLE_BIT_KHR = VkFormatFeature.SAMPLED_IMAGE_YCBCR_CONVERSION_CHROMA_RECONSTRUCTION_EXPLICIT_FORCEABLE_BIT
+        val DISJOINT_BIT_KHR = VkFormatFeature.DISJOINT_BIT
+        val COSITED_CHROMA_SAMPLES_BIT_KHR = VkFormatFeature.COSITED_CHROMA_SAMPLES_BIT
+        val SAMPLED_IMAGE_FILTER_CUBIC_BIT_EXT = VkFormatFeature.SAMPLED_IMAGE_FILTER_CUBIC_BIT_IMG
     }
 }
 
-//infix fun Int.has(f: VkFormatFeature) = and(f.i) != 0
-//infix fun Int.hasnt(f: VkFormatFeature) = and(f.i) == 0
+infix fun Int.has(f: VkFormatFeature) = and(f.i) != 0
+infix fun Int.hasnt(f: VkFormatFeature) = and(f.i) == 0
 
-inline class VkFormatFeatureFlags(val i: Int) {
+typealias VkFormatFeatureFlags = VkFlags
 
-    infix fun and(flag: VkFormatFeature) = VkFormatFeatureFlags(i and flag.flagBit.i)
-    infix fun or(flag: VkFormatFeature) = VkFormatFeatureFlags(i or flag.flagBit.i)
-    infix fun wo(flag: VkFormatFeature) = and(flag.inv())
-
-    operator fun plus(flag: VkFormatFeature): VkFormatFeatureFlags = or(flag)
-    operator fun minus(flag: VkFormatFeature): VkFormatFeatureFlags = wo(flag)
-
-    infix fun has(flag: VkFormatFeature) = and(flag).i != 0
-    infix fun hasAll(flag: VkFormatFeature) = and(flag).i == flag.flagBit.i
-    infix fun hasnt(flag: VkFormatFeature) = and(flag).i == 0
-
-    operator fun contains(flag: VkFormatFeature) = has(flag)
-}
-
-inline class VkImageUsage(val flagBit: VkImageUsageFlags) {
-
-    val i get() = flagBit.i
-
-    infix fun and(b: VkImageUsage) = VkImageUsageFlags(flagBit.i and b.flagBit.i)
-    infix fun or(b: VkImageUsage) = VkImageUsageFlags(flagBit.i or b.flagBit.i)
-    fun inv() = VkImageUsage(VkImageUsageFlags(flagBit.i.inv()))
-
-    operator fun plus(b: VkImageUsage): VkImageUsageFlags = flagBit + b
-    operator fun minus(b: VkImageUsage): VkImageUsageFlags = flagBit - b
-
+inline class VkImageUsage(val i: Int) {
     companion object {
-        val TRANSFER_SRC_BIT = VkImageUsage(VkImageUsageFlags(0x00000001))
-        val TRANSFER_DST_BIT = VkImageUsage(VkImageUsageFlags(0x00000002))
-        val SAMPLED_BIT = VkImageUsage(VkImageUsageFlags(0x00000004))
-        val STORAGE_BIT = VkImageUsage(VkImageUsageFlags(0x00000008))
-        val COLOR_ATTACHMENT_BIT = VkImageUsage(VkImageUsageFlags(0x00000010))
-        val DEPTH_STENCIL_ATTACHMENT_BIT = VkImageUsage(VkImageUsageFlags(0x00000020))
-        val TRANSIENT_ATTACHMENT_BIT = VkImageUsage(VkImageUsageFlags(0x00000040))
-        val INPUT_ATTACHMENT_BIT = VkImageUsage(VkImageUsageFlags(0x00000080))
-        val SHADING_RATE_IMAGE_BIT_NV = VkImageUsage(VkImageUsageFlags(0x00000100))
-        val FRAGMENT_DENSITY_MAP_BIT_EXT = VkImageUsage(VkImageUsageFlags(0x00000200))
+        val TRANSFER_SRC_BIT = VkImageUsage(0x00000001)
+        val TRANSFER_DST_BIT = VkImageUsage(0x00000002)
+        val SAMPLED_BIT = VkImageUsage(0x00000004)
+        val STORAGE_BIT = VkImageUsage(0x00000008)
+        val COLOR_ATTACHMENT_BIT = VkImageUsage(0x00000010)
+        val DEPTH_STENCIL_ATTACHMENT_BIT = VkImageUsage(0x00000020)
+        val TRANSIENT_ATTACHMENT_BIT = VkImageUsage(0x00000040)
+        val INPUT_ATTACHMENT_BIT = VkImageUsage(0x00000080)
+        val SHADING_RATE_IMAGE_BIT_NV = VkImageUsage(0x00000100)
+        val FRAGMENT_DENSITY_MAP_BIT_EXT = VkImageUsage(0x00000200)
     }
+
+    infix fun or(b: VkImageUsage): VkImageUsageFlags = i or b.i
 }
 
-//infix fun Int.or(b: VkImageUsage): VkImageUsageFlags = or(b.i)
-//infix fun Int.has(b: VkImageUsage): Boolean = and(b.i) != 0
-//infix fun Int.hasnt(b: VkImageUsage): Boolean = and(b.i) == 0
+infix fun Int.or(b: VkImageUsage): VkImageUsageFlags = or(b.i)
+infix fun Int.has(b: VkImageUsage): Boolean = and(b.i) != 0
+infix fun Int.hasnt(b: VkImageUsage): Boolean = and(b.i) == 0
 
-inline class VkImageUsageFlags(val i: Int) {
+typealias VkImageUsageFlags = VkFlags
 
-    infix fun and(flag: VkImageUsage) = VkImageUsageFlags(i and flag.flagBit.i)
-    infix fun or(flag: VkImageUsage) = VkImageUsageFlags(i or flag.flagBit.i)
-    infix fun wo(flag: VkImageUsage) = and(flag.inv())
-
-    operator fun plus(flag: VkImageUsage): VkImageUsageFlags = or(flag)
-    operator fun minus(flag: VkImageUsage): VkImageUsageFlags = wo(flag)
-
-    infix fun has(flag: VkImageUsage) = and(flag).i != 0
-    infix fun hasAll(flag: VkImageUsage) = and(flag).i == flag.flagBit.i
-    infix fun hasnt(flag: VkImageUsage) = and(flag).i == 0
-
-    operator fun contains(flag: VkImageUsage) = has(flag)
-}
-
-
-inline class VkImageCreate(val flagBit: VkImageCreateFlags) {
-
-    val i get() = flagBit.i
-
-    infix fun and(b: VkImageCreate) = VkImageCreateFlags(flagBit.i and b.flagBit.i)
-    infix fun or(b: VkImageCreate) = VkImageCreateFlags(flagBit.i or b.flagBit.i)
-    fun inv() = VkImageCreate(VkImageCreateFlags(flagBit.i.inv()))
-
-    operator fun plus(b: VkImageCreate): VkImageCreateFlags = flagBit + b
-    operator fun minus(b: VkImageCreate): VkImageCreateFlags = flagBit - b
-
+inline class VkImageCreate(val i: Int) {
     companion object {
-        val SPARSE_BINDING_BIT = VkImageCreate(VkImageCreateFlags(0x00000001))
-        val SPARSE_RESIDENCY_BIT = VkImageCreate(VkImageCreateFlags(0x00000002))
-        val SPARSE_ALIASED_BIT = VkImageCreate(VkImageCreateFlags(0x00000004))
-        val MUTABLE_FORMAT_BIT = VkImageCreate(VkImageCreateFlags(0x00000008))
-        val CUBE_COMPATIBLE_BIT = VkImageCreate(VkImageCreateFlags(0x00000010))
-        val ALIAS_BIT = VkImageCreate(VkImageCreateFlags(0x00000400))
-        val SPLIT_INSTANCE_BIND_REGIONS_BIT = VkImageCreate(VkImageCreateFlags(0x00000040))
-        val _2D_ARRAY_COMPATIBLE_BIT = VkImageCreate(VkImageCreateFlags(0x00000020))
-        val BLOCK_TEXEL_VIEW_COMPATIBLE_BIT = VkImageCreate(VkImageCreateFlags(0x00000080))
-        val EXTENDED_USAGE_BIT = VkImageCreate(VkImageCreateFlags(0x00000100))
-        val PROTECTED_BIT = VkImageCreate(VkImageCreateFlags(0x00000800))
-        val DISJOINT_BIT = VkImageCreate(VkImageCreateFlags(0x00000200))
-        val SAMPLE_LOCATIONS_COMPATIBLE_DEPTH_BIT_EXT = VkImageCreate(VkImageCreateFlags(0x00001000))
-        val SUBSAMPLED_BIT_EXT = VkImageCreate(VkImageCreateFlags(0x00004000))
+        val SPARSE_BINDING_BIT = VkImageCreate(0x00000001)
+        val SPARSE_RESIDENCY_BIT = VkImageCreate(0x00000002)
+        val SPARSE_ALIASED_BIT = VkImageCreate(0x00000004)
+        val MUTABLE_FORMAT_BIT = VkImageCreate(0x00000008)
+        val CUBE_COMPATIBLE_BIT = VkImageCreate(0x00000010)
+        val ALIAS_BIT = VkImageCreate(0x00000400)
+        val SPLIT_INSTANCE_BIND_REGIONS_BIT = VkImageCreate(0x00000040)
+        val _2D_ARRAY_COMPATIBLE_BIT = VkImageCreate(0x00000020)
+        val BLOCK_TEXEL_VIEW_COMPATIBLE_BIT = VkImageCreate(0x00000080)
+        val EXTENDED_USAGE_BIT = VkImageCreate(0x00000100)
+        val PROTECTED_BIT = VkImageCreate(0x00000800)
+        val DISJOINT_BIT = VkImageCreate(0x00000200)
+        val SAMPLE_LOCATIONS_COMPATIBLE_DEPTH_BIT_EXT = VkImageCreate(0x00001000)
+        val SUBSAMPLED_BIT_EXT = VkImageCreate(0x00004000)
         val VK_IMAGE_CREATE_SPLIT_INSTANCE_BIND_REGIONS_BIT_KHR = VkImageCreate.SPLIT_INSTANCE_BIND_REGIONS_BIT
         val VK_IMAGE_CREATE_2D_ARRAY_COMPATIBLE_BIT_KHR = VkImageCreate._2D_ARRAY_COMPATIBLE_BIT
         val VK_IMAGE_CREATE_BLOCK_TEXEL_VIEW_COMPATIBLE_BIT_KHR = VkImageCreate.BLOCK_TEXEL_VIEW_COMPATIBLE_BIT
@@ -487,59 +382,21 @@ inline class VkImageCreate(val flagBit: VkImageCreateFlags) {
     }
 }
 
-inline class VkImageCreateFlags(val i: Int) {
+typealias VkImageCreateFlags = VkFlags
 
-    infix fun and(flag: VkImageCreate) = VkImageCreateFlags(i and flag.flagBit.i)
-    infix fun or(flag: VkImageCreate) = VkImageCreateFlags(i or flag.flagBit.i)
-    infix fun wo(flag: VkImageCreate) = and(flag.inv())
-
-    operator fun plus(flag: VkImageCreate): VkImageCreateFlags = or(flag)
-    operator fun minus(flag: VkImageCreate): VkImageCreateFlags = wo(flag)
-
-    infix fun has(flag: VkImageCreate) = and(flag).i != 0
-    infix fun hasAll(flag: VkImageCreate) = and(flag).i == flag.flagBit.i
-    infix fun hasnt(flag: VkImageCreate) = and(flag).i == 0
-
-    operator fun contains(flag: VkImageCreate) = has(flag)
-}
-
-inline class VkSampleCount(val flagBit: VkSampleCountFlags) {
-
-    val i get() = flagBit.i
-
-    infix fun and(b: VkSampleCount) = VkSampleCountFlags(flagBit.i and b.flagBit.i)
-    infix fun or(b: VkSampleCount) = VkSampleCountFlags(flagBit.i or b.flagBit.i)
-    fun inv() = VkSampleCount(VkSampleCountFlags(flagBit.i.inv()))
-
-    operator fun plus(b: VkSampleCount): VkSampleCountFlags = flagBit + b
-    operator fun minus(b: VkSampleCount): VkSampleCountFlags = flagBit - b
-
+inline class VkSampleCount(val i: Int) {
     companion object {
-        val _1_BIT = VkSampleCount(VkSampleCountFlags(0x00000001))
-        val _2_BIT = VkSampleCount(VkSampleCountFlags(0x00000002))
-        val _4_BIT = VkSampleCount(VkSampleCountFlags(0x00000004))
-        val _8_BIT = VkSampleCount(VkSampleCountFlags(0x00000008))
-        val _16_BIT = VkSampleCount(VkSampleCountFlags(0x00000010))
-        val _32_BIT = VkSampleCount(VkSampleCountFlags(0x00000020))
-        val _64_BIT = VkSampleCount(VkSampleCountFlags(0x00000040))
+        val _1_BIT = VkSampleCount(0x00000001)
+        val _2_BIT = VkSampleCount(0x00000002)
+        val _4_BIT = VkSampleCount(0x00000004)
+        val _8_BIT = VkSampleCount(0x00000008)
+        val _16_BIT = VkSampleCount(0x00000010)
+        val _32_BIT = VkSampleCount(0x00000020)
+        val _64_BIT = VkSampleCount(0x00000040)
     }
 }
 
-inline class VkSampleCountFlags(val i: Int) {
-
-    infix fun and(flag: VkSampleCount) = VkSampleCountFlags(i and flag.flagBit.i)
-    infix fun or(flag: VkSampleCount) = VkSampleCountFlags(i or flag.flagBit.i)
-    infix fun wo(flag: VkSampleCount) = and(flag.inv())
-
-    operator fun plus(flag: VkSampleCount): VkSampleCountFlags = or(flag)
-    operator fun minus(flag: VkSampleCount): VkSampleCountFlags = wo(flag)
-
-    infix fun has(flag: VkSampleCount) = and(flag).i != 0
-    infix fun hasAll(flag: VkSampleCount) = and(flag).i == flag.flagBit.i
-    infix fun hasnt(flag: VkSampleCount) = and(flag).i == 0
-
-    operator fun contains(flag: VkSampleCount) = has(flag)
-}
+typealias VkSampleCountFlags = VkFlags
 
 inline class VkQueueFlag(val i: Int) {
     companion object {
@@ -566,8 +423,6 @@ inline class VkMemoryProperty(val i: Int) {
         val HOST_CACHED_BIT = VkMemoryProperty(0x00000008)
         val LAZILY_ALLOCATED_BIT = VkMemoryProperty(0x00000010)
         val PROTECTED_BIT = VkMemoryProperty(0x00000020)
-        val DEVICE_COHERENT_BIT_AMD = VkMemoryProperty(0x00000040)
-        val DEVICE_UNCACHED_BIT_AMD = VkMemoryProperty(0x00000080)
     }
 
     infix fun or(b: VkMemoryProperty): VkMemoryPropertyFlags = i or b.i
@@ -764,23 +619,11 @@ inline class VkPipelineCreate(val i: Int) {
         val VIEW_INDEX_FROM_DEVICE_INDEX_BIT = VkPipelineCreate(0x00000008)
         val DISPATCH_BASE = VkPipelineCreate(0x00000010)
         val DEFER_COMPILE_BIT_NV = VkPipelineCreate(0x00000020)
-        val CAPTURE_STATISTICS_BIT_KHR = VkPipelineCreate(0x00000040)
-        val CAPTURE_INTERNAL_REPRESENTATIONS_BIT_KHR = VkPipelineCreate(0x00000080)
         val VIEW_INDEX_FROM_DEVICE_INDEX_BIT_KHR = VkPipelineCreate.VIEW_INDEX_FROM_DEVICE_INDEX_BIT
         val DISPATCH_BASE_KHR = VkPipelineCreate.DISPATCH_BASE
     }
 }
 typealias VkPipelineCreateFlags = VkFlags
-
-
-inline class VkPipelineShaderStageCreate(val i: Int) {
-    companion object {
-        val ALLOW_VARYING_SUBGROUP_SIZE_BIT_EXT = VkPipelineShaderStageCreate(0x00000001)
-        val REQUIRE_FULL_SUBGROUPS_BIT_EXT = VkPipelineShaderStageCreate(0x00000002)
-    }
-}
-
-
 typealias VkPipelineShaderStageCreateFlags = VkFlags
 
 inline class VkShaderStage(val i: Int) {
@@ -875,13 +718,6 @@ inline class VkDescriptorPoolCreate(val i: Int) {
 
 typealias VkDescriptorPoolCreateFlags = VkFlags
 typealias VkDescriptorPoolResetFlags = VkFlags
-
-inline class VkFramebufferCreate(val i: Int) {
-    companion object {
-        val IMAGELESS_BIT_KHR = VkFramebufferCreate(0x00000001)
-    }
-}
-
 typealias VkFramebufferCreateFlags = VkFlags
 typealias VkRenderPassCreateFlags = VkFlags
 
@@ -999,226 +835,194 @@ inline class VkStencilFace(val i: Int) {
     companion object {
         val FRONT_BIT = VkStencilFace(0x00000001)
         val BACK_BIT = VkStencilFace(0x00000002)
-        val FACE_FRONT_AND_BACK = VkStencilFace(0x00000003)
+        val FRONT_AND_BACK = VkStencilFace(0x00000003)
     }
 }
 typealias VkStencilFaceFlags = VkFlags
 
-inline var VkApplicationInfo.type: VkStructureType
-    get() = VkStructureType(VkApplicationInfo.nsType(adr))
-    set(value) = VkApplicationInfo.nsType(adr, value.i)
-inline var VkApplicationInfo.next: Ptr
-    get() = VkApplicationInfo.npNext(adr)
-    set(value) = VkApplicationInfo.npNext(adr, value)
-inline var VkApplicationInfo.applicationName: String?
-    get() = VkApplicationInfo.npApplicationNameString(adr)
-    set(value) = VkApplicationInfo.npApplicationName(adr, value?.toUtf8Stack())
-inline var VkApplicationInfo.applicationVersion: Int
-    get() = VkApplicationInfo.napplicationVersion(adr)
-    set(value) = VkApplicationInfo.napplicationVersion(adr, value)
-inline var VkApplicationInfo.engineName: String?
-    get() = VkApplicationInfo.npEngineNameString(adr)
-    set(value) = VkApplicationInfo.npEngineName(adr, value?.toUtf8Stack())
-inline var VkApplicationInfo.engineVersion: Int
-    get() = VkApplicationInfo.nengineVersion(adr)
-    set(value) = VkApplicationInfo.nengineVersion(adr, value)
-inline var VkApplicationInfo.apiVersion: Int
-    get() = VkApplicationInfo.napiVersion(adr)
-    set(value) = VkApplicationInfo.napiVersion(adr, value)
+// ...
+
+enum class VkVendor { AMD, Nvidia, Intel, Unknown }
+
+// #define VK_VERSION_1_1
+
+inline class VkPointClippingBehavior(val i: Int) {
+    companion object {
+        val ALL_CLIP_PLANES = VkPointClippingBehavior(0)
+        val USER_CLIP_PLANES_ONLY = VkPointClippingBehavior(1)
+        val ALL_CLIP_PLANES_KHR = VkPointClippingBehavior.ALL_CLIP_PLANES
+        val USER_CLIP_PLANES_ONLY_KHR = VkPointClippingBehavior.USER_CLIP_PLANES_ONLY
+    }
+}
+
+inline class VkTessellationDomainOrigin(val i: Int) {
+    companion object {
+        val UPPER_LEFT = VkTessellationDomainOrigin(0)
+        val LOWER_LEFT = VkTessellationDomainOrigin(1)
+        val UPPER_LEFT_KHR = VkTessellationDomainOrigin.UPPER_LEFT
+        val LOWER_LEFT_KHR = VkTessellationDomainOrigin.LOWER_LEFT
+    }
+}
+
+inline class VkSamplerYcbcrModelConversion(val i: Int) {
+    companion object {
+        val RGB_IDENTITY = VkSamplerYcbcrModelConversion(0)
+        val YCBCR_IDENTITY = VkSamplerYcbcrModelConversion(1)
+        val YCBCR_709 = VkSamplerYcbcrModelConversion(2)
+        val YCBCR_601 = VkSamplerYcbcrModelConversion(3)
+        val YCBCR_2020 = VkSamplerYcbcrModelConversion(4)
+        val RGB_IDENTITY_KHR = VkSamplerYcbcrModelConversion.RGB_IDENTITY
+        val YCBCR_IDENTITY_KHR = VkSamplerYcbcrModelConversion.YCBCR_IDENTITY
+        val YCBCR_709_KHR = VkSamplerYcbcrModelConversion.YCBCR_709
+        val YCBCR_601_KHR = VkSamplerYcbcrModelConversion.YCBCR_601
+        val YCBCR_2020_KHR = VkSamplerYcbcrModelConversion.YCBCR_2020
+    }
+}
+
+inline class VkSamplerYcbcrRange(val i: Int) {
+    companion object {
+        val ITU_FULL = VkSamplerYcbcrRange(0)
+        val ITU_NARROW = VkSamplerYcbcrRange(1)
+        val ITU_FULL_KHR = VkSamplerYcbcrRange(0)
+        val ITU_NARROW_KHR = VkSamplerYcbcrRange(1)
+    }
+}
+
+inline class VkChromaLocation(val i: Int) {
+    companion object {
+        val COSITED_EVEN = VkChromaLocation(0)
+        val MIDPOINT = VkChromaLocation(1)
+        val COSITED_EVEN_KHR = VkChromaLocation(0)
+        val MIDPOINT_KHR = VkChromaLocation(1)
+    }
+}
+
+inline class VkDescriptorUpdateTemplateType(val i: Int) {
+    companion object {
+        val DESCRIPTOR_SET = VkDescriptorUpdateTemplateType(0)
+        val PUSH_DESCRIPTORS_KHR = VkDescriptorUpdateTemplateType(1)
+        val DESCRIPTOR_SET_KHR = VkDescriptorUpdateTemplateType.DESCRIPTOR_SET
+    }
+}
 
 
-inline var VkInstanceCreateInfo.type: VkStructureType
-    get() = VkStructureType(VkInstanceCreateInfo.nsType(adr))
-    set(value) = VkInstanceCreateInfo.nsType(adr, value.i)
-inline var VkInstanceCreateInfo.next: Ptr
-    get() = VkInstanceCreateInfo.npNext(adr)
-    set(value) = VkInstanceCreateInfo.npNext(adr, value)
-inline var VkInstanceCreateInfo.flags: VkInstanceCreateFlags
-    get() = VkInstanceCreateInfo.nflags(adr)
-    set(value) = VkInstanceCreateInfo.nflags(adr, value)
-inline var VkInstanceCreateInfo.applicationInfo: VkApplicationInfo?
-    get() = VkInstanceCreateInfo.npApplicationInfo(adr)
-    set(value) = VkInstanceCreateInfo.npApplicationInfo(adr, value)
-inline var VkInstanceCreateInfo.enabledLayerNames: Collection<String>
-    get() = VkInstanceCreateInfo.nppEnabledLayerNames(adr)?.toArrayList() ?: arrayListOf()
-    set(value) = VkInstanceCreateInfo.nppEnabledLayerNames(adr, value.toPointerBufferStack())
-inline var VkInstanceCreateInfo.enabledExtensionNames: Collection<String>
-    get() = VkInstanceCreateInfo.nppEnabledExtensionNames(adr)?.toArrayList() ?: arrayListOf()
-    set(value) = VkInstanceCreateInfo.nppEnabledExtensionNames(adr, value.toPointerBufferStack())
+inline class VkSubgroupFeature(val i: Int) {
+    companion object {
+        val BASIC_BIT = VkSubgroupFeature(0x00000001)
+        val VOTE_BIT = VkSubgroupFeature(0x00000002)
+        val ARITHMETIC_BIT = VkSubgroupFeature(0x00000004)
+        val BALLOT_BIT = VkSubgroupFeature(0x00000008)
+        val SHUFFLE_BIT = VkSubgroupFeature(0x00000010)
+        val SHUFFLE_RELATIVE_BIT = VkSubgroupFeature(0x00000020)
+        val CLUSTERED_BIT = VkSubgroupFeature(0x00000040)
+        val QUAD_BIT = VkSubgroupFeature(0x00000080)
+        val PARTITIONED_BIT_NV = VkSubgroupFeature(0x00000100)
+    }
+}
+
+typealias VkSubgroupFeatureFlags = VkFlags
+
+inline class VkPeerMemoryFeature(val i: Int) {
+    companion object {
+        val COPY_SRC_BIT = VkPeerMemoryFeature(0x00000001)
+        val COPY_DST_BIT = VkPeerMemoryFeature(0x00000002)
+        val GENERIC_SRC_BIT = VkPeerMemoryFeature(0x00000004)
+        val GENERIC_DST_BIT = VkPeerMemoryFeature(0x00000008)
+        val COPY_SRC_BIT_KHR = VkPeerMemoryFeature(0x00000001)
+        val COPY_DST_BIT_KHR = VkPeerMemoryFeature(0x00000002)
+        val GENERIC_SRC_BIT_KHR = VkPeerMemoryFeature(0x00000004)
+        val GENERIC_DST_BIT_KHR = VkPeerMemoryFeature(0x00000008)
+    }
+}
+
+typealias VkPeerMemoryFeatureFlags = VkFlags
+
+inline class VkMemoryAllocate(val i: Int) {
+    companion object {
+        val DEVICE_MASK_BIT = VkMemoryAllocate(0x00000001)
+    }
+}
+
+typealias VkMemoryAllocateFlags = VkFlags
+typealias VkCommandPoolTrimFlags = VkFlags
+typealias VkDescriptorUpdateTemplateCreateFlags = VkFlags
+
+inline class VkExternalMemoryHandleType(val i: Int) {
+    companion object {
+        val OPAQUE_FD_BIT = VkExternalMemoryHandleType(0x00000001)
+        val OPAQUE_WIN32_BIT = VkExternalMemoryHandleType(0x00000002)
+        val OPAQUE_WIN32_KMT_BIT = VkExternalMemoryHandleType(0x00000004)
+        val D3D11_TEXTURE_BIT = VkExternalMemoryHandleType(0x00000008)
+        val D3D11_TEXTURE_KMT_BIT = VkExternalMemoryHandleType(0x00000010)
+        val D3D12_HEAP_BIT = VkExternalMemoryHandleType(0x00000020)
+        val D3D12_RESOURCE_BIT = VkExternalMemoryHandleType(0x00000040)
+        val DMA_BUF_BIT_EXT = VkExternalMemoryHandleType(0x00000200)
+        val ANDROID_HARDWARE_BUFFER_BIT_ANDROID = VkExternalMemoryHandleType(0x00000400)
+        val HOST_ALLOCATION_BIT_EXT = VkExternalMemoryHandleType(0x00000080)
+        val HOST_MAPPED_FOREIGN_MEMORY_BIT_EXT = VkExternalMemoryHandleType(0x00000100)
+        val OPAQUE_FD_BIT_KHR = VkExternalMemoryHandleType.OPAQUE_FD_BIT
+        val OPAQUE_WIN32_BIT_KHR = VkExternalMemoryHandleType.OPAQUE_WIN32_BIT
+        val OPAQUE_WIN32_KMT_BIT_KHR = VkExternalMemoryHandleType.OPAQUE_WIN32_KMT_BIT
+        val D3D11_TEXTURE_BIT_KHR = VkExternalMemoryHandleType.D3D11_TEXTURE_BIT
+        val D3D11_TEXTURE_KMT_BIT_KHR = VkExternalMemoryHandleType.D3D11_TEXTURE_KMT_BIT
+        val D3D12_HEAP_BIT_KHR = VkExternalMemoryHandleType.D3D12_HEAP_BIT
+        val D3D12_RESOURCE_BIT_KHR = VkExternalMemoryHandleType.D3D12_RESOURCE_BIT
+    }
+}
+
+typealias VkExternalMemoryHandleTypeFlags = VkFlags
+
+inline class VkExternalMemoryFeature(val i: Int) {
+    companion object {
+        val DEDICATED_ONLY_BIT = VkExternalMemoryFeature(0x00000001)
+        val EXPORTABLE_BIT = VkExternalMemoryFeature(0x00000002)
+        val IMPORTABLE_BIT = VkExternalMemoryFeature(0x00000004)
+        val DEDICATED_ONLY_BIT_KHR = VkExternalMemoryFeature.DEDICATED_ONLY_BIT
+        val EXPORTABLE_BIT_KHR = VkExternalMemoryFeature.EXPORTABLE_BIT
+        val IMPORTABLE_BIT_KHR = VkExternalMemoryFeature.IMPORTABLE_BIT
+    }
+}
+
+typealias VkExternalMemoryFeatureFlags = VkFlags
+
+inline class VkExternalFenceHandleType(val i: Int) {
+    companion object {
+        val OPAQUE_FD_BIT = VkExternalFenceHandleType(0x00000001)
+        val OPAQUE_WIN32_BIT = VkExternalFenceHandleType(0x00000002)
+        val OPAQUE_WIN32_KMT_BIT = VkExternalFenceHandleType(0x00000004)
+        val SYNC_FD_BIT = VkExternalFenceHandleType(0x00000008)
+        val OPAQUE_FD_BIT_KHR = VkExternalFenceHandleType.OPAQUE_FD_BIT
+        val OPAQUE_WIN32_BIT_KHR = VkExternalFenceHandleType.OPAQUE_WIN32_BIT
+        val OPAQUE_WIN32_KMT_BIT_KHR = VkExternalFenceHandleType.OPAQUE_WIN32_KMT_BIT
+        val SYNC_FD_BIT_KHR = VkExternalFenceHandleType.SYNC_FD_BIT
+    }
+}
+
+// ..
 
 
-//typedef struct VkAllocationCallbacks {
-//    void*                                   pUserData;
-//    PFN_vkAllocationFunction                pfnAllocation;
-//    PFN_vkReallocationFunction              pfnReallocation;
-//    PFN_vkFreeFunction                      pfnFree;
-//    PFN_vkInternalAllocationNotification    pfnInternalAllocation;
-//    PFN_vkInternalFreeNotification          pfnInternalFree;
-//} VkAllocationCallbacks;
+inline class VkDisplayPowerStateEXT(val i: Int) {
+    companion object {
+        val OFF_EXT = VkDisplayPowerStateEXT(0)
+        val SUSPEND_EXT = VkDisplayPowerStateEXT(1)
+        val ON_EXT = VkDisplayPowerStateEXT(2)
+    }
+}
 
 
-inline var VkPhysicalDeviceFeatures.robustBufferAccess: Boolean
-    get() = VkPhysicalDeviceFeatures.nrobustBufferAccess(adr).bool
-    set(value) = VkPhysicalDeviceFeatures.nrobustBufferAccess(adr, value.i)
-inline var VkPhysicalDeviceFeatures.fullDrawIndexUint32: Boolean
-    get() = VkPhysicalDeviceFeatures.nfullDrawIndexUint32(adr).bool
-    set(value) = VkPhysicalDeviceFeatures.nfullDrawIndexUint32(adr, value.i)
-inline var VkPhysicalDeviceFeatures.imageCubeArray: Boolean
-    get() = VkPhysicalDeviceFeatures.nimageCubeArray(adr).bool
-    set(value) = VkPhysicalDeviceFeatures.nimageCubeArray(adr, value.i)
-inline var VkPhysicalDeviceFeatures.independentBlend: Boolean
-    get() = VkPhysicalDeviceFeatures.nindependentBlend(adr).bool
-    set(value) = VkPhysicalDeviceFeatures.nindependentBlend(adr, value.i)
-inline var VkPhysicalDeviceFeatures.geometryShader: Boolean
-    get() = VkPhysicalDeviceFeatures.ngeometryShader(adr).bool
-    set(value) = VkPhysicalDeviceFeatures.ngeometryShader(adr, value.i)
-inline var VkPhysicalDeviceFeatures.tessellationShader: Boolean
-    get() = VkPhysicalDeviceFeatures.ntessellationShader(adr).bool
-    set(value) = VkPhysicalDeviceFeatures.ntessellationShader(adr, value.i)
-inline var VkPhysicalDeviceFeatures.sampleRateShading: Boolean
-    get() = VkPhysicalDeviceFeatures.nsampleRateShading(adr).bool
-    set(value) = VkPhysicalDeviceFeatures.nsampleRateShading(adr, value.i)
-inline var VkPhysicalDeviceFeatures.dualSrcBlend: Boolean
-    get() = VkPhysicalDeviceFeatures.ndualSrcBlend(adr).bool
-    set(value) = VkPhysicalDeviceFeatures.ndualSrcBlend(adr, value.i)
-inline var VkPhysicalDeviceFeatures.logicOp: Boolean
-    get() = VkPhysicalDeviceFeatures.nlogicOp(adr).bool
-    set(value) = VkPhysicalDeviceFeatures.nlogicOp(adr, value.i)
-inline var VkPhysicalDeviceFeatures.multiDrawIndirect: Boolean
-    get() = VkPhysicalDeviceFeatures.nmultiDrawIndirect(adr).bool
-    set(value) = VkPhysicalDeviceFeatures.nmultiDrawIndirect(adr, value.i)
-inline var VkPhysicalDeviceFeatures.drawIndirectFirstInstance: Boolean
-    get() = VkPhysicalDeviceFeatures.ndrawIndirectFirstInstance(adr).bool
-    set(value) = VkPhysicalDeviceFeatures.ndrawIndirectFirstInstance(adr, value.i)
-inline var VkPhysicalDeviceFeatures.depthClamp: Boolean
-    get() = VkPhysicalDeviceFeatures.ndepthClamp(adr).bool
-    set(value) = VkPhysicalDeviceFeatures.ndepthClamp(adr, value.i)
-inline var VkPhysicalDeviceFeatures.depthBiasClamp: Boolean
-    get() = VkPhysicalDeviceFeatures.ndepthBiasClamp(adr).bool
-    set(value) = VkPhysicalDeviceFeatures.ndepthBiasClamp(adr, value.i)
-inline var VkPhysicalDeviceFeatures.fillModeNonSolid: Boolean
-    get() = VkPhysicalDeviceFeatures.nfillModeNonSolid(adr).bool
-    set(value) = VkPhysicalDeviceFeatures.nfillModeNonSolid(adr, value.i)
-inline var VkPhysicalDeviceFeatures.depthBounds: Boolean
-    get() = VkPhysicalDeviceFeatures.ndepthBounds(adr).bool
-    set(value) = VkPhysicalDeviceFeatures.ndepthBounds(adr, value.i)
-inline var VkPhysicalDeviceFeatures.wideLines: Boolean
-    get() = VkPhysicalDeviceFeatures.nwideLines(adr).bool
-    set(value) = VkPhysicalDeviceFeatures.nwideLines(adr, value.i)
-inline var VkPhysicalDeviceFeatures.largePoints: Boolean
-    get() = VkPhysicalDeviceFeatures.nlargePoints(adr).bool
-    set(value) = VkPhysicalDeviceFeatures.nlargePoints(adr, value.i)
-inline var VkPhysicalDeviceFeatures.alphaToOne: Boolean
-    get() = VkPhysicalDeviceFeatures.nalphaToOne(adr).bool
-    set(value) = VkPhysicalDeviceFeatures.nalphaToOne(adr, value.i)
-inline var VkPhysicalDeviceFeatures.multiViewport: Boolean
-    get() = VkPhysicalDeviceFeatures.nmultiViewport(adr).bool
-    set(value) = VkPhysicalDeviceFeatures.nmultiViewport(adr, value.i)
-inline var VkPhysicalDeviceFeatures.samplerAnisotropy: Boolean
-    get() = VkPhysicalDeviceFeatures.nsamplerAnisotropy(adr).bool
-    set(value) = VkPhysicalDeviceFeatures.nsamplerAnisotropy(adr, value.i)
-inline var VkPhysicalDeviceFeatures.textureCompressionETC2: Boolean
-    get() = VkPhysicalDeviceFeatures.ntextureCompressionETC2(adr).bool
-    set(value) = VkPhysicalDeviceFeatures.ntextureCompressionETC2(adr, value.i)
-inline var VkPhysicalDeviceFeatures.textureCompressionASTC_LDR: Boolean
-    get() = VkPhysicalDeviceFeatures.ntextureCompressionASTC_LDR(adr).bool
-    set(value) = VkPhysicalDeviceFeatures.ntextureCompressionASTC_LDR(adr, value.i)
-inline var VkPhysicalDeviceFeatures.textureCompressionBC: Boolean
-    get() = VkPhysicalDeviceFeatures.ntextureCompressionBC(adr).bool
-    set(value) = VkPhysicalDeviceFeatures.ntextureCompressionBC(adr, value.i)
-inline var VkPhysicalDeviceFeatures.occlusionQueryPrecise: Boolean
-    get() = VkPhysicalDeviceFeatures.nocclusionQueryPrecise(adr).bool
-    set(value) = VkPhysicalDeviceFeatures.nocclusionQueryPrecise(adr, value.i)
-inline var VkPhysicalDeviceFeatures.pipelineStatisticsQuery: Boolean
-    get() = VkPhysicalDeviceFeatures.npipelineStatisticsQuery(adr).bool
-    set(value) = VkPhysicalDeviceFeatures.npipelineStatisticsQuery(adr, value.i)
-inline var VkPhysicalDeviceFeatures.vertexPipelineStoresAndAtomics: Boolean
-    get() = VkPhysicalDeviceFeatures.nvertexPipelineStoresAndAtomics(adr).bool
-    set(value) = VkPhysicalDeviceFeatures.nvertexPipelineStoresAndAtomics(adr, value.i)
-inline var VkPhysicalDeviceFeatures.fragmentStoresAndAtomics: Boolean
-    get() = VkPhysicalDeviceFeatures.nfragmentStoresAndAtomics(adr).bool
-    set(value) = VkPhysicalDeviceFeatures.nfragmentStoresAndAtomics(adr, value.i)
-inline var VkPhysicalDeviceFeatures.shaderTessellationAndGeometryPointSize: Boolean
-    get() = VkPhysicalDeviceFeatures.nshaderTessellationAndGeometryPointSize(adr).bool
-    set(value) = VkPhysicalDeviceFeatures.nshaderTessellationAndGeometryPointSize(adr, value.i)
-inline var VkPhysicalDeviceFeatures.shaderImageGatherExtended: Boolean
-    get() = VkPhysicalDeviceFeatures.nshaderImageGatherExtended(adr).bool
-    set(value) = VkPhysicalDeviceFeatures.nshaderImageGatherExtended(adr, value.i)
-inline var VkPhysicalDeviceFeatures.shaderStorageImageExtendedFormats: Boolean
-    get() = VkPhysicalDeviceFeatures.nshaderStorageImageExtendedFormats(adr).bool
-    set(value) = VkPhysicalDeviceFeatures.nshaderStorageImageExtendedFormats(adr, value.i)
-inline var VkPhysicalDeviceFeatures.shaderStorageImageMultisample: Boolean
-    get() = VkPhysicalDeviceFeatures.nshaderStorageImageMultisample(adr).bool
-    set(value) = VkPhysicalDeviceFeatures.nshaderStorageImageMultisample(adr, value.i)
-inline var VkPhysicalDeviceFeatures.shaderStorageImageReadWithoutFormat: Boolean
-    get() = VkPhysicalDeviceFeatures.nshaderStorageImageReadWithoutFormat(adr).bool
-    set(value) = VkPhysicalDeviceFeatures.nshaderStorageImageReadWithoutFormat(adr, value.i)
-inline var VkPhysicalDeviceFeatures.shaderStorageImageWriteWithoutFormat: Boolean
-    get() = VkPhysicalDeviceFeatures.nshaderStorageImageWriteWithoutFormat(adr).bool
-    set(value) = VkPhysicalDeviceFeatures.nshaderStorageImageWriteWithoutFormat(adr, value.i)
-inline var VkPhysicalDeviceFeatures.shaderUniformBufferArrayDynamicIndexing: Boolean
-    get() = VkPhysicalDeviceFeatures.nshaderUniformBufferArrayDynamicIndexing(adr).bool
-    set(value) = VkPhysicalDeviceFeatures.nshaderUniformBufferArrayDynamicIndexing(adr, value.i)
-inline var VkPhysicalDeviceFeatures.shaderSampledImageArrayDynamicIndexing: Boolean
-    get() = VkPhysicalDeviceFeatures.nshaderSampledImageArrayDynamicIndexing(adr).bool
-    set(value) = VkPhysicalDeviceFeatures.nshaderSampledImageArrayDynamicIndexing(adr, value.i)
-inline var VkPhysicalDeviceFeatures.shaderStorageBufferArrayDynamicIndexing: Boolean
-    get() = VkPhysicalDeviceFeatures.nshaderStorageBufferArrayDynamicIndexing(adr).bool
-    set(value) = VkPhysicalDeviceFeatures.nshaderStorageBufferArrayDynamicIndexing(adr, value.i)
-inline var VkPhysicalDeviceFeatures.shaderStorageImageArrayDynamicIndexing: Boolean
-    get() = VkPhysicalDeviceFeatures.nshaderStorageImageArrayDynamicIndexing(adr).bool
-    set(value) = VkPhysicalDeviceFeatures.nshaderStorageImageArrayDynamicIndexing(adr, value.i)
-inline var VkPhysicalDeviceFeatures.shaderClipDistance: Boolean
-    get() = VkPhysicalDeviceFeatures.nshaderClipDistance(adr).bool
-    set(value) = VkPhysicalDeviceFeatures.nshaderClipDistance(adr, value.i)
-inline var VkPhysicalDeviceFeatures.shaderCullDistance: Boolean
-    get() = VkPhysicalDeviceFeatures.nshaderCullDistance(adr).bool
-    set(value) = VkPhysicalDeviceFeatures.nshaderCullDistance(adr, value.i)
-inline var VkPhysicalDeviceFeatures.shaderFloat64: Boolean
-    get() = VkPhysicalDeviceFeatures.nshaderFloat64(adr).bool
-    set(value) = VkPhysicalDeviceFeatures.nshaderFloat64(adr, value.i)
-inline var VkPhysicalDeviceFeatures.shaderInt64: Boolean
-    get() = VkPhysicalDeviceFeatures.nshaderInt64(adr).bool
-    set(value) = VkPhysicalDeviceFeatures.nshaderInt64(adr, value.i)
-inline var VkPhysicalDeviceFeatures.shaderInt16: Boolean
-    get() = VkPhysicalDeviceFeatures.nshaderInt16(adr).bool
-    set(value) = VkPhysicalDeviceFeatures.nshaderInt16(adr, value.i)
-inline var VkPhysicalDeviceFeatures.shaderResourceResidency: Boolean
-    get() = VkPhysicalDeviceFeatures.nshaderResourceResidency(adr).bool
-    set(value) = VkPhysicalDeviceFeatures.nshaderResourceResidency(adr, value.i)
-inline var VkPhysicalDeviceFeatures.shaderResourceMinLod: Boolean
-    get() = VkPhysicalDeviceFeatures.nshaderResourceMinLod(adr).bool
-    set(value) = VkPhysicalDeviceFeatures.nshaderResourceMinLod(adr, value.i)
-inline var VkPhysicalDeviceFeatures.sparseBinding: Boolean
-    get() = VkPhysicalDeviceFeatures.nsparseBinding(adr).bool
-    set(value) = VkPhysicalDeviceFeatures.nsparseBinding(adr, value.i)
-inline var VkPhysicalDeviceFeatures.sparseResidencyBuffer: Boolean
-    get() = VkPhysicalDeviceFeatures.nsparseResidencyBuffer(adr).bool
-    set(value) = VkPhysicalDeviceFeatures.nsparseResidencyBuffer(adr, value.i)
-inline var VkPhysicalDeviceFeatures.sparseResidencyImage2D: Boolean
-    get() = VkPhysicalDeviceFeatures.nsparseResidencyImage2D(adr).bool
-    set(value) = VkPhysicalDeviceFeatures.nsparseResidencyImage2D(adr, value.i)
-inline var VkPhysicalDeviceFeatures.sparseResidencyImage3D: Boolean
-    get() = VkPhysicalDeviceFeatures.nsparseResidencyImage3D(adr).bool
-    set(value) = VkPhysicalDeviceFeatures.nsparseResidencyImage3D(adr, value.i)
-inline var VkPhysicalDeviceFeatures.sparseResidency2Samples: Boolean
-    get() = VkPhysicalDeviceFeatures.nsparseResidency2Samples(adr).bool
-    set(value) = VkPhysicalDeviceFeatures.nsparseResidency2Samples(adr, value.i)
-inline var VkPhysicalDeviceFeatures.sparseResidency4Samples: Boolean
-    get() = VkPhysicalDeviceFeatures.nsparseResidency4Samples(adr).bool
-    set(value) = VkPhysicalDeviceFeatures.nsparseResidency4Samples(adr, value.i)
-inline var VkPhysicalDeviceFeatures.sparseResidency8Samples: Boolean
-    get() = VkPhysicalDeviceFeatures.nsparseResidency8Samples(adr).bool
-    set(value) = VkPhysicalDeviceFeatures.nsparseResidency8Samples(adr, value.i)
-inline var VkPhysicalDeviceFeatures.sparseResidency16Samples: Boolean
-    get() = VkPhysicalDeviceFeatures.nsparseResidency16Samples(adr).bool
-    set(value) = VkPhysicalDeviceFeatures.nrobustBufferAccess(adr, value.i)
-inline var VkPhysicalDeviceFeatures.sparseResidencyAliased: Boolean
-    get() = VkPhysicalDeviceFeatures.nsparseResidencyAliased(adr).bool
-    set(value) = VkPhysicalDeviceFeatures.nsparseResidencyAliased(adr, value.i)
-inline var VkPhysicalDeviceFeatures.variableMultisampleRate: Boolean
-    get() = VkPhysicalDeviceFeatures.nvariableMultisampleRate(adr).bool
-    set(value) = VkPhysicalDeviceFeatures.nvariableMultisampleRate(adr, value.i)
-inline var VkPhysicalDeviceFeatures.inheritedQueries: Boolean
-    get() = VkPhysicalDeviceFeatures.ninheritedQueries(adr).bool
-    set(value) = VkPhysicalDeviceFeatures.ninheritedQueries(adr, value.i)
+inline class VkDeviceEventTypeEXT(val i: Int) {
+    companion object {
+        val DISPLAY_HOTPLUG_EXT = VkDeviceEventTypeEXT(0)
+    }
+}
+
+
+inline class VkDisplayEventTypeEXT(val i: Int) {
+    companion object {
+        val FIRST_PIXEL_OUT_EXT = VkDisplayEventTypeEXT(0)
+    }
+}
+
+// ..
+
+

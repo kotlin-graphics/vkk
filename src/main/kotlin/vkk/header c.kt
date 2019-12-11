@@ -1,1018 +1,714 @@
 package vkk
 
-import glm_.BYTES
-import glm_.bool
-import glm_.i
-import glm_.vec2.Vec2
-import glm_.vec2.Vec2i
-import glm_.vec3.Vec3i
-import kool.Ptr
-import kool.adr
-import kool.rem
-import kool.set
-import org.lwjgl.PointerBuffer
-import org.lwjgl.system.MemoryStack.stackGet
-import org.lwjgl.system.MemoryUtil.*
-import org.lwjgl.system.Pointer
-import org.lwjgl.vulkan.*
-import vkk.entities.*
-import java.nio.ByteBuffer
-import java.nio.FloatBuffer
-import java.nio.IntBuffer
 
-
-inline val VkFormatProperties.linearTilingFeatures: VkFormatFeatureFlags
-    get() = VkFormatFeatureFlags(VkFormatProperties.nlinearTilingFeatures(adr))
-inline val VkFormatProperties.optimalTilingFeatures: VkFormatFeatureFlags
-    get() = VkFormatFeatureFlags(VkFormatProperties.noptimalTilingFeatures(adr))
-inline val VkFormatProperties.bufferFeatures: VkFormatFeatureFlags
-    get() = VkFormatFeatureFlags(VkFormatProperties.nbufferFeatures(adr))
-
-
-inline var VkExtent3D.width: Int
-    get() = VkExtent3D.nwidth(adr)
-    set(value) = VkExtent3D.nwidth(adr, value)
-inline var VkExtent3D.height: Int
-    get() = VkExtent3D.nheight(adr)
-    set(value) = VkExtent3D.nheight(adr, value)
-inline var VkExtent3D.depth: Int
-    get() = VkExtent3D.ndepth(adr)
-    set(value) = VkExtent3D.ndepth(adr, value)
-
-fun VkExtent3D.size(x: Int, y: Int, z: Int) {
-    width = x
-    height = y
-    depth = z
+inline class VkExternalMemoryHandleTypeNV(val i: Int) {
+    companion object {
+        val OPAQUE_WIN32_BIT_NV = VkExternalMemoryHandleTypeNV(0x00000001)
+        val OPAQUE_WIN32_KMT_BIT_NV = VkExternalMemoryHandleTypeNV(0x00000002)
+        val D3D11_IMAGE_BIT_NV = VkExternalMemoryHandleTypeNV(0x00000004)
+        val D3D11_IMAGE_KMT_BIT_NV = VkExternalMemoryHandleTypeNV(0x00000008)
+    }
 }
 
-inline var VkExtent3D.size: Vec3i
-    get() = Vec3i(width, height, depth)
-    set(value) {
-        width = value.x
-        height = value.y
-        depth = value.z
+typealias VkExternalMemoryHandleTypeFlagsNV = VkFlags
+
+inline class VkExternalMemoryFeatureNV(val i: Int) {
+    companion object {
+        val DEDICATED_ONLY_BIT_NV = VkExternalMemoryFeatureNV(0x00000001)
+        val EXPORTABLE_BIT_NV = VkExternalMemoryFeatureNV(0x00000002)
+        val IMPORTABLE_BIT_NV = VkExternalMemoryFeatureNV(0x00000004)
     }
+}
 
+typealias VkExternalMemoryFeatureFlagsNV = VkFlags
 
-inline val VkImageFormatProperties.maxExtent: VkExtent3D
-    get() = VkImageFormatProperties.nmaxExtent(adr)
-inline val VkImageFormatProperties.maxMipLevels: Int
-    get() = VkImageFormatProperties.nmaxMipLevels(adr)
-inline val VkImageFormatProperties.maxArrayLayers: Int
-    get() = VkImageFormatProperties.nmaxArrayLayers(adr)
-inline val VkImageFormatProperties.sampleCounts: VkSampleCountFlags
-    get() = VkSampleCountFlags(VkImageFormatProperties.nsampleCounts(adr))
-inline val VkImageFormatProperties.maxResourceSize: VkDeviceSize
-    get() = VkDeviceSize(VkImageFormatProperties.nmaxResourceSize(adr))
+// ..
 
+typealias VkExternalFenceHandleTypeFlags = VkFlags
 
-inline val VkPhysicalDeviceLimits.maxImageDimension1D: Int
-    get() = VkPhysicalDeviceLimits.nmaxImageDimension1D(adr)
-inline val VkPhysicalDeviceLimits.maxImageDimension2D: Int
-    get() = VkPhysicalDeviceLimits.nmaxImageDimension2D(adr)
-inline val VkPhysicalDeviceLimits.maxImageDimension3D: Int
-    get() = VkPhysicalDeviceLimits.nmaxImageDimension3D(adr)
-inline val VkPhysicalDeviceLimits.maxImageDimensionCube: Int
-    get() = VkPhysicalDeviceLimits.nmaxImageDimensionCube(adr)
-inline val VkPhysicalDeviceLimits.maxImageArrayLayers: Int
-    get() = VkPhysicalDeviceLimits.nmaxImageArrayLayers(adr)
-inline val VkPhysicalDeviceLimits.maxTexelBufferElements: Int
-    get() = VkPhysicalDeviceLimits.nmaxTexelBufferElements(adr)
-inline val VkPhysicalDeviceLimits.maxUniformBufferRange: Int
-    get() = VkPhysicalDeviceLimits.nmaxUniformBufferRange(adr)
-inline val VkPhysicalDeviceLimits.maxStorageBufferRange: Int
-    get() = VkPhysicalDeviceLimits.nmaxStorageBufferRange(adr)
-inline val VkPhysicalDeviceLimits.maxPushConstantsSize: Int
-    get() = VkPhysicalDeviceLimits.nmaxPushConstantsSize(adr)
-inline val VkPhysicalDeviceLimits.maxMemoryAllocationCount: Int
-    get() = VkPhysicalDeviceLimits.nmaxMemoryAllocationCount(adr)
-inline val VkPhysicalDeviceLimits.maxSamplerAllocationCount: Int
-    get() = VkPhysicalDeviceLimits.nmaxSamplerAllocationCount(adr)
-inline val VkPhysicalDeviceLimits.bufferImageGranularity: VkDeviceSize
-    get() = VkDeviceSize(VkPhysicalDeviceLimits.nbufferImageGranularity(adr))
-inline val VkPhysicalDeviceLimits.sparseAddressSpaceSize: VkDeviceSize
-    get() = VkDeviceSize(VkPhysicalDeviceLimits.nsparseAddressSpaceSize(adr))
-inline val VkPhysicalDeviceLimits.maxBoundDescriptorSets: Int
-    get() = VkPhysicalDeviceLimits.nmaxBoundDescriptorSets(adr)
-inline val VkPhysicalDeviceLimits.maxPerStageDescriptorSamplers: Int
-    get() = VkPhysicalDeviceLimits.nmaxPerStageDescriptorSamplers(adr)
-inline val VkPhysicalDeviceLimits.maxPerStageDescriptorUniformBuffers: Int
-    get() = VkPhysicalDeviceLimits.nmaxPerStageDescriptorUniformBuffers(adr)
-inline val VkPhysicalDeviceLimits.maxPerStageDescriptorStorageBuffers: Int
-    get() = VkPhysicalDeviceLimits.nmaxPerStageDescriptorStorageBuffers(adr)
-inline val VkPhysicalDeviceLimits.maxPerStageDescriptorSampledImages: Int
-    get() = VkPhysicalDeviceLimits.nmaxPerStageDescriptorSampledImages(adr)
-inline val VkPhysicalDeviceLimits.maxPerStageDescriptorStorageImages: Int
-    get() = VkPhysicalDeviceLimits.nmaxPerStageDescriptorStorageImages(adr)
-inline val VkPhysicalDeviceLimits.maxPerStageDescriptorInputAttachments: Int
-    get() = VkPhysicalDeviceLimits.nmaxPerStageDescriptorInputAttachments(adr)
-inline val VkPhysicalDeviceLimits.maxPerStageResources: Int
-    get() = VkPhysicalDeviceLimits.nmaxPerStageResources(adr)
-inline val VkPhysicalDeviceLimits.maxDescriptorSetSamplers: Int
-    get() = VkPhysicalDeviceLimits.nmaxDescriptorSetSamplers(adr)
-inline val VkPhysicalDeviceLimits.maxDescriptorSetUniformBuffers: Int
-    get() = VkPhysicalDeviceLimits.nmaxDescriptorSetUniformBuffers(adr)
-inline val VkPhysicalDeviceLimits.maxDescriptorSetUniformBuffersDynamic: Int
-    get() = VkPhysicalDeviceLimits.nmaxDescriptorSetUniformBuffersDynamic(adr)
-inline val VkPhysicalDeviceLimits.maxDescriptorSetStorageBuffers: Int
-    get() = VkPhysicalDeviceLimits.nmaxDescriptorSetStorageBuffers(adr)
-inline val VkPhysicalDeviceLimits.maxDescriptorSetStorageBuffersDynamic: Int
-    get() = VkPhysicalDeviceLimits.nmaxDescriptorSetStorageBuffersDynamic(adr)
-inline val VkPhysicalDeviceLimits.maxDescriptorSetSampledImages: Int
-    get() = VkPhysicalDeviceLimits.nmaxDescriptorSetSampledImages(adr)
-inline val VkPhysicalDeviceLimits.maxDescriptorSetStorageImages: Int
-    get() = VkPhysicalDeviceLimits.nmaxDescriptorSetStorageImages(adr)
-inline val VkPhysicalDeviceLimits.maxDescriptorSetInputAttachments: Int
-    get() = VkPhysicalDeviceLimits.nmaxDescriptorSetInputAttachments(adr)
-inline val VkPhysicalDeviceLimits.maxVertexInputAttributes: Int
-    get() = VkPhysicalDeviceLimits.nmaxVertexInputAttributes(adr)
-inline val VkPhysicalDeviceLimits.maxVertexInputBindings: Int
-    get() = VkPhysicalDeviceLimits.nmaxVertexInputBindings(adr)
-inline val VkPhysicalDeviceLimits.maxVertexInputAttributeOffset: Int
-    get() = VkPhysicalDeviceLimits.nmaxVertexInputAttributeOffset(adr)
-inline val VkPhysicalDeviceLimits.maxVertexInputBindingStride: Int
-    get() = VkPhysicalDeviceLimits.nmaxVertexInputBindingStride(adr)
-inline val VkPhysicalDeviceLimits.maxVertexOutputComponents: Int
-    get() = VkPhysicalDeviceLimits.nmaxVertexOutputComponents(adr)
-inline val VkPhysicalDeviceLimits.maxTessellationGenerationLevel: Int
-    get() = VkPhysicalDeviceLimits.nmaxTessellationGenerationLevel(adr)
-inline val VkPhysicalDeviceLimits.maxTessellationPatchSize: Int
-    get() = VkPhysicalDeviceLimits.nmaxTessellationPatchSize(adr)
-inline val VkPhysicalDeviceLimits.maxTessellationControlPerVertexInputComponents: Int
-    get() = VkPhysicalDeviceLimits.nmaxTessellationControlPerVertexInputComponents(adr)
-inline val VkPhysicalDeviceLimits.maxTessellationControlPerVertexOutputComponents: Int
-    get() = VkPhysicalDeviceLimits.nmaxTessellationControlPerVertexOutputComponents(adr)
-inline val VkPhysicalDeviceLimits.maxTessellationControlPerPatchOutputComponents: Int
-    get() = VkPhysicalDeviceLimits.nmaxTessellationControlPerPatchOutputComponents(adr)
-inline val VkPhysicalDeviceLimits.maxTessellationControlTotalOutputComponents: Int
-    get() = VkPhysicalDeviceLimits.nmaxTessellationControlTotalOutputComponents(adr)
-inline val VkPhysicalDeviceLimits.maxTessellationEvaluationInputComponents: Int
-    get() = VkPhysicalDeviceLimits.nmaxTessellationEvaluationInputComponents(adr)
-inline val VkPhysicalDeviceLimits.maxTessellationEvaluationOutputComponents: Int
-    get() = VkPhysicalDeviceLimits.nmaxTessellationEvaluationOutputComponents(adr)
-inline val VkPhysicalDeviceLimits.maxGeometryShaderInvocations: Int
-    get() = VkPhysicalDeviceLimits.nmaxGeometryShaderInvocations(adr)
-inline val VkPhysicalDeviceLimits.maxGeometryInputComponents: Int
-    get() = VkPhysicalDeviceLimits.nmaxGeometryInputComponents(adr)
-inline val VkPhysicalDeviceLimits.maxGeometryOutputComponents: Int
-    get() = VkPhysicalDeviceLimits.nmaxGeometryOutputComponents(adr)
-inline val VkPhysicalDeviceLimits.maxGeometryOutputVertices: Int
-    get() = VkPhysicalDeviceLimits.nmaxGeometryOutputVertices(adr)
-inline val VkPhysicalDeviceLimits.maxGeometryTotalOutputComponents: Int
-    get() = VkPhysicalDeviceLimits.nmaxGeometryTotalOutputComponents(adr)
-inline val VkPhysicalDeviceLimits.maxFragmentInputComponents: Int
-    get() = VkPhysicalDeviceLimits.nmaxFragmentInputComponents(adr)
-inline val VkPhysicalDeviceLimits.maxFragmentOutputAttachments: Int
-    get() = VkPhysicalDeviceLimits.nmaxFragmentOutputAttachments(adr)
-inline val VkPhysicalDeviceLimits.maxFragmentDualSrcAttachments: Int
-    get() = VkPhysicalDeviceLimits.nmaxFragmentDualSrcAttachments(adr)
-inline val VkPhysicalDeviceLimits.maxFragmentCombinedOutputResources: Int
-    get() = VkPhysicalDeviceLimits.nmaxFragmentCombinedOutputResources(adr)
-inline val VkPhysicalDeviceLimits.maxComputeSharedMemorySize: Int
-    get() = VkPhysicalDeviceLimits.nmaxComputeSharedMemorySize(adr)
-inline val VkPhysicalDeviceLimits.maxComputeWorkGroupCount: Vec3i
-    get() = Vec3i { VkPhysicalDeviceLimits.nmaxComputeWorkGroupCount(adr, it) }
-inline val VkPhysicalDeviceLimits.maxComputeWorkGroupInvocations: Int
-    get() = VkPhysicalDeviceLimits.nmaxComputeWorkGroupInvocations(adr)
-inline val VkPhysicalDeviceLimits.maxComputeWorkGroupSize: Vec3i
-    get() = Vec3i { VkPhysicalDeviceLimits.nmaxComputeWorkGroupSize(adr, it) }
-inline val VkPhysicalDeviceLimits.subPixelPrecisionBits: Int
-    get() = VkPhysicalDeviceLimits.nsubPixelPrecisionBits(adr)
-inline val VkPhysicalDeviceLimits.subTexelPrecisionBits: Int
-    get() = VkPhysicalDeviceLimits.nsubTexelPrecisionBits(adr)
-inline val VkPhysicalDeviceLimits.mipmapPrecisionBits: Int
-    get() = VkPhysicalDeviceLimits.nmipmapPrecisionBits(adr)
-inline val VkPhysicalDeviceLimits.maxDrawIndexedIndexValue: Int
-    get() = VkPhysicalDeviceLimits.nmaxDrawIndexedIndexValue(adr)
-inline val VkPhysicalDeviceLimits.maxDrawIndirectCount: Int
-    get() = VkPhysicalDeviceLimits.nmaxDrawIndirectCount(adr)
-inline val VkPhysicalDeviceLimits.maxSamplerLodBias: Float
-    get() = VkPhysicalDeviceLimits.nmaxSamplerLodBias(adr)
-inline val VkPhysicalDeviceLimits.maxSamplerAnisotropy: Float
-    get() = VkPhysicalDeviceLimits.nmaxSamplerAnisotropy(adr)
-inline val VkPhysicalDeviceLimits.maxViewports: Int
-    get() = VkPhysicalDeviceLimits.nmaxViewports(adr)
-inline val VkPhysicalDeviceLimits.maxViewportDimensions: Vec2i
-    get() = Vec2i { VkPhysicalDeviceLimits.nmaxViewportDimensions(adr, it) }
-inline val VkPhysicalDeviceLimits.viewportBoundsRange: Vec2
-    get() = Vec2 { VkPhysicalDeviceLimits.nviewportBoundsRange(adr, it) }
-inline val VkPhysicalDeviceLimits.viewportSubPixelBits: Int
-    get() = VkPhysicalDeviceLimits.nviewportSubPixelBits(adr)
-inline val VkPhysicalDeviceLimits.minMemoryMapAlignment: Long
-    get() = VkPhysicalDeviceLimits.nminMemoryMapAlignment(adr)
-inline val VkPhysicalDeviceLimits.minTexelBufferOffsetAlignment: VkDeviceSize
-    get() = VkDeviceSize(VkPhysicalDeviceLimits.nminTexelBufferOffsetAlignment(adr))
-inline val VkPhysicalDeviceLimits.minUniformBufferOffsetAlignment: VkDeviceSize
-    get() = VkDeviceSize(VkPhysicalDeviceLimits.nminUniformBufferOffsetAlignment(adr))
-inline val VkPhysicalDeviceLimits.minStorageBufferOffsetAlignment: VkDeviceSize
-    get() = VkDeviceSize(VkPhysicalDeviceLimits.nminStorageBufferOffsetAlignment(adr))
-inline val VkPhysicalDeviceLimits.minTexelOffset: Int
-    get() = VkPhysicalDeviceLimits.nminTexelOffset(adr)
-inline val VkPhysicalDeviceLimits.maxTexelOffset: Int
-    get() = VkPhysicalDeviceLimits.nmaxTexelOffset(adr)
-inline val VkPhysicalDeviceLimits.minTexelGatherOffset: Int
-    get() = VkPhysicalDeviceLimits.nminTexelGatherOffset(adr)
-inline val VkPhysicalDeviceLimits.maxTexelGatherOffset: Int
-    get() = VkPhysicalDeviceLimits.nmaxTexelGatherOffset(adr)
-inline val VkPhysicalDeviceLimits.minInterpolationOffset: Float
-    get() = VkPhysicalDeviceLimits.nminInterpolationOffset(adr)
-inline val VkPhysicalDeviceLimits.maxInterpolationOffset: Float
-    get() = VkPhysicalDeviceLimits.nmaxInterpolationOffset(adr)
-inline val VkPhysicalDeviceLimits.subPixelInterpolationOffsetBits: Int
-    get() = VkPhysicalDeviceLimits.nsubPixelInterpolationOffsetBits(adr)
-inline val VkPhysicalDeviceLimits.maxFramebufferWidth: Int
-    get() = VkPhysicalDeviceLimits.nmaxFramebufferWidth(adr)
-inline val VkPhysicalDeviceLimits.maxFramebufferHeight: Int
-    get() = VkPhysicalDeviceLimits.nmaxFramebufferHeight(adr)
-inline val VkPhysicalDeviceLimits.maxFramebufferLayers: Int
-    get() = VkPhysicalDeviceLimits.nmaxFramebufferLayers(adr)
-inline val VkPhysicalDeviceLimits.framebufferColorSampleCounts: VkSampleCountFlags
-    get() = VkSampleCountFlags(VkPhysicalDeviceLimits.nframebufferColorSampleCounts(adr))
-inline val VkPhysicalDeviceLimits.framebufferDepthSampleCounts: VkSampleCountFlags
-    get() = VkSampleCountFlags(VkPhysicalDeviceLimits.nframebufferDepthSampleCounts(adr))
-inline val VkPhysicalDeviceLimits.framebufferStencilSampleCounts: VkSampleCountFlags
-    get() = VkSampleCountFlags(VkPhysicalDeviceLimits.nframebufferStencilSampleCounts(adr))
-inline val VkPhysicalDeviceLimits.framebufferNoAttachmentsSampleCounts: VkSampleCountFlags
-    get() = VkSampleCountFlags(VkPhysicalDeviceLimits.nframebufferNoAttachmentsSampleCounts(adr))
-inline val VkPhysicalDeviceLimits.maxColorAttachments: Int
-    get() = VkPhysicalDeviceLimits.nmaxColorAttachments(adr)
-inline val VkPhysicalDeviceLimits.sampledImageColorSampleCounts: VkSampleCountFlags
-    get() = VkSampleCountFlags(VkPhysicalDeviceLimits.nsampledImageColorSampleCounts(adr))
-inline val VkPhysicalDeviceLimits.sampledImageIntegerSampleCounts: VkSampleCountFlags
-    get() = VkSampleCountFlags(VkPhysicalDeviceLimits.nsampledImageIntegerSampleCounts(adr))
-inline val VkPhysicalDeviceLimits.sampledImageDepthSampleCounts: VkSampleCountFlags
-    get() = VkSampleCountFlags(VkPhysicalDeviceLimits.nsampledImageDepthSampleCounts(adr))
-inline val VkPhysicalDeviceLimits.sampledImageStencilSampleCounts: VkSampleCountFlags
-    get() = VkSampleCountFlags(VkPhysicalDeviceLimits.nsampledImageStencilSampleCounts(adr))
-inline val VkPhysicalDeviceLimits.storageImageSampleCounts: VkSampleCountFlags
-    get() = VkSampleCountFlags(VkPhysicalDeviceLimits.nstorageImageSampleCounts(adr))
-inline val VkPhysicalDeviceLimits.maxSampleMaskWords: Int
-    get() = VkPhysicalDeviceLimits.nmaxSampleMaskWords(adr)
-inline val VkPhysicalDeviceLimits.timestampComputeAndGraphics: Boolean
-    get() = VkPhysicalDeviceLimits.ntimestampComputeAndGraphics(adr).bool
-inline val VkPhysicalDeviceLimits.timestampPeriod: Float
-    get() = VkPhysicalDeviceLimits.ntimestampPeriod(adr)
-inline val VkPhysicalDeviceLimits.maxClipDistances: Int
-    get() = VkPhysicalDeviceLimits.nmaxClipDistances(adr)
-inline val VkPhysicalDeviceLimits.maxCullDistances: Int
-    get() = VkPhysicalDeviceLimits.nmaxCullDistances(adr)
-inline val VkPhysicalDeviceLimits.maxCombinedClipAndCullDistances: Int
-    get() = VkPhysicalDeviceLimits.nmaxCombinedClipAndCullDistances(adr)
-inline val VkPhysicalDeviceLimits.discreteQueuePriorities: Int
-    get() = VkPhysicalDeviceLimits.ndiscreteQueuePriorities(adr)
-inline val VkPhysicalDeviceLimits.pointSizeRange: Vec2
-    get() = Vec2 { VkPhysicalDeviceLimits.npointSizeRange(adr, it) }
-inline val VkPhysicalDeviceLimits.lineWidthRange: Vec2
-    get() = Vec2 { VkPhysicalDeviceLimits.nlineWidthRange(adr, it) }
-inline val VkPhysicalDeviceLimits.pointSizeGranularity: Float
-    get() = VkPhysicalDeviceLimits.npointSizeGranularity(adr)
-inline val VkPhysicalDeviceLimits.lineWidthGranularity: Float
-    get() = VkPhysicalDeviceLimits.nlineWidthGranularity(adr)
-inline val VkPhysicalDeviceLimits.strictLines: Boolean
-    get() = VkPhysicalDeviceLimits.nstrictLines(adr).bool
-inline val VkPhysicalDeviceLimits.standardSampleLocations: Boolean
-    get() = VkPhysicalDeviceLimits.nstandardSampleLocations(adr).bool
-inline val VkPhysicalDeviceLimits.optimalBufferCopyOffsetAlignment: VkDeviceSize
-    get() = VkDeviceSize(VkPhysicalDeviceLimits.noptimalBufferCopyOffsetAlignment(adr))
-inline val VkPhysicalDeviceLimits.optimalBufferCopyRowPitchAlignment: VkDeviceSize
-    get() = VkDeviceSize(VkPhysicalDeviceLimits.noptimalBufferCopyRowPitchAlignment(adr))
-inline val VkPhysicalDeviceLimits.nonCoherentAtomSize: VkDeviceSize
-    get() = VkDeviceSize(VkPhysicalDeviceLimits.nnonCoherentAtomSize(adr))
-
-
-inline val VkPhysicalDeviceSparseProperties.residencyStandard2DBlockShape: Boolean
-    get() = VkPhysicalDeviceSparseProperties.nresidencyStandard2DBlockShape(adr).bool
-inline val VkPhysicalDeviceSparseProperties.residencyStandard2DMultisampleBlockShape: Boolean
-    get() = VkPhysicalDeviceSparseProperties.nresidencyStandard2DMultisampleBlockShape(adr).bool
-inline val VkPhysicalDeviceSparseProperties.residencyStandard3DBlockShape: Boolean
-    get() = VkPhysicalDeviceSparseProperties.nresidencyStandard3DBlockShape(adr).bool
-inline val VkPhysicalDeviceSparseProperties.residencyAlignedMipSize: Boolean
-    get() = VkPhysicalDeviceSparseProperties.nresidencyAlignedMipSize(adr).bool
-inline val VkPhysicalDeviceSparseProperties.residencyNonResidentStrict: Boolean
-    get() = VkPhysicalDeviceSparseProperties.nresidencyNonResidentStrict(adr).bool
-
-
-inline val VkPhysicalDeviceProperties.apiVersion: Int
-    get() = VkPhysicalDeviceProperties.napiVersion(adr)
-inline val VkPhysicalDeviceProperties.driverVersion: Int
-    get() = VkPhysicalDeviceProperties.ndriverVersion(adr)
-inline val VkPhysicalDeviceProperties.vendorID: Int
-    get() = VkPhysicalDeviceProperties.nvendorID(adr)
-inline val VkPhysicalDeviceProperties.deviceID: Int
-    get() = VkPhysicalDeviceProperties.ndeviceID(adr)
-inline val VkPhysicalDeviceProperties.deviceType: VkPhysicalDeviceType
-    get() = VkPhysicalDeviceType(VkPhysicalDeviceProperties.ndeviceType(adr))
-inline val VkPhysicalDeviceProperties.deviceName: String
-    get() = VkPhysicalDeviceProperties.ndeviceNameString(adr)
-inline val VkPhysicalDeviceProperties.pipelineCacheUUID: ByteBuffer
-    get() = VkPhysicalDeviceProperties.npipelineCacheUUID(adr)
-inline val VkPhysicalDeviceProperties.limits: VkPhysicalDeviceLimits
-    get() = VkPhysicalDeviceProperties.nlimits(adr)
-inline val VkPhysicalDeviceProperties.sparseProperties: VkPhysicalDeviceSparseProperties
-    get() = VkPhysicalDeviceProperties.nsparseProperties(adr)
-/** JVM custom */
-inline val VkPhysicalDeviceProperties.apiVersionString: String
-    get() = _decode(apiVersion)
-inline val VkPhysicalDeviceProperties.driverVersionString: String
-    get() = _decode(driverVersion)
-
-enum class VkVendor { AMD, Nvidia, Intel, Unknown }
-
-inline val VkPhysicalDeviceProperties.vendor: VkVendor
-    get() = when (vendorID) {
-        0x1002 -> VkVendor.AMD
-        0x10DE -> VkVendor.Nvidia
-        0x8086 -> VkVendor.Intel
-        else -> VkVendor.Unknown
+inline class VkExternalFenceFeature(val i: Int) {
+    companion object {
+        val EXPORTABLE_BIT = VkExternalFenceFeature(0x00000001)
+        val IMPORTABLE_BIT = VkExternalFenceFeature(0x00000002)
+        val EXPORTABLE_BIT_KHR = VkExternalFenceFeature.EXPORTABLE_BIT
+        val IMPORTABLE_BIT_KHR = VkExternalFenceFeature.IMPORTABLE_BIT
     }
+}
 
-fun _decode(int: Int) = "${int and 0xFFC00000.i shr 22}.${int and 0x003FF000 shr 12}.${int and 0x00000FFF}"
+typealias VkExternalFenceFeatureFlags = VkFlags
 
-
-inline val VkQueueFamilyProperties.queueFlags: VkQueueFlags
-    get() = VkQueueFamilyProperties.nqueueFlags(adr)
-inline val VkQueueFamilyProperties.queueCount: Int
-    get() = VkQueueFamilyProperties.nqueueCount(adr)
-inline val VkQueueFamilyProperties.timestampValidBits: Int
-    get() = VkQueueFamilyProperties.ntimestampValidBits(adr)
-inline val VkQueueFamilyProperties.minImageTransferGranularity: VkExtent3D
-    get() = VkQueueFamilyProperties.nminImageTransferGranularity(adr)
-
-
-inline val VkMemoryType.propertyFlags: VkMemoryPropertyFlags
-    get() = VkMemoryType.npropertyFlags(adr)
-inline val VkMemoryType.heapIndex: Int
-    get() = VkMemoryType.nheapIndex(adr)
-
-
-inline val VkMemoryHeap.size: VkDeviceSize
-    get() = VkDeviceSize(VkMemoryHeap.nsize(adr))
-inline val VkMemoryHeap.flags: VkMemoryHeapFlags
-    get() = VkMemoryHeap.nflags(adr)
-
-
-inline val VkPhysicalDeviceMemoryProperties.memoryTypeCount: Int
-    get() = VkPhysicalDeviceMemoryProperties.nmemoryTypeCount(adr)
-inline val VkPhysicalDeviceMemoryProperties.memoryTypes: VkMemoryType.Buffer
-    get() = VkPhysicalDeviceMemoryProperties.nmemoryTypes(adr)
-inline val VkPhysicalDeviceMemoryProperties.memoryHeapCount: Int
-    get() = VkPhysicalDeviceMemoryProperties.nmemoryHeapCount(adr)
-inline val VkPhysicalDeviceMemoryProperties.memoryHeaps: VkMemoryHeap.Buffer
-    get() = VkPhysicalDeviceMemoryProperties.nmemoryHeaps(adr)
-
-
-inline var VkDeviceQueueCreateInfo.type: VkStructureType
-    get() = VkStructureType(VkDeviceQueueCreateInfo.nsType(adr))
-    set(value) = VkDeviceQueueCreateInfo.nsType(adr, value.i)
-inline var VkDeviceQueueCreateInfo.next: Ptr
-    get() = VkDeviceQueueCreateInfo.npNext(adr)
-    set(value) = VkDeviceQueueCreateInfo.npNext(adr, value)
-inline var VkDeviceQueueCreateInfo.flag: VkDeviceQueueCreate
-    get() = throw Exception("invalid")
-    set(value) = VkDeviceQueueCreateInfo.nflags(adr, value.i)
-inline var VkDeviceQueueCreateInfo.flags: VkDeviceQueueCreateFlags
-    get() = VkDeviceQueueCreateInfo.nflags(adr)
-    set(value) = VkDeviceQueueCreateInfo.nflags(adr, value)
-inline var VkDeviceQueueCreateInfo.queueFamilyIndex: Int
-    get() = VkDeviceQueueCreateInfo.nqueueFamilyIndex(adr)
-    set(value) = VkDeviceQueueCreateInfo.nqueueFamilyIndex(adr, value)
-@Deprecated("this will be set automatically")
-inline var VkDeviceQueueCreateInfo.queueCount: Int
-    get() = VkDeviceQueueCreateInfo.nqueueCount(adr)
-    set(value) = VkDeviceQueueCreateInfo.nqueueCount(adr, value)
-inline var VkDeviceQueueCreateInfo.queuePriorities: FloatBuffer
-    get() = VkDeviceQueueCreateInfo.npQueuePriorities(adr)
-    set(value) = VkDeviceQueueCreateInfo.npQueuePriorities(adr, value)
-/** JVM custom */
-inline var VkDeviceQueueCreateInfo.queuePriority: Float
-    get() = VkDeviceQueueCreateInfo.npQueuePriorities(adr)[0]
-    set(value) {
-        val adr = stackGet().nmalloc(4, Float.BYTES)
-        memPutFloat(adr, value)
-        memPutAddress(adr + VkDeviceQueueCreateInfo.PQUEUEPRIORITIES, adr)
-        queueCount = 1
+inline class VkFenceImport(val i: Int) {
+    companion object {
+        val TEMPORARY_BIT = VkFenceImport(0x00000001)
+        val TEMPORARY_BIT_KHR = VkFenceImport.TEMPORARY_BIT
     }
+}
 
+typealias VkFenceImportFlags = VkFlags
 
-inline var VkDeviceCreateInfo.type: VkStructureType
-    get() = VkStructureType(VkDeviceCreateInfo.nsType(adr))
-    set(value) = VkDeviceCreateInfo.nsType(adr, value.i)
-inline var VkDeviceCreateInfo.next: Ptr
-    get() = VkDeviceCreateInfo.npNext(adr)
-    set(value) = VkDeviceCreateInfo.npNext(adr, value)
-inline var VkDeviceCreateInfo.flags: VkDeviceCreateFlags
-    get() = VkDeviceCreateInfo.nflags(adr)
-    set(value) = VkDeviceCreateInfo.nflags(adr, value)
-@Deprecated("this will be set automatically")
-inline var VkDeviceCreateInfo.queueCreateInfoCount: Int
-    get() = VkDeviceCreateInfo.nqueueCreateInfoCount(adr)
-    set(value) = VkDeviceCreateInfo.nqueueCreateInfoCount(adr, value)
-inline var VkDeviceCreateInfo.queueCreateInfos: VkDeviceQueueCreateInfo.Buffer
-    get() = VkDeviceCreateInfo.npQueueCreateInfos(adr)
-    set(value) = VkDeviceCreateInfo.npQueueCreateInfos(adr, value)
-/** JVM custom */
-inline var VkDeviceCreateInfo.queueCreateInfos_: Collection<VkDeviceQueueCreateInfo>
-    get() {
-        val infos = VkDeviceCreateInfo.npQueueCreateInfos(adr)
-        return List(infos.rem) { infos[it] }
+inline class VkSemaphoreImport(val i: Int) {
+    companion object {
+        val TEMPORARY_BIT = VkSemaphoreImport(0x00000001)
+        val TEMPORARY_BIT_KHR = VkSemaphoreImport.TEMPORARY_BIT
     }
-    set(value) {
-        val infos = vk.DeviceQueueCreateInfo(value.size)
-        for (i in value.indices)
-            infos[i] = value.elementAt(i)
-        VkDeviceCreateInfo.npQueueCreateInfos(adr, infos)
+}
+
+typealias VkSemaphoreImportFlags = VkFlags
+
+// ...
+
+inline class VkExternalSemaphoreHandleType(val i: Int) {
+    companion object {
+        val OPAQUE_FD_BIT = VkExternalSemaphoreHandleType(0x00000001)
+        val OPAQUE_WIN32_BIT = VkExternalSemaphoreHandleType(0x00000002)
+        val OPAQUE_WIN32_KMT_BIT = VkExternalSemaphoreHandleType(0x00000004)
+        val D3D12_FENCE_BIT = VkExternalSemaphoreHandleType(0x00000008)
+        val SYNC_FD_BIT = VkExternalSemaphoreHandleType(0x00000010)
+        val OPAQUE_FD_BIT_KHR = VkExternalSemaphoreHandleType.OPAQUE_FD_BIT
+        val OPAQUE_WIN32_BIT_KHR = VkExternalSemaphoreHandleType.OPAQUE_WIN32_BIT
+        val OPAQUE_WIN32_KMT_BIT_KHR = VkExternalSemaphoreHandleType.OPAQUE_WIN32_KMT_BIT
+        val D3D12_FENCE_BIT_KHR = VkExternalSemaphoreHandleType.D3D12_FENCE_BIT
+        val SYNC_FD_BIT_KHR = VkExternalSemaphoreHandleType.SYNC_FD_BIT
     }
-/** JVM custom */
-inline var VkDeviceCreateInfo.queueCreateInfo: VkDeviceQueueCreateInfo
-    get() = VkDeviceCreateInfo.npQueueCreateInfos(adr)[0]
-    set(value) {
-        memPutAddress(adr + VkDeviceCreateInfo.PQUEUECREATEINFOS, value.adr)
-        queueCreateInfoCount = 1
+}
+
+typealias VkExternalSemaphoreHandleTypeFlags = VkFlags
+
+inline class VkExternalSemaphoreFeature(val i: Int) {
+    companion object {
+        val EXPORTABLE_BIT = VkExternalSemaphoreFeature(0x00000001)
+        val IMPORTABLE_BIT = VkExternalSemaphoreFeature(0x00000002)
+        val EXPORTABLE_BIT_KHR = VkExternalSemaphoreFeature.EXPORTABLE_BIT
+        val IMPORTABLE_BIT_KHR = VkExternalSemaphoreFeature.IMPORTABLE_BIT
     }
-inline var VkDeviceCreateInfo.enabledLayerNames: Collection<String>
-    get() = VkDeviceCreateInfo.nppEnabledLayerNames(adr)?.toArrayList() ?: arrayListOf()
-    set(value) = VkDeviceCreateInfo.nppEnabledLayerNames(adr, value.toPointerBufferStack())
-inline var VkDeviceCreateInfo.enabledExtensionNames: Collection<String>
-    get() = VkDeviceCreateInfo.nppEnabledExtensionNames(adr)?.toArrayList() ?: arrayListOf()
-    set(value) = VkDeviceCreateInfo.nppEnabledExtensionNames(adr, value.toPointerBufferStack())
-inline var VkDeviceCreateInfo.enabledFeatures: VkPhysicalDeviceFeatures?
-    get() = VkDeviceCreateInfo.npEnabledFeatures(adr)
-    set(value) = VkDeviceCreateInfo.npEnabledFeatures(adr, value)
+}
+
+typealias VkExternalSemaphoreFeatureFlags = VkFlags
 
 
-inline val VkExtensionProperties.extensionName: String
-    get() = VkExtensionProperties.nextensionNameString(adr)
-inline val VkExtensionProperties.specVersion: Int
-    get() = VkExtensionProperties.nspecVersion(adr)
+// ...
 
 
-inline val VkLayerProperties.layerName: String
-    get() = VkLayerProperties.nlayerNameString(adr)
-inline val VkLayerProperties.specVersion: Int
-    get() = VkLayerProperties.nspecVersion(adr)
-inline val VkLayerProperties.implementationVersion: Int
-    get() = VkLayerProperties.nimplementationVersion(adr)
-inline val VkLayerProperties.description: String
-    get() = VkLayerProperties.ndescriptionString(adr)
-
-
-inline var VkSubmitInfo.type: VkStructureType
-    get() = VkStructureType(VkSubmitInfo.nsType(adr))
-    set(value) = VkSubmitInfo.nsType(adr, value.i)
-inline var VkSubmitInfo.next: Ptr
-    get() = VkSubmitInfo.npNext(adr)
-    set(value) = VkSubmitInfo.npNext(adr, value)
-inline var VkSubmitInfo.waitSemaphoreCount: Int
-    get() = VkSubmitInfo.nwaitSemaphoreCount(adr)
-    set(value) = VkSubmitInfo.nwaitSemaphoreCount(adr, value)
-inline var VkSubmitInfo.waitSemaphores: VkSemaphore_Buffer?
-    get() = VkSubmitInfo.npWaitSemaphores(adr)?.let(::VkSemaphore_Buffer)
-    set(value) = VkSubmitInfo.npWaitSemaphores(adr, value?.buffer)
-/** JVM custom */
-inline var VkSubmitInfo.waitSemaphore: VkSemaphore
-    get() = VkSemaphore(VkSubmitInfo.npWaitSemaphores(adr)?.get(0) ?: NULL)
-    set(value) {
-        val pSemaphore = stackGet().nmalloc(8, Long.BYTES)
-        memPutLong(pSemaphore, value.L)
-        memPutAddress(adr + VkSubmitInfo.PWAITSEMAPHORES, pSemaphore)
+inline class VkColorSpaceKHR(val i: Int) {
+    companion object {
+        val SRGB_NONLINEAR_KHR = VkColorSpaceKHR(0)
+        val DISPLAY_P3_NONLINEAR_EXT = VkColorSpaceKHR(1000104001)
+        val EXTENDED_SRGB_LINEAR_EXT = VkColorSpaceKHR(1000104002)
+        val DCI_P3_LINEAR_EXT = VkColorSpaceKHR(1000104003)
+        val DCI_P3_NONLINEAR_EXT = VkColorSpaceKHR(1000104004)
+        val BT709_LINEAR_EXT = VkColorSpaceKHR(1000104005)
+        val BT709_NONLINEAR_EXT = VkColorSpaceKHR(1000104006)
+        val BT2020_LINEAR_EXT = VkColorSpaceKHR(1000104007)
+        val HDR10_ST2084_EXT = VkColorSpaceKHR(1000104008)
+        val DOLBYVISION_EXT = VkColorSpaceKHR(1000104009)
+        val HDR10_HLG_EXT = VkColorSpaceKHR(1000104010)
+        val ADOBERGB_LINEAR_EXT = VkColorSpaceKHR(1000104011)
+        val ADOBERGB_NONLINEAR_EXT = VkColorSpaceKHR(1000104012)
+        val PASS_THROUGH_EXT = VkColorSpaceKHR(1000104013)
+        val EXTENDED_SRGB_NONLINEAR_EXT = VkColorSpaceKHR(1000104014)
+        val DISPLAY_NATIVE_AMD = VkColorSpaceKHR(1000213000)
     }
-inline var VkSubmitInfo.waitDstStageMask: IntBuffer?
-    get() = VkSubmitInfo.npWaitDstStageMask(adr)
-    set(value) = VkSubmitInfo.npWaitDstStageMask(adr, value)
-@Deprecated("this will be set automatically")
-inline var VkSubmitInfo.commandBufferCount: Int
-    get() = VkSubmitInfo.ncommandBufferCount(adr)
-    set(value) = VkSubmitInfo.ncommandBufferCount(adr, value)
-inline var VkSubmitInfo.commandBuffers: PointerBuffer?
-    get() = VkSubmitInfo.npCommandBuffers(adr)
-    set(value) = VkSubmitInfo.npCommandBuffers(adr, value)
-/** JVM custom */
-inline var VkSubmitInfo.commandBuffer: VkCommandBuffer?
-    get() = null
-    set(value) {
-        val pCmdBuff = stackGet().nmalloc(Pointer.POINTER_SIZE, Pointer.POINTER_SIZE)
-        memPutAddress(pCmdBuff, value?.adr ?: NULL)
-        memPutAddress(adr + VkSubmitInfo.PCOMMANDBUFFERS, pCmdBuff)
-        VkSubmitInfo.ncommandBufferCount(adr, if (value == null) 0 else 1)
+}
+
+inline class VkPresentModeKHR(val i: Int) {
+    companion object {
+        val IMMEDIATE_KHR = VkPresentModeKHR(0)
+        val MAILBOX_KHR = VkPresentModeKHR(1)
+        val FIFO_KHR = VkPresentModeKHR(2)
+        val FIFO_RELAXED_KHR = VkPresentModeKHR(3)
+        val SHARED_DEMAND_REFRESH_KHR = VkPresentModeKHR(1000111000)
+        val SHARED_CONTINUOUS_REFRESH_KHR = VkPresentModeKHR(1000111001)
     }
-@Deprecated("this will be set automatically")
-inline var VkSubmitInfo.signalSemaphoreCount: Int
-    get() = VkSubmitInfo.nsignalSemaphoreCount(adr)
-    set(value) = VkSubmitInfo.nsignalSemaphoreCount(adr, value)
-
-inline var VkSubmitInfo.signalSemaphores: VkSemaphore_Buffer?
-    get() = VkSubmitInfo.npSignalSemaphores(adr)?.let(::VkSemaphore_Buffer)
-    set(value) = VkSubmitInfo.npSignalSemaphores(adr, value?.buffer)
-/** JVM custom */
-inline var VkSubmitInfo.signalSemaphore: VkSemaphore
-    get() = VkSemaphore(VkSubmitInfo.npSignalSemaphores(adr)?.get(0) ?: NULL)
-    set(value) {
-        val pSemaphore = stackGet().nmalloc(8, Long.BYTES)
-        memPutLong(pSemaphore, value.L)
-        memPutAddress(adr + VkSubmitInfo.PSIGNALSEMAPHORES, pSemaphore)
-        signalSemaphoreCount = if (value.isValid) 1 else 0
-    }
-
-inline var VkMemoryAllocateInfo.type: VkStructureType
-    get() = VkStructureType(VkMemoryAllocateInfo.nsType(adr))
-    set(value) = VkMemoryAllocateInfo.nsType(adr, value.i)
-inline var VkMemoryAllocateInfo.next: Ptr
-    get() = VkMemoryAllocateInfo.npNext(adr)
-    set(value) = VkMemoryAllocateInfo.npNext(adr, value)
-inline var VkMemoryAllocateInfo.allocationSize: VkDeviceSize
-    get() = VkDeviceSize(VkMemoryAllocateInfo.nallocationSize(adr))
-    set(value) = VkMemoryAllocateInfo.nallocationSize(adr, value.L)
-inline var VkMemoryAllocateInfo.memoryTypeIndex: Int
-    get() = VkMemoryAllocateInfo.nmemoryTypeIndex(adr)
-    set(value) = VkMemoryAllocateInfo.nmemoryTypeIndex(adr, value)
-
-
-inline var VkMappedMemoryRange.type: VkStructureType
-    get() = VkStructureType(VkMappedMemoryRange.nsType(adr))
-    set(value) = VkMappedMemoryRange.nsType(adr, value.i)
-inline var VkMappedMemoryRange.next: Ptr
-    get() = VkMappedMemoryRange.npNext(adr)
-    set(value) = VkMappedMemoryRange.npNext(adr, value)
-inline var VkMappedMemoryRange.memory: VkDeviceMemory
-    get() = VkDeviceMemory(VkMappedMemoryRange.nmemory(adr))
-    set(value) = VkMappedMemoryRange.nmemory(adr, value.L)
-inline var VkMappedMemoryRange.offset: VkDeviceSize
-    get() = VkDeviceSize(VkMappedMemoryRange.noffset(adr))
-    set(value) = VkMappedMemoryRange.noffset(adr, value.L)
-inline var VkMappedMemoryRange.size: VkDeviceSize
-    get() = VkDeviceSize(VkMappedMemoryRange.nsize(adr))
-    set(value) = VkMappedMemoryRange.nsize(adr, value.L)
-
-
-inline val VkMemoryRequirements.size: VkDeviceSize
-    get() = VkDeviceSize(VkMemoryRequirements.nsize(adr))
-inline val VkMemoryRequirements.alignment: VkDeviceSize
-    get() = VkDeviceSize(VkMemoryRequirements.nalignment(adr))
-inline val VkMemoryRequirements.memoryTypeBits: Int
-    get() = VkMemoryRequirements.nmemoryTypeBits(adr)
-
-
-inline val VkSparseImageFormatProperties.aspectMask: VkImageAspectFlags
-    get() = VkSparseImageFormatProperties.naspectMask(adr)
-inline val VkSparseImageFormatProperties.imageGranularity: VkExtent3D
-    get() = VkSparseImageFormatProperties.nimageGranularity(adr)
-inline val VkSparseImageFormatProperties.flags: VkSparseImageFormatFlags
-    get() = VkSparseImageFormatProperties.nflags(adr)
-
-
-inline var VkSparseMemoryBind.resourceOffset: VkDeviceSize
-    get() = VkDeviceSize(VkSparseMemoryBind.nresourceOffset(adr))
-    set(value) = VkSparseMemoryBind.nresourceOffset(adr, value.L)
-inline var VkSparseMemoryBind.size: VkDeviceSize
-    get() = VkDeviceSize(VkSparseMemoryBind.nsize(adr))
-    set(value) = VkSparseMemoryBind.nsize(adr, value.L)
-inline var VkSparseMemoryBind.memory: VkDeviceMemory
-    get() = VkDeviceMemory(VkSparseMemoryBind.nmemory(adr))
-    set(value) = VkSparseMemoryBind.nmemory(adr, value.L)
-inline var VkSparseMemoryBind.memoryOffset: VkDeviceSize
-    get() = VkDeviceSize(VkSparseMemoryBind.nmemoryOffset(adr))
-    set(value) = VkSparseMemoryBind.nmemoryOffset(adr, value.L)
-inline var VkSparseMemoryBind.flags: VkSparseMemoryBindFlags
-    get() = VkSparseMemoryBind.nflags(adr)
-    set(value) = VkSparseMemoryBind.nflags(adr, value)
-
-
-inline var VkSparseBufferMemoryBindInfo.buffer: VkBuffer
-    get() = VkBuffer(VkSparseBufferMemoryBindInfo.nbuffer(adr))
-    set(value) = VkSparseBufferMemoryBindInfo.nbuffer(adr, value.L)
-inline var VkSparseBufferMemoryBindInfo.bindCount: Int
-    get() = VkSparseBufferMemoryBindInfo.nbindCount(adr)
-    set(value) = VkSparseBufferMemoryBindInfo.nbindCount(adr, value)
-@Deprecated("this will be set automatically")
-inline var VkSparseBufferMemoryBindInfo.binds: VkSparseMemoryBind.Buffer
-    get() = VkSparseBufferMemoryBindInfo.npBinds(adr)
-    set(value) = VkSparseBufferMemoryBindInfo.npBinds(adr, value)
-
-
-inline var VkSparseImageOpaqueMemoryBindInfo.image: VkImage
-    get() = VkImage(VkSparseImageOpaqueMemoryBindInfo.nimage(adr))
-    set(value) = VkSparseImageOpaqueMemoryBindInfo.nimage(adr, value.L)
-@Deprecated("this will be set automatically")
-inline var VkSparseImageOpaqueMemoryBindInfo.bindCount: Int
-    get() = VkSparseImageOpaqueMemoryBindInfo.nbindCount(adr)
-    set(value) = VkSparseImageOpaqueMemoryBindInfo.nbindCount(adr, value)
-inline var VkSparseImageOpaqueMemoryBindInfo.binds: VkSparseMemoryBind.Buffer
-    get() = VkSparseImageOpaqueMemoryBindInfo.npBinds(adr)
-    set(value) = VkSparseImageOpaqueMemoryBindInfo.npBinds(adr, value)
-
-
-inline var VkImageSubresource.aspectMask: VkImageAspectFlags
-    get() = VkImageSubresource.naspectMask(adr)
-    set(value) = VkImageSubresource.naspectMask(adr, value.i)
-inline var VkImageSubresource.mipLevel: Int
-    get() = VkImageSubresource.nmipLevel(adr)
-    set(value) = VkImageSubresource.nmipLevel(adr, value)
-inline var VkImageSubresource.arrayLayer: Int
-    get() = VkImageSubresource.narrayLayer(adr)
-    set(value) = VkImageSubresource.narrayLayer(adr, value)
-
-
-inline var VkOffset3D.x: Int
-    get() = VkOffset3D.nx(adr)
-    set(value) = VkOffset3D.nx(adr, value)
-inline var VkOffset3D.y: Int
-    get() = VkOffset3D.ny(adr)
-    set(value) = VkOffset3D.ny(adr, value)
-inline var VkOffset3D.z: Int
-    get() = VkOffset3D.nz(adr)
-    set(value) = VkOffset3D.nz(adr, value)
-/** JVM custom */
-inline var VkOffset3D.v: Vec3i
-    get() = Vec3i(x, y, z)
-    set(value) {
-        x = value.x
-        y = value.y
-        z = value.z
-    }
-
-
-inline var VkSparseImageMemoryBind.subresource: VkImageSubresource
-    get() = VkSparseImageMemoryBind.nsubresource(adr)
-    set(value) = VkSparseImageMemoryBind.nsubresource(adr, value)
-inline var VkSparseImageMemoryBind.offset: VkOffset3D
-    get() = VkSparseImageMemoryBind.noffset(adr)
-    set(value) = VkSparseImageMemoryBind.noffset(adr, value)
-inline var VkSparseImageMemoryBind.extent: VkExtent3D
-    get() = VkSparseImageMemoryBind.nextent(adr)
-    set(value) = VkSparseImageMemoryBind.nextent(adr, value)
-inline var VkSparseImageMemoryBind.memory: VkDeviceMemory
-    get() = VkDeviceMemory(VkSparseImageMemoryBind.nmemory(adr))
-    set(value) = VkSparseImageMemoryBind.nmemory(adr, value.L)
-inline var VkSparseImageMemoryBind.memoryOffset: VkDeviceSize
-    get() = VkDeviceSize(VkSparseImageMemoryBind.nmemoryOffset(adr))
-    set(value) = VkSparseImageMemoryBind.nmemoryOffset(adr, value.L)
-inline var VkSparseImageMemoryBind.flags: VkSparseMemoryBindFlags
-    get() = VkSparseImageMemoryBind.nflags(adr)
-    set(value) = VkSparseImageMemoryBind.nflags(adr, value)
-
-
-inline var VkSparseImageMemoryBindInfo.image: VkImage
-    get() = VkImage(VkSparseImageMemoryBindInfo.nimage(adr))
-    set(value) = VkSparseImageMemoryBindInfo.nimage(adr, value.L)
-@Deprecated("this will be set automatically")
-inline var VkSparseImageMemoryBindInfo.bindCount: Int
-    get() = VkSparseImageMemoryBindInfo.nbindCount(adr)
-    set(value) = VkSparseImageMemoryBindInfo.nbindCount(adr, value)
-inline var VkSparseImageMemoryBindInfo.binds: VkSparseImageMemoryBind.Buffer
-    get() = VkSparseImageMemoryBindInfo.npBinds(adr)
-    set(value) = VkSparseImageMemoryBindInfo.npBinds(adr, value)
-
-
-inline var VkBindSparseInfo.type: VkStructureType
-    get() = VkStructureType(VkBindSparseInfo.nsType(adr))
-    set(value) = VkBindSparseInfo.nsType(adr, value.i)
-inline var VkBindSparseInfo.next: Ptr
-    get() = VkBindSparseInfo.npNext(adr)
-    set(value) = VkBindSparseInfo.npNext(adr, value)
-@Deprecated("this will be set automatically")
-inline var VkBindSparseInfo.waitSemaphoreCount: Int
-    get() = VkBindSparseInfo.nwaitSemaphoreCount(adr)
-    set(value) = VkBindSparseInfo.nwaitSemaphoreCount(adr, value)
-inline var VkBindSparseInfo.waitSemaphores: VkSemaphore_Buffer?
-    get() = VkBindSparseInfo.npWaitSemaphores(adr)?.let(::VkSemaphore_Buffer)
-    set(value) = VkBindSparseInfo.npWaitSemaphores(adr, value?.buffer)
-@Deprecated("this will be set automatically")
-inline var VkBindSparseInfo.bufferBindCount: Int
-    get() = VkBindSparseInfo.nbufferBindCount(adr)
-    set(value) = VkBindSparseInfo.nbufferBindCount(adr, value)
-inline var VkBindSparseInfo.bufferBinds: VkSparseBufferMemoryBindInfo.Buffer?
-    get() = VkBindSparseInfo.npBufferBinds(adr)
-    set(value) = VkBindSparseInfo.npBufferBinds(adr, value)
-@Deprecated("this will be set automatically")
-inline var VkBindSparseInfo.imageOpaqueBindCount: Int
-    get() = VkBindSparseInfo.nimageOpaqueBindCount(adr)
-    set(value) = VkBindSparseInfo.nimageOpaqueBindCount(adr, value)
-inline var VkBindSparseInfo.imageOpaqueBinds: VkSparseImageOpaqueMemoryBindInfo.Buffer?
-    get() = VkBindSparseInfo.npImageOpaqueBinds(adr)
-    set(value) = VkBindSparseInfo.npImageOpaqueBinds(adr, value)
-@Deprecated("this will be set automatically")
-inline var VkBindSparseInfo.imageBindCount: Int
-    get() = VkBindSparseInfo.nimageBindCount(adr)
-    set(value) = VkBindSparseInfo.nimageBindCount(adr, value)
-inline var VkBindSparseInfo.imageBinds: VkSparseImageMemoryBindInfo.Buffer?
-    get() = VkBindSparseInfo.npImageBinds(adr)
-    set(value) = VkBindSparseInfo.npImageBinds(adr, value)
-@Deprecated("this will be set automatically")
-inline var VkBindSparseInfo.signalSemaphoreCount: Int
-    get() = VkBindSparseInfo.nsignalSemaphoreCount(adr)
-    set(value) = VkBindSparseInfo.nsignalSemaphoreCount(adr, value)
-inline var VkBindSparseInfo.signalSemaphores: VkSemaphore_Buffer?
-    get() = VkBindSparseInfo.npSignalSemaphores(adr)?.let(::VkSemaphore_Buffer)
-    set(value) = VkBindSparseInfo.npSignalSemaphores(adr, value?.buffer)
-
-
-inline var VkFenceCreateInfo.type: VkStructureType
-    get() = VkStructureType(VkFenceCreateInfo.nsType(adr))
-    set(value) = VkFenceCreateInfo.nsType(adr, value.i)
-inline var VkFenceCreateInfo.next: Ptr
-    get() = VkFenceCreateInfo.npNext(adr)
-    set(value) = VkFenceCreateInfo.npNext(adr, value)
-inline var VkFenceCreateInfo.flags: VkFenceCreateFlags
-    get() = VkFenceCreateInfo.nflags(adr)
-    set(value) = VkFenceCreateInfo.nflags(adr, value)
-
-
-inline var VkSemaphoreCreateInfo.type: VkStructureType
-    get() = VkStructureType(VkSemaphoreCreateInfo.nsType(adr))
-    set(value) = VkSemaphoreCreateInfo.nsType(adr, value.i)
-inline var VkSemaphoreCreateInfo.next: Ptr
-    get() = VkSemaphoreCreateInfo.npNext(adr)
-    set(value) = VkSemaphoreCreateInfo.npNext(adr, value)
-inline var VkSemaphoreCreateInfo.flags: VkSemaphoreCreateFlags
-    get() = VkSemaphoreCreateInfo.nflags(adr)
-    set(value) = VkSemaphoreCreateInfo.nflags(adr, value)
-
-
-inline var VkEventCreateInfo.type: VkStructureType
-    get() = VkStructureType(VkEventCreateInfo.nsType(adr))
-    set(value) = VkEventCreateInfo.nsType(adr, value.i)
-inline var VkEventCreateInfo.next: Ptr
-    get() = VkEventCreateInfo.npNext(adr)
-    set(value) = VkEventCreateInfo.npNext(adr, value)
-inline var VkEventCreateInfo.flags: VkEventCreateFlags
-    get() = VkEventCreateInfo.nflags(adr)
-    set(value) = VkEventCreateInfo.nflags(adr, value)
-
-
-inline var VkQueryPoolCreateInfo.type: VkStructureType
-    get() = VkStructureType(VkQueryPoolCreateInfo.nsType(adr))
-    set(value) = VkQueryPoolCreateInfo.nsType(adr, value.i)
-inline var VkQueryPoolCreateInfo.next: Ptr
-    get() = VkQueryPoolCreateInfo.npNext(adr)
-    set(value) = VkQueryPoolCreateInfo.npNext(adr, value)
-inline var VkQueryPoolCreateInfo.flags: VkQueryPoolCreateFlags
-    get() = VkQueryPoolCreateInfo.nflags(adr)
-    set(value) = VkQueryPoolCreateInfo.nflags(adr, value)
-inline var VkQueryPoolCreateInfo.queryType: VkQueryType
-    get() = VkQueryType(VkQueryPoolCreateInfo.nqueryType(adr))
-    set(value) = VkQueryPoolCreateInfo.nqueryType(adr, value.i)
-inline var VkQueryPoolCreateInfo.queryCount: Int
-    get() = VkQueryPoolCreateInfo.nqueryCount(adr)
-    set(value) = VkQueryPoolCreateInfo.nqueryCount(adr, value)
-inline var VkQueryPoolCreateInfo.pipelineStatistics: VkQueryPipelineStatisticFlags
-    get() = VkQueryPoolCreateInfo.npipelineStatistics(adr)
-    set(value) = VkQueryPoolCreateInfo.npipelineStatistics(adr, value)
-
-
-inline var VkBufferCreateInfo.type: VkStructureType
-    get() = VkStructureType(VkBufferCreateInfo.nsType(adr))
-    set(value) = VkBufferCreateInfo.nsType(adr, value.i)
-inline var VkBufferCreateInfo.next: Ptr
-    get() = VkBufferCreateInfo.npNext(adr)
-    set(value) = VkBufferCreateInfo.npNext(adr, value)
-/** JVM custom */
-inline var VkBufferCreateInfo.flag: VkBufferCreate
-    get() = throw Exception("invalid")
-    set(value) = VkBufferCreateInfo.nflags(adr, value.i)
-inline var VkBufferCreateInfo.flags: VkBufferCreateFlags
-    get() = VkBufferCreateInfo.nflags(adr)
-    set(value) = VkBufferCreateInfo.nflags(adr, value)
-inline var VkBufferCreateInfo.size: VkDeviceSize
-    get() = VkDeviceSize(VkBufferCreateInfo.nsize(adr))
-    set(value) = VkBufferCreateInfo.nsize(adr, value.L)
-inline var VkBufferCreateInfo.usage: VkBufferUsageFlags
-    get() = VkBufferCreateInfo.nusage(adr)
-    set(value) = VkBufferCreateInfo.nusage(adr, value)
-inline var VkBufferCreateInfo.sharingMode: VkSharingMode
-    get() = VkSharingMode(VkBufferCreateInfo.nsharingMode(adr))
-    set(value) = VkBufferCreateInfo.nsharingMode(adr, value.i)
-inline var VkBufferCreateInfo.queueFamilyIndexCount: Int
-    get() = VkBufferCreateInfo.nqueueFamilyIndexCount(adr)
-    set(value) = VkBufferCreateInfo.nqueueFamilyIndexCount(adr, value)
-inline var VkBufferCreateInfo.queueFamilyIndices: IntBuffer?
-    get() = VkBufferCreateInfo.npQueueFamilyIndices(adr)
-    set(value) = VkBufferCreateInfo.npQueueFamilyIndices(adr, value)
-
-
-inline var VkBufferViewCreateInfo.type: VkStructureType
-    get() = VkStructureType(VkBufferViewCreateInfo.nsType(adr))
-    set(value) = VkBufferViewCreateInfo.nsType(adr, value.i)
-inline var VkBufferViewCreateInfo.next: Ptr
-    get() = VkBufferViewCreateInfo.npNext(adr)
-    set(value) = VkBufferViewCreateInfo.npNext(adr, value)
-inline var VkBufferViewCreateInfo.flags: VkBufferViewCreateFlags
-    get() = VkBufferViewCreateInfo.nflags(adr)
-    set(value) = VkBufferViewCreateInfo.nflags(adr, value)
-inline var VkBufferViewCreateInfo.buffer: VkBuffer
-    get() = VkBuffer(VkBufferViewCreateInfo.nbuffer(adr))
-    set(value) = VkBufferViewCreateInfo.nbuffer(adr, value.L)
-inline var VkBufferViewCreateInfo.format: VkFormat
-    get() = VkFormat(VkBufferViewCreateInfo.nformat(adr))
-    set(value) = VkBufferViewCreateInfo.nformat(adr, value.i)
-inline var VkBufferViewCreateInfo.offset: VkDeviceSize
-    get() = VkDeviceSize(VkBufferViewCreateInfo.noffset(adr))
-    set(value) = VkBufferViewCreateInfo.noffset(adr, value.L)
-inline var VkBufferViewCreateInfo.range: VkDeviceSize
-    get() = VkDeviceSize(VkBufferViewCreateInfo.nrange(adr))
-    set(value) = VkBufferViewCreateInfo.nrange(adr, value.L)
-
-
-inline var VkImageCreateInfo.type: VkStructureType
-    get() = VkStructureType(VkImageCreateInfo.nsType(adr))
-    set(value) = VkImageCreateInfo.nsType(adr, value.i)
-inline var VkImageCreateInfo.next: Ptr
-    get() = VkImageCreateInfo.npNext(adr)
-    set(value) = VkImageCreateInfo.npNext(adr, value)
-/** JVM custom */
-inline var VkImageCreateInfo.flag: VkImageCreate
-    get() = throw Exception("Invalid")
-    set(value) = VkImageCreateInfo.nflags(adr, value.i)
-inline var VkImageCreateInfo.flags: VkImageCreateFlags
-    get() = VkImageCreateFlags(VkImageCreateInfo.nflags(adr))
-    set(value) = VkImageCreateInfo.nflags(adr, value.i)
-inline var VkImageCreateInfo.imageType: VkImageType
-    get() = VkImageType(VkImageCreateInfo.nimageType(adr))
-    set(value) = VkImageCreateInfo.nimageType(adr, value.i)
-inline var VkImageCreateInfo.format: VkFormat
-    get() = VkFormat(VkImageCreateInfo.nformat(adr))
-    set(value) = VkImageCreateInfo.nformat(adr, value.i)
-inline var VkImageCreateInfo.extent: VkExtent3D
-    get() = VkImageCreateInfo.nextent(adr)
-    set(value) = VkImageCreateInfo.nextent(adr, value)
-
-/** JVM custom */
-fun VkImageCreateInfo.extent(extent: Vec3i) = this.extent.set(extent.x, extent.y, extent.z)
-
-/** JVM custom */
-fun VkImageCreateInfo.extent(extent: Vec2i, depth: Int) = this.extent.set(extent.x, extent.y, depth)
-
-inline var VkImageCreateInfo.mipLevels: Int
-    get() = VkImageCreateInfo.nmipLevels(adr)
-    set(value) = VkImageCreateInfo.nmipLevels(adr, value)
-inline var VkImageCreateInfo.arrayLayers: Int
-    get() = VkImageCreateInfo.narrayLayers(adr)
-    set(value) = VkImageCreateInfo.narrayLayers(adr, value)
-inline var VkImageCreateInfo.samples: VkSampleCount
-    get() = VkSampleCount(VkSampleCountFlags(VkImageCreateInfo.nsamples(adr)))
-    set(value) = VkImageCreateInfo.nsamples(adr, value.i)
-inline var VkImageCreateInfo.tiling: VkImageTiling
-    get() = VkImageTiling(VkImageCreateInfo.ntiling(adr))
-    set(value) = VkImageCreateInfo.ntiling(adr, value.i)
-inline var VkImageCreateInfo.usage: VkImageUsageFlags
-    get() = VkImageUsageFlags(VkImageCreateInfo.nusage(adr))
-    set(value) = VkImageCreateInfo.nusage(adr, value.i)
-inline var VkImageCreateInfo.sharingMode: VkSharingMode
-    get() = VkSharingMode(VkImageCreateInfo.nsharingMode(adr))
-    set(value) = VkImageCreateInfo.nsharingMode(adr, value.i)
-@Deprecated("this will be set automatically")
-inline var VkImageCreateInfo.queueFamilyIndexCount: Int
-    get() = VkImageCreateInfo.nqueueFamilyIndexCount(adr)
-    set(value) = VkImageCreateInfo.nqueueFamilyIndexCount(adr, value)
-inline var VkImageCreateInfo.queueFamilyIndices: IntBuffer?
-    get() = VkImageCreateInfo.npQueueFamilyIndices(adr)
-    set(value) = VkImageCreateInfo.npQueueFamilyIndices(adr, value)
-inline var VkImageCreateInfo.initialLayout: VkImageLayout
-    get() = VkImageLayout(VkImageCreateInfo.ninitialLayout(adr))
-    set(value) = VkImageCreateInfo.ninitialLayout(adr, value.i)
-
-
-inline val VkSubresourceLayout.offset: VkDeviceSize
-    get() = VkDeviceSize(VkSubresourceLayout.noffset(adr))
-inline val VkSubresourceLayout.size: VkDeviceSize
-    get() = VkDeviceSize(VkSubresourceLayout.nsize(adr))
-inline val VkSubresourceLayout.rowPitch: VkDeviceSize
-    get() = VkDeviceSize(VkSubresourceLayout.nrowPitch(adr))
-inline val VkSubresourceLayout.arrayPitch: VkDeviceSize
-    get() = VkDeviceSize(VkSubresourceLayout.narrayPitch(adr))
-inline val VkSubresourceLayout.depthPitch: VkDeviceSize
-    get() = VkDeviceSize(VkSubresourceLayout.ndepthPitch(adr))
-
-
-inline var VkComponentMapping.r: VkComponentSwizzle
-    get() = VkComponentSwizzle(VkComponentMapping.nr(adr))
-    set(value) = VkComponentMapping.nr(adr, value.i)
-inline var VkComponentMapping.g: VkComponentSwizzle
-    get() = VkComponentSwizzle(VkComponentMapping.ng(adr))
-    set(value) = VkComponentMapping.ng(adr, value.i)
-inline var VkComponentMapping.b: VkComponentSwizzle
-    get() = VkComponentSwizzle(VkComponentMapping.nb(adr))
-    set(value) = VkComponentMapping.nb(adr, value.i)
-inline var VkComponentMapping.a: VkComponentSwizzle
-    get() = VkComponentSwizzle(VkComponentMapping.na(adr))
-    set(value) = VkComponentMapping.na(adr, value.i)
-
-/** JVM custom */
-operator fun VkComponentMapping.invoke(r: VkComponentSwizzle, g: VkComponentSwizzle, b: VkComponentSwizzle, a: VkComponentSwizzle) {
-    this.r = r
-    this.g = g
-    this.b = b
-    this.a = a
 }
 
 
-inline var VkImageSubresourceRange.aspectMask: VkImageAspectFlags
-    get() = VkImageSubresourceRange.naspectMask(adr)
-    set(value) = VkImageSubresourceRange.naspectMask(adr, value)
-inline var VkImageSubresourceRange.baseMipLevel: Int
-    get() = VkImageSubresourceRange.nbaseMipLevel(adr)
-    set(value) = VkImageSubresourceRange.nbaseMipLevel(adr, value)
-inline var VkImageSubresourceRange.levelCount: Int
-    get() = VkImageSubresourceRange.nlevelCount(adr)
-    set(value) = VkImageSubresourceRange.nlevelCount(adr, value)
-inline var VkImageSubresourceRange.baseArrayLayer: Int
-    get() = VkImageSubresourceRange.nbaseArrayLayer(adr)
-    set(value) = VkImageSubresourceRange.nbaseArrayLayer(adr, value)
-inline var VkImageSubresourceRange.layerCount: Int
-    get() = VkImageSubresourceRange.nlayerCount(adr)
-    set(value) = VkImageSubresourceRange.nlayerCount(adr, value)
-
-
-inline var VkImageViewCreateInfo.type: VkStructureType
-    get() = VkStructureType(VkImageViewCreateInfo.nsType(adr))
-    set(value) = VkImageViewCreateInfo.nsType(adr, value.i)
-inline var VkImageViewCreateInfo.next: Ptr
-    get() = VkImageViewCreateInfo.npNext(adr)
-    set(value) = VkImageViewCreateInfo.npNext(adr, value)
-inline var VkImageViewCreateInfo.flags: VkImageViewCreateFlags
-    get() = VkImageViewCreateInfo.nflags(adr)
-    set(value) = VkImageViewCreateInfo.nflags(adr, value)
-inline var VkImageViewCreateInfo.image: VkImage
-    get() = VkImage(VkImageViewCreateInfo.nimage(adr))
-    set(value) = VkImageViewCreateInfo.nimage(adr, value.L)
-inline var VkImageViewCreateInfo.viewType: VkImageViewType
-    get() = VkImageViewType(VkImageViewCreateInfo.nviewType(adr))
-    set(value) = VkImageViewCreateInfo.nviewType(adr, value.i)
-inline var VkImageViewCreateInfo.format: VkFormat
-    get() = VkFormat(VkImageViewCreateInfo.nformat(adr))
-    set(value) = VkImageViewCreateInfo.nformat(adr, value.i)
-inline var VkImageViewCreateInfo.components: VkComponentMapping
-    get() = VkImageViewCreateInfo.ncomponents(adr)
-    set(value) = VkImageViewCreateInfo.ncomponents(adr, value)
-inline var VkImageViewCreateInfo.subresourceRange: VkImageSubresourceRange
-    get() = VkImageViewCreateInfo.nsubresourceRange(adr)
-    set(value) = VkImageViewCreateInfo.nsubresourceRange(adr, value)
-
-
-inline var VkShaderModuleCreateInfo.type: VkStructureType
-    get() = VkStructureType(VkShaderModuleCreateInfo.nsType(adr))
-    set(value) = VkShaderModuleCreateInfo.nsType(adr, value.i)
-inline var VkShaderModuleCreateInfo.next: Ptr
-    get() = VkShaderModuleCreateInfo.npNext(adr)
-    set(value) = VkShaderModuleCreateInfo.npNext(adr, value)
-inline var VkShaderModuleCreateInfo.flags: VkShaderModuleCreateFlags
-    get() = VkShaderModuleCreateInfo.nflags(adr)
-    set(value) = VkShaderModuleCreateInfo.nflags(adr, value)
-@Deprecated("this will be set automatically")
-inline var VkShaderModuleCreateInfo.codeSize: Long
-    get() = VkShaderModuleCreateInfo.ncodeSize(adr)
-    set(value) = VkShaderModuleCreateInfo.ncodeSize(adr, value)
-inline var VkShaderModuleCreateInfo.code: ByteBuffer
-    get() = VkShaderModuleCreateInfo.npCode(adr)
-    set(value) = VkShaderModuleCreateInfo.npCode(adr, value)
-
-
-inline var VkPipelineCacheCreateInfo.type: VkStructureType
-    get() = VkStructureType(VkPipelineCacheCreateInfo.nsType(adr))
-    set(value) = VkPipelineCacheCreateInfo.nsType(adr, value.i)
-inline var VkPipelineCacheCreateInfo.next: Ptr
-    get() = VkPipelineCacheCreateInfo.npNext(adr)
-    set(value) = VkPipelineCacheCreateInfo.npNext(adr, value)
-inline var VkPipelineCacheCreateInfo.flags: VkPipelineCacheCreateFlags
-    get() = VkPipelineCacheCreateInfo.nflags(adr)
-    set(value) = VkPipelineCacheCreateInfo.nflags(adr, value)
-@Deprecated("this will be set automatically")
-inline var VkPipelineCacheCreateInfo.initialDataSize: Long
-    get() = VkPipelineCacheCreateInfo.ninitialDataSize(adr)
-    set(value) = VkPipelineCacheCreateInfo.ninitialDataSize(adr, value)
-inline var VkPipelineCacheCreateInfo.initialData: ByteBuffer?
-    get() = VkPipelineCacheCreateInfo.npInitialData(adr)
-    set(value) = VkPipelineCacheCreateInfo.npInitialData(adr, value)
-
-
-inline var VkSpecializationMapEntry.constantId: Int
-    get() = VkSpecializationMapEntry.nconstantID(adr)
-    set(value) = VkSpecializationMapEntry.nconstantID(adr, value)
-inline var VkSpecializationMapEntry.offset: Int
-    get() = VkSpecializationMapEntry.noffset(adr)
-    set(value) = VkSpecializationMapEntry.noffset(adr, value)
-inline var VkSpecializationMapEntry.size: Long
-    get() = VkSpecializationMapEntry.nsize(adr)
-    set(value) = VkSpecializationMapEntry.nsize(adr, value)
-
-
-@Deprecated("this will be set automatically")
-inline var VkSpecializationInfo.mapEntryCount: Int
-    get() = VkSpecializationInfo.nmapEntryCount(adr)
-    set(value) = VkSpecializationInfo.nmapEntryCount(adr, value)
-inline var VkSpecializationInfo.mapEntries: VkSpecializationMapEntry.Buffer?
-    get() = VkSpecializationInfo.npMapEntries(adr)
-    set(value) = VkSpecializationInfo.npMapEntries(adr, value)
-/** JVM custom */
-inline var VkSpecializationInfo.mapEntry: VkSpecializationMapEntry?
-    get() = VkSpecializationInfo.npMapEntries(adr)?.get(0)
-    set(value) {
-        memPutAddress(adr + VkSpecializationInfo.PMAPENTRIES, memAddressSafe(value))
-        mapEntryCount = 1
+inline class VkSurfaceTransformKHR(val i: Int) {
+    companion object {
+        val IDENTITY_BIT_KHR = VkSurfaceTransformKHR(0x00000001)
+        val ROTATE_90_BIT_KHR = VkSurfaceTransformKHR(0x00000002)
+        val ROTATE_180_BIT_KHR = VkSurfaceTransformKHR(0x00000004)
+        val ROTATE_270_BIT_KHR = VkSurfaceTransformKHR(0x00000008)
+        val HORIZONTAL_MIRROR_BIT_KHR = VkSurfaceTransformKHR(0x00000010)
+        val HORIZONTAL_MIRROR_ROTATE_90_BIT_KHR = VkSurfaceTransformKHR(0x00000020)
+        val HORIZONTAL_MIRROR_ROTATE_180_BIT_KHR = VkSurfaceTransformKHR(0x00000040)
+        val HORIZONTAL_MIRROR_ROTATE_270_BIT_KHR = VkSurfaceTransformKHR(0x00000080)
+        val INHERIT_BIT_KHR = VkSurfaceTransformKHR(0x00000100)
     }
-@Deprecated("this will be set automatically")
-inline var VkSpecializationInfo.dataSize: Long
-    get() = VkSpecializationInfo.ndataSize(adr)
-    set(value) = VkSpecializationInfo.ndataSize(adr, value)
-inline var VkSpecializationInfo.data: ByteBuffer?
-    get() = VkSpecializationInfo.npData(adr)
-    set(value) = VkSpecializationInfo.npData(adr, value)
+}
+
+infix fun Int.has(f: VkSurfaceTransformKHR) = and(f.i) != 0
+
+typealias VkSurfaceTransformFlagsKHR = VkFlags
+
+inline class VkCompositeAlphaKHR(val i: Int) {
+    companion object {
+        val OPAQUE_BIT_KHR = VkCompositeAlphaKHR(0x00000001)
+        val PRE_MULTIPLIED_BIT_KHR = VkCompositeAlphaKHR(0x00000002)
+        val POST_MULTIPLIED_BIT_KHR = VkCompositeAlphaKHR(0x00000004)
+        val INHERIT_BIT_KHR = VkCompositeAlphaKHR(0x00000008)
+    }
+}
+
+infix fun Int.has(f: VkCompositeAlphaKHR) = and(f.i) != 0
+
+typealias VkCompositeAlphaFlagsKHR = VkFlags
+
+// ...
+
+inline class VkSwapchainCreateKHR(val i: Int) {
+    companion object {
+        val SPLIT_INSTANCE_BIND_REGIONS_BIT_KHR = VkSwapchainCreateKHR(0x00000001)
+        val PROTECTED_BIT_KHR = VkSwapchainCreateKHR(0x00000002)
+        val MUTABLE_FORMAT_BIT_KHR = VkSwapchainCreateKHR(0x00000004)
+    }
+}
+
+typealias VkSwapchainCreateFlagsKHR = VkFlags
+
+
+inline class VkDeviceGroupPresentModeKHR(val i: Int) {
+    companion object {
+        val LOCAL_BIT_KHR = VkDeviceGroupPresentModeKHR(0x00000001)
+        val REMOTE_BIT_KHR = VkDeviceGroupPresentModeKHR(0x00000002)
+        val SUM_BIT_KHR = VkDeviceGroupPresentModeKHR(0x00000004)
+        val LOCAL_MULTI_DEVICE_BIT_KHR = VkDeviceGroupPresentModeKHR(0x00000008)
+    }
+}
+
+typealias VkDeviceGroupPresentModeFlagsKHR = VkFlags
+
+// ..
+
+inline class VkDisplayPlaneAlphaKHR(val i: Int) {
+
+    companion object {
+        val OPAQUE_BIT_KHR = VkDisplayPlaneAlphaKHR(0x00000001)
+        val GLOBAL_BIT_KHR = VkDisplayPlaneAlphaKHR(0x00000002)
+        val PER_PIXEL_BIT_KHR = VkDisplayPlaneAlphaKHR(0x00000004)
+        val PER_PIXEL_PREMULTIPLIED_BIT_KHR = VkDisplayPlaneAlphaKHR(0x00000008)
+    }
+}
+
+typealias VkDisplayPlaneAlphaFlagsKHR = VkFlags
+typealias VkDisplayModeCreateFlagsKHR = VkFlags
+typealias VkDisplaySurfaceCreateFlagsKHR = VkFlags
+
+// ..
+
+inline class VkDriverIdKHR(val i: Int) {
+    companion object {
+        val AMD_PROPRIETARY_KHR = VkDriverIdKHR(1)
+        val AMD_OPEN_SOURCE_KHR = VkDriverIdKHR(2)
+        val MESA_RADV_KHR = VkDriverIdKHR(3)
+        val NVIDIA_PROPRIETARY_KHR = VkDriverIdKHR(4)
+        val INTEL_PROPRIETARY_WINDOWS_KHR = VkDriverIdKHR(5)
+        val INTEL_OPEN_SOURCE_MESA_KHR = VkDriverIdKHR(6)
+        val IMAGINATION_PROPRIETARY_KHR = VkDriverIdKHR(7)
+        val QUALCOMM_PROPRIETARY_KHR = VkDriverIdKHR(8)
+        val ARM_PROPRIETARY_KHR = VkDriverIdKHR(9)
+        val GOOGLE_PASTEL_KHR = VkDriverIdKHR(10)
+        val GGP_PROPRIETARY_KHR = VkDriverIdKHR(11)
+    }
+}
+
+// ..
+
+inline class VkResolveModeKHR(val i: Int) {
+    companion object {
+        val NONE_KHR = VkResolveModeKHR(0)
+        val SAMPLE_ZERO_BIT_KHR = VkResolveModeKHR(0x00000001)
+        val AVERAGE_BIT_KHR = VkResolveModeKHR(0x00000002)
+        val MIN_BIT_KHR = VkResolveModeKHR(0x00000004)
+        val MAX_BIT_KHR = VkResolveModeKHR(0x00000008)
+    }
+}
+
+typealias VkResolveModeFlagsKHR = VkFlags
+
+// ..
+
+
+inline class VkDebugReportObjectTypeEXT(val i: Int) {
+    companion object {
+        val UNKNOWN = VkDebugReportObjectTypeEXT(0)
+        val INSTANCE = VkDebugReportObjectTypeEXT(1)
+        val PHYSICAL_DEVICE = VkDebugReportObjectTypeEXT(2)
+        val DEVICE = VkDebugReportObjectTypeEXT(3)
+        val QUEUE = VkDebugReportObjectTypeEXT(4)
+        val SEMAPHORE = VkDebugReportObjectTypeEXT(5)
+        val COMMAND_BUFFER = VkDebugReportObjectTypeEXT(6)
+        val FENCE = VkDebugReportObjectTypeEXT(7)
+        val DEVICE_MEMORY = VkDebugReportObjectTypeEXT(8)
+        val BUFFER = VkDebugReportObjectTypeEXT(9)
+        val IMAGE = VkDebugReportObjectTypeEXT(10)
+        val EVENT = VkDebugReportObjectTypeEXT(11)
+        val QUERY_POOL = VkDebugReportObjectTypeEXT(12)
+        val BUFFER_VIEW = VkDebugReportObjectTypeEXT(13)
+        val IMAGE_VIEW = VkDebugReportObjectTypeEXT(14)
+        val SHADER_MODULE = VkDebugReportObjectTypeEXT(15)
+        val PIPELINE_CACHE = VkDebugReportObjectTypeEXT(16)
+        val PIPELINE_LAYOUT = VkDebugReportObjectTypeEXT(17)
+        val RENDER_PASS = VkDebugReportObjectTypeEXT(18)
+        val PIPELINE = VkDebugReportObjectTypeEXT(19)
+        val DESCRIPTOR_SET_LAYOUT = VkDebugReportObjectTypeEXT(20)
+        val SAMPLER = VkDebugReportObjectTypeEXT(21)
+        val DESCRIPTOR_POOL = VkDebugReportObjectTypeEXT(22)
+        val DESCRIPTOR_SET = VkDebugReportObjectTypeEXT(23)
+        val FRAMEBUFFER = VkDebugReportObjectTypeEXT(24)
+        val COMMAND_POOL = VkDebugReportObjectTypeEXT(25)
+        val SURFACE_KHR = VkDebugReportObjectTypeEXT(26)
+        val SWAPCHAIN_KHR = VkDebugReportObjectTypeEXT(27)
+        val DEBUG_REPORT_CALLBACK_EXT = VkDebugReportObjectTypeEXT(28)
+        val DISPLAY_KHR = VkDebugReportObjectTypeEXT(29)
+        val DISPLAY_MODE_KHR = VkDebugReportObjectTypeEXT(30)
+        val OBJECT_TABLE_NVX = VkDebugReportObjectTypeEXT(31)
+        val INDIRECT_COMMANDS_LAYOUT_NVX = VkDebugReportObjectTypeEXT(32)
+        val VALIDATION_CACHE_EXT = VkDebugReportObjectTypeEXT(33)
+        val SAMPLER_YCBCR_CONVERSION = VkDebugReportObjectTypeEXT(1000156000)
+        val DESCRIPTOR_UPDATE_TEMPLATE = VkDebugReportObjectTypeEXT(1000085000)
+        val ACCELERATION_STRUCTURE_NV = VkDebugReportObjectTypeEXT(1000156000)
+        val DEBUG_REPORT = VkDebugReportObjectTypeEXT.DEBUG_REPORT_CALLBACK_EXT
+        val VALIDATION_CACHE = VkDebugReportObjectTypeEXT.VALIDATION_CACHE_EXT
+        val DEBUG_REPORT_OBJECT_TYPE_DESCRIPTOR_UPDATE_TEMPLATE_KHR = VkDebugReportObjectTypeEXT.DESCRIPTOR_UPDATE_TEMPLATE
+        val SAMPLER_YCBCR_CONVERSION_KHR = VkDebugReportObjectTypeEXT.SAMPLER_YCBCR_CONVERSION
+    }
+}
+
+
+inline class VkDebugReport(val i: Int) {
+    companion object {
+        val INFORMATION_BIT_EXT = VkDebugReport(0x00000001)
+        val WARNING_BIT_EXT = VkDebugReport(0x00000002)
+        val PERFORMANCE_WARNING_BIT_EXT = VkDebugReport(0x00000004)
+        val ERROR_BIT_EXT = VkDebugReport(0x00000008)
+        val DEBUG_BIT_EXT = VkDebugReport(0x00000010)
+    }
+
+    infix fun or(other: VkDebugReport) = i or other.i
+}
+
+infix fun Int.has(f: VkDebugReport) = and(f.i) != 0
+infix fun Int.or(f: VkDebugReport): VkDebugReportFlagsEXT = or(f.i)
+infix fun Int.and(f: VkDebugReport): VkDebugReportFlagsEXT = and(f.i)
+
+typealias VkDebugReportFlagsEXT = VkFlags
+
+// ..
+
+typealias VkPipelineRasterizationStateStreamCreateFlagsEXT = VkFlags
+
+// ..
+
+inline class VkShaderInfoTypeAMD(val i: Int) {
+    companion object {
+        val STATISTICS_AMD = VkShaderInfoTypeAMD(0)
+        val BINARY_AMD = VkShaderInfoTypeAMD(1)
+        val DISASSEMBLY_AMD = VkShaderInfoTypeAMD(2)
+    }
+}
+
+// ..
+
+
+inline class VkValidationCheckEXT(val i: Int) {
+    companion object {
+        val ALL_EXT = VkValidationCheckEXT(0)
+        val SHADERS_EXT = VkValidationCheckEXT(1)
+    }
+}
+
+// ..
+
+
+inline class VkConditionalRenderingEXT(val i: Int) {
+    companion object {
+        val INVERTED_BIT_EXT = VkConditionalRenderingEXT(0x00000001)
+    }
+}
+
+typealias VkConditionalRenderingFlagsEXT = VkFlags
+
+// ..
+
+
+inline class VkIndirectCommandsTokenTypeNVX(val i: Int) {
+    companion object {
+        val PIPELINE_NVX = VkIndirectCommandsTokenTypeNVX(0)
+        val DESCRIPTOR_SET_NVX = VkIndirectCommandsTokenTypeNVX(1)
+        val INDEX_BUFFER_NVX = VkIndirectCommandsTokenTypeNVX(2)
+        val VERTEX_BUFFER_NVX = VkIndirectCommandsTokenTypeNVX(3)
+        val PUSH_CONSTANT_NVX = VkIndirectCommandsTokenTypeNVX(4)
+        val DRAW_INDEXED_NVX = VkIndirectCommandsTokenTypeNVX(5)
+        val DRAW_NVX = VkIndirectCommandsTokenTypeNVX(6)
+        val DISPATCH_NVX = VkIndirectCommandsTokenTypeNVX(7)
+    }
+}
+
+inline class VkObjectEntryTypeNVX(val i: Int) {
+    companion object {
+        val DESCRIPTOR_SET_NVX = VkObjectEntryTypeNVX(0)
+        val PIPELINE_NVX = VkObjectEntryTypeNVX(1)
+        val INDEX_BUFFER_NVX = VkObjectEntryTypeNVX(2)
+        val VERTEX_BUFFER_NVX = VkObjectEntryTypeNVX(3)
+        val PUSH_CONSTANT_NVX = VkObjectEntryTypeNVX(4)
+    }
+}
+
+
+inline class VkIndirectCommandsLayoutUsageNVX(val i: Int) {
+    companion object {
+        val UNORDERED_SEQUENCES_BIT_NVX = VkIndirectCommandsLayoutUsageNVX(0x00000001)
+        val SPARSE_SEQUENCES_BIT_NVX = VkIndirectCommandsLayoutUsageNVX(0x00000002)
+        val EMPTY_EXECUTIONS_BIT_NVX = VkIndirectCommandsLayoutUsageNVX(0x00000004)
+        val INDEXED_SEQUENCES_BIT_NVX = VkIndirectCommandsLayoutUsageNVX(0x00000008)
+    }
+}
+
+typealias VkIndirectCommandsLayoutUsageFlagsNVX = VkFlags
+
+
+inline class VkObjectEntryUsageNVX(val i: Int) {
+    companion object {
+        val GRAPHICS_BIT_NVX = VkObjectEntryUsageNVX(0x00000001)
+        val COMPUTE_BIT_NVX = VkObjectEntryUsageNVX(0x00000002)
+    }
+}
+
+typealias VkObjectEntryUsageFlagsNVX = VkFlags
+
+// ..
+
+
+inline class VkSurfaceCounterEXT(val i: Int) {
+    companion object {
+        val VBLANK_EXT = VkSurfaceCounterEXT(0x00000001)
+    }
+}
+
+typealias VkSurfaceCounterFlagsEXT = VkFlags
+
+// ..
+
+inline class VkViewportCoordinateSwizzleNV(val i: Int) {
+    companion object {
+        val POSITIVE_X_NV = VkViewportCoordinateSwizzleNV(0)
+        val NEGATIVE_X_NV = VkViewportCoordinateSwizzleNV(1)
+        val POSITIVE_Y_NV = VkViewportCoordinateSwizzleNV(2)
+        val NEGATIVE_Y_NV = VkViewportCoordinateSwizzleNV(3)
+        val POSITIVE_Z_NV = VkViewportCoordinateSwizzleNV(4)
+        val NEGATIVE_Z_NV = VkViewportCoordinateSwizzleNV(5)
+        val POSITIVE_W_NV = VkViewportCoordinateSwizzleNV(6)
+        val NEGATIVE_W_NV = VkViewportCoordinateSwizzleNV(7)
+    }
+}
+
+typealias VkPipelineViewportSwizzleStateCreateFlagsNV = VkFlags
+
+// ..
+
+inline class VkDiscardRectangleModeEXT(val i: Int) {
+    companion object {
+        val INCLUSIVE_EXT = VkDiscardRectangleModeEXT(0)
+        val EXCLUSIVE_EXT = VkDiscardRectangleModeEXT(1)
+    }
+}
+
+typealias VkPipelineDiscardRectangleStateCreateFlagsEXT = VkFlags
+
+// ..
+
+inline class VkConservativeRasterizationModeEXT(val i: Int) {
+    companion object {
+        val DISABLED_EXT = VkConservativeRasterizationModeEXT(0)
+        val OVERESTIMATE_EXT = VkConservativeRasterizationModeEXT(1)
+        val UNDERESTIMATE_EXT = VkConservativeRasterizationModeEXT(2)
+    }
+}
+
+typealias VkPipelineRasterizationConservativeStateCreateFlagsEXT = VkFlags
+
+// ..
+
+typealias VkPipelineRasterizationDepthClipStateCreateFlagsEXT = VkFlags
+
+// ..
+
+typealias VkDebugUtilsMessengerCallbackDataFlagsEXT = VkFlags
+typealias VkDebugUtilsMessengerCreateFlagsEXT = VkFlags
+
+inline class VkDebugUtilsMessageSeverityEXT(val i: Int) {
+    companion object {
+        val VERBOSE_BIT_EXT = VkDebugUtilsMessageSeverityEXT(0x00000001)
+        val INFO_BIT_EXT = VkDebugUtilsMessageSeverityEXT(0x00000010)
+        val WARNING_BIT_EXT = VkDebugUtilsMessageSeverityEXT(0x00000100)
+        val ERROR_BIT_EXT = VkDebugUtilsMessageSeverityEXT(0x00001000)
+    }
+}
+typealias VkDebugUtilsMessageSeverityFlagsEXT = VkFlags
+
+inline class VkDebugUtilsMessageTypeEXT(val i: Int) {
+    companion object {
+        val GENERAL_BIT_EXT = VkDebugUtilsMessageTypeEXT(0x00000001)
+        val VALIDATION_BIT_EXT = VkDebugUtilsMessageTypeEXT(0x00000002)
+        val PERFORMANCE_BIT_EXT = VkDebugUtilsMessageTypeEXT(0x00000004)
+    }
+}
+typealias VkDebugUtilsMessageTypeFlagsEXT = VkFlags
+
+// ..
+
+inline class VkSamplerReductionModeEXT(val i: Int) {
+    companion object {
+        val WEIGHTED_AVERAGE_EXT = VkSamplerReductionModeEXT(0)
+        val MIN_EXT = VkSamplerReductionModeEXT(1)
+        val MAX_EXT = VkSamplerReductionModeEXT(2)
+    }
+}
+
+// ..
+
+
+inline class VkBlendOverlapEXT(val i: Int) {
+    companion object {
+        val UNCORRELATED_EXT = VkBlendOverlapEXT(0)
+        val DISJOINT_EXT = VkBlendOverlapEXT(1)
+        val CONJOINT_EXT = VkBlendOverlapEXT(2)
+    }
+}
+
+// ..
+
+typealias VkPipelineCoverageToColorStateCreateFlagsNV = VkFlags
+
+// ..
+
+inline class VkCoverageModulationModeNV(val i: Int) {
+    companion object {
+        val NONE_NV = VkCoverageModulationModeNV(0)
+        val RGB_NV = VkCoverageModulationModeNV(1)
+        val ALPHA_NV = VkCoverageModulationModeNV(2)
+        val RGBA_NV = VkCoverageModulationModeNV(3)
+    }
+}
+
+typealias VkPipelineCoverageModulationStateCreateFlagsNV = VkFlags
+
+// ..
+
+inline class VkValidationCacheHeaderVersionEXT(val i: Int) {
+    companion object {
+        val ONE_EXT = VkValidationCacheHeaderVersionEXT(1)
+    }
+}
+
+typealias VkValidationCacheCreateFlagsEXT = VkFlags
+
+// ..
+
+inline class VkDescriptorBindingEXT(val i: Int) {
+    companion object {
+        val UPDATE_AFTER_BIND_BIT_EXT = VkDescriptorBindingEXT(0x00000001)
+        val UPDATE_UNUSED_WHILE_PENDING_BIT_EXT = VkDescriptorBindingEXT(0x00000002)
+        val PARTIALLY_BOUND_BIT_EXT = VkDescriptorBindingEXT(0x00000004)
+        val VARIABLE_DESCRIPTOR_COUNT_BIT_EXT = VkDescriptorBindingEXT(0x00000008)
+    }
+}
+
+typealias VkDescriptorBindingFlagsEXT = VkFlags
+
+// ..
+
+inline class VkShadingRatePaletteEntryNV(val i: Int) {
+    companion object {
+        val _NO_INVOCATIONS_NV = VkShadingRatePaletteEntryNV(0)
+        val _16_INVOCATIONS_PER_PIXEL_NV = VkShadingRatePaletteEntryNV(1)
+        val _8_INVOCATIONS_PER_PIXEL_NV = VkShadingRatePaletteEntryNV(2)
+        val _4_INVOCATIONS_PER_PIXEL_NV = VkShadingRatePaletteEntryNV(3)
+        val _2_INVOCATIONS_PER_PIXEL_NV = VkShadingRatePaletteEntryNV(4)
+        val _1_INVOCATION_PER_PIXEL_NV = VkShadingRatePaletteEntryNV(5)
+        val _1_INVOCATION_PER_2X1_PIXELS_NV = VkShadingRatePaletteEntryNV(6)
+        val _1_INVOCATION_PER_1X2_PIXELS_NV = VkShadingRatePaletteEntryNV(7)
+        val _1_INVOCATION_PER_2X2_PIXELS_NV = VkShadingRatePaletteEntryNV(8)
+        val _1_INVOCATION_PER_4X2_PIXELS_NV = VkShadingRatePaletteEntryNV(9)
+        val _1_INVOCATION_PER_2X4_PIXELS_NV = VkShadingRatePaletteEntryNV(10)
+        val _1_INVOCATION_PER_4X4_PIXELS_NV = VkShadingRatePaletteEntryNV(11)
+    }
+}
+
+inline class VkCoarseSampleOrderTypeNV(val i: Int) {
+    companion object {
+        val DEFAULT_NV = VkCoarseSampleOrderTypeNV(0)
+        val CUSTOM_NV = VkCoarseSampleOrderTypeNV(1)
+        val PIXEL_MAJOR_NV = VkCoarseSampleOrderTypeNV(2)
+        val SAMPLE_MAJOR_NV = VkCoarseSampleOrderTypeNV(3)
+    }
+}
+
+// ..
+
+inline class VkRayTracingShaderGroupTypeNV(val i: Int) {
+    companion object {
+        val GENERAL_NV = VkRayTracingShaderGroupTypeNV(0)
+        val TRIANGLES_HIT_GROUP_NV = VkRayTracingShaderGroupTypeNV(1)
+        val PROCEDURAL_HIT_GROUP_NV = VkRayTracingShaderGroupTypeNV(2)
+    }
+}
+
+inline class VkGeometryTypeNV(val i: Int) {
+    companion object {
+        val TRIANGLES_NV = VkGeometryTypeNV(0)
+        val AABBS_NV = VkGeometryTypeNV(1)
+    }
+}
+
+inline class VkAccelerationStructureTypeNV(val i: Int) {
+    companion object {
+        val TOP_LEVEL_NV = VkAccelerationStructureTypeNV(0)
+        val BOTTOM_LEVEL_NV = VkAccelerationStructureTypeNV(1)
+    }
+}
+
+inline class VkCopyAccelerationStructureModeNV(val i: Int) {
+    companion object {
+        val CLONE_NV = VkCopyAccelerationStructureModeNV(0)
+        val COMPACT_NV = VkCopyAccelerationStructureModeNV(1)
+    }
+}
+
+inline class VkAccelerationStructureMemoryRequirementsTypeNV(val i: Int) {
+    companion object {
+        val OBJECT_NV = VkAccelerationStructureMemoryRequirementsTypeNV(0)
+        val BUILD_SCRATCH_NV = VkAccelerationStructureMemoryRequirementsTypeNV(1)
+        val UPDATE_SCRATCH_NV = VkAccelerationStructureMemoryRequirementsTypeNV(2)
+    }
+}
+
+
+inline class VkGeometryFlagNV(val i: Int) {
+    companion object {
+        val OPAQUE_BIT_NV = VkGeometryFlagNV(0x00000001)
+        val NO_DUPLICATE_ANY_HIT_INVOCATION_BIT_NV = VkGeometryFlagNV(0x00000002)
+    }
+}
+
+typealias VkGeometryFlagsNV = VkFlags
+
+inline class VkGeometryInstanceNV(val i: Int) {
+    companion object {
+        val TRIANGLE_CULL_DISABLE_BIT_NV = VkGeometryInstanceNV(0x00000001)
+        val TRIANGLE_FRONT_COUNTERCLOCKWISE_BIT_NV = VkGeometryInstanceNV(0x00000002)
+        val FORCE_OPAQUE_BIT_NV = VkGeometryInstanceNV(0x00000004)
+        val FORCE_NO_OPAQUE_BIT_NV = VkGeometryInstanceNV(0x00000008)
+    }
+}
+
+typealias VkGeometryInstanceFlagsNV = VkFlags
+
+inline class VkBuildAccelerationStructureNV(val i: Int) {
+    companion object {
+        val ALLOW_UPDATE_BIT_NV = VkBuildAccelerationStructureNV(0x00000001)
+        val ALLOW_COMPACTION_BIT_NV = VkBuildAccelerationStructureNV(0x00000002)
+        val PREFER_FAST_TRACE_BIT_NV = VkBuildAccelerationStructureNV(0x00000004)
+        val PREFER_FAST_BUILD_BIT_NV = VkBuildAccelerationStructureNV(0x00000008)
+        val LOW_MEMORY_BIT_NV = VkBuildAccelerationStructureNV(0x00000010)
+    }
+}
+
+typealias VkBuildAccelerationStructureFlagsNV = VkFlags
+
+// ..
+
+inline class VkQueueGlobalPriorityEXT(val i: Int) {
+    companion object {
+        val LOW_EXT = VkQueueGlobalPriorityEXT(128)
+        val MEDIUM_EXT = VkQueueGlobalPriorityEXT(256)
+        val HIGH_EXT = VkQueueGlobalPriorityEXT(512)
+        val REALTIME_EXT = VkQueueGlobalPriorityEXT(1024)
+    }
+}
+
+// ..
+
+inline class VkTimeDomainEXT(val i: Int) {
+    companion object {
+        val DEVICE = VkTimeDomainEXT(0)
+        val CLOCK_MONOTONIC = VkTimeDomainEXT(1)
+        val CLOCK_MONOTONIC_RAW = VkTimeDomainEXT(2)
+        val QUERY_PERFORMANCE_COUNTER = VkTimeDomainEXT(3)
+    }
+}
+
+// ..
+
+inline class VkMemoryOverallocationBehaviorAMD(val i: Int) {
+    companion object {
+        val DEFAULT_AMD = VkMemoryOverallocationBehaviorAMD(0)
+        val ALLOWED_AMD = VkMemoryOverallocationBehaviorAMD(1)
+        val DISALLOWED_AMD = VkMemoryOverallocationBehaviorAMD(2)
+    }
+}
+
+// ..
+
+inline class VkPipelineCreationFeedback(val i: Int) {
+    companion object {
+        val FEEDBACK_VALID_BIT_EXT = VkPipelineCreationFeedback(0x00000001)
+        val APPLICATION_PIPELINE_CACHE_HIT_BIT_EXT = VkPipelineCreationFeedback(0x00000002)
+        val FEEDBACK_BASE_PIPELINE_ACCELERATION_BIT_EXT = VkPipelineCreationFeedback(0x00000004)
+    }
+}
+
+typealias VkPipelineCreationFeedbackFlagsEXT = VkFlags
+
+// ..
+
+inline class VkValidationFeatureEnableEXT(val i: Int) {
+    companion object {
+        val GPU_ASSISTED = VkValidationFeatureEnableEXT(0)
+        val GPU_ASSISTED_RESERVE_BINDING_SLOT = VkValidationFeatureEnableEXT(1)
+    }
+}
+
+inline class VkValidationFeatureDisableEXT(val i: Int) {
+    companion object {
+        val AL = VkValidationFeatureDisableEXT(0)
+        val SHADER = VkValidationFeatureDisableEXT(1)
+        val THREAD_SAFET = VkValidationFeatureDisableEXT(2)
+        val API_PARAMETER = VkValidationFeatureDisableEXT(3)
+        val OBJECT_LIFETIME = VkValidationFeatureDisableEXT(4)
+        val CORE_CHECK = VkValidationFeatureDisableEXT(5)
+        val UNIQUE_HANDLE = VkValidationFeatureDisableEXT(6)
+    }
+}
+
+// ..
+
+inline class VkComponentTypeNV(val i: Int) {
+    companion object {
+        val FLOAT16_NV = VkComponentTypeNV(0)
+        val FLOAT32_NV = VkComponentTypeNV(1)
+        val FLOAT64_NV = VkComponentTypeNV(2)
+        val SINT8_NV = VkComponentTypeNV(3)
+        val SINT16_NV = VkComponentTypeNV(4)
+        val SINT32_NV = VkComponentTypeNV(5)
+        val SINT64_NV = VkComponentTypeNV(6)
+        val UINT8_NV = VkComponentTypeNV(7)
+        val UINT16_NV = VkComponentTypeNV(8)
+        val UINT32_NV = VkComponentTypeNV(9)
+        val UINT64_NV = VkComponentTypeNV(10)
+    }
+}
+
+
+inline class VkScopeNV(val i: Int) {
+    companion object {
+        val DEVICE_NV = VkScopeNV(1)
+        val WORKGROUP_NV = VkScopeNV(2)
+        val SUBGROUP_NV = VkScopeNV(3)
+        val QUEUE_FAMILY_NV = VkScopeNV(5)
+    }
+}
+
+// ..
+
+typealias VkHeadlessSurfaceCreateFlagsEXT = VkFlags
