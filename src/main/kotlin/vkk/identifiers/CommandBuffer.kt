@@ -22,9 +22,6 @@ class CommandBuffer
         val device: Device
 ) : DispatchableHandleDevice(handle, device.capabilities) {
 
-    val isValid get() = adr != NULL
-    val isInvalid get() = adr == NULL
-
     // ---------------------------------------------- VK10 -------------------------------------------------------------
 
     // --- [ vkBeginCommandBuffer ] ---

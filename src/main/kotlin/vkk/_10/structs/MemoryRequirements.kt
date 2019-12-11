@@ -41,7 +41,6 @@ class MemoryRequirements(
     )
 
     companion object {
-        inline fun <R> read(block: (Adr) -> R): MemoryRequirements = stak { read(it, block) }
         inline fun <R> read(stack: MemoryStack, block: (Adr) -> R): MemoryRequirements {
             val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
             block(adr)

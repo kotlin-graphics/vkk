@@ -2,11 +2,11 @@ package identifiers
 
 import glm_.bool
 import kool.*
-import org.lwjgl.system.Checks
 import org.lwjgl.system.JNI.*
 import org.lwjgl.system.MemoryUtil.NULL
 import org.lwjgl.vulkan.*
 import vkk.*
+import vkk._10.api.PhysicalDevice_vk10
 import vkk._10.structs.*
 import vkk._11.structs.*
 import vkk.entities.VkPresentModeKHR_Array
@@ -19,11 +19,15 @@ class PhysicalDevice
  *
  * @param handle   the native `VkDevice` handle
  * @param instance the Vulkan instance from which the physical device was enumerated
- */(
+ */
+constructor(
         handle: Adr,
         /** Returns the Vulkan instance from which this physical device was enumerated.  */
         val instance: Instance
-) : Dispatchable(handle, instance.capabilities) {
+) :
+        Dispatchable(handle, instance.capabilities),
+
+        PhysicalDevice_vk10 {
 
 
     // ---------------------------------------------- VK10 -------------------------------------------------------------
@@ -31,77 +35,10 @@ class PhysicalDevice
 
     // --- [ vkCreateDevice ] ---
     infix fun createDevice(createInfo: DeviceCreateInfo): Device = stak { s ->
-        val handle = s.pointerAdr {
-            VK_CHECK_RESULT(
-                    callPPPPI(adr, createInfo write s, NULL, it, capabilities.vkCreateDevice)
-            )
-        }
+        val handle = s.pointerAdr { VK_CHECK_RESULT(callPPPPI(adr, createInfo write s, NULL, it, capabilities.vkCreateDevice)) }
         Device(handle, this, createInfo)
     }
 
-    // --- [ vkEnumerateDeviceExtensionProperties ] ---
-    inline fun nEnumerateDeviceExtensionProperties(pLayerName: Ptr, pPropertyCount: IntPtr, pProperties: Ptr = NULL): VkResult =
-            VkResult(callPPPPI(adr, pLayerName, pPropertyCount.adr, pProperties, capabilities.vkEnumerateDeviceExtensionProperties))
-
-    fun enumerateDeviceExtensionProperties(layerName: String? = null): Array<ExtensionProperties> = stak { s ->
-        val pLayerName = layerName?.let { s.utf8Adr(it) } ?: NULL
-        var properties: Ptr = NULL
-        val pPropertyCount = s.mInt()
-        var propertyCount: Int
-        var result: VkResult
-        do {
-            result = nEnumerateDeviceExtensionProperties(pLayerName, pPropertyCount)
-            propertyCount = pPropertyCount[0]
-            if (result == VkResult.SUCCESS && propertyCount != 0) {
-                properties = s.ncalloc(VkExtensionProperties.ALIGNOF, propertyCount, VkExtensionProperties.SIZEOF)
-                result = nEnumerateDeviceExtensionProperties(pLayerName, pPropertyCount, properties)
-            }
-        } while (result == VkResult.INCOMPLETE)
-        return Array(propertyCount) {
-            ExtensionProperties(BytePtr(properties + it * VkExtensionProperties.SIZEOF))
-        }
-    }
-
-    // --- [ vkEnumerateDeviceLayerProperties ] ---
-    inline fun nEnumerateDeviceLayerProperties(pPropertyCount: IntPtr, pProperties: Ptr = NULL): VkResult =
-            VkResult(callPPPI(adr, pPropertyCount.adr, pProperties, capabilities.vkEnumerateDeviceLayerProperties))
-
-    fun enumerateDeviceLayerProperties(): Array<LayerProperties> = stak { s ->
-        var properties: Ptr = NULL
-        var propertyCount: Int
-        val pPropertyCount = s.mInt()
-        var result: VkResult
-        do {
-            result = nEnumerateDeviceLayerProperties(pPropertyCount)
-            propertyCount = pPropertyCount[0]
-            if (result == VkResult.SUCCESS && propertyCount != 0) {
-                properties = s.ncalloc(VkLayerProperties.ALIGNOF, propertyCount, VkLayerProperties.SIZEOF)
-                result = nEnumerateDeviceLayerProperties(pPropertyCount, properties)
-            }
-        } while (result == VkResult.INCOMPLETE)
-        return Array(propertyCount) {
-            LayerProperties(BytePtr(properties + it * VkLayerProperties.SIZEOF))
-        }
-    }
-
-    // --- [ vkGetPhysicalDeviceFeatures ] ---
-    val features: PhysicalDeviceFeatures
-        get() = PhysicalDeviceFeatures read { callPPV(adr, it, capabilities.vkGetPhysicalDeviceFeatures) }
-
-    // --- [ vkGetPhysicalDeviceFormatProperties ] ---
-    infix fun getFormatProperties(format: VkFormat): FormatProperties =
-            FormatProperties read { callPPV(adr, format.i, it, capabilities.vkGetPhysicalDeviceFormatProperties) }
-
-    // --- [ vkGetPhysicalDeviceImageFormatProperties ] ---
-    fun getImageFormatProperties(format: VkFormat, type: VkImageType, tiling: VkImageTiling,
-                                 usage: VkImageUsageFlags, flags: VkImageCreateFlags): ImageFormatProperties =
-            ImageFormatProperties.read {
-                callPPI(adr, format.i, type.i, tiling.i, usage, flags, it, capabilities.vkGetPhysicalDeviceImageFormatProperties)
-            }
-
-    // --- [ vkGetPhysicalDeviceProperties ] ---
-    val properties: PhysicalDeviceProperties
-        get() = PhysicalDeviceProperties read { callPPV(adr, it, capabilities.vkGetPhysicalDeviceProperties) }
 
     // --- [ vkGetPhysicalDeviceSparseImageFormatProperties ] ---
     inline fun nGetSparseImageFormatProperties(format: VkFormat, type: VkImageType, samples: VkSampleCount,

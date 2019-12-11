@@ -39,6 +39,11 @@ infix fun Buffer.copyTo(ptr: Ptr) = MemoryUtil.memCopy(adr, ptr, remSize.L)
 infix fun Buffer.copyFrom(ptr: Ptr) = MemoryUtil.memCopy(ptr, adr, remSize.L)
 
 
-val VK_WHOLE_SIZE = VkDeviceSize(VK10.VK_WHOLE_SIZE)
-
 fun Array<VkDynamicState>.write(stack: MemoryStack): Adr = stack.IntPtr(size) { get(it).i }.adr
+
+inline fun <R> MemoryStack.framed(block: () -> R): R {
+    val ptr = pointer
+    return block().also {
+        pointer = ptr
+    }
+}

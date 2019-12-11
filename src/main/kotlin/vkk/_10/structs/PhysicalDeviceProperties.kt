@@ -99,7 +99,6 @@ class PhysicalDeviceProperties(
     )
 
     companion object {
-        inline infix fun <R> read(block: (Adr) -> R): PhysicalDeviceProperties = stak { read(it, block) }
         inline fun <R> read(stack: MemoryStack, block: (Adr) -> R): PhysicalDeviceProperties {
             val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
             block(adr)

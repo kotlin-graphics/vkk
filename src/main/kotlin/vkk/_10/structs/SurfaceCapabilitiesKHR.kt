@@ -84,7 +84,7 @@ class SurfaceCapabilitiesKHR(
     )
 
     companion object {
-        inline fun <R> read(block: (Ptr) -> R): SurfaceCapabilitiesKHR = stak { read(it, block) }
+        //inline fun <R> read(block: (Ptr) -> R): SurfaceCapabilitiesKHR = stak { read(it, block) }
         inline fun <R> read(stack: MemoryStack, block: (Ptr) -> R): SurfaceCapabilitiesKHR {
             val ptr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
             block(ptr)
