@@ -7,13 +7,15 @@ module com.github.kotlin_graphics.vkk {
     requires org.lwjgl;
     requires org.lwjgl.vulkan;
 
-    requires com.github.kotlin_graphics.gln;
     requires com.github.kotlin_graphics.gli;
     requires com.github.kotlin_graphics.glm;
     requires com.github.kotlin_graphics.kool;
     requires com.github.kotlin_graphics.kotlin_unsigned;
+    requires kotlin.reflect;
 
     exports vkk;
+    exports vkk._10.structs;
+    exports vkk._11.structs;
     exports vkk.entities;
-    exports vkk.extensionFunctions;
+//    exports vkk.identifiers; empty
 }
