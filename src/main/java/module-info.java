@@ -14,7 +14,9 @@ module com.github.kotlin_graphics.vkk {
     requires kotlin.reflect;
 
     exports vkk;
+    exports vkk._10.api;
     exports vkk._10.structs;
+    exports vkk._11.api;
     exports vkk._11.structs;
     exports vkk.entities;
 //    exports vkk.identifiers; empty

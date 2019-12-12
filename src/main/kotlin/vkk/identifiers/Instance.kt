@@ -6,6 +6,7 @@ import org.lwjgl.system.APIUtil.apiLog
 import org.lwjgl.system.Checks
 import org.lwjgl.system.FunctionProvider
 import org.lwjgl.system.JNI.*
+import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryStack.stackPush
 import org.lwjgl.system.MemoryUtil.*
 import org.lwjgl.vulkan.VK10.VK_NULL_HANDLE
@@ -14,6 +15,7 @@ import org.lwjgl.vulkan.VkExtensionProperties
 import org.lwjgl.vulkan.VkInstance
 import org.lwjgl.vulkan.VkPhysicalDeviceGroupProperties
 import vkk.*
+import vkk._10.api.Instance_vk10
 import vkk._10.structs.DebugReportCallbackCreateInfo
 import vkk._10.structs.InstanceCreateInfo
 import vkk._11.structs.PhysicalDeviceGroupProperties
@@ -29,7 +31,10 @@ class Instance
  * @param ci     the {@link VkInstanceCreateInfo} structured used to create the {@code VkInstance}.
  */
 private constructor(handle: Ptr, ci: InstanceCreateInfo) :
-        Dispatchable(handle, getInstanceCapabilities(handle, ci)) {
+
+        Dispatchable(handle, getInstanceCapabilities(handle, ci)),
+
+        Instance_vk10 {
 
     // ---------------------------------------------- VK10 -------------------------------------------------------------
 
@@ -42,53 +47,29 @@ private constructor(handle: Ptr, ci: InstanceCreateInfo) :
             }, createInfo
     )
 
-    // --- [ vkCreateDebugReportCallbackEXT ] ---
-    infix fun createDebugReportCallbackEXT(createInfo: DebugReportCallbackCreateInfo): VkDebugReportCallback =
-            stak { s ->
-                VkDebugReportCallback(s.longAdr {
-                    VK_CHECK_RESULT(callPPPPI(adr, createInfo write s, NULL, it, capabilities.vkCreateDebugReportCallbackEXT))
-                })
-            }
-
-    // --- [ vkDebugReportMessageEXT ] ---
-    fun debugReportMessageEXT(
-            flags: VkDebugReportFlagsEXT, objectType: VkDebugReportObjectTypeEXT, `object`: Long = VK_NULL_HANDLE,
-            location: Long, messageCode: Int, pLayerPrefix: String, pMessage: String
-    ) = stak { s ->
-        callPJPPPV(
-                adr, flags, objectType.i, `object`, location, messageCode, s.utf8Adr(pLayerPrefix),
-                s.utf8Adr(pMessage), capabilities.vkCreateDebugReportCallbackEXT
-        )
-    }
-
-    // --- [ vkDestroyDebugReportCallbackEXT ] ---
-    infix fun destroy(debugReportCallback: VkDebugReportCallback) =
-            callPJPV(adr, debugReportCallback.L, NULL, capabilities.vkDestroyDebugReportCallbackEXT)
-
-    // --- [ vkDestroyInstance ] ---
-    fun destroy() =
-            callPPV(adr, NULL, capabilities.vkDestroyInstance)
-
     // --- [ vkEnumeratePhysicalDevices ] ---
     inline fun nEnumeratePhysicalDevices(pPhysicalDeviceCount: Ptr, pPhysicalDevices: Ptr = NULL): VkResult =
             VkResult(callPPPI(adr, pPhysicalDeviceCount, pPhysicalDevices, capabilities.vkEnumeratePhysicalDevices))
 
-    val enumeratePhysicalDevices: Array<PhysicalDevice>
-        get() = stak {
+    val MemoryStack.enumeratePhysicalDevices: Array<PhysicalDevice>
+        get() = framed {
             var physicalDevices: PointerBuffer? = null
-            val pPhysicalDeviceGroupCount = it.mInt()
+            val pPhysicalDeviceGroupCount = this.mInt()
             var physicalDeviceCount: Int
             var result: VkResult
             do {
                 result = nEnumeratePhysicalDevices(pPhysicalDeviceGroupCount.adr)
                 physicalDeviceCount = pPhysicalDeviceGroupCount[0]
                 if (result == VkResult.SUCCESS && physicalDeviceCount != 0) {
-                    physicalDevices = it.resize(physicalDevices, physicalDeviceCount)
+                    physicalDevices = this.resize(physicalDevices, physicalDeviceCount)
                     result = nEnumeratePhysicalDevices(pPhysicalDeviceGroupCount.adr, physicalDevices.adr)
                 }
             } while (result == VkResult.INCOMPLETE)
-            Array(physicalDeviceCount) { PhysicalDevice(physicalDevices!![0], this) }
+            Array(physicalDeviceCount) { PhysicalDevice(physicalDevices!![0], this@Instance) }
         }
+
+    val enumeratePhysicalDevices: Array<PhysicalDevice>
+        get() = stak { it.enumeratePhysicalDevices }
 
     // ---------------------------------------------- VK11 -------------------------------------------------------------
 
@@ -96,25 +77,28 @@ private constructor(handle: Ptr, ci: InstanceCreateInfo) :
     inline fun nEnumeratePhysicalDeviceGroups(pPhysicalDeviceGroupCount: IntPtr, pPhysicalDeviceGroupProperties: Ptr = NULL): VkResult =
             VkResult(callPPPI(adr, pPhysicalDeviceGroupCount.adr, pPhysicalDeviceGroupProperties, capabilities.vkEnumeratePhysicalDeviceGroups))
 
-    val enumeratePhysicalDeviceGroups: Array<PhysicalDeviceGroupProperties>
-        get() = stak { s ->
+    val MemoryStack.enumeratePhysicalDeviceGroups: Array<PhysicalDeviceGroupProperties>
+        get() = framed {
             var physicalDeviceGroupProperties: Ptr = NULL
             var physicalDeviceGroupCount: Int
-            val pPhysicalDeviceGroupCount = s.mInt()
+            val pPhysicalDeviceGroupCount = this.mInt()
             var result: VkResult
             do {
                 result = nEnumeratePhysicalDeviceGroups(pPhysicalDeviceGroupCount)
                 physicalDeviceGroupCount = pPhysicalDeviceGroupCount[0]
                 if (result == VkResult.SUCCESS && physicalDeviceGroupCount != 0) {
-                    physicalDeviceGroupProperties = s.ncalloc(VkPhysicalDeviceGroupProperties.ALIGNOF, physicalDeviceGroupCount, VkPhysicalDeviceGroupProperties.SIZEOF)
+                    physicalDeviceGroupProperties = this.ncalloc(VkPhysicalDeviceGroupProperties.ALIGNOF, physicalDeviceGroupCount, VkPhysicalDeviceGroupProperties.SIZEOF)
                     result = nEnumeratePhysicalDeviceGroups(pPhysicalDeviceGroupCount, physicalDeviceGroupProperties)
                 }
             } while (result == VkResult.INCOMPLETE)
             assert(physicalDeviceGroupProperties != NULL) // TODO others
-            return Array(physicalDeviceGroupCount) {
-                PhysicalDeviceGroupProperties(physicalDeviceGroupProperties + it * VkPhysicalDeviceGroupProperties.SIZEOF, this)
+            Array(physicalDeviceGroupCount) {
+                PhysicalDeviceGroupProperties(physicalDeviceGroupProperties + it * VkPhysicalDeviceGroupProperties.SIZEOF, this@Instance)
             }
         }
+
+    val enumeratePhysicalDeviceGroups: Array<PhysicalDeviceGroupProperties>
+        get() = stak { it.enumeratePhysicalDeviceGroups }
 }
 
 private fun getInstanceCapabilities(handle: Ptr, ci: InstanceCreateInfo): CapabilitiesInstance {

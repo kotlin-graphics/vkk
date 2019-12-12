@@ -54,7 +54,7 @@ class MemoryRequirements2(
     constructor(ptr: BytePtr) : this(MemoryRequirements(ptr + MEMORYREQUIREMENTS))
 
     companion object {
-        inline infix fun <R> read(block: (Adr) -> R): MemoryRequirements2 = stak { read(it, block) }
+//        inline infix fun <R> read(block: (Adr) -> R): MemoryRequirements2 = stak { read(it, block) }
         inline fun <R> read(stack: MemoryStack, block: (Adr) -> R): MemoryRequirements2 {
             val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
             block(adr)

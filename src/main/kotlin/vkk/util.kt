@@ -1,6 +1,7 @@
 package vkk
 
 import glm_.L
+import identifiers.CommandBuffer
 import kool.*
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil
@@ -40,6 +41,7 @@ infix fun Buffer.copyFrom(ptr: Ptr) = MemoryUtil.memCopy(ptr, adr, remSize.L)
 
 
 fun Array<VkDynamicState>.write(stack: MemoryStack): Adr = stack.IntPtr(size) { get(it).i }.adr
+infix fun Array<CommandBuffer>.write(stack: MemoryStack): Ptr = stack.PointerAdr(size) { this[it].adr }
 
 inline fun <R> MemoryStack.framed(block: () -> R): R {
     val ptr = pointer

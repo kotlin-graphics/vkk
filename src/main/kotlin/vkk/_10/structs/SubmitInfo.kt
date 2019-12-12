@@ -1,7 +1,6 @@
 package vkk._10.structs
 
 import identifiers.CommandBuffer
-import identifiers.write
 import kool.Adr
 import kool.Ptr
 import kool.toAdr
@@ -12,6 +11,7 @@ import org.lwjgl.vulkan.VkSubmitInfo.*
 import vkk.VkStructureType
 import vkk.entities.VkSemaphore
 import vkk.entities.VkSemaphore_Array
+import vkk.write
 
 /**
  * Structure specifying a queue submit operation.
@@ -136,15 +136,15 @@ class SubmitInfo(
         nsType(adr, type.i)
         npNext(adr, next)
         nwaitSemaphoreCount(adr, waitSemaphoreCount)
-        waitSemaphores?.let { memPutAddress(adr + PWAITSEMAPHORES, it.write(stack)) }
+        waitSemaphores?.let { memPutAddress(adr + PWAITSEMAPHORES, it write stack) }
         waitDstStageMask?.let { memPutAddress(adr + PWAITDSTSTAGEMASK, it.toAdr(stack).adr) }
         commandBuffers?.let {
             ncommandBufferCount(adr, it.size)
-            memPutAddress(adr + PCOMMANDBUFFERS, it.write(stack))
+            memPutAddress(adr + PCOMMANDBUFFERS, it write stack)
         }
         signalSemaphores?.let {
             nsignalSemaphoreCount(adr, it.size)
-            memPutAddress(adr + PSIGNALSEMAPHORES, it.write(stack))
+            memPutAddress(adr + PSIGNALSEMAPHORES, it write stack)
         }
         return adr
     }

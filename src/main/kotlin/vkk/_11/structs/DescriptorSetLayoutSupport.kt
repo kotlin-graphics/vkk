@@ -57,7 +57,7 @@ class DescriptorSetLayoutSupport(
     )
 
     companion object {
-        inline fun <R> read(block: (Ptr) -> R): DescriptorSetLayoutSupport = stak { read(it, block) }
+//        inline fun <R> read(block: (Ptr) -> R): DescriptorSetLayoutSupport = stak { read(it, block) }
         inline fun <R> read(stack: MemoryStack, block: (Ptr) -> R): DescriptorSetLayoutSupport {
             val ptr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
             block(ptr)
