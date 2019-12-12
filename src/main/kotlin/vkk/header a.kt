@@ -1,7 +1,7 @@
 package vkk
 
 
-const val VK_HEADER_VERSION = 107
+const val VK_HEADER_VERSION = 121
 
 
 typealias VkFlags = Int
