@@ -76,7 +76,7 @@ class SubresourceLayout(
     )
 
     companion object {
-        inline infix fun <R> read(block: (Adr) -> R): SubresourceLayout = stak { read(it, block) }
+//        inline infix fun <R> read(block: (Adr) -> R): SubresourceLayout = stak { read(it, block) }
         inline fun <R> read(stack: MemoryStack, block: (Adr) -> R): SubresourceLayout {
             val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
             block(adr)
