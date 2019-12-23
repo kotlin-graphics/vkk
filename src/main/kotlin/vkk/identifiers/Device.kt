@@ -1,4 +1,4 @@
-package identifiers
+package vkk.identifiers
 
 import kool.*
 import org.lwjgl.system.APIUtil.apiLog

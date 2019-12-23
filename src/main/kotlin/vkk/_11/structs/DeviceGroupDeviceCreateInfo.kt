@@ -1,8 +1,7 @@
 package vkk._11.structs
 
-import identifiers.PhysicalDevice
+import vkk.identifiers.PhysicalDevice
 import kool.Ptr
-import org.lwjgl.system.MemoryUtil
 import org.lwjgl.system.MemoryUtil.NULL
 import vkk.VkStructureType
 

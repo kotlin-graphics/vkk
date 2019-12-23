@@ -1,6 +1,6 @@
 package vkk._10.structs
 
-import identifiers.CommandBuffer
+import vkk.identifiers.CommandBuffer
 import kool.Adr
 import kool.Ptr
 import kool.toAdr

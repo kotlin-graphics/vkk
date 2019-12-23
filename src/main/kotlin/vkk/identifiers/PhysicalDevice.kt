@@ -1,4 +1,4 @@
-package identifiers
+package vkk.identifiers
 
 import kool.*
 import org.lwjgl.system.JNI.*
@@ -9,6 +9,9 @@ import vkk._10.api.PhysicalDevice_vk10
 import vkk._11.api.PhysicalDevice_vk11
 import vkk._10.structs.DeviceCreateInfo
 import vkk.framed
+import vkk.identifiers.Device
+import vkk.identifiers.Dispatchable
+import vkk.identifiers.Instance
 import vkk.stak
 
 /** Wraps a Vulkan physical device handle.  */

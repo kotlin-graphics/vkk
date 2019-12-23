@@ -1,9 +1,11 @@
-package identifiers
+package vkk.identifiers
 
 import kool.Ptr
 import kool.adr
 import org.lwjgl.system.MemoryUtil
 import org.lwjgl.system.Pointer
+import vkk.identifiers.CapabilitiesDevice
+import vkk.identifiers.CapabilitiesInstance
 
 /** Base class for Vulkan dispatchable handles.  */
 abstract class Dispatchable(handle: Ptr,

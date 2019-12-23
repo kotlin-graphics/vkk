@@ -1,12 +1,10 @@
 package vkk._11.structs
 
 import glm_.bool
-import identifiers.Instance
-import identifiers.PhysicalDevice
+import vkk.identifiers.Instance
+import vkk.identifiers.PhysicalDevice
 import kool.Adr
 import kool.BYTES
-import kool.BytePtr
-import org.lwjgl.vulkan.VkPhysicalDeviceGroupProperties
 import org.lwjgl.vulkan.VkPhysicalDeviceGroupProperties.*
 import vkk.VkStructureType
 

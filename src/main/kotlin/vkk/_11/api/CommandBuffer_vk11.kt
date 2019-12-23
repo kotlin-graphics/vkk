@@ -1,7 +1,7 @@
 package vkk._11.api
 
 import glm_.vec3.Vec3i
-import identifiers.CapabilitiesDevice
+import vkk.identifiers.CapabilitiesDevice
 import kool.adr
 import org.lwjgl.system.JNI.callPV
 import org.lwjgl.system.Pointer

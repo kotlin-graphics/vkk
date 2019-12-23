@@ -1,6 +1,6 @@
 package vkk._10.api
 
-import identifiers.CapabilitiesInstance
+import vkk.identifiers.CapabilitiesInstance
 import kool.adr
 import kool.longAdr
 import kool.utf8Adr

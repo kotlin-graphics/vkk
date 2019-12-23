@@ -1,16 +1,9 @@
-package identifiers
+package vkk.identifiers
 
 import kool.Ptr
-import kool.adr
-import org.lwjgl.system.JNI.*
-import vkk.VkResult
 import vkk._10.api.Queue_vk10
-import vkk._10.structs.BindSparseInfo
-import vkk._10.structs.PresentInfoKHR
-import vkk._10.structs.SubmitInfo
-import vkk._10.structs.write
-import vkk.entities.VkFence
-import vkk.stak
+import vkk.identifiers.Device
+import vkk.identifiers.DispatchableHandleDevice
 
 /** Wraps a Vulkan queue handle.  */
 class Queue

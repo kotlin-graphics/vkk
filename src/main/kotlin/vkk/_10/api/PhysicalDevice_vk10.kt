@@ -1,7 +1,7 @@
 package vkk._10.api
 
 import glm_.bool
-import identifiers.CapabilitiesInstance
+import vkk.identifiers.CapabilitiesInstance
 import kool.*
 import org.lwjgl.system.JNI.*
 import org.lwjgl.system.MemoryStack

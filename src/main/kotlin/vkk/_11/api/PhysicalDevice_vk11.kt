@@ -1,6 +1,6 @@
 package vkk._11.api
 
-import identifiers.CapabilitiesInstance
+import vkk.identifiers.CapabilitiesInstance
 import kool.*
 import org.lwjgl.system.JNI.*
 import org.lwjgl.system.MemoryStack

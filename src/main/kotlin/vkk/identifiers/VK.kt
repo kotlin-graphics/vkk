@@ -1,8 +1,7 @@
-package identifiers
+package vkk.identifiers
 
 import glm_.min
 import kool.Adr
-import kool.Ptr
 import kool.adr
 import org.lwjgl.system.*
 import org.lwjgl.system.APIUtil.apiLog

@@ -1,12 +1,10 @@
 package vkk
 
 import glm_.L
-import identifiers.CommandBuffer
+import vkk.identifiers.CommandBuffer
 import kool.*
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil
-import org.lwjgl.vulkan.VK10
-import vkk.entities.VkDeviceSize
 import java.nio.Buffer
 
 

@@ -1,8 +1,7 @@
 package vkk._10.api
 
-import identifiers.CapabilitiesDevice
+import vkk.identifiers.CapabilitiesDevice
 import kool.adr
-import org.lwjgl.system.JNI
 import org.lwjgl.system.JNI.*
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.Pointer

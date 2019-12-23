@@ -1,18 +1,14 @@
-package identifiers
+package vkk.identifiers
 
-import kool.PointerAdr
 import kool.Ptr
-import kool.adr
 import org.lwjgl.system.MemoryStack
 import vkk.VkQueryControlFlags
 import vkk.VkSubpassContents
 import vkk._10.api.CommandBuffer_vk10
-import vkk._11.api.CommandBuffer_vk11
 import vkk._10.structs.CommandBufferBeginInfo
 import vkk._10.structs.RenderPassBeginInfo
+import vkk._11.api.CommandBuffer_vk11
 import vkk.entities.VkQueryPool
-import vkk.framed
-import vkk.stak
 
 /** Wraps a Vulkan command buffer handle.  */
 class CommandBuffer

@@ -1,4 +1,4 @@
-package identifiers
+package vkk.identifiers
 
 import kool.*
 import org.lwjgl.PointerBuffer
@@ -9,17 +9,13 @@ import org.lwjgl.system.JNI.*
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryStack.stackPush
 import org.lwjgl.system.MemoryUtil.*
-import org.lwjgl.vulkan.VK10.VK_NULL_HANDLE
 import org.lwjgl.vulkan.VK10.VK_SUCCESS
 import org.lwjgl.vulkan.VkExtensionProperties
-import org.lwjgl.vulkan.VkInstance
 import org.lwjgl.vulkan.VkPhysicalDeviceGroupProperties
 import vkk.*
 import vkk._10.api.Instance_vk10
-import vkk._10.structs.DebugReportCallbackCreateInfo
 import vkk._10.structs.InstanceCreateInfo
 import vkk._11.structs.PhysicalDeviceGroupProperties
-import vkk.entities.VkDebugReportCallback
 import java.util.*
 
 /** Wraps a Vulkan instance handle. */
