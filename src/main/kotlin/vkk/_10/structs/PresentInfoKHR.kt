@@ -1,8 +1,11 @@
 package vkk._10.structs
 
-import kool.*
+import kool.Ptr
+import kool.mInt
+import kool.toAdr
 import org.lwjgl.system.MemoryStack
-import org.lwjgl.system.MemoryUtil.*
+import org.lwjgl.system.MemoryUtil.NULL
+import org.lwjgl.system.MemoryUtil.memPutAddress
 import org.lwjgl.vulkan.VkPresentInfoKHR.*
 import vkk.VkResult
 import vkk.VkStructureType
@@ -80,7 +83,7 @@ class PresentInfoKHR(
 ) {
 
     constructor(
-            waitSemaphore: VkSemaphore,
+            waitSemaphore: VkSemaphore = VkSemaphore.NULL,
             swapchain: VkSwapchainKHR = VkSwapchainKHR.NULL,
             imageIndex: Int,
             result: VkResult_Array? = null
