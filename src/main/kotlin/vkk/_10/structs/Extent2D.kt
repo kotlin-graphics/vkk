@@ -30,6 +30,7 @@ class Extent2D(
     var height: Int
 ) {
 
+    constructor(extent: Extent2D) : this(extent.width, extent.height)
     constructor(size: Vec2i) : this(size.x, size.y)
     constructor(intPtr: IntPtr) : this(intPtr[0], intPtr[1])
 
