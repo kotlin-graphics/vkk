@@ -37,8 +37,8 @@ import vkk.entities.VkDeviceSize
  * }</code></pre>
  */
 class BufferCopy(
-        var srcOffset: VkDeviceSize,
-        var dstOffset: VkDeviceSize,
+        var srcOffset: VkDeviceSize = VkDeviceSize.NULL,
+        var dstOffset: VkDeviceSize = VkDeviceSize.NULL,
         var size: VkDeviceSize
 ) {
 

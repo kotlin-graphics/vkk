@@ -180,7 +180,7 @@ class GraphicsPipelineCreateInfo(
         var renderPass: VkRenderPass,
         var subpass: Int = 0,
         var basePipelineHandle: VkPipeline = VkPipeline.NULL,
-        var basePipelineIndex: Int = 0,
+        var basePipelineIndex: Int = -1,
         var next: Ptr = NULL
 ) {
 

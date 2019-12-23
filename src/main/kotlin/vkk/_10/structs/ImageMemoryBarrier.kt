@@ -4,6 +4,8 @@ import kool.Adr
 import kool.Ptr
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.NULL
+import org.lwjgl.vulkan.VK10
+import org.lwjgl.vulkan.VK10.VK_QUEUE_FAMILY_IGNORED
 import org.lwjgl.vulkan.VkImageMemoryBarrier.*
 import vkk.VkAccessFlags
 import vkk.VkImageLayout
@@ -117,8 +119,8 @@ class ImageMemoryBarrier(
         var dstAccessMask: VkAccessFlags = 0,
         var oldLayout: VkImageLayout,
         var newLayout: VkImageLayout,
-        var srcQueueFamilyIndex: Int = 0,
-        var dstQueueFamilyIndex: Int = 0,
+        var srcQueueFamilyIndex: Int = VK_QUEUE_FAMILY_IGNORED,
+        var dstQueueFamilyIndex: Int = VK_QUEUE_FAMILY_IGNORED,
         var image: VkImage,
         var subresourceRange: ImageSubresourceRange,
         var next: Ptr = NULL

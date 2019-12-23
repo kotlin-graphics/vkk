@@ -51,7 +51,7 @@ class StencilOpState(
         var failOp: VkStencilOp = VkStencilOp.KEEP,
         var passOp: VkStencilOp = VkStencilOp.KEEP,
         var depthFailOp: VkStencilOp = VkStencilOp.KEEP,
-        var compareOp: VkCompareOp = VkCompareOp.NEVER,
+        var compareOp: VkCompareOp = VkCompareOp.ALWAYS,
         var compareMask: Int = 0,
         var writeMask: Int = 0,
         var reference: Int = 0
