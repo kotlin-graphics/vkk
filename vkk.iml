@@ -37,59 +37,14 @@
       </configuration>
     </facet>
   </component>
-  <component name="NewModuleRootManager">
-    <output url="file://$MODULE_DIR$/out/production/classes" />
-    <output-test url="file://$MODULE_DIR$/out/test/classes" />
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/src/main/kotlin" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/test/kotlin" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/.gradle" />
       <excludeFolder url="file://$MODULE_DIR$/build" />
       <excludeFolder url="file://$MODULE_DIR$/out" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-reflect:1.3.61" level="project" />
-    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib:1.3.61" level="project" />
-    <orderEntry type="library" name="Gradle: com.github.kotlin-graphics:gli:57d313a2c7691b3b65168fe21eb50433a1358656" level="project" />
-    <orderEntry type="library" name="Gradle: com.github.kotlin-graphics.glm:glm:1b4ac18dd1a3c23440d3f33596688aac60bc0141" level="project" />
-    <orderEntry type="library" name="Gradle: com.github.kotlin-graphics:kool:fcf04b2c03b8949d9d9a8b0a580082e927903510" level="project" />
-    <orderEntry type="library" name="Gradle: com.github.kotlin-graphics:kotlin-unsigned:18131d0fe0b7465a145a4502d31452c5ae0e59a1" level="project" />
-    <orderEntry type="library" name="Gradle: org.lwjgl:lwjgl-vulkan:3.2.3" level="project" />
-    <orderEntry type="library" name="Gradle: org.lwjgl:lwjgl:3.2.3" level="project" />
-    <orderEntry type="library" name="Gradle: graphics.scenery:spirvcrossj:0.6.0-1.1.106.0" level="project" />
-    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-common:1.3.61" level="project" />
-    <orderEntry type="library" name="Gradle: org.jetbrains:annotations:13.0" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.lwjgl:lwjgl-glfw:3.2.3:natives-linux" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.lwjgl:lwjgl-glfw:3.2.3" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.lwjgl:lwjgl-jemalloc:3.2.3:natives-linux" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.lwjgl:lwjgl-jemalloc:3.2.3" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.lwjgl:lwjgl-openal:3.2.3:natives-linux" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.lwjgl:lwjgl-openal:3.2.3" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.lwjgl:lwjgl-opengl:3.2.3:natives-linux" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.lwjgl:lwjgl-opengl:3.2.3" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.lwjgl:lwjgl-stb:3.2.3:natives-linux" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.lwjgl:lwjgl-stb:3.2.3" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.lwjgl:lwjgl:3.2.3:natives-windows" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.lwjgl:lwjgl:3.2.3:natives-linux" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Gradle: graphics.scenery:spirvcrossj:0.6.0-1.1.106.0:natives-windows" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: org.lwjgl:lwjgl-glfw:3.2.3" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: io.github.microutils:kotlin-logging:1.7.7" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: org.slf4j:slf4j-api:1.7.29" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: org.lwjgl:lwjgl-glfw:3.2.3:natives-windows" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: org.lwjgl:lwjgl-glfw:3.2.3:natives-linux" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: org.lwjgl:lwjgl-jemalloc:3.2.3:natives-linux" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: org.lwjgl:lwjgl-jemalloc:3.2.3" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: org.lwjgl:lwjgl-openal:3.2.3:natives-linux" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: org.lwjgl:lwjgl-openal:3.2.3" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: org.lwjgl:lwjgl-opengl:3.2.3:natives-linux" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: org.lwjgl:lwjgl-opengl:3.2.3" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: org.lwjgl:lwjgl-stb:3.2.3:natives-linux" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: org.lwjgl:lwjgl-stb:3.2.3" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: org.lwjgl:lwjgl:3.2.3:natives-windows" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: org.lwjgl:lwjgl:3.2.3:natives-linux" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: graphics.scenery:spirvcrossj:0.6.0-1.1.106.0:natives-windows" level="project" />
   </component>
 </module>

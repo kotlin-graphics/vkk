@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/vkk.iml" filepath="$PROJECT_DIR$/vkk.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/vkk.main.iml" filepath="$PROJECT_DIR$/.idea/modules/vkk.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/vkk.test.iml" filepath="$PROJECT_DIR$/.idea/modules/vkk.test.iml" />
     </modules>
   </component>
 </project>
