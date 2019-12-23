@@ -15,6 +15,8 @@ inline class VkPipelineCacheHeaderversion(val i: Int) {
 
 inline class VkResult(val i: Int) {
 
+    fun andCheck(message: String = "Fatal : VkResult is $this"): VkResult = apply { check(message) }
+
     fun check(message: String = "Fatal : VkResult is $this") {
         if (DEBUG && this != SUCCESS)
             if (VULKAN_NO_EXCEPTIONS)

@@ -30,7 +30,7 @@ interface Queue_vk10 : Pointer {
     // --- [ vkQueuePresentKHR ] ---
 
     infix fun MemoryStack.presentKHR(presentInfo: PresentInfoKHR): VkResult =
-            framed { presentInfo.native(this) { pPresentInfo -> VkResult(callPPI(adr, pPresentInfo, capabilities.vkQueuePresentKHR)).apply { check() } } }
+            framed { presentInfo.native(this) { pPresentInfo -> VkResult(callPPI(adr, pPresentInfo, capabilities.vkQueuePresentKHR)).andCheck() } }
 
     infix fun presentKHR(presentInfo: PresentInfoKHR): VkResult =
             stak { it presentKHR presentInfo }
@@ -38,12 +38,12 @@ interface Queue_vk10 : Pointer {
     // --- [ vkQueueSubmit ] ---
 
     fun MemoryStack.submit(submit: SubmitInfo, fence: VkFence = VkFence.NULL): VkResult =
-            framed { VkResult(callPPJI(adr, 1, submit write this, fence.L, capabilities.vkQueueSubmit)).apply { check() } }
+            framed { VkResult(callPPJI(adr, 1, submit write this, fence.L, capabilities.vkQueueSubmit)).andCheck() }
 
     fun submit(submit: SubmitInfo, fence: VkFence = VkFence.NULL): VkResult =
             stak { it.submit(submit, fence) }
 
     // --- [ vkQueueWaitIdle ] ---
     fun waitIdle(): VkResult =
-            VkResult(callPI(adr, capabilities.vkQueueWaitIdle)).apply { check() }
+            VkResult(callPI(adr, capabilities.vkQueueWaitIdle)).andCheck()
 }

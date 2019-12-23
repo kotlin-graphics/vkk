@@ -14,7 +14,6 @@ import org.lwjgl.vulkan.VkImageViewCreateInfo
 import org.lwjgl.vulkan.VkSparseImageMemoryRequirements
 import vkk.*
 import vkk._10.structs.*
-import vkk._10.structs.write
 import vkk.entities.*
 
 interface Device_vk10 : Pointer {
@@ -23,18 +22,18 @@ interface Device_vk10 : Pointer {
 
     // --- [ vkAcquireNextImageKHR ] ---
 
-    fun MemoryStack.acquireNextImageKHR(swapchain: VkSwapchainKHR, timeout: Long = -1L, semaphore: VkSemaphore, fence: VkFence = VkFence.NULL): Int =
-            framed { this.intAdr { VK_CHECK_RESULT(callPJJJJPI(adr, swapchain.L, timeout, semaphore.L, fence.L, it, capabilities.vkAcquireNextImageKHR)) } }
+    fun MemoryStack.acquireNextImageKHR(swapchain: VkSwapchainKHR, timeout: Long = -1L, semaphore: VkSemaphore, fence: VkFence = VkFence.NULL, check: (VkResult) -> Unit = ::defaultCheck): Int =
+            framed { this.intAdr { check(nAcquireNextImageKHR(swapchain, timeout, semaphore, fence, it)) } }
 
-    fun acquireNextImageKHR(swapchain: VkSwapchainKHR, timeout: Long = -1L, semaphore: VkSemaphore, fence: VkFence = VkFence.NULL): Int =
-            stak { it.acquireNextImageKHR(swapchain, timeout, semaphore, fence) }
+    fun acquireNextImageKHR(swapchain: VkSwapchainKHR, timeout: Long = -1L, semaphore: VkSemaphore, fence: VkFence = VkFence.NULL, check: (VkResult) -> Unit = ::defaultCheck): Int =
+            stak { it.acquireNextImageKHR(swapchain, timeout, semaphore, fence, check) }
 
     // --- [ vkAllocateDescriptorSets ] ---
 
     infix fun MemoryStack.allocateDescriptorSets(allocateInfo: DescriptorSetAllocateInfo): VkDescriptorSet_Array =
             framed {
                 val descriptors = this.mLong(allocateInfo.setLayouts.size)
-                nAllocateDescriptorSets(allocateInfo write this, descriptors.adr).apply { check() }
+                nAllocateDescriptorSets(allocateInfo write this, descriptors.adr)
                 VkDescriptorSet_Array(allocateInfo.setLayouts.size) { VkDescriptorSet(descriptors[it]) }
             }
 
@@ -43,7 +42,7 @@ interface Device_vk10 : Pointer {
 
 
     infix fun MemoryStack.allocateDescriptorSet(allocateInfo: DescriptorSetAllocateInfo): VkDescriptorSet =
-            framed { VkDescriptorSet(this.longAdr { nAllocateDescriptorSets(allocateInfo write this, it).apply { check() } }) }
+            framed { VkDescriptorSet(this.longAdr { nAllocateDescriptorSets(allocateInfo write this, it).check() }) }
 
     infix fun allocateDescriptorSet(allocateInfo: DescriptorSetAllocateInfo): VkDescriptorSet =
             stak { it allocateDescriptorSet allocateInfo }
@@ -51,14 +50,14 @@ interface Device_vk10 : Pointer {
     // --- [ vkAllocateMemory ] ---
 
     infix fun MemoryStack.allocateMemory(allocateInfo: MemoryAllocateInfo): VkDeviceMemory =
-            framed { VkDeviceMemory(this.longAdr { callPPPPI(adr, allocateInfo write this, NULL, it, capabilities.vkAllocateMemory) }) }
+            framed { VkDeviceMemory(this.longAdr { nAllocateMemory(allocateInfo write this, it).check() }) }
 
     infix fun allocateMemory(allocateInfo: MemoryAllocateInfo): VkDeviceMemory =
             stak { it allocateMemory allocateInfo }
 
     // --- [ vkBindBufferMemory ] ---
     fun bindBufferMemory(buffer: VkBuffer, memory: VkDeviceMemory, memoryOffset: VkDeviceSize = VkDeviceSize(0)): VkResult =
-            VkResult(callPJJJI(adr, buffer.L, memory.L, memoryOffset.L, capabilities.vkBindBufferMemory)).apply { check() }
+            VkResult(callPJJJI(adr, buffer.L, memory.L, memoryOffset.L, capabilities.vkBindBufferMemory)).andCheck()
 
     // --- [ vkBindImageMemory ] ---
     fun bindImageMemory(image: VkImage, memory: VkDeviceMemory, memoryOffset: VkDeviceSize = VkDeviceSize(0)): VkResult =
@@ -67,7 +66,7 @@ interface Device_vk10 : Pointer {
     // --- [ vkCreateBuffer ] ---
 
     infix fun MemoryStack.createBuffer(createInfo: BufferCreateInfo): VkBuffer =
-            framed { VkBuffer(this.longAdr { callPPPPI(adr, createInfo write this, NULL, it, capabilities.vkCreateBuffer) }) }
+            framed { VkBuffer(this.longAdr { nCreateBuffer(createInfo write this, it).check() }) }
 
     infix fun createBuffer(createInfo: BufferCreateInfo): VkBuffer =
             stak { it createBuffer createInfo }
@@ -75,7 +74,7 @@ interface Device_vk10 : Pointer {
     // --- [ vkCreateBufferView ] ---
 
     infix fun MemoryStack.createBufferView(createInfo: BufferViewCreateInfo): VkBufferView =
-            framed { VkBufferView(this.longAdr { callPPPPI(adr, createInfo write this, NULL, it, capabilities.vkCreateBufferView) }) }
+            framed { VkBufferView(this.longAdr { nCreateBufferView(createInfo write this, it).check() }) }
 
     infix fun createBufferView(createInfo: BufferViewCreateInfo): VkBufferView =
             stak { it createBufferView createInfo }
@@ -83,7 +82,7 @@ interface Device_vk10 : Pointer {
     // --- [ vkCreateCommandPool ] ---
 
     infix fun MemoryStack.createCommandPool(createInfo: CommandPoolCreateInfo): VkCommandPool =
-            framed { VkCommandPool(this.longAdr { callPPPPI(adr, createInfo write this, NULL, it, capabilities.vkCreateCommandPool) }) }
+            framed { VkCommandPool(this.longAdr { nCreateCommandPool(createInfo write this, it).check() }) }
 
     infix fun createCommandPool(createInfo: CommandPoolCreateInfo): VkCommandPool =
             stak { it createCommandPool createInfo }
@@ -118,7 +117,7 @@ interface Device_vk10 : Pointer {
     // --- [ vkCreateDescriptorPool ] ---
 
     infix fun MemoryStack.createDescriptorPool(createInfo: DescriptorPoolCreateInfo): VkDescriptorPool =
-            framed { VkDescriptorPool(this.longAdr { callPPPPI(adr, createInfo write this, NULL, it, capabilities.vkCreateDescriptorPool) }) }
+            framed { VkDescriptorPool(this.longAdr { nCreateDescriptorPool(createInfo write this, it).check() }) }
 
     infix fun createDescriptorPool(createInfo: DescriptorPoolCreateInfo): VkDescriptorPool =
             stak { it createDescriptorPool createInfo }
@@ -126,7 +125,7 @@ interface Device_vk10 : Pointer {
     // --- [ vkCreateDescriptorSetLayout ] ---
 
     infix fun MemoryStack.createDescriptorSetLayout(createInfo: DescriptorSetLayoutCreateInfo): VkDescriptorSetLayout =
-            framed { VkDescriptorSetLayout(this.longAdr { callPPPPI(adr, createInfo write this, NULL, it, capabilities.vkCreateDescriptorSetLayout) }) }
+            framed { VkDescriptorSetLayout(this.longAdr { nCreateDescriptorSetLayout(createInfo write this, it).check() }) }
 
     infix fun createDescriptorSetLayout(createInfo: DescriptorSetLayoutCreateInfo): VkDescriptorSetLayout =
             stak { it createDescriptorSetLayout createInfo }
@@ -134,7 +133,7 @@ interface Device_vk10 : Pointer {
     // --- [ vkCreateEvent ] ---
 
     infix fun MemoryStack.createEvent(createInfo: EventCreateInfo): VkEvent =
-            framed { VkEvent(this.longAdr { callPPPPI(adr, createInfo write this, NULL, it, capabilities.vkCreateEvent) }) }
+            framed { VkEvent(this.longAdr { nCreateEvent(createInfo write this, it).check() }) }
 
     infix fun createEvent(createInfo: EventCreateInfo): VkEvent =
             stak { it createEvent createInfo }
@@ -142,7 +141,7 @@ interface Device_vk10 : Pointer {
     // --- [ vkCreateFence ] ---
 
     infix fun MemoryStack.createFence(createInfo: FenceCreateInfo): VkFence =
-            framed { VkFence(this.longAdr { callPPPPI(adr, createInfo write this, NULL, it, capabilities.vkCreateFence) }) }
+            framed { VkFence(this.longAdr { nCreateFence(createInfo write this, it).check() }) }
 
     infix fun createFence(createInfo: FenceCreateInfo): VkFence =
             stak { it createFence createInfo }
@@ -203,7 +202,7 @@ interface Device_vk10 : Pointer {
     // --- [ vkCreateImage ] ---
 
     infix fun MemoryStack.createImage(createInfo: ImageCreateInfo): VkImage =
-            framed { VkImage(this.longAdr { callPPPPI(adr, createInfo write this, NULL, it, capabilities.vkCreateImage) }) }
+            framed { VkImage(this.longAdr { nCreateImage(createInfo write this, it).check() }) }
 
     infix fun createImage(createInfo: ImageCreateInfo): VkImage =
             stak { it createImage createInfo }
@@ -436,14 +435,14 @@ interface Device_vk10 : Pointer {
     // --- [ vkFreeDescriptorSets ] ---
 
     fun MemoryStack.freeDescriptorSets(descriptorPool: VkDescriptorPool, descriptorSets: VkDescriptorSet_Array): VkResult =
-            framed { nFreeDescriptorSets(descriptorPool, descriptorSets.size, descriptorSets write this).apply { check() } }
+            framed { nFreeDescriptorSets(descriptorPool, descriptorSets.size, descriptorSets write this).andCheck() }
 
     fun freeDescriptorSets(descriptorPool: VkDescriptorPool, descriptorSets: VkDescriptorSet_Array): VkResult =
             stak { it.freeDescriptorSets(descriptorPool, descriptorSets) }
 
 
     fun MemoryStack.freeDescriptorSets(descriptorPool: VkDescriptorPool, descriptorSet: VkDescriptorSet): VkResult =
-            framed { nFreeDescriptorSets(descriptorPool, 1, this.longAdr(descriptorSet.L)).apply { check() } }
+            framed { nFreeDescriptorSets(descriptorPool, 1, this.longAdr(descriptorSet.L)).andCheck() }
 
     fun freeDescriptorSets(descriptorPool: VkDescriptorPool, descriptorSet: VkDescriptorSet): VkResult =
             stak { it.freeDescriptorSets(descriptorPool, descriptorSet) }
@@ -570,11 +569,11 @@ interface Device_vk10 : Pointer {
 
     // --- [ vkResetCommandPool ] ---
     fun resetCommandPool(commandPool: VkCommandPool, flags: VkCommandPoolResetFlags = 0): VkResult =
-            VkResult(callPJI(adr, commandPool.L, flags, capabilities.vkResetCommandPool)).apply { check() }
+            VkResult(callPJI(adr, commandPool.L, flags, capabilities.vkResetCommandPool)).andCheck()
 
     // --- [ vkResetDescriptorPool ] ---
     fun resetDescriptorPool(descriptorPool: VkDescriptorPool, flags: VkDescriptorPoolResetFlags): VkResult =
-            VkResult(callPJI(adr, descriptorPool.L, flags, capabilities.vkResetDescriptorPool)).apply { check() }
+            VkResult(callPJI(adr, descriptorPool.L, flags, capabilities.vkResetDescriptorPool)).andCheck()
 
     // --- [ vkResetEvent ] ---
     infix fun resetEvent(event: VkEvent): VkResult =
@@ -635,44 +634,74 @@ interface Device_vk10 : Pointer {
             stak { it.waitForFences(fence, waitAll, timeout) }
 }
 
-private inline fun Device_vk10.nAllocateDescriptorSets(pAllocateInfo: Ptr, pDescriptorSets: Ptr): VkResult =
+inline fun Device_vk10.nAcquireNextImageKHR(swapchain: VkSwapchainKHR, timeout: Long = -1L, semaphore: VkSemaphore, fence: VkFence = VkFence.NULL, pImage: Ptr): VkResult =
+        VkResult(callPJJJJPI(adr, swapchain.L, timeout, semaphore.L, fence.L, pImage, capabilities.vkAcquireNextImageKHR))
+
+inline fun Device_vk10.nAllocateDescriptorSets(pAllocateInfo: Ptr, pDescriptorSets: Ptr): VkResult =
         VkResult(callPPPI(adr, pAllocateInfo, pDescriptorSets, capabilities.vkAllocateDescriptorSets))
 
-private inline fun Device_vk10.nCreateComputePipelines(pipelineCache: VkPipelineCache, createInfoCount: Int, pCreateInfos: Ptr, pPipelines: Ptr): VkResult =
+inline fun Device_vk10.nAllocateMemory(allocateInfo: Ptr, memory: Ptr): VkResult =
+        VkResult(callPPPPI(adr, allocateInfo, NULL, memory, capabilities.vkAllocateMemory))
+
+inline fun Device_vk10.nCreateBuffer(createInfo: Ptr, buffer: Ptr): VkResult =
+        VkResult(callPPPPI(adr, createInfo, NULL, buffer, capabilities.vkCreateBuffer))
+
+inline fun Device_vk10.nCreateBufferView(createInfo: Ptr, bufferView: Ptr): VkResult =
+        VkResult(callPPPPI(adr, createInfo, NULL, bufferView, capabilities.vkCreateBufferView))
+
+inline fun Device_vk10.nCreateCommandPool(createInfo: Ptr, commandPool: Ptr): VkResult =
+        VkResult(callPPPPI(adr, createInfo, NULL, commandPool, capabilities.vkCreateCommandPool))
+
+inline fun Device_vk10.nCreateComputePipelines(pipelineCache: VkPipelineCache, createInfoCount: Int, pCreateInfos: Ptr, pPipelines: Ptr): VkResult =
         VkResult(callPJPPPI(adr, pipelineCache.L, createInfoCount, pCreateInfos, NULL, pPipelines, capabilities.vkCreateComputePipelines))
 
-private inline fun Device_vk10.nCreateFramebuffer(createInfo: Ptr, framebuffer: Ptr): VkResult =
+inline fun Device_vk10.nCreateDescriptorPool(createInfo: Ptr, descriptorPool: Ptr): VkResult =
+        VkResult(callPPPPI(adr, createInfo, NULL, descriptorPool, capabilities.vkCreateDescriptorPool))
+
+inline fun Device_vk10.nCreateDescriptorSetLayout(createInfo: Ptr, descriptorSetLayout: Ptr): VkResult =
+        VkResult(callPPPPI(adr, createInfo, NULL, descriptorSetLayout, capabilities.vkCreateDescriptorSetLayout))
+
+inline fun Device_vk10.nCreateEvent(createInfo: Ptr, event: Ptr): VkResult =
+        VkResult(callPPPPI(adr, createInfo, NULL, event, capabilities.vkCreateEvent))
+
+inline fun Device_vk10.nCreateFence(createInfo: Ptr, fence: Ptr): VkResult =
+        VkResult(callPPPPI(adr, createInfo, NULL, fence, capabilities.vkCreateFence))
+
+inline fun Device_vk10.nCreateFramebuffer(createInfo: Ptr, framebuffer: Ptr): VkResult =
         VkResult(callPPPPI(adr, createInfo, NULL, framebuffer, capabilities.vkCreateFramebuffer))
 
-private inline fun Device_vk10.nCreateGraphicsPipelines(pipelineCache: VkPipelineCache, createInfoCount: Int, pCreateInfos: Ptr, pPipelines: Ptr): VkResult =
+inline fun Device_vk10.nCreateGraphicsPipelines(pipelineCache: VkPipelineCache, createInfoCount: Int, pCreateInfos: Ptr, pPipelines: Ptr): VkResult =
         VkResult(callPJPPPI(adr, pipelineCache.L, createInfoCount, pCreateInfos, NULL, pPipelines, capabilities.vkCreateGraphicsPipelines))
 
-private inline fun Device_vk10.nCreateImageView(createInfo: Ptr, imageView: Ptr): VkResult =
+inline fun Device_vk10.nCreateImage(createInfo: Ptr, image: Ptr): VkResult =
+        VkResult(callPPPPI(adr, createInfo, NULL, image, capabilities.vkCreateImage))
+
+inline fun Device_vk10.nCreateImageView(createInfo: Ptr, imageView: Ptr): VkResult =
         VkResult(callPPPPI(adr, createInfo, NULL, imageView, capabilities.vkCreateImageView))
 
-private inline fun Device_vk10.nFlushMappedMemoryRanges(memoryRangeCount: Int, pMemoryRanges: Ptr): VkResult =
+inline fun Device_vk10.nFlushMappedMemoryRanges(memoryRangeCount: Int, pMemoryRanges: Ptr): VkResult =
         VkResult(callPPI(adr, memoryRangeCount, pMemoryRanges, capabilities.vkFlushMappedMemoryRanges))
 
-private inline fun Device_vk10.nFreeCommandBuffers(commandPool: VkCommandPool, commandBufferCount: Int, pCommandBuffers: Ptr) =
+inline fun Device_vk10.nFreeCommandBuffers(commandPool: VkCommandPool, commandBufferCount: Int, pCommandBuffers: Ptr) =
         callPJPV(adr, commandPool.L, commandBufferCount, pCommandBuffers, capabilities.vkFreeCommandBuffers)
 
-private inline fun Device_vk10.nFreeDescriptorSets(descriptorPool: VkDescriptorPool, descriptorSetCount: Int, pDescriptorSets: Ptr): VkResult =
+inline fun Device_vk10.nFreeDescriptorSets(descriptorPool: VkDescriptorPool, descriptorSetCount: Int, pDescriptorSets: Ptr): VkResult =
         VkResult(callPJPI(adr, descriptorPool.L, descriptorSetCount, pDescriptorSets, capabilities.vkFreeDescriptorSets))
 
-private inline fun Device_vk10.nGetImageSparseMemoryRequirements(image: VkImage, pSparseMemoryRequirementCount: IntPtr, pSparseMemoryRequirements: Ptr = NULL) =
+inline fun Device_vk10.nGetImageSparseMemoryRequirements(image: VkImage, pSparseMemoryRequirementCount: IntPtr, pSparseMemoryRequirements: Ptr = NULL) =
         callPJPPV(adr, image.L, pSparseMemoryRequirementCount.adr, pSparseMemoryRequirements, capabilities.vkGetImageSparseMemoryRequirements)
 
-private inline fun Device_vk10.nGetPipelineCacheData(pipelineCache: VkPipelineCache, pDataSize: IntPtr, pData: Ptr = NULL): VkResult =
+inline fun Device_vk10.nGetPipelineCacheData(pipelineCache: VkPipelineCache, pDataSize: IntPtr, pData: Ptr = NULL): VkResult =
         VkResult(callPJPPI(adr, pipelineCache.L, pDataSize.adr, pData, capabilities.vkGetPipelineCacheData))
 
-private inline fun Device_vk10.nGetSwapchainImagesKHR(swapchain: VkSwapchainKHR, pSwapchainImageCount: Ptr, pSwapchainImages: Ptr = NULL): VkResult =
+inline fun Device_vk10.nGetSwapchainImagesKHR(swapchain: VkSwapchainKHR, pSwapchainImageCount: Ptr, pSwapchainImages: Ptr = NULL): VkResult =
         VkResult(callPJPPI(adr, swapchain.L, pSwapchainImageCount, pSwapchainImages, capabilities.vkGetSwapchainImagesKHR))
 
-private inline fun Device_vk10.nInvalidateMappedMemoryRanges(memoryRangeCount: Int, pMemoryRanges: Ptr): VkResult =
+inline fun Device_vk10.nInvalidateMappedMemoryRanges(memoryRangeCount: Int, pMemoryRanges: Ptr): VkResult =
         VkResult(callPPI(adr, memoryRangeCount, pMemoryRanges, capabilities.vkInvalidateMappedMemoryRanges))
 
-private inline fun Device_vk10.nUpdateDescriptorSets(descriptorWriteCount: Int, pDescriptorWrites: Ptr, descriptorCopyCount: Int, pDescriptorCopies: Ptr) =
+inline fun Device_vk10.nUpdateDescriptorSets(descriptorWriteCount: Int, pDescriptorWrites: Ptr, descriptorCopyCount: Int, pDescriptorCopies: Ptr) =
         callPPPV(adr, descriptorWriteCount, pDescriptorWrites, descriptorCopyCount, pDescriptorCopies, capabilities.vkUpdateDescriptorSets)
 
-private inline fun Device_vk10.nWaitForFences(fencesCount: Int, fences: Adr, waitAll: Boolean, timeout: NanoSecond): VkResult =
+inline fun Device_vk10.nWaitForFences(fencesCount: Int, fences: Adr, waitAll: Boolean, timeout: NanoSecond): VkResult =
         VkResult(callPPJI(adr, fencesCount, fences, waitAll.i, timeout, capabilities.vkWaitForFences))

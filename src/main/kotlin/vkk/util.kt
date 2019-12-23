@@ -35,6 +35,7 @@ import java.nio.Buffer
 //
 //fun PointerBuffer.isNotEmpty() = position() > 0
 
+inline fun defaultCheck(result: VkResult) = result.check()
 
 infix fun Buffer.copyTo(ptr: Ptr) = MemoryUtil.memCopy(adr, ptr, remSize.L)
 infix fun Buffer.copyFrom(ptr: Ptr) = MemoryUtil.memCopy(ptr, adr, remSize.L)

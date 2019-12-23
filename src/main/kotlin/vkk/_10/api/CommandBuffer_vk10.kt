@@ -19,7 +19,7 @@ interface CommandBuffer_vk10 : Pointer {
     // --- [ vkBeginCommandBuffer ] ---
 
     infix fun MemoryStack.begin(beginInfo: CommandBufferBeginInfo): VkResult =
-            framed { VkResult(callPPI(adr, beginInfo write this, capabilities.vkBeginCommandBuffer)).apply { check() } }
+            framed { VkResult(callPPI(adr, beginInfo write this, capabilities.vkBeginCommandBuffer)).andCheck() }
 
     infix fun begin(beginInfo: CommandBufferBeginInfo): VkResult =
             stak { it begin beginInfo }
@@ -325,9 +325,12 @@ interface CommandBuffer_vk10 : Pointer {
             stak { it.resolveImage(srcImage, srcImageLayout, dstImage, dstImageLayout, region) }
 
     // --- [ vkCmdSetBlendConstants ] ---
-    fun setBlendConstants(blendConstants: FloatArray) = stak { s ->
-        callPPV(adr, blendConstants.toAdr(s).adr, capabilities.vkCmdSetBlendConstants)
-    }
+
+    infix fun MemoryStack.setBlendConstants(blendConstants: FloatArray) =
+            framed{ nSetBlendConstants(blendConstants.toAdr(this).adr) }
+
+    infix fun setBlendConstants(blendConstants: FloatArray) =
+            stak { it setBlendConstants blendConstants }
 
     // --- [ vkCmdSetDepthBias ] ---
     fun setDepthBias(depthBiasConstantFactor: Float, depthBiasClamp: Float, depthBiasSlopeFactor: Float) =
@@ -412,11 +415,11 @@ interface CommandBuffer_vk10 : Pointer {
 
     // --- [ vkEndCommandBuffer ] ---
     fun end(): VkResult =
-            VkResult(callPI(adr, capabilities.vkEndCommandBuffer))
+            VkResult(callPI(adr, capabilities.vkEndCommandBuffer)).andCheck()
 
     // --- [ vkResetCommandBuffer ] ---
     infix fun reset(flags: VkCommandBufferResetFlags): VkResult =
-            VkResult(callPI(adr, flags, capabilities.vkResetCommandBuffer))
+            VkResult(callPI(adr, flags, capabilities.vkResetCommandBuffer)).andCheck()
 }
 
 
@@ -462,6 +465,9 @@ private inline fun CommandBuffer_vk10.nPipelineBarrier(srcStageMask: VkPipelineS
 
 private inline fun CommandBuffer_vk10.nResolveImage(srcImage: VkImage, srcImageLayout: VkImageLayout, dstImage: VkImage, dstImageLayout: VkImageLayout, regionCount: Int, pRegions: Ptr) =
         callPJJPV(adr, srcImage.L, srcImageLayout.i, dstImage.L, dstImageLayout.i, regionCount, pRegions, capabilities.vkCmdResolveImage)
+
+private inline fun CommandBuffer_vk10.nSetBlendConstants(blendConstants: Ptr) =
+    callPPV(adr, blendConstants, capabilities.vkCmdSetBlendConstants)
 
 private inline fun CommandBuffer_vk10.nSetScissor(firstScissor: Int, scissorCount: Int, pScissors: Ptr) =
         callPPV(adr, firstScissor, scissorCount, pScissors, capabilities.vkCmdSetScissor)

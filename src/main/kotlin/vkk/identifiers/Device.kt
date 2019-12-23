@@ -1,7 +1,5 @@
 package identifiers
 
-import glm_.L
-import glm_.i
 import kool.*
 import org.lwjgl.system.APIUtil.apiLog
 import org.lwjgl.system.Checks
@@ -9,12 +7,12 @@ import org.lwjgl.system.FunctionProvider
 import org.lwjgl.system.JNI.*
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.*
-import org.lwjgl.vulkan.*
+import org.lwjgl.vulkan.VkPhysicalDeviceProperties
 import vkk.*
-import vkk._10.api.Device_vk10
+import vkk._10.api.*
 import vkk._10.structs.*
 import vkk._11.api.Device_vk11
-import vkk._11.structs.*
+import vkk._11.structs.DeviceQueueInfo2
 import vkk.entities.*
 
 /** Wraps a Vulkan device dispatchable handle. */

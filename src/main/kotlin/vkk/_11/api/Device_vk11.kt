@@ -22,14 +22,14 @@ interface Device_vk11 : Pointer {
     // --- [ vkBindBufferMemory2 ] ---
 
     infix fun MemoryStack.bindBufferMemory2(bindInfos: Array<BindBufferMemoryInfo>): VkResult =
-            framed { nBindBufferMemory2(bindInfos.size, bindInfos write this).apply { check() } }
+            framed { nBindBufferMemory2(bindInfos.size, bindInfos write this).andCheck() }
 
     infix fun bindBufferMemory2(bindInfos: Array<BindBufferMemoryInfo>): VkResult =
             stak { it bindBufferMemory2 bindInfos }
 
 
     infix fun MemoryStack.bindBufferMemory2(bindInfo: BindBufferMemoryInfo): VkResult =
-            framed { nBindBufferMemory2(1, bindInfo write this).apply { check() } }
+            framed { nBindBufferMemory2(1, bindInfo write this).andCheck() }
 
     infix fun bindBufferMemory2(bindInfo: BindBufferMemoryInfo): VkResult =
             stak { it bindBufferMemory2 bindInfo }
@@ -37,14 +37,14 @@ interface Device_vk11 : Pointer {
     // --- [ vkBindImageMemory2 ] ---
 
     infix fun MemoryStack.bindImageMemory2(bindInfos: Array<BindImageMemoryInfo>): VkResult =
-            framed { nBindImageMemory2(bindInfos.size, bindInfos write this).apply { check() } }
+            framed { nBindImageMemory2(bindInfos.size, bindInfos write this).andCheck() }
 
     infix fun bindImageMemory2(bindInfos: Array<BindImageMemoryInfo>): VkResult =
             stak { it bindImageMemory2 bindInfos }
 
 
     infix fun MemoryStack.bindImageMemory2(bindInfo: BindImageMemoryInfo): VkResult =
-            framed { nBindImageMemory2(1, bindInfo write this).apply { check() } }
+            framed { nBindImageMemory2(1, bindInfo write this).andCheck() }
 
     infix fun bindImageMemory2(bindInfo: BindImageMemoryInfo): VkResult =
             stak { it bindImageMemory2 bindInfo }
