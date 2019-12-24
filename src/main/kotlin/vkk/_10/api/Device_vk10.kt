@@ -2,19 +2,18 @@ package vkk._10.api
 
 import glm_.L
 import glm_.i
-import vkk.identifiers.CapabilitiesDevice
-import vkk.identifiers.CommandBuffer
 import kool.*
+import org.lwjgl.system.Checks
 import org.lwjgl.system.JNI.*
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.*
 import org.lwjgl.system.Pointer
-import org.lwjgl.vulkan.VkFramebufferCreateInfo
-import org.lwjgl.vulkan.VkImageViewCreateInfo
-import org.lwjgl.vulkan.VkSparseImageMemoryRequirements
+import org.lwjgl.vulkan.*
 import vkk.*
 import vkk._10.structs.*
 import vkk.entities.*
+import vkk.identifiers.CapabilitiesDevice
+import vkk.identifiers.CommandBuffer
 
 interface Device_vk10 : Pointer {
 
@@ -337,6 +336,10 @@ interface Device_vk10 : Pointer {
     // --- [ vkDestroyImageView ] ---
     infix fun destroy(imageView: VkImageView) =
             callPJPV(adr, imageView.L, NULL, capabilities.vkDestroyImageView)
+
+    // --- [ vkDestroyPipeline ] ---
+    infix fun destroy(pipeline: VkPipeline) =
+        callPJPV(adr, pipeline.L, NULL, capabilities.vkDestroyPipeline)
 
     // --- [ vkDestroyPipelineCache ] ---
     infix fun destroy(pipelineCache: VkPipelineCache) =
