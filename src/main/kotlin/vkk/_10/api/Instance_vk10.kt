@@ -1,17 +1,21 @@
 package vkk._10.api
 
-import vkk.identifiers.CapabilitiesInstance
 import kool.adr
 import kool.longAdr
 import kool.utf8Adr
+import org.lwjgl.system.Checks
 import org.lwjgl.system.JNI.*
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.NULL
 import org.lwjgl.system.Pointer
 import org.lwjgl.vulkan.VK10
+import org.lwjgl.vulkan.VkAllocationCallbacks
+import org.lwjgl.vulkan.VkInstance
 import vkk.*
 import vkk._10.structs.DebugReportCallbackCreateInfo
 import vkk.entities.VkDebugReportCallback
+import vkk.entities.VkSurfaceKHR
+import vkk.identifiers.CapabilitiesInstance
 
 interface Instance_vk10 : Pointer {
 
@@ -47,4 +51,8 @@ interface Instance_vk10 : Pointer {
     // --- [ vkDestroyInstance ] ---
     fun destroy() =
             callPPV(adr, NULL, capabilities.vkDestroyInstance)
+
+    // --- [ vkDestroySurfaceKHR ] ---
+    infix fun destroy(surface: VkSurfaceKHR) =
+            callPJPV(adr, surface.L, NULL, capabilities.vkDestroySurfaceKHR)
 }

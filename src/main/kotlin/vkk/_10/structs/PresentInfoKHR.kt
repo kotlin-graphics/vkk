@@ -83,12 +83,12 @@ class PresentInfoKHR(
 ) {
 
     constructor(
-            waitSemaphore: VkSemaphore = VkSemaphore.NULL,
+            waitSemaphore: VkSemaphore? = null,
             swapchain: VkSwapchainKHR = VkSwapchainKHR.NULL,
             imageIndex: Int,
             result: VkResult_Array? = null
     ) : this(
-            VkSemaphore_Array(1) { waitSemaphore },
+            waitSemaphore?.let { s -> VkSemaphore_Array(1) { s } },
             VkSwapchainKHR_Array(1) { swapchain },
             intArrayOf(imageIndex),
             result
