@@ -139,11 +139,11 @@ interface Device_vk10 : Pointer {
 
     // --- [ vkCreateFence ] ---
 
-    infix fun MemoryStack.createFence(createInfo: FenceCreateInfo): VkFence =
+    fun MemoryStack.createFence(createInfo: FenceCreateInfo = FenceCreateInfo()): VkFence =
             framed { VkFence(this.longAdr { nCreateFence(createInfo write this, it).check() }) }
 
-    infix fun createFence(createInfo: FenceCreateInfo): VkFence =
-            stak { it createFence createInfo }
+    fun createFence(createInfo: FenceCreateInfo = FenceCreateInfo()): VkFence =
+            stak { it.createFence(createInfo) }
 
     // --- [ vkCreateFramebuffer ] ---
 
