@@ -1,5 +1,10 @@
 # VK², Kotlin Wrapper for Vulkan
 
+[![Build Status](https://github.com/kotlin-graphics/vkk/workflows/build/badge.svg)](https://github.com/kotlin-graphics/vkk/actions?workflow=build)
+[![license](https://img.shields.io/badge/License-Apache%202.0-orange.svg)](https://github.com/kotlin-graphics/vkk/blob/master/LICENSE) 
+[![Release](https://jitpack.io/v/kotlin-graphics/vkk.svg)](https://jitpack.io/#kotlin-graphics/vkk) 
+![Size](https://github-size-badge.herokuapp.com/kotlin-graphics/vkk.svg)
+[![Github All Releases](https://img.shields.io/github/downloads/kotlin-graphics/vkk/total.svg)]()
 
 The goal of the VK² is to provide a library for the Vulkan C API to improve the developers Vulkan experience without introducing 
 any considerable CPU runtime cost. It adds features like type safety for enums and bitfields, collection support, exceptions and simple enumerations.
