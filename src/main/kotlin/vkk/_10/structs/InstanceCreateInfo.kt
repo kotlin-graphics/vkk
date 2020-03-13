@@ -7,6 +7,8 @@ import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.*
 import org.lwjgl.vulkan.*
 import org.lwjgl.vulkan.VkInstanceCreateInfo.*
+import vkk.Structure
+import vkk.StructureChain
 import vkk.VkStructureType
 
 /**
@@ -60,8 +62,8 @@ class InstanceCreateInfo(
         var applicationInfo: ApplicationInfo? = null,
         var enabledLayerNames: List<String>? = null,
         var enabledExtensionNames: List<String>? = null,
-        var next: Ptr = NULL
-) {
+        override var next: Structure? = null
+) : Structure, StructureChain {
 
     val type get() = VkStructureType.INSTANCE_CREATE_INFO
 
@@ -75,10 +77,10 @@ class InstanceCreateInfo(
         return this
     }
 
-    infix fun write(stack: MemoryStack): Adr {
+    override infix fun write(stack: MemoryStack): Adr {
         val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
         nsType(adr, type.i)
-        npNext(adr, next)
+        npNext(adr, next?.write(stack) ?: NULL)
         applicationInfo?.let { memPutAddress(adr + PAPPLICATIONINFO, it.write(stack)) }
         enabledLayerNames?.let {
             nenabledLayerCount(adr, it.size)

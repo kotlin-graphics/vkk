@@ -6,9 +6,8 @@ package vkk
 //fun main() {
 //    val cleaner = Cleaner.create()
 //    for (i in 0..9) {
-//        val id = Integer.toString(i)
-//        val vkObject: Integer = java.lang.Integer(i)
-//        cleaner.register(vkObject, CleanerRunnable(id))
+//        val vkObject: VkObject = VkObject(i.L)
+//        cleaner.register(vkObject) { println("VkObject with id $i, is gc'ed") }
 //    }
 //
 //    //myObjects are not reachable anymore
@@ -23,8 +22,4 @@ package vkk
 //    }
 //}
 //
-//class CleanerRunnable(val id: String) : Runnable {
-//    override fun run() = println("VkObject with id $id, is gc'ed")
-//}
-//
-//class VkObject(val handle: Long)
+//inline class VkObject(val handle: Long)

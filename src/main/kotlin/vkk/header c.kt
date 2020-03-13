@@ -438,19 +438,19 @@ typealias VkDebugUtilsMessengerCreateFlagsEXT = VkFlags
 
 inline class VkDebugUtilsMessageSeverityEXT(val i: Int) {
     companion object {
-        val VERBOSE_BIT_EXT = VkDebugUtilsMessageSeverityEXT(0x00000001)
-        val INFO_BIT_EXT = VkDebugUtilsMessageSeverityEXT(0x00000010)
-        val WARNING_BIT_EXT = VkDebugUtilsMessageSeverityEXT(0x00000100)
-        val ERROR_BIT_EXT = VkDebugUtilsMessageSeverityEXT(0x00001000)
+        val VERBOSE = VkDebugUtilsMessageSeverityEXT(0x00000001)
+        val INFO = VkDebugUtilsMessageSeverityEXT(0x00000010)
+        val WARNING = VkDebugUtilsMessageSeverityEXT(0x00000100)
+        val ERROR = VkDebugUtilsMessageSeverityEXT(0x00001000)
     }
 }
 typealias VkDebugUtilsMessageSeverityFlagsEXT = VkFlags
 
 inline class VkDebugUtilsMessageTypeEXT(val i: Int) {
     companion object {
-        val GENERAL_BIT_EXT = VkDebugUtilsMessageTypeEXT(0x00000001)
-        val VALIDATION_BIT_EXT = VkDebugUtilsMessageTypeEXT(0x00000002)
-        val PERFORMANCE_BIT_EXT = VkDebugUtilsMessageTypeEXT(0x00000004)
+        val GENERAL = VkDebugUtilsMessageTypeEXT(0x00000001)
+        val VALIDATION = VkDebugUtilsMessageTypeEXT(0x00000002)
+        val PERFORMANCE = VkDebugUtilsMessageTypeEXT(0x00000004)
     }
 }
 typealias VkDebugUtilsMessageTypeFlagsEXT = VkFlags

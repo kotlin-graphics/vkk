@@ -18,8 +18,17 @@ import vkk._10.structs.InstanceCreateInfo
 import vkk._11.structs.PhysicalDeviceGroupProperties
 import java.util.*
 
+class UniqueInstance(createInfo: InstanceCreateInfo) : Instance(createInfo) {
+    init {
+        vk.cleaner.register(this) {
+            destroy()
+            println("instance gc'ed")
+        }
+    }
+}
+
 /** Wraps a Vulkan instance handle. */
-class Instance
+open class Instance
 /**
  * Creates a {@link VkInstance} instance for the specified native handle.
  *
@@ -40,8 +49,7 @@ private constructor(handle: Ptr, ci: InstanceCreateInfo) :
                 s.pointerAdr {
                     VK_CHECK_RESULT(callPPPI(createInfo write s, NULL, it, VK.globalCommands!!.vkCreateInstance))
                 }
-            }, createInfo
-    )
+            }, createInfo)
 
     // --- [ vkEnumeratePhysicalDevices ] ---
     inline fun nEnumeratePhysicalDevices(pPhysicalDeviceCount: Ptr, pPhysicalDevices: Ptr = NULL): VkResult =

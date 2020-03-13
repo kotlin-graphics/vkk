@@ -1,7 +1,5 @@
 package vkk
 
-//import java.lang.ref.Cleaner
-import vkk.identifiers.VK
 import kool.*
 import org.lwjgl.system.JNI
 import org.lwjgl.system.JNI.callPI
@@ -11,15 +9,18 @@ import org.lwjgl.vulkan.VkExtensionProperties
 import org.lwjgl.vulkan.VkLayerProperties
 import vkk._10.structs.ExtensionProperties
 import vkk._10.structs.LayerProperties
+import vkk.identifiers.VK
+import java.lang.ref.Cleaner
 
 
-//fun main() {
-//    println(VK10.VK_HEADER_VERSION)
-//}
+fun main() {
+    println(org.lwjgl.vulkan.VK10.VK_HEADER_VERSION)
+}
 
 object vk {
 
-    //    val cleaner by lazy { Cleaner.create() }
+    var DEBUG = java.lang.management.ManagementFactory.getRuntimeMXBean().inputArguments.toString().indexOf("-agentlib:jdwp") > 0
+    val cleaner: Cleaner by lazy { Cleaner.create() }
 
     // ---------------------------------------------- VK10 -------------------------------------------------------------
 
@@ -27,7 +28,7 @@ object vk {
     inline fun nEnumerateInstanceExtensionProperties(pLayerName: Ptr, pPropertyCount: IntPtr, pProperties: Ptr = NULL): VkResult =
             VkResult(JNI.callPPPI(pLayerName, pPropertyCount.adr, pProperties, VK.globalCommands!!.vkEnumerateInstanceExtensionProperties))
 
-    infix fun enumerateInstanceExtensionProperties(layerName: String?): Array<ExtensionProperties> = stak { s ->
+    fun enumerateInstanceExtensionProperties(layerName: String? = null): Array<ExtensionProperties> = stak { s ->
         val pLayerName = layerName?.let { s.utf8Adr(layerName) } ?: NULL
         var properties: Ptr = NULL
         val pPropertyCount = s.mInt()

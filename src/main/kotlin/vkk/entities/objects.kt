@@ -57,6 +57,14 @@ inline class VkDebugReportCallback(val L: Long = VK_NULL_HANDLE) {
     }
 }
 
+inline class VkUniqueDebugUtilsMessengerEXT(val L: Long = VK_NULL_HANDLE) {
+    val isValid get() = L != VK_NULL_HANDLE
+    val isInvalid get() = L == VK_NULL_HANDLE
+
+    companion object {
+        val NULL = VkUniqueDebugUtilsMessengerEXT()
+    }
+}
 inline class VkDebugUtilsMessengerEXT(val L: Long = VK_NULL_HANDLE) {
     val isValid get() = L != VK_NULL_HANDLE
     val isInvalid get() = L == VK_NULL_HANDLE

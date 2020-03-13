@@ -48,3 +48,11 @@ inline fun <R> MemoryStack.framed(block: () -> R): R {
         pointer = ptr
     }
 }
+
+interface Structure {
+    infix fun write(stack: MemoryStack): Adr
+}
+
+interface StructureChain {
+    var next: Structure?
+}
