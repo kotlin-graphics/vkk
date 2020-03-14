@@ -1,6 +1,7 @@
 package vkk
 
 import org.lwjgl.vulkan.EXTDebugUtils.VK_EXT_DEBUG_UTILS_EXTENSION_NAME
+import org.lwjgl.vulkan.VK10.VK_API_VERSION_1_0
 import vkk._10.structs.ApplicationInfo
 import vkk._10.structs.ExtensionProperties
 import vkk._10.structs.InstanceCreateInfo
@@ -287,9 +288,9 @@ object vu {
 //    std::vector<std::pair<vk::Format, uint32_t>> const& vertexInputAttributeFormatOffset, vk::FrontFace frontFace, bool depthBuffered,
 //    vk::UniquePipelineLayout const& pipelineLayout, vk::UniqueRenderPass const& renderPass);
 
-    fun Instance(appName: String, engineName: String,
-                 layers: ArrayList<String> = ArrayList(), extensions: ArrayList<String> = ArrayList(),
-                 apiVersion: Int = 1): UniqueInstance {
+    fun createInstance(appName: String, engineName: String,
+                       layers: ArrayList<String> = ArrayList(), extensions: ArrayList<String> = ArrayList(),
+                       apiVersion: Int = VK_API_VERSION_1_0): UniqueInstance {
 
         val layerProperties = ArrayList<LayerProperties>()
         val extensionProperties = ArrayList<ExtensionProperties>()
@@ -298,7 +299,6 @@ object vu {
             layerProperties += vk.enumerateInstanceLayerProperties()
             extensionProperties += vk.enumerateInstanceExtensionProperties()
         }
-
         val enabledLayers = ArrayList<String>(layers.size)
         for (layer in layers) {
             assert(layerProperties.find { layer == it.layerName } != null)

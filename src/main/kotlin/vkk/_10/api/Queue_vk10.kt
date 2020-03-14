@@ -7,10 +7,10 @@ import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.Pointer
 import vkk.VkResult
 import vkk._10.structs.BindSparseInfo
-import vkk._10.structs.PresentInfoKHR
 import vkk._10.structs.SubmitInfo
 import vkk._10.structs.write
 import vkk.entities.VkFence
+import vkk.extensions.PresentInfoKHR
 import vkk.framed
 import vkk.stak
 

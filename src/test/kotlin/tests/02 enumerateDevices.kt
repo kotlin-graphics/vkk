@@ -1,7 +1,7 @@
 package tests
 
 import io.kotlintest.specs.StringSpec
-import vkk.identifiers.VK
+import org.lwjgl.system.Configuration
 import vkk.vk
 import vkk.vu
 
@@ -13,9 +13,9 @@ class `02 enumerateDevices` : StringSpec() {
     init {
         "02 enumerateDevices" {
 
-            val instance = vu.Instance(appName, engineName)
+            val instance = vu.createInstance(appName, engineName)
 //            if(vk.DEBUG)
-//                vu.DebugUtilsMessenger(instance)
+//                vu.createDebugUtilsMessenger(instance)
 
             // enumerate the physicalDevices
             val physicalDevice = instance.enumeratePhysicalDevices.first()

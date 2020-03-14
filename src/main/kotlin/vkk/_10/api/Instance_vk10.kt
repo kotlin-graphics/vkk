@@ -51,8 +51,4 @@ interface Instance_vk10 : Pointer {
     // --- [ vkDestroyInstance ] ---
     fun destroy() =
             callPPV(adr, NULL, capabilities.vkDestroyInstance)
-
-    // --- [ vkDestroySurfaceKHR ] ---
-    infix fun destroy(surface: VkSurfaceKHR) =
-            callPJPV(adr, surface.L, NULL, capabilities.vkDestroySurfaceKHR)
 }

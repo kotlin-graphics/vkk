@@ -114,36 +114,6 @@ interface PhysicalDevice_vk10 : Pointer {
     fun getSparseImageFormatProperties(format: VkFormat, type: VkImageType, samples: VkSampleCount, usage: VkImageUsageFlags, tiling: VkImageTiling): Array<SparseImageFormatProperties> =
             stak { it.getSparseImageFormatProperties(format, type, samples, usage, tiling) }
 
-    // --- [ vkGetPhysicalDeviceSurfaceFormatsKHR ] ---
-
-    infix fun MemoryStack.getSurfaceFormatsKHR(surface: VkSurfaceKHR): MutableList<SurfaceFormatKHR> =
-            framed {
-                val pCount = this.mInt()
-                nGetSurfaceFormatsKHR(surface, pCount.adr).check()
-                val count = pCount[0]
-                assert(count > 0)
-                val pSurfaceFormats = this.ncalloc(VkSurfaceFormatKHR.ALIGNOF, count, VkSurfaceFormatKHR.SIZEOF)
-                nGetSurfaceFormatsKHR(surface, pCount.adr, pSurfaceFormats).check()
-                MutableList(count) { SurfaceFormatKHR(IntPtr(pSurfaceFormats + VkSurfaceFormatKHR.SIZEOF * it)) }
-            }
-
-    infix fun getSurfaceFormatsKHR(surface: VkSurfaceKHR): MutableList<SurfaceFormatKHR> =
-            stak { it getSurfaceFormatsKHR surface }
-
-    // --- [ vkGetPhysicalDeviceSurfaceSupportKHR ] ---
-
-    fun MemoryStack.getSurfaceSupportKHR(queueFamilySize: Int, surface: VkSurfaceKHR): BooleanArray =
-            framed {
-                val supported = this.mInt()
-                BooleanArray(queueFamilySize) {
-                    VK_CHECK_RESULT(callPJPI(adr, it, surface.L, supported.adr, capabilities.vkGetPhysicalDeviceSurfaceSupportKHR))
-                    supported[0].bool
-                }
-            }
-
-    fun getSurfaceSupportKHR(queueFamilySize: Int, surface: VkSurfaceKHR): BooleanArray =
-            stak { it.getSurfaceSupportKHR(queueFamilySize, surface) }
-
     // --- [ vkGetPhysicalDeviceMemoryProperties ] ---
 
     val MemoryStack.memoryProperties: PhysicalDeviceMemoryProperties
@@ -168,36 +138,6 @@ interface PhysicalDevice_vk10 : Pointer {
 
     val queueFamilyProperties: Array<QueueFamilyProperties>
         get() = stak { it.queueFamilyProperties }
-
-    // --- [ vkGetPhysicalDeviceSurfaceCapabilitiesKHR ] ---
-
-    infix fun MemoryStack.getSurfaceCapabilitiesKHR(surface: VkSurfaceKHR): SurfaceCapabilitiesKHR =
-            framed { SurfaceCapabilitiesKHR.read(this) { VK_CHECK_RESULT(callPJPI(adr, surface.L, it, capabilities.vkGetPhysicalDeviceSurfaceCapabilitiesKHR)) } }
-
-    infix fun getSurfaceCapabilitiesKHR(surface: VkSurfaceKHR): SurfaceCapabilitiesKHR =
-            stak { it getSurfaceCapabilitiesKHR surface }
-
-    // --- [ vkGetPhysicalDeviceSurfacePresentModesKHR ] ---
-
-    infix fun MemoryStack.getSurfacePresentModesKHR(surface: VkSurfaceKHR): VkPresentModeKHR_Array =
-            framed {
-                val pPresentModeCount = this.mInt()
-                var propertyCount: Int
-                var result: VkResult
-                var pPresentModes = IntPtr.NULL
-                do {
-                    result = nGetSurfacePresentModesKHR(surface, pPresentModeCount.adr)
-                    propertyCount = pPresentModeCount[0]
-                    if (result == VkResult.SUCCESS && propertyCount != 0) {
-                        pPresentModes = this.mInt(propertyCount)
-                        nGetSurfacePresentModesKHR(surface, pPresentModeCount.adr, pPresentModes.adr).check()
-                    }
-                } while (result == VkResult.INCOMPLETE)
-                VkPresentModeKHR_Array(propertyCount) { VkPresentModeKHR(pPresentModes[it]) }
-            }
-
-    infix fun getSurfacePresentModesKHR(surface: VkSurfaceKHR): VkPresentModeKHR_Array =
-            stak { it getSurfacePresentModesKHR surface }
 }
 
 private inline fun PhysicalDevice_vk10.nEnumerateDeviceExtensionProperties(pLayerName: Ptr, pPropertyCount: IntPtr, pProperties: Ptr = NULL): VkResult =
@@ -209,11 +149,5 @@ private inline fun PhysicalDevice_vk10.nEnumerateDeviceLayerProperties(pProperty
 private inline fun PhysicalDevice_vk10.nGetSparseImageFormatProperties(format: VkFormat, type: VkImageType, samples: VkSampleCount, usage: VkImageUsageFlags, tiling: VkImageTiling, pPropertyCount: IntPtr, pProperties: Ptr = NULL) =
         callPPPV(adr, format.i, type.i, samples.i, usage, tiling.i, pPropertyCount.adr, pProperties, capabilities.vkGetPhysicalDeviceSparseImageFormatProperties)
 
-private inline fun PhysicalDevice_vk10.nGetSurfaceFormatsKHR(surface: VkSurfaceKHR, pSurfaceFormatCount: Ptr, pSurfaceFormats: Ptr = NULL): VkResult =
-        VkResult(callPJPPI(adr, surface.L, pSurfaceFormatCount, pSurfaceFormats, capabilities.vkGetPhysicalDeviceSurfaceFormatsKHR))
-
 private inline fun PhysicalDevice_vk10.nGetQueueFamilyProperties(pQueueFamilyPropertyCount: Ptr, pQueueFamilyProperties: Ptr = NULL) =
         callPPPV(adr, pQueueFamilyPropertyCount, pQueueFamilyProperties, capabilities.vkGetPhysicalDeviceQueueFamilyProperties)
-
-private inline fun PhysicalDevice_vk10.nGetSurfacePresentModesKHR(surface: VkSurfaceKHR, pPresentModeCount: Ptr, pPresentModes: Ptr = NULL): VkResult =
-        VkResult(callPJPPI(adr, surface.L, pPresentModeCount, pPresentModes, capabilities.vkGetPhysicalDeviceSurfacePresentModesKHR))

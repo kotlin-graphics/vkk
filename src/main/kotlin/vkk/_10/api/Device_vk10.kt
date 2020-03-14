@@ -12,6 +12,7 @@ import org.lwjgl.vulkan.*
 import vkk.*
 import vkk._10.structs.*
 import vkk.entities.*
+import vkk.extensions.SwapchainCreateInfoKHR
 import vkk.identifiers.CapabilitiesDevice
 import vkk.identifiers.CommandBuffer
 

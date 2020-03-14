@@ -4,8 +4,8 @@ import kool.Adr
 import kool.IntPtr
 import kool.LongPtr
 import org.lwjgl.system.MemoryStack
-import vkk.VkPresentModeKHR
 import vkk.VkResult
+import vkk.extensions.VkPresentModeKHR
 
 
 inline class VkAccelerationStructureNV_Array(val array: LongArray) {

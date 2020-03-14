@@ -16,6 +16,7 @@ import vkk.*
 import vkk._10.api.Instance_vk10
 import vkk._10.structs.InstanceCreateInfo
 import vkk._11.structs.PhysicalDeviceGroupProperties
+import vkk.extensions.Instance_KHR_surface
 import java.util.*
 
 class UniqueInstance(createInfo: InstanceCreateInfo) : Instance(createInfo) {
@@ -39,7 +40,9 @@ private constructor(handle: Ptr, ci: InstanceCreateInfo) :
 
         Dispatchable(handle, getInstanceCapabilities(handle, ci)),
 
-        Instance_vk10 {
+        Instance_vk10,
+
+        Instance_KHR_surface {
 
     // ---------------------------------------------- VK10 -------------------------------------------------------------
 
@@ -58,15 +61,15 @@ private constructor(handle: Ptr, ci: InstanceCreateInfo) :
     val MemoryStack.enumeratePhysicalDevices: Array<PhysicalDevice>
         get() = framed {
             var physicalDevices: PointerBuffer? = null
-            val pPhysicalDeviceGroupCount = this.mInt()
+            val pPhysicalDeviceCount = this.mInt()
             var physicalDeviceCount: Int
             var result: VkResult
             do {
-                result = nEnumeratePhysicalDevices(pPhysicalDeviceGroupCount.adr)
-                physicalDeviceCount = pPhysicalDeviceGroupCount[0]
+                result = nEnumeratePhysicalDevices(pPhysicalDeviceCount.adr)
+                physicalDeviceCount = pPhysicalDeviceCount[0]
                 if (result == VkResult.SUCCESS && physicalDeviceCount != 0) {
-                    physicalDevices = this.resize(physicalDevices, physicalDeviceCount)
-                    result = nEnumeratePhysicalDevices(pPhysicalDeviceGroupCount.adr, physicalDevices.adr)
+                    physicalDevices = this.mallocPointer(physicalDeviceCount)
+                    result = nEnumeratePhysicalDevices(pPhysicalDeviceCount.adr, physicalDevices.adr)
                 }
             } while (result == VkResult.INCOMPLETE)
             Array(physicalDeviceCount) { PhysicalDevice(physicalDevices!![0], this@Instance) }

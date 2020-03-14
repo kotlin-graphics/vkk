@@ -1,7 +1,6 @@
 package vkk._10.structs
 
 import kool.BytePtr
-import org.lwjgl.system.MemoryUtil.memUTF8
 import org.lwjgl.vulkan.VkLayerProperties.*
 
 /**
@@ -33,10 +32,9 @@ class LayerProperties(
         var description: String
 ) {
 
-    constructor(ptr: BytePtr) : this (
-            memUTF8(ptr.adr + LAYERNAME),
+    constructor(ptr: BytePtr) : this(
+            nlayerNameString(ptr.adr),
             nspecVersion(ptr.adr),
             nimplementationVersion(ptr.adr),
-            memUTF8(ptr.adr + DESCRIPTION)
-    )
+            ndescriptionString(ptr.adr))
 }

@@ -86,96 +86,9 @@ inline class VkExternalSemaphoreFeature(val i: Int) {
 typealias VkExternalSemaphoreFeatureFlags = VkFlags
 
 
-// ...
+// KHR_surface
 
-
-inline class VkColorSpaceKHR(val i: Int) {
-    companion object {
-        val SRGB_NONLINEAR_KHR = VkColorSpaceKHR(0)
-        val DISPLAY_P3_NONLINEAR_EXT = VkColorSpaceKHR(1000104001)
-        val EXTENDED_SRGB_LINEAR_EXT = VkColorSpaceKHR(1000104002)
-        val DCI_P3_LINEAR_EXT = VkColorSpaceKHR(1000104003)
-        val DCI_P3_NONLINEAR_EXT = VkColorSpaceKHR(1000104004)
-        val BT709_LINEAR_EXT = VkColorSpaceKHR(1000104005)
-        val BT709_NONLINEAR_EXT = VkColorSpaceKHR(1000104006)
-        val BT2020_LINEAR_EXT = VkColorSpaceKHR(1000104007)
-        val HDR10_ST2084_EXT = VkColorSpaceKHR(1000104008)
-        val DOLBYVISION_EXT = VkColorSpaceKHR(1000104009)
-        val HDR10_HLG_EXT = VkColorSpaceKHR(1000104010)
-        val ADOBERGB_LINEAR_EXT = VkColorSpaceKHR(1000104011)
-        val ADOBERGB_NONLINEAR_EXT = VkColorSpaceKHR(1000104012)
-        val PASS_THROUGH_EXT = VkColorSpaceKHR(1000104013)
-        val EXTENDED_SRGB_NONLINEAR_EXT = VkColorSpaceKHR(1000104014)
-        val DISPLAY_NATIVE_AMD = VkColorSpaceKHR(1000213000)
-    }
-}
-
-inline class VkPresentModeKHR(val i: Int) {
-    companion object {
-        val IMMEDIATE = VkPresentModeKHR(0)
-        val MAILBOX = VkPresentModeKHR(1)
-        val FIFO = VkPresentModeKHR(2)
-        val FIFO_RELAXED = VkPresentModeKHR(3)
-        val SHARED_DEMAND_REFRESH = VkPresentModeKHR(1000111000)
-        val SHARED_CONTINUOUS_REFRESH = VkPresentModeKHR(1000111001)
-    }
-}
-
-
-inline class VkSurfaceTransformKHR(val i: Int) {
-    companion object {
-        val IDENTITY_BIT = VkSurfaceTransformKHR(0x00000001)
-        val ROTATE_90_BIT = VkSurfaceTransformKHR(0x00000002)
-        val ROTATE_180_BIT = VkSurfaceTransformKHR(0x00000004)
-        val ROTATE_270_BIT = VkSurfaceTransformKHR(0x00000008)
-        val HORIZONTAL_MIRROR_BIT = VkSurfaceTransformKHR(0x00000010)
-        val HORIZONTAL_MIRROR_ROTATE_90_BIT = VkSurfaceTransformKHR(0x00000020)
-        val HORIZONTAL_MIRROR_ROTATE_180_BIT = VkSurfaceTransformKHR(0x00000040)
-        val HORIZONTAL_MIRROR_ROTATE_270_BIT = VkSurfaceTransformKHR(0x00000080)
-        val INHERIT_BIT = VkSurfaceTransformKHR(0x00000100)
-    }
-}
-
-infix fun Int.has(f: VkSurfaceTransformKHR) = and(f.i) != 0
-
-typealias VkSurfaceTransformFlagsKHR = VkFlags
-
-inline class VkCompositeAlphaKHR(val i: Int) {
-    companion object {
-        val OPAQUE_BIT = VkCompositeAlphaKHR(0x00000001)
-        val PRE_MULTIPLIED_BIT = VkCompositeAlphaKHR(0x00000002)
-        val POST_MULTIPLIED_BIT = VkCompositeAlphaKHR(0x00000004)
-        val INHERIT_BIT = VkCompositeAlphaKHR(0x00000008)
-    }
-}
-
-infix fun Int.has(f: VkCompositeAlphaKHR) = and(f.i) != 0
-
-typealias VkCompositeAlphaFlagsKHR = VkFlags
-
-// ...
-
-inline class VkSwapchainCreateKHR(val i: Int) {
-    companion object {
-        val SPLIT_INSTANCE_BIND_REGIONS_BIT = VkSwapchainCreateKHR(0x00000001)
-        val PROTECTED_BIT = VkSwapchainCreateKHR(0x00000002)
-        val MUTABLE_FORMAT_BIT = VkSwapchainCreateKHR(0x00000004)
-    }
-}
-
-typealias VkSwapchainCreateFlagsKHR = VkFlags
-
-
-inline class VkDeviceGroupPresentModeKHR(val i: Int) {
-    companion object {
-        val LOCAL_BIT = VkDeviceGroupPresentModeKHR(0x00000001)
-        val REMOTE_BIT = VkDeviceGroupPresentModeKHR(0x00000002)
-        val SUM_BIT = VkDeviceGroupPresentModeKHR(0x00000004)
-        val LOCAL_MULTI_DEVICE_BIT = VkDeviceGroupPresentModeKHR(0x00000008)
-    }
-}
-
-typealias VkDeviceGroupPresentModeFlagsKHR = VkFlags
+// KHR_swapchain
 
 // ..
 

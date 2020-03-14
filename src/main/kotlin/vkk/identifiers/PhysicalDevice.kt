@@ -8,6 +8,7 @@ import vkk.VK_CHECK_RESULT
 import vkk._10.api.PhysicalDevice_vk10
 import vkk._11.api.PhysicalDevice_vk11
 import vkk._10.structs.DeviceCreateInfo
+import vkk.extensions.PhysicalDevice_KHR_surface
 import vkk.framed
 import vkk.identifiers.Device
 import vkk.identifiers.Dispatchable
@@ -30,7 +31,9 @@ constructor(handle: Adr,
 
         PhysicalDevice_vk10,
 
-        PhysicalDevice_vk11 {
+        PhysicalDevice_vk11,
+
+        PhysicalDevice_KHR_surface {
 
 
     // ---------------------------------------------- VK10 -------------------------------------------------------------
@@ -46,9 +49,5 @@ constructor(handle: Adr,
 
     infix fun createDevice(createInfo: DeviceCreateInfo): Device =
             stak { it createDevice createInfo }
-
-
-    // ---------------------------------------------- VK11 -------------------------------------------------------------
-
 
 }

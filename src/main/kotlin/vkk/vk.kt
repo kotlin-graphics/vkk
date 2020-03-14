@@ -19,7 +19,7 @@ fun main() {
 
 object vk {
 
-    var DEBUG = java.lang.management.ManagementFactory.getRuntimeMXBean().inputArguments.toString().indexOf("-agentlib:jdwp") > 0
+    var DEBUG = true //java.lang.management.ManagementFactory.getRuntimeMXBean().inputArguments.toString().indexOf("-agentlib:jdwp") > 0
     val cleaner: Cleaner by lazy { Cleaner.create() }
 
     // ---------------------------------------------- VK10 -------------------------------------------------------------
@@ -60,7 +60,7 @@ object vk {
             result = nEnumerateInstanceLayerProperties(pPropertyCount)
             propertyCount = pPropertyCount[0]
             if (result == VkResult.SUCCESS && propertyCount != 0) {
-                properties = s.ncalloc(VkLayerProperties.ALIGNOF, 1, VkLayerProperties.SIZEOF)
+                properties = s.ncalloc(VkLayerProperties.ALIGNOF, propertyCount, VkLayerProperties.SIZEOF)
                 result = nEnumerateInstanceLayerProperties(pPropertyCount, properties)
             }
         } while (result == VkResult.INCOMPLETE)
