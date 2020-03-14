@@ -20,14 +20,6 @@ interface Device_vk10 : Pointer {
 
     val capabilities: CapabilitiesDevice
 
-    // --- [ vkAcquireNextImageKHR ] ---
-
-    fun MemoryStack.acquireNextImageKHR(swapchain: VkSwapchainKHR, timeout: Long = -1L, semaphore: VkSemaphore, fence: VkFence = VkFence.NULL, check: (VkResult) -> Unit = ::defaultCheck): Int =
-            framed { this.intAdr { check(nAcquireNextImageKHR(swapchain, timeout, semaphore, fence, it)) } }
-
-    fun acquireNextImageKHR(swapchain: VkSwapchainKHR, timeout: Long = -1L, semaphore: VkSemaphore, fence: VkFence = VkFence.NULL, check: (VkResult) -> Unit = ::defaultCheck): Int =
-            stak { it.acquireNextImageKHR(swapchain, timeout, semaphore, fence, check) }
-
     // --- [ vkAllocateDescriptorSets ] ---
 
     infix fun MemoryStack.allocateDescriptorSets(allocateInfo: DescriptorSetAllocateInfo): VkDescriptorSet_Array =
@@ -286,14 +278,6 @@ interface Device_vk10 : Pointer {
     infix fun createShaderModule(createInfo: ShaderModuleCreateInfo): VkShaderModule =
             stak { it createShaderModule createInfo }
 
-    // --- [ vkCreateSwapchainKHR ] ---
-
-    infix fun MemoryStack.createSwapchainKHR(createInfo: SwapchainCreateInfoKHR): VkSwapchainKHR =
-            framed { VkSwapchainKHR(this.longAdr { VK_CHECK_RESULT(callPPPPI(adr, createInfo write this, NULL, it, capabilities.vkCreateSwapchainKHR)) }) }
-
-    infix fun createSwapchainKHR(createInfo: SwapchainCreateInfoKHR): VkSwapchainKHR =
-            stak { it createSwapchainKHR createInfo }
-
     // --- [ vkDestroyBuffer ] ---
     infix fun destroy(buffer: VkBuffer) =
             callPJPV(adr, buffer.L, NULL, capabilities.vkDestroyBuffer)
@@ -369,10 +353,6 @@ interface Device_vk10 : Pointer {
     // --- [ vkDestroyShaderModule ] ---
     infix fun destroy(shaderModule: VkShaderModule) =
             callPJPV(adr, shaderModule.L, NULL, capabilities.vkDestroyShaderModule)
-
-    // --- [ vkDestroySwapchainKHR ] ---
-    infix fun destroy(swapchain: VkSwapchainKHR) =
-            callPJPV(adr, swapchain.L, NULL, capabilities.vkDestroySwapchainKHR)
 
     // --- [ vkDeviceWaitIdle ] ---
     fun waitIdle(): VkResult =
@@ -510,28 +490,6 @@ interface Device_vk10 : Pointer {
     fun getQueryPoolResults(queryPool: VkQueryPool, firstQuery: Int, queryCount: Int, dataSize: Int, pData: Ptr, stride: VkDeviceSize, flags: VkQueryResultFlags): VkResult =
             VkResult(callPJPPJI(adr, queryPool.L, firstQuery, queryCount, dataSize.L, pData, stride.L, flags, capabilities.vkGetQueryPoolResults))
 
-    // --- [ vkGetSwapchainImagesKHR ] ---
-
-    infix fun MemoryStack.getSwapchainImagesKHR(swapchain: VkSwapchainKHR): VkImage_Array =
-            framed {
-                var pSwapchainImages = LongPtr.NULL
-                val pSwapchainImageCount = this.mInt()
-                var swapchainImageCount: Int
-                var result: VkResult
-                do {
-                    result = nGetSwapchainImagesKHR(swapchain, pSwapchainImageCount.adr)
-                    swapchainImageCount = pSwapchainImageCount[0]
-                    if (result == VkResult.SUCCESS && swapchainImageCount != 0) {
-                        pSwapchainImages = this.mLong(swapchainImageCount)
-                        result = nGetSwapchainImagesKHR(swapchain, pSwapchainImageCount.adr, pSwapchainImages.adr)
-                    }
-                } while (result == VkResult.INCOMPLETE)
-                VkImage_Array(swapchainImageCount) { VkImage(pSwapchainImages[it]) }
-            }
-
-    infix fun getSwapchainImagesKHR(swapchain: VkSwapchainKHR): VkImage_Array =
-            stak { it getSwapchainImagesKHR swapchain }
-
     // --- [ vkInvalidateMappedMemoryRanges ] ---
 
     infix fun MemoryStack.invalidateMappedMemoryRanges(memoryRanges: Array<MappedMemoryRange>): VkResult =
@@ -638,9 +596,6 @@ interface Device_vk10 : Pointer {
             stak { it.waitForFences(fence, waitAll, timeout) }
 }
 
-inline fun Device_vk10.nAcquireNextImageKHR(swapchain: VkSwapchainKHR, timeout: Long = -1L, semaphore: VkSemaphore, fence: VkFence = VkFence.NULL, pImage: Ptr): VkResult =
-        VkResult(callPJJJJPI(adr, swapchain.L, timeout, semaphore.L, fence.L, pImage, capabilities.vkAcquireNextImageKHR))
-
 inline fun Device_vk10.nAllocateDescriptorSets(pAllocateInfo: Ptr, pDescriptorSets: Ptr): VkResult =
         VkResult(callPPPI(adr, pAllocateInfo, pDescriptorSets, capabilities.vkAllocateDescriptorSets))
 
@@ -697,9 +652,6 @@ inline fun Device_vk10.nGetImageSparseMemoryRequirements(image: VkImage, pSparse
 
 inline fun Device_vk10.nGetPipelineCacheData(pipelineCache: VkPipelineCache, pDataSize: IntPtr, pData: Ptr = NULL): VkResult =
         VkResult(callPJPPI(adr, pipelineCache.L, pDataSize.adr, pData, capabilities.vkGetPipelineCacheData))
-
-inline fun Device_vk10.nGetSwapchainImagesKHR(swapchain: VkSwapchainKHR, pSwapchainImageCount: Ptr, pSwapchainImages: Ptr = NULL): VkResult =
-        VkResult(callPJPPI(adr, swapchain.L, pSwapchainImageCount, pSwapchainImages, capabilities.vkGetSwapchainImagesKHR))
 
 inline fun Device_vk10.nInvalidateMappedMemoryRanges(memoryRangeCount: Int, pMemoryRanges: Ptr): VkResult =
         VkResult(callPPI(adr, memoryRangeCount, pMemoryRanges, capabilities.vkInvalidateMappedMemoryRanges))

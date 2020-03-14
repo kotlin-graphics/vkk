@@ -9,6 +9,7 @@ import vkk._10.api.PhysicalDevice_vk10
 import vkk._11.api.PhysicalDevice_vk11
 import vkk._10.structs.DeviceCreateInfo
 import vkk.extensions.PhysicalDevice_KHR_surface
+import vkk.extensions.PhysicalDevice_KHR_swapchain
 import vkk.framed
 import vkk.identifiers.Device
 import vkk.identifiers.Dispatchable
@@ -33,7 +34,9 @@ constructor(handle: Adr,
 
         PhysicalDevice_vk11,
 
-        PhysicalDevice_KHR_surface {
+        PhysicalDevice_KHR_surface,
+
+        PhysicalDevice_KHR_swapchain {
 
 
     // ---------------------------------------------- VK10 -------------------------------------------------------------

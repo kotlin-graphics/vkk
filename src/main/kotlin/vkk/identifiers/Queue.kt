@@ -2,8 +2,7 @@ package vkk.identifiers
 
 import kool.Ptr
 import vkk._10.api.Queue_vk10
-import vkk.identifiers.Device
-import vkk.identifiers.DispatchableHandleDevice
+import vkk.extensions.Queue_KHR_swapchain
 
 /** Wraps a Vulkan queue handle.  */
 class Queue
@@ -15,8 +14,10 @@ class Queue
  */
 constructor(handle: Ptr,
             /** Returns the device from which this `VkQueue` was retrieved.  */
-            val device: Device
-) :
+            val device: Device) :
+
         DispatchableHandleDevice(handle, device.capabilities),
 
-        Queue_vk10
+        Queue_vk10,
+
+        Queue_KHR_swapchain

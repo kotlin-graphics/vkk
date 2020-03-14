@@ -1,17 +1,20 @@
 package vkk.extensions
 
 import glm_.i
-import kool.Adr
-import kool.Ptr
-import kool.mInt
-import kool.toAdr
+import kool.*
+import org.lwjgl.system.JNI.*
 import org.lwjgl.system.MemoryStack
-import org.lwjgl.system.MemoryUtil
-import org.lwjgl.vulkan.VkPresentInfoKHR
-import org.lwjgl.vulkan.VkSwapchainCreateInfoKHR
+import org.lwjgl.system.MemoryUtil.NULL
+import org.lwjgl.system.MemoryUtil.memPutAddress
+import org.lwjgl.system.Pointer
+import org.lwjgl.vulkan.*
+import org.lwjgl.vulkan.VK11.VK_MAX_DEVICE_GROUP_SIZE
 import vkk.*
 import vkk._10.structs.Extent2D
+import vkk._10.structs.Rect2D
 import vkk.entities.*
+import vkk.identifiers.CapabilitiesDevice
+import vkk.identifiers.CapabilitiesInstance
 
 inline class VkSwapchainCreateKHR(val i: Int) {
     companion object {
@@ -154,7 +157,7 @@ class SwapchainCreateInfoKHR(
         var presentMode: VkPresentModeKHR,
         var clipped: Boolean,
         var oldSwapchain: VkSwapchainKHR,
-        var next: Ptr = MemoryUtil.NULL) {
+        var next: Ptr = NULL) {
 
     val type get() = VkStructureType.SWAPCHAIN_CREATE_INFO_KHR
 
@@ -173,7 +176,7 @@ class SwapchainCreateInfoKHR(
         VkSwapchainCreateInfoKHR.nimageSharingMode(adr, imageSharingMode.i)
         queueFamilyIndices?.let {
             VkSwapchainCreateInfoKHR.nqueueFamilyIndexCount(adr, it.size)
-            MemoryUtil.memPutAddress(adr + VkSwapchainCreateInfoKHR.PQUEUEFAMILYINDICES, it.toAdr(stack).adr)
+            memPutAddress(adr + VkSwapchainCreateInfoKHR.PQUEUEFAMILYINDICES, it.toAdr(stack).adr)
         }
         VkSwapchainCreateInfoKHR.npreTransform(adr, preTransform.i)
         VkSwapchainCreateInfoKHR.ncompositeAlpha(adr, compositeAlpha.i)
@@ -252,7 +255,7 @@ class PresentInfoKHR(
         var swapchains: VkSwapchainKHR_Array,
         var imageIndices: IntArray,
         var results: VkResult_Array? = null,
-        var next: Ptr = MemoryUtil.NULL
+        var next: Ptr = NULL
 ) {
 
     constructor(
@@ -288,16 +291,16 @@ class PresentInfoKHR(
         VkPresentInfoKHR.npNext(adr, next)
         waitSemaphores?.let {
             VkPresentInfoKHR.nwaitSemaphoreCount(adr, it.size)
-            MemoryUtil.memPutAddress(adr + VkPresentInfoKHR.PWAITSEMAPHORES, it.write(stack))
+            memPutAddress(adr + VkPresentInfoKHR.PWAITSEMAPHORES, it.write(stack))
         }
         VkPresentInfoKHR.nswapchainCount(adr, swapchains.size)
-        MemoryUtil.memPutAddress(adr + VkPresentInfoKHR.PSWAPCHAINS, swapchains.write(stack))
-        MemoryUtil.memPutAddress(adr + VkPresentInfoKHR.PIMAGEINDICES, imageIndices.toAdr(stack).adr)
+        memPutAddress(adr + VkPresentInfoKHR.PSWAPCHAINS, swapchains.write(stack))
+        memPutAddress(adr + VkPresentInfoKHR.PIMAGEINDICES, imageIndices.toAdr(stack).adr)
         return when (val results = results) {
             null -> block(adr)
             else -> {
                 val pResults = stack.mInt(swapchains.size)
-                MemoryUtil.memPutAddress(adr + VkPresentInfoKHR.PRESULTS, pResults.adr)
+                memPutAddress(adr + VkPresentInfoKHR.PRESULTS, pResults.adr)
                 block(adr).also {
                     for (i in results.indices)
                         results[i] = VkResult(pResults[i])
@@ -482,6 +485,18 @@ class AcquireNextImageInfoKHR(
         var deviceMask: Int) {
 
     val type get() = VkStructureType.ACQUIRE_NEXT_IMAGE_INFO_KHR
+
+    infix fun write(stack: MemoryStack): Adr {
+        val adr = stack.ncalloc(VkAcquireNextImageInfoKHR.ALIGNOF, 1, VkAcquireNextImageInfoKHR.SIZEOF)
+        VkAcquireNextImageInfoKHR.nsType(adr, type.i)
+        // pNext must be null
+        VkAcquireNextImageInfoKHR.nswapchain(adr, swapchain.L)
+        VkAcquireNextImageInfoKHR.ntimeout(adr, timeout)
+        VkAcquireNextImageInfoKHR.nsemaphore(adr, semaphore.L)
+        VkAcquireNextImageInfoKHR.nfence(adr, fence.L)
+        VkAcquireNextImageInfoKHR.ndeviceMask(adr, deviceMask)
+        return adr
+    }
 }
 
 /**
@@ -530,6 +545,19 @@ class DeviceGroupPresentCapabilitiesKHR(
         var modes: VkDeviceGroupPresentModeFlagsKHR) {
 
     val type get() = VkStructureType.DEVICE_GROUP_PRESENT_CAPABILITIES_KHR
+
+    constructor(ptr: BytePtr) : this(
+            IntArray(VK_MAX_DEVICE_GROUP_SIZE) { VkDeviceGroupPresentCapabilitiesKHR.npresentMask(ptr.adr, it) },
+            VkDeviceGroupPresentCapabilitiesKHR.nmodes(ptr.adr))
+
+    companion object {
+        //        inline infix fun <R> read(block: (Adr) -> R): PhysicalDeviceProperties2 = stak { read(it, block) }
+        inline fun <R> read(stack: MemoryStack, block: (Adr) -> R): DeviceGroupPresentCapabilitiesKHR {
+            val adr = stack.ncalloc(VkDeviceGroupPresentCapabilitiesKHR.ALIGNOF, 1, VkDeviceGroupPresentCapabilitiesKHR.SIZEOF)
+            block(adr)
+            return DeviceGroupPresentCapabilitiesKHR(BytePtr(adr))
+        }
+    }
 }
 
 /**
@@ -634,3 +662,128 @@ class DeviceGroupSwapchainCreateInfoKHR(
 
     val type get() = VkStructureType.DEVICE_GROUP_SWAPCHAIN_CREATE_INFO_KHR
 }
+
+interface Device_KHR_swapchain : Pointer {
+
+    val capabilities: CapabilitiesDevice
+
+    // --- [ vkCreateSwapchainKHR ] ---
+
+    infix fun MemoryStack.createSwapchainKHR(createInfo: SwapchainCreateInfoKHR): VkSwapchainKHR =
+            framed { VkSwapchainKHR(this.longAdr { VK_CHECK_RESULT(callPPPPI(adr, createInfo write this, NULL, it, capabilities.vkCreateSwapchainKHR)) }) }
+
+    infix fun createSwapchainKHR(createInfo: SwapchainCreateInfoKHR): VkSwapchainKHR =
+            stak { it createSwapchainKHR createInfo }
+
+    // --- [ vkDestroySwapchainKHR ] ---
+    infix fun destroy(swapchain: VkSwapchainKHR) =
+            callPJPV(adr, swapchain.L, NULL, capabilities.vkDestroySwapchainKHR)
+
+    // --- [ vkGetSwapchainImagesKHR ] ---
+
+    infix fun MemoryStack.getSwapchainImagesKHR(swapchain: VkSwapchainKHR): VkImage_Array =
+            framed {
+                var pSwapchainImages = LongPtr.NULL
+                val pSwapchainImageCount = this.mInt()
+                var swapchainImageCount: Int
+                var result: VkResult
+                do {
+                    result = nGetSwapchainImagesKHR(swapchain, pSwapchainImageCount.adr)
+                    swapchainImageCount = pSwapchainImageCount[0]
+                    if (result == VkResult.SUCCESS && swapchainImageCount != 0) {
+                        pSwapchainImages = this.mLong(swapchainImageCount)
+                        result = nGetSwapchainImagesKHR(swapchain, pSwapchainImageCount.adr, pSwapchainImages.adr)
+                    }
+                } while (result == VkResult.INCOMPLETE)
+                VkImage_Array(swapchainImageCount) { VkImage(pSwapchainImages[it]) }
+            }
+
+    infix fun getSwapchainImagesKHR(swapchain: VkSwapchainKHR): VkImage_Array =
+            stak { it getSwapchainImagesKHR swapchain }
+
+
+    // --- [ vkAcquireNextImageKHR ] ---
+
+    fun MemoryStack.acquireNextImageKHR(swapchain: VkSwapchainKHR, timeout: Long = -1L, semaphore: VkSemaphore, fence: VkFence = VkFence.NULL, check: (VkResult) -> Unit = ::defaultCheck): Int =
+            framed { this.intAdr { check(nAcquireNextImageKHR(swapchain, timeout, semaphore, fence, it)) } }
+
+    fun acquireNextImageKHR(swapchain: VkSwapchainKHR, timeout: Long = -1L, semaphore: VkSemaphore, fence: VkFence = VkFence.NULL, check: (VkResult) -> Unit = ::defaultCheck): Int =
+            stak { it.acquireNextImageKHR(swapchain, timeout, semaphore, fence, check) }
+
+
+    // --- [ vkGetDeviceGroupPresentCapabilitiesKHR ] ---
+
+    val MemoryStack.groupPresentCapabilitiesKHR: DeviceGroupPresentCapabilitiesKHR
+        get() = DeviceGroupPresentCapabilitiesKHR.read(this) { callPPI(adr, it, capabilities.vkGetDeviceGroupPresentCapabilitiesKHR) }
+
+    val groupPresentCapabilitiesKHR: DeviceGroupPresentCapabilitiesKHR
+        get() = stak { it.groupPresentCapabilitiesKHR }
+
+
+    // --- [ vkGetDeviceGroupSurfacePresentModesKHR ] ---
+
+    infix fun MemoryStack.getGroupSurfacePresentModesKHR(surface: VkSurfaceKHR): VkDeviceGroupPresentModeFlagsKHR =
+            intAdr { callPJPI(adr, surface.L, it, capabilities.vkGetDeviceGroupSurfacePresentModesKHR) }
+
+    infix fun getGroupSurfacePresentModesKHR(surface: VkSurfaceKHR): VkDeviceGroupPresentModeFlagsKHR =
+            stak { it getGroupSurfacePresentModesKHR surface }
+
+    // --- [ vkAcquireNextImage2KHR ] ---
+
+    infix fun MemoryStack.acquireNextImage2KHR(acquireInfo: AcquireNextImageInfoKHR): Int {
+        val pImageIndex = this.mInt()
+        VK_CHECK_RESULT(callPPPI(adr, acquireInfo write this, pImageIndex.adr, capabilities.vkAcquireNextImage2KHR))
+        return pImageIndex()
+    }
+
+    infix fun acquireNextImage2KHR(acquireInfo: AcquireNextImageInfoKHR): Int =
+            stak { it acquireNextImage2KHR acquireInfo }
+}
+
+inline fun Device_KHR_swapchain.nGetSwapchainImagesKHR(swapchain: VkSwapchainKHR, pSwapchainImageCount: Ptr, pSwapchainImages: Ptr = NULL): VkResult =
+        VkResult(callPJPPI(adr, swapchain.L, pSwapchainImageCount, pSwapchainImages, capabilities.vkGetSwapchainImagesKHR))
+
+inline fun Device_KHR_swapchain.nAcquireNextImageKHR(swapchain: VkSwapchainKHR, timeout: Long = -1L, semaphore: VkSemaphore, fence: VkFence = VkFence.NULL, pImage: Ptr): VkResult =
+        VkResult(callPJJJJPI(adr, swapchain.L, timeout, semaphore.L, fence.L, pImage, capabilities.vkAcquireNextImageKHR))
+
+interface Queue_KHR_swapchain : Pointer {
+
+    val capabilities: CapabilitiesDevice
+
+    // --- [ vkQueuePresentKHR ] ---
+
+    infix fun MemoryStack.presentKHR(presentInfo: PresentInfoKHR): VkResult =
+            framed { presentInfo.native(this) { pPresentInfo -> VkResult(callPPI(adr, pPresentInfo, capabilities.vkQueuePresentKHR)).andCheck() } }
+
+    infix fun presentKHR(presentInfo: PresentInfoKHR): VkResult =
+            stak { it presentKHR presentInfo }
+}
+
+
+interface PhysicalDevice_KHR_swapchain : Pointer {
+
+    val capabilities: CapabilitiesInstance
+
+    // --- [ vkGetPhysicalDevicePresentRectanglesKHR ] ---
+
+    infix fun MemoryStack.getPresentRectanglesKHR(surface: VkSurfaceKHR): Array<Rect2D> {
+        var rects: Ptr = NULL
+        val pRectCount = this.mInt()
+        var rectCount: Int
+        do {
+            var result = nGetPresentRectanglesKHR(surface, pRectCount.adr)
+            rectCount = pRectCount()
+            if (result == VkResult.SUCCESS && rectCount != 0) {
+                rects = this.ncalloc(VkRect2D.ALIGNOF, size, VkRect2D.SIZEOF)
+                result = nGetPresentRectanglesKHR(surface, pRectCount.adr, rects)
+            }
+        } while (result == VkResult.INCOMPLETE)
+        return Array(rectCount) { Rect2D(IntPtr(rects + it * VkRect2D.SIZEOF)) }
+    }
+
+    infix fun getPresentRectanglesKHR(surface: VkSurfaceKHR): Array<Rect2D> =
+            stak { it getPresentRectanglesKHR surface }
+}
+
+inline fun PhysicalDevice_KHR_swapchain.nGetPresentRectanglesKHR(surface: VkSurfaceKHR, pRectCount: Ptr, pRects: Ptr = NULL): VkResult =
+        VkResult(callPJPPI(adr, surface.L, pRectCount, pRects, capabilities.vkGetPhysicalDevicePresentRectanglesKHR))

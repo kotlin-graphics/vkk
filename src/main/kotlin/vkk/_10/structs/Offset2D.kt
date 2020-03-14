@@ -1,6 +1,7 @@
 package vkk._10.structs
 
 import glm_.vec2.Vec2i
+import kool.IntPtr
 import kool.Ptr
 import org.lwjgl.vulkan.VkOffset2D.nx
 import org.lwjgl.vulkan.VkOffset2D.ny
@@ -29,6 +30,7 @@ class Offset2D(
 ) {
 
     constructor(v: Vec2i) : this(v.x, v.y)
+    constructor(ptr: IntPtr) : this(ptr[0], ptr[1])
 
     infix fun write(ptr: Ptr) {
         nx(ptr, x)

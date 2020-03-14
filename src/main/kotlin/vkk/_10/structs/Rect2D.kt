@@ -2,6 +2,8 @@ package vkk._10.structs
 
 import glm_.vec2.Vec2i
 import kool.Adr
+import kool.BytePtr
+import kool.IntPtr
 import kool.Ptr
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.vulkan.VkRect2D.*
@@ -30,6 +32,8 @@ class Rect2D(
 ) {
 
     constructor(size: Vec2i) : this(extent = Extent2D(size))
+
+    constructor(ptr: IntPtr) : this(Offset2D(ptr), Extent2D(ptr + 2))
 
     infix fun write(stack: MemoryStack): Adr =
         stack.ncalloc(ALIGNOF, 1, SIZEOF).also { write(it) }

@@ -14,6 +14,7 @@ import vkk._10.structs.*
 import vkk._11.api.Device_vk11
 import vkk._11.structs.DeviceQueueInfo2
 import vkk.entities.*
+import vkk.extensions.Device_KHR_swapchain
 
 /** Wraps a Vulkan device dispatchable handle. */
 class Device(handle: Ptr,
@@ -24,7 +25,9 @@ class Device(handle: Ptr,
 
         Device_vk10,
 
-        Device_vk11 {
+        Device_vk11,
+
+        Device_KHR_swapchain {
 
 
     // ---------------------------------------------- VK10 -------------------------------------------------------------

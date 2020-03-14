@@ -31,9 +31,9 @@ class `03 initDevice` : StringSpec() {
             assert(graphicsQueueFamilyIndex in queueFamilyProperties.indices)
 
             // create a UniqueDevice
-            val queuePriority = 0f
-            val deviceQueueCreateInfo = DeviceQueueCreateInfo(vk::DeviceQueueCreateFlags(), static_cast<uint32_t>(graphicsQueueFamilyIndex), 1, &queuePriority)
-            vk::UniqueDevice device = physicalDevice.createDeviceUnique(vk::DeviceCreateInfo(vk::DeviceCreateFlags(), 1, &deviceQueueCreateInfo))
+//            val queuePriority = 0f
+//            val deviceQueueCreateInfo = DeviceQueueCreateInfo(vk::DeviceQueueCreateFlags(), static_cast<uint32_t>(graphicsQueueFamilyIndex), 1, &queuePriority)
+//            vk::UniqueDevice device = physicalDevice.createDeviceUnique(vk::DeviceCreateInfo(vk::DeviceCreateFlags(), 1, &deviceQueueCreateInfo))
 
             // Note: No need to explicitly destroy the device, as the corresponding destroy function is
             // called by the destructor of the UniqueDevice on leaving this scope.
