@@ -1,11 +1,11 @@
 package tests
 
 import io.kotlintest.specs.StringSpec
+import main.isNotGithubAction
 import vkk.VkQueueFlag
 import vkk._10.structs.DeviceCreateInfo
 import vkk._10.structs.DeviceQueueCreateInfo
 import vkk.has
-import vkk.vk
 import vkk.vu
 
 class `03 initDevice` : StringSpec() {
@@ -14,30 +14,31 @@ class `03 initDevice` : StringSpec() {
     val engineName = "Vulkan.hpp"
 
     init {
-        "03 initDevice" {
+        if (isNotGithubAction)
+            "03 initDevice" {
 
-            val instance = vu.createInstance(appName, engineName)
+                val instance = vu.createInstance(appName, engineName)
 //            if(vk.DEBUG)
 //                vk::UniqueDebugUtilsMessengerEXT debugUtilsMessenger = vk::su::createDebugUtilsMessenger(instance);
 
-            val physicalDevice = instance.enumeratePhysicalDevices[0]
+                val physicalDevice = instance.enumeratePhysicalDevices[0]
 
-            /* VULKAN_HPP_KEY_START */
+                /* VULKAN_HPP_KEY_START */
 
-            // get the QueueFamilyProperties of the first PhysicalDevice
-            val queueFamilyProperties = physicalDevice.queueFamilyProperties
+                // get the QueueFamilyProperties of the first PhysicalDevice
+                val queueFamilyProperties = physicalDevice.queueFamilyProperties
 
-            // get the first index into queueFamiliyProperties which supports graphics
-            val graphicsQueueFamilyIndex = queueFamilyProperties.indexOfFirst { it.queueFlags has VkQueueFlag.GRAPHICS_BIT }
-            assert(graphicsQueueFamilyIndex in queueFamilyProperties.indices)
+                // get the first index into queueFamiliyProperties which supports graphics
+                val graphicsQueueFamilyIndex = queueFamilyProperties.indexOfFirst { it.queueFlags has VkQueueFlag.GRAPHICS_BIT }
+                assert(graphicsQueueFamilyIndex in queueFamilyProperties.indices)
 
-            // create a UniqueDevice
-            val queuePriority = 0f
-            val deviceQueueCreateInfo = DeviceQueueCreateInfo(0, graphicsQueueFamilyIndex, queuePriority)
-            val device = physicalDevice.createDeviceUnique(DeviceCreateInfo(0, deviceQueueCreateInfo))
+                // create a UniqueDevice
+                val queuePriority = 0f
+                val deviceQueueCreateInfo = DeviceQueueCreateInfo(0, graphicsQueueFamilyIndex, queuePriority)
+                val device = physicalDevice.createDeviceUnique(DeviceCreateInfo(0, deviceQueueCreateInfo))
 
-            // Note: No need to explicitly destroy the device, as the corresponding destroy function is
-            // called by the destructor of the UniqueDevice on leaving this scope.
-        }
+                // Note: No need to explicitly destroy the device, as the corresponding destroy function is
+                // called by the destructor of the UniqueDevice on leaving this scope.
+            }
     }
 }

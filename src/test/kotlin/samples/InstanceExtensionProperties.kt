@@ -1,22 +1,24 @@
 package samples
 
 import io.kotlintest.specs.StringSpec
+import main.isNotGithubAction
 import vkk.vk
 
 class InstanceExtensionProperties : StringSpec() {
 
     init {
-        "InstanceExtensionProperties" {
+        if (isNotGithubAction)
+            "InstanceExtensionProperties" {
 
-            val extensionProperties = vk.enumerateInstanceExtensionProperties()
+                val extensionProperties = vk.enumerateInstanceExtensionProperties()
 
-            // sort the extensions alphabetically
+                // sort the extensions alphabetically
 
-            extensionProperties.sortBy { it.extensionName }
+                extensionProperties.sortBy { it.extensionName }
 
-            println("Instance Extensions:")
-            for (ep in extensionProperties)
-                println("${ep.extensionName}:\n\tVersion: ${ep.specVersion}\n")
-        }
+                println("Instance Extensions:")
+                for (ep in extensionProperties)
+                    println("${ep.extensionName}:\n\tVersion: ${ep.specVersion}\n")
+            }
     }
 }

@@ -1,6 +1,7 @@
 package samples
 
 import io.kotlintest.specs.StringSpec
+import main.isNotGithubAction
 import org.lwjgl.vulkan.VK10
 import org.lwjgl.vulkan.VK10.VK_VERSION_MINOR
 import org.lwjgl.vulkan.VK10.VK_VERSION_PATCH
@@ -11,9 +12,10 @@ class InstanceVersion : StringSpec() {
     fun decodeAPIVersion(apiVersion: Int) = "${VK10.VK_VERSION_MAJOR(apiVersion)}.${VK_VERSION_MINOR(apiVersion)}.${VK_VERSION_PATCH(apiVersion)}"
 
     init {
-        "InstanceVersion" {
-            val apiVersion = vk.enumerateInstanceVersion
-            println("APIVersion = ${decodeAPIVersion(apiVersion)}")
-        }
+        if (isNotGithubAction)
+            "InstanceVersion" {
+                val apiVersion = vk.enumerateInstanceVersion
+                println("APIVersion = ${decodeAPIVersion(apiVersion)}")
+            }
     }
 }
