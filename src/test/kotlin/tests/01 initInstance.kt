@@ -2,6 +2,7 @@ package tests
 
 import io.kotlintest.specs.StringSpec
 import main.isNotGithubAction
+import org.lwjgl.system.Configuration
 import org.lwjgl.vulkan.VK11.VK_API_VERSION_1_1
 import vkk._10.structs.ApplicationInfo
 import vkk._10.structs.InstanceCreateInfo
@@ -13,7 +14,7 @@ class `01 initInstance` : StringSpec() {
     val engineName = "Vulkan.hpp"
 
     init {
-
+        Configuration.DEBUG_LOADER.set(true)
         if (isNotGithubAction)
             "01 initInstance" {
 

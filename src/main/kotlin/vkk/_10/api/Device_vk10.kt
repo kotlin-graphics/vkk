@@ -79,6 +79,12 @@ interface Device_vk10 : Pointer {
     infix fun createCommandPool(createInfo: CommandPoolCreateInfo): VkCommandPool =
             stak { it createCommandPool createInfo }
 
+    infix fun MemoryStack.createCommandPoolUnique(createInfo: CommandPoolCreateInfo): VkCommandPool =
+            createCommandPool(createInfo).also {  }
+
+    infix fun createCommandPoolUnique(createInfo: CommandPoolCreateInfo): VkCommandPool =
+            stak { it createCommandPool createInfo }
+
     // --- [ vkCreateComputePipelines ] ---
 
     fun MemoryStack.createComputePipelines(pipelineCache: VkPipelineCache, createInfos: Array<ComputePipelineCreateInfo>): VkPipeline_Array =
