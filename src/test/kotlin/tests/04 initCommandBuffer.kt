@@ -26,10 +26,10 @@ class `04 initCommandBuffer` : StringSpec() {
                 /* VULKAN_HPP_KEY_START */
 
                 // create a UniqueCommandPool to allocate a CommandBuffer from
-                val commandPool = device.createCommandPoolUnique(vk::CommandPoolCreateInfo(vk::CommandPoolCreateFlags(), graphicsQueueFamilyIndex))
+//                val commandPool = device.createCommandPoolUnique(vk::CommandPoolCreateInfo(vk::CommandPoolCreateFlags(), graphicsQueueFamilyIndex))
 
                 // allocate a CommandBuffer from the CommandPool
-                vk::UniqueCommandBuffer commandBuffer = std::move(device->allocateCommandBuffersUnique(vk::CommandBufferAllocateInfo(commandPool.get(), vk::CommandBufferLevel::ePrimary, 1)).front())
+//                vk::UniqueCommandBuffer commandBuffer = std::move(device->allocateCommandBuffersUnique(vk::CommandBufferAllocateInfo(commandPool.get(), vk::CommandBufferLevel::ePrimary, 1)).front())
             }
     }
 }
