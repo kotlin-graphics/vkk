@@ -1,7 +1,7 @@
 package tests
 
 import io.kotlintest.specs.StringSpec
-import main.isNotGithubAction
+import main.isNotCI
 import org.lwjgl.system.Configuration
 import vkk.vu
 
@@ -12,7 +12,7 @@ class `02 enumerateDevices` : StringSpec() {
 
     init {
         Configuration.DEBUG_LOADER.set(true)
-        if (isNotGithubAction)
+        if (isNotCI)
             "02 enumerateDevices" {
 
                 val instance = vu.createInstance(appName, engineName)

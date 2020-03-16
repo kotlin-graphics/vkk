@@ -1,13 +1,13 @@
 package samples
 
 import io.kotlintest.specs.StringSpec
-import main.isNotGithubAction
+import main.isNotCI
 import vkk.vk
 
 class InstanceLayerProperties : StringSpec() {
 
     init {
-        if (isNotGithubAction)
+        if (isNotCI)
             "InstanceLayerProperties" {
 
                 val layerProperties = vk.enumerateInstanceLayerProperties()

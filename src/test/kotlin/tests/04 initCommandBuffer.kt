@@ -1,8 +1,7 @@
 package tests
 
 import io.kotlintest.specs.StringSpec
-import main.isNotGithubAction
-import vkk._10.structs.CommandPoolCreateInfo
+import main.isNotCI
 import vkk.vu
 
 class `04 initCommandBuffer` : StringSpec() {
@@ -11,7 +10,7 @@ class `04 initCommandBuffer` : StringSpec() {
     val engineName = "Vulkan.hpp"
 
     init {
-        if (isNotGithubAction)
+        if (isNotCI)
             "04 initCommandBuffer" {
 
                 val instance = vu.createInstance(appName, engineName)

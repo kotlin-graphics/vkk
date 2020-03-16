@@ -1,13 +1,13 @@
 package samples
 
 import io.kotlintest.specs.StringSpec
-import main.isNotGithubAction
+import main.isNotCI
 import vkk.vk
 
 class InstanceExtensionProperties : StringSpec() {
 
     init {
-        if (isNotGithubAction)
+        if (isNotCI)
             "InstanceExtensionProperties" {
 
                 val extensionProperties = vk.enumerateInstanceExtensionProperties()

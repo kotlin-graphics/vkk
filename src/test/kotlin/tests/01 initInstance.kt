@@ -1,7 +1,7 @@
 package tests
 
 import io.kotlintest.specs.StringSpec
-import main.isNotGithubAction
+import main.isNotCI
 import org.lwjgl.system.Configuration
 import org.lwjgl.vulkan.VK11.VK_API_VERSION_1_1
 import vkk._10.structs.ApplicationInfo
@@ -15,7 +15,7 @@ class `01 initInstance` : StringSpec() {
 
     init {
         Configuration.DEBUG_LOADER.set(true)
-        if (isNotGithubAction)
+        if (isNotCI)
             "01 initInstance" {
                 vkUnique {
                     // initialize the vk::ApplicationInfo structure

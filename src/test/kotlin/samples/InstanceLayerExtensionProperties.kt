@@ -1,7 +1,7 @@
 package samples
 
 import io.kotlintest.specs.StringSpec
-import main.isNotGithubAction
+import main.isNotCI
 import vkk._10.structs.ExtensionProperties
 import vkk._10.structs.LayerProperties
 import vkk.vk
@@ -11,7 +11,7 @@ class InstanceLayerExtensionProperties : StringSpec() {
     class PropertyData(val layerProperties: LayerProperties, val extensionProperties: Array<ExtensionProperties>)
 
     init {
-        if (isNotGithubAction)
+        if (isNotCI)
             "InstanceLayerExtensionProperties" {
 
                 val layerProperties = vk.enumerateInstanceLayerProperties()

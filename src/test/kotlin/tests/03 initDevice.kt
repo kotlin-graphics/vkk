@@ -1,9 +1,8 @@
 package tests
 
 import io.kotlintest.specs.StringSpec
-import main.isNotGithubAction
+import main.isNotCI
 import vkk.VkQueueFlag
-import vkk._10.structs.DeviceCreateInfo
 import vkk._10.structs.DeviceQueueCreateInfo
 import vkk.has
 import vkk.vu
@@ -14,7 +13,7 @@ class `03 initDevice` : StringSpec() {
     val engineName = "Vulkan.hpp"
 
     init {
-        if (isNotGithubAction)
+        if (isNotCI)
             "03 initDevice" {
 
                 val instance = vu.createInstance(appName, engineName)
