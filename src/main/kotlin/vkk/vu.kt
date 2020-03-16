@@ -1,16 +1,10 @@
 package vkk
 
-import kool.set
-import org.lwjgl.system.MemoryStack
 import org.lwjgl.vulkan.EXTDebugUtils.VK_EXT_DEBUG_UTILS_EXTENSION_NAME
 import org.lwjgl.vulkan.VK10.*
-import org.lwjgl.vulkan.VkApplicationInfo
-import org.lwjgl.vulkan.VkInstance
-import org.lwjgl.vulkan.VkInstanceCreateInfo
-import vkk._10.structs.ApplicationInfo
-import vkk._10.structs.ExtensionProperties
-import vkk._10.structs.InstanceCreateInfo
-import vkk._10.structs.LayerProperties
+import vkk._10.structs.*
+import vkk.identifiers.PhysicalDevice
+import vkk.identifiers.UniqueDevice
 import vkk.identifiers.UniqueInstance
 
 object vu {
@@ -283,7 +277,15 @@ object vu {
 //    vk::UniqueDescriptorPool createDescriptorPool(vk::UniqueDevice &device, std::vector<vk::DescriptorPoolSize> const& poolSizes);
 //    vk::UniqueDescriptorSetLayout createDescriptorSetLayout(vk::UniqueDevice const& device, std::vector<std::tuple<vk::DescriptorType, uint32_t, vk::ShaderStageFlags>> const& bindingData,
 //    vk::DescriptorSetLayoutCreateFlags flags = {});
-//    vk::UniqueDevice createDevice(vk::PhysicalDevice physicalDevice, uint32_t queueFamilyIndex, std::vector<std::string> const& extensions = {}, vk::PhysicalDeviceFeatures const* physicalDeviceFeatures = nullptr, void const* pNext = nullptr);
+
+    fun createDevice(physicalDevice: PhysicalDevice, queueFamilyIndex: Int, extensions: ArrayList<String> = ArrayList(), physicalDeviceFeatures: PhysicalDeviceFeatures? = null, next: VkStructure? = null): UniqueDevice {
+        // create a UniqueDevice
+        val deviceQueueCreateInfo = DeviceQueueCreateInfo(0, queueFamilyIndex, queuePriority = 0f)
+        val deviceCreateInfo = DeviceCreateInfo(0, deviceQueueCreateInfo, extensions, physicalDeviceFeatures)
+        deviceCreateInfo.next = next
+        return physicalDevice.createDeviceUnique(deviceCreateInfo)
+    }
+
 //    std::vector<vk::UniqueFramebuffer> createFramebuffers(vk::UniqueDevice &device, vk::UniqueRenderPass &renderPass, std::vector<vk::UniqueImageView> const& imageViews, vk::UniqueImageView const& depthImageView, vk::Extent2D const& extent);
 //    vk::UniquePipeline createGraphicsPipeline(vk::UniqueDevice const& device, vk::UniquePipelineCache const& pipelineCache,
 //    std::pair<vk::ShaderModule, vk::SpecializationInfo const*> const& vertexShaderData,
@@ -343,72 +345,17 @@ object vu {
         return UniqueInstance(instanceCreateInfo)
     }
 
-    fun createInstanceLwjgl(appName: String, engineName: String,
-                            layers: ArrayList<String> = ArrayList(), extensions: ArrayList<String> = ArrayList(),
-                            apiVersion: Int = VK_API_VERSION_1_0): VkInstance {
-
-        val layerProperties = ArrayList<LayerProperties>()
-        val extensionProperties = ArrayList<ExtensionProperties>()
-
-        if (vk.DEBUG) {
-            layerProperties += vk.enumerateInstanceLayerProperties()
-            extensionProperties += vk.enumerateInstanceExtensionProperties()
-        }
-        val enabledLayers = ArrayList<String>(layers.size)
-        for (layer in layers) {
-            assert(layerProperties.find { layer == it.layerName } != null)
-            enabledLayers += layer
-        }
-        if (vk.DEBUG) {
-            val validation = "VK_LAYER_KHRONOS_validation"
-            // Enable standard validation layer to find as much errors as possible!
-            if (validation !in layers && layerProperties.find { validation == it.layerName } != null)
-                enabledLayers += validation
-            val lunar = "VK_LAYER_LUNARG_assistant_layer"
-            if (lunar !in layers && layerProperties.find { lunar == it.layerName } != null)
-                enabledLayers += lunar
-        }
-
-        val enabledExtensions = ArrayList<String>(extensions.size)
-        for (ext in extensions) {
-            assert(extensionProperties.find { ext == it.extensionName } != null)
-            enabledExtensions += ext
-        }
-        if (vk.DEBUG)
-            if (VK_EXT_DEBUG_UTILS_EXTENSION_NAME !in extensions &&
-                    extensionProperties.find { VK_EXT_DEBUG_UTILS_EXTENSION_NAME == it.extensionName } != null)
-                enabledExtensions += VK_EXT_DEBUG_UTILS_EXTENSION_NAME
-
-        // create a UniqueInstance
-        val stack = MemoryStack.stackPush()
-        val pAppName = stack.UTF8(appName)
-        val pEngineName = stack.UTF8(engineName)
-        val applicationInfo = VkApplicationInfo.callocStack(stack)
-                .sType(VK_STRUCTURE_TYPE_APPLICATION_INFO)
-                .pApplicationName(pAppName)
-                .pEngineName(pEngineName)
-                .apiVersion(apiVersion)
-        // in non-debug mode just use the InstanceCreateInfo for instance creation
-        val pEnableLayers = stack.callocPointer(enabledLayers.size)
-        enabledLayers.forEachIndexed { i, s -> pEnableLayers[i] = stack.ASCII(s) }
-        val pEnableExtensions = stack.callocPointer(enabledExtensions.size)
-        enabledExtensions.forEachIndexed { i, s -> pEnableExtensions[i] = stack.ASCII(s) }
-        val instanceCreateInfo = VkInstanceCreateInfo.mallocStack(stack)
-                .sType(VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO)
-                .pApplicationInfo(applicationInfo)
-                .ppEnabledLayerNames(pEnableLayers)
-                .ppEnabledExtensionNames(pEnableExtensions)
-
-        val pp = stack.callocPointer(1)
-        VK_CHECK_RESULT(vkCreateInstance(instanceCreateInfo, null, pp))
-        return VkInstance(pp[0], instanceCreateInfo).also {
-            stack.pop()
-        }
-    }
-
 //    vk::UniqueRenderPass createRenderPass(vk::UniqueDevice &device, vk::Format colorFormat, vk::Format depthFormat, vk::AttachmentLoadOp loadOp = vk::AttachmentLoadOp::eClear, vk::ImageLayout colorFinalLayout = vk::ImageLayout::ePresentSrcKHR);
 //    VkBool32 debugUtilsMessengerCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity, VkDebugUtilsMessageTypeFlagsEXT messageTypes, VkDebugUtilsMessengerCallbackDataEXT const * pCallbackData, void * /*pUserData*/);
-//    uint32_t findGraphicsQueueFamilyIndex(std::vector<vk::QueueFamilyProperties> const& queueFamilyProperties);
+
+    fun findGraphicsQueueFamilyIndex(queueFamilyProperties: Array<QueueFamilyProperties>): Int {
+        // get the first index into queueFamiliyProperties which supports graphics
+        val graphicsQueueFamilyIndex = queueFamilyProperties.indexOfFirst { it.queueFlags has VkQueueFlag.GRAPHICS_BIT }
+        assert(graphicsQueueFamilyIndex != -1)
+
+        return graphicsQueueFamilyIndex
+    }
+
 //    std::pair<uint32_t, uint32_t> findGraphicsAndPresentQueueFamilyIndex(vk::PhysicalDevice physicalDevice, vk::SurfaceKHR const& surface);
 //    uint32_t findMemoryType(vk::PhysicalDeviceMemoryProperties const& memoryProperties, uint32_t typeBits, vk::MemoryPropertyFlags requirementsMask);
 //    std::vector<std::string> getDeviceExtensions();

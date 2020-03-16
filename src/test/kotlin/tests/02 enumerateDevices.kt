@@ -2,6 +2,7 @@ package tests
 
 import io.kotlintest.specs.StringSpec
 import main.isNotGithubAction
+import org.lwjgl.system.Configuration
 import vkk.vu
 
 class `02 enumerateDevices` : StringSpec() {
@@ -10,6 +11,7 @@ class `02 enumerateDevices` : StringSpec() {
     val engineName = "Vulkan.hpp"
 
     init {
+        Configuration.DEBUG_LOADER.set(true)
         if (isNotGithubAction)
             "02 enumerateDevices" {
 

@@ -2,12 +2,11 @@ package vkk._10.structs
 
 import kool.Adr
 import kool.PointerAdr
-import kool.Ptr
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.*
 import org.lwjgl.vulkan.*
 import org.lwjgl.vulkan.VkInstanceCreateInfo.*
-import vkk.Structure
+import vkk.VkStructure
 import vkk.StructureChain
 import vkk.VkStructureType
 
@@ -62,8 +61,8 @@ class InstanceCreateInfo(
         var applicationInfo: ApplicationInfo? = null,
         var enabledLayerNames: List<String>? = null,
         var enabledExtensionNames: List<String>? = null,
-        override var next: Structure? = null
-) : Structure, StructureChain {
+        override var next: VkStructure? = null
+) : VkStructure, StructureChain {
 
     val type get() = VkStructureType.INSTANCE_CREATE_INFO
 

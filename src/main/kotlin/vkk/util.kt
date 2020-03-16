@@ -49,10 +49,10 @@ inline fun <R> MemoryStack.framed(block: () -> R): R {
     }
 }
 
-interface Structure {
+interface VkStructure {
     infix fun write(stack: MemoryStack): Adr
 }
 
 interface StructureChain {
-    var next: Structure?
+    var next: VkStructure?
 }

@@ -2,12 +2,12 @@ package vkk._10.structs
 
 import kool.Adr
 import kool.PointerAdr
-import kool.Ptr
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.NULL
 import org.lwjgl.system.MemoryUtil.memPutAddress
 import org.lwjgl.vulkan.*
 import org.lwjgl.vulkan.VkDeviceCreateInfo.*
+import vkk.VkStructure
 import vkk.VkDeviceCreateFlags
 import vkk.VkStructureType
 
@@ -77,8 +77,7 @@ class DeviceCreateInfo(
         var queueCreateInfos: Collection<DeviceQueueCreateInfo>,
         var enabledExtensionNames: Collection<String>? = null,
         var enabledFeatures: PhysicalDeviceFeatures? = null,
-        var next: Ptr = NULL
-) {
+        var next: VkStructure? = null) {
 
     val type get() = VkStructureType.DEVICE_CREATE_INFO
 
@@ -87,18 +86,18 @@ class DeviceCreateInfo(
             queueCreateInfo: DeviceQueueCreateInfo,
             enabledExtensionNames: Collection<String>? = null,
             enabledFeatures: PhysicalDeviceFeatures? = null,
-            next: Ptr = NULL
+            next: VkStructure? = null
     ) : this(flags, listOf(queueCreateInfo), enabledExtensionNames, enabledFeatures, next)
 
     infix fun write(stack: MemoryStack): Adr {
         val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
         nsType(adr, type.i)
-        npNext(adr, next)
+        npNext(adr, next?.write(stack) ?: NULL)
         nflags(adr, flags)
         run {
             nqueueCreateInfoCount(adr, queueCreateInfos.size)
             val pQueueCreateInfos = stack.ncalloc(VkDeviceQueueCreateInfo.ALIGNOF, queueCreateInfos.size, VkDeviceQueueCreateInfo.SIZEOF)
-            for(i in queueCreateInfos.indices)
+            for (i in queueCreateInfos.indices)
                 queueCreateInfos.elementAt(i).write(pQueueCreateInfos + i * VkDeviceQueueCreateInfo.SIZEOF, stack)
             memPutAddress(adr + PQUEUECREATEINFOS, pQueueCreateInfos)
         }
