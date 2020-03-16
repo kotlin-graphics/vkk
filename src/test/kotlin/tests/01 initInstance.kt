@@ -6,7 +6,7 @@ import org.lwjgl.system.Configuration
 import org.lwjgl.vulkan.VK11.VK_API_VERSION_1_1
 import vkk._10.structs.ApplicationInfo
 import vkk._10.structs.InstanceCreateInfo
-import vkk.identifiers.UniqueInstance
+import vkk.vkUnique
 
 class `01 initInstance` : StringSpec() {
 
@@ -17,18 +17,19 @@ class `01 initInstance` : StringSpec() {
         Configuration.DEBUG_LOADER.set(true)
         if (isNotGithubAction)
             "01 initInstance" {
+                vkUnique {
+                    // initialize the vk::ApplicationInfo structure
+                    val applicationInfo = ApplicationInfo(appName, 1, engineName, 1, VK_API_VERSION_1_1)
 
-                // initialize the vk::ApplicationInfo structure
-                val applicationInfo = ApplicationInfo(appName, 1, engineName, 1, VK_API_VERSION_1_1)
+                    // initialize the vk::InstanceCreateInfo
+                    val instanceCreateInfo = InstanceCreateInfo(applicationInfo)
 
-                // initialize the vk::InstanceCreateInfo
-                val instanceCreateInfo = InstanceCreateInfo(applicationInfo)
+                    // create a UniqueInstance
+                    val instance = UniqueInstance(instanceCreateInfo)
 
-                // create a UniqueInstance
-                val instance = UniqueInstance(instanceCreateInfo)
-
-                // Note: No need to explicitly destroy the instance, as the corresponding destroy function is
-                // called by the destructor of the UniqueInstance on leaving this scope.
+                    // Note: No need to explicitly destroy the instance, as the corresponding destroy function is
+                    // called by the destructor of the UniqueInstance on leaving this scope.
+                }
             }
     }
 }

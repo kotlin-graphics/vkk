@@ -35,7 +35,7 @@ class `03 initDevice` : StringSpec() {
                 // create a UniqueDevice
                 val queuePriority = 0f
                 val deviceQueueCreateInfo = DeviceQueueCreateInfo(0, graphicsQueueFamilyIndex, queuePriority)
-                val device = physicalDevice.createDeviceUnique(DeviceCreateInfo(0, deviceQueueCreateInfo))
+//                val device = physicalDevice.createDeviceUnique(DeviceCreateInfo(0, deviceQueueCreateInfo))
 
                 // Note: No need to explicitly destroy the device, as the corresponding destroy function is
                 // called by the destructor of the UniqueDevice on leaving this scope.

@@ -278,7 +278,8 @@ object vu {
 //    vk::UniqueDescriptorSetLayout createDescriptorSetLayout(vk::UniqueDevice const& device, std::vector<std::tuple<vk::DescriptorType, uint32_t, vk::ShaderStageFlags>> const& bindingData,
 //    vk::DescriptorSetLayoutCreateFlags flags = {});
 
-    fun createDevice(physicalDevice: PhysicalDevice, queueFamilyIndex: Int, extensions: ArrayList<String> = ArrayList(), physicalDeviceFeatures: PhysicalDeviceFeatures? = null, next: VkStructure? = null): UniqueDevice {
+    fun createDevice(physicalDevice: PhysicalDevice, queueFamilyIndex: Int, extensions: ArrayList<String> = ArrayList(),
+                     physicalDeviceFeatures: PhysicalDeviceFeatures? = null, next: VkStructure? = null): UniqueDevice {
         // create a UniqueDevice
         val deviceQueueCreateInfo = DeviceQueueCreateInfo(0, queueFamilyIndex, queuePriority = 0f)
         val deviceCreateInfo = DeviceCreateInfo(0, deviceQueueCreateInfo, extensions, physicalDeviceFeatures)

@@ -125,7 +125,7 @@ test {
         // Make sure output from
         // standard out or error is shown
         // in Gradle output.
-        showStandardStreams = true
+//        showStandardStreams = true
 
         // Or we use events method:
         // events 'standard_out', 'standard_error'

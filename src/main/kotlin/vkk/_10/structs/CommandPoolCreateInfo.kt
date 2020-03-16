@@ -44,8 +44,7 @@ import vkk.VkStructureType
  */
 class CommandPoolCreateInfo(
         var flags: VkCommandPoolCreateFlags,
-        var queueFamilyIndex: Int
-) {
+        var queueFamilyIndex: Int) {
 
     val type get() = VkStructureType.COMMAND_POOL_CREATE_INFO
 
