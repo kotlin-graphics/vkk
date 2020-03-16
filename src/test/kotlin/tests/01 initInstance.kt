@@ -15,6 +15,10 @@ class `01 initInstance` : StringSpec() {
 
         "01 initInstance" {
 
+            println("entries")
+            for(e in System.getenv().entries)
+                println("[${e.key}] = ${e.value}")
+
             // initialize the vk::ApplicationInfo structure
             val applicationInfo = ApplicationInfo (appName, 1, engineName, 1, VK_API_VERSION_1_1)
 

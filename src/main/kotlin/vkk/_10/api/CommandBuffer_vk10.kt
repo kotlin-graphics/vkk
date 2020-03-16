@@ -31,7 +31,7 @@ interface CommandBuffer_vk10 : Pointer {
     // --- [ vkCmdBeginRenderPass ] ---
 
     fun MemoryStack.beginRenderPass(renderPassBegin: RenderPassBeginInfo, contents: VkSubpassContents = VkSubpassContents.INLINE) =
-            framed { callPPV(adr, renderPassBegin write this, contents.i, capabilities.vkCmdBeginRenderPass) }
+            framed { callPPV(this@CommandBuffer_vk10.adr, renderPassBegin write this, contents.i, capabilities.vkCmdBeginRenderPass) }
 
     fun beginRenderPass(renderPassBegin: RenderPassBeginInfo, contents: VkSubpassContents = VkSubpassContents.INLINE) =
             stak { it.beginRenderPass(renderPassBegin, contents) }

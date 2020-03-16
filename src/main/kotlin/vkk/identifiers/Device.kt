@@ -74,7 +74,7 @@ open class Device(handle: Ptr,
     // --- [ vkGetDeviceQueue ] ---
 
     fun MemoryStack.getQueue(queueFamilyIndex: Int, queueIndex: Int = 0): Queue =
-            framed { Queue(this.pointerAdr { callPPV(adr, queueFamilyIndex, queueIndex, it, capabilities.vkGetDeviceQueue) }, this@Device) }
+            framed { Queue(this.pointerAdr { callPPV(this@Device.adr, queueFamilyIndex, queueIndex, it, capabilities.vkGetDeviceQueue) }, this@Device) }
 
     fun getQueue(queueFamilyIndex: Int, queueIndex: Int = 0): Queue =
             stak { it.getQueue(queueFamilyIndex, queueIndex) }
@@ -108,11 +108,7 @@ open class Device(handle: Ptr,
     // --- [ vkGetDeviceQueue2 ] ---
 
     infix fun MemoryStack.getQueue2(queueInfo: DeviceQueueInfo2): Queue =
-            framed {
-                Queue(this.longAdr {
-                    callPPPV(adr, queueInfo write this, it, capabilities.vkGetDeviceQueue2)
-                }, this@Device)
-            }
+            framed { Queue(this.longAdr { callPPPV(this@Device.adr, queueInfo write this, it, capabilities.vkGetDeviceQueue2) }, this@Device) }
 
     infix fun getQueue2(queueInfo: DeviceQueueInfo2): Queue =
             stak { it getQueue2 queueInfo }

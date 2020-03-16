@@ -26,7 +26,7 @@ interface Instance_vk10 : Pointer {
     // --- [ vkCreateDebugReportCallbackEXT ] ---
 
     infix fun MemoryStack.createDebugReportCallbackEXT(createInfo: DebugReportCallbackCreateInfo): VkDebugReportCallback =
-            framed { VkDebugReportCallback(this.longAdr { VK_CHECK_RESULT(callPPPPI(adr, createInfo write this, NULL, it, capabilities.vkCreateDebugReportCallbackEXT)) }) }
+            framed { VkDebugReportCallback(this.longAdr { VK_CHECK_RESULT(callPPPPI(this@Instance_vk10.adr, createInfo write this, NULL, it, capabilities.vkCreateDebugReportCallbackEXT)) }) }
 
     infix fun createDebugReportCallbackEXT(createInfo: DebugReportCallbackCreateInfo): VkDebugReportCallback =
             stak { it createDebugReportCallbackEXT createInfo }

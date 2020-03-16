@@ -21,7 +21,7 @@ interface PhysicalDevice_vk11 : Pointer {
     // --- [ vkGetPhysicalDeviceExternalBufferProperties ] ---
 
     infix fun MemoryStack.getExternalBufferProperties(externalBufferInfo: PhysicalDeviceExternalBufferInfo): ExternalBufferProperties =
-            framed { ExternalBufferProperties.read(this) { callPPPV(adr, externalBufferInfo write this, it, capabilities.vkGetPhysicalDeviceExternalBufferProperties) } }
+            framed { ExternalBufferProperties.read(this) { callPPPV(this@PhysicalDevice_vk11.adr, externalBufferInfo write this, it, capabilities.vkGetPhysicalDeviceExternalBufferProperties) } }
 
     infix fun getExternalBufferProperties(externalBufferInfo: PhysicalDeviceExternalBufferInfo): ExternalBufferProperties =
             stak { it getExternalBufferProperties externalBufferInfo }
@@ -29,7 +29,7 @@ interface PhysicalDevice_vk11 : Pointer {
     // --- [ vkGetPhysicalDeviceExternalFenceProperties ] ---
 
     infix fun MemoryStack.getExternalFenceProperties(externalFenceInfo: PhysicalDeviceExternalFenceInfo): ExternalFenceProperties =
-            framed { ExternalFenceProperties.read(this) { callPPPV(adr, externalFenceInfo write this, it, capabilities.vkGetPhysicalDeviceExternalFenceProperties) } }
+            framed { ExternalFenceProperties.read(this) { callPPPV(this@PhysicalDevice_vk11.adr, externalFenceInfo write this, it, capabilities.vkGetPhysicalDeviceExternalFenceProperties) } }
 
     infix fun getExternalFenceProperties(externalFenceInfo: PhysicalDeviceExternalFenceInfo): ExternalFenceProperties =
             stak { it getExternalFenceProperties externalFenceInfo }
@@ -37,7 +37,7 @@ interface PhysicalDevice_vk11 : Pointer {
     // --- [ vkGetPhysicalDeviceExternalSemaphoreProperties ] ---
 
     infix fun MemoryStack.getExternalSemaphoreProperties(externalSemaphoreInfo: PhysicalDeviceExternalSemaphoreInfo): ExternalSemaphoreProperties =
-            framed { ExternalSemaphoreProperties.read(this) { callPPPV(adr, externalSemaphoreInfo write this, it, capabilities.vkGetPhysicalDeviceExternalSemaphoreProperties) } }
+            framed { ExternalSemaphoreProperties.read(this) { callPPPV(this@PhysicalDevice_vk11.adr, externalSemaphoreInfo write this, it, capabilities.vkGetPhysicalDeviceExternalSemaphoreProperties) } }
 
     infix fun getExternalSemaphoreProperties(externalSemaphoreInfo: PhysicalDeviceExternalSemaphoreInfo): ExternalSemaphoreProperties =
             stak { it getExternalSemaphoreProperties externalSemaphoreInfo }
@@ -45,7 +45,7 @@ interface PhysicalDevice_vk11 : Pointer {
     // --- [ vkGetPhysicalDeviceFeatures2 ] ---
 
     val MemoryStack.features2: PhysicalDeviceFeatures2
-        get() = framed { PhysicalDeviceFeatures2.read(this) { callPPV(adr, it, capabilities.vkGetPhysicalDeviceFeatures2) } }
+        get() = framed { PhysicalDeviceFeatures2.read(this) { callPPV(this@PhysicalDevice_vk11.adr, it, capabilities.vkGetPhysicalDeviceFeatures2) } }
 
     val features2: PhysicalDeviceFeatures2
         get() = stak { it.features2 }
@@ -53,7 +53,7 @@ interface PhysicalDevice_vk11 : Pointer {
     // --- [ vkGetPhysicalDeviceFormatProperties2 ] ---
 
     infix fun MemoryStack.getFormatProperties2(format: VkFormat): FormatProperties2 =
-            framed { FormatProperties2.read(this) { callPPV(adr, format.i, it, capabilities.vkGetPhysicalDeviceFormatProperties2) } }
+            framed { FormatProperties2.read(this) { callPPV(this@PhysicalDevice_vk11.adr, format.i, it, capabilities.vkGetPhysicalDeviceFormatProperties2) } }
 
     infix fun getFormatProperties2(format: VkFormat): FormatProperties2 =
             stak { it getFormatProperties2 format }
@@ -61,7 +61,7 @@ interface PhysicalDevice_vk11 : Pointer {
     // --- [ vkGetPhysicalDeviceImageFormatProperties2 ] ---
 
     infix fun MemoryStack.getImageFormatProperties2(imageFormatInfo: PhysicalDeviceImageFormatInfo2): ImageFormatProperties2 =
-            framed { ImageFormatProperties2.read(this) { VK_CHECK_RESULT(callPPPI(adr, imageFormatInfo write this, it, capabilities.vkGetPhysicalDeviceImageFormatProperties2)) } }
+            framed { ImageFormatProperties2.read(this) { VK_CHECK_RESULT(callPPPI(this@PhysicalDevice_vk11.adr, imageFormatInfo write this, it, capabilities.vkGetPhysicalDeviceImageFormatProperties2)) } }
 
     infix fun getImageFormatProperties2(imageFormatInfo: PhysicalDeviceImageFormatInfo2): ImageFormatProperties2 =
             stak { it getImageFormatProperties2 imageFormatInfo }
@@ -69,7 +69,7 @@ interface PhysicalDevice_vk11 : Pointer {
     // --- [ vkGetPhysicalDeviceMemoryProperties2 ] ---
 
     val MemoryStack.memoryProperties2: PhysicalDeviceMemoryProperties2
-        get() = framed { PhysicalDeviceMemoryProperties2.read(this) { callPPV(adr, it, capabilities.vkGetPhysicalDeviceMemoryProperties2) } }
+        get() = framed { PhysicalDeviceMemoryProperties2.read(this) { callPPV(this@PhysicalDevice_vk11.adr, it, capabilities.vkGetPhysicalDeviceMemoryProperties2) } }
 
     val memoryProperties2: PhysicalDeviceMemoryProperties2
         get() = stak { it.memoryProperties2 }
@@ -77,7 +77,7 @@ interface PhysicalDevice_vk11 : Pointer {
     // --- [ vkGetPhysicalDeviceProperties2 ] ---
 
     val MemoryStack.properties2: PhysicalDeviceProperties2
-        get() = framed { PhysicalDeviceProperties2.read(this) { callPPV(adr, it, capabilities.vkGetPhysicalDeviceProperties2) } }
+        get() = framed { PhysicalDeviceProperties2.read(this) { callPPV(this@PhysicalDevice_vk11.adr, it, capabilities.vkGetPhysicalDeviceProperties2) } }
 
     val properties2: PhysicalDeviceProperties2
         get() = stak { it.properties2 }
