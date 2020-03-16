@@ -20,6 +20,7 @@ import vkk.extensions.Instance_KHR_surface
 import java.util.*
 
 class UniqueInstance(createInfo: InstanceCreateInfo) : Instance(createInfo) {
+
     init {
         vk.cleaner.register(this) {
             destroy()

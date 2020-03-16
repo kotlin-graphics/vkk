@@ -1,13 +1,16 @@
 package vkk
 
+import kool.set
+import org.lwjgl.system.MemoryStack
 import org.lwjgl.vulkan.EXTDebugUtils.VK_EXT_DEBUG_UTILS_EXTENSION_NAME
-import org.lwjgl.vulkan.VK10.VK_API_VERSION_1_0
+import org.lwjgl.vulkan.VK10.*
+import org.lwjgl.vulkan.VkApplicationInfo
+import org.lwjgl.vulkan.VkInstance
+import org.lwjgl.vulkan.VkInstanceCreateInfo
 import vkk._10.structs.ApplicationInfo
 import vkk._10.structs.ExtensionProperties
 import vkk._10.structs.InstanceCreateInfo
 import vkk._10.structs.LayerProperties
-import vkk.entities.VkDebugUtilsMessengerEXT
-import vkk.entities.VkUniqueDebugUtilsMessengerEXT
 import vkk.identifiers.UniqueInstance
 
 object vu {
@@ -329,7 +332,7 @@ object vu {
         // in non-debug mode just use the InstanceCreateInfo for instance creation
         val instanceCreateInfo = InstanceCreateInfo(applicationInfo, enabledLayers, enabledExtensions)
 //        if(vk.DEBUG) {
-            // in debug mode, additionally use the debugUtilsMessengerCallback in instance creation!
+        // in debug mode, additionally use the debugUtilsMessengerCallback in instance creation!
 //            val severityFlags = VkDebugUtilsMessageSeverityEXT.WARNING.i or VkDebugUtilsMessageSeverityEXT.ERROR.i
 //            val messageTypeFlags = VkDebugUtilsMessageTypeEXT.GENERAL.i or VkDebugUtilsMessageTypeEXT.PERFORMANCE.i or VkDebugUtilsMessageTypeEXT.VALIDATION.i
 //            instanceCreateInfo += DebugUtilCr
@@ -338,6 +341,69 @@ object vu {
 //        }
 
         return UniqueInstance(instanceCreateInfo)
+    }
+
+    fun createInstanceLwjgl(appName: String, engineName: String,
+                            layers: ArrayList<String> = ArrayList(), extensions: ArrayList<String> = ArrayList(),
+                            apiVersion: Int = VK_API_VERSION_1_0): VkInstance {
+
+        val layerProperties = ArrayList<LayerProperties>()
+        val extensionProperties = ArrayList<ExtensionProperties>()
+
+        if (vk.DEBUG) {
+            layerProperties += vk.enumerateInstanceLayerProperties()
+            extensionProperties += vk.enumerateInstanceExtensionProperties()
+        }
+        val enabledLayers = ArrayList<String>(layers.size)
+        for (layer in layers) {
+            assert(layerProperties.find { layer == it.layerName } != null)
+            enabledLayers += layer
+        }
+        if (vk.DEBUG) {
+            val validation = "VK_LAYER_KHRONOS_validation"
+            // Enable standard validation layer to find as much errors as possible!
+            if (validation !in layers && layerProperties.find { validation == it.layerName } != null)
+                enabledLayers += validation
+            val lunar = "VK_LAYER_LUNARG_assistant_layer"
+            if (lunar !in layers && layerProperties.find { lunar == it.layerName } != null)
+                enabledLayers += lunar
+        }
+
+        val enabledExtensions = ArrayList<String>(extensions.size)
+        for (ext in extensions) {
+            assert(extensionProperties.find { ext == it.extensionName } != null)
+            enabledExtensions += ext
+        }
+        if (vk.DEBUG)
+            if (VK_EXT_DEBUG_UTILS_EXTENSION_NAME !in extensions &&
+                    extensionProperties.find { VK_EXT_DEBUG_UTILS_EXTENSION_NAME == it.extensionName } != null)
+                enabledExtensions += VK_EXT_DEBUG_UTILS_EXTENSION_NAME
+
+        // create a UniqueInstance
+        val stack = MemoryStack.stackPush()
+        val pAppName = stack.UTF8(appName)
+        val pEngineName = stack.UTF8(engineName)
+        val applicationInfo = VkApplicationInfo.callocStack(stack)
+                .sType(VK_STRUCTURE_TYPE_APPLICATION_INFO)
+                .pApplicationName(pAppName)
+                .pEngineName(pEngineName)
+                .apiVersion(apiVersion)
+        // in non-debug mode just use the InstanceCreateInfo for instance creation
+        val pEnableLayers = stack.callocPointer(enabledLayers.size)
+        enabledLayers.forEachIndexed { i, s -> pEnableLayers[i] = stack.ASCII(s) }
+        val pEnableExtensions = stack.callocPointer(enabledExtensions.size)
+        enabledExtensions.forEachIndexed { i, s -> pEnableExtensions[i] = stack.ASCII(s) }
+        val instanceCreateInfo = VkInstanceCreateInfo.mallocStack(stack)
+                .sType(VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO)
+                .pApplicationInfo(applicationInfo)
+                .ppEnabledLayerNames(pEnableLayers)
+                .ppEnabledExtensionNames(pEnableExtensions)
+
+        val pp = stack.callocPointer(1)
+        VK_CHECK_RESULT(vkCreateInstance(instanceCreateInfo, null, pp))
+        return VkInstance(pp[0], instanceCreateInfo).also {
+            stack.pop()
+        }
     }
 
 //    vk::UniqueRenderPass createRenderPass(vk::UniqueDevice &device, vk::Format colorFormat, vk::Format depthFormat, vk::AttachmentLoadOp loadOp = vk::AttachmentLoadOp::eClear, vk::ImageLayout colorFinalLayout = vk::ImageLayout::ePresentSrcKHR);

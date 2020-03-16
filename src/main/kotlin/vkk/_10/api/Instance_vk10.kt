@@ -15,6 +15,8 @@ import vkk.*
 import vkk._10.structs.DebugReportCallbackCreateInfo
 import vkk.entities.VkDebugReportCallback
 import vkk.entities.VkSurfaceKHR
+import vkk.extensions.VkDebugReportFlagsEXT
+import vkk.extensions.VkDebugReportObjectTypeEXT
 import vkk.identifiers.CapabilitiesInstance
 
 interface Instance_vk10 : Pointer {

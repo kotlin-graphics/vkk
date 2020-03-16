@@ -3,8 +3,8 @@ package vkk._10.structs
 import kool.Ptr
 import org.lwjgl.system.MemoryUtil.memUTF8
 import org.lwjgl.vulkan.*
-import vkk.VkDebugReportFlagsEXT
-import vkk.VkDebugReportObjectTypeEXT
+import vkk.extensions.VkDebugReportFlagsEXT
+import vkk.extensions.VkDebugReportObjectTypeEXT
 
 /**
  * Application-defined debug report callback function.

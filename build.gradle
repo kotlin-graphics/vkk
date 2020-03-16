@@ -94,7 +94,7 @@ compileKotlin {
     }
     // As per https://stackoverflow.com/a/47669720
     // See also https://discuss.kotlinlang.org/t/kotlin-support-for-java-9-module-system/2499/9
-//    destinationDir = compileJava.destinationDir
+    destinationDir = compileJava.destinationDir
 }
 
 compileTestKotlin {
@@ -113,6 +113,8 @@ compileJava {
         classpath = files()
     }
 }
+
+jar { duplicatesStrategy = DuplicatesStrategy.EXCLUDE }
 
 shadowJar.archiveClassifier = 'all'
 

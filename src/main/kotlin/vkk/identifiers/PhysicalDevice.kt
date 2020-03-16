@@ -4,6 +4,7 @@ import kool.*
 import org.lwjgl.system.JNI.*
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.NULL
+import org.lwjgl.vulkan.VK10
 import vkk.VK_CHECK_RESULT
 import vkk._10.api.PhysicalDevice_vk10
 import vkk._11.api.PhysicalDevice_vk11
@@ -52,5 +53,18 @@ constructor(handle: Adr,
 
     infix fun createDevice(createInfo: DeviceCreateInfo): Device =
             stak { it createDevice createInfo }
+
+
+    infix fun MemoryStack.createDeviceUnique(createInfo: DeviceCreateInfo): UniqueDevice =
+            framed {
+                val pointer = callocPointer(1)
+                val pCreateInfo = createInfo write this
+//                val handle = this.pointerAdr { VK_CHECK_RESULT(callPPPPI(adr, , NULL, it, capabilities.vkCreateDevice)) }
+                val res = callPPPPI(adr, pCreateInfo, NULL, pointer.adr, capabilities.vkCreateDevice)
+                UniqueDevice(pointer[0], this@PhysicalDevice, createInfo)
+            }
+
+    infix fun createDeviceUnique(createInfo: DeviceCreateInfo): UniqueDevice =
+            stak { it createDeviceUnique createInfo }
 
 }

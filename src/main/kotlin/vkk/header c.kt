@@ -90,283 +90,133 @@ typealias VkExternalSemaphoreFeatureFlags = VkFlags
 
 // KHR_swapchain
 
-// ..
+// KHR_display
 
-inline class VkDisplayPlaneAlphaKHR(val i: Int) {
+// KHR_display_swapchain
 
-    companion object {
-        val OPAQUE_BIT = VkDisplayPlaneAlphaKHR(0x00000001)
-        val GLOBAL_BIT = VkDisplayPlaneAlphaKHR(0x00000002)
-        val PER_PIXEL_BIT = VkDisplayPlaneAlphaKHR(0x00000004)
-        val PER_PIXEL_PREMULTIPLIED_BIT = VkDisplayPlaneAlphaKHR(0x00000008)
-    }
-}
+// KHR_get_physical_device_properties2
 
-typealias VkDisplayPlaneAlphaFlagsKHR = VkFlags
-typealias VkDisplayModeCreateFlagsKHR = VkFlags
-typealias VkDisplaySurfaceCreateFlagsKHR = VkFlags
+// KHR_device_group
 
-// ..
+// KHR_maintenance1
 
-inline class VkDriverIdKHR(val i: Int) {
-    companion object {
-        val AMD_PROPRIETARY = VkDriverIdKHR(1)
-        val AMD_OPEN_SOURCE = VkDriverIdKHR(2)
-        val MESA_RADV = VkDriverIdKHR(3)
-        val NVIDIA_PROPRIETARY = VkDriverIdKHR(4)
-        val INTEL_PROPRIETARY_WINDOWS = VkDriverIdKHR(5)
-        val INTEL_OPEN_SOURCE_MESA = VkDriverIdKHR(6)
-        val IMAGINATION_PROPRIETARY = VkDriverIdKHR(7)
-        val QUALCOMM_PROPRIETARY = VkDriverIdKHR(8)
-        val ARM_PROPRIETARY = VkDriverIdKHR(9)
-        val GOOGLE_PASTEL = VkDriverIdKHR(10)
-        val GGP_PROPRIETARY = VkDriverIdKHR(11)
-    }
-}
+// KHR_device_group_creation
 
-// ..
+// KHR_external_memory_capabilities
 
-inline class VkResolveModeKHR(val i: Int) {
-    companion object {
-        val NONE = VkResolveModeKHR(0)
-        val SAMPLE_ZERO_BIT = VkResolveModeKHR(0x00000001)
-        val AVERAGE_BIT = VkResolveModeKHR(0x00000002)
-        val MIN_BIT = VkResolveModeKHR(0x00000004)
-        val MAX_BIT = VkResolveModeKHR(0x00000008)
-    }
-}
+// KHR_external_memory_fd
 
-typealias VkResolveModeFlagsKHR = VkFlags
+// KHR_external_semaphore_capabilities
 
-// ..
+// KHR_external_semaphore_fd
 
+// KHR_push_descriptor
 
-inline class VkDebugReportObjectTypeEXT(val i: Int) {
-    companion object {
-        val UNKNOWN = VkDebugReportObjectTypeEXT(0)
-        val INSTANCE = VkDebugReportObjectTypeEXT(1)
-        val PHYSICAL_DEVICE = VkDebugReportObjectTypeEXT(2)
-        val DEVICE = VkDebugReportObjectTypeEXT(3)
-        val QUEUE = VkDebugReportObjectTypeEXT(4)
-        val SEMAPHORE = VkDebugReportObjectTypeEXT(5)
-        val COMMAND_BUFFER = VkDebugReportObjectTypeEXT(6)
-        val FENCE = VkDebugReportObjectTypeEXT(7)
-        val DEVICE_MEMORY = VkDebugReportObjectTypeEXT(8)
-        val BUFFER = VkDebugReportObjectTypeEXT(9)
-        val IMAGE = VkDebugReportObjectTypeEXT(10)
-        val EVENT = VkDebugReportObjectTypeEXT(11)
-        val QUERY_POOL = VkDebugReportObjectTypeEXT(12)
-        val BUFFER_VIEW = VkDebugReportObjectTypeEXT(13)
-        val IMAGE_VIEW = VkDebugReportObjectTypeEXT(14)
-        val SHADER_MODULE = VkDebugReportObjectTypeEXT(15)
-        val PIPELINE_CACHE = VkDebugReportObjectTypeEXT(16)
-        val PIPELINE_LAYOUT = VkDebugReportObjectTypeEXT(17)
-        val RENDER_PASS = VkDebugReportObjectTypeEXT(18)
-        val PIPELINE = VkDebugReportObjectTypeEXT(19)
-        val DESCRIPTOR_SET_LAYOUT = VkDebugReportObjectTypeEXT(20)
-        val SAMPLER = VkDebugReportObjectTypeEXT(21)
-        val DESCRIPTOR_POOL = VkDebugReportObjectTypeEXT(22)
-        val DESCRIPTOR_SET = VkDebugReportObjectTypeEXT(23)
-        val FRAMEBUFFER = VkDebugReportObjectTypeEXT(24)
-        val COMMAND_POOL = VkDebugReportObjectTypeEXT(25)
-        val SURFACE_KHR = VkDebugReportObjectTypeEXT(26)
-        val SWAPCHAIN_KHR = VkDebugReportObjectTypeEXT(27)
-        val DEBUG_REPORT_CALLBACK_EXT = VkDebugReportObjectTypeEXT(28)
-        val DISPLAY_KHR = VkDebugReportObjectTypeEXT(29)
-        val DISPLAY_MODE_KHR = VkDebugReportObjectTypeEXT(30)
-        val OBJECT_TABLE_NVX = VkDebugReportObjectTypeEXT(31)
-        val INDIRECT_COMMANDS_LAYOUT_NVX = VkDebugReportObjectTypeEXT(32)
-        val VALIDATION_CACHE_EXT = VkDebugReportObjectTypeEXT(33)
-        val SAMPLER_YCBCR_CONVERSION = VkDebugReportObjectTypeEXT(1000156000)
-        val DESCRIPTOR_UPDATE_TEMPLATE = VkDebugReportObjectTypeEXT(1000085000)
-        val ACCELERATION_STRUCTURE_NV = VkDebugReportObjectTypeEXT(1000156000)
-        val DEBUG_REPORT = VkDebugReportObjectTypeEXT.DEBUG_REPORT_CALLBACK_EXT
-        val VALIDATION_CACHE = VkDebugReportObjectTypeEXT.VALIDATION_CACHE_EXT
-        val DEBUG_REPORT_OBJECT_TYPE_DESCRIPTOR_UPDATE_TEMPLATE_KHR = VkDebugReportObjectTypeEXT.DESCRIPTOR_UPDATE_TEMPLATE
-        val SAMPLER_YCBCR_CONVERSION_KHR = VkDebugReportObjectTypeEXT.SAMPLER_YCBCR_CONVERSION
-    }
-}
+// KHR_shader_float16_int8
 
+// KHR_incremental_present
 
-inline class VkDebugReport(val i: Int) {
-    companion object {
-        val INFORMATION_BIT_EXT = VkDebugReport(0x00000001)
-        val WARNING_BIT_EXT = VkDebugReport(0x00000002)
-        val PERFORMANCE_WARNING_BIT_EXT = VkDebugReport(0x00000004)
-        val ERROR_BIT_EXT = VkDebugReport(0x00000008)
-        val DEBUG_BIT_EXT = VkDebugReport(0x00000010)
-    }
+// KHR_descriptor_update_template
 
-    infix fun or(other: VkDebugReport) = i or other.i
-}
+// KHR_imageless_framebuffer
 
-infix fun Int.has(f: VkDebugReport) = and(f.i) != 0
-infix fun Int.or(f: VkDebugReport): VkDebugReportFlagsEXT = or(f.i)
-infix fun Int.and(f: VkDebugReport): VkDebugReportFlagsEXT = and(f.i)
+// KHR_create_renderpass2
 
-typealias VkDebugReportFlagsEXT = VkFlags
+// KHR_shared_presentable_image
 
-// ..
+// KHR_external_fence_capabilities
 
-typealias VkPipelineRasterizationStateStreamCreateFlagsEXT = VkFlags
+// KHR_external_fence_fd
 
-// ..
+// KHR_get_surface_capabilities2
 
-inline class VkShaderInfoTypeAMD(val i: Int) {
-    companion object {
-        val STATISTICS_AMD = VkShaderInfoTypeAMD(0)
-        val BINARY_AMD = VkShaderInfoTypeAMD(1)
-        val DISASSEMBLY_AMD = VkShaderInfoTypeAMD(2)
-    }
-}
+// KHR_get_display_properties2
 
-// ..
+// KHR_get_memory_requirements2
 
+// KHR_image_format_list
 
-inline class VkValidationCheckEXT(val i: Int) {
-    companion object {
-        val ALL_EXT = VkValidationCheckEXT(0)
-        val SHADERS_EXT = VkValidationCheckEXT(1)
-    }
-}
+// KHR_sampler_ycbcr_conversion
 
-// ..
+// KHR_bind_memory2
 
+// KHR_maintenance3
 
-inline class VkConditionalRenderingEXT(val i: Int) {
-    companion object {
-        val INVERTED_BIT_EXT = VkConditionalRenderingEXT(0x00000001)
-    }
-}
+// KHR_draw_indirect_count
 
-typealias VkConditionalRenderingFlagsEXT = VkFlags
+// KHR_8bit_storage
 
-// ..
+// KHR_shader_atomic_int64
 
+// KHR_driver_properties
 
-inline class VkIndirectCommandsTokenTypeNVX(val i: Int) {
-    companion object {
-        val PIPELINE_NVX = VkIndirectCommandsTokenTypeNVX(0)
-        val DESCRIPTOR_SET_NVX = VkIndirectCommandsTokenTypeNVX(1)
-        val INDEX_BUFFER_NVX = VkIndirectCommandsTokenTypeNVX(2)
-        val VERTEX_BUFFER_NVX = VkIndirectCommandsTokenTypeNVX(3)
-        val PUSH_CONSTANT_NVX = VkIndirectCommandsTokenTypeNVX(4)
-        val DRAW_INDEXED_NVX = VkIndirectCommandsTokenTypeNVX(5)
-        val DRAW_NVX = VkIndirectCommandsTokenTypeNVX(6)
-        val DISPATCH_NVX = VkIndirectCommandsTokenTypeNVX(7)
-    }
-}
+// KHR_shader_float_controls
 
-inline class VkObjectEntryTypeNVX(val i: Int) {
-    companion object {
-        val DESCRIPTOR_SET_NVX = VkObjectEntryTypeNVX(0)
-        val PIPELINE_NVX = VkObjectEntryTypeNVX(1)
-        val INDEX_BUFFER_NVX = VkObjectEntryTypeNVX(2)
-        val VERTEX_BUFFER_NVX = VkObjectEntryTypeNVX(3)
-        val PUSH_CONSTANT_NVX = VkObjectEntryTypeNVX(4)
-    }
-}
+// KHR_depth_stencil_resolve
 
+// KHR_vulkan_memory_model
 
-inline class VkIndirectCommandsLayoutUsageNVX(val i: Int) {
-    companion object {
-        val UNORDERED_SEQUENCES_BIT_NVX = VkIndirectCommandsLayoutUsageNVX(0x00000001)
-        val SPARSE_SEQUENCES_BIT_NVX = VkIndirectCommandsLayoutUsageNVX(0x00000002)
-        val EMPTY_EXECUTIONS_BIT_NVX = VkIndirectCommandsLayoutUsageNVX(0x00000004)
-        val INDEXED_SEQUENCES_BIT_NVX = VkIndirectCommandsLayoutUsageNVX(0x00000008)
-    }
-}
+// KHR_surface_protected_capabilities
 
-typealias VkIndirectCommandsLayoutUsageFlagsNVX = VkFlags
+// KHR_uniform_buffer_standard_layout
 
+// KHR_pipeline_executable_properties
 
-inline class VkObjectEntryUsageNVX(val i: Int) {
-    companion object {
-        val GRAPHICS_BIT_NVX = VkObjectEntryUsageNVX(0x00000001)
-        val COMPUTE_BIT_NVX = VkObjectEntryUsageNVX(0x00000002)
-    }
-}
+// AMD_rasterization_order
 
-typealias VkObjectEntryUsageFlagsNVX = VkFlags
+// EXT_debug_marker
 
-// ..
+// NV_dedicated_allocation
 
+// EXT_transform_feedback
 
-inline class VkSurfaceCounterEXT(val i: Int) {
-    companion object {
-        val VBLANK_EXT = VkSurfaceCounterEXT(0x00000001)
-    }
-}
+// AMD_draw_indirect_count
 
-typealias VkSurfaceCounterFlagsEXT = VkFlags
+// AMD_texture_gather_bias_lod
 
-// ..
+// AMD_shader_info
 
-inline class VkViewportCoordinateSwizzleNV(val i: Int) {
-    companion object {
-        val POSITIVE_X_NV = VkViewportCoordinateSwizzleNV(0)
-        val NEGATIVE_X_NV = VkViewportCoordinateSwizzleNV(1)
-        val POSITIVE_Y_NV = VkViewportCoordinateSwizzleNV(2)
-        val NEGATIVE_Y_NV = VkViewportCoordinateSwizzleNV(3)
-        val POSITIVE_Z_NV = VkViewportCoordinateSwizzleNV(4)
-        val NEGATIVE_Z_NV = VkViewportCoordinateSwizzleNV(5)
-        val POSITIVE_W_NV = VkViewportCoordinateSwizzleNV(6)
-        val NEGATIVE_W_NV = VkViewportCoordinateSwizzleNV(7)
-    }
-}
+// NV_corner_sampled_image
 
-typealias VkPipelineViewportSwizzleStateCreateFlagsNV = VkFlags
+// NV_external_memory_capabilities
 
-// ..
+// NV_external_memory
 
-inline class VkDiscardRectangleModeEXT(val i: Int) {
-    companion object {
-        val INCLUSIVE_EXT = VkDiscardRectangleModeEXT(0)
-        val EXCLUSIVE_EXT = VkDiscardRectangleModeEXT(1)
-    }
-}
+// EXT_validation_flags
 
-typealias VkPipelineDiscardRectangleStateCreateFlagsEXT = VkFlags
+// EXT_texture_compression_astc_hdr
 
-// ..
+// EXT_astc_decode_mode
 
-inline class VkConservativeRasterizationModeEXT(val i: Int) {
-    companion object {
-        val DISABLED_EXT = VkConservativeRasterizationModeEXT(0)
-        val OVERESTIMATE_EXT = VkConservativeRasterizationModeEXT(1)
-        val UNDERESTIMATE_EXT = VkConservativeRasterizationModeEXT(2)
-    }
-}
+// EXT_conditional_rendering
 
-typealias VkPipelineRasterizationConservativeStateCreateFlagsEXT = VkFlags
+// NVX_device_generated_commands
 
-// ..
+// NV_clip_space_w_scaling
 
-typealias VkPipelineRasterizationDepthClipStateCreateFlagsEXT = VkFlags
+// EXT_direct_mode_display
 
-// ..
+// EXT_display_surface_counter
 
-typealias VkDebugUtilsMessengerCallbackDataFlagsEXT = VkFlags
-typealias VkDebugUtilsMessengerCreateFlagsEXT = VkFlags
+// EXT_display_control
 
-inline class VkDebugUtilsMessageSeverityEXT(val i: Int) {
-    companion object {
-        val VERBOSE = VkDebugUtilsMessageSeverityEXT(0x00000001)
-        val INFO = VkDebugUtilsMessageSeverityEXT(0x00000010)
-        val WARNING = VkDebugUtilsMessageSeverityEXT(0x00000100)
-        val ERROR = VkDebugUtilsMessageSeverityEXT(0x00001000)
-    }
-}
-typealias VkDebugUtilsMessageSeverityFlagsEXT = VkFlags
+// EXT_display_control
 
-inline class VkDebugUtilsMessageTypeEXT(val i: Int) {
-    companion object {
-        val GENERAL = VkDebugUtilsMessageTypeEXT(0x00000001)
-        val VALIDATION = VkDebugUtilsMessageTypeEXT(0x00000002)
-        val PERFORMANCE = VkDebugUtilsMessageTypeEXT(0x00000004)
-    }
-}
-typealias VkDebugUtilsMessageTypeFlagsEXT = VkFlags
+// GOOGLE_display_timing
+
+// NVX_multiview_per_view_attributes
+
+// NV_viewport_swizzle
+
+// EXT_discard_rectangles
+
+// EXT_conservative_rasterization
+
+// EXT_depth_clip_enable
+
+// EXT_hdr_metadata
+
+// EXT_debug_utils
 
 // ..
 

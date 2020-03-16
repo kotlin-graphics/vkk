@@ -9,8 +9,8 @@ import org.lwjgl.vulkan.VkDebugReportCallbackCreateInfoEXT
 import org.lwjgl.vulkan.VkDebugReportCallbackCreateInfoEXT.*
 import org.lwjgl.vulkan.VkDebugReportCallbackEXT
 import org.lwjgl.vulkan.VkDebugReportCallbackEXTI
-import vkk.VkDebugReportFlagsEXT
 import vkk.VkStructureType
+import vkk.extensions.VkDebugReportFlagsEXT
 
 /**
  * Structure specifying parameters of a newly created debug report callback.
