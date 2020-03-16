@@ -68,7 +68,7 @@ interface PhysicalDevice_vk10 : Pointer {
     // --- [ vkGetPhysicalDeviceFeatures ] ---
 
     val MemoryStack.features: PhysicalDeviceFeatures
-        get() = PhysicalDeviceFeatures.read(this) { callPPV(adr, it, capabilities.vkGetPhysicalDeviceFeatures) }
+        get() = PhysicalDeviceFeatures.read(this) { callPPV(this@PhysicalDevice_vk10.adr, it, capabilities.vkGetPhysicalDeviceFeatures) }
 
     val features: PhysicalDeviceFeatures
         get() = stak { it.features }
@@ -76,7 +76,7 @@ interface PhysicalDevice_vk10 : Pointer {
     // --- [ vkGetPhysicalDeviceFormatProperties ] ---
 
     infix fun MemoryStack.getFormatProperties(format: VkFormat): FormatProperties =
-            framed { FormatProperties.read(this) { callPPV(adr, format.i, it, capabilities.vkGetPhysicalDeviceFormatProperties) } }
+            framed { FormatProperties.read(this) { callPPV(this@PhysicalDevice_vk10.adr, format.i, it, capabilities.vkGetPhysicalDeviceFormatProperties) } }
 
     infix fun getFormatProperties(format: VkFormat): FormatProperties =
             stak { it getFormatProperties format }
@@ -84,7 +84,7 @@ interface PhysicalDevice_vk10 : Pointer {
     // --- [ vkGetPhysicalDeviceImageFormatProperties ] ---
 
     fun MemoryStack.getImageFormatProperties(format: VkFormat, type: VkImageType, tiling: VkImageTiling, usage: VkImageUsageFlags, flags: VkImageCreateFlags): ImageFormatProperties =
-            framed { ImageFormatProperties.read(this) { VK_CHECK_RESULT(callPPI(adr, format.i, type.i, tiling.i, usage, flags, it, capabilities.vkGetPhysicalDeviceImageFormatProperties)) } }
+            framed { ImageFormatProperties.read(this) { VK_CHECK_RESULT(callPPI(this@PhysicalDevice_vk10.adr, format.i, type.i, tiling.i, usage, flags, it, capabilities.vkGetPhysicalDeviceImageFormatProperties)) } }
 
     fun getImageFormatProperties(format: VkFormat, type: VkImageType, tiling: VkImageTiling, usage: VkImageUsageFlags, flags: VkImageCreateFlags): ImageFormatProperties =
             stak { it.getImageFormatProperties(format, type, tiling, usage, flags) }
@@ -92,7 +92,7 @@ interface PhysicalDevice_vk10 : Pointer {
     // --- [ vkGetPhysicalDeviceProperties ] ---
 
     val MemoryStack.properties: PhysicalDeviceProperties
-        get() = framed { PhysicalDeviceProperties.read(this) { callPPV(adr, it, capabilities.vkGetPhysicalDeviceProperties) } }
+        get() = framed { PhysicalDeviceProperties.read(this) { callPPV(this@PhysicalDevice_vk10.adr, it, capabilities.vkGetPhysicalDeviceProperties) } }
 
     val properties: PhysicalDeviceProperties
         get() = stak { it.properties }
@@ -117,7 +117,7 @@ interface PhysicalDevice_vk10 : Pointer {
     // --- [ vkGetPhysicalDeviceMemoryProperties ] ---
 
     val MemoryStack.memoryProperties: PhysicalDeviceMemoryProperties
-        get() = framed { PhysicalDeviceMemoryProperties.read(this) { callPPV(adr, it, capabilities.vkGetPhysicalDeviceMemoryProperties) } }
+        get() = framed { PhysicalDeviceMemoryProperties.read(this) { callPPV(this@PhysicalDevice_vk10.adr, it, capabilities.vkGetPhysicalDeviceMemoryProperties) } }
 
     val memoryProperties: PhysicalDeviceMemoryProperties
         get() = stak { it.memoryProperties }

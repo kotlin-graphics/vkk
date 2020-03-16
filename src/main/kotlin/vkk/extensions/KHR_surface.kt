@@ -208,7 +208,7 @@ interface PhysicalDevice_KHR_surface : Pointer {
             framed {
                 val supported = this.mInt()
                 BooleanArray(queueFamilySize) {
-                    VK_CHECK_RESULT(JNI.callPJPI(adr, it, surface.L, supported.adr, capabilities.vkGetPhysicalDeviceSurfaceSupportKHR))
+                    VK_CHECK_RESULT(JNI.callPJPI(this@PhysicalDevice_KHR_surface.adr, it, surface.L, supported.adr, capabilities.vkGetPhysicalDeviceSurfaceSupportKHR))
                     supported[0].bool
                 }
             }
@@ -219,7 +219,7 @@ interface PhysicalDevice_KHR_surface : Pointer {
     // --- [ vkGetPhysicalDeviceSurfaceCapabilitiesKHR ] ---
 
     infix fun MemoryStack.getSurfaceCapabilitiesKHR(surface: VkSurfaceKHR): SurfaceCapabilitiesKHR =
-            framed { SurfaceCapabilitiesKHR.read(this) { VK_CHECK_RESULT(callPJPI(adr, surface.L, it, capabilities.vkGetPhysicalDeviceSurfaceCapabilitiesKHR)) } }
+            framed { SurfaceCapabilitiesKHR.read(this) { VK_CHECK_RESULT(callPJPI(this@PhysicalDevice_KHR_surface.adr, surface.L, it, capabilities.vkGetPhysicalDeviceSurfaceCapabilitiesKHR)) } }
 
     infix fun getSurfaceCapabilitiesKHR(surface: VkSurfaceKHR): SurfaceCapabilitiesKHR =
             stak { it getSurfaceCapabilitiesKHR surface }

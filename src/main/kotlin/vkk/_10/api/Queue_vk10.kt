@@ -21,7 +21,7 @@ interface Queue_vk10 : Pointer {
     // --- [ vkQueueBindSparse ] ---
 
     fun MemoryStack.bindSparse(bindInfos: Array<BindSparseInfo>, fence: VkFence = VkFence.NULL): VkResult =
-            framed { VkResult(callPPJI(adr, bindInfos.size, bindInfos write this, fence.L, capabilities.vkQueueBindSparse)) }
+            framed { VkResult(callPPJI(this@Queue_vk10.adr, bindInfos.size, bindInfos write this, fence.L, capabilities.vkQueueBindSparse)) }
 
     fun bindSparse(bindInfos: Array<BindSparseInfo>, fence: VkFence = VkFence.NULL): VkResult =
             stak { it.bindSparse(bindInfos, fence) }
@@ -29,7 +29,7 @@ interface Queue_vk10 : Pointer {
     // --- [ vkQueueSubmit ] ---
 
     fun MemoryStack.submit(submit: SubmitInfo, fence: VkFence = VkFence.NULL): VkResult =
-            framed { VkResult(callPPJI(adr, 1, submit write this, fence.L, capabilities.vkQueueSubmit)).andCheck() }
+            framed { VkResult(callPPJI(this@Queue_vk10.adr, 1, submit write this, fence.L, capabilities.vkQueueSubmit)).andCheck() }
 
     fun submit(submit: SubmitInfo, fence: VkFence = VkFence.NULL): VkResult =
             stak { it.submit(submit, fence) }

@@ -9,17 +9,31 @@ import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.*
 import org.lwjgl.vulkan.VkPhysicalDeviceProperties
 import vkk.*
-import vkk._10.api.*
-import vkk._10.structs.*
+import vkk._10.api.Device_vk10
+import vkk._10.structs.CommandBufferAllocateInfo
+import vkk._10.structs.DeviceCreateInfo
+import vkk._10.structs.FenceCreateInfo
 import vkk._11.api.Device_vk11
 import vkk._11.structs.DeviceQueueInfo2
-import vkk.entities.*
+import vkk.entities.VkDeviceMemory
+import vkk.entities.VkDeviceSize
+import vkk.entities.VkFence
 import vkk.extensions.Device_KHR_swapchain
 
+class UniqueDevice(handle: Ptr, physicalDevice: PhysicalDevice, ci: DeviceCreateInfo, apiVersion: Int = 0) :
+        Device(handle, physicalDevice, ci, apiVersion) {
+
+    init {
+        vk.cleaner.register(this) {
+            destroy()
+            println("device gc'ed")
+        }
+    }
+}
+
 /** Wraps a Vulkan device dispatchable handle. */
-class Device(handle: Ptr,
-             val physicalDevice: PhysicalDevice, ci: DeviceCreateInfo, apiVersion: Int = 0
-)
+open class Device(handle: Ptr,
+                  val physicalDevice: PhysicalDevice, ci: DeviceCreateInfo, apiVersion: Int = 0)
 
     : DispatchableHandleDevice(handle, getDeviceCapabilities(handle, physicalDevice, ci, apiVersion)),
 
@@ -60,7 +74,7 @@ class Device(handle: Ptr,
     // --- [ vkGetDeviceQueue ] ---
 
     fun MemoryStack.getQueue(queueFamilyIndex: Int, queueIndex: Int = 0): Queue =
-            framed { Queue(this.pointerAdr { callPPV(adr, queueFamilyIndex, queueIndex, it, capabilities.vkGetDeviceQueue) }, this@Device) }
+            framed { Queue(this.pointerAdr { callPPV(this@Device.adr, queueFamilyIndex, queueIndex, it, capabilities.vkGetDeviceQueue) }, this@Device) }
 
     fun getQueue(queueFamilyIndex: Int, queueIndex: Int = 0): Queue =
             stak { it.getQueue(queueFamilyIndex, queueIndex) }
@@ -94,11 +108,7 @@ class Device(handle: Ptr,
     // --- [ vkGetDeviceQueue2 ] ---
 
     infix fun MemoryStack.getQueue2(queueInfo: DeviceQueueInfo2): Queue =
-            framed {
-                Queue(this.longAdr {
-                    callPPPV(adr, queueInfo write this, it, capabilities.vkGetDeviceQueue2)
-                }, this@Device)
-            }
+            framed { Queue(this.longAdr { callPPPV(this@Device.adr, queueInfo write this, it, capabilities.vkGetDeviceQueue2) }, this@Device) }
 
     infix fun getQueue2(queueInfo: DeviceQueueInfo2): Queue =
             stak { it getQueue2 queueInfo }

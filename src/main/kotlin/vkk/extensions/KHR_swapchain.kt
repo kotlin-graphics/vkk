@@ -670,7 +670,7 @@ interface Device_KHR_swapchain : Pointer {
     // --- [ vkCreateSwapchainKHR ] ---
 
     infix fun MemoryStack.createSwapchainKHR(createInfo: SwapchainCreateInfoKHR): VkSwapchainKHR =
-            framed { VkSwapchainKHR(this.longAdr { VK_CHECK_RESULT(callPPPPI(adr, createInfo write this, NULL, it, capabilities.vkCreateSwapchainKHR)) }) }
+            framed { VkSwapchainKHR(this.longAdr { VK_CHECK_RESULT(callPPPPI(this@Device_KHR_swapchain.adr, createInfo write this, NULL, it, capabilities.vkCreateSwapchainKHR)) }) }
 
     infix fun createSwapchainKHR(createInfo: SwapchainCreateInfoKHR): VkSwapchainKHR =
             stak { it createSwapchainKHR createInfo }
@@ -714,7 +714,7 @@ interface Device_KHR_swapchain : Pointer {
     // --- [ vkGetDeviceGroupPresentCapabilitiesKHR ] ---
 
     val MemoryStack.groupPresentCapabilitiesKHR: DeviceGroupPresentCapabilitiesKHR
-        get() = DeviceGroupPresentCapabilitiesKHR.read(this) { callPPI(adr, it, capabilities.vkGetDeviceGroupPresentCapabilitiesKHR) }
+        get() = DeviceGroupPresentCapabilitiesKHR.read(this) { callPPI(this@Device_KHR_swapchain.adr, it, capabilities.vkGetDeviceGroupPresentCapabilitiesKHR) }
 
     val groupPresentCapabilitiesKHR: DeviceGroupPresentCapabilitiesKHR
         get() = stak { it.groupPresentCapabilitiesKHR }
@@ -723,7 +723,7 @@ interface Device_KHR_swapchain : Pointer {
     // --- [ vkGetDeviceGroupSurfacePresentModesKHR ] ---
 
     infix fun MemoryStack.getGroupSurfacePresentModesKHR(surface: VkSurfaceKHR): VkDeviceGroupPresentModeFlagsKHR =
-            intAdr { callPJPI(adr, surface.L, it, capabilities.vkGetDeviceGroupSurfacePresentModesKHR) }
+            intAdr { callPJPI(this@Device_KHR_swapchain.adr, surface.L, it, capabilities.vkGetDeviceGroupSurfacePresentModesKHR) }
 
     infix fun getGroupSurfacePresentModesKHR(surface: VkSurfaceKHR): VkDeviceGroupPresentModeFlagsKHR =
             stak { it getGroupSurfacePresentModesKHR surface }
@@ -732,7 +732,7 @@ interface Device_KHR_swapchain : Pointer {
 
     infix fun MemoryStack.acquireNextImage2KHR(acquireInfo: AcquireNextImageInfoKHR): Int {
         val pImageIndex = this.mInt()
-        VK_CHECK_RESULT(callPPPI(adr, acquireInfo write this, pImageIndex.adr, capabilities.vkAcquireNextImage2KHR))
+        VK_CHECK_RESULT(callPPPI(this@Device_KHR_swapchain.adr, acquireInfo write this, pImageIndex.adr, capabilities.vkAcquireNextImage2KHR))
         return pImageIndex()
     }
 
@@ -753,7 +753,7 @@ interface Queue_KHR_swapchain : Pointer {
     // --- [ vkQueuePresentKHR ] ---
 
     infix fun MemoryStack.presentKHR(presentInfo: PresentInfoKHR): VkResult =
-            framed { presentInfo.native(this) { pPresentInfo -> VkResult(callPPI(adr, pPresentInfo, capabilities.vkQueuePresentKHR)).andCheck() } }
+            framed { presentInfo.native(this) { pPresentInfo -> VkResult(callPPI(this@Queue_KHR_swapchain.adr, pPresentInfo, capabilities.vkQueuePresentKHR)).andCheck() } }
 
     infix fun presentKHR(presentInfo: PresentInfoKHR): VkResult =
             stak { it presentKHR presentInfo }

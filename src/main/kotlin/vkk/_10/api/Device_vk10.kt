@@ -225,7 +225,7 @@ interface Device_vk10 : Pointer {
     // --- [ vkCreatePipelineCache ] ---
 
     fun MemoryStack.createPipelineCache(createInfo: PipelineCacheCreateInfo = PipelineCacheCreateInfo()): VkPipelineCache =
-            framed { VkPipelineCache(this.longAdr { callPPPPI(adr, createInfo write this, NULL, it, capabilities.vkCreatePipelineCache) }) }
+            framed { VkPipelineCache(this.longAdr { callPPPPI(this@Device_vk10.adr, createInfo write this, NULL, it, capabilities.vkCreatePipelineCache) }) }
 
     fun createPipelineCache(createInfo: PipelineCacheCreateInfo = PipelineCacheCreateInfo()): VkPipelineCache =
             stak { it.createPipelineCache(createInfo) }
@@ -233,7 +233,7 @@ interface Device_vk10 : Pointer {
     // --- [ vkCreatePipelineLayout ] ---
 
     infix fun MemoryStack.createPipelineLayout(createInfo: PipelineLayoutCreateInfo): VkPipelineLayout =
-            framed { VkPipelineLayout(this.longAdr { callPPPPI(adr, createInfo write this, NULL, it, capabilities.vkCreatePipelineLayout) }) }
+            framed { VkPipelineLayout(this.longAdr { callPPPPI(this@Device_vk10.adr, createInfo write this, NULL, it, capabilities.vkCreatePipelineLayout) }) }
 
     infix fun createPipelineLayout(createInfo: PipelineLayoutCreateInfo): VkPipelineLayout =
             stak { it createPipelineLayout createInfo }
@@ -241,7 +241,7 @@ interface Device_vk10 : Pointer {
     // --- [ vkCreateQueryPool ] ---
 
     infix fun MemoryStack.createQueryPool(createInfo: QueryPoolCreateInfo): VkQueryPool =
-            framed { VkQueryPool(this.longAdr { callPPPPI(adr, createInfo write this, NULL, it, capabilities.vkCreateQueryPool) }) }
+            framed { VkQueryPool(this.longAdr { callPPPPI(this@Device_vk10.adr, createInfo write this, NULL, it, capabilities.vkCreateQueryPool) }) }
 
     infix fun createQueryPool(createInfo: QueryPoolCreateInfo): VkQueryPool =
             stak { it createQueryPool createInfo }
@@ -249,7 +249,7 @@ interface Device_vk10 : Pointer {
     // --- [ vkCreateRenderPass ] ---
 
     infix fun MemoryStack.createRenderPass(createInfo: RenderPassCreateInfo): VkRenderPass =
-            framed { VkRenderPass(this.longAdr { callPPPPI(adr, createInfo write this, NULL, it, capabilities.vkCreateRenderPass) }) }
+            framed { VkRenderPass(this.longAdr { callPPPPI(this@Device_vk10.adr, createInfo write this, NULL, it, capabilities.vkCreateRenderPass) }) }
 
     infix fun createRenderPass(createInfo: RenderPassCreateInfo): VkRenderPass =
             stak { it createRenderPass createInfo }
@@ -257,7 +257,7 @@ interface Device_vk10 : Pointer {
     // --- [ vkCreateSampler ] ---
 
     infix fun MemoryStack.createSampler(createInfo: SamplerCreateInfo): VkSampler =
-            framed { VkSampler(this.longAdr { callPPPPI(adr, createInfo write this, NULL, it, capabilities.vkCreateSampler) }) }
+            framed { VkSampler(this.longAdr { callPPPPI(this@Device_vk10.adr, createInfo write this, NULL, it, capabilities.vkCreateSampler) }) }
 
     infix fun createSampler(createInfo: SamplerCreateInfo): VkSampler =
             stak { it createSampler createInfo }
@@ -265,7 +265,7 @@ interface Device_vk10 : Pointer {
     // --- [ vkCreateSemaphore ] ---
 
     fun MemoryStack.createSemaphore(createInfo: SemaphoreCreateInfo = SemaphoreCreateInfo()): VkSemaphore =
-            framed { VkSemaphore(this.longAdr { callPPPPI(adr, createInfo write this, NULL, it, capabilities.vkCreateSemaphore) }) }
+            framed { VkSemaphore(this.longAdr { callPPPPI(this@Device_vk10.adr, createInfo write this, NULL, it, capabilities.vkCreateSemaphore) }) }
 
     fun createSemaphore(createInfo: SemaphoreCreateInfo = SemaphoreCreateInfo()): VkSemaphore =
             stak { it.createSemaphore(createInfo) }
@@ -273,7 +273,7 @@ interface Device_vk10 : Pointer {
     // --- [ vkCreateShaderModule ] ---
 
     infix fun MemoryStack.createShaderModule(createInfo: ShaderModuleCreateInfo): VkShaderModule =
-            framed { VkShaderModule(this.longAdr { callPPPPI(adr, createInfo write this, NULL, it, capabilities.vkCreateShaderModule) }) }
+            framed { VkShaderModule(this.longAdr { callPPPPI(this@Device_vk10.adr, createInfo write this, NULL, it, capabilities.vkCreateShaderModule) }) }
 
     infix fun createShaderModule(createInfo: ShaderModuleCreateInfo): VkShaderModule =
             stak { it createShaderModule createInfo }
@@ -395,7 +395,7 @@ interface Device_vk10 : Pointer {
     // --- [ vkGetBufferMemoryRequirements ] ---
 
     infix fun MemoryStack.getBufferMemoryRequirements(buffer: VkBuffer): MemoryRequirements =
-            framed { MemoryRequirements.read(this) { callPJPV(adr, buffer.L, it, capabilities.vkGetBufferMemoryRequirements) } }
+            framed { MemoryRequirements.read(this) { callPJPV(this@Device_vk10.adr, buffer.L, it, capabilities.vkGetBufferMemoryRequirements) } }
 
     infix fun getBufferMemoryRequirements(buffer: VkBuffer): MemoryRequirements =
             stak { it getBufferMemoryRequirements buffer }
@@ -411,7 +411,7 @@ interface Device_vk10 : Pointer {
     // --- [ vkGetRenderAreaGranularity ] ---
 
     infix fun MemoryStack.getRenderAreaGranularity(renderPass: VkRenderPass): Extent2D =
-            framed { Extent2D.read(this) { callPJPV(adr, renderPass.L, it, capabilities.vkGetRenderAreaGranularity) } }
+            framed { Extent2D.read(this) { callPJPV(this@Device_vk10.adr, renderPass.L, it, capabilities.vkGetRenderAreaGranularity) } }
 
     infix fun getRenderAreaGranularity(renderPass: VkRenderPass): Extent2D =
             stak { it getRenderAreaGranularity renderPass }
@@ -434,7 +434,7 @@ interface Device_vk10 : Pointer {
     // --- [ vkGetImageMemoryRequirements ] ---
 
     infix fun MemoryStack.getImageMemoryRequirements(image: VkImage): MemoryRequirements =
-            framed { MemoryRequirements.read(this) { callPJPV(adr, image.L, it, capabilities.vkGetImageMemoryRequirements) } }
+            framed { MemoryRequirements.read(this) { callPJPV(this@Device_vk10.adr, image.L, it, capabilities.vkGetImageMemoryRequirements) } }
 
     infix fun getImageMemoryRequirements(image: VkImage): MemoryRequirements =
             stak { it getImageMemoryRequirements image }
@@ -459,7 +459,7 @@ interface Device_vk10 : Pointer {
     // --- [ vkGetImageSubresourceLayout ] ---
 
     fun MemoryStack.getImageSubresourceLayout(image: VkImage, subresource: ImageSubresource): SubresourceLayout =
-            framed { SubresourceLayout.read(this) { callPJPPV(adr, image.L, subresource write this, it, capabilities.vkGetImageSubresourceLayout) } }
+            framed { SubresourceLayout.read(this) { callPJPPV(this@Device_vk10.adr, image.L, subresource write this, it, capabilities.vkGetImageSubresourceLayout) } }
 
     fun getImageSubresourceLayout(image: VkImage, subresource: ImageSubresource): SubresourceLayout =
             stak { it.getImageSubresourceLayout(image, subresource) }
@@ -508,7 +508,7 @@ interface Device_vk10 : Pointer {
     // --- [ vkGetDeviceMemoryCommitment ] ---
 
     infix fun MemoryStack.getMemoryCommitment(memory: VkDeviceMemory): VkDeviceSize =
-            framed { VkDeviceSize(this.longAdr { callPJPV(adr, memory.L, it, capabilities.vkGetDeviceMemoryCommitment) }) }
+            framed { VkDeviceSize(this.longAdr { callPJPV(this@Device_vk10.adr, memory.L, it, capabilities.vkGetDeviceMemoryCommitment) }) }
 
     infix fun getMemoryCommitment(memory: VkDeviceMemory): VkDeviceSize =
             stak { it getMemoryCommitment memory }
@@ -516,7 +516,7 @@ interface Device_vk10 : Pointer {
     // --- [ vkMapMemory ] ---
 
     fun MemoryStack.mapMemory(memory: VkDeviceMemory, offset: VkDeviceSize, size: VkDeviceSize, flags: VkMemoryMapFlags = 0): Ptr =
-            framed { this.pointerAdr { callPJJJPI(adr, memory.L, offset.L, size.L, flags, it, capabilities.vkMapMemory) } }
+            framed { this.pointerAdr { callPJJJPI(this@Device_vk10.adr, memory.L, offset.L, size.L, flags, it, capabilities.vkMapMemory) } }
 
     fun mapMemory(memory: VkDeviceMemory, offset: VkDeviceSize, size: VkDeviceSize, flags: VkMemoryMapFlags = 0): Ptr =
             stak { it.mapMemory(memory, offset, size, flags) }
@@ -524,7 +524,7 @@ interface Device_vk10 : Pointer {
     // --- [ vkMergePipelineCaches ] ---
 
     fun MemoryStack.mergePipelineCaches(dstCache: VkPipelineCache, srcCaches: VkPipelineCache_Array): VkResult =
-            framed { VkResult(callPJPI(adr, dstCache.L, srcCaches.size, srcCaches write this, capabilities.vkMergePipelineCaches)) }
+            framed { VkResult(callPJPI(this@Device_vk10.adr, dstCache.L, srcCaches.size, srcCaches write this, capabilities.vkMergePipelineCaches)) }
 
     fun mergePipelineCaches(dstCache: VkPipelineCache, srcCaches: VkPipelineCache_Array): VkResult =
             stak { it.mergePipelineCaches(dstCache, srcCaches) }
@@ -544,14 +544,14 @@ interface Device_vk10 : Pointer {
     // --- [ vkResetFences ] ---
 
     infix fun MemoryStack.resetFences(fences: VkFence_Array): VkResult =
-            framed { VkResult(callPPI(adr, fences.size, fences write this, capabilities.vkResetFences)) }
+            framed { VkResult(callPPI(this@Device_vk10.adr, fences.size, fences write this, capabilities.vkResetFences)) }
 
     infix fun resetFences(fences: VkFence_Array): VkResult =
             stak { it resetFences fences }
 
 
     infix fun MemoryStack.resetFences(fence: VkFence): VkResult =
-            framed { VkResult(callPPI(adr, 1, this.longAdr(fence.L), capabilities.vkResetFences)) }
+            framed { VkResult(callPPI(this@Device_vk10.adr, 1, this.longAdr(fence.L), capabilities.vkResetFences)) }
 
     infix fun resetFences(fence: VkFence): VkResult =
             stak { it resetFences fence }

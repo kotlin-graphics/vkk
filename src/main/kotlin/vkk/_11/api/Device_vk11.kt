@@ -52,7 +52,7 @@ interface Device_vk11 : Pointer {
     // --- [ vkCreateDescriptorUpdateTemplate ] ---
 
     infix fun MemoryStack.createDescriptorUpdateTemplate(createInfo: DescriptorUpdateTemplateCreateInfo): VkDescriptorUpdateTemplate =
-            framed { VkDescriptorUpdateTemplate(this.longAdr { callPPPPI(adr, createInfo write this, NULL, it, capabilities.vkCreateDescriptorUpdateTemplate) }) }
+            framed { VkDescriptorUpdateTemplate(this.longAdr { callPPPPI(this@Device_vk11.adr, createInfo write this, NULL, it, capabilities.vkCreateDescriptorUpdateTemplate) }) }
 
     infix fun createDescriptorUpdateTemplate(createInfo: DescriptorUpdateTemplateCreateInfo): VkDescriptorUpdateTemplate =
             stak { it createDescriptorUpdateTemplate createInfo }
@@ -60,7 +60,7 @@ interface Device_vk11 : Pointer {
     // --- [ vkCreateSamplerYcbcrConversion ] ---
 
     infix fun MemoryStack.createSamplerYcbcrConversion(createInfo: SamplerYcbcrConversionCreateInfo): VkSamplerYcbcrConversion =
-            framed { VkSamplerYcbcrConversion(this.longAdr { callPPPPI(adr, createInfo write this, NULL, it, capabilities.vkCreateSamplerYcbcrConversion) }) }
+            framed { VkSamplerYcbcrConversion(this.longAdr { callPPPPI(this@Device_vk11.adr, createInfo write this, NULL, it, capabilities.vkCreateSamplerYcbcrConversion) }) }
 
     infix fun createSamplerYcbcrConversion(createInfo: SamplerYcbcrConversionCreateInfo): VkSamplerYcbcrConversion =
             stak { it createSamplerYcbcrConversion createInfo }
@@ -76,7 +76,7 @@ interface Device_vk11 : Pointer {
     // --- [ vkGetDescriptorSetLayoutSupport ] ---
 
     infix fun MemoryStack.getDescriptorSetLayoutSupport(createInfo: DescriptorSetLayoutCreateInfo): DescriptorSetLayoutSupport =
-            framed { DescriptorSetLayoutSupport.read(this) { callPPPV(adr, createInfo write this, it, capabilities.vkGetDescriptorSetLayoutSupport) } }
+            framed { DescriptorSetLayoutSupport.read(this) { callPPPV(this@Device_vk11.adr, createInfo write this, it, capabilities.vkGetDescriptorSetLayoutSupport) } }
 
     infix fun getDescriptorSetLayoutSupport(createInfo: DescriptorSetLayoutCreateInfo): DescriptorSetLayoutSupport =
             stak { it getDescriptorSetLayoutSupport createInfo }
@@ -84,7 +84,7 @@ interface Device_vk11 : Pointer {
     // --- [ vkGetDeviceGroupPeerMemoryFeatures ] ---
 
     fun MemoryStack.getGroupPeerMemoryFeatures(heapIndex: Int, localDeviceIndex: Int, remoteDeviceIndex: Int): VkPeerMemoryFeatureFlags =
-            framed { this.intAdr { callPPV(adr, heapIndex, localDeviceIndex, remoteDeviceIndex, it, capabilities.vkGetDeviceGroupPeerMemoryFeatures) } }
+            framed { this.intAdr { callPPV(this@Device_vk11.adr, heapIndex, localDeviceIndex, remoteDeviceIndex, it, capabilities.vkGetDeviceGroupPeerMemoryFeatures) } }
 
     fun getGroupPeerMemoryFeatures(heapIndex: Int, localDeviceIndex: Int, remoteDeviceIndex: Int): VkPeerMemoryFeatureFlags =
             stak { it.getGroupPeerMemoryFeatures(heapIndex, localDeviceIndex, remoteDeviceIndex) }
@@ -92,7 +92,7 @@ interface Device_vk11 : Pointer {
     // --- [ vkGetImageMemoryRequirements2 ] ---
 
     infix fun MemoryStack.getImageMemoryRequirements2(info: ImageMemoryRequirementsInfo2): MemoryRequirements2 =
-            framed { MemoryRequirements2.read(this) { callPPPV(adr, info write this, it, capabilities.vkGetImageMemoryRequirements2) } }
+            framed { MemoryRequirements2.read(this) { callPPPV(this@Device_vk11.adr, info write this, it, capabilities.vkGetImageMemoryRequirements2) } }
 
     infix fun getImageMemoryRequirements2(info: ImageMemoryRequirementsInfo2): MemoryRequirements2 =
             stak { it getImageMemoryRequirements2 info }
@@ -100,7 +100,7 @@ interface Device_vk11 : Pointer {
     // --- [ vkGetBufferMemoryRequirements2 ] ---
 
     infix fun MemoryStack.getBufferMemoryRequirements2(info: BufferMemoryRequirementsInfo2): MemoryRequirements2 =
-            framed { MemoryRequirements2.read(this) { callPPPV(adr, info write this, it, capabilities.vkGetBufferMemoryRequirements2) } }
+            framed { MemoryRequirements2.read(this) { callPPPV(this@Device_vk11.adr, info write this, it, capabilities.vkGetBufferMemoryRequirements2) } }
 
     infix fun getBufferMemoryRequirements2(info: BufferMemoryRequirementsInfo2): MemoryRequirements2 =
             stak { it getBufferMemoryRequirements2 info }
