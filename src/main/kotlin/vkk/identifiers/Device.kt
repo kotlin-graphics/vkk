@@ -24,8 +24,10 @@ class UniqueDevice(handle: Ptr, physicalDevice: PhysicalDevice, ci: DeviceCreate
         Device(handle, physicalDevice, ci, apiVersion) {
 
     init {
+        val address = adr
+        val function = capabilities.vkDestroyDevice
         vk.cleaner.register(this) {
-            destroy()
+            callPPV(address, NULL, function)
             println("device gc'ed")
         }
     }

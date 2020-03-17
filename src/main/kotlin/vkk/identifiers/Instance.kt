@@ -19,7 +19,17 @@ import vkk._11.structs.PhysicalDeviceGroupProperties
 import vkk.extensions.Instance_KHR_surface
 import java.util.*
 
-class UniqueInstance internal constructor(createInfo: InstanceCreateInfo) : Instance(createInfo), VkCleanable
+class UniqueInstance(createInfo: InstanceCreateInfo) : Instance(createInfo) {
+    init {
+        // break object reference
+        val address = adr
+        val function =  capabilities.vkDestroyInstance
+        vk.cleaner.register(this) {
+            callPPV(address, NULL, function)
+            println("instance gc'ed")
+        }
+    }
+}
 
 /** Wraps a Vulkan instance handle. */
 open class Instance

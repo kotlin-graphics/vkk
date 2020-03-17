@@ -8,12 +8,10 @@ import vkk.vu
 class `02 enumerateDevices` : StringSpec() {
 
     val appName = "02_EnumerateDevices"
-    val engineName = "Vulkan.hpp"
 
     init {
-        Configuration.DEBUG_LOADER.set(true)
         if (isNotCI)
-            "02 enumerateDevices" {
+            appName {
 
                 val instance = vu.createInstance(appName, engineName)
 //            if(vk.DEBUG)

@@ -10,11 +10,10 @@ import vkk.vu
 class `03 initDevice` : StringSpec() {
 
     val appName = "03_InitDevice"
-    val engineName = "Vulkan.hpp"
 
     init {
         if (isNotCI)
-            "03 initDevice" {
+        appName {
 
                 val instance = vu.createInstance(appName, engineName)
 //            if(vk.DEBUG)
