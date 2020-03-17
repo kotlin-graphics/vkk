@@ -79,11 +79,16 @@ interface Device_vk10 : Pointer {
     infix fun createCommandPool(createInfo: CommandPoolCreateInfo): VkCommandPool =
             stak { it createCommandPool createInfo }
 
-//    infix fun MemoryStack.createCommandPoolUnique(createInfo: CommandPoolCreateInfo): VkCommandPool =
-//            createCommandPool(createInfo).also { vk.cleaner.register() }
-//
-//    infix fun createCommandPoolUnique(createInfo: CommandPoolCreateInfo): VkCommandPool =
-//            createCommandPool(createInfo)
+    infix fun MemoryStack.createCommandPoolUnique(createInfo: CommandPoolCreateInfo): VkCommandPool {
+        val commandPool = createCommandPool(createInfo)
+        vk.cleaner.register(commandPool) {
+            callPJPV(this@Device_vk10.adr, commandPool.L, NULL, capabilities.vkDestroyCommandPool)
+        }
+        return commandPool
+    }
+
+    infix fun createCommandPoolUnique(createInfo: CommandPoolCreateInfo): VkCommandPool =
+            stak { it createCommandPoolUnique createInfo }
 
     // --- [ vkCreateComputePipelines ] ---
 

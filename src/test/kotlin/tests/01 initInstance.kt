@@ -26,5 +26,14 @@ class `01 initInstance` : StringSpec() {
                 // Note: No need to explicitly destroy the instance, as the corresponding destroy function is
                 // called by the destructor of the UniqueInstance on leaving this scope.
             }
+//        "a" {
+//            for (i in 1..10000) {
+//                val a = IntArray(10000)
+//                try {
+//                    Thread.sleep(1)
+//                } catch (e: InterruptedException) {
+//                }
+//            }
+//        }
     }
 }

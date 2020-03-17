@@ -73,6 +73,32 @@ open class Device(handle: Ptr,
     infix fun allocateCommandBuffers(allocateInfo: CommandBufferAllocateInfo): Array<CommandBuffer> =
             stak { it allocateCommandBuffers allocateInfo }
 
+    // Unique
+
+    infix fun MemoryStack.allocateCommandBufferUnique(allocateInfo: CommandBufferAllocateInfo): UniqueCommandBuffer =
+            framed { UniqueCommandBuffer(this.pointerAdr { nAllocateCommandBuffers(allocateInfo write this, it).check() }, this@Device) }
+
+    infix fun allocateCommandBufferUnique(allocateInfo: CommandBufferAllocateInfo): CommandBuffer =
+            stak { it allocateCommandBufferUnique allocateInfo }
+
+
+    infix fun MemoryStack.allocateCommandBuffersUnique(allocateInfo: CommandBufferAllocateInfo): Array<UniqueCommandBuffer> =
+            framed {
+                val pCommandBuffers = this.mPointer(allocateInfo.commandBufferCount)
+                nAllocateCommandBuffers(allocateInfo write this, pCommandBuffers.adr)
+//                val address = this@Device.adr
+                val array = Array(allocateInfo.commandBufferCount) {
+                    UniqueCommandBuffer(memGetAddress(pCommandBuffers[it]), this@Device)
+                }
+//                vk.cleaner.register(array) {
+//                    callPJPV(address, allocateInfo.commandPool.L, array.size, pCommandBuffers, capabilities.vkFreeCommandBuffers)
+//                }
+                array
+            }
+
+    infix fun allocateCommandBuffersUnique(allocateInfo: CommandBufferAllocateInfo): Array<UniqueCommandBuffer> =
+            stak { it allocateCommandBuffersUnique allocateInfo }
+
     // --- [ vkGetDeviceQueue ] ---
 
     fun MemoryStack.getQueue(queueFamilyIndex: Int, queueIndex: Int = 0): Queue =

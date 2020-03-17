@@ -39,6 +39,10 @@ inline class VkBufferView(val L: Long = VK_NULL_HANDLE) {
     }
 }
 
+//fun VkUniqueCommandPool(long: Long = VK_NULL_HANDLE): VkUniqueCommandPool = VkUniqueCommandPool(L)
+//
+//inline class VkUniqueCommandPool(val L: Long = VK_NULL_HANDLE)
+
 inline class VkCommandPool(val L: Long = VK_NULL_HANDLE) {
     val isValid get() = L != VK_NULL_HANDLE
     val isInvalid get() = L == VK_NULL_HANDLE
