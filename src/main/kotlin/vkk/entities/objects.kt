@@ -2,11 +2,12 @@ package vkk.entities
 
 import glm_.L
 import glm_.i
-import kool.rem
 import kool.remSize
 import org.lwjgl.vulkan.VK10.VK_NULL_HANDLE
+import vkk.VkCloseable
+import vkk.VkCloseableDevice
+import vkk.identifiers.Device
 import java.nio.Buffer
-import java.nio.ByteBuffer
 
 
 inline class VkAccelerationStructureNV(val L: Long = VK_NULL_HANDLE) {
@@ -43,10 +44,10 @@ inline class VkBufferView(val L: Long = VK_NULL_HANDLE) {
 //
 //inline class VkUniqueCommandPool(val L: Long = VK_NULL_HANDLE)
 
-inline class VkCommandPool(val L: Long = VK_NULL_HANDLE) {
+inline class VkCommandPool(val L: Long = VK_NULL_HANDLE) : VkCloseableDevice {
     val isValid get() = L != VK_NULL_HANDLE
     val isInvalid get() = L == VK_NULL_HANDLE
-
+    override fun close(device: Device) = device destroy this
     companion object {
         val NULL = VkCommandPool()
     }

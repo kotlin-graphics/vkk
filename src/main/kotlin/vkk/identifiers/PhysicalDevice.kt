@@ -56,12 +56,12 @@ constructor(handle: Adr,
             stak { it createDevice createInfo }
 
 
-    infix fun MemoryStack.createDeviceUnique(createInfo: DeviceCreateInfo): UniqueDevice =
-            framed {
-                val handle = this.pointerAdr { VK_CHECK_RESULT(callPPPPI(this@PhysicalDevice.adr, createInfo write this, NULL, it, capabilities.vkCreateDevice)) }
-                UniqueDevice(handle, this@PhysicalDevice, createInfo)
-            }
-
-    infix fun createDeviceUnique(createInfo: DeviceCreateInfo): UniqueDevice =
-            stak { it createDeviceUnique createInfo }
+//    infix fun MemoryStack.createDeviceUnique(createInfo: DeviceCreateInfo): UniqueDevice =
+//            framed {
+//                val handle = this.pointerAdr { VK_CHECK_RESULT(callPPPPI(this@PhysicalDevice.adr, createInfo write this, NULL, it, capabilities.vkCreateDevice)) }
+//                UniqueDevice(handle, this@PhysicalDevice, createInfo)
+//            }
+//
+//    infix fun createDeviceUnique(createInfo: DeviceCreateInfo): UniqueDevice =
+//            stak { it createDeviceUnique createInfo }
 }

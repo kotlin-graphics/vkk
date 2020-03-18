@@ -20,22 +20,22 @@ import vkk.entities.VkDeviceSize
 import vkk.entities.VkFence
 import vkk.extensions.Device_KHR_swapchain
 
-class UniqueDevice(handle: Ptr, physicalDevice: PhysicalDevice, ci: DeviceCreateInfo, apiVersion: Int = 0) :
-        Device(handle, physicalDevice, ci, apiVersion) {
-
-    init {
-        val address = adr
-        val function = capabilities.vkDestroyDevice
-        vk.cleaner.register(this) {
-            callPPV(address, NULL, function)
-            println("device gc'ed")
-        }
-    }
-}
+//class UniqueDevice(handle: Ptr, physicalDevice: PhysicalDevice, ci: DeviceCreateInfo, apiVersion: Int = 0) :
+//        Device(handle, physicalDevice, ci, apiVersion) {
+//
+//    init {
+//        val address = adr
+//        val function = capabilities.vkDestroyDevice
+//        vk.cleaner.register(this) {
+//            callPPV(address, NULL, function)
+//            println("device gc'ed")
+//        }
+//    }
+//}
 
 /** Wraps a Vulkan device dispatchable handle. */
-open class Device(handle: Ptr,
-                  val physicalDevice: PhysicalDevice, ci: DeviceCreateInfo, apiVersion: Int = 0)
+class Device(handle: Ptr,
+             val physicalDevice: PhysicalDevice, ci: DeviceCreateInfo, apiVersion: Int = 0)
 
     : DispatchableHandleDevice(handle, getDeviceCapabilities(handle, physicalDevice, ci, apiVersion)),
 
@@ -43,7 +43,9 @@ open class Device(handle: Ptr,
 
         Device_vk11,
 
-        Device_KHR_swapchain {
+        Device_KHR_swapchain,
+
+        VkCloseable {
 
 
     // ---------------------------------------------- VK10 -------------------------------------------------------------
@@ -73,31 +75,36 @@ open class Device(handle: Ptr,
     infix fun allocateCommandBuffers(allocateInfo: CommandBufferAllocateInfo): Array<CommandBuffer> =
             stak { it allocateCommandBuffers allocateInfo }
 
-    // Unique
-
-    infix fun MemoryStack.allocateCommandBufferUnique(allocateInfo: CommandBufferAllocateInfo): UniqueCommandBuffer =
-            framed { UniqueCommandBuffer(this.pointerAdr { nAllocateCommandBuffers(allocateInfo write this, it).check() }, this@Device) }
-
-    infix fun allocateCommandBufferUnique(allocateInfo: CommandBufferAllocateInfo): CommandBuffer =
-            stak { it allocateCommandBufferUnique allocateInfo }
-
-
-    infix fun MemoryStack.allocateCommandBuffersUnique(allocateInfo: CommandBufferAllocateInfo): Array<UniqueCommandBuffer> =
-            framed {
-                val pCommandBuffers = this.mPointer(allocateInfo.commandBufferCount)
-                nAllocateCommandBuffers(allocateInfo write this, pCommandBuffers.adr)
-//                val address = this@Device.adr
-                val array = Array(allocateInfo.commandBufferCount) {
-                    UniqueCommandBuffer(memGetAddress(pCommandBuffers[it]), this@Device)
-                }
-//                vk.cleaner.register(array) {
-//                    callPJPV(address, allocateInfo.commandPool.L, array.size, pCommandBuffers, capabilities.vkFreeCommandBuffers)
+//    // Unique
+//
+//    infix fun MemoryStack.allocateCommandBufferUnique(allocateInfo: CommandBufferAllocateInfo): UniqueCommandBuffer =
+//            framed { UniqueCommandBuffer(this.pointerAdr { nAllocateCommandBuffers(allocateInfo write this, it).check() }, this@Device) }
+//
+//    infix fun allocateCommandBufferUnique(allocateInfo: CommandBufferAllocateInfo): CommandBuffer =
+//            stak { it allocateCommandBufferUnique allocateInfo }
+//
+//
+//    infix fun MemoryStack.allocateCommandBuffersUnique(allocateInfo: CommandBufferAllocateInfo): Array<UniqueCommandBuffer> =
+//            framed {
+//                val pCommandBuffers = this.mPointer(allocateInfo.commandBufferCount)
+//                nAllocateCommandBuffers(allocateInfo write this, pCommandBuffers.adr)
+//                val array = Array(allocateInfo.commandBufferCount) {
+//                    UniqueCommandBuffer(memGetAddress(pCommandBuffers[it]), this@Device)
 //                }
-                array
-            }
-
-    infix fun allocateCommandBuffersUnique(allocateInfo: CommandBufferAllocateInfo): Array<UniqueCommandBuffer> =
-            stak { it allocateCommandBuffersUnique allocateInfo }
+//                val address = this@Device.adr
+//                val commands = LongArray(array.size) { pCommandBuffers[it] }
+////                vk.cleaner.register(array) {
+////                    stak { s ->
+//////                        val pCommands = s.mallocPointer(commands.size)// { commands[it] }
+////                        println("buffers freed")
+//////                        callPJPV(address, allocateInfo.commandPool.L, array.size, pCommands.adr, capabilities.vkFreeCommandBuffers)
+////                    }
+////                }
+//                array
+//            }
+//
+//    infix fun allocateCommandBuffersUnique(allocateInfo: CommandBufferAllocateInfo): Array<UniqueCommandBuffer> =
+//            stak { it allocateCommandBuffersUnique allocateInfo }
 
     // --- [ vkGetDeviceQueue ] ---
 
@@ -141,6 +148,9 @@ open class Device(handle: Ptr,
     infix fun getQueue2(queueInfo: DeviceQueueInfo2): Queue =
             stak { it getQueue2 queueInfo }
 
+    // AutoCloseable
+
+    override fun close() = destroy()
 }
 
 private fun getDeviceCapabilities(handle: Ptr, physicalDevice: PhysicalDevice, ci: DeviceCreateInfo, apiVersion_: Int): CapabilitiesDevice {

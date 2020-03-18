@@ -1,8 +1,6 @@
 package vkk.identifiers
 
 import kool.Ptr
-import kool.adr
-import org.lwjgl.system.JNI
 import org.lwjgl.system.MemoryStack
 import vkk.VkQueryControlFlags
 import vkk.VkSubpassContents
@@ -12,17 +10,17 @@ import vkk._10.structs.RenderPassBeginInfo
 import vkk._11.api.CommandBuffer_vk11
 import vkk.entities.VkQueryPool
 
-class UniqueCommandBuffer(handle: Ptr, device: Device) : CommandBuffer(handle, device) {
+//class UniqueCommandBuffer(handle: Ptr, device: Device) : CommandBuffer(handle, device) {
 //    val address = adr
 //    val function = capabilities.vkDestroy
 //    vk.cleaner.register(this) {
 //        JNI.callPJPV(address, commandPool.L, commandBufferCount, pCommandBuffers, capabilities.vkFreeCommandBuffers)
 //        println("device gc'ed")
 //    }
-}
+//}
 
 /** Wraps a Vulkan command buffer handle.  */
-open class CommandBuffer
+class CommandBuffer
 /**
  * Creates a `VkCommandBuffer` using the specified native handle and device.
  *
@@ -31,12 +29,10 @@ open class CommandBuffer
  */
 constructor(handle: Ptr,
             /** Returns the device on which this `VkCommandBuffer` was created.  */
-            val device: Device)
+            val device: Device) :
 
-    : DispatchableHandleDevice(handle, device.capabilities),
-
+        DispatchableHandleDevice(handle, device.capabilities),
         CommandBuffer_vk10,
-
         CommandBuffer_vk11 {
 
 
@@ -72,6 +68,4 @@ constructor(handle: Ptr,
     }
 
     // ---------------------------------------------- VK11 -------------------------------------------------------------
-
-
 }

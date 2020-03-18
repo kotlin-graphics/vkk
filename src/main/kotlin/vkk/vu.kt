@@ -3,9 +3,9 @@ package vkk
 import org.lwjgl.vulkan.EXTDebugUtils.VK_EXT_DEBUG_UTILS_EXTENSION_NAME
 import org.lwjgl.vulkan.VK10.*
 import vkk._10.structs.*
+import vkk.identifiers.Device
+import vkk.identifiers.Instance
 import vkk.identifiers.PhysicalDevice
-import vkk.identifiers.UniqueDevice
-import vkk.identifiers.UniqueInstance
 
 object vu {
 
@@ -279,12 +279,12 @@ object vu {
 //    vk::DescriptorSetLayoutCreateFlags flags = {});
 
     fun createDevice(physicalDevice: PhysicalDevice, queueFamilyIndex: Int, extensions: ArrayList<String> = ArrayList(),
-                     physicalDeviceFeatures: PhysicalDeviceFeatures? = null, next: VkStructure? = null): UniqueDevice {
+                     physicalDeviceFeatures: PhysicalDeviceFeatures? = null, next: VkStructure? = null): Device {
         // create a UniqueDevice
         val deviceQueueCreateInfo = DeviceQueueCreateInfo(0, queueFamilyIndex, queuePriority = 0f)
         val deviceCreateInfo = DeviceCreateInfo(0, deviceQueueCreateInfo, extensions, physicalDeviceFeatures)
         deviceCreateInfo.next = next
-        return physicalDevice.createDeviceUnique(deviceCreateInfo)
+        return physicalDevice.createDevice(deviceCreateInfo)
     }
 
 //    std::vector<vk::UniqueFramebuffer> createFramebuffers(vk::UniqueDevice &device, vk::UniqueRenderPass &renderPass, std::vector<vk::UniqueImageView> const& imageViews, vk::UniqueImageView const& depthImageView, vk::Extent2D const& extent);
@@ -296,7 +296,7 @@ object vu {
 
     fun createInstance(appName: String, engineName: String,
                        layers: ArrayList<String> = ArrayList(), extensions: ArrayList<String> = ArrayList(),
-                       apiVersion: Int = VK_API_VERSION_1_0): UniqueInstance {
+                       apiVersion: Int = VK_API_VERSION_1_0): Instance {
 
         val layerProperties = ArrayList<LayerProperties>()
         val extensionProperties = ArrayList<ExtensionProperties>()
@@ -343,7 +343,7 @@ object vu {
 //            )
 //        }
 
-        return UniqueInstance(instanceCreateInfo)
+        return Instance(instanceCreateInfo)
     }
 
 //    vk::UniqueRenderPass createRenderPass(vk::UniqueDevice &device, vk::Format colorFormat, vk::Format depthFormat, vk::AttachmentLoadOp loadOp = vk::AttachmentLoadOp::eClear, vk::ImageLayout colorFinalLayout = vk::ImageLayout::ePresentSrcKHR);
@@ -371,4 +371,15 @@ object vu {
 //    void updateDescriptorSets(vk::UniqueDevice const& device, vk::UniqueDescriptorSet const& descriptorSet,
 //    std::vector<std::tuple<vk::DescriptorType, vk::UniqueBuffer const&, vk::UniqueBufferView const&>> const& bufferData,
 //    std::vector<vk::su::TextureData> const& textureData, uint32_t bindingOffset = 0);
+
+
+    // Unique
+
+    fun ResourceHolder.createDevice(physicalDevice: PhysicalDevice, queueFamilyIndex: Int, extensions: ArrayList<String> = ArrayList(),
+                                    physicalDeviceFeatures: PhysicalDeviceFeatures? = null, next: VkStructure? = null): Device =
+            this@vu.createDevice(physicalDevice, queueFamilyIndex, extensions, physicalDeviceFeatures, next).unique()
+
+    fun ResourceHolder.createInstance(appName: String, engineName: String, layers: ArrayList<String> = ArrayList(),
+                                      extensions: ArrayList<String> = ArrayList(), apiVersion: Int = VK_API_VERSION_1_0): Instance =
+            this@vu.createInstance(appName, engineName, layers, extensions, apiVersion).unique()
 }

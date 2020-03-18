@@ -19,20 +19,20 @@ import vkk._11.structs.PhysicalDeviceGroupProperties
 import vkk.extensions.Instance_KHR_surface
 import java.util.*
 
-class UniqueInstance(createInfo: InstanceCreateInfo) : Instance(createInfo) {
-    init {
-        // break object reference
-        val address = adr
-        val function =  capabilities.vkDestroyInstance
-        vk.cleaner.register(this) {
-            callPPV(address, NULL, function)
-            println("instance gc'ed")
-        }
-    }
-}
+//class UniqueInstance(createInfo: InstanceCreateInfo) : Instance(createInfo) {
+//    init {
+//        // break object reference
+//        val address = adr
+//        val function =  capabilities.vkDestroyInstance
+//        vk.cleaner.register(this) {
+//            callPPV(address, NULL, function)
+//            println("instance gc'ed")
+//        }
+//    }
+//}
 
 /** Wraps a Vulkan instance handle. */
-open class Instance
+class Instance
 /**
  * Creates a {@link VkInstance} instance for the specified native handle.
  *
@@ -45,7 +45,9 @@ private constructor(handle: Ptr, ci: InstanceCreateInfo) :
 
         Instance_vk10,
 
-        Instance_KHR_surface {
+        Instance_KHR_surface,
+
+        VkCloseable {
 
     // ---------------------------------------------- VK10 -------------------------------------------------------------
 
@@ -109,6 +111,9 @@ private constructor(handle: Ptr, ci: InstanceCreateInfo) :
 
     val enumeratePhysicalDeviceGroups: Array<PhysicalDeviceGroupProperties>
         get() = stak { it.enumeratePhysicalDeviceGroups }
+
+
+    override fun close() = destroy()
 }
 
 private fun getInstanceCapabilities(handle: Ptr, ci: InstanceCreateInfo): CapabilitiesInstance {

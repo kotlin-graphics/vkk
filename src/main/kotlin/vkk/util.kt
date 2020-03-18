@@ -1,11 +1,13 @@
 package vkk
 
 import glm_.L
-import vkk.identifiers.CommandBuffer
 import kool.*
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil
+import vkk.identifiers.CommandBuffer
+import vkk.identifiers.Device
 import java.nio.Buffer
+import java.nio.file.Path
 
 
 //fun pointerBufferOf(vararg strings: String): PointerBuffer {
@@ -55,4 +57,53 @@ interface VkStructure {
 
 interface StructureChain {
     var next: VkStructure?
+}
+
+interface VkCloseableDevice : VkCloseable {
+    fun close(device: Device) = Unit
+}
+
+interface VkCloseable {
+    fun close() = Unit
+}
+
+class ResourceHolder : VkCloseable {
+    val resources = arrayListOf<VkCloseable>()
+    lateinit var device: Device
+
+    fun <T : VkCloseable> T.unique(): T {
+        resources.add(this)
+        if (this is Device) device = this
+        return this
+    }
+
+    override fun close() = resources.asReversed().forEach {
+        if (it is VkCloseableDevice)
+            it.close(device)
+        else
+            it.close()
+    }
+
+    fun Array<CommandBuffer>.unique() {
+//        device.fre
+    }
+}
+
+fun unique(block: ResourceHolder.() -> Unit) {
+    ResourceHolder().apply {
+        block()
+        close()
+    }
+}
+
+fun copy(from: Path, to: Path) {
+
+    unique {
+
+//        val input = Files.newInputStream(from).unique()
+//
+//        val output = Files.newOutputStream(to).unique()
+//
+//        input.copyTo(output)
+    }
 }
