@@ -5,10 +5,7 @@ import kool.Ptr
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.NULL
 import org.lwjgl.vulkan.VkImageViewCreateInfo.*
-import vkk.VkFormat
-import vkk.VkImageViewCreateFlags
-import vkk.VkImageViewType
-import vkk.VkStructureType
+import vkk.*
 import vkk.entities.VkImage
 
 /**
@@ -150,7 +147,7 @@ class ImageViewCreateInfo(
 ) {
     val type get() = VkStructureType.IMAGE_VIEW_CREATE_INFO
 
-    infix fun write(stack: MemoryStack): Adr {
+    infix fun write(stack: VkStack): Adr {
         val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
         nsType(adr, type.i)
         npNext(adr, next)

@@ -2,7 +2,7 @@ package tests
 
 import io.kotlintest.specs.StringSpec
 import main.isNotCI
-import vkk.unique
+import vkk.unique.`try`
 import vkk.vu
 
 class `02 enumerateDevices` : StringSpec() {
@@ -12,8 +12,8 @@ class `02 enumerateDevices` : StringSpec() {
     init {
         if (isNotCI)
             appName {
-                unique {
-                    val instance = vu.createInstance(appName, engineName).unique()
+                `try` {
+                    val instance = vu.createInstance(appName, engineName)
 //                  if(vk.DEBUG)
 //                      vu.createDebugUtilsMessenger(instance)
 

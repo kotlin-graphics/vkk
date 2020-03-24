@@ -5,10 +5,7 @@ import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.NULL
 import org.lwjgl.system.MemoryUtil.memPutAddress
 import org.lwjgl.vulkan.VkBufferCreateInfo.*
-import vkk.VkBufferCreateFlags
-import vkk.VkBufferUsageFlags
-import vkk.VkSharingMode
-import vkk.VkStructureType
+import vkk.*
 import vkk.entities.VkDeviceSize
 
 /**
@@ -88,7 +85,7 @@ class BufferCreateInfo(
 
     val type get() = VkStructureType.BUFFER_CREATE_INFO
 
-    infix fun write(stack: MemoryStack): Adr {
+    infix fun write(stack: VkStack): Adr {
         val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
         nsType(adr, type.i)
         npNext(adr, next)
@@ -98,7 +95,7 @@ class BufferCreateInfo(
         nsharingMode(adr, sharingMode.i)
         queueFamilyIndices?.let {
             nqueueFamilyIndexCount(adr, it.size)
-            memPutAddress(adr + PQUEUEFAMILYINDICES, it.toIntAdr(stack).adr)
+            memPutAddress(adr + PQUEUEFAMILYINDICES, stack.IntAdr(it).adr)
         }
         return adr
     }

@@ -4,6 +4,7 @@ import kool.Adr
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.memPutAddress
 import org.lwjgl.vulkan.VkPipelineLayoutCreateInfo.*
+import vkk.VkStack
 import vkk.VkStructureType
 import vkk.entities.VkDescriptorSetLayout_Array
 
@@ -102,7 +103,7 @@ class PipelineLayoutCreateInfo(
 
     val type get() = VkStructureType.PIPELINE_LAYOUT_CREATE_INFO
 
-    infix fun write(stack: MemoryStack): Adr {
+    infix fun write(stack: VkStack): Adr {
         val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
         nsType(adr, type.i)
         setLayouts?.let {

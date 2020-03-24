@@ -7,6 +7,7 @@ import org.lwjgl.vulkan.VkSubpassDependency.*
 import vkk.VkAccessFlags
 import vkk.VkDependencyFlags
 import vkk.VkPipelineStageFlags
+import vkk.VkStack
 
 /**
  * Structure specifying a subpass dependency.
@@ -110,7 +111,7 @@ class SubpassDependency(
     var dependencyFlags: VkDependencyFlags = 0
 ) {
 
-    fun write(stack: MemoryStack): Adr =
+    fun write(stack: VkStack): Adr =
         stack.ncalloc(ALIGNOF, 1, SIZEOF).also { write(it) }
 
     infix fun write(adr: Adr) {
@@ -124,7 +125,7 @@ class SubpassDependency(
     }
 }
 
-infix fun Array<SubpassDependency>.write(stack: MemoryStack): Ptr {
+infix fun Array<SubpassDependency>.write(stack: VkStack): Ptr {
     val natives = stack.ncalloc(ALIGNOF, size, SIZEOF)
     for (i in indices)
         this[i] write (natives + i * SIZEOF)

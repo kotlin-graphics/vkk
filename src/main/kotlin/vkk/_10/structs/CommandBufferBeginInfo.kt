@@ -6,6 +6,7 @@ import org.lwjgl.system.MemoryUtil.NULL
 import org.lwjgl.system.MemoryUtil.memPutAddress
 import org.lwjgl.vulkan.VkCommandBufferBeginInfo.*
 import vkk.VkCommandBufferUsageFlags
+import vkk.VkStack
 import vkk.VkStructureType
 
 /**
@@ -58,11 +59,11 @@ class CommandBufferBeginInfo(
 
     val type get() = VkStructureType.COMMAND_BUFFER_BEGIN_INFO
 
-    infix fun write(stack: MemoryStack): Ptr =
+    infix fun write(stack: VkStack): Ptr =
             stack.ncalloc(ALIGNOF, 1, SIZEOF).also { ptr ->
                 nsType(ptr, type.i)
                 npNext(ptr, next)
                 nflags(ptr, flags)
-                inheritanceInfo?.let { memPutAddress(ptr + PINHERITANCEINFO, it.write(stack)) }
+                inheritanceInfo?.let { memPutAddress(ptr + PINHERITANCEINFO, it write stack) }
             }
 }

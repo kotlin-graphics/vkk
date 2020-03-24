@@ -5,6 +5,7 @@ import kool.IntPtr
 import kool.Ptr
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.vulkan.VkExtent2D.*
+import vkk.VkStack
 import vkk.stak
 
 /**
@@ -48,7 +49,7 @@ class Extent2D(
 
     companion object {
         //inline fun <R> read(block: (Ptr) -> R): Extent2D = stak { read(it, block) }
-        inline fun <R> read(stack: MemoryStack, block: (Ptr) -> R): Extent2D {
+        inline fun <R> read(stack: VkStack, block: (Ptr) -> R): Extent2D {
             val ptr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
             block(ptr)
             return Extent2D(IntPtr(ptr))

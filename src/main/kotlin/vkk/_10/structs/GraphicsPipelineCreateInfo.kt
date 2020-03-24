@@ -7,6 +7,7 @@ import org.lwjgl.system.MemoryUtil.NULL
 import org.lwjgl.system.MemoryUtil.memPutAddress
 import org.lwjgl.vulkan.VkGraphicsPipelineCreateInfo.*
 import vkk.VkPipelineCreateFlags
+import vkk.VkStack
 import vkk.VkStructureType
 import vkk.entities.VkPipeline
 import vkk.entities.VkPipelineLayout
@@ -186,10 +187,10 @@ class GraphicsPipelineCreateInfo(
 
     val type get() = VkStructureType.GRAPHICS_PIPELINE_CREATE_INFO
 
-    infix fun write(stack: MemoryStack): Adr =
+    infix fun write(stack: VkStack): Adr =
             stack.ncalloc(ALIGNOF, 1, SIZEOF).also { write(it, stack) }
 
-    fun write(adr: Adr, stack: MemoryStack) {
+    fun write(adr: Adr, stack: VkStack) {
         nsType(adr, type.i)
         npNext(adr, next)
         nflags(adr, flags)
@@ -211,7 +212,7 @@ class GraphicsPipelineCreateInfo(
     }
 }
 
-infix fun Array<GraphicsPipelineCreateInfo>.write(stack: MemoryStack): Ptr {
+infix fun Array<GraphicsPipelineCreateInfo>.write(stack: VkStack): Ptr {
     val natives = stack.ncalloc(ALIGNOF, size, SIZEOF)
     for (i in indices)
         this[i].write(natives + SIZEOF * i, stack)

@@ -5,6 +5,7 @@ import kool.BytePtr
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.vulkan.VkFormatProperties.*
 import vkk.VkFormatFeatureFlags
+import vkk.VkStack
 import vkk.stak
 
 /**
@@ -55,7 +56,7 @@ class FormatProperties(
 
     companion object {
         //inline infix fun <R> read(block: (Adr) -> R): FormatProperties = stak { read(it, block) }
-        inline fun <R> read(stack: MemoryStack, block: (Adr) -> R): FormatProperties {
+        inline fun <R> read(stack: VkStack, block: (Adr) -> R): FormatProperties {
             val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
             block(adr)
             return FormatProperties(BytePtr(adr))

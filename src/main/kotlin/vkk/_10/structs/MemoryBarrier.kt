@@ -5,6 +5,7 @@ import kool.Ptr
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.vulkan.VkMemoryBarrier.*
 import vkk.VkAccessFlags
+import vkk.VkStack
 import vkk.VkStructureType
 
 /**
@@ -55,7 +56,7 @@ class MemoryBarrier(
 
     val type get() = VkStructureType.MEMORY_BARRIER
 
-    infix fun write(stack: MemoryStack): Adr =
+    infix fun write(stack: VkStack): Adr =
         stack.ncalloc(ALIGNOF, 1, SIZEOF).also { write(it) }
 
     infix fun write(adr: Adr) {
@@ -65,7 +66,7 @@ class MemoryBarrier(
     }
 }
 
-infix fun Array<MemoryBarrier>.write(stack: MemoryStack): Ptr {
+infix fun Array<MemoryBarrier>.write(stack: VkStack): Ptr {
     val natives = stack.ncalloc(ALIGNOF, size, SIZEOF)
     for (i in indices)
         this[i] write (natives + i * SIZEOF)

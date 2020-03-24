@@ -1,7 +1,6 @@
 package vkk.identifiers
 
 import kool.*
-import org.lwjgl.PointerBuffer
 import org.lwjgl.system.APIUtil.apiLog
 import org.lwjgl.system.Checks
 import org.lwjgl.system.FunctionProvider
@@ -13,10 +12,10 @@ import org.lwjgl.vulkan.VK10.VK_SUCCESS
 import org.lwjgl.vulkan.VkExtensionProperties
 import org.lwjgl.vulkan.VkPhysicalDeviceGroupProperties
 import vkk.*
-import vkk._10.api.Instance_vk10
 import vkk._10.structs.InstanceCreateInfo
 import vkk._11.structs.PhysicalDeviceGroupProperties
 import vkk.extensions.Instance_KHR_surface
+import vkk.unique.UniqueInstanceI
 import java.util.*
 
 //class UniqueInstance(createInfo: InstanceCreateInfo) : Instance(createInfo) {
@@ -39,49 +38,24 @@ class Instance
  * @param handle the native {@code VkInstance} handle
  * @param ci     the {@link VkInstanceCreateInfo} structured used to create the {@code VkInstance}.
  */
-private constructor(handle: Ptr, ci: InstanceCreateInfo) :
-
+internal constructor(handle: Ptr, ci: InstanceCreateInfo) :
         Dispatchable(handle, getInstanceCapabilities(handle, ci)),
-
-        Instance_vk10,
-
         Instance_KHR_surface,
-
-        VkCloseable {
+        VkCloseable,
+        UniqueInstanceI {
 
     // ---------------------------------------------- VK10 -------------------------------------------------------------
 
     // --- [ vkCreateInstance ] ---
     constructor(createInfo: InstanceCreateInfo) : this(
-            stak { s ->
+            VkStack { s ->
                 s.pointerAdr {
                     VK_CHECK_RESULT(callPPPI(createInfo write s, NULL, it, VK.globalCommands!!.vkCreateInstance))
                 }
             }, createInfo)
 
-    // --- [ vkEnumeratePhysicalDevices ] ---
-    inline fun nEnumeratePhysicalDevices(pPhysicalDeviceCount: Ptr, pPhysicalDevices: Ptr = NULL): VkResult =
-            VkResult(callPPPI(adr, pPhysicalDeviceCount, pPhysicalDevices, capabilities.vkEnumeratePhysicalDevices))
-
-    val MemoryStack.enumeratePhysicalDevices: Array<PhysicalDevice>
-        get() = framed {
-            var physicalDevices: PointerBuffer? = null
-            val pPhysicalDeviceCount = this.mInt()
-            var physicalDeviceCount: Int
-            var result: VkResult
-            do {
-                result = nEnumeratePhysicalDevices(pPhysicalDeviceCount.adr)
-                physicalDeviceCount = pPhysicalDeviceCount[0]
-                if (result == VkResult.SUCCESS && physicalDeviceCount != 0) {
-                    physicalDevices = this.mallocPointer(physicalDeviceCount)
-                    result = nEnumeratePhysicalDevices(pPhysicalDeviceCount.adr, physicalDevices.adr)
-                }
-            } while (result == VkResult.INCOMPLETE)
-            Array(physicalDeviceCount) { PhysicalDevice(physicalDevices!![0], this@Instance) }
-        }
-
-    val enumeratePhysicalDevices: Array<PhysicalDevice>
-        get() = stak { it.enumeratePhysicalDevices }
+    // --- [ vkDestroyInstance ] ---
+    fun destroy() = callPPV(adr, NULL, capabilities.vkDestroyInstance)
 
     // ---------------------------------------------- VK11 -------------------------------------------------------------
 

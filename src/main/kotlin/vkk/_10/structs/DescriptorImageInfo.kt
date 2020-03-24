@@ -5,6 +5,7 @@ import kool.Ptr
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.vulkan.VkDescriptorImageInfo.*
 import vkk.VkImageLayout
+import vkk.VkStack
 import vkk.entities.VkImageView
 import vkk.entities.VkSampler
 
@@ -57,7 +58,7 @@ class DescriptorImageInfo(
         var imageLayout: VkImageLayout
 ) {
 
-    infix fun write(stack: MemoryStack): Adr =
+    infix fun write(stack: VkStack): Adr =
         stack.ncalloc(ALIGNOF, 1, SIZEOF).also { write(it) }
 
     infix fun write(adr: Adr) {
@@ -67,7 +68,7 @@ class DescriptorImageInfo(
     }
 }
 
-infix fun Array<DescriptorImageInfo>.write(stack: MemoryStack): Ptr {
+infix fun Array<DescriptorImageInfo>.write(stack: VkStack): Ptr {
     val natives = stack.ncalloc(ALIGNOF, size, SIZEOF)
     for (i in indices)
         this[i] write (natives + i * SIZEOF)

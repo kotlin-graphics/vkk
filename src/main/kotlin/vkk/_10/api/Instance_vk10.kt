@@ -50,7 +50,5 @@ interface Instance_vk10 : Pointer {
     infix fun destroy(debugReportCallback: VkDebugReportCallback) =
             callPJPV(adr, debugReportCallback.L, NULL, capabilities.vkDestroyDebugReportCallbackEXT)
 
-    // --- [ vkDestroyInstance ] ---
-    fun destroy() =
-            callPPV(adr, NULL, capabilities.vkDestroyInstance)
+
 }

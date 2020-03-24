@@ -5,6 +5,7 @@ import kool.Ptr
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.memPutAddress
 import org.lwjgl.vulkan.VkSparseImageOpaqueMemoryBindInfo.*
+import vkk.VkStack
 import vkk.entities.VkImage
 
 /**
@@ -50,17 +51,17 @@ class SparseImageOpaqueMemoryBindInfo(
         var binds: Array<SparseMemoryBind>
 ) {
 
-    infix fun write(stack: MemoryStack): Adr =
+    infix fun write(stack: VkStack): Adr =
         stack.ncalloc(ALIGNOF, 1, SIZEOF).also { write(it, stack) }
 
-    fun write(adr: Adr, stack: MemoryStack) {
+    fun write(adr: Adr, stack: VkStack) {
         nimage(adr, image.L)
         nbindCount(adr, binds.size)
         memPutAddress(adr + PBINDS, binds write stack)
     }
 }
 
-infix fun Array<SparseImageOpaqueMemoryBindInfo>.write(stack: MemoryStack): Ptr {
+infix fun Array<SparseImageOpaqueMemoryBindInfo>.write(stack: VkStack): Ptr {
     val natives = stack.ncalloc(ALIGNOF, size, SIZEOF)
     for (i in indices)
         this[i].write(natives + SIZEOF * i, stack)

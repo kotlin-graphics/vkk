@@ -1,5 +1,6 @@
 package vkk
 
+import org.lwjgl.system.MemoryStack
 import org.lwjgl.vulkan.EXTDebugUtils.VK_EXT_DEBUG_UTILS_EXTENSION_NAME
 import org.lwjgl.vulkan.VK10.*
 import vkk._10.structs.*
@@ -294,7 +295,7 @@ object vu {
 //    std::vector<std::pair<vk::Format, uint32_t>> const& vertexInputAttributeFormatOffset, vk::FrontFace frontFace, bool depthBuffered,
 //    vk::UniquePipelineLayout const& pipelineLayout, vk::UniqueRenderPass const& renderPass);
 
-    fun createInstance(appName: String, engineName: String,
+    fun MemoryStack.createInstance(appName: String, engineName: String,
                        layers: ArrayList<String> = ArrayList(), extensions: ArrayList<String> = ArrayList(),
                        apiVersion: Int = VK_API_VERSION_1_0): Instance {
 
@@ -371,15 +372,4 @@ object vu {
 //    void updateDescriptorSets(vk::UniqueDevice const& device, vk::UniqueDescriptorSet const& descriptorSet,
 //    std::vector<std::tuple<vk::DescriptorType, vk::UniqueBuffer const&, vk::UniqueBufferView const&>> const& bufferData,
 //    std::vector<vk::su::TextureData> const& textureData, uint32_t bindingOffset = 0);
-
-
-    // Unique
-
-    fun ResourceHolder.createDevice(physicalDevice: PhysicalDevice, queueFamilyIndex: Int, extensions: ArrayList<String> = ArrayList(),
-                                    physicalDeviceFeatures: PhysicalDeviceFeatures? = null, next: VkStructure? = null): Device =
-            this@vu.createDevice(physicalDevice, queueFamilyIndex, extensions, physicalDeviceFeatures, next).unique()
-
-    fun ResourceHolder.createInstance(appName: String, engineName: String, layers: ArrayList<String> = ArrayList(),
-                                      extensions: ArrayList<String> = ArrayList(), apiVersion: Int = VK_API_VERSION_1_0): Instance =
-            this@vu.createInstance(appName, engineName, layers, extensions, apiVersion).unique()
 }

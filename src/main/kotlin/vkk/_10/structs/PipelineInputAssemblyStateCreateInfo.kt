@@ -5,6 +5,7 @@ import kool.Adr
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.vulkan.VkPipelineInputAssemblyStateCreateInfo.*
 import vkk.VkPrimitiveTopology
+import vkk.VkStack
 import vkk.VkStructureType
 
 /**
@@ -63,7 +64,7 @@ class PipelineInputAssemblyStateCreateInfo(
 
     val type get() = VkStructureType.PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO
 
-    infix fun write(stack: MemoryStack): Adr {
+    infix fun write(stack: VkStack): Adr {
         val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
         nsType(adr, type.i)
         ntopology(adr, topology.i)

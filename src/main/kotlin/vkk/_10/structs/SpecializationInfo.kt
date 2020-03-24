@@ -6,6 +6,7 @@ import kool.toAdr
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.memPutAddress
 import org.lwjgl.vulkan.VkSpecializationInfo.*
+import vkk.VkStack
 
 /**
  * Structure specifying specialization info.
@@ -56,7 +57,7 @@ class SpecializationInfo(
     var data: ByteArray? = null
 ) {
 
-    fun write(stack: MemoryStack): Adr {
+    infix fun write(stack: VkStack): Adr {
         val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
         mapEntries?.let {
             nmapEntryCount(adr, it.size)
@@ -64,7 +65,7 @@ class SpecializationInfo(
         }
         data?.let {
             ndataSize(adr, it.size.L)
-            memPutAddress(adr, it.toAdr(stack).adr)
+            memPutAddress(adr, stack.Adr(it).adr)
         }
         return adr
     }

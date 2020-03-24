@@ -43,6 +43,10 @@ dependencies {
             runtimeOnly "org.lwjgl:lwjgl$it:$lwjgl_version:natives-$lwjgl_natives"
     }
 
+    // https://mvnrepository.com/artifact/javax.annotation/jsr305
+//    implementation 'javax.annotation:jsr305:0.1'
+
+
     ext.spirvCross = "graphics.scenery:spirvcrossj:$sprivCross_version"
     implementation spirvCross
     runtimeOnly "$spirvCross:natives-$lwjgl_natives".toString()
@@ -62,6 +66,7 @@ dependencies {
 repositories {
     mavenCentral()
     maven { setUrl("https://oss.sonatype.org/content/repositories/snapshots/") }
+    maven { setUrl('https://repo.spring.io/plugins-release/') }
     maven { setUrl('https://jitpack.io') }
 }
 

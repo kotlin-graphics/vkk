@@ -9,6 +9,7 @@ import org.lwjgl.vulkan.*
 import org.lwjgl.vulkan.VkDeviceCreateInfo.*
 import vkk.VkStructure
 import vkk.VkDeviceCreateFlags
+import vkk.VkStack
 import vkk.VkStructureType
 
 /**
@@ -89,7 +90,7 @@ class DeviceCreateInfo(
             next: VkStructure? = null
     ) : this(flags, listOf(queueCreateInfo), enabledExtensionNames, enabledFeatures, next)
 
-    infix fun write(stack: MemoryStack): Adr {
+    infix fun write(stack: VkStack): Adr {
         val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
         nsType(adr, type.i)
         npNext(adr, next?.write(stack) ?: NULL)

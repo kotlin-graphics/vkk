@@ -5,6 +5,7 @@ import kool.Ptr
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.vulkan.VkImageSubresourceRange.*
 import vkk.VkImageAspectFlags
+import vkk.VkStack
 
 /**
  * Structure specifying an image subresource range.
@@ -76,7 +77,7 @@ class ImageSubresourceRange(
     var layerCount: Int = 0
 ) {
 
-    infix fun write(stack: MemoryStack): Adr =
+    infix fun write(stack: VkStack): Adr =
             stack.ncalloc(ALIGNOF, 1, SIZEOF).also { write(it) }
 
     infix fun write(adr: Adr) {
@@ -88,7 +89,7 @@ class ImageSubresourceRange(
     }
 }
 
-infix fun Array<ImageSubresourceRange>.write(stack: MemoryStack): Ptr {
+infix fun Array<ImageSubresourceRange>.write(stack: VkStack): Ptr {
     val natives = stack.ncalloc(ALIGNOF, size, SIZEOF)
     for (i in indices)
         this[i] write (natives + i * SIZEOF)

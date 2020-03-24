@@ -4,6 +4,7 @@ import kool.Ptr
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.vulkan.VkVertexInputAttributeDescription.*
 import vkk.VkFormat
+import vkk.VkStack
 
 /**
  * Structure specifying vertex input attribute description.
@@ -61,7 +62,7 @@ class VertexInputAttributeDescription(
     }
 }
 
-infix fun Array<VertexInputAttributeDescription>.write(stack: MemoryStack): Ptr {
+infix fun Array<VertexInputAttributeDescription>.write(stack: VkStack): Ptr {
     val natives = stack.ncalloc(ALIGNOF, size, SIZEOF)
     for (i in indices)
         this[i] write (natives + i * SIZEOF)

@@ -5,6 +5,7 @@ import kool.Adr
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.vulkan.VkPipelineDepthStencilStateCreateInfo.*
 import vkk.VkCompareOp
+import vkk.VkStack
 import vkk.VkStructureType
 
 /**
@@ -80,7 +81,7 @@ class PipelineDepthStencilStateCreateInfo(
 
     val type get() = VkStructureType.PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO
 
-    infix fun write(stack: MemoryStack): Adr {
+    infix fun write(stack: VkStack): Adr {
         val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
         nsType(adr, type.i)
         ndepthTestEnable(adr, depthTestEnable.i)

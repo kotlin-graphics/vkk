@@ -4,6 +4,7 @@ import kool.Adr
 import kool.Ptr
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.vulkan.VkImageResolve.*
+import vkk.VkStack
 
 /**
  * Structure specifying an image resolve operation.
@@ -66,7 +67,7 @@ class ImageResolve(
         var extent: Extent3D
 ) {
 
-    infix fun write(stack: MemoryStack): Adr =
+    infix fun write(stack: VkStack): Adr =
             stack.ncalloc(ALIGNOF, 1, SIZEOF).also { write(it) }
 
     infix fun write(adr: Adr) {
@@ -78,7 +79,7 @@ class ImageResolve(
     }
 }
 
-infix fun Array<ImageResolve>.write(stack: MemoryStack): Ptr {
+infix fun Array<ImageResolve>.write(stack: VkStack): Ptr {
     val natives = stack.ncalloc(ALIGNOF, size, SIZEOF)
     for (i in indices)
         this[i] write (natives + i * SIZEOF)

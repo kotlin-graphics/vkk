@@ -9,6 +9,7 @@ import org.lwjgl.vulkan.VK10.VK_QUEUE_FAMILY_IGNORED
 import org.lwjgl.vulkan.VkImageMemoryBarrier.*
 import vkk.VkAccessFlags
 import vkk.VkImageLayout
+import vkk.VkStack
 import vkk.VkStructureType
 import vkk.entities.VkImage
 
@@ -128,7 +129,7 @@ class ImageMemoryBarrier(
 
     val type get() = VkStructureType.IMAGE_MEMORY_BARRIER
 
-    infix fun write(stack: MemoryStack): Adr =
+    infix fun write(stack: VkStack): Adr =
         stack.ncalloc(ALIGNOF, 1, SIZEOF).also { write(it) }
 
     infix fun write(adr: Adr) {
@@ -145,7 +146,7 @@ class ImageMemoryBarrier(
     }
 }
 
-infix fun Array<ImageMemoryBarrier>.write(stack: MemoryStack): Ptr {
+infix fun Array<ImageMemoryBarrier>.write(stack: VkStack): Ptr {
     val natives = stack.ncalloc(ALIGNOF, size, SIZEOF)
     for (i in indices)
         this[i] write (natives + i * SIZEOF)

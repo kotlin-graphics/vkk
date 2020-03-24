@@ -5,6 +5,7 @@ import kool.Ptr
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.NULL
 import org.lwjgl.vulkan.VkPipelineTessellationStateCreateInfo.*
+import vkk.VkStack
 import vkk.VkStructureType
 
 /**
@@ -54,7 +55,7 @@ class PipelineTessellationStateCreateInfo(
 
     val type get() = VkStructureType.PIPELINE_TESSELLATION_STATE_CREATE_INFO
 
-    infix fun write(stack: MemoryStack): Adr {
+    infix fun write(stack: VkStack): Adr {
         val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
         nsType(adr, type.i)
         npNext(adr, next)

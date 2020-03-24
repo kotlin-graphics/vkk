@@ -6,6 +6,7 @@ import kool.toAdr
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.memPutAddress
 import org.lwjgl.vulkan.VkPipelineCacheCreateInfo.*
+import vkk.VkStack
 import vkk.VkStructureType
 
 /**
@@ -58,12 +59,12 @@ class PipelineCacheCreateInfo(
 
     val type get() = VkStructureType.PIPELINE_CACHE_CREATE_INFO
 
-    infix fun write(stack: MemoryStack): Adr {
+    infix fun write(stack: VkStack): Adr {
         val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
         nsType(adr, type.i)
         initialData?.let {
             ninitialDataSize(adr, it.size.L)
-            memPutAddress(adr + PINITIALDATA, it.toAdr(stack).adr)
+            memPutAddress(adr + PINITIALDATA, stack.Adr(it).adr)
         }
         return adr
     }

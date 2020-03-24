@@ -8,6 +8,7 @@ import org.lwjgl.vulkan.VkRenderPassCreateInfo
 import org.lwjgl.vulkan.VkRenderPassFragmentDensityMapCreateInfoEXT
 import org.lwjgl.vulkan.VkSubpassDescription
 import vkk.VkImageLayout
+import vkk.VkStack
 
 /**
  * Structure specifying an attachment reference.
@@ -49,7 +50,7 @@ class AttachmentReference(
         var layout: VkImageLayout
 ) {
 
-    infix fun write(stack: MemoryStack): Ptr =
+    infix fun write(stack: VkStack): Ptr =
             stack.ncalloc(ALIGNOF, 1, SIZEOF).also { write(it) }
 
     infix fun write(ptr: Ptr) {
@@ -58,7 +59,7 @@ class AttachmentReference(
     }
 }
 
-infix fun Array<AttachmentReference>.write(stack: MemoryStack): Ptr {
+infix fun Array<AttachmentReference>.write(stack: VkStack): Ptr {
     val natives = stack.ncalloc(ALIGNOF, size, SIZEOF)
     for (i in indices)
         this[i] write (natives + i * SIZEOF)

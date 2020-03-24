@@ -5,6 +5,7 @@ import org.lwjgl.system.MemoryStack
 import org.lwjgl.vulkan.VK10
 import org.lwjgl.vulkan.VkCommandPoolCreateInfo.*
 import vkk.VkCommandPoolCreateFlags
+import vkk.VkStack
 import vkk.VkStructureType
 
 /**
@@ -48,7 +49,7 @@ class CommandPoolCreateInfo(
 
     val type get() = VkStructureType.COMMAND_POOL_CREATE_INFO
 
-    infix fun write(stack: MemoryStack): Adr =
+    infix fun write(stack: VkStack): Adr =
             stack.ncalloc(ALIGNOF, 1, SIZEOF).also { write(it) }
 
     fun write(adr: Adr) {

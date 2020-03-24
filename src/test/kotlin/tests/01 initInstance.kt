@@ -5,8 +5,8 @@ import main.isNotCI
 import org.lwjgl.vulkan.VK11.VK_API_VERSION_1_1
 import vkk._10.structs.ApplicationInfo
 import vkk._10.structs.InstanceCreateInfo
-import vkk.identifiers.Instance
-import vkk.unique
+import vkk.unique.`try`
+import vkk.vk
 
 class `01 initInstance` : StringSpec() {
 
@@ -15,7 +15,7 @@ class `01 initInstance` : StringSpec() {
     init {
         if (isNotCI)
             appName {
-                unique {
+                `try` {
                     // initialize the vk::ApplicationInfo structure
                     val applicationInfo = ApplicationInfo(appName, 1, engineName, 1, VK_API_VERSION_1_1)
 
@@ -23,7 +23,7 @@ class `01 initInstance` : StringSpec() {
                     val instanceCreateInfo = InstanceCreateInfo(applicationInfo)
 
                     // create a UniqueInstance
-                    val instance = Instance(instanceCreateInfo).unique()
+                    val instance = vk.UniqueInstance(instanceCreateInfo)
 
                     // Note: No need to explicitly destroy the instance, as the corresponding destroy function is
                     // called by the destructor of the UniqueInstance on leaving this scope.

@@ -7,6 +7,7 @@ import kool.IntPtr
 import kool.Ptr
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.vulkan.VkRect2D.*
+import vkk.VkStack
 
 /**
  * Structure specifying a two-dimensional subregion.
@@ -35,7 +36,7 @@ class Rect2D(
 
     constructor(ptr: IntPtr) : this(Offset2D(ptr), Extent2D(ptr + 2))
 
-    infix fun write(stack: MemoryStack): Adr =
+    infix fun write(stack: VkStack): Adr =
         stack.ncalloc(ALIGNOF, 1, SIZEOF).also { write(it) }
 
     infix fun write(ptr: Ptr) {
@@ -44,7 +45,7 @@ class Rect2D(
     }
 }
 
-infix fun Array<Rect2D>.write(stack: MemoryStack): Ptr {
+infix fun Array<Rect2D>.write(stack: VkStack): Ptr {
     val natives = stack.ncalloc(ALIGNOF, size, SIZEOF)
     for (i in indices)
         this[i] write (natives + i * SIZEOF)

@@ -9,6 +9,7 @@ import org.lwjgl.system.MemoryUtil.memPutAddress
 import org.lwjgl.vulkan.*
 import org.lwjgl.vulkan.VkDeviceQueueCreateInfo.*
 import vkk.VkDeviceQueueCreateFlags
+import vkk.VkStack
 import vkk.VkStructureType
 
 /**
@@ -80,15 +81,15 @@ class DeviceQueueCreateInfo(
         get() = queuePriorities[0]
         set(value) = queuePriorities.set(0, value)
 
-    fun write(stack: MemoryStack): Adr =
+    fun write(stack: VkStack): Adr =
         stack.ncalloc(ALIGNOF, 1, SIZEOF).also { write(it, stack) }
 
-    fun write(adr: Adr, stack: MemoryStack) {
+    fun write(adr: Adr, stack: VkStack) {
         nsType(adr, type.i)
         nflags(adr, flags)
         nqueueFamilyIndex(adr, queueFamilyIndex)
         nqueueCount(adr, queuePriorities.size)
-        memPutAddress(adr + PQUEUEPRIORITIES, queuePriorities.toFloatAdr(stack).adr)
+        memPutAddress(adr + PQUEUEPRIORITIES, stack.Adr(queuePriorities).adr)
     }
 }
 

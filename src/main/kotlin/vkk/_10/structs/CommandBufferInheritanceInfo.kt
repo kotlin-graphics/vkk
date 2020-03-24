@@ -8,6 +8,7 @@ import org.lwjgl.system.MemoryUtil.NULL
 import org.lwjgl.vulkan.VkCommandBufferInheritanceInfo.*
 import vkk.VkQueryControlFlags
 import vkk.VkQueryPipelineStatisticFlags
+import vkk.VkStack
 import vkk.VkStructureType
 import vkk.entities.VkFramebuffer
 import vkk.entities.VkRenderPass
@@ -81,7 +82,7 @@ class CommandBufferInheritanceInfo(
 
     val type get() = VkStructureType.COMMAND_BUFFER_INHERITANCE_INFO
 
-    fun write(stack: MemoryStack): Adr =
+    infix fun write(stack: VkStack): Adr =
             stack.ncalloc(ALIGNOF, 1, SIZEOF).also { write(it) }
 
     fun write(adr: Adr) {

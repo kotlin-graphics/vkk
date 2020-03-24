@@ -6,6 +6,7 @@ import kool.lib.toByteArray
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.vulkan.VkPhysicalDeviceProperties.*
 import vkk.VkPhysicalDeviceType
+import vkk.VkStack
 import vkk.stak
 
 /**
@@ -99,7 +100,7 @@ class PhysicalDeviceProperties(
     )
 
     companion object {
-        inline fun <R> read(stack: MemoryStack, block: (Adr) -> R): PhysicalDeviceProperties {
+        inline fun <R> read(stack: VkStack, block: (Adr) -> R): PhysicalDeviceProperties {
             val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
             block(adr)
             return PhysicalDeviceProperties(BytePtr(adr))

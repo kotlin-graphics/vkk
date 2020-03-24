@@ -183,7 +183,7 @@ class SamplerCreateInfo(
 
     val type get() = VkStructureType.SAMPLER_CREATE_INFO
 
-    infix fun write(stack: MemoryStack): Adr {
+    infix fun write(stack: VkStack): Adr {
         val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
         nsType(adr, type.i)
         npNext(adr, next)

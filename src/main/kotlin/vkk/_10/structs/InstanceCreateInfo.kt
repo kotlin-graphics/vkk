@@ -1,14 +1,13 @@
 package vkk._10.structs
 
 import kool.Adr
-import kool.PointerAdr
-import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.*
 import org.lwjgl.vulkan.*
 import org.lwjgl.vulkan.VkInstanceCreateInfo.*
 import vkk.VkStructure
 import vkk.StructureChain
 import vkk.VkStructureType
+import vkk.VkStack
 
 /**
  * Structure specifying parameters of a newly created instance.
@@ -76,10 +75,10 @@ class InstanceCreateInfo(
         return this
     }
 
-    override infix fun write(stack: MemoryStack): Adr {
+    override infix fun write(stack: VkStack): Adr {
         val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
         nsType(adr, type.i)
-        npNext(adr, next?.write(stack) ?: NULL)
+        next?.let { npNext(adr, it write stack) }
         applicationInfo?.let { memPutAddress(adr + PAPPLICATIONINFO, it.write(stack)) }
         enabledLayerNames?.let {
             nenabledLayerCount(adr, it.size)

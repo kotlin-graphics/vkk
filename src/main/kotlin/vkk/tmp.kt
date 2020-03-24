@@ -1,11 +1,14 @@
 package vkk
 
 import glm_.i
+import glm_.s
+import glm_.vec4.Vec4
 import kool.*
 import org.lwjgl.PointerBuffer
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil
 import org.lwjgl.vulkan.VkCommandBuffer
+import unsigned.toULong
 import vkk.entities.VkDeviceSize
 import java.nio.ByteBuffer
 
@@ -54,4 +57,22 @@ fun MemoryStack.resize(src: PointerBuffer?, newSize: Int): PointerBuffer = when 
     src == null -> this.PointerBuffer(newSize)
     newSize > src.cap -> this.PointerBuffer(newSize).also { for (i in src.indices) it[i] = src[i] }
     else -> src.apply { lim = newSize }
+}
+
+fun encodeUTF16(text: CharSequence, nullTerminated: Boolean, target: Adr): Int {
+    var len = text.length
+    for (i in 0 until len)
+        UNSAFE.putShort(target + i.toULong() * 2, text[i].s)
+    if (nullTerminated)
+        UNSAFE.putShort(target + (len++).toULong() * 2, 0)
+    return 2 * len
+}
+
+fun Vec4.toAdr(stack: VkStack): FloatPtr {
+    val floats = stack.mFloat(Vec4.length)
+    floats[0] = x
+    floats[1] = y
+    floats[2] = z
+    floats[3] = w
+    return floats
 }

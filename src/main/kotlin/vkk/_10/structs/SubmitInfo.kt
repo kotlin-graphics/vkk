@@ -8,6 +8,7 @@ import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.NULL
 import org.lwjgl.system.MemoryUtil.memPutAddress
 import org.lwjgl.vulkan.VkSubmitInfo.*
+import vkk.VkStack
 import vkk.VkStructureType
 import vkk.entities.VkSemaphore
 import vkk.entities.VkSemaphore_Array
@@ -125,19 +126,19 @@ class SubmitInfo(
             when (value) {
                 null -> commandBuffers = null
                 else -> when (val bufs = commandBuffers) {
-                    null -> commandBuffers = Array(1) { value!! }
+                    null -> commandBuffers = arrayOf(value)
                     else -> bufs[0] = value
                 }
             }
         }
 
-    infix fun write(stack: MemoryStack): Adr {
+    infix fun write(stack: VkStack): Adr {
         val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
         nsType(adr, type.i)
         npNext(adr, next)
         nwaitSemaphoreCount(adr, waitSemaphoreCount)
         waitSemaphores?.let { memPutAddress(adr + PWAITSEMAPHORES, it write stack) }
-        waitDstStageMask?.let { memPutAddress(adr + PWAITDSTSTAGEMASK, it.toAdr(stack).adr) }
+        waitDstStageMask?.let { memPutAddress(adr + PWAITDSTSTAGEMASK, stack.Adr(it).adr) }
         commandBuffers?.let {
             ncommandBufferCount(adr, it.size)
             memPutAddress(adr + PCOMMANDBUFFERS, it write stack)

@@ -7,6 +7,7 @@ import org.lwjgl.system.MemoryUtil.NULL
 import org.lwjgl.system.MemoryUtil.memPutAddress
 import org.lwjgl.vulkan.VkPipelineMultisampleStateCreateInfo.*
 import vkk.VkSampleCount
+import vkk.VkStack
 import vkk.VkStructureType
 
 /**
@@ -77,14 +78,14 @@ class PipelineMultisampleStateCreateInfo(
 
     val type get() = VkStructureType.PIPELINE_MULTISAMPLE_STATE_CREATE_INFO
 
-    infix fun write(stack: MemoryStack): Adr {
+    infix fun write(stack: VkStack): Adr {
         val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
         nsType(adr, type.i)
         npNext(adr, next)
         nrasterizationSamples(adr, rasterizationSamples.i)
         nsampleShadingEnable(adr, sampleShadingEnable.i)
         nminSampleShading(adr, minSampleShading)
-        sampleMask?.let { memPutAddress(adr + PSAMPLEMASK, it.toAdr(stack).adr) }
+        sampleMask?.let { memPutAddress(adr + PSAMPLEMASK, stack.Adr(it).adr) }
         nalphaToCoverageEnable(adr, alphaToCoverageEnable.i)
         nalphaToOneEnable(adr, alphaToOneEnable.i)
         return adr

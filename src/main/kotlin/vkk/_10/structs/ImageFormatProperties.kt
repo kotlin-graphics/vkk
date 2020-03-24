@@ -6,6 +6,7 @@ import kool.IntPtr
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.vulkan.VkImageFormatProperties.*
 import vkk.VkSampleCountFlags
+import vkk.VkStack
 import vkk.entities.VkDeviceSize
 import vkk.stak
 
@@ -82,8 +83,8 @@ class ImageFormatProperties(
     )
 
     companion object {
-        inline fun <R> read(block: (Adr) -> R): ImageFormatProperties = stak { read(it, block) }
-        inline fun <R> read(stack: MemoryStack, block: (Adr) -> R): ImageFormatProperties {
+//        inline fun <R> read(block: (Adr) -> R): ImageFormatProperties = VkStack { read(it, block) }
+        inline fun <R> read(stack: VkStack, block: (Adr) -> R): ImageFormatProperties {
             val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
             block(adr)
             return ImageFormatProperties(BytePtr(adr))

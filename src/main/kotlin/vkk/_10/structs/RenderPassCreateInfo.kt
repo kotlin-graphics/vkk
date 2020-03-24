@@ -5,6 +5,7 @@ import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.memPutAddress
 import org.lwjgl.vulkan.VkRenderPassCreateInfo.*
 import vkk.VkRenderPassCreateFlags
+import vkk.VkStack
 import vkk.VkStructureType
 
 
@@ -111,10 +112,10 @@ class RenderPassCreateInfo(
 
     val type get() = VkStructureType.RENDER_PASS_CREATE_INFO
 
-    infix fun write(stack: MemoryStack): Adr =
+    infix fun write(stack: VkStack): Adr =
             stack.ncalloc(ALIGNOF, 1, SIZEOF).also { write(it, stack) }
 
-    fun write(adr: Adr, stack: MemoryStack) {
+    fun write(adr: Adr, stack: VkStack) {
         nsType(adr, type.i)
         nflags(adr, flags)
         attachments?.let {

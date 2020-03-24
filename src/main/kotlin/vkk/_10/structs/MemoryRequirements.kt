@@ -5,6 +5,7 @@ import kool.BytePtr
 import kool.Ptr
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.vulkan.VkMemoryRequirements.*
+import vkk.VkStack
 import vkk.entities.VkDeviceSize
 import vkk.stak
 
@@ -41,7 +42,7 @@ class MemoryRequirements(
     )
 
     companion object {
-        inline fun <R> read(stack: MemoryStack, block: (Adr) -> R): MemoryRequirements {
+        inline fun <R> read(stack: VkStack, block: (Adr) -> R): MemoryRequirements {
             val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
             block(adr)
             return MemoryRequirements(BytePtr(adr))
