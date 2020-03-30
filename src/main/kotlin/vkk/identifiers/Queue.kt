@@ -4,7 +4,6 @@ import kool.Ptr
 import kool.adr
 import org.lwjgl.system.JNI
 import vkk.VkResult
-import vkk.extensions.Queue_KHR_swapchain
 
 /** Wraps a Vulkan queue handle.  */
 class Queue
@@ -18,9 +17,7 @@ constructor(handle: Ptr,
             /** Returns the device from which this `VkQueue` was retrieved.  */
             val device: Device) :
 
-        DispatchableHandleDevice(handle, device.capabilities),
-
-        Queue_KHR_swapchain {
+        DispatchableHandleDevice(handle, device.capabilities) {
 
     // ---------------------------------------------- VK10 -------------------------------------------------------------
 

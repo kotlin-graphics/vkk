@@ -1,38 +1,20 @@
 package vkk.unique
 
-import org.lwjgl.system.MemoryStack
 import vkk.VkStack
-import vkk._10.createInstance
-import vkk._10.structs.InstanceCreateInfo
-import vkk.identifiers.Instance
-import vkk.vk
+import vkk.vk10.VkStack_VK10
 import java.util.*
 
-class VkObjectHolder : UniqueInstanceInterface {
-    override val stack: Deque<() -> Unit> = LinkedList()
-    override val vkStack = VkStack.stackPush()
+class VkObjectHolder : UniqueVU, VkStack_VK10 {
+    override val disposes: Deque<() -> Unit> = LinkedList()
+    override val stack = VkStack.stackPush()
 
     fun dispose() {
-        var func = stack.pollLast()
+        var func = disposes.pollLast()
         while (func != null) {
             func()
-            func = stack.pollLast()
+            func = disposes.pollLast()
         }
-        vkStack.pop()
-    }
-}
-
-interface UniqueInstanceInterface {
-    val stack: Deque<() -> Unit>
-    val vkStack: VkStack
-
-    fun vk.UniqueInstance(createInfo: InstanceCreateInfo): Instance = vkStack.run {
-        val instance = vk createInstance createInfo
-        stack += {
-            instance.destroy()
-            println("instance destroyed")
-        }
-        return instance
+        stack.pop()
     }
 }
 

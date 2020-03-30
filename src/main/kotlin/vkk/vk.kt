@@ -1,18 +1,5 @@
 package vkk
 
-import kool.*
-import org.lwjgl.system.JNI.*
-import org.lwjgl.system.MemoryStack
-import org.lwjgl.system.MemoryUtil.NULL
-import org.lwjgl.vulkan.VkExtensionProperties
-import org.lwjgl.vulkan.VkLayerProperties
-import vkk._10.structs.ExtensionProperties
-import vkk._10.structs.InstanceCreateInfo
-import vkk._10.structs.LayerProperties
-import vkk.identifiers.Instance
-import vkk.identifiers.VK
-import java.lang.ref.Cleaner
-
 
 //fun main() = println(org.lwjgl.vulkan.VK10.VK_HEADER_VERSION)
 
@@ -22,15 +9,9 @@ object vk {
 
     // ---------------------------------------------- VK10 -------------------------------------------------------------
 
-
-
     // ---------------------------------------------- VK11 -------------------------------------------------------------
 
-    // --- [ vkEnumerateInstanceVersion ] ---
-    val enumerateInstanceVersion: Int
-        get() = stak.intAdr {
-            VK_CHECK_RESULT(callPI(it, VK.globalCommands!!.vkEnumerateInstanceVersion))
-        }
+
 
     /*  Function Constructors     */
 

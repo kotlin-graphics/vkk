@@ -5,17 +5,9 @@ import kool.Ptr
 import kool.adr
 import org.lwjgl.system.JNI.*
 import vkk.*
-import vkk._11.api.CommandBuffer_vk11
 import vkk.entities.*
 
-//class UniqueCommandBuffer(handle: Ptr, device: Device) : CommandBuffer(handle, device) {
-//    val address = adr
-//    val function = capabilities.vkDestroy
-//    vk.cleaner.register(this) {
-//        JNI.callPJPV(address, commandPool.L, commandBufferCount, pCommandBuffers, capabilities.vkFreeCommandBuffers)
-//        println("device gc'ed")
-//    }
-//}
+typealias UniqueCommandBuffer = CommandBuffer
 
 /** Wraps a Vulkan command buffer handle.  */
 class CommandBuffer
@@ -29,8 +21,7 @@ constructor(handle: Ptr,
             /** Returns the device on which this `VkCommandBuffer` was created.  */
             val device: Device) :
 
-        DispatchableHandleDevice(handle, device.capabilities),
-        CommandBuffer_vk11 {
+        DispatchableHandleDevice(handle, device.capabilities) {
 
 
     // ---------------------------------------------- VK10 -------------------------------------------------------------
@@ -129,6 +120,15 @@ constructor(handle: Ptr,
     fun endRenderPass() = callPV(adr, capabilities.vkCmdEndRenderPass)
 
 
-
     // ---------------------------------------------- VK11 -------------------------------------------------------------
+
+
+    // --- [ vkCmdSetDeviceMask ] ---
+    infix fun setDeviceMask(deviceMask: Int) = callPV(adr, deviceMask, capabilities.vkCmdSetDeviceMask)
+
+    // --- [ vkCmdDispatchBase ] ---
+
+    fun dispatchBase(baseGroupX: Int, baseGroupY: Int, baseGroupZ: Int, groupCountX: Int, groupCountY: Int, groupCountZ: Int) = callPV(adr, baseGroupX, baseGroupY, baseGroupZ, groupCountX, groupCountY, groupCountZ, capabilities.vkCmdDispatchBase)
+
+    fun dispatchBase(baseGroup: Vec3i, groupCount: Vec3i) = callPV(adr, baseGroup.x, baseGroup.y, baseGroup.z, groupCount.x, groupCount.y, groupCount.z, capabilities.vkCmdDispatchBase)
 }

@@ -9,7 +9,10 @@ import org.lwjgl.CLongBuffer
 import org.lwjgl.PointerBuffer
 import org.lwjgl.system.*
 import org.lwjgl.system.Checks.CHECKS
-import vkk._10.VkStack_VK10
+import vkk.extensions.VkStack_KHR_surface
+import vkk.extensions.VkStack_KHR_swapchain
+import vkk.vk10.VkStack_VK10
+import vkk.vk11.VkStack_VK11
 import java.nio.*
 
 
@@ -24,9 +27,12 @@ import java.nio.*
 class VkStack internal constructor(val container: ByteBuffer?, address: Adr, val size: Int) :
         Pointer.Default(address),
         AutoCloseable,
-        VkStack_VK10 {
+        VkStack_VK10,
+        VkStack_VK11,
+        VkStack_KHR_surface,
+        VkStack_KHR_swapchain {
 
-    override val vkStack: VkStack
+    override val stack: VkStack
         get() = this
 
     /**
@@ -499,7 +505,7 @@ class VkStack internal constructor(val container: ByteBuffer?, address: Adr, val
     inline fun mLong(count: Int = 1) = LongPtr(nmalloc(Long.BYTES, Long.BYTES * count))
     inline fun mFloat(count: Int = 1) = FloatPtr(nmalloc(Float.BYTES, Float.BYTES * count))
     inline fun mDouble(count: Int = 1) = DoublePtr(nmalloc(Double.BYTES, Double.BYTES * count))
-    inline fun mPointer(count: Int = 1) = PointerPtr(nmalloc(Long.BYTES, Long.BYTES * count))
+    inline fun mPointer(count: Int = 1) = PointerPtr(nmalloc(Pointer.POINTER_SIZE, Pointer.POINTER_SIZE * count))
 
     inline fun cByte(count: Int = 1) = BytePtr(ncalloc(Byte.BYTES, count, Byte.BYTES))
     inline fun cShort(count: Int = 1) = ShortPtr(ncalloc(Short.BYTES, count, Short.BYTES))
@@ -507,7 +513,7 @@ class VkStack internal constructor(val container: ByteBuffer?, address: Adr, val
     inline fun cLong(count: Int = 1) = LongPtr(ncalloc(Long.BYTES, count, Long.BYTES))
     inline fun cFloat(count: Int = 1) = FloatPtr(ncalloc(Float.BYTES, count, Float.BYTES))
     inline fun cDouble(count: Int = 1) = DoublePtr(ncalloc(Double.BYTES, count, Double.BYTES))
-    inline fun cPointer(count: Int = 1) = PointerPtr(ncalloc(Long.BYTES, count, Long.BYTES))
+    inline fun cPointer(count: Int = 1) = PointerPtr(ncalloc(Pointer.POINTER_SIZE, count, Pointer.POINTER_SIZE))
 
     fun reset() {
         pointer = Configuration.STACK_SIZE.get(64) * 1024

@@ -3,6 +3,7 @@ package samples
 import io.kotlintest.specs.StringSpec
 import main.isNotCI
 import vkk.vk
+import vkk.vk10.instanceLayerProperties
 
 class InstanceLayerProperties : StringSpec() {
 
@@ -10,7 +11,7 @@ class InstanceLayerProperties : StringSpec() {
         if (isNotCI)
             "InstanceLayerProperties" {
 
-                val layerProperties = vk.enumerateInstanceLayerProperties()
+                val layerProperties = vk.instanceLayerProperties
 
                 println("Instance Layers:")
                 if (layerProperties.isEmpty())

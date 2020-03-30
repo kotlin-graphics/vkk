@@ -37,7 +37,7 @@ dependencies {
     implementation "${kx}:kool:$kool_version".toString()
     implementation "${kx}:kotlin-unsigned:$unsigned_version".toString()
 
-    ["", "-vulkan"].each {
+    ["", "-vulkan", "-jemalloc"].each {
         implementation "org.lwjgl:lwjgl$it:$lwjgl_version"
         if (it != "-vulkan")
             runtimeOnly "org.lwjgl:lwjgl$it:$lwjgl_version:natives-$lwjgl_natives"
@@ -45,7 +45,6 @@ dependencies {
 
     // https://mvnrepository.com/artifact/javax.annotation/jsr305
 //    implementation 'javax.annotation:jsr305:0.1'
-
 
     ext.spirvCross = "graphics.scenery:spirvcrossj:$sprivCross_version"
     implementation spirvCross
@@ -61,6 +60,8 @@ dependencies {
     }
     testImplementation 'io.github.microutils:kotlin-logging:1.7.7'
     testImplementation "io.kotlintest:kotlintest-runner-junit5:$kotlintest_version"
+//    testImplementation "${kx}:uno-sdk:402f5f495429b7f2178a1d200c32bb5ed2f7e6fa"
+    testImplementation "${kx}.uno-sdk:uno-vk:55063f983dba678375a5196ec13e4d716bb474f4"
 }
 
 repositories {

@@ -42,7 +42,7 @@ inline class VkBuffer_Array(val array: LongArray) {
         for (element in array) action(VkBuffer(element))
     }
 
-    infix fun write(stack: VkStack): Adr = stack.LongPtr(size) { get(it).L }.adr
+    infix fun write(stack: VkStack): Adr = stack.LongAdr(array).adr
 }
 
 fun VkBuffer_Array(size: Int, block: (Int) -> VkBuffer) = VkBuffer_Array(LongArray(size) { block(it).L })
@@ -252,7 +252,7 @@ inline class VkDeviceSize_Array(val array: LongArray) {
         for (element in array) action(VkDeviceSize(element))
     }
 
-    infix fun write(stack: VkStack): Adr = stack.LongPtr(size) { get(it).L }.adr
+    infix fun write(stack: VkStack): Adr = stack.LongAdr(array).adr
 }
 
 fun VkDeviceSize_Array(size: Int, block: (Int) -> VkDeviceSize) = VkDeviceSize_Array(LongArray(size) { block(it).L })
@@ -400,6 +400,8 @@ fun VkImage_Array(size: Int) = VkImage_Array(LongArray(size))
 fun VkImage_Array(elements: Collection<VkImage>) = VkImage_Array(LongArray(elements.size) { elements.elementAt(it).L })
 fun VkImage_Array() = VkImage_Array(LongArray(0))
 
+
+typealias VkUniqueImageView_Array = VkImageView_Array
 
 inline class VkImageView_Array(val array: LongArray) {
 
@@ -728,7 +730,7 @@ inline class VkSwapchainKHR_Array(val array: LongArray) {
         for (element in array) action(VkSwapchainKHR(element))
     }
 
-    infix fun write(stack: MemoryStack): Adr = stack.LongPtr(size) { get(it).L }.adr
+    infix fun write(stack: VkStack): Adr = stack.LongAdr(array).adr
 }
 
 fun VkSwapchainKHR_Array(size: Int, block: (Int) -> VkSwapchainKHR) = VkSwapchainKHR_Array(LongArray(size) { block(it).L })

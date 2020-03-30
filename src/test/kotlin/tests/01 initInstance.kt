@@ -3,8 +3,8 @@ package tests
 import io.kotlintest.specs.StringSpec
 import main.isNotCI
 import org.lwjgl.vulkan.VK11.VK_API_VERSION_1_1
-import vkk._10.structs.ApplicationInfo
-import vkk._10.structs.InstanceCreateInfo
+import vkk.vk10.structs.ApplicationInfo
+import vkk.vk10.structs.InstanceCreateInfo
 import vkk.unique.`try`
 import vkk.vk
 
@@ -23,7 +23,7 @@ class `01 initInstance` : StringSpec() {
                     val instanceCreateInfo = InstanceCreateInfo(applicationInfo)
 
                     // create a UniqueInstance
-                    val instance = vk.UniqueInstance(instanceCreateInfo)
+                    val instance = vk.createInstanceUnique(instanceCreateInfo)
 
                     // Note: No need to explicitly destroy the instance, as the corresponding destroy function is
                     // called by the destructor of the UniqueInstance on leaving this scope.

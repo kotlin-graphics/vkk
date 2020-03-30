@@ -76,3 +76,4 @@ fun Vec4.toAdr(stack: VkStack): FloatPtr {
     floats[3] = w
     return floats
 }
+

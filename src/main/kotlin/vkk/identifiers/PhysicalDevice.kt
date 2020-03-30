@@ -1,9 +1,6 @@
 package vkk.identifiers
 
 import kool.Adr
-import vkk._11.api.PhysicalDevice_vk11
-import vkk.extensions.PhysicalDevice_KHR_surface
-import vkk.extensions.PhysicalDevice_KHR_swapchain
 
 /** Wraps a Vulkan physical device handle.  */
 class PhysicalDevice
@@ -17,19 +14,10 @@ constructor(handle: Adr,
             /** Returns the Vulkan instance from which this physical device was enumerated.  */
             val instance: Instance
 ) :
-        Dispatchable(handle, instance.capabilities),
-
-        PhysicalDevice_vk11,
-
-        PhysicalDevice_KHR_surface,
-
-        PhysicalDevice_KHR_swapchain {
+        Dispatchable(handle, instance.capabilities) {
 
 
     // ---------------------------------------------- VK10 -------------------------------------------------------------
-
-
-
 
 
 //    infix fun MemoryStack.createDeviceUnique(createInfo: DeviceCreateInfo): UniqueDevice =

@@ -3,6 +3,7 @@ package samples
 import io.kotlintest.specs.StringSpec
 import main.isNotCI
 import vkk.vk
+import vkk.vk10.enumerateInstanceExtensionProperties
 
 class InstanceExtensionProperties : StringSpec() {
 

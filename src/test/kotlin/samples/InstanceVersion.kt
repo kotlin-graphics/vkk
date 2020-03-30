@@ -6,6 +6,7 @@ import org.lwjgl.vulkan.VK10
 import org.lwjgl.vulkan.VK10.VK_VERSION_MINOR
 import org.lwjgl.vulkan.VK10.VK_VERSION_PATCH
 import vkk.vk
+import vkk.vk11.instanceVersion
 
 class InstanceVersion : StringSpec() {
 
@@ -14,7 +15,7 @@ class InstanceVersion : StringSpec() {
     init {
         if (isNotCI)
             "InstanceVersion" {
-                val apiVersion = vk.enumerateInstanceVersion
+                val apiVersion = vk.instanceVersion
                 println("APIVersion = ${decodeAPIVersion(apiVersion)}")
             }
     }

@@ -4,7 +4,6 @@ import glm_.L
 import glm_.i
 import kool.remSize
 import org.lwjgl.vulkan.VK10.VK_NULL_HANDLE
-import vkk.VkCloseable
 import vkk.VkCloseableDevice
 import vkk.identifiers.Device
 import java.nio.Buffer
@@ -44,10 +43,13 @@ inline class VkBufferView(val L: Long = VK_NULL_HANDLE) {
 //
 //inline class VkUniqueCommandPool(val L: Long = VK_NULL_HANDLE)
 
+typealias VkUniqueCommandPool = VkCommandPool
+
 inline class VkCommandPool(val L: Long = VK_NULL_HANDLE) : VkCloseableDevice {
     val isValid get() = L != VK_NULL_HANDLE
     val isInvalid get() = L == VK_NULL_HANDLE
     override fun close(device: Device) = device destroy this
+
     companion object {
         val NULL = VkCommandPool()
     }
@@ -70,6 +72,7 @@ inline class VkUniqueDebugUtilsMessengerEXT(val L: Long = VK_NULL_HANDLE) {
         val NULL = VkUniqueDebugUtilsMessengerEXT()
     }
 }
+
 inline class VkDebugUtilsMessengerEXT(val L: Long = VK_NULL_HANDLE) {
     val isValid get() = L != VK_NULL_HANDLE
     val isInvalid get() = L == VK_NULL_HANDLE
@@ -133,6 +136,8 @@ inline class VkDeviceAddress(val L: Long = VK_NULL_HANDLE) {
         val NULL = VkDeviceAddress()
     }
 }
+
+typealias VkUniqueDeviceMemory = VkDeviceMemory
 
 inline class VkDeviceMemory(val L: Long = VK_NULL_HANDLE) {
 
@@ -225,6 +230,8 @@ inline class VkFramebuffer(val L: Long = VK_NULL_HANDLE) {
     }
 }
 
+typealias VkUniqueImage = VkImage
+
 inline class VkImage(val L: Long = VK_NULL_HANDLE) {
     val isValid get() = L != VK_NULL_HANDLE
     val isInvalid get() = L == VK_NULL_HANDLE
@@ -233,6 +240,8 @@ inline class VkImage(val L: Long = VK_NULL_HANDLE) {
         val NULL = VkImage()
     }
 }
+
+typealias VkUniqueImageView = VkImageView
 
 inline class VkImageView(val L: Long = VK_NULL_HANDLE) {
     val isValid get() = L != VK_NULL_HANDLE
@@ -342,6 +351,8 @@ inline class VkShaderModule(val L: Long = VK_NULL_HANDLE) {
     }
 }
 
+typealias VkUniqueSurfaceKHR = VkSurfaceKHR
+
 inline class VkSurfaceKHR(val L: Long = VK_NULL_HANDLE) {
     val isValid get() = L != VK_NULL_HANDLE
     val isInvalid get() = L == VK_NULL_HANDLE
@@ -350,6 +361,8 @@ inline class VkSurfaceKHR(val L: Long = VK_NULL_HANDLE) {
         val NULL = VkSurfaceKHR()
     }
 }
+
+typealias VkUniqueSwapchainKHR = VkSwapchainKHR
 
 inline class VkSwapchainKHR(val L: Long = VK_NULL_HANDLE) {
     val isValid get() = L != VK_NULL_HANDLE

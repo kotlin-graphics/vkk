@@ -1,21 +1,20 @@
 package vkk.identifiers
 
 import glm_.L
-import kool.*
+import kool.Ptr
+import kool.adr
+import kool.asciiAdr
 import org.lwjgl.system.APIUtil.apiLog
 import org.lwjgl.system.Checks
 import org.lwjgl.system.FunctionProvider
 import org.lwjgl.system.JNI.*
-import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.*
 import org.lwjgl.vulkan.VkPhysicalDeviceProperties
 import vkk.*
-import vkk._10.structs.DeviceCreateInfo
-import vkk._10.structs.FenceCreateInfo
-import vkk._11.api.Device_vk11
-import vkk._11.structs.DeviceQueueInfo2
 import vkk.entities.*
-import vkk.extensions.Device_KHR_swapchain
+import vkk.vk10.structs.DeviceCreateInfo
+
+typealias UniqueDevice = Device
 
 //class UniqueDevice(handle: Ptr, physicalDevice: PhysicalDevice, ci: DeviceCreateInfo, apiVersion: Int = 0) :
 //        Device(handle, physicalDevice, ci, apiVersion) {
@@ -35,8 +34,6 @@ class Device(handle: Ptr,
              val physicalDevice: PhysicalDevice, ci: DeviceCreateInfo, apiVersion: Int = 0)
     :
         DispatchableHandleDevice(handle, getDeviceCapabilities(handle, physicalDevice, ci, apiVersion)),
-        Device_vk11,
-        Device_KHR_swapchain,
         VkCloseable {
 
 
@@ -180,14 +177,17 @@ class Device(handle: Ptr,
 
     // ---------------------------------------------- VK11 -------------------------------------------------------------
 
+    // --- [ vkTrimCommandPool ] ---
+    fun trimCommandPool(commandPool: VkCommandPool, flags: VkCommandPoolTrimFlags = 0) = callPJV(adr, commandPool.L, flags, capabilities.vkTrimCommandPool)
 
-    // --- [ vkGetDeviceQueue2 ] ---
+    // --- [ vkDestroySamplerYcbcrConversion ] ---
+    infix fun destroy(ycbcrConversion: VkSamplerYcbcrConversion) = callPJPV(adr, ycbcrConversion.L, NULL, capabilities.vkDestroySamplerYcbcrConversion)
 
-    infix fun MemoryStack.getQueue2(queueInfo: DeviceQueueInfo2): Queue =
-            framed { Queue(this.longAdr { callPPPV(this@Device.adr, queueInfo write this, it, capabilities.vkGetDeviceQueue2) }, this@Device) }
+    // --- [ vkDestroyDescriptorUpdateTemplate ] ---
+    infix fun destroy(descriptorUpdateTemplate: VkDescriptorUpdateTemplate) = callPJPV(adr, descriptorUpdateTemplate.L, NULL, capabilities.vkDestroyDescriptorUpdateTemplate)
 
-    infix fun getQueue2(queueInfo: DeviceQueueInfo2): Queue =
-            stak { it getQueue2 queueInfo }
+    // --- [ vkUpdateDescriptorSetWithTemplate ] ---
+    fun updateDescriptorSetWithTemplate(descriptorSet: VkDescriptorSet, descriptorUpdateTemplate: VkDescriptorUpdateTemplate, pData: Ptr) = callPJJPV(adr, descriptorSet.L, descriptorUpdateTemplate.L, pData, capabilities.vkUpdateDescriptorSetWithTemplate)
 
     // AutoCloseable
 
