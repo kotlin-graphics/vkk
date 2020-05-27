@@ -7,7 +7,6 @@ import org.lwjgl.system.MemoryUtil
 import vkk.identifiers.CommandBuffer
 import vkk.identifiers.Device
 import java.nio.Buffer
-import java.nio.file.Path
 
 
 //fun pointerBufferOf(vararg strings: String): PointerBuffer {
@@ -41,8 +40,8 @@ infix fun Buffer.copyTo(ptr: Ptr) = MemoryUtil.memCopy(adr, ptr, remSize.L)
 infix fun Buffer.copyFrom(ptr: Ptr) = MemoryUtil.memCopy(ptr, adr, remSize.L)
 
 
-fun Array<VkDynamicState>.write(stack: MemoryStack): Adr = stack.IntPtr(size) { get(it).i }.adr
-infix fun Array<CommandBuffer>.write(stack: MemoryStack): Ptr = stack.PointerAdr(size) { this[it].adr }
+infix fun Array<VkDynamicState>.write(stack: VkStack): Adr = stack.IntAdr(size) { get(it).i }.adr
+infix fun Array<CommandBuffer>.write(stack: VkStack): Ptr = stack.PointerAdr(size) { this[it].adr }
 
 inline fun <R> MemoryStack.framed(block: () -> R): R {
     val ptr = pointer
@@ -52,7 +51,7 @@ inline fun <R> MemoryStack.framed(block: () -> R): R {
 }
 
 interface VkStructure {
-    infix fun write(stack: MemoryStack): Adr
+    infix fun write(stack: VkStack): Adr
 }
 
 interface StructureChain {
@@ -89,21 +88,46 @@ class ResourceHolder : VkCloseable {
     }
 }
 
-fun unique(block: ResourceHolder.() -> Unit) {
-    ResourceHolder().apply {
-        block()
-        close()
-    }
+//fun copy(from: Path, to: Path) {
+//
+//    `try` {
+//
+////        val input = Files.newInputStream(from).unique()
+////
+////        val output = Files.newOutputStream(to).unique()
+////
+////        input.copyTo(output)
+//    }
+//}
+
+
+object v
+
+fun v.b() = 2
+
+class Dev
+
+fun Dev.a() = 3
+
+
+interface SI {
+    fun Dev.a() = 2
+    fun v.b() = 2
+    fun a() = 4
 }
 
-fun copy(from: Path, to: Path) {
+class Sta : SI
 
-    unique {
 
-//        val input = Files.newInputStream(from).unique()
-//
-//        val output = Files.newOutputStream(to).unique()
-//
-//        input.copyTo(output)
-    }
+
+fun Sta.main() {
+    val device = Dev()
+    device.a()
+    v.b()
+}
+
+fun main() {
+    val device = Dev()
+    device.a()
+    v.b()
 }

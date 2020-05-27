@@ -2,9 +2,11 @@ package samples
 
 import io.kotlintest.specs.StringSpec
 import main.isNotCI
-import vkk._10.structs.ExtensionProperties
-import vkk._10.structs.LayerProperties
+import vkk.vk10.structs.ExtensionProperties
+import vkk.vk10.structs.LayerProperties
 import vkk.vk
+import vkk.vk10.enumerateInstanceExtensionProperties
+import vkk.vk10.instanceLayerProperties
 
 class InstanceLayerExtensionProperties : StringSpec() {
 
@@ -14,7 +16,7 @@ class InstanceLayerExtensionProperties : StringSpec() {
         if (isNotCI)
             "InstanceLayerExtensionProperties" {
 
-                val layerProperties = vk.enumerateInstanceLayerProperties()
+                val layerProperties = vk.instanceLayerProperties
 
                 /* VULKAN_KEY_START */
 

@@ -1,24 +1,20 @@
 package vkk.identifiers
 
-import kool.*
+import glm_.L
+import kool.Ptr
+import kool.adr
+import kool.asciiAdr
 import org.lwjgl.system.APIUtil.apiLog
 import org.lwjgl.system.Checks
 import org.lwjgl.system.FunctionProvider
 import org.lwjgl.system.JNI.*
-import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.*
 import org.lwjgl.vulkan.VkPhysicalDeviceProperties
 import vkk.*
-import vkk._10.api.Device_vk10
-import vkk._10.structs.CommandBufferAllocateInfo
-import vkk._10.structs.DeviceCreateInfo
-import vkk._10.structs.FenceCreateInfo
-import vkk._11.api.Device_vk11
-import vkk._11.structs.DeviceQueueInfo2
-import vkk.entities.VkDeviceMemory
-import vkk.entities.VkDeviceSize
-import vkk.entities.VkFence
-import vkk.extensions.Device_KHR_swapchain
+import vkk.entities.*
+import vkk.vk10.structs.DeviceCreateInfo
+
+typealias UniqueDevice = Device
 
 //class UniqueDevice(handle: Ptr, physicalDevice: PhysicalDevice, ci: DeviceCreateInfo, apiVersion: Int = 0) :
 //        Device(handle, physicalDevice, ci, apiVersion) {
@@ -36,44 +32,115 @@ import vkk.extensions.Device_KHR_swapchain
 /** Wraps a Vulkan device dispatchable handle. */
 class Device(handle: Ptr,
              val physicalDevice: PhysicalDevice, ci: DeviceCreateInfo, apiVersion: Int = 0)
-
-    : DispatchableHandleDevice(handle, getDeviceCapabilities(handle, physicalDevice, ci, apiVersion)),
-
-        Device_vk10,
-
-        Device_vk11,
-
-        Device_KHR_swapchain,
-
+    :
+        DispatchableHandleDevice(handle, getDeviceCapabilities(handle, physicalDevice, ci, apiVersion)),
         VkCloseable {
 
 
     // ---------------------------------------------- VK10 -------------------------------------------------------------
 
+    // --- [ vkDestroyDevice ] ---
+    fun destroy() = callPPV(adr, NULL, capabilities.vkDestroyDevice)
 
-    // --- [ vkAllocateCommandBuffers ] ---
-    inline fun nAllocateCommandBuffers(pAllocateInfo: Ptr, pCommandBuffers: Ptr): VkResult =
-            VkResult(callPPPI(adr, pAllocateInfo, pCommandBuffers, capabilities.vkAllocateCommandBuffers))
+    // --- [ vkDeviceWaitIdle ] ---
+    fun waitIdle(): VkResult = VkResult(callPI(adr, capabilities.vkDeviceWaitIdle))
+
+    // --- [ vkFreeMemory ] ---
+    infix fun freeMemory(memory: VkDeviceMemory) = callPJPV(adr, memory.L, NULL, capabilities.vkFreeMemory)
+
+    // --- [ vkUnmapMemory ] ---
+    infix fun unmapMemory(memory: VkDeviceMemory) = callPJV(adr, memory.L, capabilities.vkUnmapMemory)
+
+    // --- [ vkBindBufferMemory ] ---
+    fun bindBufferMemory(buffer: VkBuffer, memory: VkDeviceMemory, memoryOffset: VkDeviceSize = VkDeviceSize(0)): VkResult =
+            VkResult(callPJJJI(adr, buffer.L, memory.L, memoryOffset.L, capabilities.vkBindBufferMemory)).andCheck()
+
+    // --- [ vkBindImageMemory ] ---
+    fun bindImageMemory(image: VkImage, memory: VkDeviceMemory, memoryOffset: VkDeviceSize = VkDeviceSize(0)): VkResult =
+            VkResult(callPJJJI(adr, image.L, memory.L, memoryOffset.L, capabilities.vkBindImageMemory))
+
+    // --- [ vkDestroyFence ] ---
+    infix fun destroy(fence: VkFence) = callPJPV(adr, fence.L, NULL, capabilities.vkDestroyFence)
+
+    // --- [ vkGetFenceStatus ] ---
+    fun getFenceStatus(fence: VkFence): VkResult = VkResult(callPJI(adr, fence.L, capabilities.vkGetFenceStatus))
+
+    // --- [ vkDestroySemaphore ] ---
+    infix fun destroy(semaphore: VkSemaphore) = callPJPV(adr, semaphore.L, NULL, capabilities.vkDestroySemaphore)
+
+    // --- [ vkDestroyEvent ] ---
+    infix fun destroy(event: VkEvent) = callPJPV(adr, event.L, NULL, capabilities.vkDestroyEvent)
+
+    // --- [ vkGetEventStatus ] ---
+    fun getEventStatus(event: VkEvent): VkResult = VkResult(callPJI(adr, event.L, capabilities.vkGetEventStatus))
+
+    // --- [ vkSetEvent ] ---
+    infix fun setEvent(event: VkEvent): VkResult = VkResult(callPJI(adr, event.L, capabilities.vkSetEvent))
+
+    // --- [ vkResetEvent ] ---
+    infix fun resetEvent(event: VkEvent): VkResult = VkResult(callPJI(adr, event.L, capabilities.vkResetEvent))
+
+    // --- [ vkDestroyQueryPool ] ---
+    infix fun destroy(queryPool: VkQueryPool) = callPJPV(adr, queryPool.L, NULL, capabilities.vkDestroyQueryPool)
+
+    // --- [ vkGetQueryPoolResults ] ---
+    fun getQueryPoolResults(queryPool: VkQueryPool, firstQuery: Int, queryCount: Int, dataSize: Int, pData: Ptr, stride: VkDeviceSize, flags: VkQueryResultFlags): VkResult =
+            VkResult(callPJPPJI(adr, queryPool.L, firstQuery, queryCount, dataSize.L, pData, stride.L, flags, capabilities.vkGetQueryPoolResults))
+
+    // --- [ vkDestroyBuffer ] ---
+    infix fun destroy(buffer: VkBuffer) = callPJPV(adr, buffer.L, NULL, capabilities.vkDestroyBuffer)
+
+    // --- [ vkDestroyBufferView ] ---
+    infix fun destroy(bufferView: VkBufferView) = callPJPV(adr, bufferView.L, NULL, capabilities.vkDestroyBufferView)
+
+    // --- [ vkDestroyImage ] ---
+    infix fun destroy(image: VkImage) = callPJPV(adr, image.L, NULL, capabilities.vkDestroyImage)
+
+    // --- [ vkDestroyImageView ] ---
+    infix fun destroy(imageView: VkImageView) = callPJPV(adr, imageView.L, NULL, capabilities.vkDestroyImageView)
+
+    // --- [ vkDestroyShaderModule ] ---
+    infix fun destroy(shaderModule: VkShaderModule) = callPJPV(adr, shaderModule.L, NULL, capabilities.vkDestroyShaderModule)
+
+    // --- [ vkDestroyPipelineCache ] ---
+    infix fun destroy(pipelineCache: VkPipelineCache) = callPJPV(adr, pipelineCache.L, NULL, capabilities.vkDestroyPipelineCache)
+
+    // --- [ vkDestroyPipeline ] ---
+    infix fun destroy(pipeline: VkPipeline) = callPJPV(adr, pipeline.L, NULL, capabilities.vkDestroyPipeline)
+
+    // --- [ vkDestroyPipelineLayout ] ---
+    infix fun destroy(pipelineLayout: VkPipelineLayout) = callPJPV(adr, pipelineLayout.L, NULL, capabilities.vkDestroyPipelineLayout)
+
+    // --- [ vkDestroySampler ] ---
+    infix fun destroy(sampler: VkSampler) = callPJPV(adr, sampler.L, NULL, capabilities.vkDestroySampler)
+
+    // --- [ vkDestroyDescriptorSetLayout ] ---
+    infix fun destroyDescriptorSetLayout(descriptorSetLayout: VkDescriptorSetLayout) = callPJPV(adr, descriptorSetLayout.L, NULL, capabilities.vkDestroyDescriptorSetLayout)
+
+    // --- [ vkDestroyDescriptorPool ] ---
+    infix fun destroy(descriptorPool: VkDescriptorPool) = callPJPV(adr, descriptorPool.L, NULL, capabilities.vkDestroyDescriptorPool)
+
+    // --- [ vkResetDescriptorPool ] ---
+    fun resetDescriptorPool(descriptorPool: VkDescriptorPool, flags: VkDescriptorPoolResetFlags): VkResult =
+            VkResult(callPJI(adr, descriptorPool.L, flags, capabilities.vkResetDescriptorPool)).andCheck()
+
+    // --- [ vkDestroyFramebuffer ] ---
+    infix fun destroy(framebuffer: VkFramebuffer) = callPJPV(adr, framebuffer.L, NULL, capabilities.vkDestroyFramebuffer)
+
+    // --- [ vkDestroyRenderPass ] ---
+    infix fun destroy(renderPass: VkRenderPass) = callPJPV(adr, renderPass.L, NULL, capabilities.vkDestroyRenderPass)
+
+    // --- [ vkDestroyCommandPool ] ---
+    infix fun destroy(commandPool: VkCommandPool) = callPJPV(adr, commandPool.L, NULL, capabilities.vkDestroyCommandPool)
+
+    // --- [ vkResetCommandPool ] ---
+    fun resetCommandPool(commandPool: VkCommandPool, flags: VkCommandPoolResetFlags = 0): VkResult =
+            VkResult(callPJI(adr, commandPool.L, flags, capabilities.vkResetCommandPool)).andCheck()
+
+    //
 
 
-    infix fun MemoryStack.allocateCommandBuffer(allocateInfo: CommandBufferAllocateInfo): CommandBuffer =
-            framed { CommandBuffer(this.pointerAdr { nAllocateCommandBuffers(allocateInfo write this, it).check() }, this@Device) }
 
-    infix fun allocateCommandBuffer(allocateInfo: CommandBufferAllocateInfo): CommandBuffer =
-            stak { it allocateCommandBuffer allocateInfo }
-
-
-    infix fun MemoryStack.allocateCommandBuffers(allocateInfo: CommandBufferAllocateInfo): Array<CommandBuffer> =
-            framed {
-                val pCommandBuffers = this.mPointer(allocateInfo.commandBufferCount)
-                nAllocateCommandBuffers(allocateInfo write this, pCommandBuffers.adr)
-                Array(allocateInfo.commandBufferCount) {
-                    CommandBuffer(memGetAddress(pCommandBuffers[it]), this@Device)
-                }
-            }
-
-    infix fun allocateCommandBuffers(allocateInfo: CommandBufferAllocateInfo): Array<CommandBuffer> =
-            stak { it allocateCommandBuffers allocateInfo }
 
 //    // Unique
 //
@@ -106,47 +173,21 @@ class Device(handle: Ptr,
 //    infix fun allocateCommandBuffersUnique(allocateInfo: CommandBufferAllocateInfo): Array<UniqueCommandBuffer> =
 //            stak { it allocateCommandBuffersUnique allocateInfo }
 
-    // --- [ vkGetDeviceQueue ] ---
 
-    fun MemoryStack.getQueue(queueFamilyIndex: Int, queueIndex: Int = 0): Queue =
-            framed { Queue(this.pointerAdr { callPPV(this@Device.adr, queueFamilyIndex, queueIndex, it, capabilities.vkGetDeviceQueue) }, this@Device) }
-
-    fun getQueue(queueFamilyIndex: Int, queueIndex: Int = 0): Queue =
-            stak { it.getQueue(queueFamilyIndex, queueIndex) }
-
-
-    // JVM custom: vkMapMemory + vkUnmapMemory
-    inline fun <R> MemoryStack.mappedMemory(memory: VkDeviceMemory, offset: VkDeviceSize, size: VkDeviceSize, flags: VkMemoryMapFlags = 0, block: (Ptr) -> R): R =
-            block(mapMemory(memory, offset, size, flags)).also { unmapMemory(memory) }
-
-    inline fun <R> mappedMemory(memory: VkDeviceMemory, offset: VkDeviceSize, size: VkDeviceSize, flags: VkMemoryMapFlags = 0, block: (Ptr) -> R): R =
-            block(mapMemory(memory, offset, size, flags)).also { unmapMemory(memory) }
-
-
-    inline fun <R> MemoryStack.withFence(flags: VkFenceCreateFlags = 0, block: (VkFence) -> R): R {
-        val fence = createFence(FenceCreateInfo(flags))
-        return block(fence).also {
-            destroy(fence)
-        }
-    }
-
-    inline fun <R> withFence(flags: VkFenceCreateFlags = 0, block: (VkFence) -> R): R {
-        val fence = createFence(FenceCreateInfo(flags))
-        return block(fence).also {
-            destroy(fence)
-        }
-    }
 
     // ---------------------------------------------- VK11 -------------------------------------------------------------
 
+    // --- [ vkTrimCommandPool ] ---
+    fun trimCommandPool(commandPool: VkCommandPool, flags: VkCommandPoolTrimFlags = 0) = callPJV(adr, commandPool.L, flags, capabilities.vkTrimCommandPool)
 
-    // --- [ vkGetDeviceQueue2 ] ---
+    // --- [ vkDestroySamplerYcbcrConversion ] ---
+    infix fun destroy(ycbcrConversion: VkSamplerYcbcrConversion) = callPJPV(adr, ycbcrConversion.L, NULL, capabilities.vkDestroySamplerYcbcrConversion)
 
-    infix fun MemoryStack.getQueue2(queueInfo: DeviceQueueInfo2): Queue =
-            framed { Queue(this.longAdr { callPPPV(this@Device.adr, queueInfo write this, it, capabilities.vkGetDeviceQueue2) }, this@Device) }
+    // --- [ vkDestroyDescriptorUpdateTemplate ] ---
+    infix fun destroy(descriptorUpdateTemplate: VkDescriptorUpdateTemplate) = callPJPV(adr, descriptorUpdateTemplate.L, NULL, capabilities.vkDestroyDescriptorUpdateTemplate)
 
-    infix fun getQueue2(queueInfo: DeviceQueueInfo2): Queue =
-            stak { it getQueue2 queueInfo }
+    // --- [ vkUpdateDescriptorSetWithTemplate ] ---
+    fun updateDescriptorSetWithTemplate(descriptorSet: VkDescriptorSet, descriptorUpdateTemplate: VkDescriptorUpdateTemplate, pData: Ptr) = callPJJPV(adr, descriptorSet.L, descriptorUpdateTemplate.L, pData, capabilities.vkUpdateDescriptorSetWithTemplate)
 
     // AutoCloseable
 

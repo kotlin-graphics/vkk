@@ -2,8 +2,8 @@ package tests
 
 import io.kotlintest.specs.StringSpec
 import main.isNotCI
-import vkk.unique
-import vkk.vu
+import vkk.unique.`try`
+import vkk.unique.vu
 
 class `02 enumerateDevices` : StringSpec() {
 
@@ -12,13 +12,13 @@ class `02 enumerateDevices` : StringSpec() {
     init {
         if (isNotCI)
             appName {
-                unique {
-                    val instance = vu.createInstance(appName, engineName).unique()
+                `try` {
+                    val instance = vu.createInstance(appName, engineName)
 //                  if(vk.DEBUG)
 //                      vu.createDebugUtilsMessenger(instance)
 
                     // enumerate the physicalDevices
-                    val physicalDevice = instance.enumeratePhysicalDevices.first()
+                    val physicalDevice = instance.physicalDevices[0]
 
                     // Note: PhysicalDevices are not created, but just enumerated. Therefore, there is nothing like a UniquePhysicalDevice.
                     // A PhysicalDevice is unique by definition, and there's no need to destroy it.

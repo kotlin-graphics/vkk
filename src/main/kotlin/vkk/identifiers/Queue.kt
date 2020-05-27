@@ -1,8 +1,9 @@
 package vkk.identifiers
 
 import kool.Ptr
-import vkk._10.api.Queue_vk10
-import vkk.extensions.Queue_KHR_swapchain
+import kool.adr
+import org.lwjgl.system.JNI
+import vkk.VkResult
 
 /** Wraps a Vulkan queue handle.  */
 class Queue
@@ -16,8 +17,10 @@ constructor(handle: Ptr,
             /** Returns the device from which this `VkQueue` was retrieved.  */
             val device: Device) :
 
-        DispatchableHandleDevice(handle, device.capabilities),
+        DispatchableHandleDevice(handle, device.capabilities) {
 
-        Queue_vk10,
+    // ---------------------------------------------- VK10 -------------------------------------------------------------
 
-        Queue_KHR_swapchain
+    // --- [ vkQueueWaitIdle ] ---
+    fun waitIdle(): VkResult = VkResult(JNI.callPI(adr, capabilities.vkQueueWaitIdle)).andCheck()
+}
