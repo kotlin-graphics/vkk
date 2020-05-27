@@ -18,10 +18,10 @@ val kotestVersion = "4.0.5"
 
 
 val kx = "com.github.kotlin-graphics"
-val unsignedVersion = "0af6fae4"
-val koolVersion = "3962a0be"
-val glmVersion = "5b0f3461"
-val gliVersion = "290b4a7f"
+val unsignedVersion = "87630c4d"
+val koolVersion = "3be0cc2f"
+val glmVersion = "3cb433d5"
+val gliVersion = "b0ecb4cd"
 val sprivCrossVersion = "0.6.0-1.1.106.0"
 val lwjglVersion = "3.2.3"
 val lwjglNatives = when (current()) {
@@ -37,7 +37,6 @@ repositories {
 }
 
 dependencies {
-    implementation(kotlin("stdlib"))
     implementation(kotlin("stdlib-jdk8"))
     implementation(kotlin("reflect"))
 
@@ -61,12 +60,8 @@ dependencies {
     }
 
     val spirvCross = "graphics.scenery:spirvcrossj:$sprivCrossVersion"
-    implementation("$spirvCross")
+    implementation(spirvCross)
     runtimeOnly("$spirvCross:natives-$lwjglNatives")
-
-    attributesSchema.attribute(LIBRARY_ELEMENTS_ATTRIBUTE).compatibilityRules.add(ModularJarCompatibilityRule::class)
-    components { withModule<ModularKotlinRule>(kotlin("stdlib")) }
-    components { withModule<ModularKotlinRule>(kotlin("stdlib-jdk8")) }
 
     //    compile group: 'org.jetbrains.kotlin.kapt', name: 'org.jetbrains.kotlin.kapt.gradle.plugin', version: '1.3.0-rc-146'
 
@@ -85,10 +80,6 @@ dependencies {
     }
 }
 
-java {
-    modularity.inferModulePath.set(true)
-}
-
 tasks {
     val dokka by getting(DokkaTask::class) {
         outputFormat = "html"
@@ -97,20 +88,15 @@ tasks {
 
     compileKotlin {
         kotlinOptions {
-            jvmTarget = "11"
+            jvmTarget = "1.8"
             freeCompilerArgs = listOf("-XXLanguage:+InlineClasses", "-Xjvm-default=enable")
         }
-        sourceCompatibility = "11"
+        sourceCompatibility = "1.8"
     }
 
     compileTestKotlin {
-        kotlinOptions.jvmTarget = "11"
-        sourceCompatibility = "11"
-    }
-
-    compileJava {
-        // this is needed because we have a separate compile step in this example with the 'module-info.java' is in 'main/java' and the Kotlin code is in 'main/kotlin'
-        options.compilerArgs = listOf("--patch-module", "$moduleName=${sourceSets.main.get().output.asPath}")
+        kotlinOptions.jvmTarget = "1.8"
+        sourceCompatibility = "1.8"
     }
 
     withType<Test> { useJUnitPlatform() }
@@ -136,41 +122,5 @@ artifacts {
 
 // == Add access to the 'modular' variant of kotlin("stdlib"): Put this into a buildSrc plugin and reuse it in all your subprojects
 configurations.all {
-    attributes.attribute(TARGET_JVM_VERSION_ATTRIBUTE, 11)
-    val n = name.toLowerCase()
-    if (n.endsWith("compileclasspath") || n.endsWith("runtimeclasspath"))
-        attributes.attribute(LIBRARY_ELEMENTS_ATTRIBUTE, objects.named("modular-jar"))
-    if (n.endsWith("compile") || n.endsWith("runtime"))
-        isCanBeConsumed = false
-}
-
-abstract class ModularJarCompatibilityRule : AttributeCompatibilityRule<LibraryElements> {
-    override fun execute(details: CompatibilityCheckDetails<LibraryElements>): Unit = details.run {
-        if (producerValue?.name == LibraryElements.JAR && consumerValue?.name == "modular-jar")
-            compatible()
-    }
-}
-
-abstract class ModularKotlinRule : ComponentMetadataRule {
-
-    @javax.inject.Inject
-    abstract fun getObjects(): ObjectFactory
-
-    override fun execute(ctx: ComponentMetadataContext) {
-        val id = ctx.details.id
-        listOf("compile", "runtime").forEach { baseVariant ->
-            ctx.details.addVariant("${baseVariant}Modular", baseVariant) {
-                attributes {
-                    attribute(LIBRARY_ELEMENTS_ATTRIBUTE, getObjects().named("modular-jar"))
-                }
-                withFiles {
-                    removeAllFiles()
-                    addFile("${id.name}-${id.version}-modular.jar")
-                }
-                withDependencies {
-                    clear() // 'kotlin-stdlib-common' and  'annotations' are not modules and are also not needed
-                }
-            }
-        }
-    }
+    attributes.attribute(TARGET_JVM_VERSION_ATTRIBUTE, 8)
 }
