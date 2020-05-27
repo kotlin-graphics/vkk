@@ -1,6 +1,6 @@
 package tests
 
-import io.kotlintest.specs.StringSpec
+import io.kotest.core.spec.style.StringSpec
 import main.isNotCI
 import org.lwjgl.vulkan.VK11.VK_API_VERSION_1_1
 import vkk.vk10.structs.ApplicationInfo

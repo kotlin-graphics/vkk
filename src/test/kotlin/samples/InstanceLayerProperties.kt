@@ -1,6 +1,6 @@
 package samples
 
-import io.kotlintest.specs.StringSpec
+import io.kotest.core.spec.style.StringSpec
 import main.isNotCI
 import vkk.vk
 import vkk.vk10.instanceLayerProperties

@@ -12,7 +12,7 @@ module com.github.kotlin_graphics.vkk {
     requires com.github.kotlin_graphics.kool;
     requires com.github.kotlin_graphics.kotlin_unsigned;
     requires kotlin.reflect;
-    requires kotlin.stdlib.jdk7;
+//    requires kotlin.stdlib.jdk7;
 
     exports vkk;
     exports vkk.vk10.api;

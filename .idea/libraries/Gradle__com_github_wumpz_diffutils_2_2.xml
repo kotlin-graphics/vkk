@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: com.github.wumpz:diffutils:2.2">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.wumpz/diffutils/2.2/647f913ef6c350d3b1bc1ffa48a74747a13e89f/diffutils-2.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.wumpz/diffutils/2.2/1533f8ad61349ed86479f4c092cb24c4a23d8a87/diffutils-2.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: com.github.ajalt:clikt:2.6.0">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.ajalt/clikt/2.6.0/6d87f906ef310b5be66db1fdef0cc23c5a66688d/clikt-jvm-2.6.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.ajalt/clikt/2.6.0/6058b256cbfd4084de0fb3a2d554c94a11d7b284/clikt-2.6.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

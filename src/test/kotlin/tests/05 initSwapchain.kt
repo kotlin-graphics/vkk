@@ -2,7 +2,7 @@ package tests
 
 import glm_.glm
 import glm_.vec2.Vec2i
-import io.kotlintest.specs.StringSpec
+import io.kotest.core.spec.style.StringSpec
 import main.isNotCI
 import uno.createSurface
 import uno.glfw.GlfwWindow

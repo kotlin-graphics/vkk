@@ -39,7 +39,7 @@ repositories {
 dependencies {
     implementation(kotlin("stdlib"))
     implementation(kotlin("stdlib-jdk8"))
-//    implementation("$kotlin-reflect")
+    implementation(kotlin("reflect"))
 
     implementation("$kx:kotlin-unsigned:$unsignedVersion")
     implementation("$kx:kool:$koolVersion")
@@ -76,6 +76,9 @@ dependencies {
         testRuntimeOnly("org.lwjgl:lwjgl$it:$lwjglVersion:natives-$lwjglNatives")
     }
     testImplementation("io.github.microutils:kotlin-logging:1.7.7")
+
+    //    testImplementation "${kx}:uno-sdk:402f5f495429b7f2178a1d200c32bb5ed2f7e6fa"
+    testImplementation("$kx.uno-sdk:uno-vk:55063f983dba678375a5196ec13e4d716bb474f4")
 
     listOf("runner-junit5", "assertions-core", "runner-console"/*, "property"*/).forEach {
         testImplementation("io.kotest:kotest-$it-jvm:$kotestVersion")
