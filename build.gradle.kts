@@ -46,14 +46,6 @@ dependencies {
     implementation("$kx:glm:$glmVersion")
     implementation("$kx:gli:$gliVersion")
 
-    // https://mvnrepository.com/artifact/com.twelvemonkeys.imageio/imageio-core
-    listOf("", /*"-batik",*/ "-bmp", "-core", "-icns", "-iff", "-jpeg", "-metadata", "-pcx", "-pdf", "-pict", "-pnm",
-            "-psd", "-sgi", "-tga", "-thumbsdb", "-tiff"/*, "-reference", "-clippath", "-hdr"*/).forEach {
-        implementation("com.twelvemonkeys.imageio:imageio$it:3.5")
-    }
-    // https://mvnrepository.com/artifact/org.apache.xmlgraphics/batik-transcoder
-    //implementation "org.apache.xmlgraphics:batik-transcoder:1.12"
-
     listOf("", "-vulkan").forEach {
         implementation("org.lwjgl:lwjgl$it:$lwjglVersion")
         if (it != "-vulkan")
@@ -69,7 +61,6 @@ dependencies {
     components { withModule<ModularKotlinRule>(kotlin("stdlib-jdk8")) }
 
     //    compile group: 'org.jetbrains.kotlin.kapt', name: 'org.jetbrains.kotlin.kapt.gradle.plugin', version: '1.3.0-rc-146'
-
 
     listOf("-glfw").forEach {
         testImplementation("org.lwjgl:lwjgl$it:$lwjglVersion")
