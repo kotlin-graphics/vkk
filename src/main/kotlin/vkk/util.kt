@@ -1,9 +1,15 @@
 package vkk
 
 import glm_.L
-import kool.*
+import kool.Adr
+import kool.Ptr
+import kool.adr
+import kool.remSize
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil
+import org.lwjgl.system.Struct
+import org.lwjgl.system.StructBuffer
+import org.lwjgl.vulkan.VkSubpassDependency
 import vkk.identifiers.CommandBuffer
 import vkk.identifiers.Device
 import java.nio.Buffer
@@ -117,7 +123,6 @@ interface SI {
 }
 
 class Sta : SI
-
 
 
 fun Sta.main() {
