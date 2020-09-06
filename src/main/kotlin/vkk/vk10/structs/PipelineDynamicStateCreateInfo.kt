@@ -1,10 +1,10 @@
 package vkk.vk10.structs
 
 import kool.Adr
+import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.memPutAddress
 import org.lwjgl.vulkan.VkPipelineDynamicStateCreateInfo.*
 import vkk.VkDynamicState
-import vkk.VkStack
 import vkk.VkStructureType
 import vkk.write
 
@@ -59,7 +59,7 @@ class PipelineDynamicStateCreateInfo(
 
     val type get() = VkStructureType.PIPELINE_DYNAMIC_STATE_CREATE_INFO
 
-    infix fun write(stack: VkStack): Adr {
+    infix fun write(stack: MemoryStack): Adr {
         val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
         nsType(adr, type.i)
         dynamicStates?.let {

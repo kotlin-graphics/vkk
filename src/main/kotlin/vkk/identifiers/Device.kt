@@ -115,7 +115,7 @@ class Device(handle: Ptr,
     infix fun destroy(sampler: VkSampler) = callPJPV(adr, sampler.L, NULL, capabilities.vkDestroySampler)
 
     // --- [ vkDestroyDescriptorSetLayout ] ---
-    infix fun destroyDescriptorSetLayout(descriptorSetLayout: VkDescriptorSetLayout) = callPJPV(adr, descriptorSetLayout.L, NULL, capabilities.vkDestroyDescriptorSetLayout)
+    infix fun destroy(descriptorSetLayout: VkDescriptorSetLayout) = callPJPV(adr, descriptorSetLayout.L, NULL, capabilities.vkDestroyDescriptorSetLayout)
 
     // --- [ vkDestroyDescriptorPool ] ---
     infix fun destroy(descriptorPool: VkDescriptorPool) = callPJPV(adr, descriptorPool.L, NULL, capabilities.vkDestroyDescriptorPool)

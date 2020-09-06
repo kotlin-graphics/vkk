@@ -6,6 +6,7 @@ import kool.LongPtr
 import org.lwjgl.system.MemoryStack
 import vkk.VkResult
 import vkk.VkStack
+import vkk.adr
 import vkk.extensions.VkPresentModeKHR
 
 
@@ -42,7 +43,7 @@ inline class VkBuffer_Array(val array: LongArray) {
         for (element in array) action(VkBuffer(element))
     }
 
-    infix fun write(stack: VkStack): Adr = stack.LongAdr(array).adr
+    infix fun write(stack: MemoryStack): Adr = stack.adr(array)
 }
 
 fun VkBuffer_Array(size: Int, block: (Int) -> VkBuffer) = VkBuffer_Array(LongArray(size) { block(it).L })
@@ -168,7 +169,7 @@ inline class VkDescriptorSet_Array(val array: LongArray) {
         for (element in array) action(VkDescriptorSet(element))
     }
 
-    infix fun write(stack: VkStack): Adr = stack.LongAdr(array).adr
+    infix fun write(stack: MemoryStack): Adr = stack.adr(array)
 }
 
 fun VkDescriptorSet_Array(size: Int, block: (Int) -> VkDescriptorSet) = VkDescriptorSet_Array(LongArray(size) { block(it).L })
@@ -189,7 +190,7 @@ inline class VkDescriptorSetLayout_Array(val array: LongArray) {
         for (element in array) action(VkDescriptorSetLayout(element))
     }
 
-    infix fun write(stack: VkStack): Adr = stack.LongAdr(array).adr
+    infix fun write(stack: MemoryStack): Adr = stack.adr(array)
 }
 
 fun VkDescriptorSetLayout_Array(size: Int, block: (Int) -> VkDescriptorSetLayout) = VkDescriptorSetLayout_Array(LongArray(size) { block(it).L })
@@ -252,7 +253,7 @@ inline class VkDeviceSize_Array(val array: LongArray) {
         for (element in array) action(VkDeviceSize(element))
     }
 
-    infix fun write(stack: VkStack): Adr = stack.LongAdr(array).adr
+    infix fun write(stack: MemoryStack): Adr = stack.adr(array)
 }
 
 fun VkDeviceSize_Array(size: Int, block: (Int) -> VkDeviceSize) = VkDeviceSize_Array(LongArray(size) { block(it).L })
@@ -315,7 +316,7 @@ inline class VkEvent_Array(val array: LongArray) {
         for (element in array) action(VkEvent(element))
     }
 
-    infix fun write(stack: VkStack): Adr = stack.LongAdr(array).adr
+    infix fun write(stack: MemoryStack): Adr = stack.adr(array)
 }
 
 fun VkEvent_Array(size: Int, block: (Int) -> VkEvent) = VkEvent_Array(LongArray(size) { block(it).L })
@@ -350,7 +351,7 @@ inline class VkFence_Array(val array: LongArray) {
         for (element in array) action(VkFence(element))
     }
 
-    infix fun write(stack: VkStack): Adr = stack.Adr(array).adr
+    infix fun write(stack: MemoryStack): Adr = stack.adr(array)
 }
 
 fun VkFence_Array(size: Int, block: (Int) -> VkFence) = VkFence_Array(LongArray(size) { block(it).L })
@@ -499,7 +500,7 @@ inline class VkPipelineCache_Array(val array: LongArray) {
         for (element in array) action(VkPipelineCache(element))
     }
 
-    infix fun write(stack: VkStack): Adr = stack.LongAdr(array).adr
+    infix fun write(stack: MemoryStack): Adr = stack.adr(array)
 }
 
 fun VkPipelineCache_Array(size: Int, block: (Int) -> VkPipelineCache) = VkPipelineCache_Array(LongArray(size) { block(it).L })
@@ -625,7 +626,7 @@ inline class VkSampler_Array(val array: LongArray) {
         for (element in array) action(VkSampler(element))
     }
 
-    infix fun write(stack: VkStack): Adr = stack.LongAdr(array).adr
+    infix fun write(stack: MemoryStack): Adr = stack.adr(array)
 }
 
 fun VkSampler_Array(size: Int, block: (Int) -> VkSampler) = VkSampler_Array(LongArray(size) { block(it).L })
@@ -667,7 +668,7 @@ inline class VkSemaphore_Array(val array: LongArray) {
         for (element in array) action(VkSemaphore(element))
     }
 
-    infix fun write(stack: VkStack): Adr = stack.Adr(array).adr
+    infix fun write(stack: MemoryStack): Adr = stack.adr(array)
 }
 
 fun VkSemaphore_Array(size: Int, block: (Int) -> VkSemaphore) = VkSemaphore_Array(LongArray(size) { block(it).L })
@@ -730,7 +731,7 @@ inline class VkSwapchainKHR_Array(val array: LongArray) {
         for (element in array) action(VkSwapchainKHR(element))
     }
 
-    infix fun write(stack: VkStack): Adr = stack.LongAdr(array).adr
+    infix fun write(stack: MemoryStack): Adr = stack.adr(array)
 }
 
 fun VkSwapchainKHR_Array(size: Int, block: (Int) -> VkSwapchainKHR) = VkSwapchainKHR_Array(LongArray(size) { block(it).L })

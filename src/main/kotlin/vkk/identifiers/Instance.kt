@@ -45,7 +45,7 @@ internal constructor(handle: Ptr, ci: InstanceCreateInfo) :
     constructor(createInfo: InstanceCreateInfo) : this(
             VkStack { s ->
                 s.pointerAdr {
-                    VK_CHECK_RESULT(callPPPI(createInfo write s, NULL, it, VK.globalCommands!!.vkCreateInstance))
+                    VK_CHECK_RESULT(callPPPI(createInfo write s.stack, NULL, it, VK.globalCommands!!.vkCreateInstance))
                 }
             }, createInfo)
 

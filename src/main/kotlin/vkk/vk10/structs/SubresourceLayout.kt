@@ -2,9 +2,10 @@ package vkk.vk10.structs
 
 import kool.Adr
 import kool.BytePtr
+import org.lwjgl.system.MemoryStack
 import org.lwjgl.vulkan.VkSubresourceLayout.*
-import vkk.VkStack
 import vkk.entities.VkDeviceSize
+import vkk.invoke
 
 /**
  * Structure specifying subresource layout.
@@ -76,10 +77,10 @@ class SubresourceLayout(
 
     companion object {
 //        inline infix fun <R> read(block: (Adr) -> R): SubresourceLayout = stak { read(it, block) }
-        inline fun <R> read(stack: VkStack, block: (Adr) -> R): SubresourceLayout {
+        inline fun <R> read(stack: MemoryStack, block: (Adr) -> R): SubresourceLayout = stack {
             val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
             block(adr)
-            return SubresourceLayout(BytePtr(adr))
+            SubresourceLayout(BytePtr(adr))
         }
     }
 }

@@ -1,8 +1,8 @@
 package vkk.vk10.structs
 
 import kool.Ptr
+import org.lwjgl.system.MemoryStack
 import org.lwjgl.vulkan.VkVertexInputBindingDescription.*
-import vkk.VkStack
 import vkk.VkVertexInputRate
 
 /**
@@ -55,7 +55,7 @@ class VertexInputBindingDescription(
     }
 }
 
-infix fun Array<VertexInputBindingDescription>.write(stack: VkStack): Ptr {
+infix fun Array<VertexInputBindingDescription>.write(stack: MemoryStack): Ptr {
     val natives = stack.ncalloc(ALIGNOF, size, SIZEOF)
     for (i in indices)
         this[i] write (natives + i * SIZEOF)

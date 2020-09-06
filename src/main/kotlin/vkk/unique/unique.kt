@@ -1,6 +1,6 @@
 package vkk.unique
 
-import vkk.VkStack
+import vkk.VkStackInterface
 import vkk.entities.*
 import vkk.extensions.SwapchainCreateInfoKHR
 import vkk.extensions.destroy
@@ -9,9 +9,8 @@ import vkk.vk
 import vkk.vk10.structs.*
 import java.util.*
 
-interface Unique {
+interface Unique : VkStackInterface {
     val disposes: Deque<() -> Unit>
-    val stack: VkStack
 }
 
 interface UniqueVk : Unique {
@@ -32,9 +31,8 @@ interface UniquePhysicalDeviceI : Unique {
 interface UniqueDeviceI : Unique {
 
     // --- [ vkCreateCommandPool ] ---
-    infix fun Device.createCommandPoolUnique(createInfo: CommandPoolCreateInfo): VkUniqueCommandPool = stack.run {
-        createCommandPool(createInfo).also { disposes += { destroy(it); println("commandPool destroyed") } }
-    }
+    infix fun Device.createCommandPoolUnique(createInfo: CommandPoolCreateInfo): VkUniqueCommandPool =
+            stack.run { createCommandPool(createInfo).also { disposes += { destroy(it); println("commandPool destroyed") } } }
 
     // --- [ vkAllocateCommandBuffers ] ---
 
@@ -46,15 +44,27 @@ interface UniqueDeviceI : Unique {
 
     // --- [ vkAllocateMemory ] ---
     infix fun Device.allocateMemoryUnique(allocateInfo: MemoryAllocateInfo): VkUniqueDeviceMemory =
-            stack.run { allocateMemory(allocateInfo) }.also { disposes += { freeMemory(it); println("memory freed") } }
+            stack.run { allocateMemory(allocateInfo).also { disposes += { freeMemory(it); println("memory freed") } } }
+
+    // --- [ vkCreateBuffer ] ---
+    infix fun Device.createBufferUnique(createInfo: BufferCreateInfo): VkUniqueBuffer =
+            stack.run { createBuffer(createInfo).also { disposes += { destroy(it); println("buffer destroyed") } } }
+
+    // --- [ vkCreateDescriptorSetLayout ] ---
+    infix fun Device.createDescriptorSetLayoutUnique(createInfo: DescriptorSetLayoutCreateInfo): VkUniqueDescriptorSetLayout =
+            stack.run { createDescriptorSetLayout(createInfo).also { disposes += { destroy(it); println("descriptorSetLayour destroyed") } } }
+
+    // --- [ vkCreatePipelineLayout ] ---
+    infix fun Device.createPipelineLayoutUnique(createInfo: PipelineLayoutCreateInfo): VkUniquePipelineLayout =
+            stack.run { createPipelineLayout(createInfo).also { disposes += { destroy(it); println("pipelineLayout destroyed") } } }
 
     // --- [ vkCreateSwapchainKHR ] ---
     infix fun Device.createSwapchainKHRUnique(createInfo: SwapchainCreateInfoKHR): VkUniqueSwapchainKHR =
-            stack.run { createSwapchainKHR(createInfo) }.also { disposes += { destroy(it); println("swapchain destroyed") } }
+            stack.run { createSwapchainKHR(createInfo).also { disposes += { destroy(it); println("swapchain destroyed") } } }
 
     // --- [ vkCreateImage ] ---
     infix fun Device.createImageUnique(createInfo: ImageCreateInfo): VkUniqueImage =
-            stack.run { createImage(createInfo) }.also { disposes += { destroy(it); println("image destroyed") } }
+            stack.run { createImage(createInfo).also { disposes += { destroy(it); println("image destroyed") } } }
 
     // --- [ vkCreateImageView ] ---
 

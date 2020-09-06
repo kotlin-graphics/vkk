@@ -1,12 +1,14 @@
 package vkk.vk10.structs
 
 import kool.*
+import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.memPutAddress
 import org.lwjgl.vulkan.*
 import org.lwjgl.vulkan.VkSubpassDescription.*
 import vkk.VkPipelineBindPoint
 import vkk.VkStack
 import vkk.VkSubpassDescriptionFlags
+import vkk.adr
 
 /**
  * Structure specifying a subpass description.
@@ -147,10 +149,10 @@ class SubpassDescription(
 //            resolveAttachments = arrayOf(value)
 //        }
 
-    fun write(stack: VkStack): Adr =
+    fun write(stack: MemoryStack): Adr =
         stack.ncalloc(ALIGNOF, 1, SIZEOF).also { write(it, stack) }
 
-    fun write(ptr: Ptr, stack: VkStack) {
+    fun write(ptr: Ptr, stack: MemoryStack) {
         nflags(ptr, flags)
         npipelineBindPoint(ptr, pipelineBindPoint.i)
         inputAttachments?.let {
@@ -165,12 +167,12 @@ class SubpassDescription(
         depthStencilAttachment?.let { memPutAddress(ptr + PDEPTHSTENCILATTACHMENT, it write stack) }
         preserveAttachments?.let {
             npreserveAttachmentCount(ptr, it.size)
-            memPutAddress(ptr + PPRESERVEATTACHMENTS, stack.Adr(it).adr)
+            memPutAddress(ptr + PPRESERVEATTACHMENTS, stack.adr(it))
         }
     }
 }
 
-infix fun Array<SubpassDescription>.write(stack: VkStack): Ptr {
+infix fun Array<SubpassDescription>.write(stack: MemoryStack): Ptr {
     val natives = stack.ncalloc(ALIGNOF, size, SIZEOF)
     for (i in indices)
         this[i].write(natives + i * SIZEOF, stack)

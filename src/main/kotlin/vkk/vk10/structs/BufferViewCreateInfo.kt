@@ -1,9 +1,9 @@
 package vkk.vk10.structs
 
 import kool.Adr
+import org.lwjgl.system.MemoryStack
 import org.lwjgl.vulkan.VkBufferViewCreateInfo.*
 import vkk.VkFormat
-import vkk.VkStack
 import vkk.VkStructureType
 import vkk.entities.VkBuffer
 import vkk.entities.VkDeviceSize
@@ -76,7 +76,7 @@ class BufferViewCreateInfo(
 
     val type get() = VkStructureType.BUFFER_VIEW_CREATE_INFO
 
-    infix fun write(stack: VkStack): Adr {
+    infix fun write(stack: MemoryStack): Adr {
         val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
         nsType(adr, type.i)
         nbuffer(adr, buffer.L)

@@ -3,6 +3,7 @@ package vkk.vk10.structs
 import glm_.i
 import kool.Adr
 import kool.Ptr
+import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.NULL
 import org.lwjgl.vulkan.VkSamplerCreateInfo.*
 import vkk.*
@@ -182,7 +183,7 @@ class SamplerCreateInfo(
 
     val type get() = VkStructureType.SAMPLER_CREATE_INFO
 
-    infix fun write(stack: VkStack): Adr {
+    infix fun write(stack: MemoryStack): Adr {
         val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
         nsType(adr, type.i)
         npNext(adr, next)

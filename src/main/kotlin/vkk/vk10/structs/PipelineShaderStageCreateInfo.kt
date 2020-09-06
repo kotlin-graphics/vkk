@@ -1,12 +1,12 @@
 package vkk.vk10.structs
 
 import kool.Ptr
+import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.NULL
 import org.lwjgl.system.MemoryUtil.memPutAddress
 import org.lwjgl.vulkan.VkPipelineShaderStageCreateInfo.*
 import vkk.VkPipelineShaderStageCreateFlags
 import vkk.VkShaderStage
-import vkk.VkStack
 import vkk.VkStructureType
 import vkk.entities.VkShaderModule
 
@@ -99,18 +99,18 @@ class PipelineShaderStageCreateInfo(
 
     val type get() = VkStructureType.PIPELINE_SHADER_STAGE_CREATE_INFO
 
-    fun write(ptr: Ptr, stack: VkStack) {
+    fun write(ptr: Ptr, stack: MemoryStack) {
         nsType(ptr, type.i)
         npNext(ptr, next)
         nflags(ptr, flags)
         nstage(ptr, stage.i)
         nmodule(ptr, module.L)
         npName(ptr, stack.UTF8(name))
-        specializationInfo?.let { memPutAddress(ptr + PSPECIALIZATIONINFO, it.write(stack)) }
+        specializationInfo?.let { memPutAddress(ptr + PSPECIALIZATIONINFO, it write stack) }
     }
 }
 
-infix fun Array<PipelineShaderStageCreateInfo>.write(stack: VkStack): Ptr {
+infix fun Array<PipelineShaderStageCreateInfo>.write(stack: MemoryStack): Ptr {
     val natives = stack.ncalloc(ALIGNOF, size, SIZEOF)
     for (i in indices)
         this[i].write(natives + i * SIZEOF, stack)

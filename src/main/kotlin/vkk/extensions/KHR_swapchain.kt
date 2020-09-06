@@ -3,6 +3,7 @@ package vkk.extensions
 import glm_.i
 import kool.*
 import org.lwjgl.system.JNI.*
+import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.NULL
 import org.lwjgl.system.MemoryUtil.memPutAddress
 import org.lwjgl.vulkan.*
@@ -58,7 +59,7 @@ class SwapchainCreateInfoKHR(
 
     val type get() = VkStructureType.SWAPCHAIN_CREATE_INFO_KHR
 
-    infix fun write(stack: VkStack): Adr {
+    infix fun write(stack: MemoryStack): Adr {
         val adr = stack.ncalloc(VkSwapchainCreateInfoKHR.ALIGNOF, 1, VkSwapchainCreateInfoKHR.SIZEOF)
         VkSwapchainCreateInfoKHR.nsType(adr, type.i)
         VkSwapchainCreateInfoKHR.npNext(adr, next)
@@ -119,7 +120,7 @@ class PresentInfoKHR(
         }
 
     // write and maybe read
-    fun <R> native(stack: VkStack, block: (Ptr) -> R): R {
+    fun <R> native(stack: MemoryStack, block: (Ptr) -> R): R = stack {
         val adr = stack.ncalloc(VkPresentInfoKHR.ALIGNOF, 1, VkPresentInfoKHR.SIZEOF)
         VkPresentInfoKHR.nsType(adr, type.i)
         VkPresentInfoKHR.npNext(adr, next)
@@ -130,7 +131,7 @@ class PresentInfoKHR(
         VkPresentInfoKHR.nswapchainCount(adr, swapchains.size)
         memPutAddress(adr + VkPresentInfoKHR.PSWAPCHAINS, swapchains write stack)
         memPutAddress(adr + VkPresentInfoKHR.PIMAGEINDICES, stack.Adr(imageIndices).adr)
-        return when (val results = results) {
+        when (val results = results) {
             null -> block(adr)
             else -> {
                 val pResults = stack.mInt(swapchains.size)
@@ -168,7 +169,7 @@ class AcquireNextImageInfoKHR(
 
     val type get() = VkStructureType.ACQUIRE_NEXT_IMAGE_INFO_KHR
 
-    infix fun write(stack: VkStack): Adr {
+    infix fun write(stack: MemoryStack): Adr {
         val adr = stack.ncalloc(VkAcquireNextImageInfoKHR.ALIGNOF, 1, VkAcquireNextImageInfoKHR.SIZEOF)
         VkAcquireNextImageInfoKHR.nsType(adr, type.i)
         // pNext must be null
@@ -193,10 +194,10 @@ class DeviceGroupPresentCapabilitiesKHR(
 
     companion object {
         //        inline infix fun <R> read(block: (Adr) -> R): PhysicalDeviceProperties2 = stak { read(it, block) }
-        inline fun <R> read(stack: VkStack, block: (Adr) -> R): DeviceGroupPresentCapabilitiesKHR {
+        inline fun <R> read(stack: MemoryStack, block: (Adr) -> R): DeviceGroupPresentCapabilitiesKHR = stack {
             val adr = stack.ncalloc(VkDeviceGroupPresentCapabilitiesKHR.ALIGNOF, 1, VkDeviceGroupPresentCapabilitiesKHR.SIZEOF)
             block(adr)
-            return DeviceGroupPresentCapabilitiesKHR(BytePtr(adr))
+            DeviceGroupPresentCapabilitiesKHR(BytePtr(adr))
         }
     }
 }
@@ -216,9 +217,7 @@ class DeviceGroupSwapchainCreateInfoKHR(
     val type get() = VkStructureType.DEVICE_GROUP_SWAPCHAIN_CREATE_INFO_KHR
 }
 
-interface VkStack_KHR_swapchain {
-
-    val stack: VkStack
+interface VkStack_KHR_swapchain : VkStackInterface {
 
     // --- [ vkCreateSwapchainKHR ] ---
     infix fun Device.createSwapchainKHR(createInfo: SwapchainCreateInfoKHR): VkSwapchainKHR =
@@ -247,7 +246,7 @@ interface VkStack_KHR_swapchain {
 
     // --- [ vkQueuePresentKHR ] ---
     infix fun Queue.presentKHR(presentInfo: PresentInfoKHR): VkResult =
-            stack { presentInfo.native(stack) { VkResult(callPPI(adr, it, capabilities.vkQueuePresentKHR)).andCheck() } }
+            presentInfo.native(stack) { VkResult(callPPI(adr, it, capabilities.vkQueuePresentKHR)).andCheck() }
 
     // --- [ vkGetDeviceGroupPresentCapabilitiesKHR ] ---
     val Device.groupPresentCapabilitiesKHR: DeviceGroupPresentCapabilitiesKHR
@@ -275,7 +274,7 @@ interface VkStack_KHR_swapchain {
 
     // --- [ vkAcquireNextImage2KHR ] ---
     infix fun Device.acquireNextImage2KHR(acquireInfo: AcquireNextImageInfoKHR): Int =
-            stack { stack.intAdr { VK_CHECK_RESULT(callPPPI(adr, acquireInfo write stack, it, capabilities.vkAcquireNextImage2KHR)) } }
+            stack.intAdr { VK_CHECK_RESULT(callPPPI(adr, acquireInfo write stack, it, capabilities.vkAcquireNextImage2KHR)) }
 }
 
 // --- [ vkCreateSwapchainKHR ] ---

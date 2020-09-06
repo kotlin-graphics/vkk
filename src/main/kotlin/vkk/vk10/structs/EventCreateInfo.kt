@@ -1,8 +1,8 @@
 package vkk.vk10.structs
 
 import kool.Adr
+import org.lwjgl.system.MemoryStack
 import org.lwjgl.vulkan.VkEventCreateInfo.*
-import vkk.VkStack
 import vkk.VkStructureType
 
 /**
@@ -41,7 +41,7 @@ class EventCreateInfo {
 
     val type get() = VkStructureType.EVENT_CREATE_INFO
 
-    infix fun write(stack: VkStack): Adr {
+    infix fun write(stack: MemoryStack): Adr {
         val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
         nsType(adr, type.i)
         return adr

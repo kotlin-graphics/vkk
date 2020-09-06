@@ -1,8 +1,8 @@
 package vkk.vk11.structs
 
 import kool.Adr
+import org.lwjgl.system.MemoryStack
 import org.lwjgl.vulkan.VkBufferMemoryRequirementsInfo2.*
-import vkk.VkStack
 import vkk.VkStructureType
 import vkk.entities.VkBuffer
 
@@ -44,7 +44,7 @@ class BufferMemoryRequirementsInfo2(
 
     val type get() = VkStructureType.BUFFER_MEMORY_REQUIREMENTS_INFO_2
 
-    infix fun write(stack: VkStack): Adr {
+    infix fun write(stack: MemoryStack): Adr {
         val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
         nsType(adr, type.i)
         nbuffer(adr, buffer.L)

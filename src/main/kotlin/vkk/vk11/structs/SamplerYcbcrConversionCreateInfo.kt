@@ -2,6 +2,7 @@ package vkk.vk11.structs
 
 import glm_.i
 import kool.Adr
+import org.lwjgl.system.MemoryStack
 import org.lwjgl.vulkan.VkSamplerYcbcrConversionCreateInfo.*
 import vkk.*
 import vkk.vk10.structs.ComponentMapping
@@ -101,7 +102,7 @@ class SamplerYcbcrConversionCreateInfo(
 
     val type get() = VkStructureType.SAMPLER_YCBCR_CONVERSION_CREATE_INFO
 
-    infix fun write(stack: VkStack): Adr {
+    infix fun write(stack: MemoryStack): Adr {
         val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
         nsType(adr, type.i)
         nformat(adr, format.i)

@@ -2,11 +2,11 @@ package vkk.vk10.structs
 
 import glm_.i
 import kool.Ptr
+import org.lwjgl.system.MemoryStack
 import org.lwjgl.vulkan.VkPipelineColorBlendAttachmentState.*
 import vkk.VkBlendFactor
 import vkk.VkBlendOp
 import vkk.VkColorComponentFlags
-import vkk.VkStack
 
 /**
  * Structure specifying a pipeline color blend attachment state.
@@ -91,7 +91,7 @@ class PipelineColorBlendAttachmentState(
     }
 }
 
-infix fun Array<PipelineColorBlendAttachmentState>.write(stack: VkStack): Ptr {
+infix fun Array<PipelineColorBlendAttachmentState>.write(stack: MemoryStack): Ptr {
     val natives = stack.ncalloc(ALIGNOF, size, SIZEOF)
     for (i in indices)
         this[i].write(natives + SIZEOF * i)

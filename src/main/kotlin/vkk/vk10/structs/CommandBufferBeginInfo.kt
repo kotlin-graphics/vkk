@@ -1,11 +1,11 @@
 package vkk.vk10.structs
 
 import kool.Ptr
+import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.NULL
 import org.lwjgl.system.MemoryUtil.memPutAddress
 import org.lwjgl.vulkan.VkCommandBufferBeginInfo.*
 import vkk.VkCommandBufferUsageFlags
-import vkk.VkStack
 import vkk.VkStructureType
 
 /**
@@ -58,7 +58,7 @@ class CommandBufferBeginInfo(
 
     val type get() = VkStructureType.COMMAND_BUFFER_BEGIN_INFO
 
-    infix fun write(stack: VkStack): Ptr =
+    infix fun write(stack: MemoryStack): Ptr =
             stack.ncalloc(ALIGNOF, 1, SIZEOF).also { ptr ->
                 nsType(ptr, type.i)
                 npNext(ptr, next)

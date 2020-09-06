@@ -3,10 +3,11 @@ package vkk.vk11.structs
 import kool.Adr
 import kool.BytePtr
 import kool.Ptr
+import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.NULL
 import org.lwjgl.vulkan.VkPhysicalDeviceMemoryProperties2.*
-import vkk.VkStack
 import vkk.VkStructureType
+import vkk.invoke
 import vkk.vk10.structs.PhysicalDeviceMemoryProperties
 
 /**
@@ -54,10 +55,10 @@ class PhysicalDeviceMemoryProperties2(
 
     companion object {
 //        inline infix fun <R> read(block: (Adr) -> R): PhysicalDeviceMemoryProperties2 = stak { read(it, block) }
-        inline fun <R> read(stack: VkStack, block: (Adr) -> R): PhysicalDeviceMemoryProperties2 {
+        inline fun <R> read(stack: MemoryStack, block: (Adr) -> R): PhysicalDeviceMemoryProperties2 = stack {
             val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
             block(adr)
-            return PhysicalDeviceMemoryProperties2(BytePtr(adr))
+            PhysicalDeviceMemoryProperties2(BytePtr(adr))
         }
     }
 }

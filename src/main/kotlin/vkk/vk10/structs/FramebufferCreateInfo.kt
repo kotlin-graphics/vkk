@@ -4,12 +4,13 @@ import glm_.vec2.Vec2i
 import glm_.vec3.Vec3i
 import kool.Adr
 import kool.Ptr
+import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.NULL
 import org.lwjgl.system.MemoryUtil.memPutAddress
 import org.lwjgl.vulkan.VkFramebufferCreateInfo.*
 import vkk.VkFramebufferCreateFlags
-import vkk.VkStack
 import vkk.VkStructureType
+import vkk.adr
 import vkk.entities.VkImageView_Array
 import vkk.entities.VkRenderPass
 
@@ -152,7 +153,7 @@ class FramebufferCreateInfo(
 //            else -> attachments?.set(0, value) ?: run { attachments = VkImageView_Array(1) { value } }
 //        }
 
-    infix fun write(stack: VkStack): Adr {
+    infix fun write(stack: MemoryStack): Adr {
         val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
         nsType(adr, type.i)
         npNext(adr, next)
@@ -160,7 +161,7 @@ class FramebufferCreateInfo(
         nrenderPass(adr, renderPass.L)
         attachments?.let {
             nattachmentCount(adr, it.size)
-            memPutAddress(adr + PATTACHMENTS, stack.LongAdr(it.array).adr)
+            memPutAddress(adr + PATTACHMENTS, stack.adr(it.array))
         }
         nwidth(adr, width)
         nheight(adr, height)

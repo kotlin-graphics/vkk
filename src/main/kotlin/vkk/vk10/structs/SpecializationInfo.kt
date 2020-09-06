@@ -2,9 +2,10 @@ package vkk.vk10.structs
 
 import glm_.L
 import kool.Adr
+import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.memPutAddress
 import org.lwjgl.vulkan.VkSpecializationInfo.*
-import vkk.VkStack
+import vkk.adr
 
 /**
  * Structure specifying specialization info.
@@ -51,11 +52,11 @@ import vkk.VkStack
  * }</code></pre>
  */
 class SpecializationInfo(
-    var mapEntries: Array<SpecializationMapEntry>? = null,
-    var data: ByteArray? = null
+        var mapEntries: Array<SpecializationMapEntry>? = null,
+        var data: ByteArray? = null
 ) {
 
-    infix fun write(stack: VkStack): Adr {
+    infix fun write(stack: MemoryStack): Adr {
         val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
         mapEntries?.let {
             nmapEntryCount(adr, it.size)
@@ -63,7 +64,7 @@ class SpecializationInfo(
         }
         data?.let {
             ndataSize(adr, it.size.L)
-            memPutAddress(adr, stack.Adr(it).adr)
+            memPutAddress(adr, stack.adr(it))
         }
         return adr
     }

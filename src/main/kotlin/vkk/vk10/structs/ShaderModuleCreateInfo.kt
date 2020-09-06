@@ -4,10 +4,10 @@ import glm_.L
 import kool.Adr
 import kool.Ptr
 import kool.rem
+import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.NULL
 import org.lwjgl.vulkan.VkShaderModuleCreateInfo.*
 import vkk.VkShaderModuleCreateFlags
-import vkk.VkStack
 import vkk.VkStructureType
 import java.nio.ByteBuffer
 
@@ -69,7 +69,7 @@ class ShaderModuleCreateInfo(
 
     val type get() = VkStructureType.SHADER_MODULE_CREATE_INFO
 
-    infix fun write(stack: VkStack): Adr {
+    infix fun write(stack: MemoryStack): Adr {
         val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
         nsType(adr, type.i)
         npNext(adr, next)

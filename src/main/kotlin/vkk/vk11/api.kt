@@ -1,8 +1,6 @@
 package vkk.vk11
 
-import kool.BytePtr
-import kool.Ptr
-import kool.adr
+import kool.*
 import org.lwjgl.system.JNI.*
 import org.lwjgl.system.MemoryUtil.NULL
 import org.lwjgl.vulkan.VkPhysicalDeviceGroupProperties
@@ -16,9 +14,7 @@ import vkk.entities.VkSamplerYcbcrConversion
 import vkk.identifiers.*
 import vkk.vk10.structs.DescriptorSetLayoutCreateInfo
 
-interface VkStack_VK11 {
-
-    val stack: VkStack
+interface VkStack_VK11 : VkStackInterface {
 
     // --- [ vkEnumerateInstanceVersion ] ---
     val vk.instanceVersion: Int
@@ -65,11 +61,11 @@ interface VkStack_VK11 {
 
     // --- [ vkGetImageMemoryRequirements2 ] ---
     infix fun Device.getImageMemoryRequirements2(info: ImageMemoryRequirementsInfo2): MemoryRequirements2 =
-            stack { MemoryRequirements2.read(stack) { callPPPV(adr, info write stack, it, capabilities.vkGetImageMemoryRequirements2) } }
+            MemoryRequirements2.read(stack) { callPPPV(adr, info write stack, it, capabilities.vkGetImageMemoryRequirements2) }
 
     // --- [ vkGetBufferMemoryRequirements2 ] ---
     infix fun Device.getBufferMemoryRequirements2(info: BufferMemoryRequirementsInfo2): MemoryRequirements2 =
-            stack { MemoryRequirements2.read(stack) { callPPPV(adr, info write stack, it, capabilities.vkGetBufferMemoryRequirements2) } }
+            MemoryRequirements2.read(stack) { callPPPV(adr, info write stack, it, capabilities.vkGetBufferMemoryRequirements2) }
 
     // --- [ vkGetImageSparseMemoryRequirements2 ] ---
     infix fun Device.getImageSparseMemoryRequirements2(info: ImageSparseMemoryRequirementsInfo2): Array<SparseImageMemoryRequirements2> =
@@ -85,19 +81,19 @@ interface VkStack_VK11 {
 
     // --- [ vkGetPhysicalDeviceFeatures2 ] ---
     val PhysicalDevice.features2: PhysicalDeviceFeatures2
-        get() = stack { PhysicalDeviceFeatures2.read(stack) { callPPV(adr, it, capabilities.vkGetPhysicalDeviceFeatures2) } }
+        get() = PhysicalDeviceFeatures2.read(stack) { callPPV(adr, it, capabilities.vkGetPhysicalDeviceFeatures2) }
 
     // --- [ vkGetPhysicalDeviceProperties2 ] ---
     val PhysicalDevice.properties2: PhysicalDeviceProperties2
-        get() = stack { PhysicalDeviceProperties2.read(stack) { callPPV(adr, it, capabilities.vkGetPhysicalDeviceProperties2) } }
+        get() = PhysicalDeviceProperties2.read(stack) { callPPV(adr, it, capabilities.vkGetPhysicalDeviceProperties2) }
 
     // --- [ vkGetPhysicalDeviceFormatProperties2 ] ---
     infix fun PhysicalDevice.getFormatProperties2(format: VkFormat): FormatProperties2 =
-            stack { FormatProperties2.read(stack) { callPPV(adr, format.i, it, capabilities.vkGetPhysicalDeviceFormatProperties2) } }
+            FormatProperties2.read(stack) { callPPV(adr, format.i, it, capabilities.vkGetPhysicalDeviceFormatProperties2) }
 
     // --- [ vkGetPhysicalDeviceImageFormatProperties2 ] ---
     infix fun PhysicalDevice.getImageFormatProperties2(imageFormatInfo: PhysicalDeviceImageFormatInfo2): ImageFormatProperties2 =
-            stack { ImageFormatProperties2.read(stack) { VK_CHECK_RESULT(callPPPI(adr, imageFormatInfo write stack, it, capabilities.vkGetPhysicalDeviceImageFormatProperties2)) } }
+            ImageFormatProperties2.read(stack) { VK_CHECK_RESULT(callPPPI(adr, imageFormatInfo write stack, it, capabilities.vkGetPhysicalDeviceImageFormatProperties2)) }
 
     // --- [ vkGetPhysicalDeviceQueueFamilyProperties2 ] ---
     val PhysicalDevice.queueFamilyProperties2: Array<QueueFamilyProperties2>
@@ -112,7 +108,7 @@ interface VkStack_VK11 {
 
     // --- [ vkGetPhysicalDeviceMemoryProperties2 ] ---
     val PhysicalDevice.memoryProperties2: PhysicalDeviceMemoryProperties2
-        get() = stack { PhysicalDeviceMemoryProperties2.read(stack) { callPPV(adr, it, capabilities.vkGetPhysicalDeviceMemoryProperties2) } }
+        get() = PhysicalDeviceMemoryProperties2.read(stack) { callPPV(adr, it, capabilities.vkGetPhysicalDeviceMemoryProperties2) }
 
     // --- [ vkGetPhysicalDeviceSparseImageFormatProperties2 ] ---
     infix fun PhysicalDevice.getSparseImageFormatProperties2(formatInfo: PhysicalDeviceSparseImageFormatInfo2): Array<SparseImageFormatProperties2> =
@@ -128,31 +124,31 @@ interface VkStack_VK11 {
 
     // --- [ vkGetDeviceQueue2 ] ---
     infix fun Device.getQueue2(queueInfo: DeviceQueueInfo2): Queue =
-            stack { Queue(stack.longAdr { callPPPV(adr, queueInfo write stack, it, capabilities.vkGetDeviceQueue2) }, this) }
+            Queue(stack.longAdr { callPPPV(adr, queueInfo write stack, it, capabilities.vkGetDeviceQueue2) }, this)
 
     // --- [ vkCreateSamplerYcbcrConversion ] ---
     infix fun Device.createSamplerYcbcrConversion(createInfo: SamplerYcbcrConversionCreateInfo): VkSamplerYcbcrConversion =
-            stack { VkSamplerYcbcrConversion(stack.longAdr { callPPPPI(adr, createInfo write stack, NULL, it, capabilities.vkCreateSamplerYcbcrConversion) }) }
+            VkSamplerYcbcrConversion(stack.longAdr { callPPPPI(adr, createInfo write stack, NULL, it, capabilities.vkCreateSamplerYcbcrConversion) })
 
     // --- [ vkCreateDescriptorUpdateTemplate ] ---
     infix fun Device.createDescriptorUpdateTemplate(createInfo: DescriptorUpdateTemplateCreateInfo): VkDescriptorUpdateTemplate =
-            stack { VkDescriptorUpdateTemplate(stack.longAdr { callPPPPI(adr, createInfo write stack, NULL, it, capabilities.vkCreateDescriptorUpdateTemplate) }) }
+            VkDescriptorUpdateTemplate(stack.longAdr { callPPPPI(adr, createInfo write stack, NULL, it, capabilities.vkCreateDescriptorUpdateTemplate) })
 
     // --- [ vkGetPhysicalDeviceExternalBufferProperties ] ---
     infix fun PhysicalDevice.getExternalBufferProperties(externalBufferInfo: PhysicalDeviceExternalBufferInfo): ExternalBufferProperties =
-            stack { ExternalBufferProperties.read(stack) { callPPPV(adr, externalBufferInfo write stack, it, capabilities.vkGetPhysicalDeviceExternalBufferProperties) } }
+            ExternalBufferProperties.read(stack) { callPPPV(adr, externalBufferInfo write stack, it, capabilities.vkGetPhysicalDeviceExternalBufferProperties) }
 
     // --- [ vkGetPhysicalDeviceExternalFenceProperties ] ---
     infix fun PhysicalDevice.getExternalFenceProperties(externalFenceInfo: PhysicalDeviceExternalFenceInfo): ExternalFenceProperties =
-            stack { ExternalFenceProperties.read(stack) { callPPPV(adr, externalFenceInfo write stack, it, capabilities.vkGetPhysicalDeviceExternalFenceProperties) } }
+            ExternalFenceProperties.read(stack) { callPPPV(adr, externalFenceInfo write stack, it, capabilities.vkGetPhysicalDeviceExternalFenceProperties) }
 
     // --- [ vkGetPhysicalDeviceExternalSemaphoreProperties ] ---
     infix fun PhysicalDevice.getExternalSemaphoreProperties(externalSemaphoreInfo: PhysicalDeviceExternalSemaphoreInfo): ExternalSemaphoreProperties =
-            stack { ExternalSemaphoreProperties.read(stack) { callPPPV(adr, externalSemaphoreInfo write stack, it, capabilities.vkGetPhysicalDeviceExternalSemaphoreProperties) } }
+            ExternalSemaphoreProperties.read(stack) { callPPPV(adr, externalSemaphoreInfo write stack, it, capabilities.vkGetPhysicalDeviceExternalSemaphoreProperties) }
 
     // --- [ vkGetDescriptorSetLayoutSupport ] ---
     infix fun Device.getDescriptorSetLayoutSupport(createInfo: DescriptorSetLayoutCreateInfo): DescriptorSetLayoutSupport =
-            stack { DescriptorSetLayoutSupport.read(stack) { callPPPV(adr, createInfo write stack, it, capabilities.vkGetDescriptorSetLayoutSupport) } }
+            DescriptorSetLayoutSupport.read(stack) { callPPPV(adr, createInfo write stack, it, capabilities.vkGetDescriptorSetLayoutSupport) }
 }
 
 // --- [ vkEnumerateInstanceVersion ] ---

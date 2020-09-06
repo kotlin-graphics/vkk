@@ -1,6 +1,7 @@
 package vkk.vk11.structs
 
 import kool.Adr
+import org.lwjgl.system.MemoryStack
 import org.lwjgl.vulkan.VkPhysicalDeviceSparseImageFormatInfo2.*
 import vkk.*
 
@@ -65,7 +66,7 @@ class PhysicalDeviceSparseImageFormatInfo2(
 
     val type_ get() = VkStructureType.PHYSICAL_DEVICE_SPARSE_IMAGE_FORMAT_INFO_2
 
-    infix fun write(stack: VkStack): Adr {
+    infix fun write(stack: MemoryStack): Adr {
         val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
         nsType(adr, type_.i)
         nformat(adr, format.i)

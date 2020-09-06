@@ -1,10 +1,9 @@
 package vkk.vk10
 
+import glm_.asHexString
 import glm_.i
 import glm_.vec4.Vec4
-import kool.BytePtr
-import kool.Ptr
-import kool.adr
+import kool.*
 import org.lwjgl.system.JNI.*
 import org.lwjgl.system.MemoryUtil
 import org.lwjgl.system.MemoryUtil.NULL
@@ -12,14 +11,12 @@ import org.lwjgl.system.MemoryUtil.memGetAddress
 import org.lwjgl.system.Pointer
 import org.lwjgl.vulkan.*
 import vkk.*
-import vkk.vk10.structs.*
 import vkk.entities.*
 import vkk.identifiers.*
 import vkk.identifiers.VK
+import vkk.vk10.structs.*
 
-interface VkStack_VK10 {
-
-    val stack: VkStack
+interface VkStack_VK10 : VkStackInterface {
 
     // --- [ vkCreateInstance ] ---
     infix fun vk.createInstance(createInfo: InstanceCreateInfo): Instance =
@@ -49,15 +46,15 @@ interface VkStack_VK10 {
 
     // --- [ vkGetPhysicalDeviceFormatProperties ] ---
     infix fun PhysicalDevice.getFormatProperties(format: VkFormat): FormatProperties =
-            stack { FormatProperties.read(stack) { callPPV(adr, format.i, it, capabilities.vkGetPhysicalDeviceFormatProperties) } }
+            FormatProperties.read(stack) { callPPV(adr, format.i, it, capabilities.vkGetPhysicalDeviceFormatProperties) }
 
     // --- [ vkGetPhysicalDeviceImageFormatProperties ] ---
     fun PhysicalDevice.getImageFormatProperties(format: VkFormat, type: VkImageType, tiling: VkImageTiling, usage: VkImageUsageFlags, flags: VkImageCreateFlags): ImageFormatProperties =
-            stack { ImageFormatProperties.read(stack) { VK_CHECK_RESULT(callPPI(adr, format.i, type.i, tiling.i, usage, flags, it, capabilities.vkGetPhysicalDeviceImageFormatProperties)) } }
+            ImageFormatProperties.read(stack) { VK_CHECK_RESULT(callPPI(adr, format.i, type.i, tiling.i, usage, flags, it, capabilities.vkGetPhysicalDeviceImageFormatProperties)) }
 
     // --- [ vkGetPhysicalDeviceProperties ] ---
     val PhysicalDevice.properties: PhysicalDeviceProperties
-        get() = stack { PhysicalDeviceProperties.read(stack) { callPPV(adr, it, capabilities.vkGetPhysicalDeviceProperties) } }
+        get() = PhysicalDeviceProperties.read(stack) { callPPV(adr, it, capabilities.vkGetPhysicalDeviceProperties) }
 
     // --- [ vkGetPhysicalDeviceQueueFamilyProperties ] ---
     val PhysicalDevice.queueFamilyProperties: Array<QueueFamilyProperties>
@@ -72,7 +69,7 @@ interface VkStack_VK10 {
 
     // --- [ vkGetPhysicalDeviceMemoryProperties ] ---
     val PhysicalDevice.memoryProperties: PhysicalDeviceMemoryProperties
-        get() = stack { PhysicalDeviceMemoryProperties.read(stack) { callPPV(adr, it, capabilities.vkGetPhysicalDeviceMemoryProperties) } }
+        get() = PhysicalDeviceMemoryProperties.read(stack) { callPPV(adr, it, capabilities.vkGetPhysicalDeviceMemoryProperties) }
 
     // --- [ vkGetInstanceProcAddr ] ---
     infix fun Instance.getProcAddr(name: String) = stack.asciiAdr(name) { callPPP(adr, it, VK.globalCommands!!.vkGetInstanceProcAddr) }
@@ -81,10 +78,8 @@ interface VkStack_VK10 {
     infix fun Device.getProcAddr(name: String) = stack.asciiAdr(name) { callPPP(adr, it, capabilities.vkGetDeviceProcAddr) }
 
     // --- [ vkCreateDevice ] ---
-    infix fun PhysicalDevice.createDevice(createInfo: DeviceCreateInfo): Device = stack {
-        val handle = stack.pointerAdr { VK_CHECK_RESULT(callPPPPI(adr, createInfo write stack, NULL, it, capabilities.vkCreateDevice)) }
-        Device(handle, this, createInfo)
-    }
+    infix fun PhysicalDevice.createDevice(createInfo: DeviceCreateInfo): Device =
+            Device(stack.pointerAdr { VK_CHECK_RESULT(callPPPPI(adr, createInfo write stack, NULL, it, capabilities.vkCreateDevice)) }, this, createInfo)
 
     // --- [ vkEnumerateInstanceExtensionProperties ] ---
     fun vk.enumerateInstanceExtensionProperties(layerName: String? = null): Array<ExtensionProperties> = stack {
@@ -137,9 +132,7 @@ interface VkStack_VK10 {
                     result = VkResult(callPPI(pPropertyCount.adr, properties, VK.globalCommands!!.vkEnumerateInstanceLayerProperties))
                 }
             } while (result == VkResult.INCOMPLETE)
-            return Array(propertyCount) {
-                LayerProperties(BytePtr(properties + it * VkLayerProperties.SIZEOF))
-            }
+            Array(propertyCount) { LayerProperties(BytePtr(properties + it * VkLayerProperties.SIZEOF)) }
         }
 
     // --- [ vkEnumerateDeviceLayerProperties ] ---
@@ -161,7 +154,7 @@ interface VkStack_VK10 {
 
     // --- [ vkGetDeviceQueue ] ---
     fun Device.getQueue(queueFamilyIndex: Int, queueIndex: Int = 0): Queue =
-            stack { Queue(stack.pointerAdr { callPPV(adr, queueFamilyIndex, queueIndex, it, capabilities.vkGetDeviceQueue) }, this) }
+            Queue(stack.pointerAdr { callPPV(adr, queueFamilyIndex, queueIndex, it, capabilities.vkGetDeviceQueue) }, this)
 
     // --- [ vkQueueSubmit ] ---
     fun Queue.submit(submit: SubmitInfo, fence: VkFence = VkFence.NULL): VkResult =
@@ -169,7 +162,7 @@ interface VkStack_VK10 {
 
     // --- [ vkAllocateMemory ] ---
     infix fun Device.allocateMemory(allocateInfo: MemoryAllocateInfo): VkDeviceMemory =
-            stack { VkDeviceMemory(stack.longAdr { VkResult(callPPPPI(adr, allocateInfo write stack, NULL, it, capabilities.vkAllocateMemory)) }) }
+            VkDeviceMemory(stack.longAdr { VkResult(callPPPPI(adr, allocateInfo write stack, NULL, it, capabilities.vkAllocateMemory)) })
 
     // --- [ vkMapMemory ] ---
 
@@ -202,11 +195,11 @@ interface VkStack_VK10 {
 
     // --- [ vkGetBufferMemoryRequirements ] ---
     infix fun Device.getBufferMemoryRequirements(buffer: VkBuffer): MemoryRequirements =
-            stack { MemoryRequirements.read(stack) { callPJPV(adr, buffer.L, it, capabilities.vkGetBufferMemoryRequirements) } }
+            MemoryRequirements.read(stack) { callPJPV(adr, buffer.L, it, capabilities.vkGetBufferMemoryRequirements) }
 
     // --- [ vkGetImageMemoryRequirements ] ---
     infix fun Device.getImageMemoryRequirements(image: VkImage): MemoryRequirements =
-            stack { MemoryRequirements.read(stack) { callPJPV(adr, image.L, it, capabilities.vkGetImageMemoryRequirements) } }
+            MemoryRequirements.read(stack) { callPJPV(adr, image.L, it, capabilities.vkGetImageMemoryRequirements) }
 
     // --- [ vkGetImageSparseMemoryRequirements ] ---
     infix fun Device.getImageSparseMemoryRequirements(image: VkImage): Array<SparseImageMemoryRequirements> = stack {
@@ -249,7 +242,7 @@ interface VkStack_VK10 {
             stack { VkResult(callPPI(adr, fences.size, fences write stack, capabilities.vkResetFences)) }
 
     infix fun Device.resetFences(fence: VkFence): VkResult =
-            stack.longAdr(fence.L) { VkResult(callPPI(adr, 1, it, capabilities.vkResetFences)) }
+            stack.adr(fence.L) { VkResult(callPPI(adr, 1, it, capabilities.vkResetFences)) }
 
     // --- [ vkWaitForFences ] ---
 
@@ -257,60 +250,59 @@ interface VkStack_VK10 {
             stack { VkResult(callPPJI(adr, fences.size, fences write stack, waitAll.i, timeout, capabilities.vkWaitForFences)) }
 
     fun Device.waitForFences(fence: VkFence, waitAll: Boolean, timeout: NanoSecond): VkResult =
-            stack.longAdr(fence.L) { VkResult(callPPJI(adr, 1, it, waitAll.i, timeout, capabilities.vkWaitForFences)) }
+            stack.adr(fence.L) { VkResult(callPPJI(adr, 1, it, waitAll.i, timeout, capabilities.vkWaitForFences)) }
 
     // --- [ vkCreateSemaphore ] ---
     fun Device.createSemaphore(createInfo: SemaphoreCreateInfo = SemaphoreCreateInfo()): VkSemaphore =
-            stack { VkSemaphore(stack.longAdr { callPPPPI(adr, createInfo write stack, NULL, it, capabilities.vkCreateSemaphore) }) }
+            VkSemaphore(stack.longAdr { callPPPPI(adr, createInfo write stack, NULL, it, capabilities.vkCreateSemaphore) })
 
     // --- [ vkCreateEvent ] ---
     infix fun Device.createEvent(createInfo: EventCreateInfo): VkEvent =
-            stack { VkEvent(stack.longAdr { VkResult(callPPPPI(adr, createInfo write stack, NULL, it, capabilities.vkCreateEvent)) }) }
+            VkEvent(stack.longAdr { VkResult(callPPPPI(adr, createInfo write stack, NULL, it, capabilities.vkCreateEvent)) })
 
     // --- [ vkCreateQueryPool ] ---
     infix fun Device.createQueryPool(createInfo: QueryPoolCreateInfo): VkQueryPool =
-            stack { VkQueryPool(stack.longAdr { callPPPPI(adr, createInfo write stack, NULL, it, capabilities.vkCreateQueryPool) }) }
+            VkQueryPool(stack.longAdr { callPPPPI(adr, createInfo write stack, NULL, it, capabilities.vkCreateQueryPool) })
 
     // --- [ vkCreateBuffer ] ---
     infix fun Device.createBuffer(createInfo: BufferCreateInfo): VkBuffer =
-            stack { VkBuffer(stack.longAdr { VkResult(callPPPPI(adr, createInfo write stack, NULL, it, capabilities.vkCreateBuffer)).check() }) }
+            VkBuffer(stack.longAdr { VkResult(callPPPPI(adr, createInfo write stack, NULL, it, capabilities.vkCreateBuffer)).check() })
 
     // --- [ vkCreateBufferView ] ---
     infix fun Device.createBufferView(createInfo: BufferViewCreateInfo): VkBufferView =
-            stack { VkBufferView(stack.longAdr { VkResult(callPPPPI(adr, createInfo write stack, NULL, it, capabilities.vkCreateBufferView)).check() }) }
+            VkBufferView(stack.longAdr { VkResult(callPPPPI(adr, createInfo write stack, NULL, it, capabilities.vkCreateBufferView)).check() })
 
     // --- [ vkCreateImage ] ---
     infix fun Device.createImage(createInfo: ImageCreateInfo): VkImage =
-            stack { VkImage(stack.longAdr { VkResult(callPPPPI(adr, createInfo write stack, NULL, it, capabilities.vkCreateImage)).check() }) }
+            VkImage(stack.longAdr { VkResult(callPPPPI(adr, createInfo write stack, NULL, it, capabilities.vkCreateImage)).check() })
 
     // --- [ vkGetImageSubresourceLayout ] ---
     fun Device.getImageSubresourceLayout(image: VkImage, subresource: ImageSubresource): SubresourceLayout =
-            stack { SubresourceLayout.read(stack) { callPJPPV(adr, image.L, subresource write stack, it, capabilities.vkGetImageSubresourceLayout) } }
+            SubresourceLayout.read(stack) { callPJPPV(adr, image.L, subresource write stack, it, capabilities.vkGetImageSubresourceLayout) }
 
     // --- [ vkCreateImageView ] ---
 
     infix fun Device.createImageView(createInfo: ImageViewCreateInfo): VkImageView =
-            stack { VkImageView(stack.longAdr { VkResult(callPPPPI(adr, createInfo write stack, NULL, it, capabilities.vkCreateImageView)).check() }) }
+            VkImageView(stack.longAdr { VkResult(callPPPPI(adr, createInfo write stack, NULL, it, capabilities.vkCreateImageView)).check() })
 
     // [JVM]
-    fun Device.createImageViewArray(createInfo: ImageViewCreateInfo, images: VkImage_Array): VkImageView_Array =
-            stack {
-                val pCreateInfo = createInfo write stack
-                val pImageView = stack.mLong()
-                VkImageView_Array(images.size) { i ->
-                    VkImageViewCreateInfo.nimage(pCreateInfo, images[i].L)
-                    VkResult(callPPPPI(adr, pCreateInfo, NULL, pImageView.adr, capabilities.vkCreateImageView)).check()
-                    VkImageView(pImageView[0])
-                }
-            }
+    fun Device.createImageViewArray(createInfo: ImageViewCreateInfo, images: VkImage_Array): VkImageView_Array = stack {
+        val pCreateInfo = createInfo write stack
+        val pImageView = stack.mLong()
+        VkImageView_Array(images.size) { i ->
+            VkImageViewCreateInfo.nimage(pCreateInfo, images[i].L)
+            VkResult(callPPPPI(adr, pCreateInfo, NULL, pImageView.adr, capabilities.vkCreateImageView)).check()
+            VkImageView(pImageView[0])
+        }
+    }
 
     // --- [ vkCreateShaderModule ] ---
     infix fun Device.createShaderModule(createInfo: ShaderModuleCreateInfo): VkShaderModule =
-            stack { VkShaderModule(stack.longAdr { callPPPPI(adr, createInfo write stack, NULL, it, capabilities.vkCreateShaderModule) }) }
+            VkShaderModule(stack.longAdr { callPPPPI(adr, createInfo write stack, NULL, it, capabilities.vkCreateShaderModule) })
 
     // --- [ vkCreatePipelineCache ] ---
     fun Device.createPipelineCache(createInfo: PipelineCacheCreateInfo = PipelineCacheCreateInfo()): VkPipelineCache =
-            stack { VkPipelineCache(stack.longAdr { callPPPPI(adr, createInfo write stack, NULL, it, capabilities.vkCreatePipelineCache) }) }
+            VkPipelineCache(stack.longAdr { callPPPPI(adr, createInfo write stack, NULL, it, capabilities.vkCreatePipelineCache) })
 
     // --- [ vkGetPipelineCacheData ] ---
     infix fun Device.getPipelineCacheData(pipelineCache: VkPipelineCache): ByteArray = stack {
@@ -342,7 +334,7 @@ interface VkStack_VK10 {
     }
 
     fun Device.createGraphicsPipeline(pipelineCache: VkPipelineCache, createInfo: GraphicsPipelineCreateInfo): VkPipeline =
-            stack { VkPipeline(stack.longAdr { VkResult(callPJPPPI(adr, pipelineCache.L, 1, createInfo write stack, NULL, it, capabilities.vkCreateGraphicsPipelines)).check() }) }
+            VkPipeline(stack.longAdr { VkResult(callPJPPPI(adr, pipelineCache.L, 1, createInfo write stack, NULL, it, capabilities.vkCreateGraphicsPipelines)).check() })
 
     // --- [ vkCreateComputePipelines ] ---
 
@@ -353,23 +345,23 @@ interface VkStack_VK10 {
     }
 
     fun Device.createComputePipelines(pipelineCache: VkPipelineCache, createInfo: ComputePipelineCreateInfo): VkPipeline =
-            stack { VkPipeline(stack.longAdr { VkResult(callPJPPPI(adr, pipelineCache.L, 1, createInfo write stack, NULL, it, capabilities.vkCreateComputePipelines)).check() }) }
+            VkPipeline(stack.longAdr { VkResult(callPJPPPI(adr, pipelineCache.L, 1, createInfo write stack, NULL, it, capabilities.vkCreateComputePipelines)).check() })
 
     // --- [ vkCreatePipelineLayout ] ---
     infix fun Device.createPipelineLayout(createInfo: PipelineLayoutCreateInfo): VkPipelineLayout =
-            stack { VkPipelineLayout(stack.longAdr { callPPPPI(adr, createInfo write stack, NULL, it, capabilities.vkCreatePipelineLayout) }) }
+            VkPipelineLayout(stack.longAdr { callPPPPI(adr, createInfo write stack, NULL, it, capabilities.vkCreatePipelineLayout) })
 
     // --- [ vkCreateSampler ] ---
     infix fun Device.createSampler(createInfo: SamplerCreateInfo): VkSampler =
-            stack { VkSampler(stack.longAdr { callPPPPI(adr, createInfo write stack, NULL, it, capabilities.vkCreateSampler) }) }
+            VkSampler(stack.longAdr { callPPPPI(adr, createInfo write stack, NULL, it, capabilities.vkCreateSampler) })
 
     // --- [ vkCreateDescriptorSetLayout ] ---
     infix fun Device.createDescriptorSetLayout(createInfo: DescriptorSetLayoutCreateInfo): VkDescriptorSetLayout =
-            stack { VkDescriptorSetLayout(stack.longAdr { VkResult(callPPPPI(adr, createInfo write stack, NULL, it, capabilities.vkCreateDescriptorSetLayout)).check() }) }
+            VkDescriptorSetLayout(stack.longAdr { VkResult(callPPPPI(adr, createInfo write stack, NULL, it, capabilities.vkCreateDescriptorSetLayout)).check() })
 
     // --- [ vkCreateDescriptorPool ] ---
     infix fun Device.createDescriptorPool(createInfo: DescriptorPoolCreateInfo): VkDescriptorPool =
-            stack { VkDescriptorPool(stack.longAdr { VkResult(callPPPPI(adr, createInfo write stack, NULL, it, capabilities.vkCreateDescriptorPool)).check() }) }
+            VkDescriptorPool(stack.longAdr { VkResult(callPPPPI(adr, createInfo write stack, NULL, it, capabilities.vkCreateDescriptorPool)).check() })
 
     // --- [ vkAllocateDescriptorSets ] ---
 
@@ -380,7 +372,7 @@ interface VkStack_VK10 {
     }
 
     infix fun Device.allocateDescriptorSet(allocateInfo: DescriptorSetAllocateInfo): VkDescriptorSet =
-            stack { VkDescriptorSet(stack.longAdr { VkResult(callPPPI(adr, allocateInfo write stack, it, capabilities.vkAllocateDescriptorSets)).check() }) }
+            VkDescriptorSet(stack.longAdr { VkResult(callPPPI(adr, allocateInfo write stack, it, capabilities.vkAllocateDescriptorSets)).check() })
 
     // --- [ vkFreeDescriptorSets ] ---
 
@@ -388,7 +380,7 @@ interface VkStack_VK10 {
             stack { VkResult(callPJPI(adr, descriptorPool.L, descriptorSets.size, descriptorSets write stack, capabilities.vkFreeDescriptorSets)).andCheck() }
 
     fun Device.freeDescriptorSets(descriptorPool: VkDescriptorPool, descriptorSet: VkDescriptorSet): VkResult =
-            stack.longAdr(descriptorSet.L) { VkResult(callPJPI(adr, descriptorPool.L, 1, it, capabilities.vkFreeDescriptorSets)).andCheck() }
+            stack.adr(descriptorSet.L) { VkResult(callPJPI(adr, descriptorPool.L, 1, it, capabilities.vkFreeDescriptorSets)).andCheck() }
 
     // --- [ vkUpdateDescriptorSets ] ---
 
@@ -401,7 +393,7 @@ interface VkStack_VK10 {
     // --- [ vkCreateFramebuffer ] ---
 
     infix fun Device.createFramebuffer(createInfo: FramebufferCreateInfo): VkFramebuffer =
-            stack { VkFramebuffer(stack.longAdr { VkResult(callPPPPI(adr, createInfo write stack, NULL, it, capabilities.vkCreateFramebuffer)).check() }) }
+            VkFramebuffer(stack.longAdr { VkResult(callPPPPI(adr, createInfo write stack, NULL, it, capabilities.vkCreateFramebuffer)).check() })
 
     // [JVM]
     fun Device.createFramebufferArray(createInfo: FramebufferCreateInfo, imageViews: VkImageView_Array): VkFramebuffer_Array = stack {
@@ -419,20 +411,20 @@ interface VkStack_VK10 {
 
     // --- [ vkCreateRenderPass ] ---
     infix fun Device.createRenderPass(createInfo: RenderPassCreateInfo): VkRenderPass =
-            stack { VkRenderPass(stack.longAdr { callPPPPI(adr, createInfo write stack, NULL, it, capabilities.vkCreateRenderPass) }) }
+            VkRenderPass(stack.longAdr { callPPPPI(adr, createInfo write stack, NULL, it, capabilities.vkCreateRenderPass) })
 
     // --- [ vkGetRenderAreaGranularity ] ---
     infix fun Device.getRenderAreaGranularity(renderPass: VkRenderPass): Extent2D =
-            stack { Extent2D.read(stack) { callPJPV(adr, renderPass.L, it, capabilities.vkGetRenderAreaGranularity) } }
+            Extent2D.read(stack) { callPJPV(adr, renderPass.L, it, capabilities.vkGetRenderAreaGranularity) }
 
     // --- [ vkCreateCommandPool ] ---
     infix fun Device.createCommandPool(createInfo: CommandPoolCreateInfo): VkCommandPool =
-            stack { VkCommandPool(stack.longAdr { VkResult(callPPPPI(adr, createInfo write stack, NULL, it, capabilities.vkCreateCommandPool)).check() }) }
+            VkCommandPool(stack.longAdr { VkResult(callPPPPI(adr, createInfo write stack, NULL, it, capabilities.vkCreateCommandPool)).check() })
 
     // --- [ vkAllocateCommandBuffers ] ---
 
     infix fun Device.allocateCommandBuffer(allocateInfo: CommandBufferAllocateInfo): CommandBuffer =
-            stack { CommandBuffer(stack.pointerAdr { VkResult(callPPPI(adr, allocateInfo write stack, it, capabilities.vkAllocateCommandBuffers)).check() }, this) }
+            CommandBuffer(stack.pointerAdr { VkResult(callPPPI(adr, allocateInfo write stack, it, capabilities.vkAllocateCommandBuffers)).check() }, this)
 
     infix fun Device.allocateCommandBuffers(allocateInfo: CommandBufferAllocateInfo): Array<CommandBuffer> = stack {
         val pCommandBuffers = stack.mPointer(allocateInfo.commandBufferCount)
@@ -443,7 +435,7 @@ interface VkStack_VK10 {
     // --- [ vkFreeCommandBuffers ] ---
 
     fun Device.freeCommandBuffers(commandPool: VkCommandPool, commandBuffer: CommandBuffer) =
-            stack.longAdr(commandBuffer.adr) { callPJPV(adr, commandPool.L, 1, it, capabilities.vkFreeCommandBuffers) }
+            stack.adr(commandBuffer.adr) { callPJPV(adr, commandPool.L, 1, it, capabilities.vkFreeCommandBuffers) }
 
     fun Device.freeCommandBuffers(commandPool: VkCommandPool, commandBuffers: Array<CommandBuffer>) =
             stack { callPJPV(adr, commandPool.L, commandBuffers.size, commandBuffers write stack, capabilities.vkFreeCommandBuffers) }
@@ -484,7 +476,7 @@ interface VkStack_VK10 {
             stack { callPJPPV(adr, pipelineBindPoint.i, layout.L, firstSet, descriptorSets.size, descriptorSets write stack, dynamicOffsets.size, stack.Adr(dynamicOffsets).adr, capabilities.vkCmdBindDescriptorSets) }
 
     fun CommandBuffer.bindDescriptorSets(pipelineBindPoint: VkPipelineBindPoint, layout: VkPipelineLayout, firstSet: Int, descriptorSet: VkDescriptorSet, dynamicOffset: Int) =
-            stack { callPJPPV(adr, pipelineBindPoint.i, layout.L, firstSet, 1, stack.longAdrOf(descriptorSet.L), 1, stack.intAdrOf(dynamicOffset), capabilities.vkCmdBindDescriptorSets) }
+            stack { callPJPPV(adr, pipelineBindPoint.i, layout.L, firstSet, 1, stack.longAdr(descriptorSet.L), 1, stack.intAdr(dynamicOffset), capabilities.vkCmdBindDescriptorSets) }
 
     // --- [ vkCmdBindVertexBuffers ] ---
 
@@ -492,11 +484,11 @@ interface VkStack_VK10 {
             stack { callPPPV(adr, firstBinding, bindingCount, buffers write stack, offsets write stack, capabilities.vkCmdBindVertexBuffers) }
 
     fun CommandBuffer.bindVertexBuffers(firstBinding: Int, bindingCount: Int, buffer: VkBuffer, offset: VkDeviceSize) =
-            stack { callPPPV(adr, firstBinding, bindingCount, stack.longAdrOf(buffer.L), stack.longAdrOf(offset.L), capabilities.vkCmdBindVertexBuffers) }
+            stack { callPPPV(adr, firstBinding, bindingCount, stack.longAdr(buffer.L), stack.longAdr(offset.L), capabilities.vkCmdBindVertexBuffers) }
 
     // firstBinding and bindCount defaulted to 0 and 1
     fun CommandBuffer.bindVertexBuffers(buffer: VkBuffer, offset: VkDeviceSize = VkDeviceSize.NULL) =
-            stack { callPPPV(adr, 0, 1, stack.longAdrOf(buffer.L), stack.longAdrOf(offset.L), capabilities.vkCmdBindVertexBuffers) }
+            stack { callPPPV(adr, 0, 1, stack.longAdr(buffer.L), stack.longAdr(offset.L), capabilities.vkCmdBindVertexBuffers) }
 
     // bindCount extrapolated from buffers
     fun CommandBuffer.bindVertexBuffers(firstBinding: Int, buffers: VkBuffer_Array, offsets: VkDeviceSize_Array) =
@@ -596,11 +588,10 @@ interface VkStack_VK10 {
     fun CommandBuffer.pipelineBarrier(srcStageMask: VkPipelineStageFlags, dstStageMask: VkPipelineStageFlags, dependencyFlags: VkDependencyFlags,
                                       memoryBarrier: MemoryBarrier? = null, bufferMemoryBarrier: BufferMemoryBarrier? = null, imageMemoryBarrier: ImageMemoryBarrier? = null) =
             stack {
-                callPPPPV(adr, srcStageMask, dstStageMask, dependencyFlags, (memoryBarrier != null).i, memoryBarrier?.write(stack)
-                        ?: NULL,
-                        (bufferMemoryBarrier != null).i, bufferMemoryBarrier?.write(stack)
-                        ?: NULL, (imageMemoryBarrier != null).i, imageMemoryBarrier?.write(stack)
-                        ?: NULL, capabilities.vkCmdPipelineBarrier)
+                callPPPPV(adr, srcStageMask, dstStageMask, dependencyFlags, (memoryBarrier != null).i,
+                        memoryBarrier?.write(stack) ?: NULL, (bufferMemoryBarrier != null).i,
+                        bufferMemoryBarrier?.write(stack) ?: NULL, (imageMemoryBarrier != null).i,
+                        imageMemoryBarrier?.write(stack) ?: NULL, capabilities.vkCmdPipelineBarrier)
             }
 
     // --- [ vkCmdBeginRenderPass ] ---
@@ -617,7 +608,7 @@ interface VkStack_VK10 {
             stack { callPPV(adr, commandBuffers.size, commandBuffers write stack, capabilities.vkCmdExecuteCommands) }
 
     infix fun CommandBuffer.executeCommands(commandBuffer: CommandBuffer) =
-            stack.pointerAdr(commandBuffer) { callPPV(adr, 1, it, capabilities.vkCmdExecuteCommands) }
+            stack.adr(commandBuffer) { callPPV(adr, 1, it, capabilities.vkCmdExecuteCommands) }
 }
 
 // --- [ vkCreateInstance ] ---
@@ -661,6 +652,8 @@ infix fun Device.getProcAddr(name: String) = VkStack { it.run { getProcAddr(name
 // --- [ vkCreateDevice ] ---
 infix fun PhysicalDevice.createDevice(createInfo: DeviceCreateInfo): Device =
         VkStack { it.run { createDevice(createInfo) } }
+
+class Prova
 
 // --- [ vkEnumerateInstanceExtensionProperties ] ---
 fun vk.enumerateInstanceExtensionProperties(layerName: String? = null): Array<ExtensionProperties> =

@@ -1,8 +1,12 @@
 package vkk.vk11.structs
 
 import kool.Adr
+import org.lwjgl.system.MemoryStack
 import org.lwjgl.vulkan.VkPhysicalDeviceExternalBufferInfo.*
-import vkk.*
+import vkk.VkBufferCreateFlags
+import vkk.VkBufferUsageFlags
+import vkk.VkExternalMemoryHandleType
+import vkk.VkStructureType
 
 /**
  * Structure specifying buffer creation parameters.
@@ -51,7 +55,7 @@ class PhysicalDeviceExternalBufferInfo(
 
     val type get() = VkStructureType.PHYSICAL_DEVICE_EXTERNAL_BUFFER_INFO
 
-    infix fun write(stack: VkStack): Adr {
+    infix fun write(stack: MemoryStack): Adr {
         val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
         nsType(adr, type.i)
         nflags(adr, flags)

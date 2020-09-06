@@ -2,10 +2,12 @@ package vkk.vk10.structs
 
 import glm_.L
 import kool.Adr
+import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.memPutAddress
 import org.lwjgl.vulkan.VkPipelineCacheCreateInfo.*
 import vkk.VkStack
 import vkk.VkStructureType
+import vkk.adr
 
 /**
  * Structure specifying parameters of a newly created pipeline cache.
@@ -57,12 +59,12 @@ class PipelineCacheCreateInfo(
 
     val type get() = VkStructureType.PIPELINE_CACHE_CREATE_INFO
 
-    infix fun write(stack: VkStack): Adr {
+    infix fun write(stack: MemoryStack): Adr {
         val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
         nsType(adr, type.i)
         initialData?.let {
             ninitialDataSize(adr, it.size.L)
-            memPutAddress(adr + PINITIALDATA, stack.Adr(it).adr)
+            memPutAddress(adr + PINITIALDATA, stack.adr(it))
         }
         return adr
     }

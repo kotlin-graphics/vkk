@@ -1,10 +1,11 @@
 package vkk.vk10.structs
 
 import kool.Ptr
+import kool.utf8Adr
+import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.memPutAddress
 import org.lwjgl.vulkan.VkApplicationInfo.*
 import vkk.VkStructureType
-import vkk.VkStack
 
 /**
  * Structure specifying application info.
@@ -90,7 +91,7 @@ class ApplicationInfo(
 
     val type get() = VkStructureType.APPLICATION_INFO
 
-    infix fun write(stack: VkStack): Ptr {
+    infix fun write(stack: MemoryStack): Ptr {
         val ptr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
         nsType(ptr, type.i)
         applicationName?.let { memPutAddress(ptr + PAPPLICATIONNAME, stack.utf8Adr(it)) }

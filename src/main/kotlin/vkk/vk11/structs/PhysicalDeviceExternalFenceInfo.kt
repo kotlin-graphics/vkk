@@ -1,9 +1,9 @@
 package vkk.vk11.structs
 
 import kool.Adr
+import org.lwjgl.system.MemoryStack
 import org.lwjgl.vulkan.VkPhysicalDeviceExternalFenceInfo.*
 import vkk.VkExternalFenceHandleType
-import vkk.VkStack
 import vkk.VkStructureType
 
 /**
@@ -51,7 +51,7 @@ class PhysicalDeviceExternalFenceInfo(
 
     val type get() = VkStructureType.PHYSICAL_DEVICE_EXTERNAL_FENCE_INFO
 
-    infix fun write(stack: VkStack): Adr {
+    infix fun write(stack: MemoryStack): Adr {
         val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
         nsType(adr, type.i)
         nhandleType(adr, handleType.i)

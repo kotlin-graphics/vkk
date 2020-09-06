@@ -2,13 +2,17 @@ package vkk.vk10.structs
 
 import kool.Adr
 import kool.Ptr
+import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.NULL
 import org.lwjgl.system.MemoryUtil.memPutAddress
-import org.lwjgl.vulkan.*
+import org.lwjgl.vulkan.VK10
+import org.lwjgl.vulkan.VkDeviceCreateInfo
 import org.lwjgl.vulkan.VkDeviceQueueCreateInfo.*
+import org.lwjgl.vulkan.VkDeviceQueueGlobalPriorityCreateInfoEXT
+import org.lwjgl.vulkan.VkQueueFamilyProperties
 import vkk.VkDeviceQueueCreateFlags
-import vkk.VkStack
 import vkk.VkStructureType
+import vkk.adr
 
 /**
  * Structure specifying parameters of a newly created device queue.
@@ -79,15 +83,15 @@ class DeviceQueueCreateInfo(
         get() = queuePriorities[0]
         set(value) = queuePriorities.set(0, value)
 
-    fun write(stack: VkStack): Adr =
+    fun write(stack: MemoryStack): Adr =
         stack.ncalloc(ALIGNOF, 1, SIZEOF).also { write(it, stack) }
 
-    fun write(adr: Adr, stack: VkStack) {
+    fun write(adr: Adr, stack: MemoryStack) {
         nsType(adr, type.i)
         nflags(adr, flags)
         nqueueFamilyIndex(adr, queueFamilyIndex)
         nqueueCount(adr, queuePriorities.size)
-        memPutAddress(adr + PQUEUEPRIORITIES, stack.Adr(queuePriorities).adr)
+        memPutAddress(adr + PQUEUEPRIORITIES, stack.adr(queuePriorities))
     }
 }
 

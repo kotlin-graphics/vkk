@@ -4,9 +4,10 @@ import glm_.bool
 import glm_.i
 import kool.Adr
 import kool.BytePtr
+import org.lwjgl.system.MemoryStack
 import org.lwjgl.vulkan.*
 import org.lwjgl.vulkan.VkPhysicalDeviceFeatures.*
-import vkk.VkStack
+import vkk.invoke
 
 /**
  * Structure describing the fine-grained features that can be supported by an implementation.
@@ -383,7 +384,7 @@ class PhysicalDeviceFeatures(
             ninheritedQueries(ptr.adr).bool
     )
 
-    infix fun write(stack: VkStack): Adr =
+    infix fun write(stack: MemoryStack): Adr =
             stack.ncalloc(ALIGNOF, 1, SIZEOF).also { write(it) }
 
     infix fun write(adr: Adr) {
@@ -445,10 +446,10 @@ class PhysicalDeviceFeatures(
     }
 
     companion object {
-        inline fun <R> read(stack: VkStack, block: (Adr) -> R): PhysicalDeviceFeatures {
+        inline fun <R> read(stack: MemoryStack, block: (Adr) -> R): PhysicalDeviceFeatures = stack {
             val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
             block(adr)
-            return PhysicalDeviceFeatures(BytePtr(adr))
+            PhysicalDeviceFeatures(BytePtr(adr))
         }
     }
 }

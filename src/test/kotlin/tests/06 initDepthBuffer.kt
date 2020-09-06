@@ -46,7 +46,7 @@ class `06 initDepthBuffer` : StringSpec() {
                     val memoryRequirements = device getImageMemoryRequirements depthImage
                     var typeBits = memoryRequirements.memoryTypeBits
                     var typeIndex = -1
-                    for (i in 0 until memoryProperties.memoryTypes.size)                    {
+                    for (i in memoryProperties.memoryTypes.indices)                    {
                         if (typeBits has 1 && (memoryProperties.memoryTypes[i].propertyFlags and VkMemoryProperty.DEVICE_LOCAL_BIT.i) == VkMemoryProperty.DEVICE_LOCAL_BIT.i) {
                             typeIndex = i
                             break

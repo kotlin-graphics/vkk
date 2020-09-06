@@ -2,10 +2,10 @@ package vkk.vk10.structs
 
 import kool.Adr
 import kool.Ptr
+import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.NULL
 import org.lwjgl.system.MemoryUtil.memPutAddress
 import org.lwjgl.vulkan.VkPipelineViewportStateCreateInfo.*
-import vkk.VkStack
 import vkk.VkStructureType
 
 /**
@@ -72,7 +72,7 @@ class PipelineViewportStateCreateInfo(
 
     val type get() = VkStructureType.PIPELINE_VIEWPORT_STATE_CREATE_INFO
 
-    infix fun write(stack: VkStack): Adr {
+    infix fun write(stack: MemoryStack): Adr {
         val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
         nsType(adr, type.i)
         npNext(adr, next)

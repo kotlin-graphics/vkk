@@ -2,10 +2,10 @@ package vkk.vk10.structs
 
 import kool.Adr
 import kool.Ptr
+import org.lwjgl.system.MemoryStack
 import org.lwjgl.vulkan.VK10
 import org.lwjgl.vulkan.VkCommandBufferAllocateInfo.*
 import vkk.VkCommandBufferLevel
-import vkk.VkStack
 import vkk.VkStructureType
 import vkk.entities.VkCommandPool
 
@@ -61,7 +61,7 @@ class CommandBufferAllocateInfo(
 
     val type get() = VkStructureType.COMMAND_BUFFER_ALLOCATE_INFO
 
-    infix fun write(stack: VkStack): Ptr =
+    infix fun write(stack: MemoryStack): Ptr =
             stack.ncalloc(ALIGNOF, 1, SIZEOF).also { write(it) }
 
     fun write(adr: Adr) {

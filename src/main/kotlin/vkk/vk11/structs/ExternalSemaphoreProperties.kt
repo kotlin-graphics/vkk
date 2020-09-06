@@ -2,8 +2,12 @@ package vkk.vk11.structs
 
 import kool.BytePtr
 import kool.Ptr
+import org.lwjgl.system.MemoryStack
 import org.lwjgl.vulkan.VkExternalSemaphoreProperties.*
-import vkk.*
+import vkk.VkExternalSemaphoreFeatureFlags
+import vkk.VkExternalSemaphoreHandleTypeFlags
+import vkk.VkStructureType
+import vkk.invoke
 
 /**
  * Structure describing supported external semaphore handle features.
@@ -58,10 +62,10 @@ class ExternalSemaphoreProperties(
 
     companion object {
 //        inline fun <R> read(block: (Ptr) -> R): ExternalSemaphoreProperties = stak { read(it, block) }
-        inline fun <R> read(stack: VkStack, block: (Ptr) -> R): ExternalSemaphoreProperties {
+        inline fun <R> read(stack: MemoryStack, block: (Ptr) -> R): ExternalSemaphoreProperties = stack {
             val ptr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
             block(ptr)
-            return ExternalSemaphoreProperties(BytePtr(ptr))
+            ExternalSemaphoreProperties(BytePtr(ptr))
         }
     }
 }

@@ -1,12 +1,18 @@
 package vkk.unique
 
-import vkk.VkStack
+import org.lwjgl.system.MemoryStack
+import vkk.*
+import vkk.identifiers.VK
 import vkk.vk10.VkStack_VK10
 import java.util.*
 
 class VkObjectHolder : UniqueVU, VkStack_VK10 {
     override val disposes: Deque<() -> Unit> = LinkedList()
-    override val stack = VkStack.stackPush()
+    override val stack = VkStack.get()
+
+    init {
+        VK // trigger static create
+    }
 
     fun dispose() {
         var func = disposes.pollLast()
@@ -14,8 +20,8 @@ class VkObjectHolder : UniqueVU, VkStack_VK10 {
             func()
             func = disposes.pollLast()
         }
-        stack.pop()
     }
+
 }
 
 fun `try`(block: VkObjectHolder.() -> Unit) {

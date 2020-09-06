@@ -2,9 +2,9 @@ package vkk.vk10.structs
 
 import kool.Adr
 import kool.Ptr
+import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.NULL
 import org.lwjgl.vulkan.VkMemoryAllocateInfo.*
-import vkk.VkStack
 import vkk.VkStructureType
 import vkk.entities.VkDeviceSize
 
@@ -89,7 +89,7 @@ class MemoryAllocateInfo(
 
     val type get() = VkStructureType.MEMORY_ALLOCATE_INFO
 
-    infix fun write(stack: VkStack): Adr {
+    infix fun write(stack: MemoryStack): Adr {
         val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
         nsType(adr, type.i)
         npNext(adr, next)

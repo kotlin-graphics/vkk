@@ -2,10 +2,10 @@ package vkk.vk10.structs
 
 import kool.Adr
 import kool.Ptr
+import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.NULL
 import org.lwjgl.system.MemoryUtil.memPutAddress
 import org.lwjgl.vulkan.VkPipelineVertexInputStateCreateInfo.*
-import vkk.VkStack
 import vkk.VkStructureType
 
 /**
@@ -73,10 +73,10 @@ class PipelineVertexInputStateCreateInfo(
 
     val type get() = VkStructureType.PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO
 
-    infix fun write(stack: VkStack): Adr =
+    infix fun write(stack: MemoryStack): Adr =
             stack.ncalloc(ALIGNOF, 1, SIZEOF).also { write(it, stack) }
 
-    fun write(ptr: Ptr, stack: VkStack) {
+    fun write(ptr: Ptr, stack: MemoryStack) {
         nsType(ptr, type.i)
         npNext(ptr, next)
         vertexBindingDescriptions?.let {

@@ -1,11 +1,9 @@
 package vkk.extensions
 
 import glm_.bool
-import kool.BytePtr
-import kool.IntPtr
-import kool.Ptr
-import kool.adr
+import kool.*
 import org.lwjgl.system.JNI.*
+import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.NULL
 import org.lwjgl.vulkan.VkSurfaceCapabilitiesKHR
 import org.lwjgl.vulkan.VkSurfaceFormatKHR
@@ -109,10 +107,10 @@ class SurfaceCapabilitiesKHR(
 
     companion object {
         //inline fun <R> read(block: (Ptr) -> R): SurfaceCapabilitiesKHR = stak { read(it, block) }
-        inline fun <R> read(stack: VkStack, block: (Ptr) -> R): SurfaceCapabilitiesKHR {
+        inline fun <R> read(stack: MemoryStack, block: (Ptr) -> R): SurfaceCapabilitiesKHR = stack {
             val ptr = stack.ncalloc(VkSurfaceCapabilitiesKHR.ALIGNOF, 1, VkSurfaceCapabilitiesKHR.SIZEOF)
             block(ptr)
-            return SurfaceCapabilitiesKHR(BytePtr(ptr))
+            SurfaceCapabilitiesKHR(BytePtr(ptr))
         }
     }
 }
@@ -124,9 +122,7 @@ class SurfaceFormatKHR(
     constructor(intPtr: IntPtr) : this(VkFormat(intPtr[0]), VkColorSpaceKHR(intPtr[1]))
 }
 
-interface VkStack_KHR_surface {
-
-    val stack: VkStack
+interface VkStack_KHR_surface : VkStackInterface {
 
     // --- [ vkGetPhysicalDeviceSurfaceSupportKHR ] ---
 
@@ -144,7 +140,7 @@ interface VkStack_KHR_surface {
     // --- [ vkGetPhysicalDeviceSurfaceCapabilitiesKHR ] ---
 
     infix fun PhysicalDevice.getSurfaceCapabilitiesKHR(surface: VkSurfaceKHR): SurfaceCapabilitiesKHR =
-            stack { SurfaceCapabilitiesKHR.read(stack) { VK_CHECK_RESULT(callPJPI(adr, surface.L, it, capabilities.vkGetPhysicalDeviceSurfaceCapabilitiesKHR)) } }
+            SurfaceCapabilitiesKHR.read(stack) { VK_CHECK_RESULT(callPJPI(adr, surface.L, it, capabilities.vkGetPhysicalDeviceSurfaceCapabilitiesKHR)) }
 
     // --- [ vkGetPhysicalDeviceSurfaceFormatsKHR ] ---
 
