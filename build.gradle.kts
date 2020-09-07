@@ -15,10 +15,10 @@ group = "com.github.kotlin_graphics"
 
 val kotestVersion = "4.2.0"
 val kx = "com.github.kotlin-graphics"
-val unsignedVersion = "0af6fae4"
-val koolVersion = "3962a0be"
-val glmVersion = "5b0f3461"
-val gliVersion = "290b4a7f"
+val unsignedVersion = "2e1fd0d7"
+val koolVersion = "0200c2a0"
+val glmVersion = "bd5f9bb7"
+val gliVersion = "fc17497d"
 val sprivCrossVersion = "0.6.0-1.1.106.0"
 val lwjglVersion = "3.2.3"
 val lwjglNatives = "natives-" + when (current()) {
@@ -36,10 +36,6 @@ repositories {
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
     implementation(kotlin("reflect"))
-
-    attributesSchema.attribute(LIBRARY_ELEMENTS_ATTRIBUTE).compatibilityRules.add(ModularJarCompatibilityRule::class)
-    components { withModule<ModularKotlinRule>(kotlin("stdlib")) }
-    components { withModule<ModularKotlinRule>(kotlin("stdlib-jdk8")) }
 
     implementation("$kx:kotlin-unsigned:$unsignedVersion")
     implementation("$kx:kool:$koolVersion")
@@ -110,8 +106,24 @@ val sourceJar = task("sourceJar", Jar::class) {
 }
 
 artifacts {
+    archives(dokkaJavadocJar)
+    archives(dokkaHtmlJar)
     archives(sourceJar)
-    archives(dokkaJar)
+}
+
+publishing {
+    publications.create<MavenPublication>("mavenJava") {
+        from(components["java"])
+        artifact(sourceJar)
+    }
+    repositories.maven {
+        name = "GitHubPackages"
+        url = uri("https://maven.pkg.github.com/kotlin-graphics/vkk")
+        credentials {
+            username = System.getenv("GITHUB_ACTOR")
+            password = System.getenv("GITHUB_TOKEN")
+        }
+    }
 }
 
 // == Add access to the 'modular' variant of kotlin("stdlib"): Put this into a buildSrc plugin and reuse it in all your subprojects
