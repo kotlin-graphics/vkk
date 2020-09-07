@@ -1,29 +1,27 @@
 import org.gradle.api.attributes.java.TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE
 import org.gradle.internal.os.OperatingSystem.*
-import org.jetbrains.dokka.gradle.DokkaTask
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import java.net.URL
 
 plugins {
     java
-    kotlin("jvm") version "1.3.72"
-    maven
-    //    id "org.jetbrains.kotlin.kapt" version "1.3.10"
-    id("org.jetbrains.dokka") version "0.10.1"
-    id("com.github.johnrengelman.shadow").version("5.2.0")
+    kotlin("jvm") version "1.4.0"
+    `maven-publish`
+    id("org.jetbrains.dokka") version "1.4.0"
+    id("com.github.johnrengelman.shadow").version("6.0.0")
 }
 
-val group = "com.github.kotlin_graphics"
-val moduleName = "$group.vkk"
-val kotestVersion = "4.0.5"
+group = "com.github.kotlin_graphics"
 
-
+val kotestVersion = "4.2.0"
 val kx = "com.github.kotlin-graphics"
-val unsignedVersion = "87630c4d"
-val koolVersion = "3be0cc2f"
-val glmVersion = "3cb433d5"
-val gliVersion = "b0ecb4cd"
+val unsignedVersion = "0af6fae4"
+val koolVersion = "3962a0be"
+val glmVersion = "5b0f3461"
+val gliVersion = "290b4a7f"
 val sprivCrossVersion = "0.6.0-1.1.106.0"
 val lwjglVersion = "3.2.3"
-val lwjglNatives = when (current()) {
+val lwjglNatives = "natives-" + when (current()) {
     WINDOWS -> "windows"
     LINUX -> "linux"
     else -> "macos"
@@ -32,75 +30,81 @@ val lwjglNatives = when (current()) {
 repositories {
     mavenCentral()
     jcenter()
-    maven { url = uri("https://jitpack.io") }
+    maven("https://jitpack.io")
 }
 
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
     implementation(kotlin("reflect"))
 
+    attributesSchema.attribute(LIBRARY_ELEMENTS_ATTRIBUTE).compatibilityRules.add(ModularJarCompatibilityRule::class)
+    components { withModule<ModularKotlinRule>(kotlin("stdlib")) }
+    components { withModule<ModularKotlinRule>(kotlin("stdlib-jdk8")) }
+
     implementation("$kx:kotlin-unsigned:$unsignedVersion")
     implementation("$kx:kool:$koolVersion")
     implementation("$kx:glm:$glmVersion")
     implementation("$kx:gli:$gliVersion")
 
-    listOf("", "-vulkan").forEach {
-        implementation("org.lwjgl:lwjgl$it:$lwjglVersion")
+    implementation(platform("org.lwjgl:lwjgl-bom:$lwjglVersion"))
+    listOf("", "-vulkan", "-jemalloc").forEach {
+        implementation("org.lwjgl", "lwjgl$it")
         if (it != "-vulkan")
-            implementation("org.lwjgl:lwjgl$it:$lwjglVersion:natives-$lwjglNatives")
+            runtimeOnly("org.lwjgl", "lwjgl$it", classifier = lwjglNatives)
     }
 
     val spirvCross = "graphics.scenery:spirvcrossj:$sprivCrossVersion"
     implementation(spirvCross)
-    runtimeOnly("$spirvCross:natives-$lwjglNatives")
+    runtimeOnly("$spirvCross:$lwjglNatives")
 
-    //    compile group: 'org.jetbrains.kotlin.kapt', name: 'org.jetbrains.kotlin.kapt.gradle.plugin', version: '1.3.0-rc-146'
+    testImplementation("io.kotest:kotest-runner-junit5-jvm:$kotestVersion")
+    testImplementation("io.kotest:kotest-assertions-core-jvm:$kotestVersion")
 
-    listOf("-glfw").forEach {
-        testImplementation("org.lwjgl:lwjgl$it:$lwjglVersion")
-        testRuntimeOnly("org.lwjgl:lwjgl$it:$lwjglVersion:natives-$lwjglNatives")
-    }
+    testImplementation(platform("org.lwjgl:lwjgl-bom:$lwjglVersion"))
+    testImplementation("org.lwjgl", "lwjgl-glfw")
+    testRuntimeOnly("org.lwjgl", "lwjgl-glfw", classifier = lwjglNatives)
+
     testImplementation("io.github.microutils:kotlin-logging:1.7.7")
-
-    //    testImplementation "${kx}:uno-sdk:402f5f495429b7f2178a1d200c32bb5ed2f7e6fa"
-    testImplementation("$kx.uno-sdk:uno-vk:55063f983dba678375a5196ec13e4d716bb474f4")
-
-    listOf("runner-junit5", "assertions-core", "runner-console"/*, "property"*/).forEach {
-        testImplementation("io.kotest:kotest-$it-jvm:$kotestVersion")
-    }
+//    testImplementation "${kx}:uno-sdk:402f5f495429b7f2178a1d200c32bb5ed2f7e6fa"
+    testImplementation("${kx}.uno-sdk:uno-vk:55063f983dba678375a5196ec13e4d716bb474f4")
 }
 
 tasks {
-    val dokka by getting(DokkaTask::class) {
-        outputFormat = "html"
-        outputDirectory = "$buildDir/dokka"
+    dokkaHtml {
+        dokkaSourceSets.configureEach {
+            sourceLink {
+                localDirectory.set(file("src/main/kotlin"))
+                remoteUrl.set(URL("https://github.com/kotlin-graphics/gli/tree/master/src/main/kotlin"))
+                remoteLineSuffix.set("#L")
+            }
+        }
     }
 
-    compileKotlin {
+    withType<KotlinCompile>().all {
         kotlinOptions {
             jvmTarget = "1.8"
-            freeCompilerArgs = listOf("-XXLanguage:+InlineClasses", "-Xjvm-default=enable")
+            freeCompilerArgs += listOf("-Xinline-classes", "-Xopt-in=kotlin.RequiresOptIn")
         }
-        sourceCompatibility = "1.8"
-    }
-
-    compileTestKotlin {
-        kotlinOptions.jvmTarget = "1.8"
         sourceCompatibility = "1.8"
     }
 
     withType<Test> { useJUnitPlatform() }
 }
 
-val dokkaJar by tasks.creating(Jar::class) {
-    group = JavaBasePlugin.DOCUMENTATION_GROUP
-    description = "Assembles Kotlin docs with Dokka"
+val dokkaJavadocJar by tasks.register<Jar>("dokkaJavadocJar") {
+    dependsOn(tasks.dokkaJavadoc)
+    from(tasks.dokkaJavadoc.get().outputDirectory.get())
     archiveClassifier.set("javadoc")
-    from(tasks.dokka)
+}
+
+val dokkaHtmlJar by tasks.register<Jar>("dokkaHtmlJar") {
+    dependsOn(tasks.dokkaHtml)
+    from(tasks.dokkaHtml.get().outputDirectory.get())
+    archiveClassifier.set("html-doc")
 }
 
 val sourceJar = task("sourceJar", Jar::class) {
-    dependsOn(tasks["classes"])
+    dependsOn(tasks.classes)
     archiveClassifier.set("sources")
     from(sourceSets.main.get().allSource)
 }
@@ -111,6 +115,32 @@ artifacts {
 }
 
 // == Add access to the 'modular' variant of kotlin("stdlib"): Put this into a buildSrc plugin and reuse it in all your subprojects
-configurations.all {
-    attributes.attribute(TARGET_JVM_VERSION_ATTRIBUTE, 8)
-}
+configurations.all { attributes.attribute(TARGET_JVM_VERSION_ATTRIBUTE, 8) }
+
+//jar {
+//    inputs.property("moduleName", moduleName)
+////    manifest.attributes('Automatic-Module-Name': moduleName)
+//    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+//}
+
+//test {
+//    useJUnitPlatform()
+//
+//    testLogging {
+//        // Make sure output from
+//        // standard out or error is shown
+//        // in Gradle output.
+////        showStandardStreams = true
+//
+//        // Or we use events method:
+//        // events 'standard_out', 'standard_error'
+//
+//        // Or set property events:
+//        // events = ['standard_out', 'standard_error']
+//
+//        // Instead of string values we can
+//        // use enum values:
+//        // events org.gradle.api.tasks.testing.logging.TestLogEvent.STANDARD_OUT,
+//        //        org.gradle.api.tasks.testing.logging.TestLogEvent.STANDARD_ERROR,
+//    }
+//}

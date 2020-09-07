@@ -1,13 +1,15 @@
 package vkk.vk10.structs
 
 import glm_.i
-import kool.*
+import kool.Adr
+import kool.Ptr
+import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.NULL
 import org.lwjgl.system.MemoryUtil.memPutAddress
 import org.lwjgl.vulkan.VkPipelineMultisampleStateCreateInfo.*
 import vkk.VkSampleCount
-import vkk.VkStack
 import vkk.VkStructureType
+import vkk.adr
 
 /**
  * Structure specifying parameters of a newly created pipeline multisample state.
@@ -77,14 +79,14 @@ class PipelineMultisampleStateCreateInfo(
 
     val type get() = VkStructureType.PIPELINE_MULTISAMPLE_STATE_CREATE_INFO
 
-    infix fun write(stack: VkStack): Adr {
+    infix fun write(stack: MemoryStack): Adr {
         val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
         nsType(adr, type.i)
         npNext(adr, next)
         nrasterizationSamples(adr, rasterizationSamples.i)
         nsampleShadingEnable(adr, sampleShadingEnable.i)
         nminSampleShading(adr, minSampleShading)
-        sampleMask?.let { memPutAddress(adr + PSAMPLEMASK, stack.Adr(it).adr) }
+        sampleMask?.let { memPutAddress(adr + PSAMPLEMASK, stack.adr(it)) }
         nalphaToCoverageEnable(adr, alphaToCoverageEnable.i)
         nalphaToOneEnable(adr, alphaToOneEnable.i)
         return adr

@@ -2,11 +2,11 @@ package vkk.vk10.structs
 
 import kool.Adr
 import kool.Ptr
+import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.NULL
 import org.lwjgl.system.MemoryUtil.memPutAddress
 import org.lwjgl.vulkan.VkWriteDescriptorSet.*
 import vkk.VkDescriptorType
-import vkk.VkStack
 import vkk.VkStructureType
 import vkk.entities.VkDescriptorSet
 
@@ -124,10 +124,10 @@ class WriteDescriptorSet(
 
     val type get() = VkStructureType.WRITE_DESCRIPTOR_SET
 
-    infix fun write(stack: VkStack): Adr =
+    infix fun write(stack: MemoryStack): Adr =
             stack.ncalloc(ALIGNOF, 1, SIZEOF).also { write(it, stack) }
 
-    fun write(adr: Adr, stack: VkStack) {
+    fun write(adr: Adr, stack: MemoryStack) {
         nsType(adr, type.i)
         npNext(adr, next)
         ndstSet(adr, dstSet.L)
@@ -140,7 +140,7 @@ class WriteDescriptorSet(
     }
 }
 
-infix fun Array<WriteDescriptorSet>.write(stack: VkStack): Ptr {
+infix fun Array<WriteDescriptorSet>.write(stack: MemoryStack): Ptr {
     val natives = stack.ncalloc(ALIGNOF, size, SIZEOF)
     for (i in indices)
         this[i].write(natives + SIZEOF * i, stack)

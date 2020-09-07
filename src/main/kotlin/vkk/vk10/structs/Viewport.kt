@@ -4,8 +4,8 @@ import glm_.f
 import glm_.vec2.Vec2t
 import kool.Adr
 import kool.Ptr
+import org.lwjgl.system.MemoryStack
 import org.lwjgl.vulkan.VkViewport.*
-import vkk.VkStack
 
 /**
  * Structure specifying a viewport.
@@ -85,7 +85,7 @@ class Viewport(
 
     constructor(size: Vec2t<out Number>) : this(width = size.x.f, height = size.y.f)
 
-    infix fun write(stack: VkStack): Adr =
+    infix fun write(stack: MemoryStack): Adr =
         stack.ncalloc(ALIGNOF, 1, SIZEOF).also { write(it) }
 
     infix fun write(adr: Adr) {
@@ -98,7 +98,7 @@ class Viewport(
     }
 }
 
-infix fun Array<Viewport>.write(stack: VkStack): Ptr {
+infix fun Array<Viewport>.write(stack: MemoryStack): Ptr {
     val natives = stack.ncalloc(ALIGNOF, size, SIZEOF)
     for (i in indices)
         this[i] write (natives + i * SIZEOF)

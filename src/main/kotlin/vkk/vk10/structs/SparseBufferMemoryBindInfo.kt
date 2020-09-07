@@ -2,9 +2,9 @@ package vkk.vk10.structs
 
 import kool.Adr
 import kool.Ptr
+import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.memPutAddress
 import org.lwjgl.vulkan.VkSparseBufferMemoryBindInfo.*
-import vkk.VkStack
 import vkk.entities.VkBuffer
 
 /**
@@ -44,17 +44,17 @@ class SparseBufferMemoryBindInfo(
         var binds: Array<SparseMemoryBind>
 ) {
 
-    infix fun write(stack: VkStack): Adr =
+    infix fun write(stack: MemoryStack): Adr =
         stack.ncalloc(ALIGNOF, 1, SIZEOF).also { write(it, stack) }
 
-    fun write(adr: Adr, stack: VkStack) {
+    fun write(adr: Adr, stack: MemoryStack) {
         nbuffer(adr, buffer.L)
         nbindCount(adr, binds.size)
         memPutAddress(adr + PBINDS, binds write stack)
     }
 }
 
-infix fun Array<SparseBufferMemoryBindInfo>.write(stack: VkStack): Ptr {
+infix fun Array<SparseBufferMemoryBindInfo>.write(stack: MemoryStack): Ptr {
     val natives = stack.ncalloc(ALIGNOF, size, SIZEOF)
     for (i in indices)
         this[i].write(natives + SIZEOF * i, stack)

@@ -3,9 +3,9 @@ package vkk.vk11.structs
 import glm_.L
 import kool.Adr
 import kool.Ptr
+import org.lwjgl.system.MemoryStack
 import org.lwjgl.vulkan.VkDescriptorUpdateTemplateEntry.*
 import vkk.VkDescriptorType
-import vkk.VkStack
 
 /**
  * Describes a single descriptor update of the descriptor update template.
@@ -66,7 +66,7 @@ class DescriptorUpdateTemplateEntry(
         var stride: Int
 ) {
 
-    infix fun write(stack: VkStack): Adr =
+    infix fun write(stack: MemoryStack): Adr =
             stack.ncalloc(ALIGNOF, 1, SIZEOF).also { write(it) }
 
     infix fun write(adr: Adr) {
@@ -79,7 +79,7 @@ class DescriptorUpdateTemplateEntry(
     }
 }
 
-infix fun Array<DescriptorUpdateTemplateEntry>.write(stack: VkStack): Ptr {
+infix fun Array<DescriptorUpdateTemplateEntry>.write(stack: MemoryStack): Ptr {
     val natives = stack.ncalloc(ALIGNOF, size, SIZEOF)
     for (i in indices)
         this[i] write (natives + i * SIZEOF)

@@ -1,6 +1,8 @@
 package vkk.vk10.structs
 
 import kool.Adr
+import kool.PointerAdr
+import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.*
 import org.lwjgl.vulkan.*
 import org.lwjgl.vulkan.VkInstanceCreateInfo.*
@@ -75,7 +77,7 @@ class InstanceCreateInfo(
         return this
     }
 
-    override infix fun write(stack: VkStack): Adr {
+    override infix fun write(stack: MemoryStack): Adr {
         val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
         nsType(adr, type.i)
         next?.let { npNext(adr, it write stack) }

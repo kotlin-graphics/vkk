@@ -18,6 +18,8 @@ inline class VkAccelerationStructureNV(val L: Long = VK_NULL_HANDLE) {
     }
 }
 
+typealias VkUniqueBuffer = VkBuffer
+
 inline class VkBuffer(val L: Long = VK_NULL_HANDLE) {
     val isValid get() = L != VK_NULL_HANDLE
     val isInvalid get() = L == VK_NULL_HANDLE
@@ -102,6 +104,8 @@ inline class VkDescriptorSet(val L: Long = VK_NULL_HANDLE) {
         val NULL = VkDescriptorSet()
     }
 }
+
+typealias VkUniqueDescriptorSetLayout = VkDescriptorSetLayout
 
 inline class VkDescriptorSetLayout(val L: Long = VK_NULL_HANDLE) {
     val isValid get() = L != VK_NULL_HANDLE
@@ -287,6 +291,8 @@ inline class VkPipelineCache(val L: Long = VK_NULL_HANDLE) {
         val NULL = VkPipelineCache()
     }
 }
+
+typealias VkUniquePipelineLayout = VkPipelineLayout
 
 inline class VkPipelineLayout(val L: Long = VK_NULL_HANDLE) {
     val isValid get() = L != VK_NULL_HANDLE

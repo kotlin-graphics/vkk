@@ -2,6 +2,7 @@ package vkk.vk10.structs
 
 import kool.Adr
 import kool.Ptr
+import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.NULL
 import org.lwjgl.system.MemoryUtil.memPutAddress
 import org.lwjgl.vulkan.VkImageCreateInfo.*
@@ -259,7 +260,7 @@ class ImageCreateInfo(
 
     val type get() = VkStructureType.IMAGE_CREATE_INFO
 
-    infix fun write(stack: VkStack): Adr {
+    infix fun write(stack: MemoryStack): Adr {
         val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
         nsType(adr, type.i)
         npNext(adr, next)
@@ -275,7 +276,7 @@ class ImageCreateInfo(
         nsharingMode(adr, sharingMode.i)
         queueFamilyIndices?.let {
             nqueueFamilyIndexCount(adr, it.size)
-            memPutAddress(adr + PQUEUEFAMILYINDICES, stack.Adr(it).adr)
+            memPutAddress(adr + PQUEUEFAMILYINDICES, stack.adr(it))
         }
         ninitialLayout(adr, initialLayout.i)
         return adr

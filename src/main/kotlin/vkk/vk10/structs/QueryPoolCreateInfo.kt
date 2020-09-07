@@ -2,11 +2,11 @@ package vkk.vk10.structs
 
 import kool.Adr
 import kool.Ptr
+import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.NULL
 import org.lwjgl.vulkan.VkQueryPoolCreateInfo.*
 import vkk.VkQueryPipelineStatisticFlags
 import vkk.VkQueryType
-import vkk.VkStack
 import vkk.VkStructureType
 
 /**
@@ -69,7 +69,7 @@ class QueryPoolCreateInfo(
 
     val type get() = VkStructureType.QUERY_POOL_CREATE_INFO
 
-    infix fun write(stack: VkStack): Adr {
+    infix fun write(stack: MemoryStack): Adr {
         val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
         nqueryType(adr, type.i)
         npNext(adr, next)

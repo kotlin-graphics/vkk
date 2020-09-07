@@ -46,8 +46,14 @@ infix fun Buffer.copyTo(ptr: Ptr) = MemoryUtil.memCopy(adr, ptr, remSize.L)
 infix fun Buffer.copyFrom(ptr: Ptr) = MemoryUtil.memCopy(ptr, adr, remSize.L)
 
 
-infix fun Array<VkDynamicState>.write(stack: VkStack): Adr = stack.IntAdr(size) { get(it).i }.adr
-infix fun Array<CommandBuffer>.write(stack: VkStack): Ptr = stack.PointerAdr(size) { this[it].adr }
+infix fun Array<VkDynamicState>.write(stack: MemoryStack): Adr {
+    val pInts = stack.mInt(size)
+    for (i in indices)
+        pInts[i] = get(i).i
+    return pInts.adr
+}
+
+infix fun Array<CommandBuffer>.write(stack: MemoryStack): Ptr = stack.PointerAdr(size) { this[it].adr }
 
 inline fun <R> MemoryStack.framed(block: () -> R): R {
     val ptr = pointer
@@ -57,7 +63,7 @@ inline fun <R> MemoryStack.framed(block: () -> R): R {
 }
 
 interface VkStructure {
-    infix fun write(stack: VkStack): Adr
+    infix fun write(stack: MemoryStack): Adr
 }
 
 interface StructureChain {

@@ -1,9 +1,9 @@
 package vkk.vk10.structs
 
 import kool.Adr
+import org.lwjgl.system.MemoryStack
 import org.lwjgl.vulkan.VkImageSubresource.*
 import vkk.VkImageAspectFlags
-import vkk.VkStack
 
 /**
  * Structure specifying an image subresource.
@@ -42,7 +42,7 @@ class ImageSubresource(
         var arrayLayer: Int = 0
 ) {
 
-    infix fun write(stack: VkStack): Adr =
+    infix fun write(stack: MemoryStack): Adr =
             stack.ncalloc(ALIGNOF, 1, SIZEOF).also { write(it) }
 
     infix fun write(adr: Adr) {

@@ -1,9 +1,9 @@
 package vkk.vk10.structs
 
 import kool.Ptr
+import org.lwjgl.system.MemoryStack
 import org.lwjgl.vulkan.VkPushConstantRange.*
 import vkk.VkShaderStageFlags
-import vkk.VkStack
 
 /**
  * Structure specifying a push constant range.
@@ -59,7 +59,7 @@ class PushConstantRange(
     }
 }
 
-infix fun Array<PushConstantRange>.write(stack: VkStack): Ptr {
+infix fun Array<PushConstantRange>.write(stack: MemoryStack): Ptr {
     val ranges = stack.ncalloc(ALIGNOF, size, SIZEOF)
     for (i in indices)
         this[i] write (ranges + i * SIZEOF)

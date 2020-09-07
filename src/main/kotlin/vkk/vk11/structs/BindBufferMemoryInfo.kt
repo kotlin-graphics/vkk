@@ -2,9 +2,9 @@ package vkk.vk11.structs
 
 import kool.Adr
 import kool.Ptr
+import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.NULL
 import org.lwjgl.vulkan.VkBindBufferMemoryInfo.*
-import vkk.VkStack
 import vkk.VkStructureType
 import vkk.entities.VkBuffer
 import vkk.entities.VkDeviceMemory
@@ -74,7 +74,7 @@ class BindBufferMemoryInfo(
 
     val type get() = VkStructureType.BIND_BUFFER_MEMORY_INFO
 
-    infix fun write(stack: VkStack): Adr =
+    infix fun write(stack: MemoryStack): Adr =
             stack.ncalloc(ALIGNOF, 1, SIZEOF).also { write(it) }
 
     infix fun write(adr: Adr) {
@@ -86,7 +86,7 @@ class BindBufferMemoryInfo(
     }
 }
 
-infix fun Array<BindBufferMemoryInfo>.write(stack: VkStack): Ptr {
+infix fun Array<BindBufferMemoryInfo>.write(stack: MemoryStack): Ptr {
     val natives = stack.ncalloc(ALIGNOF, size, SIZEOF)
     for (i in indices)
         this[i] write (natives + i * SIZEOF)

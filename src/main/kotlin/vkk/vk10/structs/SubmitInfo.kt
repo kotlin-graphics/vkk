@@ -1,15 +1,16 @@
 package vkk.vk10.structs
 
-import vkk.identifiers.CommandBuffer
 import kool.Adr
 import kool.Ptr
+import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.NULL
 import org.lwjgl.system.MemoryUtil.memPutAddress
 import org.lwjgl.vulkan.VkSubmitInfo.*
-import vkk.VkStack
 import vkk.VkStructureType
+import vkk.adr
 import vkk.entities.VkSemaphore
 import vkk.entities.VkSemaphore_Array
+import vkk.identifiers.CommandBuffer
 import vkk.write
 
 /**
@@ -130,13 +131,13 @@ class SubmitInfo(
             }
         }
 
-    infix fun write(stack: VkStack): Adr {
+    infix fun write(stack: MemoryStack): Adr {
         val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
         nsType(adr, type.i)
         npNext(adr, next)
         nwaitSemaphoreCount(adr, waitSemaphoreCount)
         waitSemaphores?.let { memPutAddress(adr + PWAITSEMAPHORES, it write stack) }
-        waitDstStageMask?.let { memPutAddress(adr + PWAITDSTSTAGEMASK, stack.Adr(it).adr) }
+        waitDstStageMask?.let { memPutAddress(adr + PWAITDSTSTAGEMASK, stack.adr(it)) }
         commandBuffers?.let {
             ncommandBufferCount(adr, it.size)
             memPutAddress(adr + PCOMMANDBUFFERS, it write stack)

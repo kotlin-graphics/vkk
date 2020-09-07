@@ -2,9 +2,10 @@ package vkk.vk10.structs
 
 import kool.Adr
 import kool.BytePtr
+import org.lwjgl.system.MemoryStack
 import org.lwjgl.vulkan.VkMemoryRequirements.*
-import vkk.VkStack
 import vkk.entities.VkDeviceSize
+import vkk.invoke
 
 /**
  * Structure specifying memory requirements.
@@ -39,10 +40,10 @@ class MemoryRequirements(
     )
 
     companion object {
-        inline fun <R> read(stack: VkStack, block: (Adr) -> R): MemoryRequirements {
+        inline fun <R> read(stack: MemoryStack, block: (Adr) -> R): MemoryRequirements = stack {
             val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
             block(adr)
-            return MemoryRequirements(BytePtr(adr))
+            MemoryRequirements(BytePtr(adr))
         }
     }
 }

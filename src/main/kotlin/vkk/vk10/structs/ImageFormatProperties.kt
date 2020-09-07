@@ -3,10 +3,11 @@ package vkk.vk10.structs
 import kool.Adr
 import kool.BytePtr
 import kool.IntPtr
+import org.lwjgl.system.MemoryStack
 import org.lwjgl.vulkan.VkImageFormatProperties.*
 import vkk.VkSampleCountFlags
-import vkk.VkStack
 import vkk.entities.VkDeviceSize
+import vkk.invoke
 
 /**
  * Structure specifying an image format properties.
@@ -82,10 +83,10 @@ class ImageFormatProperties(
 
     companion object {
 //        inline fun <R> read(block: (Adr) -> R): ImageFormatProperties = VkStack { read(it, block) }
-        inline fun <R> read(stack: VkStack, block: (Adr) -> R): ImageFormatProperties {
+        inline fun <R> read(stack: MemoryStack, block: (Adr) -> R): ImageFormatProperties = stack {
             val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
             block(adr)
-            return ImageFormatProperties(BytePtr(adr))
+            ImageFormatProperties(BytePtr(adr))
         }
     }
 }

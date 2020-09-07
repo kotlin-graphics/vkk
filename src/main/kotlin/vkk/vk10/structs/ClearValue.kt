@@ -7,9 +7,9 @@ import glm_.vec4.Vec4i
 import glm_.vec4.Vec4ui
 import kool.IntPtr
 import kool.Ptr
+import org.lwjgl.system.MemoryStack
 import org.lwjgl.vulkan.VkClearValue.ALIGNOF
 import org.lwjgl.vulkan.VkClearValue.SIZEOF
-import vkk.VkStack
 
 /**
  * Structure specifying a clear value.
@@ -80,7 +80,7 @@ class ClearValue(
     }
 }
 
-infix fun Array<ClearValue>.write(stack: VkStack): Ptr {
+infix fun Array<ClearValue>.write(stack: MemoryStack): Ptr {
     val natives = stack.ncalloc(ALIGNOF, size, SIZEOF)
     for (i in indices)
         this[i] write IntPtr(natives + i * SIZEOF)

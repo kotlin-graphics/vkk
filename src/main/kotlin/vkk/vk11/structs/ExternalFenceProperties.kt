@@ -2,8 +2,12 @@ package vkk.vk11.structs
 
 import kool.Adr
 import kool.BytePtr
+import org.lwjgl.system.MemoryStack
 import org.lwjgl.vulkan.VkExternalFenceProperties.*
-import vkk.*
+import vkk.VkExternalFenceFeatureFlags
+import vkk.VkExternalFenceHandleTypeFlags
+import vkk.VkStructureType
+import vkk.invoke
 
 /**
  * Structure describing supported external fence handle features.
@@ -58,10 +62,10 @@ class ExternalFenceProperties(
 
     companion object {
 //        inline infix fun <R> read(block: (Adr) -> R): ExternalFenceProperties = stak { read(it, block) }
-        inline fun <R> read(stack: VkStack, block: (Adr) -> R): ExternalFenceProperties {
+        inline fun <R> read(stack: MemoryStack, block: (Adr) -> R): ExternalFenceProperties = stack {
             val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
             block(adr)
-            return ExternalFenceProperties(BytePtr(adr))
+            ExternalFenceProperties(BytePtr(adr))
         }
     }
 }

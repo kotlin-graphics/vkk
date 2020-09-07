@@ -1,23 +1,57 @@
 package vkk.unique
 
+import gli_.has
+import gli_.memCopy
+import glm_.f
+import glm_.func.rad
+import glm_.glm
+import glm_.mat4x4.Mat4
+import glm_.vec3.Vec3
+import kool.Ptr
 import org.lwjgl.vulkan.EXTDebugUtils.VK_EXT_DEBUG_UTILS_EXTENSION_NAME
 import org.lwjgl.vulkan.VK10.VK_API_VERSION_1_0
-import vkk.VkQueueFlag
-import vkk.VkStructure
-import vkk.entities.VkSurfaceKHR
+import vkk.*
+import vkk.entities.*
 import vkk.extensions.getSurfaceSupportKHR
-import vkk.has
-import vkk.identifiers.*
-import vkk.vk
-import vkk.vk10.createDevice
-import vkk.vk10.enumerateInstanceExtensionProperties
-import vkk.vk10.instanceLayerProperties
-import vkk.vk10.queueFamilyProperties
+import vkk.identifiers.PhysicalDevice
+import vkk.identifiers.UniqueDevice
+import vkk.identifiers.UniqueInstance
+import vkk.vk10.*
 import vkk.vk10.structs.*
 
 object vu {
     val deviceExtensions: ArrayList<String>
         get() = arrayListOf("VK_KHR_swapchain")
+
+    class BufferData(val buffer: VkUniqueBuffer, val deviceMemory: VkUniqueDeviceMemory, val size: VkDeviceSize, val usage: VkBufferUsageFlags, val propertyFlags: VkMemoryPropertyFlags)
+
+    fun copyToDevice(device: UniqueDevice, memory: VkUniqueDeviceMemory, pData: Ptr, size: Int, count: Int, stride: Int = size) {
+        assert(size <= stride)
+        device.mappedMemory(memory, VkDeviceSize(0), VkDeviceSize(count * stride)) { deviceData ->
+            if (stride == size)
+                memCopy(pData, deviceData, count * size)
+            else
+                for (i in 0 until count)
+                    memCopy(pData + i * size, deviceData + i * stride, size)
+        }
+    }
+
+    fun copyToDevice(device: UniqueDevice, memory: VkUniqueDeviceMemory, data: Ptr, size: Int) = copyToDevice(device, memory, data, size, 1)
+
+
+    // math.cpp
+
+    fun createModelViewProjectionClipMatrix(extent: Extent2D): Mat4 {
+        var fov = 45f.rad
+        if (extent.width > extent.height)
+            fov *= extent.height.f / extent.width
+
+        val model = Mat4(1f)
+        val view = glm.lookAt(Vec3(-5f, 3f, -10f), Vec3(0f), Vec3(0f, -1f, 0f))
+        val projection = glm.perspective(fov, 1f, 0.1f, 100f)
+        val clip = Mat4(1f, 0f, 0f, 0f, 0f, -1f, 0f, 0f, 0f, 0f, .5f, 0f, 0f, 0f, 5f, 1f)   // vulkan clip space has inverted y and half z !
+        return clip * projection * view * model
+    }
 }
 
 interface UniqueVU : UniqueVk, UniquePhysicalDeviceI, UniqueDeviceI {
@@ -89,62 +123,16 @@ interface UniqueVU : UniqueVk, UniquePhysicalDeviceI, UniqueDeviceI {
 //
 //    WindowData createWindow(std::string const &windowName, vk::Extent2D const &extent);
 //
-//    struct BufferData
-//    {
-//        BufferData(vk::PhysicalDevice const& physicalDevice, vk::UniqueDevice const& device, vk::DeviceSize size, vk::BufferUsageFlags usage,
-//                vk::MemoryPropertyFlags propertyFlags = vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent);
-//
-//        template <typename DataType>
-//        void upload(vk::UniqueDevice const& device, DataType const& data) const
-//        {
-//            assert((m_propertyFlags & vk::MemoryPropertyFlagBits::eHostCoherent) && (m_propertyFlags & vk::MemoryPropertyFlagBits::eHostVisible));
-//            assert(sizeof(DataType) <= m_size);
-//
-//            void* dataPtr = device->mapMemory(*this->deviceMemory, 0, sizeof(DataType));
-//            memcpy(dataPtr, &data, sizeof(DataType));
-//            device->unmapMemory(*this->deviceMemory);
-//        }
-//
-//        template <typename DataType>
-//        void upload(vk::UniqueDevice const& device, std::vector<DataType> const& data, size_t stride = 0) const
-//        {
-//            assert(m_propertyFlags & vk::MemoryPropertyFlagBits::eHostVisible);
-//
-//            size_t elementSize = stride ? stride : sizeof(DataType);
-//            assert(sizeof(DataType) <= elementSize);
-//
-//            copyToDevice(device, deviceMemory, data.data(), data.size(), elementSize);
-//        }
-//
-//        template <typename DataType>
-//        void upload(vk::PhysicalDevice const& physicalDevice, vk::UniqueDevice const& device, vk::UniqueCommandPool const& commandPool, vk::Queue queue, std::vector<DataType> const& data,
-//        size_t stride) const
-//        {
-//            assert(m_usage & vk::BufferUsageFlagBits::eTransferDst);
-//            assert(m_propertyFlags & vk::MemoryPropertyFlagBits::eDeviceLocal);
-//
-//            size_t elementSize = stride ? stride : sizeof(DataType);
-//            assert(sizeof(DataType) <= elementSize);
-//
-//            size_t dataSize = data.size() * elementSize;
-//            assert(dataSize <= m_size);
-//
-//            vk::su::BufferData stagingBuffer(physicalDevice, device, dataSize, vk::BufferUsageFlagBits::eTransferSrc);
-//            copyToDevice(device, stagingBuffer.deviceMemory, data.data(), data.size(), elementSize);
-//
-//            vk::su::oneTimeSubmit(device, commandPool, queue,
-//                    [&](vk::UniqueCommandBuffer const& commandBuffer) { commandBuffer->copyBuffer(*stagingBuffer.buffer, *this->buffer, vk::BufferCopy(0, 0, dataSize)); });
-//        }
-//
-//        vk::UniqueBuffer        buffer;
-//        vk::UniqueDeviceMemory  deviceMemory;
-//        #if !defined(NDEBUG)
-//        private:
-//        vk::DeviceSize          m_size;
-//        vk::BufferUsageFlags    m_usage;
-//        vk::MemoryPropertyFlags m_propertyFlags;
-//        #endif
-//    };
+
+    fun vu.newBufferData(physicalDevice: PhysicalDevice, device: UniqueDevice,
+                         size: VkDeviceSize, usage: VkBufferUsageFlags,
+                         propertyFlags: VkMemoryPropertyFlags = VkMemoryProperty.HOST_VISIBLE_BIT or VkMemoryProperty.HOST_COHERENT_BIT): vu.BufferData {
+        val buffer = device.createBufferUnique(BufferCreateInfo(0, size, usage))
+        val deviceMemory = vu.allocateMemory(device, physicalDevice.memoryProperties, device getBufferMemoryRequirements buffer, propertyFlags)
+        device.bindBufferMemory(buffer, deviceMemory)
+        return vu.BufferData(buffer, deviceMemory, size, usage, propertyFlags)
+    }
+
 //
 //    struct ImageData
 //    {
@@ -267,8 +255,12 @@ interface UniqueVU : UniqueVk, UniquePhysicalDeviceI, UniqueDeviceI {
 //        return static_cast<TargetType>(value);
 //    }
 //
-//    vk::UniqueDeviceMemory allocateMemory(vk::UniqueDevice const& device, vk::PhysicalDeviceMemoryProperties const& memoryProperties, vk::MemoryRequirements const& memoryRequirements,
-//    vk::MemoryPropertyFlags memoryPropertyFlags);
+
+    fun vu.allocateMemory(device: UniqueDevice, memoryProperties: PhysicalDeviceMemoryProperties, memoryRequirements: MemoryRequirements, memoryPropertyFlags: VkMemoryPropertyFlags): VkUniqueDeviceMemory {
+        val memoryTypeIndex = findMemoryType(memoryProperties, memoryRequirements.memoryTypeBits, memoryPropertyFlags)
+        return device.allocateMemoryUnique(MemoryAllocateInfo(memoryRequirements.size, memoryTypeIndex))
+    }
+
 //    bool contains(std::vector<vk::ExtensionProperties> const& extensionProperties, std::string const& extensionName);
 //    vk::UniqueCommandPool createCommandPool(vk::UniqueDevice &device, uint32_t queueFamilyIndex);
 
@@ -279,17 +271,30 @@ interface UniqueVU : UniqueVk, UniquePhysicalDeviceI, UniqueDeviceI {
 //    }
 
 //    vk::UniqueDescriptorPool createDescriptorPool(vk::UniqueDevice &device, std::vector<vk::DescriptorPoolSize> const& poolSizes);
-//    vk::UniqueDescriptorSetLayout createDescriptorSetLayout(vk::UniqueDevice const& device, std::vector<std::tuple<vk::DescriptorType, uint32_t, vk::ShaderStageFlags>> const& bindingData,
+
+    fun createDescriptorSetLayout(device: UniqueDevice, bindingData: ArrayList<Triple<VkDescriptorType, Int, VkShaderStageFlags>>,
+            flags: VkDescriptorSetLayoutCreateFlags): VkUniqueDescriptorSetLayout {
+        TODO()
+//        std::vector<vk::DescriptorSetLayoutBinding> bindings(bindingData.size());
+//        for (size_t i = 0; i < bindingData.size(); i++)
+//        {
+//            bindings[i] = vk::DescriptorSetLayoutBinding(checked_cast<uint32_t>(i), std::get<0>(bindingData[i]), std::get<1>(bindingData[i]), std::get<2>(bindingData[i]));
+//        }
+//        return device->createDescriptorSetLayoutUnique(vk::DescriptorSetLayoutCreateInfo(flags, checked_cast<uint32_t>(bindings.size()), bindings.data()));
+    }
+
 //    vk::DescriptorSetLayoutCreateFlags flags = {});
 
     fun vu.createDevice(physicalDevice: PhysicalDevice, queueFamilyIndex: Int, extensions: ArrayList<String> = ArrayList(),
-                     physicalDeviceFeatures: PhysicalDeviceFeatures? = null, next: VkStructure? = null): UniqueDevice {
+                        physicalDeviceFeatures: PhysicalDeviceFeatures? = null, next: VkStructure? = null): UniqueDevice {
         // create a UniqueDevice
         val deviceQueueCreateInfo = DeviceQueueCreateInfo(0, queueFamilyIndex, queuePriority = 0f)
         val deviceCreateInfo = DeviceCreateInfo(0, deviceQueueCreateInfo, extensions, physicalDeviceFeatures)
         deviceCreateInfo.next = next
         return physicalDevice.createDeviceUnique(deviceCreateInfo)
     }
+
+    fun Prova() = vkk.vk10.Prova()
 
 //    std::vector<vk::UniqueFramebuffer> createFramebuffers(vk::UniqueDevice &device, vk::UniqueRenderPass &renderPass, std::vector<vk::UniqueImageView> const& imageViews, vk::UniqueImageView const& depthImageView, vk::Extent2D const& extent);
 //    vk::UniquePipeline createGraphicsPipeline(vk::UniqueDevice const& device, vk::UniquePipelineCache const& pipelineCache,
@@ -361,7 +366,7 @@ interface UniqueVU : UniqueVk, UniquePhysicalDeviceI, UniqueDeviceI {
         return graphicsQueueFamilyIndex
     }
 
-    fun vu.findGraphicsAndPresentQueueFamilyIndex(physicalDevice: PhysicalDevice, surface: VkSurfaceKHR): Pair<Int, Int>    {
+    fun vu.findGraphicsAndPresentQueueFamilyIndex(physicalDevice: PhysicalDevice, surface: VkSurfaceKHR): Pair<Int, Int> {
         val queueFamilyProperties = physicalDevice.queueFamilyProperties
         assert(queueFamilyProperties.size < Int.MAX_VALUE)
 
@@ -382,9 +387,19 @@ interface UniqueVU : UniqueVk, UniquePhysicalDeviceI, UniqueDeviceI {
         throw error("Could not find queues for both graphics or present -> terminating")
     }
 
-//    uint32_t findMemoryType(vk::PhysicalDeviceMemoryProperties const& memoryProperties, uint32_t typeBits, vk::MemoryPropertyFlags requirementsMask);
-
-
+    fun vu.findMemoryType(memoryProperties: PhysicalDeviceMemoryProperties, typeBits_: Int, requirementsMask: VkMemoryPropertyFlags): Int {
+        var typeBits = typeBits_
+        var typeIndex = -1
+        for (i in memoryProperties.memoryTypes.indices) {
+            if (typeBits has 1 && (memoryProperties.memoryTypes[i].propertyFlags and requirementsMask) == requirementsMask) {
+                typeIndex = i
+                break
+            }
+            typeBits = typeBits ushr 1
+        }
+        assert(typeIndex != -1)
+        return typeIndex
+    }
 
 //    std::vector<std::string> getInstanceExtensions();
 //    vk::Format pickDepthFormat(vk::PhysicalDevice const& physicalDevice);

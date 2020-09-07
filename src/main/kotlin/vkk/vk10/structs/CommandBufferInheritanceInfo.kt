@@ -3,11 +3,11 @@ package vkk.vk10.structs
 import glm_.i
 import kool.Adr
 import kool.Ptr
+import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.NULL
 import org.lwjgl.vulkan.VkCommandBufferInheritanceInfo.*
 import vkk.VkQueryControlFlags
 import vkk.VkQueryPipelineStatisticFlags
-import vkk.VkStack
 import vkk.VkStructureType
 import vkk.entities.VkFramebuffer
 import vkk.entities.VkRenderPass
@@ -81,7 +81,7 @@ class CommandBufferInheritanceInfo(
 
     val type get() = VkStructureType.COMMAND_BUFFER_INHERITANCE_INFO
 
-    infix fun write(stack: VkStack): Adr =
+    infix fun write(stack: MemoryStack): Adr =
             stack.ncalloc(ALIGNOF, 1, SIZEOF).also { write(it) }
 
     fun write(adr: Adr) {

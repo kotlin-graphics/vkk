@@ -2,8 +2,8 @@ package vkk.vk10.structs
 
 import kool.Adr
 import kool.Ptr
+import org.lwjgl.system.MemoryStack
 import org.lwjgl.vulkan.VkSpecializationMapEntry.*
-import vkk.VkStack
 
 /**
  * Structure specifying a specialization map entry.
@@ -40,9 +40,9 @@ import vkk.VkStack
  * }</code></pre>
  */
 class SpecializationMapEntry(
-    var constantID: Int,
-    var offset: Int,
-    var size: Long
+        var constantID: Int,
+        var offset: Int,
+        var size: Long
 ) {
 
     infix fun write(adr: Adr) {
@@ -52,7 +52,7 @@ class SpecializationMapEntry(
     }
 }
 
-infix fun Array<SpecializationMapEntry>.write(stack: VkStack): Ptr {
+infix fun Array<SpecializationMapEntry>.write(stack: MemoryStack): Ptr {
     val natives = stack.ncalloc(ALIGNOF, size, SIZEOF)
     for (i in indices)
         this[i] write (natives + i * SIZEOF)
