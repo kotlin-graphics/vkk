@@ -1,7 +1,7 @@
 package tests
 
 import glm_.mat4x4.Mat4
-import io.kotlintest.specs.StringSpec
+import io.kotest.core.spec.style.StringSpec
 import main.isNotCI
 import vkk.VkBufferUsage
 import vkk.entities.VkDeviceSize
@@ -33,7 +33,8 @@ class `09 initDescriptorSet` : StringSpec() {
                     val mvp = vu.createModelViewProjectionClipMatrix(Extent2D(0, 0))
                     vu.copyToDevice(device, uniformBufferData.deviceMemory, stack.ptrOf(mvp), Mat4.size)
 
-                    val descriptorSetLayout = vu.createDescriptorSetLayout(device, { {vk::DescriptorType::eUniformBuffer, 1, vk::ShaderStageFlagBits::eVertex} })
+                    // TODO
+//                    val descriptorSetLayout = vu.createDescriptorSetLayout(device, { {vk::DescriptorType::eUniformBuffer, 1, vk::ShaderStageFlagBits::eVertex} })
 //
 //                    /* VULKAN_HPP_KEY_START */
 //

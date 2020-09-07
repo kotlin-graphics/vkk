@@ -1,7 +1,7 @@
 package tests
 
-import glm_.has
-import io.kotlintest.specs.StringSpec
+import gli_.has
+import io.kotest.core.spec.style.StringSpec
 import main.isNotCI
 import uno.glfw.glfw
 import uno.requiredInstanceExtensions

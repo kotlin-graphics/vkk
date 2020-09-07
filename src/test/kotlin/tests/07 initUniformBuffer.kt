@@ -5,7 +5,7 @@ import glm_.func.rad
 import glm_.glm
 import glm_.mat4x4.Mat4
 import glm_.vec3.Vec3
-import io.kotlintest.specs.StringSpec
+import io.kotest.core.spec.style.StringSpec
 import kool.adr
 import main.isNotCI
 import org.lwjgl.system.MemoryUtil

@@ -1,6 +1,6 @@
 package samples
 
-import io.kotlintest.specs.StringSpec
+import io.kotest.core.spec.style.StringSpec
 import main.isNotCI
 import org.lwjgl.vulkan.VK10
 import org.lwjgl.vulkan.VK10.VK_VERSION_MINOR

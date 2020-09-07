@@ -1,6 +1,6 @@
 package tests
 
-import io.kotlintest.specs.StringSpec
+import io.kotest.core.spec.style.StringSpec
 import main.isNotCI
 import vkk.VkDescriptorType
 import vkk.VkShaderStage

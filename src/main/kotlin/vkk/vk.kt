@@ -751,5 +751,5 @@ object vk {
 //            }
 
 
-    val VERSION = "0.3.0"
+    val VERSION = "0.3.2"
 }
