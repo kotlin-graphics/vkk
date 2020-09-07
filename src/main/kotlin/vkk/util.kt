@@ -1,10 +1,7 @@
 package vkk
 
 import glm_.L
-import kool.Adr
-import kool.Ptr
-import kool.adr
-import kool.remSize
+import kool.*
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil
 import org.lwjgl.system.Struct

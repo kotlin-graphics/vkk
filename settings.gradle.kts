@@ -1,1 +1,1 @@
-rootProject.name = "vkk"
+rootProject.name = "vkk-jdk8"
