@@ -2,7 +2,6 @@ package tests
 
 import io.kotest.core.spec.style.StringSpec
 import main.isNotCI
-import vkk.VkCommandBufferLevel
 import vkk.unique.`try`
 import vkk.unique.vu
 import vkk.vk10.structs.CommandBufferAllocateInfo
