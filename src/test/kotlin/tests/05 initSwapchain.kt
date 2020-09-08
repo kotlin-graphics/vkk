@@ -119,13 +119,13 @@ class `05 initSwapchain` : StringSpec() {
                     }
 
                     val swapChain = device.createSwapchainKHRUnique(swapChainCreateInfo)
-
-                    val swapChainImages = device getSwapchainImagesKHR swapChain
-
-                    val componentMapping = ComponentMapping()
-                    val subResourceRange = ImageSubresourceRange(VkImageAspect.COLOR_BIT.i, 0, 1, 0, 1)
-                    val imageViewCreateInfo = ImageViewCreateInfo(0, VkImage.NULL, VkImageViewType._2D, format, componentMapping, subResourceRange)
-                    val imageViews = device.createImageViewArrayUnique(imageViewCreateInfo, swapChainImages)
+// TODO
+//                    val swapChainImages = device getSwapchainImagesKHR swapChain
+//
+//                    val componentMapping = ComponentMapping()
+//                    val subResourceRange = ImageSubresourceRange(VkImageAspect.COLOR_BIT.i, 0, 1, 0, 1)
+//                    val imageViewCreateInfo = ImageViewCreateInfo(0, VkImage.NULL, VkImageViewType._2D, format, componentMapping, subResourceRange)
+//                    val imageViews = device.createImageViewArrayUnique(imageViewCreateInfo, swapChainImages)
 
                     // Note: No need to explicitly destroy the ImageViews or the swapChain, as the corresponding destroy
                     // functions are called by the destructor of the UniqueImageView and the UniqueSwapChainKHR on leaving this scope.

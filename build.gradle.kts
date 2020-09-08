@@ -13,7 +13,7 @@ plugins {
 }
 
 group = "com.github.kotlin_graphics"
-val moduleName = "$group.gli"
+val moduleName = "$group.vkk"
 
 val kotestVersion = "4.2.0"
 val kx = "com.github.kotlin-graphics"
@@ -79,7 +79,7 @@ tasks {
         dokkaSourceSets.configureEach {
             sourceLink {
                 localDirectory.set(file("src/main/kotlin"))
-                remoteUrl.set(URL("https://github.com/kotlin-graphics/gli/tree/master/src/main/kotlin"))
+                remoteUrl.set(URL("https://github.com/kotlin-graphics/vkk/tree/master/src/main/kotlin"))
                 remoteLineSuffix.set("#L")
             }
         }
