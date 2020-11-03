@@ -16,10 +16,10 @@ val moduleName = "$group.vkk"
 
 val kotestVersion = "4.2.5"
 val kx = "com.github.kotlin-graphics"
-val unsignedVersion = "f029dcbd"
-val koolVersion = "c670e9cf"
-val glmVersion = "bb000826"
-val gliVersion = "4da00c37"
+val unsignedVersion = "f2cd9c97"
+val koolVersion = "b4ff3661"
+val glmVersion = "3466fcde"
+val gliVersion = "689dfb02"
 val sprivCrossVersion = "0.6.0-1.1.106.0"
 val lwjglVersion = "3.2.3"
 val lwjglNatives = "natives-" + when (current()) {
@@ -35,7 +35,6 @@ repositories {
 }
 
 dependencies {
-    implementation(kotlin("stdlib"))
     implementation(kotlin("stdlib-jdk8"))
     implementation(kotlin("reflect"))
 
