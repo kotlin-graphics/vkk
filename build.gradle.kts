@@ -15,10 +15,10 @@ group = "com.github.kotlin_graphics"
 
 val kotestVersion = "4.2.5"
 val kx = "com.github.kotlin-graphics"
-val unsignedVersion = "81ff91a5"
-val koolVersion = "57defa7d"
-val glmVersion = "fed17da9"
-val gliVersion = "07162817"
+val unsignedVersion = "95391df4"
+val koolVersion = "4d2e943d"
+val glmVersion = "027b69e6"
+val gliVersion = "6768d884"
 val sprivCrossVersion = "0.6.0-1.1.106.0"
 val lwjglVersion = "3.2.3"
 val lwjglNatives = "natives-" + when (current()) {
@@ -111,20 +111,20 @@ artifacts {
     archives(sourceJar)
 }
 
-publishing {
-    publications.create<MavenPublication>("mavenJava") {
-        from(components["java"])
-        artifact(sourceJar)
-    }
-    repositories.maven {
-        name = "GitHubPackages"
-        url = uri("https://maven.pkg.github.com/kotlin-graphics/vkk")
-        credentials {
-            username = System.getenv("GITHUB_ACTOR")
-            password = System.getenv("GITHUB_TOKEN")
-        }
-    }
-}
+//publishing {
+//    publications.create<MavenPublication>("mavenJava") {
+//        from(components["java"])
+//        artifact(sourceJar)
+//    }
+//    repositories.maven {
+//        name = "GitHubPackages"
+//        url = uri("https://maven.pkg.github.com/kotlin-graphics/vkk")
+//        credentials {
+//            username = System.getenv("GITHUB_ACTOR")
+//            password = System.getenv("GITHUB_TOKEN")
+//        }
+//    }
+//}
 
 // == Add access to the 'modular' variant of kotlin("stdlib"): Put this into a buildSrc plugin and reuse it in all your subprojects
 configurations.all { attributes.attribute(TARGET_JVM_VERSION_ATTRIBUTE, 8) }
