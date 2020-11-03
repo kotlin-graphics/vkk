@@ -39,8 +39,8 @@ import java.nio.Buffer
 
 inline fun defaultCheck(result: VkResult) = result.check()
 
-infix fun Buffer.copyTo(ptr: Ptr) = MemoryUtil.memCopy(adr, ptr, remSize.L)
-infix fun Buffer.copyFrom(ptr: Ptr) = MemoryUtil.memCopy(ptr, adr, remSize.L)
+infix fun Buffer.copyTo(ptr: Ptr) = MemoryUtil.memCopy(adr, ptr, remByte.L)
+infix fun Buffer.copyFrom(ptr: Ptr) = MemoryUtil.memCopy(ptr, adr, remByte.L)
 
 
 infix fun Array<VkDynamicState>.write(stack: MemoryStack): Adr {

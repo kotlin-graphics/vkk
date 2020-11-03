@@ -5,20 +5,20 @@ import java.net.URL
 
 plugins {
     java
-    kotlin("jvm") version "1.4.0"
+    kotlin("jvm") version "1.4.10"
     `maven-publish`
-    id("org.jetbrains.dokka") version "1.4.0"
-    id("com.github.johnrengelman.shadow").version("6.0.0")
+    id("org.jetbrains.dokka") version "1.4.10"
+    id("com.github.johnrengelman.shadow").version("6.1.0")
 }
 
 group = "com.github.kotlin_graphics"
 
-val kotestVersion = "4.2.0"
+val kotestVersion = "4.2.5"
 val kx = "com.github.kotlin-graphics"
-val unsignedVersion = "2e1fd0d7"
-val koolVersion = "0200c2a0"
-val glmVersion = "bd5f9bb7"
-val gliVersion = "4c290e0d"
+val unsignedVersion = "81ff91a5"
+val koolVersion = "57defa7d"
+val glmVersion = "fed17da9"
+val gliVersion = "07162817"
 val sprivCrossVersion = "0.6.0-1.1.106.0"
 val lwjglVersion = "3.2.3"
 val lwjglNatives = "natives-" + when (current()) {
@@ -70,7 +70,7 @@ tasks {
         dokkaSourceSets.configureEach {
             sourceLink {
                 localDirectory.set(file("src/main/kotlin"))
-                remoteUrl.set(URL("https://github.com/kotlin-graphics/gli/tree/master/src/main/kotlin"))
+                remoteUrl.set(URL("https://github.com/kotlin-graphics/vkk/tree/master/src/main/kotlin"))
                 remoteLineSuffix.set("#L")
             }
         }
