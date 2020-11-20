@@ -13,6 +13,8 @@ inline class VkAccelerationStructureNV(val L: Long = VK_NULL_HANDLE) {
     val isValid get() = L != VK_NULL_HANDLE
     val isInvalid get() = L == VK_NULL_HANDLE
 
+    fun toArray() = VkAccelerationStructureNV_Array(1) { this }
+
     companion object {
         val NULL = VkAccelerationStructureNV()
     }
@@ -23,6 +25,8 @@ typealias VkUniqueBuffer = VkBuffer
 inline class VkBuffer(val L: Long = VK_NULL_HANDLE) {
     val isValid get() = L != VK_NULL_HANDLE
     val isInvalid get() = L == VK_NULL_HANDLE
+
+    fun toArray() = VkBuffer_Array(1) { this }
 
     val hexString: String
         get() = "0x%X".format(L)
@@ -35,6 +39,8 @@ inline class VkBuffer(val L: Long = VK_NULL_HANDLE) {
 inline class VkBufferView(val L: Long = VK_NULL_HANDLE) {
     val isValid get() = L != VK_NULL_HANDLE
     val isInvalid get() = L == VK_NULL_HANDLE
+
+    fun toArray() = VkBufferView_Array(1) { this }
 
     companion object {
         val NULL = VkBufferView()
@@ -50,6 +56,9 @@ typealias VkUniqueCommandPool = VkCommandPool
 inline class VkCommandPool(val L: Long = VK_NULL_HANDLE) : VkCloseableDevice {
     val isValid get() = L != VK_NULL_HANDLE
     val isInvalid get() = L == VK_NULL_HANDLE
+
+    fun toArray() = VkCommandPool_Array(1) { this }
+
     override fun close(device: Device) = device destroy this
 
     companion object {
@@ -60,6 +69,8 @@ inline class VkCommandPool(val L: Long = VK_NULL_HANDLE) : VkCloseableDevice {
 inline class VkDebugReportCallback(val L: Long = VK_NULL_HANDLE) {
     val isValid get() = L != VK_NULL_HANDLE
     val isInvalid get() = L == VK_NULL_HANDLE
+
+    fun toArray() = VkDebugReportCallback_Array(1) { this }
 
     companion object {
         val NULL = VkDebugReportCallback()
@@ -79,6 +90,8 @@ inline class VkDebugUtilsMessengerEXT(val L: Long = VK_NULL_HANDLE) {
     val isValid get() = L != VK_NULL_HANDLE
     val isInvalid get() = L == VK_NULL_HANDLE
 
+    fun toArray() = VkDebugUtilsMessengerEXT_Array(1) { this }
+
     companion object {
         val NULL = VkDebugUtilsMessengerEXT()
     }
@@ -88,6 +101,8 @@ inline class VkDescriptorPool(val L: Long = VK_NULL_HANDLE) {
     val isValid get() = L != VK_NULL_HANDLE
     val isInvalid get() = L == VK_NULL_HANDLE
 
+    fun toArray() = VkDescriptorPool_Array(1) { this }
+
     companion object {
         val NULL = VkDescriptorPool()
     }
@@ -96,6 +111,8 @@ inline class VkDescriptorPool(val L: Long = VK_NULL_HANDLE) {
 inline class VkDescriptorSet(val L: Long = VK_NULL_HANDLE) {
     val isValid get() = L != VK_NULL_HANDLE
     val isInvalid get() = L == VK_NULL_HANDLE
+
+    fun toArray() = VkDescriptorSet_Array(1) { this }
 
     val hexString: String
         get() = "0x%X".format(L)
@@ -111,6 +128,8 @@ inline class VkDescriptorSetLayout(val L: Long = VK_NULL_HANDLE) {
     val isValid get() = L != VK_NULL_HANDLE
     val isInvalid get() = L == VK_NULL_HANDLE
 
+    fun toArray() = VkDescriptorSetLayout_Array(1) { this }
+
     val hexString: String
         get() = "0x%X".format(L)
 
@@ -123,13 +142,14 @@ inline class VkDescriptorUpdateTemplate(val L: Long = VK_NULL_HANDLE) {
     val isValid get() = L != VK_NULL_HANDLE
     val isInvalid get() = L == VK_NULL_HANDLE
 
+    fun toArray() = VkDescriptorUpdateTemplate_Array(1) { this }
+
     companion object {
         val NULL = VkDescriptorUpdateTemplate()
     }
 }
 
 inline class VkDeviceAddress(val L: Long = VK_NULL_HANDLE) {
-
     val isValid get() = L != VK_NULL_HANDLE
     val isInvalid get() = L == VK_NULL_HANDLE
 
@@ -144,9 +164,10 @@ inline class VkDeviceAddress(val L: Long = VK_NULL_HANDLE) {
 typealias VkUniqueDeviceMemory = VkDeviceMemory
 
 inline class VkDeviceMemory(val L: Long = VK_NULL_HANDLE) {
-
     val isValid get() = L != VK_NULL_HANDLE
     val isInvalid get() = L == VK_NULL_HANDLE
+
+    fun toArray() = VkDeviceMemory_Array(1) { this }
 
     val hexString: String
         get() = "0x%X".format(L)
@@ -193,6 +214,8 @@ inline class VkDisplayKHR(val L: Long = VK_NULL_HANDLE) {
     val isValid get() = L != VK_NULL_HANDLE
     val isInvalid get() = L == VK_NULL_HANDLE
 
+    fun toArray() = VkDisplayKHR_Array(1) { this }
+
     companion object {
         val NULL = VkDisplayKHR()
     }
@@ -201,6 +224,8 @@ inline class VkDisplayKHR(val L: Long = VK_NULL_HANDLE) {
 inline class VkDisplayModeKHR(val L: Long = VK_NULL_HANDLE) {
     val isValid get() = L != VK_NULL_HANDLE
     val isInvalid get() = L == VK_NULL_HANDLE
+
+    fun toArray() = VkDisplayModeKHR_Array(1) { this }
 
     companion object {
         val NULL = VkDisplayModeKHR()
@@ -211,6 +236,8 @@ inline class VkEvent(val L: Long = VK_NULL_HANDLE) {
     val isValid get() = L != VK_NULL_HANDLE
     val isInvalid get() = L == VK_NULL_HANDLE
 
+    fun toArray() = VkEvent_Array(1) { this }
+
     companion object {
         val NULL = VkEvent()
     }
@@ -220,6 +247,8 @@ inline class VkFence(val L: Long = VK_NULL_HANDLE) {
     val isValid get() = L != VK_NULL_HANDLE
     val isInvalid get() = L == VK_NULL_HANDLE
 
+    fun toArray() = VkFence_Array(1) { this }
+
     companion object {
         val NULL = VkFence()
     }
@@ -228,6 +257,8 @@ inline class VkFence(val L: Long = VK_NULL_HANDLE) {
 inline class VkFramebuffer(val L: Long = VK_NULL_HANDLE) {
     val isValid get() = L != VK_NULL_HANDLE
     val isInvalid get() = L == VK_NULL_HANDLE
+
+    fun toArray() = VkFramebuffer_Array(1) { this }
 
     companion object {
         val NULL = VkFramebuffer()
@@ -240,6 +271,8 @@ inline class VkImage(val L: Long = VK_NULL_HANDLE) {
     val isValid get() = L != VK_NULL_HANDLE
     val isInvalid get() = L == VK_NULL_HANDLE
 
+    fun toArray() = VkImage_Array(1) { this }
+
     companion object {
         val NULL = VkImage()
     }
@@ -251,6 +284,8 @@ inline class VkImageView(val L: Long = VK_NULL_HANDLE) {
     val isValid get() = L != VK_NULL_HANDLE
     val isInvalid get() = L == VK_NULL_HANDLE
 
+    fun toArray() = VkImageView_Array(1) { this }
+
     companion object {
         val NULL = VkImageView()
     }
@@ -259,6 +294,8 @@ inline class VkImageView(val L: Long = VK_NULL_HANDLE) {
 inline class VkIndirectCommandsLayoutNVX(val L: Long = VK_NULL_HANDLE) {
     val isValid get() = L != VK_NULL_HANDLE
     val isInvalid get() = L == VK_NULL_HANDLE
+
+    fun toArray() = VkIndirectCommandsLayoutNVX_Array(1) { this }
 
     companion object {
         val NULL = VkIndirectCommandsLayoutNVX()
@@ -269,6 +306,8 @@ inline class VkObjectTableNVX(val L: Long = VK_NULL_HANDLE) {
     val isValid get() = L != VK_NULL_HANDLE
     val isInvalid get() = L == VK_NULL_HANDLE
 
+    fun toArray() = VkObjectTableNVX_Array(1) { this }
+
     companion object {
         val NULL = VkObjectTableNVX()
     }
@@ -278,6 +317,8 @@ inline class VkPipeline(val L: Long = VK_NULL_HANDLE) {
     val isValid get() = L != VK_NULL_HANDLE
     val isInvalid get() = L == VK_NULL_HANDLE
 
+    fun toArray() = VkPipeline_Array(1) { this }
+
     companion object {
         val NULL = VkPipeline()
     }
@@ -286,6 +327,8 @@ inline class VkPipeline(val L: Long = VK_NULL_HANDLE) {
 inline class VkPipelineCache(val L: Long = VK_NULL_HANDLE) {
     val isValid get() = L != VK_NULL_HANDLE
     val isInvalid get() = L == VK_NULL_HANDLE
+
+    fun toArray() = VkPipelineCache_Array(1) { this }
 
     companion object {
         val NULL = VkPipelineCache()
@@ -298,6 +341,8 @@ inline class VkPipelineLayout(val L: Long = VK_NULL_HANDLE) {
     val isValid get() = L != VK_NULL_HANDLE
     val isInvalid get() = L == VK_NULL_HANDLE
 
+    fun toArray() = VkPipelineLayout_Array(1) { this }
+
     companion object {
         val NULL = VkPipelineLayout()
     }
@@ -306,6 +351,8 @@ inline class VkPipelineLayout(val L: Long = VK_NULL_HANDLE) {
 inline class VkQueryPool(val L: Long = VK_NULL_HANDLE) {
     val isValid get() = L != VK_NULL_HANDLE
     val isInvalid get() = L == VK_NULL_HANDLE
+
+    fun toArray() = VkQueryPool_Array(1) { this }
 
     companion object {
         val NULL = VkQueryPool()
@@ -316,6 +363,8 @@ inline class VkRenderPass(val L: Long = VK_NULL_HANDLE) {
     val isValid get() = L != VK_NULL_HANDLE
     val isInvalid get() = L == VK_NULL_HANDLE
 
+    fun toArray() = VkRenderPass_Array(1) { this }
+
     companion object {
         val NULL = VkRenderPass()
     }
@@ -324,6 +373,8 @@ inline class VkRenderPass(val L: Long = VK_NULL_HANDLE) {
 inline class VkSampler(val L: Long = VK_NULL_HANDLE) {
     val isValid get() = L != VK_NULL_HANDLE
     val isInvalid get() = L == VK_NULL_HANDLE
+
+    fun toArray() = VkSampler_Array(1) { this }
 
     companion object {
         val NULL = VkSampler()
@@ -334,6 +385,8 @@ inline class VkSamplerYcbcrConversion(val L: Long = VK_NULL_HANDLE) {
     val isValid get() = L != VK_NULL_HANDLE
     val isInvalid get() = L == VK_NULL_HANDLE
 
+    fun toArray() = VkSamplerYcbcrConversion_Array(1) { this }
+
     companion object {
         val NULL = VkSamplerYcbcrConversion()
     }
@@ -343,6 +396,8 @@ inline class VkSemaphore(val L: Long = VK_NULL_HANDLE) {
     val isValid get() = L != VK_NULL_HANDLE
     val isInvalid get() = L == VK_NULL_HANDLE
 
+    fun toArray() = VkSemaphore_Array(1) { this }
+
     companion object {
         val NULL = VkSemaphore()
     }
@@ -351,6 +406,8 @@ inline class VkSemaphore(val L: Long = VK_NULL_HANDLE) {
 inline class VkShaderModule(val L: Long = VK_NULL_HANDLE) {
     val isValid get() = L != VK_NULL_HANDLE
     val isInvalid get() = L == VK_NULL_HANDLE
+
+    fun toArray() = VkShaderModule_Array(1) { this }
 
     companion object {
         val NULL = VkShaderModule()
@@ -363,6 +420,8 @@ inline class VkSurfaceKHR(val L: Long = VK_NULL_HANDLE) {
     val isValid get() = L != VK_NULL_HANDLE
     val isInvalid get() = L == VK_NULL_HANDLE
 
+    fun toArray() = VkSurfaceKHR_Array(1) { this }
+
     companion object {
         val NULL = VkSurfaceKHR()
     }
@@ -374,6 +433,8 @@ inline class VkSwapchainKHR(val L: Long = VK_NULL_HANDLE) {
     val isValid get() = L != VK_NULL_HANDLE
     val isInvalid get() = L == VK_NULL_HANDLE
 
+    fun toArray() = VkSwapchainKHR_Array(1) { this }
+
     companion object {
         val NULL = VkSwapchainKHR()
     }
@@ -382,6 +443,8 @@ inline class VkSwapchainKHR(val L: Long = VK_NULL_HANDLE) {
 inline class VkValidationCacheEXT(val L: Long = VK_NULL_HANDLE) {
     val isValid get() = L != VK_NULL_HANDLE
     val isInvalid get() = L == VK_NULL_HANDLE
+
+    fun toArray() = VkValidationCacheEXT_Array(1) { this }
 
     companion object {
         val NULL = VkValidationCacheEXT()

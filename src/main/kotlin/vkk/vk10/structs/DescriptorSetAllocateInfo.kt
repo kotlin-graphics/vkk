@@ -8,6 +8,7 @@ import org.lwjgl.system.MemoryUtil.memPutAddress
 import org.lwjgl.vulkan.VkDescriptorSetAllocateInfo.*
 import vkk.VkStructureType
 import vkk.entities.VkDescriptorPool
+import vkk.entities.VkDescriptorSetLayout
 import vkk.entities.VkDescriptorSetLayout_Array
 
 /**
@@ -61,6 +62,10 @@ class DescriptorSetAllocateInfo(
         var setLayouts: VkDescriptorSetLayout_Array,
         var next: Ptr = NULL
 ) {
+
+    constructor(descriptorPool: VkDescriptorPool,
+                setLayout: VkDescriptorSetLayout,
+                next: Ptr = NULL) : this(descriptorPool, setLayout.toArray(), next)
 
     val type get() = VkStructureType.DESCRIPTOR_SET_ALLOCATE_INFO
 
