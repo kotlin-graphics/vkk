@@ -116,8 +116,8 @@ class SurfaceCapabilitiesKHR(
 }
 
 class SurfaceFormatKHR(
-        var format: VkFormat,
-        var colorSpace: VkColorSpaceKHR) {
+        var format: VkFormat = VkFormat.UNDEFINED, // 0
+        var colorSpace: VkColorSpaceKHR = VkColorSpaceKHR.SRGB_NONLINEAR_KHR) { // 0
 
     constructor(intPtr: IntPtr) : this(VkFormat(intPtr[0]), VkColorSpaceKHR(intPtr[1]))
 }
