@@ -1,7 +1,7 @@
 package vkk
 
 
-inline class VkExternalMemoryHandleTypeNV(val i: Int) {
+inline class VkExternalMemoryHandleTypeNV(val i: VkExternalMemoryHandleTypeFlagsNV) {
     companion object {
         val OPAQUE_WIN32_BIT_NV = VkExternalMemoryHandleTypeNV(0x00000001)
         val OPAQUE_WIN32_KMT_BIT_NV = VkExternalMemoryHandleTypeNV(0x00000002)
@@ -12,7 +12,7 @@ inline class VkExternalMemoryHandleTypeNV(val i: Int) {
 
 typealias VkExternalMemoryHandleTypeFlagsNV = VkFlags
 
-inline class VkExternalMemoryFeatureNV(val i: Int) {
+inline class VkExternalMemoryFeatureNV(val i: VkExternalMemoryFeatureFlagsNV) {
     companion object {
         val DEDICATED_ONLY_BIT_NV = VkExternalMemoryFeatureNV(0x00000001)
         val EXPORTABLE_BIT_NV = VkExternalMemoryFeatureNV(0x00000002)
@@ -26,7 +26,7 @@ typealias VkExternalMemoryFeatureFlagsNV = VkFlags
 
 typealias VkExternalFenceHandleTypeFlags = VkFlags
 
-inline class VkExternalFenceFeature(val i: Int) {
+inline class VkExternalFenceFeature(val i: VkExternalFenceFeatureFlags) {
     companion object {
         val EXPORTABLE_BIT = VkExternalFenceFeature(0x00000001)
         val IMPORTABLE_BIT = VkExternalFenceFeature(0x00000002)
@@ -37,7 +37,7 @@ inline class VkExternalFenceFeature(val i: Int) {
 
 typealias VkExternalFenceFeatureFlags = VkFlags
 
-inline class VkFenceImport(val i: Int) {
+inline class VkFenceImport(val i: VkFenceImportFlags) {
     companion object {
         val TEMPORARY_BIT = VkFenceImport(0x00000001)
         val TEMPORARY_BIT_KHR = VkFenceImport.TEMPORARY_BIT
@@ -46,7 +46,7 @@ inline class VkFenceImport(val i: Int) {
 
 typealias VkFenceImportFlags = VkFlags
 
-inline class VkSemaphoreImport(val i: Int) {
+inline class VkSemaphoreImport(val i: VkSemaphoreImportFlags) {
     companion object {
         val TEMPORARY_BIT = VkSemaphoreImport(0x00000001)
         val TEMPORARY_BIT_KHR = VkSemaphoreImport.TEMPORARY_BIT
@@ -57,7 +57,7 @@ typealias VkSemaphoreImportFlags = VkFlags
 
 // ...
 
-inline class VkExternalSemaphoreHandleType(val i: Int) {
+inline class VkExternalSemaphoreHandleType(val i: VkExternalSemaphoreHandleTypeFlags) {
     companion object {
         val OPAQUE_FD_BIT = VkExternalSemaphoreHandleType(0x00000001)
         val OPAQUE_WIN32_BIT = VkExternalSemaphoreHandleType(0x00000002)
@@ -74,7 +74,7 @@ inline class VkExternalSemaphoreHandleType(val i: Int) {
 
 typealias VkExternalSemaphoreHandleTypeFlags = VkFlags
 
-inline class VkExternalSemaphoreFeature(val i: Int) {
+inline class VkExternalSemaphoreFeature(val i: VkExternalSemaphoreFeatureFlags) {
     companion object {
         val EXPORTABLE_BIT = VkExternalSemaphoreFeature(0x00000001)
         val IMPORTABLE_BIT = VkExternalSemaphoreFeature(0x00000002)
@@ -268,7 +268,7 @@ typealias VkValidationCacheCreateFlagsEXT = VkFlags
 
 // ..
 
-inline class VkDescriptorBindingEXT(val i: Int) {
+inline class VkDescriptorBindingEXT(val i: VkDescriptorBindingFlagsEXT) {
     companion object {
         val UPDATE_AFTER_BIND_BIT_EXT = VkDescriptorBindingEXT(0x00000001)
         val UPDATE_UNUSED_WHILE_PENDING_BIT_EXT = VkDescriptorBindingEXT(0x00000002)
@@ -347,7 +347,7 @@ inline class VkAccelerationStructureMemoryRequirementsTypeNV(val i: Int) {
 }
 
 
-inline class VkGeometryFlagNV(val i: Int) {
+inline class VkGeometryFlagNV(val i: VkGeometryFlagsNV) {
     companion object {
         val OPAQUE_BIT_NV = VkGeometryFlagNV(0x00000001)
         val NO_DUPLICATE_ANY_HIT_INVOCATION_BIT_NV = VkGeometryFlagNV(0x00000002)
@@ -356,7 +356,7 @@ inline class VkGeometryFlagNV(val i: Int) {
 
 typealias VkGeometryFlagsNV = VkFlags
 
-inline class VkGeometryInstanceNV(val i: Int) {
+inline class VkGeometryInstanceNV(val i: VkGeometryInstanceFlagsNV) {
     companion object {
         val TRIANGLE_CULL_DISABLE_BIT_NV = VkGeometryInstanceNV(0x00000001)
         val TRIANGLE_FRONT_COUNTERCLOCKWISE_BIT_NV = VkGeometryInstanceNV(0x00000002)
@@ -367,7 +367,7 @@ inline class VkGeometryInstanceNV(val i: Int) {
 
 typealias VkGeometryInstanceFlagsNV = VkFlags
 
-inline class VkBuildAccelerationStructureNV(val i: Int) {
+inline class VkBuildAccelerationStructureNV(val i: VkBuildAccelerationStructureFlagsNV) {
     companion object {
         val ALLOW_UPDATE_BIT_NV = VkBuildAccelerationStructureNV(0x00000001)
         val ALLOW_COMPACTION_BIT_NV = VkBuildAccelerationStructureNV(0x00000002)
@@ -413,7 +413,7 @@ inline class VkMemoryOverallocationBehaviorAMD(val i: Int) {
 
 // ..
 
-inline class VkPipelineCreationFeedback(val i: Int) {
+inline class VkPipelineCreationFeedback(val i: VkPipelineCreationFeedbackFlagsEXT) {
     companion object {
         val FEEDBACK_VALID_BIT_EXT = VkPipelineCreationFeedback(0x00000001)
         val APPLICATION_PIPELINE_CACHE_HIT_BIT_EXT = VkPipelineCreationFeedback(0x00000002)

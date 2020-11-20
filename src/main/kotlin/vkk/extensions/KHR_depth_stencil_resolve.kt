@@ -1,7 +1,7 @@
 package vkk.extensions
 
 
-inline class VkResolveModeKHR(val i: Int) {
+inline class VkResolveModeKHR(val i: VkResolveModeFlagsKHR) {
     companion object {
         val NONE = VkResolveModeKHR(0)
         val SAMPLE_ZERO_BIT = VkResolveModeKHR(0x00000001)

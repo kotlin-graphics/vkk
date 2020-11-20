@@ -16,7 +16,7 @@ import java.nio.ByteBuffer
 typealias VkDebugUtilsMessengerCallbackDataFlagsEXT = VkFlags
 typealias VkDebugUtilsMessengerCreateFlagsEXT = VkFlags
 
-inline class VkDebugUtilsMessageSeverityEXT(val i: Int) {
+inline class VkDebugUtilsMessageSeverityEXT(val i: VkDebugUtilsMessageSeverityFlagsEXT) {
     companion object {
         val VERBOSE = VkDebugUtilsMessageSeverityEXT(0x00000001)
         val INFO = VkDebugUtilsMessageSeverityEXT(0x00000010)
@@ -26,7 +26,7 @@ inline class VkDebugUtilsMessageSeverityEXT(val i: Int) {
 }
 typealias VkDebugUtilsMessageSeverityFlagsEXT = VkFlags
 
-inline class VkDebugUtilsMessageTypeEXT(val i: Int) {
+inline class VkDebugUtilsMessageTypeEXT(val i: VkDebugUtilsMessageTypeFlagsEXT) {
     companion object {
         val GENERAL = VkDebugUtilsMessageTypeEXT(0x00000001)
         val VALIDATION = VkDebugUtilsMessageTypeEXT(0x00000002)

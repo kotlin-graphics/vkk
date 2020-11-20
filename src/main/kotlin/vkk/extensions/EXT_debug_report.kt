@@ -49,7 +49,7 @@ inline class VkDebugReportObjectTypeEXT(val i: Int) {
 }
 
 
-inline class VkDebugReport(val i: Int) {
+inline class VkDebugReport(val i: VkDebugReportFlagsEXT) {
     companion object {
         val INFORMATION_BIT_EXT = VkDebugReport(0x00000001)
         val WARNING_BIT_EXT = VkDebugReport(0x00000002)

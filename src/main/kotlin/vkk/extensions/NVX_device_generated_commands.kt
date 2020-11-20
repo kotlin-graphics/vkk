@@ -26,7 +26,7 @@ inline class VkObjectEntryTypeNVX(val i: Int) {
 }
 
 
-inline class VkIndirectCommandsLayoutUsageNVX(val i: Int) {
+inline class VkIndirectCommandsLayoutUsageNVX(val i: VkIndirectCommandsLayoutUsageFlagsNVX) {
     companion object {
         val UNORDERED_SEQUENCES_BIT_NVX = VkIndirectCommandsLayoutUsageNVX(0x00000001)
         val SPARSE_SEQUENCES_BIT_NVX = VkIndirectCommandsLayoutUsageNVX(0x00000002)
@@ -38,7 +38,7 @@ inline class VkIndirectCommandsLayoutUsageNVX(val i: Int) {
 typealias VkIndirectCommandsLayoutUsageFlagsNVX = VkFlags
 
 
-inline class VkObjectEntryUsageNVX(val i: Int) {
+inline class VkObjectEntryUsageNVX(val i: VkObjectEntryUsageFlagsNVX) {
     companion object {
         val GRAPHICS_BIT_NVX = VkObjectEntryUsageNVX(0x00000001)
         val COMPUTE_BIT_NVX = VkObjectEntryUsageNVX(0x00000002)

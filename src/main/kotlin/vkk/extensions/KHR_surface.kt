@@ -49,7 +49,7 @@ inline class VkPresentModeKHR(val i: Int) {
 }
 
 
-inline class VkSurfaceTransformKHR(val i: Int) {
+inline class VkSurfaceTransformKHR(val i: VkSurfaceTransformFlagsKHR) {
     companion object {
         val IDENTITY_BIT = VkSurfaceTransformKHR(0x00000001)
         val ROTATE_90_BIT = VkSurfaceTransformKHR(0x00000002)
@@ -67,7 +67,7 @@ infix fun Int.has(f: VkSurfaceTransformKHR) = and(f.i) != 0
 
 typealias VkSurfaceTransformFlagsKHR = VkFlags
 
-inline class VkCompositeAlphaKHR(val i: Int) {
+inline class VkCompositeAlphaKHR(val i: VkCompositeAlphaFlagsKHR) {
     companion object {
         val OPAQUE_BIT = VkCompositeAlphaKHR(0x00000001)
         val PRE_MULTIPLIED_BIT = VkCompositeAlphaKHR(0x00000002)
