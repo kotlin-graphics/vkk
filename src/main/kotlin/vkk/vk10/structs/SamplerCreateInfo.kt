@@ -155,7 +155,7 @@ class SamplerCreateInfo(
         var compareOp: VkCompareOp = VkCompareOp.NEVER,
         var minLod: Float = 0f,
         var maxLod: Float = 0f,
-        var borderColor: VkBorderColor,
+        var borderColor: VkBorderColor = VkBorderColor.FLOAT_TRANSPARENT_BLACK,
         var unnormalizedCoordinates: Boolean = false,
         var next: Ptr = NULL
 ) {
@@ -172,7 +172,7 @@ class SamplerCreateInfo(
             compareOp: VkCompareOp = VkCompareOp.NEVER,
             minLod: Float = 0f,
             maxLod: Float = 0f,
-            borderColor: VkBorderColor,
+            borderColor: VkBorderColor = VkBorderColor.FLOAT_TRANSPARENT_BLACK,
             unnormalizedCoordinates: Boolean = false,
             next: Ptr = NULL
     ) : this(flags, magMinFilter, magMinFilter, mipmapMode,
