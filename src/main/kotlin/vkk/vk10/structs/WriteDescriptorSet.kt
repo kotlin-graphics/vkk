@@ -123,6 +123,8 @@ class WriteDescriptorSet(
         var texelBufferView: VkBufferView_Array? = null,
         var next: Ptr = NULL) {
 
+    // we dont overload with single elements argument because of ambiguity (only one among imageInfo, bufferInfo or
+    // texelBufferView can be valid
 
     val type get() = VkStructureType.WRITE_DESCRIPTOR_SET
 
