@@ -1,6 +1,5 @@
 package vkk.vk10
 
-import glm_.asHexString
 import glm_.i
 import glm_.vec4.Vec4
 import kool.*
@@ -384,11 +383,11 @@ interface VkStack_VK10 : VkStackInterface {
 
     // --- [ vkUpdateDescriptorSets ] ---
 
-    fun Device.updateDescriptorSets(descriptorWrites: Array<WriteDescriptorSet>, descriptorCopies: Array<CopyDescriptorSet>) =
-            stack { callPPPV(adr, descriptorWrites.size, descriptorWrites write stack, descriptorCopies.size, descriptorCopies write stack, capabilities.vkUpdateDescriptorSets) }
+    fun Device.updateDescriptorSets(descriptorWrites: Array<WriteDescriptorSet>?, descriptorCopies: Array<CopyDescriptorSet>? = null) =
+            stack { callPPPV(adr, descriptorWrites?.size ?: 0, descriptorWrites?.write(stack) ?: NULL, descriptorCopies?.size ?: 0, descriptorCopies?.write(stack) ?: NULL, capabilities.vkUpdateDescriptorSets) }
 
-    fun Device.updateDescriptorSets(descriptorWrite: WriteDescriptorSet, descriptorCopy: CopyDescriptorSet) =
-            stack { callPPPV(adr, 1, descriptorWrite write stack, 1, descriptorCopy write stack, capabilities.vkUpdateDescriptorSets) }
+    fun Device.updateDescriptorSet(descriptorWrite: WriteDescriptorSet?, descriptorCopy: CopyDescriptorSet? = null) =
+            stack { callPPPV(adr, if(descriptorWrite != null) 1 else 0, descriptorWrite?.write(stack) ?: NULL, if(descriptorCopy != null) 1 else 0, descriptorCopy?.write(stack) ?: NULL, capabilities.vkUpdateDescriptorSets) }
 
     // --- [ vkCreateFramebuffer ] ---
 
@@ -866,11 +865,11 @@ fun Device.freeDescriptorSets(descriptorPool: VkDescriptorPool, descriptorSet: V
 
 // --- [ vkUpdateDescriptorSets ] ---
 
-fun Device.updateDescriptorSets(descriptorWrites: Array<WriteDescriptorSet>, descriptorCopies: Array<CopyDescriptorSet>) =
+fun Device.updateDescriptorSets(descriptorWrites: Array<WriteDescriptorSet>?, descriptorCopies: Array<CopyDescriptorSet>? = null) =
         VkStack { it.run { updateDescriptorSets(descriptorWrites, descriptorCopies) } }
 
-fun Device.updateDescriptorSets(descriptorWrite: WriteDescriptorSet, descriptorCopy: CopyDescriptorSet) =
-        VkStack { it.run { updateDescriptorSets(descriptorWrite, descriptorCopy) } }
+fun Device.updateDescriptorSet(descriptorWrite: WriteDescriptorSet?, descriptorCopy: CopyDescriptorSet? = null) =
+        VkStack { it.run { updateDescriptorSet(descriptorWrite, descriptorCopy) } }
 
 // --- [ vkCreateFramebuffer ] ---
 
