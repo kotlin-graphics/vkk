@@ -57,6 +57,26 @@ class SwapchainCreateInfoKHR(
         var oldSwapchain: VkSwapchainKHR = VkSwapchainKHR.NULL,
         var next: Ptr = NULL) {
 
+    /** surfaceFormat variant */
+    constructor(flags: VkSwapchainCreateFlagsKHR = 0,
+                surface: VkSurfaceKHR,
+                minImageCount: Int,
+                surfaceFormat: SurfaceFormatKHR,
+                imageExtent: Extent2D = Extent2D(0, 0),
+                imageArrayLayers: Int,
+                imageUsage: VkImageUsageFlags,
+                imageSharingMode: VkSharingMode,
+                queueFamilyIndices: IntArray? = null,
+                preTransform: VkSurfaceTransformKHR,
+                compositeAlpha: VkCompositeAlphaKHR,
+                presentMode: VkPresentModeKHR,
+                clipped: Boolean,
+                oldSwapchain: VkSwapchainKHR = VkSwapchainKHR.NULL,
+                next: Ptr = NULL) :
+            this(flags, surface, minImageCount, surfaceFormat.format, surfaceFormat.colorSpace, imageExtent,
+                    imageArrayLayers, imageUsage, imageSharingMode, queueFamilyIndices, preTransform, compositeAlpha,
+                    presentMode, clipped)
+
     val type get() = VkStructureType.SWAPCHAIN_CREATE_INFO_KHR
 
     infix fun write(stack: MemoryStack): Adr {
