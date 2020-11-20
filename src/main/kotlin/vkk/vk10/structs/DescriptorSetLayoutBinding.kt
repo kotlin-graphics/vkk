@@ -7,6 +7,7 @@ import org.lwjgl.system.MemoryUtil.memPutAddress
 import org.lwjgl.vulkan.VkDescriptorSetLayoutBinding.*
 import vkk.VkDescriptorType
 import vkk.VkShaderStageFlags
+import vkk.entities.VkSampler
 import vkk.entities.VkSampler_Array
 
 /**
@@ -72,8 +73,15 @@ class DescriptorSetLayoutBinding(
         var immutableSamplers: VkSampler_Array? = null
 ) {
 
+    constructor(binding: Int,
+                descriptorType: VkDescriptorType,
+                descriptorCount: Int,
+                stageFlags: VkShaderStageFlags,
+                immutableSampler: VkSampler? = null) :
+            this(binding, descriptorType, descriptorCount, stageFlags, immutableSampler?.let { s -> VkSampler_Array(1) { s } })
+
     infix fun write(stack: MemoryStack): Adr =
-        stack.ncalloc(ALIGNOF, 1, SIZEOF).also { write(it, stack) }
+            stack.ncalloc(ALIGNOF, 1, SIZEOF).also { write(it, stack) }
 
     fun write(adr: Adr, stack: MemoryStack) {
         nbinding(adr, binding)
