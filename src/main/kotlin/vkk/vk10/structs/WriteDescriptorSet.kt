@@ -8,6 +8,7 @@ import org.lwjgl.system.MemoryUtil.memPutAddress
 import org.lwjgl.vulkan.VkWriteDescriptorSet.*
 import vkk.VkDescriptorType
 import vkk.VkStructureType
+import vkk.entities.VkBufferView_Array
 import vkk.entities.VkDescriptorSet
 
 /**
@@ -113,14 +114,15 @@ import vkk.entities.VkDescriptorSet
  */
 class WriteDescriptorSet(
         var dstSet: VkDescriptorSet,
-        var dstBinding: Int,
-        var dstArrayElement: Int,
+        var dstBinding: Int = 0,
+        var dstArrayElement: Int = 0,
         var descriptorCount: Int,
         var descriptorType: VkDescriptorType,
-        var imageInfo: Array<DescriptorImageInfo>,
-        var bufferInfo: Array<DescriptorBufferInfo>,
-        var next: Ptr = NULL
-) {
+        var imageInfo: Array<DescriptorImageInfo>? = null,
+        var bufferInfo: Array<DescriptorBufferInfo>? = null,
+        var texelBufferView: VkBufferView_Array? = null,
+        var next: Ptr = NULL) {
+
 
     val type get() = VkStructureType.WRITE_DESCRIPTOR_SET
 
@@ -135,8 +137,9 @@ class WriteDescriptorSet(
         ndstArrayElement(adr, dstArrayElement)
         ndescriptorCount(adr, descriptorCount)
         ndescriptorType(adr, descriptorType.i)
-        memPutAddress(adr + PIMAGEINFO, imageInfo write stack)
-        memPutAddress(adr + PBUFFERINFO, bufferInfo write stack)
+        imageInfo?.let { memPutAddress(adr + PIMAGEINFO, it write stack) }
+        bufferInfo?.let { memPutAddress(adr + PBUFFERINFO, it write stack) }
+        texelBufferView?.let { memPutAddress(adr + PTEXELBUFFERVIEW, it write stack) }
     }
 }
 

@@ -77,8 +77,8 @@ class DescriptorSetLayoutBinding(
                 descriptorType: VkDescriptorType,
                 descriptorCount: Int,
                 stageFlags: VkShaderStageFlags,
-                immutableSampler: VkSampler? = null) :
-            this(binding, descriptorType, descriptorCount, stageFlags, immutableSampler?.let { s -> VkSampler_Array(1) { s } })
+                immutableSampler: VkSampler) :
+            this(binding, descriptorType, descriptorCount, stageFlags, immutableSampler.toArray())
 
     infix fun write(stack: MemoryStack): Adr =
             stack.ncalloc(ALIGNOF, 1, SIZEOF).also { write(it, stack) }
