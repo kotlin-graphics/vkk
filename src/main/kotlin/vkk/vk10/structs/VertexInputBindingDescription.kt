@@ -43,7 +43,7 @@ import vkk.VkVertexInputRate
  * }</code></pre>
  */
 class VertexInputBindingDescription(
-    var binding: Int,
+    var binding: Int = 0,
     var stride: Int,
     var inputRate: VkVertexInputRate
 ) {
