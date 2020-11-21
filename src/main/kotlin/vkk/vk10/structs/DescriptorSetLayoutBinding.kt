@@ -66,14 +66,14 @@ import vkk.entities.VkSampler_Array
  * }</code></pre>
  */
 class DescriptorSetLayoutBinding(
-        var binding: Int,
+        var binding: Int = 0,
         var descriptorType: VkDescriptorType,
         var descriptorCount: Int,
         var stageFlags: VkShaderStageFlags,
         var immutableSamplers: VkSampler_Array? = null
 ) {
 
-    constructor(binding: Int,
+    constructor(binding: Int = 0,
                 descriptorType: VkDescriptorType,
                 descriptorCount: Int,
                 stageFlags: VkShaderStageFlags,
