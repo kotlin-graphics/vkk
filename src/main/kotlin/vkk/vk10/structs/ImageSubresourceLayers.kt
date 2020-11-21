@@ -49,8 +49,8 @@ import vkk.VkImageAspectFlags
  */
 class ImageSubresourceLayers(
         var aspectMask: VkImageAspectFlags,
-        var mipLevel: Int,
-        var baseArrayLayer: Int,
+        var mipLevel: Int = 0,
+        var baseArrayLayer: Int = 0,
         var layerCount: Int
 ) {
 
