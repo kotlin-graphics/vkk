@@ -1,6 +1,8 @@
 package vkk.identifiers
 
-import kool.*
+import kool.Ptr
+import kool.adr
+import kool.indices
 import org.lwjgl.system.APIUtil.apiLog
 import org.lwjgl.system.Checks
 import org.lwjgl.system.FunctionProvider
@@ -9,7 +11,10 @@ import org.lwjgl.system.MemoryStack.stackPush
 import org.lwjgl.system.MemoryUtil.*
 import org.lwjgl.vulkan.VK10.VK_SUCCESS
 import org.lwjgl.vulkan.VkExtensionProperties
-import vkk.*
+import vkk.VK_CHECK_RESULT
+import vkk.VkCloseable
+import vkk.VkStack
+import vkk.vk10.api.Instance_vk10
 import vkk.vk10.structs.InstanceCreateInfo
 import java.util.*
 
@@ -37,7 +42,7 @@ class Instance
  */
 internal constructor(handle: Ptr, ci: InstanceCreateInfo) :
         Dispatchable(handle, getInstanceCapabilities(handle, ci)),
-        VkCloseable {
+        VkCloseable, Instance_vk10 {
 
     // ---------------------------------------------- VK10 -------------------------------------------------------------
 
@@ -53,7 +58,6 @@ internal constructor(handle: Ptr, ci: InstanceCreateInfo) :
     fun destroy() = callPPV(adr, NULL, capabilities.vkDestroyInstance)
 
     // ---------------------------------------------- VK11 -------------------------------------------------------------
-
 
 
     override fun close() = destroy()
