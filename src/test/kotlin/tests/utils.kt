@@ -1,9 +1,9 @@
 package tests
 
-import uno.createSurface
 import uno.glfw.GlfwWindow
 import uno.glfw.glfw
 import uno.glfw.windowHint
+import uno.vk.createSurface
 import vkk.VkBufferUsage
 import vkk.VkMemoryProperty
 import vkk.VkMemoryPropertyFlags

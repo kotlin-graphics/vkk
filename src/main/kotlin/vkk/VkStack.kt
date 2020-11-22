@@ -43,11 +43,11 @@ class VkStack private constructor(container: ByteBuffer?, address: Adr, size: In
     override val stack: VkStack
         get() = this
 
-//    inline var pointer: Int
-//        get() = stack.pointer
-//        set(value) {
-//            stack.pointer = value
-//        }
+    //    inline var pointer: Int
+    //        get() = stack.pointer
+    //        set(value) {
+    //            stack.pointer = value
+    //        }
 
     inline operator fun <R> invoke(block: () -> R): R = framed(block)
 
@@ -59,7 +59,7 @@ class VkStack private constructor(container: ByteBuffer?, address: Adr, size: In
     }
 
 
-    inline fun pByte(count: Int = 1) = BytePtr(stack.nmalloc(Byte.BYTES, Byte.BYTES * count))
+    inline fun pByte(count: Int = 1) = BytePtr(super.nmalloc(Byte.BYTES, Byte.BYTES * count))
     inline fun pShort(count: Int = 1) = ShortPtr(stack.nmalloc(Short.BYTES, Short.BYTES * count))
     inline fun pInt(count: Int = 1) = IntPtr(stack.nmalloc(Int.BYTES, Int.BYTES * count))
     inline fun pLong(count: Int = 1) = LongPtr(stack.nmalloc(Long.BYTES, Long.BYTES * count))
@@ -117,10 +117,10 @@ class VkStack private constructor(container: ByteBuffer?, address: Adr, size: In
     fun pDoubleOf(vararg doubles: Double): DoublePtr = pDouble(doubles.size).also { for (i in doubles.indices) it[i] = doubles[i] }
 
     fun pPointerOf(p: Pointer): PointerPtr = pPointer(1).also { it[0] = p }
-//fun VrStack.pPointerOf(d0: Double, d1: Double): DoublePtr = mDouble(2).also { it[0] = d0; it[1] = d1 }
-//fun VrStack.pPointerOf(d0: Double, d1: Double, d2: Double): DoublePtr = mDouble(3).also { it[0] = d0; it[1] = d1; it[2] = d2 }
-//fun VrStack.pPointerOf(d0: Double, d1: Double, d2: Double, d3: Double): DoublePtr = mDouble(4).also { it[0] = d0; it[1] = d1; it[2] = d2; it[3] = d3 }
-//fun VrStack.pPointerOf(vararg doubles: Double): DoublePtr = mDouble(doubles.size).also { for(i in doubles.indices) it[i] = doubles[i] }
+    //fun VrStack.pPointerOf(d0: Double, d1: Double): DoublePtr = mDouble(2).also { it[0] = d0; it[1] = d1 }
+    //fun VrStack.pPointerOf(d0: Double, d1: Double, d2: Double): DoublePtr = mDouble(3).also { it[0] = d0; it[1] = d1; it[2] = d2 }
+    //fun VrStack.pPointerOf(d0: Double, d1: Double, d2: Double, d3: Double): DoublePtr = mDouble(4).also { it[0] = d0; it[1] = d1; it[2] = d2; it[3] = d3 }
+    //fun VrStack.pPointerOf(vararg doubles: Double): DoublePtr = mDouble(doubles.size).also { for(i in doubles.indices) it[i] = doubles[i] }
 
 
     // --------------------------------------------- getters ---------------------------------------------
@@ -234,8 +234,8 @@ class VkStack private constructor(container: ByteBuffer?, address: Adr, size: In
     inline fun utf16Adr(chars: CharSequence, nullTerminated: Boolean = true): Adr = stack.nmalloc(1, MemoryUtil.memLengthUTF16(chars, nullTerminated)).also { encodeUTF16(chars, nullTerminated, it) }
     inline fun utf16Buffer(chars: CharSequence, nullTerminated: Boolean = true): ByteBuffer = stack.UTF16(chars, nullTerminated)
 
-//@JvmName("asciiAdrSafe")
-//inline fun VrStack.asciiAdr(chars: CharSequence?, nullTerminated: Boolean = true): Adr = chars?.let { asciiAdr(it, nullTerminated) } ?: NULL
+    //@JvmName("asciiAdrSafe")
+    //inline fun VrStack.asciiAdr(chars: CharSequence?, nullTerminated: Boolean = true): Adr = chars?.let { asciiAdr(it, nullTerminated) } ?: NULL
 
     inline fun adrOf(byte: Byte): Adr = pByteOf(byte).adr
     inline fun bufOf(byte: Byte): ByteBuffer = stack.bytes(byte)
@@ -354,7 +354,7 @@ class VkStack private constructor(container: ByteBuffer?, address: Adr, size: In
 
     fun Buffer(bytes: ByteArray): ByteBuffer = Buffer(bytes.size) { bytes[it] }
     fun ByteBuffer(bytes: ByteArray): ByteBuffer = Buffer(bytes)
-//inline fun ByteArray.toShortBuffer(stack: MemoryStack): ShortBuffer { TODO?
+    //inline fun ByteArray.toShortBuffer(stack: MemoryStack): ShortBuffer { TODO?
 
     fun Buffer(shorts: ShortArray): ByteBuffer = Buffer(shorts.size * Short.BYTES).also { for (i in shorts.indices) it.putShort(i * Short.BYTES, shorts[i]) }
     fun ByteBuffer(shorts: ShortArray): ByteBuffer = Buffer(shorts)
@@ -410,16 +410,17 @@ class VkStack private constructor(container: ByteBuffer?, address: Adr, size: In
     companion object {
 
         val DEFAULT_STACK_SIZE = Configuration.STACK_SIZE.get(64) * 1024
+        private val TLS = ThreadLocal.withInitial(this::create)
 
         fun create(capacity: Int = DEFAULT_STACK_SIZE): VkStack = create(BufferUtils.createByteBuffer(capacity))
         fun create(buffer: ByteBuffer): VkStack = VkStack(buffer, buffer.adr, buffer.rem)
         fun ncreate(address: Adr, size: Int): VkStack = VkStack(null, address, size)
 
-        fun get(): VkStack = from(MemoryStack.stackGet())
+        fun get(): VkStack = from(TLS.get())
 
-        fun push(): VkStack = from(MemoryStack.stackPush())
+        fun push(): VkStack = get().apply { push() }
 
-        fun pop(): VkStack = from(MemoryStack.stackPop())
+        fun pop(): VkStack = get().apply { pop() }
 
         infix fun from(memStack: MemoryStack): VkStack {
             val adr = memStack.adr
@@ -430,9 +431,9 @@ class VkStack private constructor(container: ByteBuffer?, address: Adr, size: In
         inline operator fun <R> invoke(block: (VkStack) -> R): R {
             val vkStack = VkStack.get() // slightly more efficient than `use`
             val ptr = vkStack.pointer
-            val res = block(vkStack)
-            vkStack.pointer = ptr
-            return res
+            return block(vkStack).also {
+                vkStack.pointer = ptr
+            }
         }
 
         fun nMalloc(size: Int): Adr = MemoryStack.nstackMalloc(size)

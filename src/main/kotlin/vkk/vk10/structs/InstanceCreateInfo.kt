@@ -3,7 +3,9 @@ package vkk.vk10.structs
 import kool.Adr
 import kool.PointerAdr
 import org.lwjgl.system.MemoryStack
+import org.lwjgl.system.MemoryUtil
 import org.lwjgl.system.MemoryUtil.*
+import org.lwjgl.system.Pointer
 import org.lwjgl.vulkan.*
 import org.lwjgl.vulkan.VkInstanceCreateInfo.*
 import vkk.VkStructure
@@ -77,19 +79,38 @@ class InstanceCreateInfo(
         return this
     }
 
+    inline fun MemoryStack.PointerAdr(size: Int, init: (Int) -> Adr): Adr {
+        println("MemoryStack.PointerAdr(size: Int, init: (Int) -> Adr)")
+        val bytes = size * Pointer.POINTER_SIZE
+        val address = nmalloc(Pointer.POINTER_SIZE, bytes)
+        MemoryUtil.memSet(address, 0, bytes.toLong())
+        for (i in 0 until size)
+            MemoryUtil.memPutAddress(address + i * Pointer.POINTER_SIZE, init(i))
+        return address
+    }
+
+    fun MemoryStack.PointerAdr(strings: Collection<String>): Adr {
+        println("MemoryStack.PointerAdr(strings: Collection<String>)")
+        return PointerAdr(strings.size) { i ->
+            val string = strings.elementAt(i)
+            val length = MemoryUtil.memLengthASCII(string, true)
+            nmalloc(1, length).also { kool.encodeASCII(string, true, it) }
+        }
+    }
+
     override infix fun write(stack: MemoryStack): Adr {
         val adr = stack.ncalloc(ALIGNOF, 1, SIZEOF)
         nsType(adr, type.i)
-        next?.let { npNext(adr, it write stack) }
-        applicationInfo?.let { memPutAddress(adr + PAPPLICATIONINFO, it.write(stack)) }
-        enabledLayerNames?.let {
-            nenabledLayerCount(adr, it.size)
-            memPutAddress(adr + PPENABLEDLAYERNAMES, stack.PointerAdr(it))
-        }
-        enabledExtensionNames?.let {
-            nenabledExtensionCount(adr, it.size)
-            memPutAddress(adr + PPENABLEDEXTENSIONNAMES, stack.PointerAdr(it))
-        }
+//        next?.let { npNext(adr, it write stack) }
+//        applicationInfo?.let { memPutAddress(adr + PAPPLICATIONINFO, it write stack) }
+//        enabledLayerNames?.let {
+//            nenabledLayerCount(adr, it.size)
+//            memPutAddress(adr + PPENABLEDLAYERNAMES, stack.PointerAdr(it))
+//        }
+//        enabledExtensionNames?.let {
+//            nenabledExtensionCount(adr, it.size)
+//            memPutAddress(adr + PPENABLEDEXTENSIONNAMES, stack.PointerAdr(it))
+//        }
         return adr
     }
 }

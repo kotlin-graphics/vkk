@@ -4,21 +4,17 @@ import glm_.glm
 import glm_.vec2.Vec2i
 import io.kotest.core.spec.style.StringSpec
 import main.isNotCI
-import uno.createSurface
 import uno.glfw.GlfwWindow
 import uno.glfw.glfw
 import uno.glfw.windowHint.Api
-import uno.requiredInstanceExtensions
+import uno.vk.createSurface
+import uno.vk.requiredInstanceExtensions
 import unsigned.Uint
 import vkk.*
-import vkk.entities.VkImage
 import vkk.extensions.*
 import vkk.unique.`try`
 import vkk.unique.vu
-import vkk.vk10.structs.ComponentMapping
 import vkk.vk10.structs.Extent2D
-import vkk.vk10.structs.ImageSubresourceRange
-import vkk.vk10.structs.ImageViewCreateInfo
 
 class `05 initSwapchain` : StringSpec() {
 

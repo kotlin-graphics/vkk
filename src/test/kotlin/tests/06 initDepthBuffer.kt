@@ -4,7 +4,7 @@ import gli_.has
 import io.kotest.core.spec.style.StringSpec
 import main.isNotCI
 import uno.glfw.glfw
-import uno.requiredInstanceExtensions
+import uno.vk.requiredInstanceExtensions
 import vkk.*
 import vkk.unique.`try`
 import vkk.unique.vu
