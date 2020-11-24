@@ -471,11 +471,11 @@ interface VkStack_VK10 : VkStackInterface {
 
     // --- [ vkCmdBindDescriptorSets ] ---
 
-    fun CommandBuffer.bindDescriptorSets(pipelineBindPoint: VkPipelineBindPoint, layout: VkPipelineLayout, firstSet: Int, descriptorSets: VkDescriptorSet_Array, dynamicOffsets: IntArray) =
-            stack { callPJPPV(adr, pipelineBindPoint.i, layout.L, firstSet, descriptorSets.size, descriptorSets write stack, dynamicOffsets.size, stack.Adr(dynamicOffsets).adr, capabilities.vkCmdBindDescriptorSets) }
+    fun CommandBuffer.bindDescriptorSets(pipelineBindPoint: VkPipelineBindPoint, layout: VkPipelineLayout, firstSet: Int, descriptorSets: VkDescriptorSet_Array, dynamicOffsets: IntArray? = null) =
+            stack { callPJPPV(adr, pipelineBindPoint.i, layout.L, firstSet, descriptorSets.size, descriptorSets write stack, dynamicOffsets?.size ?: 0, dynamicOffsets?.let { stack.Adr(it).adr } ?: NULL, capabilities.vkCmdBindDescriptorSets) }
 
-    fun CommandBuffer.bindDescriptorSets(pipelineBindPoint: VkPipelineBindPoint, layout: VkPipelineLayout, firstSet: Int, descriptorSet: VkDescriptorSet, dynamicOffset: Int) =
-            stack { callPJPPV(adr, pipelineBindPoint.i, layout.L, firstSet, 1, stack.longAdr(descriptorSet.L), 1, stack.intAdr(dynamicOffset), capabilities.vkCmdBindDescriptorSets) }
+    fun CommandBuffer.bindDescriptorSets(pipelineBindPoint: VkPipelineBindPoint, layout: VkPipelineLayout, firstSet: Int, descriptorSet: VkDescriptorSet, dynamicOffset: Int? = null) =
+            stack { callPJPPV(adr, pipelineBindPoint.i, layout.L, firstSet, 1, stack.longAdr(descriptorSet.L), if (dynamicOffset != null) 1 else 0, dynamicOffset?.let(stack::intAdr) ?: NULL, capabilities.vkCmdBindDescriptorSets) }
 
     // --- [ vkCmdBindVertexBuffers ] ---
 
@@ -938,10 +938,10 @@ infix fun CommandBuffer.setBlendConstants(blendConstants: Vec4) =
 
 // --- [ vkCmdBindDescriptorSets ] ---
 
-fun CommandBuffer.bindDescriptorSets(pipelineBindPoint: VkPipelineBindPoint, layout: VkPipelineLayout, firstSet: Int, descriptorSets: VkDescriptorSet_Array, dynamicOffsets: IntArray) =
+fun CommandBuffer.bindDescriptorSets(pipelineBindPoint: VkPipelineBindPoint, layout: VkPipelineLayout, firstSet: Int, descriptorSets: VkDescriptorSet_Array, dynamicOffsets: IntArray? = null) =
         VkStack { it.run { bindDescriptorSets(pipelineBindPoint, layout, firstSet, descriptorSets, dynamicOffsets) } }
 
-fun CommandBuffer.bindDescriptorSets(pipelineBindPoint: VkPipelineBindPoint, layout: VkPipelineLayout, firstSet: Int, descriptorSet: VkDescriptorSet, dynamicOffset: Int) =
+fun CommandBuffer.bindDescriptorSets(pipelineBindPoint: VkPipelineBindPoint, layout: VkPipelineLayout, firstSet: Int, descriptorSet: VkDescriptorSet, dynamicOffset: Int? = null) =
         VkStack { it.run { bindDescriptorSets(pipelineBindPoint, layout, firstSet, descriptorSet, dynamicOffset) } }
 
 // --- [ vkCmdBindVertexBuffers ] ---
