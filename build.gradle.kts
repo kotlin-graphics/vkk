@@ -62,8 +62,8 @@ dependencies {
     testRuntimeOnly("org.lwjgl", "lwjgl-glfw", classifier = lwjglNatives)
 
     testImplementation("io.github.microutils:kotlin-logging:1.7.7")
-    testImplementation("$kx.uno-sdk:core:fdd1694f")
-    testImplementation("$kx.uno-sdk:vk:fdd1694f")
+    testImplementation("$kx.uno-sdk:core:2b06aa78")
+    testImplementation("$kx.uno-sdk:vk:2b06aa78")
 }
 
 java { modularity.inferModulePath.set(true) }
