@@ -20,6 +20,7 @@ val unsignedVersion = "f2cd9c97"
 val koolVersion = "b4ff3661"
 val glmVersion = "3466fcde"
 val gliVersion = "9c67885f"
+val glnVersion = "ecc23df4"
 val sprivCrossVersion = "0.6.0-1.1.106.0"
 val lwjglVersion = "3.2.3"
 val lwjglNatives = "natives-" + when (current()) {
@@ -62,8 +63,14 @@ dependencies {
     testRuntimeOnly("org.lwjgl", "lwjgl-glfw", classifier = lwjglNatives)
 
     testImplementation("io.github.microutils:kotlin-logging:1.7.7")
-    testImplementation("$kx.uno-sdk:core:2b06aa78")
-    testImplementation("$kx.uno-sdk:vk:2b06aa78")
+    testImplementation("$kx:gln:$glnVersion")
+
+    testImplementation(platform("org.lwjgl:lwjgl-bom:$lwjglVersion"))
+    listOf("", "-opengl").forEach {
+        testImplementation("org.lwjgl", "lwjgl$it")
+        if (it != "-vulkan")
+            testRuntimeOnly("org.lwjgl", "lwjgl$it", classifier = lwjglNatives)
+    }
 }
 
 java { modularity.inferModulePath.set(true) }
