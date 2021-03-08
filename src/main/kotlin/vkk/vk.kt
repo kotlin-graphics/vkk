@@ -749,7 +749,4 @@ object vk {
 //                this[5].location(location5).binding(binding5).format(format5.i).offset(offset5)
 //                this[6].location(location6).binding(binding6).format(format6.i).offset(offset6)
 //            }
-
-
-    val VERSION = "0.3.2"
 }

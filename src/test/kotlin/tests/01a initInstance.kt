@@ -1,22 +1,12 @@
 package tests
 
 import io.kotest.core.spec.style.StringSpec
-import kool.Ptr
-import kool.adr
-import main.Instance01
 import main.isNotCI
-import org.lwjgl.system.JNI
-import org.lwjgl.system.MemoryUtil
-import org.lwjgl.system.Pointer
-import org.lwjgl.vulkan.VkInstanceCreateInfo
 import uno.glfw.glfw
 import uno.vk.requiredInstanceExtensions
 import uno.vk.vulkanSupported
-import vkk.VK_CHECK_RESULT
-import vkk.VkStack
 import vkk.extensions.VkDebugReport
 import vkk.identifiers.Instance
-import vkk.identifiers.VK
 import vkk.vk10.structs.DebugReportCallbackCreateInfo
 import vkk.vk10.structs.InstanceCreateInfo
 import kotlin.system.exitProcess

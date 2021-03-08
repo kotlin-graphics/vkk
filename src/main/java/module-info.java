@@ -1,4 +1,4 @@
-module com.github.kotlin_graphics.vkk {
+module kotlin.graphics.vkk {
 
     requires kotlin.stdlib;
 
@@ -7,10 +7,10 @@ module com.github.kotlin_graphics.vkk {
     requires org.lwjgl;
     requires org.lwjgl.vulkan;
 
-    requires com.github.kotlin_graphics.gli;
-    requires com.github.kotlin_graphics.glm;
-    requires com.github.kotlin_graphics.kool;
-    requires com.github.kotlin_graphics.kotlin_unsigned;
+    requires kotlin.graphics.gli;
+    requires kotlin.graphics.glm;
+    requires kotlin.graphics.kool;
+    requires kotlin.graphics.unsigned;
     requires kotlin.reflect;
 
     exports vkk;
