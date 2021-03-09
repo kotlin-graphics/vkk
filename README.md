@@ -120,3 +120,20 @@ Errors will be checked automatically in debug mode, but you can set `DEBUG` expl
 In case `VULKAN_NO_EXCEPTIONS` is `true`, errors will be reported in the `System.err` stream, otherwise the exception to the corresponding error will be thrown.
 
 TODO
+
+### Build-logic and platform dependencies
+
+The build logic has been extracted in dedicated [plugins](https://github.com/elect86/build-logic), as well as the versioning in specific platform [plugins](https://github.com/elect86/platforms).
+
+In order to import kool you need then to add the repository where these plugins are getting published for the time being.
+
+In Gradle KTS you can do that by adding the following to your `settings.gradle.kts`:
+
+```kotlin
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        maven("https://repo.repsy.io/mvn/elect/kx")
+    }
+}
+```
