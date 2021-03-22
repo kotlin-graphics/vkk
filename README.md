@@ -13,24 +13,9 @@ Strongly inspired by [Vulkan hpp](https://github.com/KhronosGroup/Vulkan-Hpp), i
 
 See it in action [here](https://github.com/jvm-graphics-labs/Vulkan)!
 
-## Getting Started
+### How to retrieve it:
 
-VK² can be obtained by adding the following lines in your `build.gradle`:
-
-- Step 1. Add the JitPack repository to your build file at the end of repositories:
-
-      allprojects {
-          repositories {
-              ...
-              maven { url 'https://jitpack.io' }
-          }
-      }
-
-- Step 2. Add the dependency:
-
-	  dependencies {
-	      implementation 'com.github.kotlin-graphics:vkk:-SNAPSHOT'
-	  }
+You can find all the instructions by [mary](https://github.com/kotlin-graphics/mary)
 
 ## Usage
 
@@ -120,20 +105,3 @@ Errors will be checked automatically in debug mode, but you can set `DEBUG` expl
 In case `VULKAN_NO_EXCEPTIONS` is `true`, errors will be reported in the `System.err` stream, otherwise the exception to the corresponding error will be thrown.
 
 TODO
-
-### Build-logic and platform dependencies
-
-The build logic has been extracted in dedicated [plugins](https://github.com/elect86/build-logic), as well as the versioning in specific platform [plugins](https://github.com/elect86/platforms).
-
-In order to import vkk you need then to add the repository where these plugins are getting published for the time being.
-
-In Gradle KTS you can do that by adding the following to your `settings.gradle.kts`:
-
-```kotlin
-pluginManagement {
-    repositories {
-        gradlePluginPortal()
-        maven("https://repo.repsy.io/mvn/elect/kx")
-    }
-}
-```
