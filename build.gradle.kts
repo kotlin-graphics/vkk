@@ -6,7 +6,7 @@ import kx.lwjglImplementation
 import kx.lwjglTestImplementation
 
 plugins {
-    val build = "0.7.0+63"
+    val build = "0.7.0+71"
     id("kx.kotlin.11") version build
     id("kx.lwjgl") version build
     id("kx.dokka") version build
@@ -14,7 +14,7 @@ plugins {
     java
 }
 
-version = "0.3.2+34"
+version = "0.3.2+35"
 
 dependencies {
 
