@@ -750,3 +750,7 @@ object vk {
 //                this[6].location(location6).binding(binding6).format(format6.i).offset(offset6)
 //            }
 }
+
+fun main() {
+    println("ciao")
+}

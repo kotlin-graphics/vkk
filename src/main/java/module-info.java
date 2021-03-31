@@ -1,4 +1,4 @@
-module kotlin.graphics.vkk {
+module vkk {
 
     requires kotlin.stdlib;
 
