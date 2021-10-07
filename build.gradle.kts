@@ -1,36 +1,37 @@
-import kx.LwjglModules.*
-import kx.KxProject.*
-import kx.kxImplementation
-import kx.kxTestImplementation
-import kx.lwjglImplementation
-import kx.lwjglTestImplementation
+import kx.KxProject.gli
+import kx.KxProject.glm
+import kx.KxProject.gln
+import kx.KxProject.kool
+import kx.KxProject.unsigned
+import kx.Lwjgl
+import kx.Lwjgl.Modules.*
+import kx.implementation
+import kx.testImplementation
 
 plugins {
-    val build = "0.7.0+79"
-    id("kx.kotlin.11") version build
-    id("kx.lwjgl") version build
-    id("kx.dokka") version build
+    val build = "0.7.3+43"
+    id("kx.kotlin") version build
+    //    id("kx.dokka") version build
     id("kx.publish") version build
-    java
+    id("kx.dynamic-align") version build
+    id("kx.util") version build
 }
-
-version = "0.3.2+36"
 
 dependencies {
 
     implementation(kotlin("reflect"))
 
-    kxImplementation(unsigned, kool, glm, gli)
+    implementation(unsigned, kool, glm, gli)
 
-    lwjglImplementation(jemalloc, vulkan)
+    Lwjgl { implementation(jemalloc, vulkan) }
 
     val spirvCross = "graphics.scenery:spirvcrossj:0.6.0-1.1.106.0"
     implementation(spirvCross)
-    runtimeOnly("$spirvCross:${kx.lwjglNatives}")
+    runtimeOnly("$spirvCross:${Lwjgl.natives}")
 
-    lwjglTestImplementation(glfw, opengl)
+    Lwjgl { testImplementation(glfw, opengl) }
     testImplementation("io.github.microutils:kotlin-logging:1.7.7")
-    kxTestImplementation(gln)
+    testImplementation(gln)
 }
 
 
