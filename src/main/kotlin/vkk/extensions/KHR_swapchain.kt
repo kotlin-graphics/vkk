@@ -18,7 +18,8 @@ import vkk.vk10.structs.Rect2D
 
 //#define VK_KHR_SWAPCHAIN_SPEC_VERSION     70
 
-inline class VkSwapchainCreateKHR(val i: VkSwapchainCreateFlagsKHR) {
+@JvmInline
+value class VkSwapchainCreateKHR(val i: VkSwapchainCreateFlagsKHR) {
     companion object {
         val SPLIT_INSTANCE_BIND_REGIONS_BIT_KHR = (0x00000001)
         val PROTECTED_BIT_KHR = (0x00000002)
@@ -28,7 +29,8 @@ inline class VkSwapchainCreateKHR(val i: VkSwapchainCreateFlagsKHR) {
 
 typealias VkSwapchainCreateFlagsKHR = VkFlags
 
-inline class VkDeviceGroupPresentModeKHR(val i: VkDeviceGroupPresentModeFlagsKHR) {
+@JvmInline
+value class VkDeviceGroupPresentModeKHR(val i: VkDeviceGroupPresentModeFlagsKHR) {
     companion object {
         val LOCAL_BIT_KHR = (0x00000001)
         val REMOTE_BIT_KHR = (0x00000002)

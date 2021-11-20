@@ -2,7 +2,8 @@ package vkk.extensions
 
 import vkk.VkFlags
 
-inline class VkConservativeRasterizationModeEXT(val i: Int) {
+@JvmInline
+value class VkConservativeRasterizationModeEXT(val i: Int) {
     companion object {
         val DISABLED_EXT = VkConservativeRasterizationModeEXT(0)
         val OVERESTIMATE_EXT = VkConservativeRasterizationModeEXT(1)

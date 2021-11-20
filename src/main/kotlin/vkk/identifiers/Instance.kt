@@ -41,26 +41,26 @@ class Instance
  * @param ci     the {@link VkInstanceCreateInfo} structured used to create the {@code VkInstance}.
  */
 internal constructor(handle: Ptr, ci: InstanceCreateInfo) :
-        Dispatchable(handle, getInstanceCapabilities(handle, ci)),
-        VkCloseable, Instance_vk10 {
+    Dispatchable(handle, getInstanceCapabilities(handle, ci)),
+    VkCloseable, Instance_vk10 {
 
     // ---------------------------------------------- VK10 -------------------------------------------------------------
 
     // --- [ vkCreateInstance ] ---
     constructor(createInfo: InstanceCreateInfo) : this(
-            VkStack { s ->
-                s.pointerAdr {
-                    VK_CHECK_RESULT(callPPPI(createInfo write s, NULL, it, VK.globalCommands!!.vkCreateInstance))
-                }
-            }, createInfo)
+        VkStack { s ->
+            s.pointerAdr {
+                VK_CHECK_RESULT(callPPPI(createInfo write s, NULL, it, VK.globalCommands!!.vkCreateInstance))
+            }
+        }, createInfo)
 
     // TODO switch it with a dummy constructor VkStack extension call?
     constructor(createInfo: InstanceCreateInfo, stack: VkStack) : this(
-            stack {
-                stack.pointerAdr {
-                    VK_CHECK_RESULT(callPPPI(createInfo write stack, NULL, it, VK.globalCommands!!.vkCreateInstance))
-                }
-            }, createInfo)
+        stack {
+            stack.pointerAdr {
+                VK_CHECK_RESULT(callPPPI(createInfo write stack, NULL, it, VK.globalCommands!!.vkCreateInstance))
+            }
+        }, createInfo)
 
     // --- [ vkDestroyInstance ] ---
     fun destroy() = callPPV(adr, NULL, capabilities.vkDestroyInstance)
@@ -76,16 +76,15 @@ private fun getInstanceCapabilities(handle: Ptr, ci: InstanceCreateInfo): Capabi
     val apiVersion = ci.applicationInfo?.apiVersion ?: VK.instanceVersionSupported
 
     return CapabilitiesInstance(
-            FunctionProvider { functionName ->
-                callPPP(handle, functionName.adr, VK.globalCommands!!.vkGetInstanceProcAddr).also {
-                    if (it == NULL && Checks.DEBUG_FUNCTIONS)
-                        apiLog("Failed to locate address for VK instance function " + memASCII(functionName))
-                }
-            },
-            apiVersion,
-            VK.getEnabledExtensionSet(apiVersion, ci.enabledExtensionNames),
-            getAvailableDeviceExtensions(handle)
-    )
+        FunctionProvider { functionName ->
+            callPPP(handle, functionName.adr, VK.globalCommands!!.vkGetInstanceProcAddr).also {
+                if (it == NULL && Checks.DEBUG_FUNCTIONS)
+                    apiLog("Failed to locate address for VK instance function " + memASCII(functionName))
+            }
+        },
+        apiVersion,
+        VK.getEnabledExtensionSet(apiVersion, ci.enabledExtensionNames),
+        getAvailableDeviceExtensions(handle))
 }
 
 // Will be used to identify logical device extensions that extend physical device functionality.
@@ -99,8 +98,7 @@ private fun getAvailableDeviceExtensions(instance: Ptr): Set<String> {
 
     val GetInstanceProcAddr = VK.globalCommands!!.vkGetInstanceProcAddr
     val EnumeratePhysicalDevices = callPPP(instance, stack.ASCII("vkEnumeratePhysicalDevices").adr, GetInstanceProcAddr)
-    val EnumerateDeviceExtensionProperties =
-            callPPP(instance, stack.ASCII("vkEnumerateDeviceExtensionProperties").adr, GetInstanceProcAddr)
+    val EnumerateDeviceExtensionProperties = callPPP(instance, stack.ASCII("vkEnumerateDeviceExtensionProperties").adr, GetInstanceProcAddr)
     if (EnumeratePhysicalDevices == NULL || EnumerateDeviceExtensionProperties == NULL)
         return extensions.also { stack.pop() }
 
@@ -118,7 +116,7 @@ private fun getAvailableDeviceExtensions(instance: Ptr): Set<String> {
         if (err != VK_SUCCESS || ip[0] == 0)
             continue
 
-        val deviceExtensions = VkExtensionProperties.mallocStack(ip[0], stack)
+        val deviceExtensions = VkExtensionProperties.malloc(ip[0], stack)
         err = callPPPPI(physicalDevices[i], NULL, ip.adr, deviceExtensions.adr, EnumerateDeviceExtensionProperties)
         if (err != VK_SUCCESS)
             continue

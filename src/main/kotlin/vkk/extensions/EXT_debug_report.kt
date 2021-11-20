@@ -2,7 +2,8 @@ package vkk.extensions
 
 import vkk.VkFlags
 
-inline class VkDebugReportObjectTypeEXT(val i: Int) {
+@JvmInline
+value class VkDebugReportObjectTypeEXT(val i: Int) {
     companion object {
         val UNKNOWN = VkDebugReportObjectTypeEXT(0)
         val INSTANCE = VkDebugReportObjectTypeEXT(1)
@@ -49,7 +50,8 @@ inline class VkDebugReportObjectTypeEXT(val i: Int) {
 }
 
 
-inline class VkDebugReport(val i: VkDebugReportFlagsEXT) {
+@JvmInline
+value class VkDebugReport(val i: VkDebugReportFlagsEXT) {
     companion object {
         val INFORMATION_BIT_EXT = VkDebugReport(0x00000001)
         val WARNING_BIT_EXT = VkDebugReport(0x00000002)

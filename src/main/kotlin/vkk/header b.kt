@@ -9,7 +9,8 @@ import org.lwjgl.vulkan.VkInstanceCreateInfo
 import org.lwjgl.vulkan.VkPhysicalDeviceFeatures
 
 
-inline class VkLogicOp(val i: Int) {
+@JvmInline
+value class VkLogicOp(val i: Int) {
     companion object {
         val CLEAR = VkLogicOp(0)
         val AND = VkLogicOp(1)
@@ -30,7 +31,8 @@ inline class VkLogicOp(val i: Int) {
     }
 }
 
-inline class VkBlendFactor(val i: Int) {
+@JvmInline
+value class VkBlendFactor(val i: Int) {
     companion object {
         val ZERO = VkBlendFactor(0)
         val ONE = VkBlendFactor(1)
@@ -54,7 +56,8 @@ inline class VkBlendFactor(val i: Int) {
     }
 }
 
-inline class VkBlendOp(val i: Int) {
+@JvmInline
+value class VkBlendOp(val i: Int) {
     companion object {
         val ADD = VkBlendOp(0)
         val SUBTRACT = VkBlendOp(1)
@@ -111,7 +114,8 @@ inline class VkBlendOp(val i: Int) {
 }
 
 
-inline class VkDynamicState(val i: Int) {
+@JvmInline
+value class VkDynamicState(val i: Int) {
     companion object {
         val VIEWPORT = VkDynamicState(0)
         val SCISSOR = VkDynamicState(1)
@@ -132,7 +136,8 @@ inline class VkDynamicState(val i: Int) {
 }
 
 
-inline class VkFilter(val i: Int) {
+@JvmInline
+value class VkFilter(val i: Int) {
     companion object {
         val NEAREST = VkFilter(0)
         val LINEAR = VkFilter(1)
@@ -141,14 +146,16 @@ inline class VkFilter(val i: Int) {
     }
 }
 
-inline class VkSamplerMipmapMode(val i: Int) {
+@JvmInline
+value class VkSamplerMipmapMode(val i: Int) {
     companion object {
         val NEAREST = VkSamplerMipmapMode(0)
         val LINEAR = VkSamplerMipmapMode(1)
     }
 }
 
-inline class VkSamplerAddressMode(val i: Int) {
+@JvmInline
+value class VkSamplerAddressMode(val i: Int) {
     companion object {
         val REPEAT = VkSamplerAddressMode(0)
         val MIRRORED_REPEAT = VkSamplerAddressMode(1)
@@ -158,7 +165,8 @@ inline class VkSamplerAddressMode(val i: Int) {
     }
 }
 
-inline class VkBorderColor(val i: Int) {
+@JvmInline
+value class VkBorderColor(val i: Int) {
     companion object {
         val FLOAT_TRANSPARENT_BLACK = VkBorderColor(0)
         val INT_TRANSPARENT_BLACK = VkBorderColor(1)
@@ -169,7 +177,8 @@ inline class VkBorderColor(val i: Int) {
     }
 }
 
-inline class VkDescriptorType(val i: Int) {
+@JvmInline
+value class VkDescriptorType(val i: Int) {
     companion object {
         val SAMPLER = VkDescriptorType(0)
         val COMBINED_IMAGE_SAMPLER = VkDescriptorType(1)
@@ -187,7 +196,8 @@ inline class VkDescriptorType(val i: Int) {
     }
 }
 
-inline class VkAttachmentLoadOp(val i: Int) {
+@JvmInline
+value class VkAttachmentLoadOp(val i: Int) {
     companion object {
         val LOAD = VkAttachmentLoadOp(0)
         val CLEAR = VkAttachmentLoadOp(1)
@@ -196,14 +206,16 @@ inline class VkAttachmentLoadOp(val i: Int) {
 }
 
 
-inline class VkAttachmentStoreOp(val i: Int) {
+@JvmInline
+value class VkAttachmentStoreOp(val i: Int) {
     companion object {
         val STORE = VkAttachmentStoreOp(0)
         val DONT_CARE = VkAttachmentStoreOp(1)
     }
 }
 
-inline class VkPipelineBindPoint(val i: Int) {
+@JvmInline
+value class VkPipelineBindPoint(val i: Int) {
     companion object {
         val GRAPHICS = VkPipelineBindPoint(0)
         val COMPUTE = VkPipelineBindPoint(1)
@@ -212,21 +224,24 @@ inline class VkPipelineBindPoint(val i: Int) {
 }
 
 
-inline class VkCommandBufferLevel(val i: Int) {
+@JvmInline
+value class VkCommandBufferLevel(val i: Int) {
     companion object {
         val PRIMARY = VkCommandBufferLevel(0)
         val SECONDARY = VkCommandBufferLevel(1)
     }
 }
 
-inline class VkIndexType(val i: Int) {
+@JvmInline
+value class VkIndexType(val i: Int) {
     companion object {
         val UINT16 = VkIndexType(0)
         val UINT32 = VkIndexType(1)
     }
 }
 
-inline class VkSubpassContents(val i: Int) {
+@JvmInline
+value class VkSubpassContents(val i: Int) {
     companion object {
         val INLINE = VkSubpassContents(0)
         val SECONDARY_COMMAND_BUFFERS = VkSubpassContents(1)
@@ -234,7 +249,8 @@ inline class VkSubpassContents(val i: Int) {
 }
 
 
-inline class VkObjectType(val i: Int) {
+@JvmInline
+value class VkObjectType(val i: Int) {
     companion object {
         val UNKNOWN = VkObjectType(0)
         val INSTANCE = VkObjectType(1)
@@ -279,7 +295,8 @@ inline class VkObjectType(val i: Int) {
     }
 }
 
-inline class VkVendorId(val i: Int) {
+@JvmInline
+value class VkVendorId(val i: Int) {
     companion object {
         val VIV = VkVendorId(0x10001)
         val VSI = VkVendorId(0x10002)
@@ -289,7 +306,8 @@ inline class VkVendorId(val i: Int) {
 
 typealias VkInstanceCreateFlags = VkFlags
 
-inline class VkFormatFeature(val i: VkFormatFeatureFlags) {
+@JvmInline
+value class VkFormatFeature(val i: VkFormatFeatureFlags) {
     companion object {
         val SAMPLED_IMAGE_BIT = VkFormatFeature(0x00000001)
         val STORAGE_IMAGE_BIT = VkFormatFeature(0x00000002)
@@ -334,7 +352,8 @@ infix fun Int.hasnt(f: VkFormatFeature) = and(f.i) == 0
 
 typealias VkFormatFeatureFlags = VkFlags
 
-inline class VkImageUsage(val i: VkImageUsageFlags) {
+@JvmInline
+value class VkImageUsage(val i: VkImageUsageFlags) {
     companion object {
         val TRANSFER_SRC_BIT = VkImageUsage(0x00000001)
         val TRANSFER_DST_BIT = VkImageUsage(0x00000002)
@@ -357,7 +376,8 @@ infix fun Int.hasnt(b: VkImageUsage): Boolean = and(b.i) == 0
 
 typealias VkImageUsageFlags = VkFlags
 
-inline class VkImageCreate(val i: VkImageCreateFlags) {
+@JvmInline
+value class VkImageCreate(val i: VkImageCreateFlags) {
     companion object {
         val SPARSE_BINDING_BIT = VkImageCreate(0x00000001)
         val SPARSE_RESIDENCY_BIT = VkImageCreate(0x00000002)
@@ -384,7 +404,8 @@ inline class VkImageCreate(val i: VkImageCreateFlags) {
 
 typealias VkImageCreateFlags = VkFlags
 
-inline class VkSampleCount(val i: VkSampleCountFlags) {
+@JvmInline
+value class VkSampleCount(val i: VkSampleCountFlags) {
     companion object {
         val _1_BIT = VkSampleCount(0x00000001)
         val _2_BIT = VkSampleCount(0x00000002)
@@ -398,7 +419,8 @@ inline class VkSampleCount(val i: VkSampleCountFlags) {
 
 typealias VkSampleCountFlags = VkFlags
 
-inline class VkQueueFlag(val i: VkQueueFlags) {
+@JvmInline
+value class VkQueueFlag(val i: VkQueueFlags) {
     companion object {
         val GRAPHICS_BIT = VkQueueFlag(0x00000001)
         val COMPUTE_BIT = VkQueueFlag(0x00000002)
@@ -415,7 +437,8 @@ infix fun Int.hasnt(b: VkQueueFlag) = and(b.i) == 0
 
 typealias VkQueueFlags = VkFlags
 
-inline class VkMemoryProperty(val i: VkMemoryPropertyFlags) {
+@JvmInline
+value class VkMemoryProperty(val i: VkMemoryPropertyFlags) {
     companion object {
         val DEVICE_LOCAL_BIT = VkMemoryProperty(0x00000001)
         val HOST_VISIBLE_BIT = VkMemoryProperty(0x00000002)
@@ -433,7 +456,8 @@ infix fun Int.hasnt(b: VkMemoryProperty) = and(b.i) == 0
 
 typealias VkMemoryPropertyFlags = VkFlags
 
-inline class VkMemoryHeapFlag(val i: VkMemoryHeapFlags) {
+@JvmInline
+value class VkMemoryHeapFlag(val i: VkMemoryHeapFlags) {
     companion object {
         val DEVICE_LOCAL_BIT = VkMemoryHeapFlag(0x00000001)
         val MULTI_INSTANCE_BIT = VkMemoryHeapFlag(0x00000002)
@@ -443,7 +467,8 @@ inline class VkMemoryHeapFlag(val i: VkMemoryHeapFlags) {
 typealias VkMemoryHeapFlags = VkFlags
 typealias VkDeviceCreateFlags = VkFlags
 
-inline class VkDeviceQueueCreate(val i: VkDeviceQueueCreateFlags) {
+@JvmInline
+value class VkDeviceQueueCreate(val i: VkDeviceQueueCreateFlags) {
     companion object {
         val CREATE_PROTECTED_BIT = VkDeviceQueueCreate(0x00000001)
     }
@@ -451,7 +476,8 @@ inline class VkDeviceQueueCreate(val i: VkDeviceQueueCreateFlags) {
 
 typealias VkDeviceQueueCreateFlags = VkFlags
 
-inline class VkPipelineStage(val i: VkPipelineStageFlags) {
+@JvmInline
+value class VkPipelineStage(val i: VkPipelineStageFlags) {
     companion object {
         val TOP_OF_PIPE_BIT = VkPipelineStage(0x00000001)
         val DRAW_INDIRECT_BIT = VkPipelineStage(0x00000002)
@@ -485,7 +511,8 @@ typealias VkPipelineStageFlags = VkFlags
 
 typealias VkMemoryMapFlags = VkFlags
 
-inline class VkImageAspect(val i: VkImageAspectFlags) {
+@JvmInline
+value class VkImageAspect(val i: VkImageAspectFlags) {
     companion object {
         val COLOR_BIT = VkImageAspect(0x00000001)
         val DEPTH_BIT = VkImageAspect(0x00000002)
@@ -508,7 +535,8 @@ inline class VkImageAspect(val i: VkImageAspectFlags) {
 
 typealias VkImageAspectFlags = VkFlags
 
-inline class VkSparseImageFormat(val i: VkSparseImageFormatFlags) {
+@JvmInline
+value class VkSparseImageFormat(val i: VkSparseImageFormatFlags) {
     companion object {
         val SINGLE_MIPTAIL_BIT = VkSparseImageFormat(0x00000001)
         val ALIGNED_MIP_SIZE_BIT = VkSparseImageFormat(0x00000002)
@@ -517,14 +545,16 @@ inline class VkSparseImageFormat(val i: VkSparseImageFormatFlags) {
 }
 typealias VkSparseImageFormatFlags = VkFlags
 
-inline class VkSparseMemoryBindFlag(val i: VkSparseMemoryBindFlags) {
+@JvmInline
+value class VkSparseMemoryBindFlag(val i: VkSparseMemoryBindFlags) {
     companion object {
         val METADATA_BIT = VkSparseMemoryBindFlag(0x00000001)
     }
 }
 typealias VkSparseMemoryBindFlags = VkFlags
 
-inline class VkFenceCreate(val i: VkFenceCreateFlags) {
+@JvmInline
+value class VkFenceCreate(val i: VkFenceCreateFlags) {
     companion object {
         val SIGNALED_BIT = VkFenceCreate(0x00000001)
     }
@@ -535,7 +565,8 @@ typealias VkSemaphoreCreateFlags = VkFlags
 typealias VkEventCreateFlags = VkFlags
 typealias VkQueryPoolCreateFlags = VkFlags
 
-inline class VkQueryPipelineStatistic(val i: VkQueryPipelineStatisticFlags) {
+@JvmInline
+value class VkQueryPipelineStatistic(val i: VkQueryPipelineStatisticFlags) {
     companion object {
         val INPUT_ASSEMBLY_VERTICES_BIT = VkQueryPipelineStatistic(0x00000001)
         val INPUT_ASSEMBLY_PRIMITIVES_BIT = VkQueryPipelineStatistic(0x00000002)
@@ -552,7 +583,8 @@ inline class VkQueryPipelineStatistic(val i: VkQueryPipelineStatisticFlags) {
 }
 typealias VkQueryPipelineStatisticFlags = VkFlags
 
-inline class VkQueryResult(val i: VkQueryResultFlags) {
+@JvmInline
+value class VkQueryResult(val i: VkQueryResultFlags) {
     companion object {
         val _64_BIT = VkQueryResult(0x00000001)
         val WAIT_BIT = VkQueryResult(0x00000002)
@@ -562,7 +594,8 @@ inline class VkQueryResult(val i: VkQueryResultFlags) {
 }
 typealias VkQueryResultFlags = VkFlags
 
-inline class VkBufferCreate(val i: VkBufferCreateFlags) {
+@JvmInline
+value class VkBufferCreate(val i: VkBufferCreateFlags) {
     companion object {
         val SPARSE_BINDING_BIT = VkBufferCreate(0x00000001)
         val SPARSE_RESIDENCY_BIT = VkBufferCreate(0x00000002)
@@ -574,7 +607,8 @@ inline class VkBufferCreate(val i: VkBufferCreateFlags) {
 
 typealias VkBufferCreateFlags = VkFlags
 
-inline class VkBufferUsage(val i: VkBufferUsageFlags) {
+@JvmInline
+value class VkBufferUsage(val i: VkBufferUsageFlags) {
     companion object {
         val TRANSFER_SRC_BIT = VkBufferUsage(0x00000001)
         val TRANSFER_DST_BIT = VkBufferUsage(0x00000002)
@@ -600,7 +634,8 @@ infix fun Int.or(f: VkBufferUsage): VkBufferCreateFlags = or(f.i)
 typealias VkBufferUsageFlags = VkFlags
 typealias VkBufferViewCreateFlags = VkFlags
 
-inline class VkImageViewCreate(val i: VkImageViewCreateFlags) {
+@JvmInline
+value class VkImageViewCreate(val i: VkImageViewCreateFlags) {
     companion object {
         val FRAGMENT_DENSITY_MAP_DYNAMIC_BIT_EXT = VkImageViewCreate(0x00000001)
     }
@@ -611,7 +646,8 @@ typealias VkShaderModuleCreateFlags = VkFlags
 typealias VkPipelineCacheCreateFlags = VkFlags
 
 
-inline class VkPipelineCreate(val i: VkPipelineCreateFlags) {
+@JvmInline
+value class VkPipelineCreate(val i: VkPipelineCreateFlags) {
     companion object {
         val DISABLE_OPTIMIZATION_BIT = VkPipelineCreate(0x00000001)
         val ALLOW_DERIVATIVES_BIT = VkPipelineCreate(0x00000002)
@@ -626,7 +662,8 @@ inline class VkPipelineCreate(val i: VkPipelineCreateFlags) {
 typealias VkPipelineCreateFlags = VkFlags
 typealias VkPipelineShaderStageCreateFlags = VkFlags
 
-inline class VkShaderStage(val i: Int) {
+@JvmInline
+value class VkShaderStage(val i: Int) {
     companion object {
         val VERTEX_BIT = VkShaderStage(0x00000001)
         val TESSELLATION_CONTROL_BIT = VkShaderStage(0x00000002)
@@ -655,7 +692,8 @@ typealias VkPipelineViewportStateCreateFlags = VkFlags
 typealias VkPipelineRasterizationStateCreateFlags = VkFlags
 
 
-inline class VkCullMode(val i: VkCullModeFlags) {
+@JvmInline
+value class VkCullMode(val i: VkCullModeFlags) {
     companion object {
         val NONE = VkCullMode(0)
         val FRONT_BIT = VkCullMode(0x00000001)
@@ -669,7 +707,8 @@ typealias VkPipelineMultisampleStateCreateFlags = VkFlags
 typealias VkPipelineDepthStencilStateCreateFlags = VkFlags
 typealias VkPipelineColorBlendStateCreateFlags = VkFlags
 
-inline class VkColorComponent(val i: VkColorComponentFlags) {
+@JvmInline
+value class VkColorComponent(val i: VkColorComponentFlags) {
     companion object {
         val R_BIT = VkColorComponent(0x00000001)
         val G_BIT = VkColorComponent(0x00000002)
@@ -689,7 +728,8 @@ typealias VkPipelineLayoutCreateFlags = VkFlags
 typealias VkShaderStageFlags = VkFlags
 
 
-inline class VkSamplerCreate(val i: VkSamplerCreateFlags) {
+@JvmInline
+value class VkSamplerCreate(val i: VkSamplerCreateFlags) {
     companion object {
         val SUBSAMPLED_BIT_EXT = VkSamplerCreate(0x00000001)
         val SUBSAMPLED_COARSE_RECONSTRUCTION_BIT_EXT = VkSamplerCreate(0x00000002)
@@ -700,7 +740,8 @@ inline class VkSamplerCreate(val i: VkSamplerCreateFlags) {
 
 typealias VkSamplerCreateFlags = VkFlags
 
-inline class VkDescriptorSetLayoutCreate(val i: VkDescriptorSetLayoutCreateFlags) {
+@JvmInline
+value class VkDescriptorSetLayoutCreate(val i: VkDescriptorSetLayoutCreateFlags) {
     companion object {
         val PUSH_DESCRIPTOR_BIT_KHR = VkDescriptorSetLayoutCreate(0x00000001)
         val UPDATE_AFTER_BIND_POOL_BIT_EXT = VkDescriptorSetLayoutCreate(0x00000002)
@@ -709,7 +750,8 @@ inline class VkDescriptorSetLayoutCreate(val i: VkDescriptorSetLayoutCreateFlags
 
 typealias VkDescriptorSetLayoutCreateFlags = VkFlags
 
-inline class VkDescriptorPoolCreate(val i: VkDescriptorPoolCreateFlags) {
+@JvmInline
+value class VkDescriptorPoolCreate(val i: VkDescriptorPoolCreateFlags) {
     companion object {
         val FREE_DESCRIPTOR_SET_BIT = VkDescriptorPoolCreate(0x00000001)
         val UPDATE_AFTER_BIND_BIT_EXT = VkDescriptorPoolCreate(0x00000002)
@@ -721,7 +763,8 @@ typealias VkDescriptorPoolResetFlags = VkFlags
 typealias VkFramebufferCreateFlags = VkFlags
 typealias VkRenderPassCreateFlags = VkFlags
 
-inline class VkAttachmentDescriptionFlag(val i: VkAttachmentDescriptionFlags) {
+@JvmInline
+value class VkAttachmentDescriptionFlag(val i: VkAttachmentDescriptionFlags) {
     companion object {
         val MAY_ALIAS_BIT = VkAttachmentDescriptionFlag(0x00000001)
     }
@@ -730,7 +773,8 @@ inline class VkAttachmentDescriptionFlag(val i: VkAttachmentDescriptionFlags) {
 typealias VkAttachmentDescriptionFlags = VkFlags
 
 
-inline class VkSubpassDescriptionFlag(val i: VkSubpassDescriptionFlags) {
+@JvmInline
+value class VkSubpassDescriptionFlag(val i: VkSubpassDescriptionFlags) {
     companion object {
         val PER_VIEW_ATTRIBUTES_BIT_NVX = VkSubpassDescriptionFlag(0x00000001)
         val PER_VIEW_POSITION_X_ONLY_BIT_NVX = VkSubpassDescriptionFlag(0x00000002)
@@ -739,7 +783,8 @@ inline class VkSubpassDescriptionFlag(val i: VkSubpassDescriptionFlags) {
 
 typealias VkSubpassDescriptionFlags = VkFlags
 
-inline class VkAccess(val i: VkAccessFlags) {
+@JvmInline
+value class VkAccess(val i: VkAccessFlags) {
     companion object {
         val INDIRECT_COMMAND_READ_BIT = VkAccess(0x00000001)
         val INDEX_READ_BIT = VkAccess(0x00000002)
@@ -775,7 +820,8 @@ infix fun Int.or(f: VkAccess) = or(f.i)
 
 typealias VkAccessFlags = VkFlags
 
-inline class VkDependency(val i: VkDependencyFlags) {
+@JvmInline
+value class VkDependency(val i: VkDependencyFlags) {
     companion object {
         val BY_REGION_BIT = VkDependency(0x00000001)
         val VIEW_LOCAL_BIT = VkDependency(0x00000002)
@@ -787,7 +833,8 @@ inline class VkDependency(val i: VkDependencyFlags) {
 
 typealias VkDependencyFlags = VkFlags
 
-inline class VkCommandPoolCreate(val i: VkCommandPoolCreateFlags) {
+@JvmInline
+value class VkCommandPoolCreate(val i: VkCommandPoolCreateFlags) {
     companion object {
         val TRANSIENT_BIT = VkCommandPoolCreate(0x00000001)
         val RESET_COMMAND_BUFFER_BIT = VkCommandPoolCreate(0x00000002)
@@ -797,14 +844,16 @@ inline class VkCommandPoolCreate(val i: VkCommandPoolCreateFlags) {
 
 typealias VkCommandPoolCreateFlags = VkFlags
 
-inline class VkCommandPoolReset(val i: VkCommandPoolResetFlags) {
+@JvmInline
+value class VkCommandPoolReset(val i: VkCommandPoolResetFlags) {
     companion object {
         val RELEASE_RESOURCES_BIT = VkCommandPoolReset(0x00000001)
     }
 }
 typealias VkCommandPoolResetFlags = VkFlags
 
-inline class VkCommandBufferUsage(val i: VkCommandBufferUsageFlags) {
+@JvmInline
+value class VkCommandBufferUsage(val i: VkCommandBufferUsageFlags) {
     companion object {
         val ONE_TIME_SUBMIT_BIT = VkCommandBufferUsage(0x00000001)
         val RENDER_PASS_CONTINUE_BIT = VkCommandBufferUsage(0x00000002)
@@ -817,21 +866,24 @@ infix fun Int.or(f: VkCommandBufferUsage) = or(f.i)
 typealias VkCommandBufferUsageFlags = VkFlags
 
 
-inline class VkQueryControl(val i: VkQueryControlFlags) {
+@JvmInline
+value class VkQueryControl(val i: VkQueryControlFlags) {
     companion object {
         val PRECISE_BIT = VkQueryControl(0x00000001)
     }
 }
 typealias VkQueryControlFlags = VkFlags
 
-inline class VkCommandBufferReset(val i: VkCommandBufferResetFlags) {
+@JvmInline
+value class VkCommandBufferReset(val i: VkCommandBufferResetFlags) {
     companion object {
         val RELEASE_RESOURCES_BIT = VkCommandBufferReset(0x00000001)
     }
 }
 typealias VkCommandBufferResetFlags = VkFlags
 
-inline class VkStencilFace(val i: VkStencilFaceFlags) {
+@JvmInline
+value class VkStencilFace(val i: VkStencilFaceFlags) {
     companion object {
         val FRONT_BIT = VkStencilFace(0x00000001)
         val BACK_BIT = VkStencilFace(0x00000002)
@@ -846,7 +898,8 @@ enum class VkVendor { AMD, Nvidia, Intel, Unknown }
 
 // #define VK_VERSION_1_1
 
-inline class VkPointClippingBehavior(val i: Int) {
+@JvmInline
+value class VkPointClippingBehavior(val i: Int) {
     companion object {
         val ALL_CLIP_PLANES = VkPointClippingBehavior(0)
         val USER_CLIP_PLANES_ONLY = VkPointClippingBehavior(1)
@@ -855,7 +908,8 @@ inline class VkPointClippingBehavior(val i: Int) {
     }
 }
 
-inline class VkTessellationDomainOrigin(val i: Int) {
+@JvmInline
+value class VkTessellationDomainOrigin(val i: Int) {
     companion object {
         val UPPER_LEFT = VkTessellationDomainOrigin(0)
         val LOWER_LEFT = VkTessellationDomainOrigin(1)
@@ -864,7 +918,8 @@ inline class VkTessellationDomainOrigin(val i: Int) {
     }
 }
 
-inline class VkSamplerYcbcrModelConversion(val i: Int) {
+@JvmInline
+value class VkSamplerYcbcrModelConversion(val i: Int) {
     companion object {
         val RGB_IDENTITY = VkSamplerYcbcrModelConversion(0)
         val YCBCR_IDENTITY = VkSamplerYcbcrModelConversion(1)
@@ -879,7 +934,8 @@ inline class VkSamplerYcbcrModelConversion(val i: Int) {
     }
 }
 
-inline class VkSamplerYcbcrRange(val i: Int) {
+@JvmInline
+value class VkSamplerYcbcrRange(val i: Int) {
     companion object {
         val ITU_FULL = VkSamplerYcbcrRange(0)
         val ITU_NARROW = VkSamplerYcbcrRange(1)
@@ -888,7 +944,8 @@ inline class VkSamplerYcbcrRange(val i: Int) {
     }
 }
 
-inline class VkChromaLocation(val i: Int) {
+@JvmInline
+value class VkChromaLocation(val i: Int) {
     companion object {
         val COSITED_EVEN = VkChromaLocation(0)
         val MIDPOINT = VkChromaLocation(1)
@@ -897,7 +954,8 @@ inline class VkChromaLocation(val i: Int) {
     }
 }
 
-inline class VkDescriptorUpdateTemplateType(val i: Int) {
+@JvmInline
+value class VkDescriptorUpdateTemplateType(val i: Int) {
     companion object {
         val DESCRIPTOR_SET = VkDescriptorUpdateTemplateType(0)
         val PUSH_DESCRIPTORS_KHR = VkDescriptorUpdateTemplateType(1)
@@ -906,7 +964,8 @@ inline class VkDescriptorUpdateTemplateType(val i: Int) {
 }
 
 
-inline class VkSubgroupFeature(val i: VkSubgroupFeatureFlags) {
+@JvmInline
+value class VkSubgroupFeature(val i: VkSubgroupFeatureFlags) {
     companion object {
         val BASIC_BIT = VkSubgroupFeature(0x00000001)
         val VOTE_BIT = VkSubgroupFeature(0x00000002)
@@ -922,7 +981,8 @@ inline class VkSubgroupFeature(val i: VkSubgroupFeatureFlags) {
 
 typealias VkSubgroupFeatureFlags = VkFlags
 
-inline class VkPeerMemoryFeature(val i: VkPeerMemoryFeatureFlags) {
+@JvmInline
+value class VkPeerMemoryFeature(val i: VkPeerMemoryFeatureFlags) {
     companion object {
         val COPY_SRC_BIT = VkPeerMemoryFeature(0x00000001)
         val COPY_DST_BIT = VkPeerMemoryFeature(0x00000002)
@@ -937,7 +997,8 @@ inline class VkPeerMemoryFeature(val i: VkPeerMemoryFeatureFlags) {
 
 typealias VkPeerMemoryFeatureFlags = VkFlags
 
-inline class VkMemoryAllocate(val i: VkMemoryAllocateFlags) {
+@JvmInline
+value class VkMemoryAllocate(val i: VkMemoryAllocateFlags) {
     companion object {
         val DEVICE_MASK_BIT = VkMemoryAllocate(0x00000001)
     }
@@ -947,7 +1008,8 @@ typealias VkMemoryAllocateFlags = VkFlags
 typealias VkCommandPoolTrimFlags = VkFlags
 typealias VkDescriptorUpdateTemplateCreateFlags = VkFlags
 
-inline class VkExternalMemoryHandleType(val i: VkExternalMemoryHandleTypeFlags) {
+@JvmInline
+value class VkExternalMemoryHandleType(val i: VkExternalMemoryHandleTypeFlags) {
     companion object {
         val OPAQUE_FD_BIT = VkExternalMemoryHandleType(0x00000001)
         val OPAQUE_WIN32_BIT = VkExternalMemoryHandleType(0x00000002)
@@ -972,7 +1034,8 @@ inline class VkExternalMemoryHandleType(val i: VkExternalMemoryHandleTypeFlags) 
 
 typealias VkExternalMemoryHandleTypeFlags = VkFlags
 
-inline class VkExternalMemoryFeature(val i: VkExternalMemoryFeatureFlags) {
+@JvmInline
+value class VkExternalMemoryFeature(val i: VkExternalMemoryFeatureFlags) {
     companion object {
         val DEDICATED_ONLY_BIT = VkExternalMemoryFeature(0x00000001)
         val EXPORTABLE_BIT = VkExternalMemoryFeature(0x00000002)
@@ -985,7 +1048,8 @@ inline class VkExternalMemoryFeature(val i: VkExternalMemoryFeatureFlags) {
 
 typealias VkExternalMemoryFeatureFlags = VkFlags
 
-inline class VkExternalFenceHandleType(val i: Int) {
+@JvmInline
+value class VkExternalFenceHandleType(val i: Int) {
     companion object {
         val OPAQUE_FD_BIT = VkExternalFenceHandleType(0x00000001)
         val OPAQUE_WIN32_BIT = VkExternalFenceHandleType(0x00000002)
@@ -1001,7 +1065,8 @@ inline class VkExternalFenceHandleType(val i: Int) {
 // ..
 
 
-inline class VkDisplayPowerStateEXT(val i: Int) {
+@JvmInline
+value class VkDisplayPowerStateEXT(val i: Int) {
     companion object {
         val OFF_EXT = VkDisplayPowerStateEXT(0)
         val SUSPEND_EXT = VkDisplayPowerStateEXT(1)
@@ -1010,14 +1075,16 @@ inline class VkDisplayPowerStateEXT(val i: Int) {
 }
 
 
-inline class VkDeviceEventTypeEXT(val i: Int) {
+@JvmInline
+value class VkDeviceEventTypeEXT(val i: Int) {
     companion object {
         val DISPLAY_HOTPLUG_EXT = VkDeviceEventTypeEXT(0)
     }
 }
 
 
-inline class VkDisplayEventTypeEXT(val i: Int) {
+@JvmInline
+value class VkDisplayEventTypeEXT(val i: Int) {
     companion object {
         val FIRST_PIXEL_OUT_EXT = VkDisplayEventTypeEXT(0)
     }

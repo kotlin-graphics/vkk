@@ -10,7 +10,8 @@ import vkk.adr
 import vkk.extensions.VkPresentModeKHR
 
 
-inline class VkAccelerationStructureNV_Array(val array: LongArray) {
+@JvmInline
+value class VkAccelerationStructureNV_Array(val array: LongArray) {
 
     operator fun get(index: Int) = VkAccelerationStructureNV(array[index])
     operator fun set(index: Int, fence: VkAccelerationStructureNV) = array.set(index, fence.L)
@@ -31,7 +32,8 @@ fun VkAccelerationStructureNV_Array(elements: Collection<VkAccelerationStructure
 fun VkAccelerationStructureNV_Array() = VkAccelerationStructureNV_Array(LongArray(0))
 
 
-inline class VkBuffer_Array(val array: LongArray) {
+@JvmInline
+value class VkBuffer_Array(val array: LongArray) {
 
     operator fun get(index: Int) = VkBuffer(array[index])
     operator fun set(index: Int, fence: VkBuffer) = array.set(index, fence.L)
@@ -52,7 +54,8 @@ fun VkBuffer_Array(elements: Collection<VkBuffer>) = VkBuffer_Array(LongArray(el
 fun VkBuffer_Array() = VkBuffer_Array(LongArray(0))
 
 
-inline class VkBufferView_Array(val array: LongArray) {
+@JvmInline
+value class VkBufferView_Array(val array: LongArray) {
 
     operator fun get(index: Int) = VkBufferView(array[index])
     operator fun set(index: Int, fence: VkBufferView) = array.set(index, fence.L)
@@ -73,7 +76,8 @@ fun VkBufferView_Array(elements: Collection<VkBufferView>) = VkBufferView_Array(
 fun VkBufferView_Array() = VkBufferView_Array(LongArray(0))
 
 
-inline class VkCommandPool_Array(val array: LongArray) {
+@JvmInline
+value class VkCommandPool_Array(val array: LongArray) {
 
     operator fun get(index: Int) = VkCommandPool(array[index])
     operator fun set(index: Int, fence: VkCommandPool) = array.set(index, fence.L)
@@ -94,7 +98,8 @@ fun VkCommandPool_Array(elements: Collection<VkCommandPool>) = VkCommandPool_Arr
 fun VkCommandPool_Array() = VkCommandPool_Array(LongArray(0))
 
 
-inline class VkDebugReportCallback_Array(val array: LongArray) {
+@JvmInline
+value class VkDebugReportCallback_Array(val array: LongArray) {
 
     operator fun get(index: Int) = VkDebugReportCallback(array[index])
     operator fun set(index: Int, fence: VkDebugReportCallback) = array.set(index, fence.L)
@@ -115,7 +120,8 @@ fun VkDebugReportCallback_Array(elements: Collection<VkDebugReportCallback>) = V
 fun VkDebugReportCallback_Array() = VkDebugReportCallback_Array(LongArray(0))
 
 
-inline class VkDebugUtilsMessengerEXT_Array(val array: LongArray) {
+@JvmInline
+value class VkDebugUtilsMessengerEXT_Array(val array: LongArray) {
 
     operator fun get(index: Int) = VkDebugUtilsMessengerEXT(array[index])
     operator fun set(index: Int, fence: VkDebugUtilsMessengerEXT) = array.set(index, fence.L)
@@ -136,7 +142,8 @@ fun VkDebugUtilsMessengerEXT_Array(elements: Collection<VkDebugUtilsMessengerEXT
 fun VkDebugUtilsMessengerEXT_Array() = VkDebugUtilsMessengerEXT_Array(LongArray(0))
 
 
-inline class VkDescriptorPool_Array(val array: LongArray) {
+@JvmInline
+value class VkDescriptorPool_Array(val array: LongArray) {
 
     operator fun get(index: Int) = VkDescriptorPool(array[index])
     operator fun set(index: Int, fence: VkDescriptorPool) = array.set(index, fence.L)
@@ -157,7 +164,8 @@ fun VkDescriptorPool_Array(elements: Collection<VkDescriptorPool>) = VkDescripto
 fun VkDescriptorPool_Array() = VkDescriptorPool_Array(LongArray(0))
 
 
-inline class VkDescriptorSet_Array(val array: LongArray) {
+@JvmInline
+value class VkDescriptorSet_Array(val array: LongArray) {
 
     operator fun get(index: Int) = VkDescriptorSet(array[index])
     operator fun set(index: Int, fence: VkDescriptorSet) = array.set(index, fence.L)
@@ -178,7 +186,8 @@ fun VkDescriptorSet_Array(elements: Collection<VkDescriptorSet>) = VkDescriptorS
 fun VkDescriptorSet_Array() = VkDescriptorSet_Array(LongArray(0))
 
 
-inline class VkDescriptorSetLayout_Array(val array: LongArray) {
+@JvmInline
+value class VkDescriptorSetLayout_Array(val array: LongArray) {
 
     operator fun get(index: Int) = VkDescriptorSetLayout(array[index])
     operator fun set(index: Int, fence: VkDescriptorSetLayout) = array.set(index, fence.L)
@@ -199,7 +208,8 @@ fun VkDescriptorSetLayout_Array(elements: Collection<VkDescriptorSetLayout>) = V
 fun VkDescriptorSetLayout_Array() = VkDescriptorSetLayout_Array(LongArray(0))
 
 
-inline class VkDescriptorUpdateTemplate_Array(val array: LongArray) {
+@JvmInline
+value class VkDescriptorUpdateTemplate_Array(val array: LongArray) {
 
     operator fun get(index: Int) = VkDescriptorUpdateTemplate(array[index])
     operator fun set(index: Int, fence: VkDescriptorUpdateTemplate) = array.set(index, fence.L)
@@ -220,7 +230,8 @@ fun VkDescriptorUpdateTemplate_Array(elements: Collection<VkDescriptorUpdateTemp
 fun VkDescriptorUpdateTemplate_Array() = VkDescriptorUpdateTemplate_Array(LongArray(0))
 
 
-inline class VkDeviceMemory_Array(val array: LongArray) {
+@JvmInline
+value class VkDeviceMemory_Array(val array: LongArray) {
 
     operator fun get(index: Int) = VkDeviceMemory(array[index])
     operator fun set(index: Int, fence: VkDeviceMemory) = array.set(index, fence.L)
@@ -241,7 +252,8 @@ fun VkDeviceMemory_Array(elements: Collection<VkDeviceMemory>) = VkDeviceMemory_
 fun VkDeviceMemory_Array() = VkDeviceMemory_Array(LongArray(0))
 
 
-inline class VkDeviceSize_Array(val array: LongArray) {
+@JvmInline
+value class VkDeviceSize_Array(val array: LongArray) {
 
     operator fun get(index: Int) = VkDeviceSize(array[index])
     operator fun set(index: Int, fence: VkDeviceSize) = array.set(index, fence.L)
@@ -262,7 +274,8 @@ fun VkDeviceSize_Array(elements: Collection<VkDeviceSize>) = VkDeviceSize_Array(
 fun VkDeviceSize_Array() = VkDeviceSize_Array(LongArray(0))
 
 
-inline class VkDisplayKHR_Array(val array: LongArray) {
+@JvmInline
+value class VkDisplayKHR_Array(val array: LongArray) {
 
     operator fun get(index: Int) = VkDisplayKHR(array[index])
     operator fun set(index: Int, fence: VkDisplayKHR) = array.set(index, fence.L)
@@ -283,7 +296,8 @@ fun VkDisplayKHR_Array(elements: Collection<VkDisplayKHR>) = VkDisplayKHR_Array(
 fun VkDisplayKHR_Array() = VkDisplayKHR_Array(LongArray(0))
 
 
-inline class VkDisplayModeKHR_Array(val array: LongArray) {
+@JvmInline
+value class VkDisplayModeKHR_Array(val array: LongArray) {
 
     operator fun get(index: Int) = VkDisplayModeKHR(array[index])
     operator fun set(index: Int, fence: VkDisplayModeKHR) = array.set(index, fence.L)
@@ -304,7 +318,8 @@ fun VkDisplayModeKHR_Array(elements: Collection<VkDisplayModeKHR>) = VkDisplayMo
 fun VkDisplayModeKHR_Array() = VkDisplayModeKHR_Array(LongArray(0))
 
 
-inline class VkEvent_Array(val array: LongArray) {
+@JvmInline
+value class VkEvent_Array(val array: LongArray) {
 
     operator fun get(index: Int) = VkEvent(array[index])
     operator fun set(index: Int, fence: VkEvent) = array.set(index, fence.L)
@@ -325,7 +340,8 @@ fun VkEvent_Array(elements: Collection<VkEvent>) = VkEvent_Array(LongArray(eleme
 fun VkEvent_Array() = VkEvent_Array(LongArray(0))
 
 
-inline class VkFence_Array(val array: LongArray) {
+@JvmInline
+value class VkFence_Array(val array: LongArray) {
 
     operator fun get(index: Int) = VkFence(array[index])
     operator fun set(index: Int, fence: VkFence) = array.set(index, fence.L)
@@ -360,7 +376,8 @@ fun VkFence_Array(elements: Collection<VkFence>) = VkFence_Array(LongArray(eleme
 fun VkFence_Array() = VkFence_Array(LongArray(0))
 
 
-inline class VkFramebuffer_Array(val array: LongArray) {
+@JvmInline
+value class VkFramebuffer_Array(val array: LongArray) {
 
     operator fun get(index: Int) = VkFramebuffer(array[index])
     operator fun set(index: Int, fence: VkFramebuffer) = array.set(index, fence.L)
@@ -381,7 +398,8 @@ fun VkFramebuffer_Array(elements: Collection<VkFramebuffer>) = VkFramebuffer_Arr
 fun VkFramebuffer_Array() = VkFramebuffer_Array(LongArray(0))
 
 
-inline class VkImage_Array(val array: LongArray) {
+@JvmInline
+value class VkImage_Array(val array: LongArray) {
 
     operator fun get(index: Int) = VkImage(array[index])
     operator fun set(index: Int, fence: VkImage) = array.set(index, fence.L)
@@ -404,7 +422,8 @@ fun VkImage_Array() = VkImage_Array(LongArray(0))
 
 typealias VkUniqueImageView_Array = VkImageView_Array
 
-inline class VkImageView_Array(val array: LongArray) {
+@JvmInline
+value class VkImageView_Array(val array: LongArray) {
 
     operator fun get(index: Int) = VkImageView(array[index])
     operator fun set(index: Int, fence: VkImageView) = array.set(index, fence.L)
@@ -425,7 +444,8 @@ fun VkImageView_Array(elements: Collection<VkImageView>) = VkImageView_Array(Lon
 fun VkImageView_Array() = VkImageView_Array(LongArray(0))
 
 
-inline class VkIndirectCommandsLayoutNVX_Array(val array: LongArray) {
+@JvmInline
+value class VkIndirectCommandsLayoutNVX_Array(val array: LongArray) {
 
     operator fun get(index: Int) = VkIndirectCommandsLayoutNVX(array[index])
     operator fun set(index: Int, fence: VkIndirectCommandsLayoutNVX) = array.set(index, fence.L)
@@ -446,7 +466,8 @@ fun VkIndirectCommandsLayoutNVX_Array(elements: Collection<VkIndirectCommandsLay
 fun VkIndirectCommandsLayoutNVX_Array() = VkIndirectCommandsLayoutNVX_Array(LongArray(0))
 
 
-inline class VkObjectTableNVX_Array(val array: LongArray) {
+@JvmInline
+value class VkObjectTableNVX_Array(val array: LongArray) {
 
     operator fun get(index: Int) = VkObjectTableNVX(array[index])
     operator fun set(index: Int, fence: VkObjectTableNVX) = array.set(index, fence.L)
@@ -467,7 +488,8 @@ fun VkObjectTableNVX_Array(elements: Collection<VkObjectTableNVX>) = VkObjectTab
 fun VkObjectTableNVX_Array() = VkObjectTableNVX_Array(LongArray(0))
 
 
-inline class VkPipeline_Array(val array: LongArray) {
+@JvmInline
+value class VkPipeline_Array(val array: LongArray) {
 
     operator fun get(index: Int) = VkPipeline(array[index])
     operator fun set(index: Int, fence: VkPipeline) = array.set(index, fence.L)
@@ -488,7 +510,8 @@ fun VkPipeline_Array(elements: Collection<VkPipeline>) = VkPipeline_Array(LongAr
 fun VkPipeline_Array() = VkPipeline_Array(LongArray(0))
 
 
-inline class VkPipelineCache_Array(val array: LongArray) {
+@JvmInline
+value class VkPipelineCache_Array(val array: LongArray) {
 
     operator fun get(index: Int) = VkPipelineCache(array[index])
     operator fun set(index: Int, fence: VkPipelineCache) = array.set(index, fence.L)
@@ -509,7 +532,8 @@ fun VkPipelineCache_Array(elements: Collection<VkPipelineCache>) = VkPipelineCac
 fun VkPipelineCache_Array() = VkPipelineCache_Array(LongArray(0))
 
 
-inline class VkPipelineLayout_Array(val array: LongArray) {
+@JvmInline
+value class VkPipelineLayout_Array(val array: LongArray) {
 
     operator fun get(index: Int) = VkPipelineLayout(array[index])
     operator fun set(index: Int, fence: VkPipelineLayout) = array.set(index, fence.L)
@@ -530,7 +554,8 @@ fun VkPipelineLayout_Array(elements: Collection<VkPipelineLayout>) = VkPipelineL
 fun VkPipelineLayout_Array() = VkPipelineLayout_Array(LongArray(0))
 
 
-inline class VkPresentModeKHR_Array(val array: IntArray) {
+@JvmInline
+value class VkPresentModeKHR_Array(val array: IntArray) {
 
     operator fun get(index: Int) = VkPresentModeKHR(array[index])
     operator fun set(index: Int, result: VkPresentModeKHR) = array.set(index, result.i)
@@ -551,7 +576,8 @@ fun VkPresentModeKHR_Array(elements: Collection<VkPresentModeKHR>) = VkPresentMo
 fun VkPresentModeKHR_Array() = VkPresentModeKHR_Array(IntArray(0))
 
 
-inline class VkQueryPool_Array(val array: LongArray) {
+@JvmInline
+value class VkQueryPool_Array(val array: LongArray) {
 
     operator fun get(index: Int) = VkQueryPool(array[index])
     operator fun set(index: Int, fence: VkQueryPool) = array.set(index, fence.L)
@@ -572,7 +598,8 @@ fun VkQueryPool_Array(elements: Collection<VkQueryPool>) = VkQueryPool_Array(Lon
 fun VkQueryPool_Array() = VkQueryPool_Array(LongArray(0))
 
 
-inline class VkRenderPass_Array(val array: LongArray) {
+@JvmInline
+value class VkRenderPass_Array(val array: LongArray) {
 
     operator fun get(index: Int) = VkRenderPass(array[index])
     operator fun set(index: Int, fence: VkRenderPass) = array.set(index, fence.L)
@@ -593,7 +620,8 @@ fun VkRenderPass_Array(elements: Collection<VkRenderPass>) = VkRenderPass_Array(
 fun VkRenderPass_Array() = VkRenderPass_Array(LongArray(0))
 
 
-inline class VkResult_Array(val array: IntArray) {
+@JvmInline
+value class VkResult_Array(val array: IntArray) {
 
     operator fun get(index: Int) = VkResult(array[index])
     operator fun set(index: Int, result: VkResult) = array.set(index, result.i)
@@ -614,7 +642,8 @@ fun VkResult_Array(elements: Collection<VkResult>) = VkResult_Array(IntArray(ele
 fun VkResult_Array() = VkResult_Array(IntArray(0))
 
 
-inline class VkSampler_Array(val array: LongArray) {
+@JvmInline
+value class VkSampler_Array(val array: LongArray) {
 
     operator fun get(index: Int) = VkSampler(array[index])
     operator fun set(index: Int, fence: VkSampler) = array.set(index, fence.L)
@@ -635,7 +664,8 @@ fun VkSampler_Array(elements: Collection<VkSampler>) = VkSampler_Array(LongArray
 fun VkSampler_Array() = VkSampler_Array(LongArray(0))
 
 
-inline class VkSamplerYcbcrConversion_Array(val array: LongArray) {
+@JvmInline
+value class VkSamplerYcbcrConversion_Array(val array: LongArray) {
 
     operator fun get(index: Int) = VkSamplerYcbcrConversion(array[index])
     operator fun set(index: Int, fence: VkSamplerYcbcrConversion) = array.set(index, fence.L)
@@ -656,7 +686,8 @@ fun VkSamplerYcbcrConversion_Array(elements: Collection<VkSamplerYcbcrConversion
 fun VkSamplerYcbcrConversion_Array() = VkSamplerYcbcrConversion_Array(LongArray(0))
 
 
-inline class VkSemaphore_Array(val array: LongArray) {
+@JvmInline
+value class VkSemaphore_Array(val array: LongArray) {
 
     operator fun get(index: Int) = VkSemaphore(array[index])
     operator fun set(index: Int, fence: VkSemaphore) = array.set(index, fence.L)
@@ -677,7 +708,8 @@ fun VkSemaphore_Array(elements: Collection<VkSemaphore>) = VkSemaphore_Array(Lon
 fun VkSemaphore_Array() = VkSemaphore_Array(LongArray(0))
 
 
-inline class VkShaderModule_Array(val array: LongArray) {
+@JvmInline
+value class VkShaderModule_Array(val array: LongArray) {
 
     operator fun get(index: Int) = VkShaderModule(array[index])
     operator fun set(index: Int, fence: VkShaderModule) = array.set(index, fence.L)
@@ -698,7 +730,8 @@ fun VkShaderModule_Array(elements: Collection<VkShaderModule>) = VkShaderModule_
 fun VkShaderModule_Array() = VkShaderModule_Array(LongArray(0))
 
 
-inline class VkSurfaceKHR_Array(val array: LongArray) {
+@JvmInline
+value class VkSurfaceKHR_Array(val array: LongArray) {
 
     operator fun get(index: Int) = VkSurfaceKHR(array[index])
     operator fun set(index: Int, fence: VkSurfaceKHR) = array.set(index, fence.L)
@@ -719,7 +752,8 @@ fun VkSurfaceKHR_Array(elements: Collection<VkSurfaceKHR>) = VkSurfaceKHR_Array(
 fun VkSurfaceKHR_Array() = VkSurfaceKHR_Array(LongArray(0))
 
 
-inline class VkSwapchainKHR_Array(val array: LongArray) {
+@JvmInline
+value class VkSwapchainKHR_Array(val array: LongArray) {
 
     operator fun get(index: Int) = VkSwapchainKHR(array[index])
     operator fun set(index: Int, fence: VkSwapchainKHR) = array.set(index, fence.L)
@@ -740,7 +774,8 @@ fun VkSwapchainKHR_Array(elements: Collection<VkSwapchainKHR>) = VkSwapchainKHR_
 fun VkSwapchainKHR_Array() = VkSwapchainKHR_Array(LongArray(0))
 
 
-inline class VkValidationCacheEXT_Array(val array: LongArray) {
+@JvmInline
+value class VkValidationCacheEXT_Array(val array: LongArray) {
 
     operator fun get(index: Int) = VkValidationCacheEXT(array[index])
     operator fun set(index: Int, fence: VkValidationCacheEXT) = array.set(index, fence.L)

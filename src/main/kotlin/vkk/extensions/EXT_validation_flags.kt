@@ -1,6 +1,7 @@
 package vkk.extensions
 
-inline class VkValidationCheckEXT(val i: Int) {
+@JvmInline
+value class VkValidationCheckEXT(val i: Int) {
     companion object {
         val ALL_EXT = VkValidationCheckEXT(0)
         val SHADERS_EXT = VkValidationCheckEXT(1)

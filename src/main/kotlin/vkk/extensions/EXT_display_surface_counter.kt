@@ -2,7 +2,8 @@ package vkk.extensions
 
 import vkk.VkFlags
 
-inline class VkSurfaceCounterEXT(val i: VkSurfaceCounterFlagsEXT) {
+@JvmInline
+value class VkSurfaceCounterEXT(val i: VkSurfaceCounterFlagsEXT) {
     companion object {
         val VBLANK_EXT = VkSurfaceCounterEXT(0x00000001)
     }

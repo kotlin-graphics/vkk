@@ -1,6 +1,7 @@
 package vkk.extensions
 
-inline class VkShaderInfoTypeAMD(val i: Int) {
+@JvmInline
+value class VkShaderInfoTypeAMD(val i: Int) {
     companion object {
         val STATISTICS_AMD = VkShaderInfoTypeAMD(0)
         val BINARY_AMD = VkShaderInfoTypeAMD(1)

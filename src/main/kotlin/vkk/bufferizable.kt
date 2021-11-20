@@ -97,7 +97,7 @@ abstract class Bufferizable {
         get() = if (field.isEmpty()) fieldOrderDefault else field
 
     open val size: Int by lazy {
-        fieldOrder.sumBy { field -> this::class.declaredMemberProperties.find { it.name == field }!!.returnType.size }
+        fieldOrder.sumOf { field -> this::class.declaredMemberProperties.find { it.name == field }!!.returnType.size }
     }
 
     open infix fun to(address: Ptr) {
@@ -159,7 +159,7 @@ typealias BufferizableAddFunctionType = (Any) -> Unit
 typealias BufferizableData = Pair<BufferizableAddFunctionType, KProperty1<out Bufferizable, Any?>>
 
 fun bufferOf(vararg data: Bufferizable): ByteBuffer {
-    val size = data.sumBy { it.size }
+    val size = data.sumOf { it.size }
     val res = Buffer(size)
     val address = memAddress(res)
     var offset = 0
@@ -171,7 +171,7 @@ fun bufferOf(vararg data: Bufferizable): ByteBuffer {
 }
 
 fun bufferOf(data: Collection<Bufferizable>): ByteBuffer {
-    val size = data.sumBy { it.size }
+    val size = data.sumOf { it.size }
     val res = Buffer(size)
     val address = memAddress(res)
     var offset = 0

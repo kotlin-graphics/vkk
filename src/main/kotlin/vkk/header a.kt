@@ -7,13 +7,15 @@ const val VK_HEADER_VERSION = 121
 typealias VkFlags = Int
 
 
-inline class VkPipelineCacheHeaderversion(val i: Int) {
+@JvmInline
+value class VkPipelineCacheHeaderversion(val i: Int) {
     companion object {
         val ONE = VkPipelineCacheHeaderversion(1)
     }
 }
 
-inline class VkResult(val i: Int) {
+@JvmInline
+value class VkResult(val i: Int) {
 
     fun andCheck(message: String = "Fatal : VkResult is $this"): VkResult = apply { check(message) }
 
@@ -122,7 +124,8 @@ inline class VkResult(val i: Int) {
 }
 
 
-inline class VkStructureType(val i: Int) {
+@JvmInline
+value class VkStructureType(val i: Int) {
     companion object {
         val APPLICATION_INFO = VkStructureType(0)
         val INSTANCE_CREATE_INFO = VkStructureType(1)
@@ -528,7 +531,8 @@ inline class VkStructureType(val i: Int) {
 }
 
 
-inline class VkSystemAllocationScope(val i: Int) {
+@JvmInline
+value class VkSystemAllocationScope(val i: Int) {
 
     companion object {
         val COMMAND = VkSystemAllocationScope(0)
@@ -539,14 +543,16 @@ inline class VkSystemAllocationScope(val i: Int) {
     }
 }
 
-inline class VkInternalAllocationType(val i: Int) {
+@JvmInline
+value class VkInternalAllocationType(val i: Int) {
     companion object {
         val EXECUTABLE = VkInternalAllocationType(0)
     }
 }
 
 
-inline class VkFormat(val i: Int) {
+@JvmInline
+value class VkFormat(val i: Int) {
     companion object {
         val UNDEFINED = VkFormat(0)
         val R4G4_UNORM_PACK8 = VkFormat(1)
@@ -813,7 +819,8 @@ inline class VkFormat(val i: Int) {
 }
 
 
-inline class VkImageType(val i: Int) {
+@JvmInline
+value class VkImageType(val i: Int) {
     companion object {
         val _1D = VkImageType(0)
         val _2D = VkImageType(1)
@@ -821,7 +828,8 @@ inline class VkImageType(val i: Int) {
     }
 }
 
-inline class VkImageTiling(val i: Int) {
+@JvmInline
+value class VkImageTiling(val i: Int) {
     companion object {
         val OPTIMAL = VkImageTiling(0)
         val LINEAR = VkImageTiling(1)
@@ -829,7 +837,8 @@ inline class VkImageTiling(val i: Int) {
     }
 }
 
-inline class VkPhysicalDeviceType(val i: Int) {
+@JvmInline
+value class VkPhysicalDeviceType(val i: Int) {
     companion object {
         val OTHER = VkPhysicalDeviceType(0)
         val INTEGRATED_GPU = VkPhysicalDeviceType(1)
@@ -839,7 +848,8 @@ inline class VkPhysicalDeviceType(val i: Int) {
     }
 }
 
-inline class VkQueryType(val i: Int) {
+@JvmInline
+value class VkQueryType(val i: Int) {
     companion object {
         val OCCLUSION = VkQueryType(0)
         val PIPELINE_STATISTICS = VkQueryType(1)
@@ -849,14 +859,16 @@ inline class VkQueryType(val i: Int) {
     }
 }
 
-inline class VkSharingMode(val i: Int) {
+@JvmInline
+value class VkSharingMode(val i: Int) {
     companion object {
         val EXCLUSIVE = VkSharingMode(0)
         val CONCURRENT = VkSharingMode(1)
     }
 }
 
-inline class VkImageLayout(val i: Int) {
+@JvmInline
+value class VkImageLayout(val i: Int) {
 
     companion object {
         val UNDEFINED = VkImageLayout(0)
@@ -891,7 +903,8 @@ inline class VkImageLayout(val i: Int) {
 }
 
 
-inline class VkImageViewType(val i: Int) {
+@JvmInline
+value class VkImageViewType(val i: Int) {
     companion object {
         val _1D = VkImageViewType(0)
         val _2D = VkImageViewType(1)
@@ -904,7 +917,8 @@ inline class VkImageViewType(val i: Int) {
 }
 
 
-inline class VkComponentSwizzle(val i: Int) {
+@JvmInline
+value class VkComponentSwizzle(val i: Int) {
     companion object {
         val IDENTITY = VkComponentSwizzle(0)
         val ZERO = VkComponentSwizzle(1)
@@ -917,14 +931,16 @@ inline class VkComponentSwizzle(val i: Int) {
 }
 
 
-inline class VkVertexInputRate(val i: Int) {
+@JvmInline
+value class VkVertexInputRate(val i: Int) {
     companion object {
         val VERTEX = VkVertexInputRate(0)
         val INSTANCE = VkVertexInputRate(1)
     }
 }
 
-inline class VkPrimitiveTopology(val i: Int) {
+@JvmInline
+value class VkPrimitiveTopology(val i: Int) {
     companion object {
         val POINT_LIST = VkPrimitiveTopology(0)
         val LINE_LIST = VkPrimitiveTopology(1)
@@ -941,7 +957,8 @@ inline class VkPrimitiveTopology(val i: Int) {
 }
 
 
-inline class VkPolygonMode(val i: Int) {
+@JvmInline
+value class VkPolygonMode(val i: Int) {
     companion object {
         val FILL = VkPolygonMode(0)
         val LINE = VkPolygonMode(1)
@@ -950,7 +967,8 @@ inline class VkPolygonMode(val i: Int) {
     }
 }
 
-inline class VkFrontFace(val i: Int) {
+@JvmInline
+value class VkFrontFace(val i: Int) {
     companion object {
         val COUNTER_CLOCKWISE = VkFrontFace(0)
         val CLOCKWISE = VkFrontFace(1)
@@ -958,7 +976,8 @@ inline class VkFrontFace(val i: Int) {
 }
 
 
-inline class VkCompareOp(val i: Int) {
+@JvmInline
+value class VkCompareOp(val i: Int) {
     companion object {
         val NEVER = VkCompareOp(0)
         val LESS = VkCompareOp(1)
@@ -971,7 +990,8 @@ inline class VkCompareOp(val i: Int) {
     }
 }
 
-inline class VkStencilOp(val i: Int) {
+@JvmInline
+value class VkStencilOp(val i: Int) {
     companion object {
         val KEEP = VkStencilOp(0)
         val ZERO = VkStencilOp(1)

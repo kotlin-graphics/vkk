@@ -16,7 +16,8 @@ import vkk.vk10.structs.Extent2D
 
 //#define VK_KHR_SURFACE_SPEC_VERSION       25
 
-inline class VkColorSpaceKHR(val i: Int) {
+@JvmInline
+value class VkColorSpaceKHR(val i: Int) {
     companion object {
         val SRGB_NONLINEAR_KHR = VkColorSpaceKHR(0)
         val DISPLAY_P3_NONLINEAR_EXT = VkColorSpaceKHR(1000104001)
@@ -37,7 +38,8 @@ inline class VkColorSpaceKHR(val i: Int) {
     }
 }
 
-inline class VkPresentModeKHR(val i: Int) {
+@JvmInline
+value class VkPresentModeKHR(val i: Int) {
     companion object {
         val IMMEDIATE = VkPresentModeKHR(0)
         val MAILBOX = VkPresentModeKHR(1)
@@ -49,7 +51,8 @@ inline class VkPresentModeKHR(val i: Int) {
 }
 
 
-inline class VkSurfaceTransformKHR(val i: VkSurfaceTransformFlagsKHR) {
+@JvmInline
+value class VkSurfaceTransformKHR(val i: VkSurfaceTransformFlagsKHR) {
     companion object {
         val IDENTITY_BIT = VkSurfaceTransformKHR(0x00000001)
         val ROTATE_90_BIT = VkSurfaceTransformKHR(0x00000002)
@@ -67,7 +70,8 @@ infix fun Int.has(f: VkSurfaceTransformKHR) = and(f.i) != 0
 
 typealias VkSurfaceTransformFlagsKHR = VkFlags
 
-inline class VkCompositeAlphaKHR(val i: VkCompositeAlphaFlagsKHR) {
+@JvmInline
+value class VkCompositeAlphaKHR(val i: VkCompositeAlphaFlagsKHR) {
     companion object {
         val OPAQUE_BIT = VkCompositeAlphaKHR(0x00000001)
         val PRE_MULTIPLIED_BIT = VkCompositeAlphaKHR(0x00000002)

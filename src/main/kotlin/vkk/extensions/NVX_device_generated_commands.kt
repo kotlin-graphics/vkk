@@ -2,7 +2,8 @@ package vkk.extensions
 
 import vkk.VkFlags
 
-inline class VkIndirectCommandsTokenTypeNVX(val i: Int) {
+@JvmInline
+value class VkIndirectCommandsTokenTypeNVX(val i: Int) {
     companion object {
         val PIPELINE_NVX = VkIndirectCommandsTokenTypeNVX(0)
         val DESCRIPTOR_SET_NVX = VkIndirectCommandsTokenTypeNVX(1)
@@ -15,7 +16,8 @@ inline class VkIndirectCommandsTokenTypeNVX(val i: Int) {
     }
 }
 
-inline class VkObjectEntryTypeNVX(val i: Int) {
+@JvmInline
+value class VkObjectEntryTypeNVX(val i: Int) {
     companion object {
         val DESCRIPTOR_SET_NVX = VkObjectEntryTypeNVX(0)
         val PIPELINE_NVX = VkObjectEntryTypeNVX(1)
@@ -26,7 +28,8 @@ inline class VkObjectEntryTypeNVX(val i: Int) {
 }
 
 
-inline class VkIndirectCommandsLayoutUsageNVX(val i: VkIndirectCommandsLayoutUsageFlagsNVX) {
+@JvmInline
+value class VkIndirectCommandsLayoutUsageNVX(val i: VkIndirectCommandsLayoutUsageFlagsNVX) {
     companion object {
         val UNORDERED_SEQUENCES_BIT_NVX = VkIndirectCommandsLayoutUsageNVX(0x00000001)
         val SPARSE_SEQUENCES_BIT_NVX = VkIndirectCommandsLayoutUsageNVX(0x00000002)
@@ -38,7 +41,8 @@ inline class VkIndirectCommandsLayoutUsageNVX(val i: VkIndirectCommandsLayoutUsa
 typealias VkIndirectCommandsLayoutUsageFlagsNVX = VkFlags
 
 
-inline class VkObjectEntryUsageNVX(val i: VkObjectEntryUsageFlagsNVX) {
+@JvmInline
+value class VkObjectEntryUsageNVX(val i: VkObjectEntryUsageFlagsNVX) {
     companion object {
         val GRAPHICS_BIT_NVX = VkObjectEntryUsageNVX(0x00000001)
         val COMPUTE_BIT_NVX = VkObjectEntryUsageNVX(0x00000002)

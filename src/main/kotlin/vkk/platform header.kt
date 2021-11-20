@@ -16,7 +16,8 @@ typealias VkWin32SurfaceCreateFlagsKHR = VkFlags
 
 // ...
 
-inline class VkFullScreenExclusiveEXT(val i: Int) {
+@JvmInline
+value class VkFullScreenExclusiveEXT(val i: Int) {
     companion object {
         val DEFAULT_EXT = VkFullScreenExclusiveEXT(0)
         val ALLOWED_EXT = VkFullScreenExclusiveEXT(1)

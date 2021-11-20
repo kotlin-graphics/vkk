@@ -2,7 +2,8 @@ package vkk.extensions
 
 import vkk.VkFlags
 
-inline class VkDiscardRectangleModeEXT(val i: Int) {
+@JvmInline
+value class VkDiscardRectangleModeEXT(val i: Int) {
     companion object {
         val INCLUSIVE_EXT = VkDiscardRectangleModeEXT(0)
         val EXCLUSIVE_EXT = VkDiscardRectangleModeEXT(1)

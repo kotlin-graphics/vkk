@@ -9,7 +9,8 @@ import vkk.entities.VkDisplayModeKHR
 
 //#define VK_KHR_DISPLAY_SPEC_VERSION       23
 
-inline class VkDisplayPlaneAlphaKHR(val i: VkDisplayPlaneAlphaFlagsKHR) {
+@JvmInline
+value class VkDisplayPlaneAlphaKHR(val i: VkDisplayPlaneAlphaFlagsKHR) {
 
     companion object {
         val OPAQUE_BIT = VkDisplayPlaneAlphaKHR(0x00000001)

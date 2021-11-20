@@ -1,6 +1,7 @@
 package vkk.extensions
 
-inline class VkDriverIdKHR(val i: Int) {
+@JvmInline
+value class VkDriverIdKHR(val i: Int) {
     companion object {
         val AMD_PROPRIETARY = VkDriverIdKHR(1)
         val AMD_OPEN_SOURCE = VkDriverIdKHR(2)

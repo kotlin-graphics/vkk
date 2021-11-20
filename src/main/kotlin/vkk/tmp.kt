@@ -38,17 +38,28 @@ fun Buffer(size: VkDeviceSize): ByteBuffer = kool.Buffer(size.L.i)
 fun memCopy(src: Ptr, dst: Ptr, bytes: VkDeviceSize) = MemoryUtil.memCopy(src, dst, bytes.L)
 
 
-inline class HINSTANCE(val L: Long)
-inline class HWND(val L: Long)
-inline class HANDLE(val L: Long)
-inline class DWORD(val i: Int)
-inline class Display(val L: Long)
-inline class Window(val L: Long)
-inline class VisualID(val L: Long)
-inline class WLDisplay(val L: Long)
-inline class WLSurface(val L: Long)
-inline class RROutput(val L: Long)
-inline class HMONITOR(val L: Long)
+@JvmInline
+value class HINSTANCE(val L: Long)
+@JvmInline
+value class HWND(val L: Long)
+@JvmInline
+value class HANDLE(val L: Long)
+@JvmInline
+value class DWORD(val i: Int)
+@JvmInline
+value class Display(val L: Long)
+@JvmInline
+value class Window(val L: Long)
+@JvmInline
+value class VisualID(val L: Long)
+@JvmInline
+value class WLDisplay(val L: Long)
+@JvmInline
+value class WLSurface(val L: Long)
+@JvmInline
+value class RROutput(val L: Long)
+@JvmInline
+value class HMONITOR(val L: Long)
 
 
 typealias NanoSecond = Long

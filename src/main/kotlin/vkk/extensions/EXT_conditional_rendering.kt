@@ -2,7 +2,8 @@ package vkk.extensions
 
 import vkk.VkFlags
 
-inline class VkConditionalRenderingEXT(val i: VkConditionalRenderingFlagsEXT) {
+@JvmInline
+value class VkConditionalRenderingEXT(val i: VkConditionalRenderingFlagsEXT) {
     companion object {
         val INVERTED_BIT_EXT = VkConditionalRenderingEXT(0x00000001)
     }
