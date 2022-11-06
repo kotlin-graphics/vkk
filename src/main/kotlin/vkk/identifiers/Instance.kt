@@ -69,22 +69,22 @@ internal constructor(handle: Ptr, ci: InstanceCreateInfo) :
 
 
     override fun close() = destroy()
-}
 
-private fun getInstanceCapabilities(handle: Ptr, ci: InstanceCreateInfo): CapabilitiesInstance {
+    companion object {
+        private fun getInstanceCapabilities(handle: Ptr, ci: InstanceCreateInfo): CapabilitiesInstance {
 
-    val apiVersion = ci.applicationInfo?.apiVersion ?: VK.instanceVersionSupported
+            val apiVersion = ci.applicationInfo?.apiVersion ?: VK.instanceVersionSupported
 
-    return CapabilitiesInstance(
-        FunctionProvider { functionName ->
-            callPPP(handle, functionName.adr, VK.globalCommands!!.vkGetInstanceProcAddr).also {
-                if (it == NULL && Checks.DEBUG_FUNCTIONS)
-                    apiLog("Failed to locate address for VK instance function " + memASCII(functionName))
+            return CapabilitiesInstance(apiVersion,
+                                        VK.getEnabledExtensionSet(apiVersion, ci.enabledExtensionNames),
+                                        getAvailableDeviceExtensions(handle)) { functionName ->
+                callPPP(handle, functionName.adr, VK.globalCommands!!.vkGetInstanceProcAddr).also {
+                    if (it == NULL && Checks.DEBUG_FUNCTIONS)
+                        apiLog("Failed to locate address for VK instance function " + memASCII(functionName))
+                }
             }
-        },
-        apiVersion,
-        VK.getEnabledExtensionSet(apiVersion, ci.enabledExtensionNames),
-        getAvailableDeviceExtensions(handle))
+        }
+    }
 }
 
 // Will be used to identify logical device extensions that extend physical device functionality.

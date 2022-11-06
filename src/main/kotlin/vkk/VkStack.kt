@@ -60,7 +60,8 @@ class VkStack private constructor(container: ByteBuffer?, address: Adr, size: In
     }
 
 
-    inline fun pByte(count: Int = 1) = BytePtr(super.nmalloc(Byte.BYTES, Byte.BYTES * count))
+    // TODO inline is forbidden
+    fun pByte(count: Int = 1) = BytePtr(super.nmalloc(Byte.BYTES, Byte.BYTES * count))
     inline fun pShort(count: Int = 1) = ShortPtr(stack.nmalloc(Short.BYTES, Short.BYTES * count))
     inline fun pInt(count: Int = 1) = IntPtr(stack.nmalloc(Int.BYTES, Int.BYTES * count))
     inline fun pLong(count: Int = 1) = LongPtr(stack.nmalloc(Long.BYTES, Long.BYTES * count))

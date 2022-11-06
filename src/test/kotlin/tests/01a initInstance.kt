@@ -14,7 +14,7 @@ import kotlin.system.exitProcess
 class `01a initInstance` : StringSpec() {
 
     init {
-        if (isNotCI)
+        if (isNotCI) //disable, crashing, to fix
             "01a initInstance" {
 
                 glfw.errorCallback = glfw.defaultErrorCallback

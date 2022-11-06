@@ -8,7 +8,7 @@ import org.lwjgl.system.APIUtil.apiLog
 import org.lwjgl.system.JNI.callPI
 import org.lwjgl.system.JNI.callPPP
 import org.lwjgl.system.MemoryUtil.NULL
-import org.lwjgl.system.Platform.*
+//import org.lwjgl.system.Platform.*
 import org.lwjgl.vulkan.VK10.*
 import org.lwjgl.vulkan.VK11
 import vkk.stak
@@ -33,34 +33,35 @@ object VK {
             create()
     }
 
-    val module = "org.lwjgl.vulkan"
+    private const val module = "org.lwjgl.vulkan"
+
     /**
      * Loads the Vulkan shared library, using the default library name.
      *
      * @see #create(String)
      */
     fun create() {
-        val claz = VK.javaClass
-        val VK = when (Platform.get()) {
-            LINUX -> Library.loadNative(claz, module, Configuration.VULKAN_LIBRARY_NAME, "libvulkan.so.1")
-            WINDOWS -> Library.loadNative(claz, module, Configuration.VULKAN_LIBRARY_NAME, "vulkan-1")
-            MACOSX -> {
+        val vkClass = VK.javaClass
+        val vk = when (Platform.get()) {
+            Platform.LINUX -> Library.loadNative(vkClass, module, Configuration.VULKAN_LIBRARY_NAME, "libvulkan.so.1")
+            Platform.WINDOWS -> Library.loadNative(vkClass, module, Configuration.VULKAN_LIBRARY_NAME, "vulkan-1")
+            Platform.MACOSX -> {
                 Configuration.VULKAN_LIBRARY_NAME.get()?.let {
                     // use the override without a fallback
-                    Library.loadNative(claz, module, it)
+                    Library.loadNative(vkClass, module, it)
                 } ?: try {
                     // no override, try to use the bundled implementation (if available)
-                    Library.loadNative(claz, module, "MoltenVK", true)
+                    Library.loadNative(vkClass, module, "MoltenVK", true)
                 } catch (_: Throwable) {
                     // TODO: print if found but loading failed (print in verbose debugloader mode?)
                     // TODO: must print all suppressed exceptions
                     // fallback to the Vulkan loader
-                    Library.loadNative(claz, module, "libvulkan.1.dylib")
+                    Library.loadNative(vkClass, module, "libvulkan.1.dylib")
                 }
             }
             else -> throw IllegalStateException()
         }
-        create(VK)
+        create(vk)
     }
 
     /**
@@ -81,7 +82,7 @@ object VK {
      * @param functionProvider the provider of Vulkan function addresses
      */
     fun create(functionProvider: FunctionProvider) {
-        if (VK.functionProvider != null) throw IllegalStateException("Vulkan has already been created.")
+        check(VK.functionProvider == null) { "Vulkan has already been created." }
 
         VK.functionProvider = functionProvider
         globalCommands = GlobalCommands(functionProvider)
@@ -95,8 +96,6 @@ object VK {
         globalCommands = null
     }
 
-    private fun <T> check(t: T?): T = t ?: throw IllegalStateException("Vulkan library has not been loaded.")
-
     /**
      * Returns a {@code uint32_t}, which is the version of Vulkan supported by instance-level functionality, encoded as described in the
      * <a target="_blank" href="https://www.khronos.org/registry/vulkan/specs/1.0-extensions/html/vkspec.html#fundamentals-versionnum">API Version Numbers and
@@ -107,13 +106,13 @@ object VK {
      */
     val instanceVersionSupported: Int
         get() {
-            val EnumerateInstanceVersion = globalCommands!!.vkEnumerateInstanceVersion
+            val enumerateInstanceVersion = globalCommands!!.vkEnumerateInstanceVersion
             var res = VK_API_VERSION_1_0
-            if (EnumerateInstanceVersion != NULL)
+            if (enumerateInstanceVersion != NULL)
                 stak {
                     val pi = it.callocInt(1)
                     VK11.vkEnumerateInstanceVersion(pi)
-                    if (callPI(pi.adr, EnumerateInstanceVersion) == VK_SUCCESS)
+                    if (callPI(pi.adr, enumerateInstanceVersion) == VK_SUCCESS)
                         res = pi[0]
                 }
             return res
@@ -121,8 +120,10 @@ object VK {
 
     class GlobalCommands(library: FunctionProvider) {
 
-        val vkGetInstanceProcAddr = library.getFunctionAddress("vkGetInstanceProcAddr").also {
-            if (it == NULL) throw IllegalArgumentException("A critical function is missing. Make sure that Vulkan is available.")
+        val vkGetInstanceProcAddr = library.getFunctionAddress("vkGetInstanceProcAddr")
+
+        init {
+            require(vkGetInstanceProcAddr != NULL) { "A critical function is missing. Make sure that Vulkan is available." }
         }
 
         val vkCreateInstance = getFunctionAddress("vkCreateInstance")
@@ -132,7 +133,7 @@ object VK {
 
         private fun getFunctionAddress(name: String, required: Boolean = true) = stak.asciiAdr(name) { pName ->
             callPPP(NULL, pName, vkGetInstanceProcAddr).also {
-                if (it == NULL && required) throw IllegalArgumentException("A critical function is missing. Make sure that Vulkan is available.")
+                require (it != NULL || !required) { "A critical function is missing. Make sure that Vulkan is available." }
             }
         }
     }
@@ -144,8 +145,8 @@ object VK {
         val minorVersion = VK_VERSION_MINOR(apiVersion)
 
         val VK_VERSIONS = intArrayOf(
-                1 // Vulkan 1.0 to 1.1
-        )
+            1 // Vulkan 1.0 to 1.1
+                                    )
 
         val maxMajor = majorVersion min VK_VERSIONS.size
         for (M in 1..maxMajor) {
@@ -171,7 +172,7 @@ object VK {
 }
 
 fun FunctionProvider.isSupported(functionName: String, caps: MutableMap<String, Adr>, satisfiedDependency: Boolean): Boolean =
-        !satisfiedDependency || isSupported(functionName, caps)
+    !satisfiedDependency || isSupported(functionName, caps)
 
 fun FunctionProvider.areSupported(caps: MutableMap<String, Adr>, vararg functionNames: String): Boolean {
     var result = true
