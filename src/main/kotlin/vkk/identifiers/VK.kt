@@ -11,7 +11,8 @@ import org.lwjgl.system.MemoryUtil.NULL
 //import org.lwjgl.system.Platform.*
 import org.lwjgl.vulkan.VK10.*
 import org.lwjgl.vulkan.VK11
-import vkk.stak
+import vkk.*
+import java.io.File
 import kotlin.math.min
 
 /**
@@ -25,8 +26,8 @@ object VK {
     var functionProvider: FunctionProvider? = null
         private set
 
-    var globalCommands: GlobalCommands? = null
-        private set
+    //    var globalCommands: GlobalCommands? = null
+    //        private set
 
     init {
         if (!Configuration.VULKAN_EXPLICIT_INIT.get(false))
@@ -85,7 +86,7 @@ object VK {
         check(VK.functionProvider == null) { "Vulkan has already been created." }
 
         VK.functionProvider = functionProvider
-        globalCommands = GlobalCommands(functionProvider)
+        //        globalCommands = GlobalCommands(functionProvider)
     }
 
     /** Unloads the Vulkan shared library. */
@@ -93,7 +94,7 @@ object VK {
         if (functionProvider == null) return
         else (functionProvider as? NativeResource)?.free()
         functionProvider = null
-        globalCommands = null
+        //        globalCommands = null
     }
 
     /**
@@ -106,7 +107,7 @@ object VK {
      */
     val instanceVersionSupported: Int
         get() {
-            val enumerateInstanceVersion = globalCommands!!.vkEnumerateInstanceVersion
+            val enumerateInstanceVersion = globalCommands.vkEnumerateInstanceVersion
             var res = VK_API_VERSION_1_0
             if (enumerateInstanceVersion != NULL)
                 stak {
@@ -118,24 +119,26 @@ object VK {
             return res
         }
 
-    class GlobalCommands(library: FunctionProvider) {
+    object globalCommands {
 
-        val vkGetInstanceProcAddr = library.getFunctionAddress("vkGetInstanceProcAddr")
+        val vkGetInstanceProcAddr = VkGetInstanceProcAddr(functionProvider!!)
 
         init {
-            require(vkGetInstanceProcAddr != NULL) { "A critical function is missing. Make sure that Vulkan is available." }
+            require(vkGetInstanceProcAddr.isValid) { "A critical function is missing. Make sure that Vulkan is available." }
         }
 
-        val vkCreateInstance = getFunctionAddress("vkCreateInstance")
-        val vkEnumerateInstanceExtensionProperties = getFunctionAddress("vkEnumerateInstanceExtensionProperties")
+        val vkCreateInstance = VkCreateInstance(vkGetInstanceProcAddr)
+        val vkEnumerateInstanceExtensionProperties = VkEnumerateInstanceExtensionProperties(vkGetInstanceProcAddr)
         val vkEnumerateInstanceLayerProperties = getFunctionAddress("vkEnumerateInstanceLayerProperties")
         val vkEnumerateInstanceVersion = getFunctionAddress("vkEnumerateInstanceVersion", false)
 
-        private fun getFunctionAddress(name: String, required: Boolean = true) = stak.asciiAdr(name) { pName ->
-            callPPP(NULL, pName, vkGetInstanceProcAddr).also {
-                require (it != NULL || !required) { "A critical function is missing. Make sure that Vulkan is available." }
+        private fun getFunctionAddress(name: String, required: Boolean = true) =
+            stak.asciiAdr(name) { pName ->
+                vkGetInstanceProcAddr(pName = pName).also {
+                    if (required)
+                        require(it.isValid) { "A critical function is missing. Make sure that Vulkan is available." }
+                }
             }
-        }
     }
 
     fun getEnabledExtensionSet(apiVersion: Int, extensionNames: Collection<String>?): Set<String> {

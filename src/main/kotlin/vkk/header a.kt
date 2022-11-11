@@ -4,9 +4,6 @@ package vkk
 const val VK_HEADER_VERSION = 121
 
 
-typealias VkFlags = Int
-
-
 @JvmInline
 value class VkPipelineCacheHeaderversion(val i: Int) {
     companion object {
@@ -819,23 +816,23 @@ value class VkFormat(val i: Int) {
 }
 
 
-@JvmInline
-value class VkImageType(val i: Int) {
-    companion object {
-        val _1D = VkImageType(0)
-        val _2D = VkImageType(1)
-        val _3D = VkImageType(2)
-    }
-}
+//@JvmInline
+//value class VkImageType(val i: Int) {
+//    companion object {
+//        val _1D = VkImageType(0)
+//        val _2D = VkImageType(1)
+//        val _3D = VkImageType(2)
+//    }
+//}
 
-@JvmInline
-value class VkImageTiling(val i: Int) {
-    companion object {
-        val OPTIMAL = VkImageTiling(0)
-        val LINEAR = VkImageTiling(1)
-        val DRM_FORMAT_MODIFIER_EXT = VkImageTiling(1000158000)
-    }
-}
+//@JvmInline
+//value class VkImageTiling(val i: Int) {
+//    companion object {
+//        val OPTIMAL = VkImageTiling(0)
+//        val LINEAR = VkImageTiling(1)
+//        val DRM_FORMAT_MODIFIER_EXT = VkImageTiling(1000158000)
+//    }
+//}
 
 @JvmInline
 value class VkPhysicalDeviceType(val i: Int) {
@@ -867,40 +864,40 @@ value class VkSharingMode(val i: Int) {
     }
 }
 
-@JvmInline
-value class VkImageLayout(val i: Int) {
-
-    companion object {
-        val UNDEFINED = VkImageLayout(0)
-        val GENERAL = VkImageLayout(1)
-        val COLOR_ATTACHMENT_OPTIMAL = VkImageLayout(2)
-        val DEPTH_STENCIL_ATTACHMENT_OPTIMAL = VkImageLayout(3)
-        val DEPTH_STENCIL_READ_ONLY_OPTIMAL = VkImageLayout(4)
-        val SHADER_READ_ONLY_OPTIMAL = VkImageLayout(5)
-        val TRANSFER_SRC_OPTIMAL = VkImageLayout(6)
-        val TRANSFER_DST_OPTIMAL = VkImageLayout(7)
-        val PREINITIALIZED = VkImageLayout(8)
-        val DEPTH_READ_ONLY_STENCIL_ATTACHMENT_OPTIMAL = VkImageLayout(1000117000)
-        val DEPTH_ATTACHMENT_STENCIL_READ_ONLY_OPTIMAL = VkImageLayout(1000117001)
-        val PRESENT_SRC_KHR = VkImageLayout(1000001002)
-        val SHARED_PRESENT_KHR = VkImageLayout(1000111000)
-        val SHADING_RATE_OPTIMAL_NV = VkImageLayout(1000164003)
-        val FRAGMENT_DENSITY_MAP_OPTIMAL_EXT = VkImageLayout(1000218000)
-        val DEPTH_READ_ONLY_STENCIL_ATTACHMENT_OPTIMAL_KHR = VkImageLayout.DEPTH_READ_ONLY_STENCIL_ATTACHMENT_OPTIMAL
-        val DEPTH_ATTACHMENT_STENCIL_READ_ONLY_OPTIMAL_KHR = VkImageLayout.DEPTH_ATTACHMENT_STENCIL_READ_ONLY_OPTIMAL
-    }
-
-    val accessMask: VkAccessFlags
-        get() = when (this) {
-            PREINITIALIZED -> VkAccess.HOST_WRITE_BIT.i
-            COLOR_ATTACHMENT_OPTIMAL -> VkAccess.COLOR_ATTACHMENT_WRITE_BIT.i
-            DEPTH_STENCIL_ATTACHMENT_OPTIMAL -> VkAccess.DEPTH_STENCIL_ATTACHMENT_WRITE_BIT.i
-            TRANSFER_SRC_OPTIMAL -> VkAccess.TRANSFER_READ_BIT.i
-            TRANSFER_DST_OPTIMAL -> VkAccess.TRANSFER_WRITE_BIT.i
-            SHADER_READ_ONLY_OPTIMAL -> VkAccess.SHADER_READ_BIT.i
-            else -> 0
-        }
-}
+//@JvmInline
+//value class VkImageLayout(val i: Int) {
+//
+//    companion object {
+//        val UNDEFINED = VkImageLayout(0)
+//        val GENERAL = VkImageLayout(1)
+//        val COLOR_ATTACHMENT_OPTIMAL = VkImageLayout(2)
+//        val DEPTH_STENCIL_ATTACHMENT_OPTIMAL = VkImageLayout(3)
+//        val DEPTH_STENCIL_READ_ONLY_OPTIMAL = VkImageLayout(4)
+//        val SHADER_READ_ONLY_OPTIMAL = VkImageLayout(5)
+//        val TRANSFER_SRC_OPTIMAL = VkImageLayout(6)
+//        val TRANSFER_DST_OPTIMAL = VkImageLayout(7)
+//        val PREINITIALIZED = VkImageLayout(8)
+//        val DEPTH_READ_ONLY_STENCIL_ATTACHMENT_OPTIMAL = VkImageLayout(1000117000)
+//        val DEPTH_ATTACHMENT_STENCIL_READ_ONLY_OPTIMAL = VkImageLayout(1000117001)
+//        val PRESENT_SRC_KHR = VkImageLayout(1000001002)
+//        val SHARED_PRESENT_KHR = VkImageLayout(1000111000)
+//        val SHADING_RATE_OPTIMAL_NV = VkImageLayout(1000164003)
+//        val FRAGMENT_DENSITY_MAP_OPTIMAL_EXT = VkImageLayout(1000218000)
+//        val DEPTH_READ_ONLY_STENCIL_ATTACHMENT_OPTIMAL_KHR = VkImageLayout.DEPTH_READ_ONLY_STENCIL_ATTACHMENT_OPTIMAL
+//        val DEPTH_ATTACHMENT_STENCIL_READ_ONLY_OPTIMAL_KHR = VkImageLayout.DEPTH_ATTACHMENT_STENCIL_READ_ONLY_OPTIMAL
+//    }
+// TODO
+//    val accessMask: VkAccessFlags
+//        get() = when (this) {
+//            PREINITIALIZED -> VkAccess.HOST_WRITE_BIT.i
+//            COLOR_ATTACHMENT_OPTIMAL -> VkAccess.COLOR_ATTACHMENT_WRITE_BIT.i
+//            DEPTH_STENCIL_ATTACHMENT_OPTIMAL -> VkAccess.DEPTH_STENCIL_ATTACHMENT_WRITE_BIT.i
+//            TRANSFER_SRC_OPTIMAL -> VkAccess.TRANSFER_READ_BIT.i
+//            TRANSFER_DST_OPTIMAL -> VkAccess.TRANSFER_WRITE_BIT.i
+//            SHADER_READ_ONLY_OPTIMAL -> VkAccess.SHADER_READ_BIT.i
+//            else -> 0
+//        }
+//}
 
 
 @JvmInline

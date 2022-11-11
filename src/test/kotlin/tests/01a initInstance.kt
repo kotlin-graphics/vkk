@@ -6,7 +6,7 @@ import uno.glfw.glfw
 import uno.vk.requiredInstanceExtensions
 import uno.vk.vulkanSupported
 import vkk.extensions.VkDebugReport
-import vkk.identifiers.Instance
+import vkk.identifiers.VkInstance
 import vkk.vk10.structs.DebugReportCallbackCreateInfo
 import vkk.vk10.structs.InstanceCreateInfo
 import kotlin.system.exitProcess
@@ -42,7 +42,7 @@ class `01a initInstance` : StringSpec() {
                 createInfo.enabledExtensionNames = extensions
 
                 // Create Vulkan Instance
-                val instance = Instance(createInfo)
+                val instance = VkInstance(createInfo)
 
                 // Setup the debug report callback
                 val debugReportCi = DebugReportCallbackCreateInfo(flags = VkDebugReport.ERROR_BIT_EXT.i or VkDebugReport.WARNING_BIT_EXT.i or VkDebugReport.PERFORMANCE_WARNING_BIT_EXT.i)

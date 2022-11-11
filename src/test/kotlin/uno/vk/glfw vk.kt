@@ -9,7 +9,7 @@ import uno.glfw.glfw
 import uno.glfw.stak
 import vkk.VK_CHECK_RESULT
 import vkk.entities.VkSurfaceKHR
-import vkk.identifiers.Instance
+import vkk.identifiers.VkInstance
 
 // --- [ glfwVulkanSupported ] ---
 val glfw.vulkanSupported: Boolean
@@ -32,5 +32,5 @@ val glfw.requiredInstanceExtensions: ArrayList<String>
     }
 
 // --- [ glfwCreateWindowSurface ] ---
-infix fun Instance.createSurface(window: GlfwWindow): VkSurfaceKHR =
+infix fun VkInstance.createSurface(window: GlfwWindow): VkSurfaceKHR =
         VkSurfaceKHR(stak.longAdr { VK_CHECK_RESULT(GLFWVulkan.nglfwCreateWindowSurface(adr, window.handle.value, NULL, it)) })

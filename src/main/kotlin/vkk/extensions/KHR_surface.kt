@@ -10,7 +10,7 @@ import org.lwjgl.vulkan.VkSurfaceFormatKHR
 import vkk.*
 import vkk.entities.VkPresentModeKHR_Array
 import vkk.entities.VkSurfaceKHR
-import vkk.identifiers.Instance
+import vkk.identifiers.VkInstance
 import vkk.identifiers.PhysicalDevice
 import vkk.vk10.structs.Extent2D
 
@@ -181,7 +181,7 @@ interface VkStack_KHR_surface : VkStackInterface {
 }
 
 // --- [ vkDestroySurfaceKHR ] ---
-infix fun Instance.destroy(surface: VkSurfaceKHR) = callPJPV(adr, surface.L, NULL, capabilities.vkDestroySurfaceKHR)
+infix fun VkInstance.destroy(surface: VkSurfaceKHR) = callPJPV(adr, surface.L, NULL, capabilities.vkDestroySurfaceKHR)
 
 // --- [ vkGetPhysicalDeviceSurfaceSupportKHR ] ---
 

@@ -7,9 +7,7 @@ import java.io.File
 import org.gradle.api.file.Directory
 import org.gradle.api.file.ProjectLayout
 import org.gradle.api.provider.Provider
-import vkk.parse
-import vkk.structs
-import vkk.vk
+import vkk.*
 import javax.inject.Inject
 
 abstract class GenerateCode: DefaultTask() {
@@ -34,9 +32,15 @@ abstract class GenerateCode: DefaultTask() {
 
         parse(text)
 
+//        refPages(target, layout)
+
         vk(target)
 
         structs(target)
+
+        handles(target)
+
+        enums(target)
     }
 }
 

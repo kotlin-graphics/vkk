@@ -2,7 +2,6 @@ package vkk
 
 import java.io.File
 import vkk.gen.generate
-import vkk.gen.jvmInline
 
 fun vk(target: File) {
 
@@ -46,7 +45,9 @@ fun vk(target: File) {
             +"""
                 val headerVersion: Int = $version
                 /** Complete version of this file*/
-                val versionComplete: ApiVersion = ApiVersion($variant, $major, $minor, $version) 
+                val versionComplete: ApiVersion = ApiVersion($variant, $major, $minor, $version)
+                
+                val VK_NULL_HANDLE: Ptr = 0L
             """
         }
     }

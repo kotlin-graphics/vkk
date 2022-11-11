@@ -14,6 +14,7 @@ class CapabilitiesInstance internal constructor(
     ext: Set<String>,
     deviceExt: Set<String>,
     provider: FunctionProvider) {
+
     // VK10
     val vkDestroyInstance: Adr
     val vkEnumeratePhysicalDevices: Adr

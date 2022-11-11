@@ -196,23 +196,23 @@ value class VkDescriptorType(val i: Int) {
     }
 }
 
-@JvmInline
-value class VkAttachmentLoadOp(val i: Int) {
-    companion object {
-        val LOAD = VkAttachmentLoadOp(0)
-        val CLEAR = VkAttachmentLoadOp(1)
-        val DONT_CARE = VkAttachmentLoadOp(2)
-    }
-}
+//@JvmInline
+//value class VkAttachmentLoadOp(val i: Int) {
+//    companion object {
+//        val LOAD = VkAttachmentLoadOp(0)
+//        val CLEAR = VkAttachmentLoadOp(1)
+//        val DONT_CARE = VkAttachmentLoadOp(2)
+//    }
+//}
 
 
-@JvmInline
-value class VkAttachmentStoreOp(val i: Int) {
-    companion object {
-        val STORE = VkAttachmentStoreOp(0)
-        val DONT_CARE = VkAttachmentStoreOp(1)
-    }
-}
+//@JvmInline
+//value class VkAttachmentStoreOp(val i: Int) {
+//    companion object {
+//        val STORE = VkAttachmentStoreOp(0)
+//        val DONT_CARE = VkAttachmentStoreOp(1)
+//    }
+//}
 
 @JvmInline
 value class VkPipelineBindPoint(val i: Int) {
@@ -304,7 +304,7 @@ value class VkVendorId(val i: Int) {
     }
 }
 
-typealias VkInstanceCreateFlags = VkFlags
+//typealias VkInstanceCreateFlags = VkFlags
 
 @JvmInline
 value class VkFormatFeature(val i: VkFormatFeatureFlags) {

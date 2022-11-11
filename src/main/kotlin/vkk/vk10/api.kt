@@ -13,16 +13,17 @@ import vkk.*
 import vkk.entities.*
 import vkk.identifiers.*
 import vkk.identifiers.VK
+import vkk.identifiers.VkInstance
 import vkk.vk10.structs.*
 
 interface VkStack_VK10 : VkStackInterface {
 
     // --- [ vkCreateInstance ] ---
-    infix fun vk.createInstance(createInfo: InstanceCreateInfo): Instance =
-            Instance(stack.pointerAdr { VK_CHECK_RESULT(callPPPI(createInfo write stack, NULL, it, VK.globalCommands!!.vkCreateInstance)) }, createInfo)
+    infix fun vk.createInstance(createInfo: InstanceCreateInfo): VkInstance =
+        VkInstance(stack.pointerAdr { VK_CHECK_RESULT(callPPPI(createInfo write stack, NULL, it, VK.globalCommands!!.vkCreateInstance)) }, createInfo)
 
     // --- [ vkEnumeratePhysicalDevices ] ---
-    val Instance.physicalDevices: Array<PhysicalDevice>
+    val VkInstance.physicalDevices: Array<PhysicalDevice>
         get() = stack {
             var pPhysicalDevices: Ptr = NULL
             val pPhysicalDeviceCount = stack.mInt()
@@ -71,7 +72,7 @@ interface VkStack_VK10 : VkStackInterface {
         get() = PhysicalDeviceMemoryProperties.read(stack) { callPPV(adr, it, capabilities.vkGetPhysicalDeviceMemoryProperties) }
 
     // --- [ vkGetInstanceProcAddr ] ---
-    infix fun Instance.getProcAddr(name: String) = stack.asciiAdr(name) { callPPP(adr, it, VK.globalCommands!!.vkGetInstanceProcAddr) }
+    infix fun VkInstance.getProcAddr(name: String) = stack.asciiAdr(name) { callPPP(adr, it, VK.globalCommands!!.vkGetInstanceProcAddr) }
 
     // --- [ vkGetDeviceProcAddr ] ---
     infix fun Device.getProcAddr(name: String) = stack.asciiAdr(name) { callPPP(adr, it, capabilities.vkGetDeviceProcAddr) }
@@ -611,11 +612,11 @@ interface VkStack_VK10 : VkStackInterface {
 }
 
 // --- [ vkCreateInstance ] ---
-infix fun vk.createInstance(createInfo: InstanceCreateInfo): Instance =
+infix fun vk.createInstance(createInfo: InstanceCreateInfo): VkInstance =
         VkStack { it.run { vk createInstance createInfo } }
 
 // --- [ vkEnumeratePhysicalDevices ] ---
-val Instance.physicalDevices: Array<PhysicalDevice>
+val VkInstance.physicalDevices: Array<PhysicalDevice>
     get() = VkStack { it.run { physicalDevices } }
 
 // --- [ vkGetPhysicalDeviceFeatures ] ---
@@ -643,7 +644,7 @@ val PhysicalDevice.memoryProperties: PhysicalDeviceMemoryProperties
     get() = VkStack { it.run { memoryProperties } }
 
 // --- [ vkGetInstanceProcAddr ] ---
-infix fun Instance.getProcAddr(name: String) = VkStack { it.run { getProcAddr(name) } }
+infix fun VkInstance.getProcAddr(name: String) = VkStack { it.run { getProcAddr(name) } }
 
 // --- [ vkGetDeviceProcAddr ] ---
 infix fun Device.getProcAddr(name: String) = VkStack { it.run { getProcAddr(name) } }

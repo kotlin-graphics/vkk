@@ -41,7 +41,7 @@ interface VkStack_VK11 : VkStackInterface {
             stack.intAdr { callPPV(adr, heapIndex, localDeviceIndex, remoteDeviceIndex, it, capabilities.vkGetDeviceGroupPeerMemoryFeatures) }
 
     // --- [ vkEnumeratePhysicalDeviceGroups ] ---
-    val Instance.physicalDeviceGroups: Array<PhysicalDeviceGroupProperties>
+    val VkInstance.physicalDeviceGroups: Array<PhysicalDeviceGroupProperties>
         get() = stack {
             var properties: Ptr = NULL
             var count: Int
@@ -176,7 +176,7 @@ fun Device.getGroupPeerMemoryFeatures(heapIndex: Int, localDeviceIndex: Int, rem
         VkStack { it.run { getGroupPeerMemoryFeatures(heapIndex, localDeviceIndex, remoteDeviceIndex) } }
 
 // --- [ vkEnumeratePhysicalDeviceGroups ] ---
-val Instance.physicalDeviceGroups: Array<PhysicalDeviceGroupProperties>
+val VkInstance.physicalDeviceGroups: Array<PhysicalDeviceGroupProperties>
     get() = VkStack { it.run { physicalDeviceGroups } }
 
 // --- [ vkGetImageMemoryRequirements2 ] ---

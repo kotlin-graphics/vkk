@@ -1,7 +1,7 @@
 package vkk.vk11.structs
 
 import glm_.bool
-import vkk.identifiers.Instance
+import vkk.identifiers.VkInstance
 import vkk.identifiers.PhysicalDevice
 import kool.Adr
 import kool.BYTES
@@ -50,8 +50,8 @@ class PhysicalDeviceGroupProperties(
 
     val type get() = VkStructureType.PHYSICAL_DEVICE_GROUP_PROPERTIES
 
-    constructor(adr: Adr, instance: Instance) : this(
+    constructor(adr: Adr, instance: VkInstance) : this(
             Array(nphysicalDeviceCount(adr)) { PhysicalDevice(adr + it * Long.BYTES, instance) },
             nsubsetAllocation(adr).bool
-    )
+                                                      )
 }

@@ -17,16 +17,10 @@ val require: List<String>
     get() = getElement("require")
 
 fun getElement(element: String): List<String> {
-    require(line.startsWith("<$element")) {
-        "$line\n$element"
-    }
+    require(line.startsWith("<$element")) { "$line\n$element" }
     val res = ArrayList<String>()
     while (true) {
         res += line
-        val tagCount = line.split("<$element").size - 1 + line.split("</$element>").size - 1
-        // one single line, ie
-        // <type category="struct" name="VkPipelineCreationFeedbackEXT" alias="VkPipelineCreationFeedback"/>
-        //        if (line.endsWith("/>") && tagCount == 1 && line.count { it == '<' } == 1)
         if (line.startsWith("<$element") && line.endsWith("/>"))
             break
         if (line.endsWith("</$element>"))
@@ -118,6 +112,11 @@ fun parse(text: String) {
         }
         if (line.startsWith("<feature"))
             Registry.features += Feature(line)
+        if (line.startsWith("<extensions")) {
+            nextLine()
+            while (line.startsWith("<extension"))
+                Registry.extensions += Extension(line)
+        }
         nextLine()
     }
     println()
@@ -149,6 +148,7 @@ object Registry {
     val enums = ArrayList<EnumClass>()
     val commands = ArrayList<CommandBase>()
     val features = ArrayList<Feature>()
+    val extensions = ArrayList<Extension>()
 }
 
 class Platform(line: String) {
@@ -197,6 +197,9 @@ sealed class Type(line: String, val commentProvide: () -> String = { line }) {
         val type by line
         val parent by line
         val objtypeenum by line
+
+        val dispatchable
+            get() = type == "VK_DEFINE_HANDLE"
     }
 
     class Enum(line: String) : Type(line)
@@ -256,7 +259,7 @@ sealed class Type(line: String, val commentProvide: () -> String = { line }) {
 
         fun gen(): String {
             return if (isPrimitive)
-                "var $name: $ktType = $ktTypeDefault"
+                "var $name: ${type.ktType} = ${type.ktTypeDefault}"
             else error("")
         }
 
@@ -264,16 +267,6 @@ sealed class Type(line: String, val commentProvide: () -> String = { line }) {
             get() = when (type) {
                 "float" -> true
                 else -> false
-            }
-        val ktType
-            get() = when (type) {
-                "float" -> "Float"
-                else -> error("invalid type $type")
-            }
-        val ktTypeDefault
-            get() = when (type) {
-                "float" -> "0f"
-                else -> error("invalid type $type")
             }
 
         init {
@@ -293,6 +286,11 @@ fun String.clean(): String {
 
 class EnumClass(element: List<String>) {
     val name by element.first()
+    val valueName: String
+        get() = when {
+            name.endsWith("FlagBits") -> name.substringBefore("Bits") + 's'
+            else -> ""
+        }
     val type by element.first()
 
     // todo `start,end`, are they together or separated?
@@ -300,14 +298,29 @@ class EnumClass(element: List<String>) {
     val comment by element.first()
     val bitwidth by element.first()
 
-    val values = ArrayList<Value>()
+    val values = ArrayList<ValueInterface>()
 
     init {
+        var comment: String? = null
         for (line in element.drop(1).dropLast(1))
-            values += Value(line)
+            when {
+                line.startsWith("<comment>") ->
+                    if (line.endsWith("</comment>"))
+                        values += Comment(line.drop(9).dropLast(10))
+                    else
+                        comment = ""
+                comment != null -> comment += line
+                line == "</comment>" -> {
+                    values += Comment(comment!!)
+                    comment = null
+                }
+                line.startsWith("<enum") -> values += Value(line)
+            }
     }
 
-    class Value(line: String) {
+    interface ValueInterface
+
+    class Value(line: String) : ValueInterface {
         val value by line
         val bitpos by line
         val name by line
@@ -315,7 +328,10 @@ class EnumClass(element: List<String>) {
         val type by line
         val alias by line
         val protect by line
+        val comment by line
     }
+
+    class Comment(val text: String) : ValueInterface
 }
 
 abstract class CommandBase(element: List<String>) {
@@ -383,49 +399,82 @@ class Feature(line: String) {
             nextLine()
         }
     }
+}
 
-    class Require(element: List<String>) {
-        val profile by element.first()
-        val comment by element.first()
-        val api by element.first()
-        val extension by element.first()
-        val feature by element.first()
+class Require(element: List<String>) {
+    val profile by element.first()
+    val comment by element.first()
+    val api by element.first()
+    val extension by element.first()
+    val feature by element.first()
 
-        val interfaces = ArrayList<Interface>()
+    val interfaces = ArrayList<Interface>()
 
-        init {
-            for (line in element.drop(1).dropLast(1)) {
-                val kind = line.drop(1).split(Regex("\\s+")).first()
-                interfaces += when (kind) {
-                    "command" -> Command(line)
-                    "enum" -> Enum(line)
-                    else -> Type(line)
+    init {
+        for (line in element.drop(1).dropLast(1)) {
+            val kind = line.drop(1).split(Regex("\\s+")).first()
+            interfaces += when (kind) {
+                "command" -> Command(line)
+                "enum" -> Enum(line)
+                else -> {
+                    check(kind == "type")
+                    Type(line)
                 }
             }
         }
+    }
 
-        abstract class Interface(val line: String) {
-            val name by line
-            val comment by line
-        }
+    abstract class Interface(val line: String) {
+        val name by line
+        val comment by line
+    }
 
-        class Command(line: String) : Interface(line)
-        class Enum(line: String) : Interface(line) {
-            val api by line
+    class Command(line: String) : Interface(line)
+    class Enum(line: String) : Interface(line) {
+        val api by line
 
-            // Reference enums
-            // Extension enums
-            val value by line
-            val type by line
-            val bitpos by line
-            val extends by line
-            val extnumber by line
-            val offset by line
-            val dir by line
-            val alias by line
-            val protect by line
-        }
+        // Reference enums
+        // Extension enums
+        val value by line
+        val type by line
+        val bitpos by line
+        val extends by line
+        val extnumber by line
+        val offset by line
+        val dir by line
+        val alias by line
+        val protect by line
+    }
 
-        class Type(line: String) : Interface(line)
+    class Type(line: String) : Interface(line)
+}
+
+class Extension(line: String) {
+    val name by line
+    val number by line
+    val sortorder by line
+    val author by line
+    val contact by line
+    val type by line
+    val requires by line
+    val requiresCore by line
+    val protect by line
+    val platform by line
+    val supported by line
+    val promotedto by line
+    val deprecatedby by line
+    val obsoletedby by line
+    val provisional by line
+    val specialuse by line
+    val comment by line
+
+    val require = ArrayList<Require>()
+
+    init {
+        nextLine()
+        while (line.startsWith("<require"))
+            require += Require(vkk.require)
+        println(vkk.line)
+        error("")
     }
 }

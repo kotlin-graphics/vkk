@@ -3,9 +3,9 @@ package vkk.identifiers
 import kool.Ptr
 import kool.adr
 import kool.indices
+import kool.stack
 import org.lwjgl.system.APIUtil.apiLog
 import org.lwjgl.system.Checks
-import org.lwjgl.system.FunctionProvider
 import org.lwjgl.system.JNI.*
 import org.lwjgl.system.MemoryStack.stackPush
 import org.lwjgl.system.MemoryUtil.*
@@ -18,7 +18,7 @@ import vkk.vk10.api.Instance_vk10
 import vkk.vk10.structs.InstanceCreateInfo
 import java.util.*
 
-typealias UniqueInstance = Instance
+typealias UniqueInstance = VkInstance
 
 //class UniqueInstance(createInfo: InstanceCreateInfo) : Instance(createInfo) {
 //    init {
@@ -33,24 +33,23 @@ typealias UniqueInstance = Instance
 //}
 
 /** Wraps a Vulkan instance handle. */
-class Instance
+class VkInstance
 /**
- * Creates a {@link VkInstance} instance for the specified native handle.
+ * Creates a [VkInstance] instance for the specified native handle.
  *
- * @param handle the native {@code VkInstance} handle
- * @param ci     the {@link VkInstanceCreateInfo} structured used to create the {@code VkInstance}.
+ * @param handle the native [VkInstance] handle
+ * @param ci     the [VkInstanceCreateInfo] structured used to create the {@code VkInstance}.
  */
-internal constructor(handle: Ptr, ci: InstanceCreateInfo) :
-    Dispatchable(handle, getInstanceCapabilities(handle, ci)),
-    VkCloseable, Instance_vk10 {
+internal constructor(handle: Ptr, ci: InstanceCreateInfo) : DispatchableHandleInstance(handle, getInstanceCapabilities(handle, ci)),
+                                                            VkCloseable, Instance_vk10 {
 
     // ---------------------------------------------- VK10 -------------------------------------------------------------
 
     // --- [ vkCreateInstance ] ---
     constructor(createInfo: InstanceCreateInfo) : this(
-        VkStack { s ->
+        stack { s ->
             s.pointerAdr {
-                VK_CHECK_RESULT(callPPPI(createInfo write s, NULL, it, VK.globalCommands!!.vkCreateInstance))
+                VK_CHECK_RESULT(callPPPI(createInfo write s, NULL, it, VK.globalCommands.vkCreateInstance))
             }
         }, createInfo)
 
@@ -58,7 +57,7 @@ internal constructor(handle: Ptr, ci: InstanceCreateInfo) :
     constructor(createInfo: InstanceCreateInfo, stack: VkStack) : this(
         stack {
             stack.pointerAdr {
-                VK_CHECK_RESULT(callPPPI(createInfo write stack, NULL, it, VK.globalCommands!!.vkCreateInstance))
+                VK_CHECK_RESULT(callPPPI(createInfo write stack, NULL, it, VK.globalCommands.vkCreateInstance))
             }
         }, createInfo)
 
@@ -78,7 +77,7 @@ internal constructor(handle: Ptr, ci: InstanceCreateInfo) :
             return CapabilitiesInstance(apiVersion,
                                         VK.getEnabledExtensionSet(apiVersion, ci.enabledExtensionNames),
                                         getAvailableDeviceExtensions(handle)) { functionName ->
-                callPPP(handle, functionName.adr, VK.globalCommands!!.vkGetInstanceProcAddr).also {
+                callPPP(handle, functionName.adr, VK.globalCommands.vkGetInstanceProcAddr).also {
                     if (it == NULL && Checks.DEBUG_FUNCTIONS)
                         apiLog("Failed to locate address for VK instance function " + memASCII(functionName))
                 }
@@ -96,7 +95,7 @@ private fun getAvailableDeviceExtensions(instance: Ptr): Set<String> {
     val stack = stackPush()
     val ip = stack.callocInt(1)
 
-    val GetInstanceProcAddr = VK.globalCommands!!.vkGetInstanceProcAddr
+    val GetInstanceProcAddr = VK.globalCommands.vkGetInstanceProcAddr
     val EnumeratePhysicalDevices = callPPP(instance, stack.ASCII("vkEnumeratePhysicalDevices").adr, GetInstanceProcAddr)
     val EnumerateDeviceExtensionProperties = callPPP(instance, stack.ASCII("vkEnumerateDeviceExtensionProperties").adr, GetInstanceProcAddr)
     if (EnumeratePhysicalDevices == NULL || EnumerateDeviceExtensionProperties == NULL)

@@ -12,9 +12,9 @@ class PhysicalDevice
  */
 constructor(handle: Adr,
             /** Returns the Vulkan instance from which this physical device was enumerated.  */
-            val instance: Instance
+            val instance: VkInstance
 ) :
-        Dispatchable(handle, instance.capabilities) {
+    DispatchableHandleInstance(handle, instance.capabilities) {
 
 
     // ---------------------------------------------- VK10 -------------------------------------------------------------
