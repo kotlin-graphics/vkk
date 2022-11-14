@@ -6,6 +6,7 @@ import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil
 import vkk.identifiers.CommandBuffer
 import vkk.identifiers.Device
+import java.io.File
 import java.nio.Buffer
 
 
@@ -136,4 +137,7 @@ fun main() {
     val device = Dev()
     device.a()
     v.b()
+
+    val a: File
+    a.
 }

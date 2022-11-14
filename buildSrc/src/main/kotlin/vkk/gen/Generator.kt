@@ -1,11 +1,13 @@
 package vkk.gen
 
+import vkk.apiMap
+import vkk.refPages
 import java.io.File
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashSet
 
-class Generator(val targetDir: File) {
+class Generator(val targetDir: File, val vkDocs: File) {
 
     val builder = StringBuilder()
     var indentation = ""
@@ -25,7 +27,7 @@ class Generator(val targetDir: File) {
 
     fun String.indentAndClose(block: () -> Unit) {
         indented(block)
-        when(last()) {
+        when (last()) {
             '(' -> builder.insert(builder.lastIndex, ')')
             else -> +"}"
         }
@@ -115,9 +117,28 @@ class Generator(val targetDir: File) {
         }
     }
 
-    var lastDoc = ""
+    fun link(name: String) = when {
+        "VK_VERSION" in name -> "[$name](https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/$name.html)"
+        else -> "[$name]"
+    }
+
+    fun man(name: String) {
+//        println(name)
+        val refPage = refPages[name] ?: error("refPage $name not present")
+        val maybeSeeAlso = when {
+            refPage.seeAlso.isEmpty() -> ""
+            else -> "### See Also\n" + refPage.seeAlso.joinToString { link(it) }
+        }
+        var text = """
+### Name
+${refPage.desc}
+### C Specification
+${refPage.page}$maybeSeeAlso"""
+        //        text += see
+        docs(text)
+    }
+
     fun docs(docs: String) {
-        lastDoc = docs
         val lines = docs.trimIndent().lines()
         if (lines.size == 1) builder.appendLine("$indentation/** ${lines[0]} */")
         else {
@@ -144,10 +165,4 @@ class Generator(val targetDir: File) {
                 else -> "kotlin.$subPkg"
             }
     }
-
-    enum class Part { Class, TopLevel }
-
-
-    // dont change order (+ and - first, then * and /). Quat operator generation relies on this
-    val operators = listOf("+" to "plus", "-" to "minus", "*" to "times", "/" to "div")
 }

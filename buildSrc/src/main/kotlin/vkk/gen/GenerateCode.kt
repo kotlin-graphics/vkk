@@ -7,9 +7,10 @@ import java.io.File
 import org.gradle.api.file.Directory
 import org.gradle.api.file.ProjectLayout
 import org.gradle.api.provider.Provider
-import vkk.parse
-import vkk.structs
-import vkk.vk
+import vkk.baseTypes
+import vkk.defines
+import vkk.docs
+import vkk.enums
 import javax.inject.Inject
 
 abstract class GenerateCode: DefaultTask() {
@@ -24,24 +25,24 @@ abstract class GenerateCode: DefaultTask() {
 
     @get:OutputDirectory
     val targetDir: Provider<Directory>
-        get() = layout.buildDirectory.dir("generated/common")
+        get() = layout.buildDirectory.dir("generated")
 
     @TaskAction
     fun generate() {
         val target = targetDir.get().asFile
 
-        val text = javaClass.getResource("/vk.xml").readText()
+        val vkDocs = layout.buildDirectory.dir("Vulkan-Docs").get().asFile
+//        val input = vkDocs.resolve("gen/api/basetypes")
 
-        parse(text)
-
-        vk(target)
-
-        structs(target)
+        docs(vkDocs)
+        baseTypes(target, vkDocs)
+        defines(target, vkDocs)
+        enums(target, vkDocs)
     }
 }
 
-fun generate(targetDir: File, file: String, block: Generator.() -> Unit) {
-    Generator(targetDir).apply {
+fun generate(targetDir: File, vkDocs: File, file: String, block: Generator.() -> Unit) {
+    Generator(targetDir, vkDocs).apply {
         builder.append('\n')
         block()
         for (import in imports)
