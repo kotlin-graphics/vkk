@@ -39,32 +39,46 @@ fun memCopy(src: Ptr, dst: Ptr, bytes: VkDeviceSize) = MemoryUtil.memCopy(src, d
 
 
 @JvmInline
-value class HINSTANCE(val L: Long)
+value class DWORD(val i: Int = 0)
 @JvmInline
-value class HWND(val L: Long)
+value class HANDLE(val L: Long = 0)
 @JvmInline
-value class HANDLE(val L: Long)
+value class HINSTANCE(val L: Long = 0)
 @JvmInline
-value class DWORD(val i: Int)
+value class HMONITOR(val L: Long = 0)
 @JvmInline
-value class Display(val L: Long)
+value class HWND(val L: Long = 0)
 @JvmInline
-value class Window(val L: Long)
+value class SECURITY_ATTRIBUTES(val L: Long = 0)
 @JvmInline
-value class VisualID(val L: Long)
+value class Display(val L: Long = 0)
 @JvmInline
-value class WLDisplay(val L: Long)
+value class Window(val L: Long = 0)
 @JvmInline
-value class WLSurface(val L: Long)
+value class VisualID(val L: Long = 0)
 @JvmInline
-value class RROutput(val L: Long)
+value class Wl_display(val L: Long = 0)
 @JvmInline
-value class HMONITOR(val L: Long)
+value class Wl_surface(val L: Long = 0)
+@JvmInline
+value class RROutput(val L: Long = 0)
+@JvmInline
+value class CAMetalLayer(val L: Long = 0)
+@JvmInline
+value class MTLBuffer_id(val L: Long = 0)
+@JvmInline
+value class MTLCommandQueue_id(val L: Long = 0)
+@JvmInline
+value class MTLDevice_id(val L: Long = 0)
+@JvmInline
+value class MTLSharedEvent_id(val L: Long = 0)
+@JvmInline
+value class MTLTexture_id(val L: Long = 0)
+@JvmInline
+value class IOSurfaceRef(val L: Long = 0)
 
 
 typealias NanoSecond = Long
-
-typealias stak = Stack
 
 fun MemoryStack.resize(src: PointerBuffer?, newSize: Int): PointerBuffer = when {
     src == null -> this.PointerBuffer(newSize)

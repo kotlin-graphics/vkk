@@ -10,13 +10,16 @@ fun defines(target: File, vkDocs: File) {
     generate(target, vkDocs, "vkk/api/defines.kt") {
 
         `package` = "vkk.api"
+        imports += listOf("glm_.min", "kool.unsafe", "kool.set", "kool.Ptr")
 
         man("VK_MAKE_API_VERSION")
         +"""            
             $jvmInline
             value class VkApiVersion(val value: Int) {
+                
                 constructor(variant: Int, major: Int, minor: Int, patch: Int) : 
                     this(((variant.toUInt() shr 29) or (major.toUInt() shr 22) or (minor.toUInt() shr 12) or patch.toUInt()).toInt())
+                
                 val variant: Int
                     get() = (value.toUInt() shr 29).toInt()
                 val major: Int
@@ -25,7 +28,32 @@ fun defines(target: File, vkDocs: File) {
                     get() = ((value.toUInt() shr 12) and 0x3FFu).toInt()
                 val patch: Int
                     get() = (value.toUInt() and 0xFFFu).toInt()
+                
+                val isValid: Boolean
+                    get() = value != 0
+                val isNotValid: Boolean
+                    get() = value == 0
+                    
+                infix fun getEnabledExtensionSet(extensionNames: List<String>?): Set<String> {
+                    val enabledExtensions = HashSet<String>(16)
+            
+                    val vkVersions = intArrayOf(3 /* Vulkan 1.0 to 1.3 */)
+            
+                    val maxMajor = major min vkVersions.size
+                    for (major in 1..maxMajor) {
+                        var maxMinor = vkVersions[major - 1]
+                        if (major == major)
+                            maxMinor = minor min maxMinor
+                        for (minor in 0..maxMinor)
+                            enabledExtensions += "Vulkan${"$"}major${"$"}minor"
+                    }
+            
+                    extensionNames?.toCollection(enabledExtensions)
+            
+                    return enabledExtensions
+                }
             }
+            infix fun Ptr<UByte>.`=`(apiVersion: VkApiVersion) = unsafe.set(adr, apiVersion.value)
             """
 
         lateinit var major: String

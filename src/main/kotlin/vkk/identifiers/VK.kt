@@ -1,3 +1,4 @@
+@file:Suppress("NOTHING_TO_INLINE")
 package vkk.identifiers
 
 import glm_.min
@@ -5,13 +6,16 @@ import kool.Adr
 import kool.adr
 import org.lwjgl.system.*
 import org.lwjgl.system.APIUtil.apiLog
-import org.lwjgl.system.JNI.callPI
-import org.lwjgl.system.JNI.callPPP
+import org.lwjgl.system.JNI.*
 import org.lwjgl.system.MemoryUtil.NULL
 //import org.lwjgl.system.Platform.*
 import org.lwjgl.vulkan.VK10.*
 import org.lwjgl.vulkan.VK11
-import vkk.stak
+import vkk.MemStack
+import vkk.api.VkApiVersion
+import vkk.api.VkInstance
+import vkk.api.VkInstanceCreateInfo
+import vkk.invoke
 import kotlin.math.min
 
 /**
@@ -22,11 +26,28 @@ import kotlin.math.min
  */
 object VK {
 
-    var functionProvider: FunctionProvider? = null
+    var created = false
+
+    lateinit var functionProvider: FunctionProvider
         private set
 
-    var globalCommands: GlobalCommands? = null
-        private set
+    object globalCommands {
+
+        val vkGetInstanceProcAddr = VkGetInstanceProcAddr(functionProvider.getFunctionAddress("vkGetInstanceProcAddr"))
+
+        init {
+            require(vkGetInstanceProcAddr.isValid) { "A critical function is missing. Make sure that Vulkan is available." }
+        }
+
+        val vkCreateInstance = VkCreateInstance(vkGetInstanceProcAddr("vkCreateInstance"))
+        val vkEnumerateInstanceExtensionProperties = vkGetInstanceProcAddr("vkEnumerateInstanceExtensionProperties")
+        val vkEnumerateInstanceLayerProperties = vkGetInstanceProcAddr("vkEnumerateInstanceLayerProperties")
+        val vkEnumerateInstanceVersion = vkGetInstanceProcAddr("vkEnumerateInstanceVersion")
+
+        init {
+            require(vkCreateInstance.isValid) { "A critical function is missing. Make sure that Vulkan is available." }
+        }
+    }
 
     init {
         if (!Configuration.VULKAN_EXPLICIT_INIT.get(false))
@@ -82,18 +103,17 @@ object VK {
      * @param functionProvider the provider of Vulkan function addresses
      */
     fun create(functionProvider: FunctionProvider) {
-        check(VK.functionProvider == null) { "Vulkan has already been created." }
+        check(!created) { "Vulkan has already been created." }
 
         VK.functionProvider = functionProvider
-        globalCommands = GlobalCommands(functionProvider)
+
+        created = true
     }
 
     /** Unloads the Vulkan shared library. */
     fun destroy() {
-        if (functionProvider == null) return
-        else (functionProvider as? NativeResource)?.free()
-        functionProvider = null
-        globalCommands = null
+        (functionProvider as? NativeResource)?.free()
+        created = false
     }
 
     /**
@@ -106,7 +126,7 @@ object VK {
      */
     val instanceVersionSupported: Int
         get() {
-            val enumerateInstanceVersion = globalCommands!!.vkEnumerateInstanceVersion
+            val enumerateInstanceVersion = globalCommands.vkEnumerateInstanceVersion
             var res = VK_API_VERSION_1_0
             if (enumerateInstanceVersion != NULL)
                 stak {
@@ -118,46 +138,23 @@ object VK {
             return res
         }
 
-    class GlobalCommands(library: FunctionProvider) {
-
-        val vkGetInstanceProcAddr = library.getFunctionAddress("vkGetInstanceProcAddr")
-
-        init {
-            require(vkGetInstanceProcAddr != NULL) { "A critical function is missing. Make sure that Vulkan is available." }
-        }
-
-        val vkCreateInstance = getFunctionAddress("vkCreateInstance")
-        val vkEnumerateInstanceExtensionProperties = getFunctionAddress("vkEnumerateInstanceExtensionProperties")
-        val vkEnumerateInstanceLayerProperties = getFunctionAddress("vkEnumerateInstanceLayerProperties")
-        val vkEnumerateInstanceVersion = getFunctionAddress("vkEnumerateInstanceVersion", false)
-
-        private fun getFunctionAddress(name: String, required: Boolean = true) = stak.asciiAdr(name) { pName ->
-            callPPP(NULL, pName, vkGetInstanceProcAddr).also {
-                require (it != NULL || !required) { "A critical function is missing. Make sure that Vulkan is available." }
-            }
-        }
-    }
-
-    fun getEnabledExtensionSet(apiVersion: Int, extensionNames: Collection<String>?): Set<String> {
+    fun getEnabledExtensionSet(apiVersion: VkApiVersion, extensionNames: List<String>?): Set<String> {
         val enabledExtensions = HashSet<String>(16)
 
-        val majorVersion = VK_VERSION_MAJOR(apiVersion)
-        val minorVersion = VK_VERSION_MINOR(apiVersion)
+        val vkVersions = intArrayOf(
+            3 // Vulkan 1.0 to 1.3
+                                   )
 
-        val VK_VERSIONS = intArrayOf(
-            1 // Vulkan 1.0 to 1.1
-                                    )
-
-        val maxMajor = majorVersion min VK_VERSIONS.size
-        for (M in 1..maxMajor) {
-            var maxMinor = VK_VERSIONS[M - 1]
-            if (M == majorVersion)
-                maxMinor = min(minorVersion, maxMinor)
-            for (m in 0..maxMinor)
-                enabledExtensions += "Vulkan$M$m"
+        val maxMajor = apiVersion.major min vkVersions.size
+        for (major in 1..maxMajor) {
+            var maxMinor = vkVersions[major - 1]
+            if (major == apiVersion.major)
+                maxMinor = apiVersion.minor min maxMinor
+            for (minor in 0..maxMinor)
+                enabledExtensions += "Vulkan$major$minor"
         }
 
-        extensionNames?.let { enabledExtensions += it }
+        extensionNames?.toCollection(enabledExtensions)
 
         return enabledExtensions
     }
@@ -188,4 +185,30 @@ fun FunctionProvider.isSupported(functionName: String, caps: MutableMap<String, 
         return true
     }
     return false
+}
+
+@JvmInline
+value class VkGetInstanceProcAddr(val adr: Adr) {
+
+    constructor(long: Long) : this(long.toULong())
+
+    inline operator fun invoke(instance: Instance?, name: String, stack: MemStack = MemStack()): Adr =
+        stack {
+            callPPP(instance?.adr?.toLong() ?: NULL, name.asciiPtr.adr.toLong(), adr.toLong())
+        }.toULong()
+
+    inline operator fun invoke(name: String, stack: MemStack = MemStack()): Adr = invoke(null, name, stack)
+
+    val isValid
+        get() = adr != 0uL
+}
+
+//inline fun Instance.getProcAddr(name: String, stack: MemStack = MemStack()): Adr =
+//    stack {
+//        callPPP(adr.toLong(), name.asciiPtr.adr.toLong(), adr.toLong())
+//    }.toULong()
+
+@JvmInline
+value class VkCreateInstance(val adr: Adr) {
+    inline operator fun invoke(createInfo: VkInstanceCreateInfo, stack: MemStack = MemStack()): VkInstance = VkInstance(createInfo, stack)
 }

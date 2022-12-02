@@ -3,20 +3,29 @@
 package vkk
 
 import vkk.gen.*
+import vkk.gen.Generator.Experimentals
 import java.io.File
+
+val defineEnums = mutableMapOf<String, String>()
+val intEnums = HashSet<String>()
+val uintBitmasks = HashSet<String>()
+val ulongBitmasks = HashSet<String>()
+val uintFlags = HashSet<String>()
+val ulongFlags = HashSet<String>()
 
 fun enums(target: File, vkDocs: File) {
 
     generate(target, vkDocs, "vkk/api/enums.kt") {
-
+        experimentals += Experimentals.UnsignedTypes
         `package` = "vkk.api"
+        imports += listOf("kool.Ptr", "kool.unsafe", "kool.set")
+        suppressInlineWarning = true
 
         val enums = vkDocs.resolve("gen/api/enums").listAdoc().sorted().toCollection(ArrayList())
         // swap one a slot before because of interdependence
         val index = enums.indexOfFirst { it.nameWithoutExtension == "VK_MAX_GLOBAL_PRIORITY_SIZE_KHR" }
         enums.add(index - 1, enums.removeAt(index))
 
-        var i = 0
         for (enum in enums) {
             val name = enum.nameWithoutExtension
             when {
@@ -32,40 +41,44 @@ fun enums(target: File, vkDocs: File) {
                             "(~1U)" -> "${1u.inv()}u"
                             "(~2U)" -> "${2u.inv()}u"
                             "(~0ULL)" -> "${0uL.inv()}uL"
-                            else -> v
+                            else -> if(v.first().isDigit()) v.toLowerCase() else v
                         }
                         // alias, ie `#define VK_LUID_SIZE_KHR                  VK_LUID_SIZE`
                         val alias = name.startsWith(value.substringBeforeLast("_KHR"))
-                        man(if (alias) value else name)
+//                        man(if (alias) value else name)
                         +"const val $name = $value"
+                        defineEnums[name] = value.substringBefore("uL").substringBefore('u')
                     }
                 }
                 name.startsWith("Vk") -> {
                     var lines = enum.readText().lines()
+                    val bitmask = "FlagBits" in name
+                    val flags = name.replace("FlagBits", "Flags")
+                    val x64 = lines[6] == "typedef VkFlags64 $name;"
                     if (lines.size == 9 && lines[5].startsWith("typedef Vk") && lines[5].endsWith(';')) {
                         // `typedef VkAccelerationStructureTypeKHR VkAccelerationStructureTypeNV;`
                         val (alias, aliased) = lines[5].substring(8).dropLast(1).split(' ')
                         +"typealias $aliased = $alias"
+                        when {
+                            bitmask && x64 -> ulongBitmasks += aliased
+                            bitmask -> uintBitmasks += aliased
+                            else -> intEnums += aliased
+                        }
                     } else {
                         //                    val name2 = name.substringBeforeLast("KHR")
-                        val bitmask = "FlagBits" in name
-                        val flags = name.replace("FlagBits", "Flags")
-                        val x64 = lines[6] == "typedef VkFlags64 $name;"
-                        if (bitmask) {
-                            val value = when {
-                                x64 -> "ulong: VkFlags64"
-                                else -> "uint: VkFlags"
-                            }
-                            man(flags)
-                            +jvmInline
-                            +"value class $flags(val $value)"
-                        }
-                        man(name)
-                        +jvmInline
                         val inlined = when {
-                            bitmask -> "flags: $flags"
-                            else -> "i: Int"
+                            bitmask -> {
+                                if (x64) ulongBitmasks += name
+                                else uintBitmasks += name
+                                "flags: $flags"
+                            }
+                            else -> {
+                                intEnums += name
+                                "i: Int"
+                            }
                         }
+                        //                        man(name)
+                        +jvmInline
                         "value class $name(val $inlined)" {
                             "companion object" {
                                 var prefix = name
@@ -83,7 +96,7 @@ fun enums(target: File, vkDocs: File) {
                                     return res
                                 }
                                 //                            println(name + ',' + lines.size)
-                                for (line in lines.drop(if(x64) 7 else 6).dropLast(3).filter { !it.startsWith("#ifdef ") && it != "#endif" })
+                                for (line in lines.drop(if (x64) 7 else 6).dropLast(3).filter { !it.startsWith("#ifdef ") && it != "#endif" })
                                     when {
                                         line.startsWith("  // ") -> docs(line.substring(5)) // TODO checkme
                                         else -> {
@@ -100,7 +113,7 @@ fun enums(target: File, vkDocs: File) {
                                                 else -> "$name($v)"
                                             }
                                             val entryCleaned = entry.clean()
-//                                            println("$entry, $v, $value, $entryCleaned")
+                                            //                                            println("$entry, $v, $value, $entryCleaned")
                                             refPages[name]?.xNames?.find { it.startsWith(entry) }?.let {
                                                 docs(it.replace(entry, "[$entryCleaned]"))
                                             }
@@ -109,6 +122,30 @@ fun enums(target: File, vkDocs: File) {
                                     }
                             }
                         }
+                        val ext = when {
+                            bitmask -> "flags." + if(x64) "ulong" else "uint"
+                            else -> "i"
+                        }
+                        val arrayType = when {
+                            bitmask -> if (x64) "ULongArray" else "UIntArray"
+                            else -> "IntArray"
+                        }
+                        val array = when {
+                            bitmask -> "$flags(array[index])"
+                            else -> "array[index]"
+                        }
+                        +"""
+                            $jvmInline
+                            value class ${name}_Array(val array: $arrayType) {
+                                constructor() : this($arrayType(0))
+                                operator fun get(index: Int): $name = $name($array)
+                                operator fun set(index: Int, element: $name) = array.set(index, element.$ext)
+                                val size: Int 
+                                    get() = array.size
+                                fun isEmpty(): Boolean = array.isEmpty()
+                                fun isNotEmpty(): Boolean = array.isNotEmpty()
+                            }"""
+//                        +"inline infix fun Ptr<UByte>.`=`($arg: $name): Unit = unsafe.set(adr, $ext)"
                     }
                 }
             }

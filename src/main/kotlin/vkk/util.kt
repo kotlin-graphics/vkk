@@ -1,9 +1,12 @@
+@file:OptIn(ExperimentalUnsignedTypes::class)
+
 package vkk
 
 import glm_.L
 import kool.*
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil
+import vkk.api.VkDeviceAddress
 import vkk.identifiers.CommandBuffer
 import vkk.identifiers.Device
 import java.io.File
@@ -92,7 +95,7 @@ class ResourceHolder : VkCloseable {
     }
 
     fun Array<CommandBuffer>.unique() {
-//        device.fre
+        //        device.fre
     }
 }
 
@@ -107,37 +110,32 @@ class ResourceHolder : VkCloseable {
 ////        input.copyTo(output)
 //    }
 //}
+inline fun `=`(type: Ptr<Display>) = unsafe.set(0u, type.adr)
+inline operator fun Ptr<vkk.api.VkStructureType>.set(index: Int, type: vkk.api.VkStructureType) = toPtr<Int>().set(index, type.i)
+inline operator fun Ptr<*>.set(index: Int, ptr: Ptr<*>): Unit = unsafe.set(adr + (index * ULong.BYTES).toULong(), ptr.adr)
 
-
-object v
-
-fun v.b() = 2
-
-class Dev
-
-fun Dev.a() = 3
-
-
-interface SI {
-    fun Dev.a() = 2
-    fun v.b() = 2
-    fun a() = 4
+inline infix fun Ptr<UByte>.set(int: Int) = toPtr<Int>().set(0, int)
+inline operator fun Ptr<UByte>.plus(offset: Int): Ptr<UByte> = plus(offset.toULong())
+inline operator fun Ptr<UByte>.plus(offset: ULong): Ptr<UByte> = Ptr(address + offset)
+infix fun UIntArray.into(stack: MemStack): Ptr<UByte> {
+    val ptr = stack.malloc(size * UInt.BYTES).toPtr<UInt>()
+    for (i in indices)
+        ptr[i] = this[i]
+    return ptr.toPtr()
 }
 
-class Sta : SI
-
-
-fun Sta.main() {
-    val device = Dev()
-    device.a()
-    v.b()
+infix fun ULongArray.into(stack: MemStack): Ptr<UByte> {
+    val ptr = stack.malloc(size * ULong.BYTES).toPtr<ULong>()
+    for (i in indices)
+        ptr[i] = this[i]
+    return ptr.toPtr()
 }
 
-fun main() {
-    val device = Dev()
-    device.a()
-    v.b()
-
-    val a: File
-    a.
+infix fun FloatArray.into(stack: MemStack): Ptr<UByte> {
+    val ptr = stack.malloc(size * Float.BYTES).toPtr<Float>()
+    for (i in indices)
+        ptr[i] = this[i]
+    return ptr.toPtr()
 }
+
+infix fun Collection<String>.utf8Into(stack: MemStack): Ptr<UByte> = stack.malloc(size * 8) { elementAt(it).utf8Into(stack) }

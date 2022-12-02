@@ -7,10 +7,8 @@ import java.io.File
 import org.gradle.api.file.Directory
 import org.gradle.api.file.ProjectLayout
 import org.gradle.api.provider.Provider
-import vkk.baseTypes
-import vkk.defines
-import vkk.docs
-import vkk.enums
+import vkk.*
+import vkk.handles.VkInstance
 import javax.inject.Inject
 
 abstract class GenerateCode: DefaultTask() {
@@ -34,10 +32,17 @@ abstract class GenerateCode: DefaultTask() {
         val vkDocs = layout.buildDirectory.dir("Vulkan-Docs").get().asFile
 //        val input = vkDocs.resolve("gen/api/basetypes")
 
-        docs(vkDocs)
+        apiMapAndDocs(vkDocs)
         baseTypes(target, vkDocs)
         defines(target, vkDocs)
+        flags(target, vkDocs)
         enums(target, vkDocs)
+        handles(target, vkDocs)
+        structs(target, vkDocs)
+        protos(target, vkDocs)
+        VkInstance(target, vkDocs)
+        InstanceCapabilities(target, vkDocs)
+        VkCommandBuffer(target, vkDocs)
     }
 }
 

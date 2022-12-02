@@ -23,7 +23,7 @@ dependencies {
     implementation("kotlin.graphics:gli:0.8.3.0-18")
     implementation("kotlin.graphics:glm:0.9.9.1-5")
     implementation("kotlin.graphics:unsigned:3.3.31")
-    implementation("kotlin.graphics:kool:0.9.68")
+    implementation("kotlin.graphics:kool:0.9.72")
 
     lwjgl {
         implementation(jemalloc, vulkan)
@@ -48,7 +48,7 @@ kotlin.jvmToolchain {
 tasks {
     withType<KotlinCompile<*>>().all {
         kotlinOptions {
-            freeCompilerArgs += listOf("-opt-in=kotlin.RequiresOptIn")
+            freeCompilerArgs += listOf("-opt-in=kotlin.RequiresOptIn,-Xskip-prerelease-check")
         }
     }
     val generateCode by registering(GenerateCode::class)
